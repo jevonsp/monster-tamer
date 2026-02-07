@@ -2,7 +2,6 @@ extends CharacterBody2D
 const TILE_SIZE := 16.0
 @export var WALK_SPEED := 5.0
 @export var TURN_DURATION := 0.1
-
 enum State {IDLE, TURNING, WALKING, JUMPING}
 var current_state = State.IDLE
 var facing_direction = Vector2.ZERO
@@ -84,11 +83,11 @@ func process_turning_state(delta: float) -> void:
 					return
 	
 	if turn_timer >= TURN_DURATION:
-		var _blend_dir = facing_direction
-		#animation_tree.set("parameters/Idle/blend_position", blend_dir)
+		var blend_dir = facing_direction
+		animation_tree.set("parameters/Idle/blend_position", blend_dir)
 		
 		current_state = State.IDLE
-		#anim_state.travel("Idle")
+		anim_state.travel("Idle")
 
 
 func process_walking_state(delta: float) -> void:
@@ -97,37 +96,39 @@ func process_walking_state(delta: float) -> void:
 	if move_progress >= 1.0:
 		position = tile_target_pos
 		move_progress = 0.0
+		Global.step_completed.emit(global_position)
+		
 		var input_dir = get_input_direction()
 		if input_dir != Vector2.ZERO:
 			var new_facing_direction = input_dir
 			
 			if new_facing_direction != facing_direction:
 				current_state = State.IDLE
-				#anim_state.travel("Idle")
+				anim_state.travel("Idle")
 				start_turning(new_facing_direction)
 			else:
 				if not attempt_movement(input_dir):
 					current_state = State.IDLE
-					#anim_state.travel("Idle")
+					anim_state.travel("Idle")
 		else:
 			current_state = State.IDLE
-			#anim_state.travel("Idle")
+			anim_state.travel("Idle")
 	else:
 		position = tile_start_pos.lerp(tile_target_pos, move_progress)
 
 
 func start_turning(new_facing_direction: Vector2) -> void:
-	#animation_tree.set("parameters/Turn/blend_position", blend_dir)
-	#animation_tree.set("parameters/Idle/blend_position", blend_dir)
-	#animation_tree.set("parameters/Walk/blend_position", blend_dir)
+	animation_tree.set("parameters/Turn/blend_position", new_facing_direction)
+	animation_tree.set("parameters/Idle/blend_position", new_facing_direction)
+	animation_tree.set("parameters/Walk/blend_position", new_facing_direction)
 	
 	facing_direction = new_facing_direction
 	var ray_dir = new_facing_direction
 	ray_cast_2d.target_position = ray_dir * TILE_SIZE
 	current_state = State.TURNING
 	turn_timer = 0.0
-	
-	#anim_state.travel("Turn")
+	Global.step_completed.emit(global_position)
+	anim_state.travel("Turn")
 
 
 func attempt_movement(input_dir: Vector2) -> bool:
@@ -141,9 +142,9 @@ func attempt_movement(input_dir: Vector2) -> bool:
 	move_progress = 0.0
 	current_state = State.WALKING
 	
-	var _blend_dir = input_dir
-	#animation_tree.set("parameters/Walk/blend_position", blend_dir)
-	#anim_state.travel("Walk")
+	var blend_dir = input_dir
+	animation_tree.set("parameters/Walk/blend_position", blend_dir)
+	anim_state.travel("Walk")
 	return true
 
 
@@ -167,7 +168,7 @@ func clear_inputs() -> void:
 	key_hold_times.clear()
 	current_state = State.IDLE
 	move_progress = 0.0
-	#anim_state.travel("Idle")
+	anim_state.travel("Idle")
 
 
 func attempt_interaction() -> void:
