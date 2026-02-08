@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://bnqog2bk3p7mv"]
+
+[ext_resource type="Texture2D" uid="uid://b37078xhg72kf" path="res://icon.svg" id="1_mqutd"]
+[ext_resource type="Script" uid="uid://b5jkgp3idbiag" path="res://battle/battle.gd" id="1_tiqy5"]
+
+[node name="Battle" type="CanvasLayer" unique_id=661795331]
+script = ExtResource("1_tiqy5")
+
+[node name="Content" type="Control" parent="." unique_id=1735734365]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="GridContainer" parent="Content" unique_id=1599325903]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -192.0
+offset_right = 624.0
+offset_bottom = -16.0
+grow_vertical = 0
+columns = 2
+
+[node name="Button0" type="Button" parent="Content/Buttons" unique_id=358415546]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button1" type="Button" parent="Content/Buttons" unique_id=1535762806]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button2" type="Button" parent="Content/Buttons" unique_id=428295278]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button3" type="Button" parent="Content/Buttons" unique_id=85904420]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Player" type="VBoxContainer" parent="Content" unique_id=720071698]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 416.0
+offset_bottom = 480.0
+
+[node name="Label" type="Label" parent="Content/Player" unique_id=425096907]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Content/Player" unique_id=1951812552]
+layout_mode = 2
+texture = ExtResource("1_mqutd")
+expand_mode = 5
+
+[node name="HPBar" type="ProgressBar" parent="Content/Player" unique_id=404966868]
+layout_mode = 2
+
+[node name="EXPBar" type="ProgressBar" parent="Content/Player" unique_id=447239853]
+layout_mode = 2
+
+[node name="Enemy" type="VBoxContainer" parent="Content" unique_id=1037151586]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1248.0
+offset_bottom = 480.0
+
+[node name="Label" type="Label" parent="Content/Enemy" unique_id=402344739]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Content/Enemy" unique_id=1588136732]
+layout_mode = 2
+texture = ExtResource("1_mqutd")
+expand_mode = 5
+
+[node name="ProgressBar" type="ProgressBar" parent="Content/Enemy" unique_id=1185066293]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Content" unique_id=1233652202]
+layout_mode = 0
+offset_left = 656.0
+offset_top = 528.0
+offset_right = 1264.0
+offset_bottom = 704.0

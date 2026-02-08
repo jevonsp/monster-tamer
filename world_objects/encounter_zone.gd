@@ -1,8 +1,6 @@
 extends Area2D
 class_name EncounterZone
 
-
-
 func _ready() -> void:
 	Global.step_completed.connect(_on_step_completed)
 
@@ -20,7 +18,6 @@ func check_position(pos: Vector2) -> bool:
 	params.collision_mask = collision_layer
 	var result = space_state.intersect_point(params, 1)
 	for hit in result:
-		print(hit.collider.name)
 		if hit.collider == self:
 			return true
 	return false

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://dgl3ljdmiqueh"]
+
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://monsters/classes/Move.gd" id="1_2wqdl"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/classes/MonsterData.gd" id="2_ii17o"]
+
+[sub_resource type="Resource" id="Resource_2wqdl"]
+script = ExtResource("1_2wqdl")
+name = "TestMove"
+metadata/_custom_type_script = "uid://cawunai26wo8m"
+
+[resource]
+script = ExtResource("2_ii17o")
+species = "Testmon"
+move_level = Array[int]([1])
+move_gained = Array[ExtResource("1_2wqdl")]([SubResource("Resource_2wqdl")])
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

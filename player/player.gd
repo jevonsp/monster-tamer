@@ -1,4 +1,5 @@
 extends CharacterBody2D
+#region Movement Vars
 const TILE_SIZE := 16.0
 @export var WALK_SPEED := 5.0
 @export var TURN_DURATION := 0.1
@@ -12,6 +13,10 @@ var held_keys: Array = []
 var key_hold_times: Dictionary = {}
 var turn_timer: float = 0.0
 var processing: bool = true
+#endregion
+
+var party: Array[Monster] = []
+var storage: Array[Monster] = []
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
@@ -19,25 +24,14 @@ var processing: bool = true
 
 func _ready() -> void:
 	add_to_group("player")
+	Global.toggle_player.connect(toggle_processing)
 	tile_start_pos = position; tile_target_pos = position
 	
 	
 func _process(delta: float) -> void:
+	if not processing:
+		return
 	update_held_keys(delta)
-		
-		
-func update_held_keys(delta: float) -> void:
-	var directions = ["up", "down", "right", "left"]
-	
-	for dir in directions:
-		if Input.is_action_just_pressed(dir):
-			held_keys.push_back(dir)
-			key_hold_times[dir] = 0.0
-		elif Input.is_action_just_released(dir):
-			held_keys.erase(dir)
-			key_hold_times.erase(dir)
-		elif Input.is_action_pressed(dir) and dir in key_hold_times:
-			key_hold_times[dir] += delta
 		
 		
 func _physics_process(delta: float) -> void:
@@ -57,6 +51,21 @@ func _input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("yes"):
 		attempt_interaction()
+		
+		
+#region Movement and Interaction
+func update_held_keys(delta: float) -> void:
+	var directions = ["up", "down", "right", "left"]
+	
+	for dir in directions:
+		if Input.is_action_just_pressed(dir):
+			held_keys.push_back(dir)
+			key_hold_times[dir] = 0.0
+		elif Input.is_action_just_released(dir):
+			held_keys.erase(dir)
+			key_hold_times.erase(dir)
+		elif Input.is_action_pressed(dir) and dir in key_hold_times:
+			key_hold_times[dir] += delta
 
 
 func process_idle_state() -> void:
@@ -68,7 +77,7 @@ func process_idle_state() -> void:
 		if new_facing_direction != facing_direction:
 			start_turning(new_facing_direction)
 		else:
-			attempt_movement(input_dir)
+			can_move_in(input_dir)
 
 
 func process_turning_state(delta: float) -> void:
@@ -79,7 +88,7 @@ func process_turning_state(delta: float) -> void:
 		if input_dir == facing_direction:
 			var last_key = held_keys.back() if not held_keys.is_empty() else ""
 			if last_key in key_hold_times and key_hold_times[last_key] >= TURN_DURATION:
-				if attempt_movement(input_dir):
+				if can_move_in(input_dir):
 					return
 	
 	if turn_timer >= TURN_DURATION:
@@ -107,7 +116,7 @@ func process_walking_state(delta: float) -> void:
 				anim_state.travel("Idle")
 				start_turning(new_facing_direction)
 			else:
-				if not attempt_movement(input_dir):
+				if not can_move_in(input_dir):
 					current_state = State.IDLE
 					anim_state.travel("Idle")
 		else:
@@ -131,7 +140,7 @@ func start_turning(new_facing_direction: Vector2) -> void:
 	anim_state.travel("Turn")
 
 
-func attempt_movement(input_dir: Vector2) -> bool:
+func can_move_in(input_dir: Vector2) -> bool:
 	ray_cast_2d.target_position = input_dir * TILE_SIZE
 	ray_cast_2d.force_raycast_update()
 
@@ -176,3 +185,27 @@ func attempt_interaction() -> void:
 		var collider = ray_cast_2d.get_collider()
 		if collider.is_in_group("interactable"):
 			collider.interact(self)
+			
+			
+func toggle_processing() -> void:
+	processing = !processing
+#endregion
+
+func add(monster: Monster):
+	"""Single entry point for adding monsters to the party or storage"""
+	if not _add_to_party(monster):
+		_add_to_storage(monster)
+	print_debug("Player party: ")
+	for m in party:
+		print("   ", m.name)
+
+func _add_to_party(monster: Monster) -> bool:
+	"""Adds an existing monster to the party or storage"""
+	if party.size() < 6:
+		party.append(monster)
+		return true
+	else:
+		return false
+	
+func _add_to_storage(monster: Monster) -> void:
+	storage.append(monster)

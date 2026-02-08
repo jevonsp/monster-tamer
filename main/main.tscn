@@ -3,9 +3,20 @@
 [ext_resource type="PackedScene" uid="uid://8ygcbs5f8pca" path="res://player/player.tscn" id="1_53q0u"]
 [ext_resource type="Script" uid="uid://caqok8yjmcdwq" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="2_pjrb6"]
-[ext_resource type="Script" uid="uid://jd2ymrm11mwn" path="res://main/encounter_zone.gd" id="4_c651c"]
+[ext_resource type="PackedScene" uid="uid://ba2j8pt8gyeia" path="res://world_objects/wild_zone.tscn" id="4_c651c"]
+[ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/EncounterEntry.gd" id="5_kfbq2"]
+[ext_resource type="Resource" uid="uid://dgl3ljdmiqueh" path="res://monsters/TestmonData.tres" id="6_4dugh"]
+[ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwkvk"]
+[sub_resource type="Resource" id="Resource_67ri8"]
+script = ExtResource("5_kfbq2")
+monster = ExtResource("6_4dugh")
+chance = 1.0
+level_low = 1
+level_high = 2
+metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3wy1v"]
 size = Vector2(16, 16)
 
 [node name="Main" type="Node2D" unique_id=89812463]
@@ -17,11 +28,15 @@ script = ExtResource("1_xwkvk")
 position = Vector2(16, 16)
 WALK_SPEED = 4.5
 
-[node name="EncounterZone" type="Area2D" parent="." unique_id=401516388]
-position = Vector2(40, 40)
+[node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
+position = Vector2(32, 32)
 collision_layer = 4
-collision_mask = 4
-script = ExtResource("4_c651c")
+collision_mask = 2
+encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_67ri8")])
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterZone" unique_id=1526704625]
-shape = SubResource("RectangleShape2D_xwkvk")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WildZone" unique_id=472468069]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_3wy1v")
+
+[node name="Battle" parent="." unique_id=661795331 instance=ExtResource("7_4dugh")]
+visible = false
