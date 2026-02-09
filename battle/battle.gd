@@ -15,9 +15,11 @@ func create_wild_battle(md: MonsterData, level: int) -> void:
 	toggle_player()
 	toggle_visible()
 
+
 func set_player_actor(monster: Monster) -> void:
 	player_actor = monster
 	
+
 
 func set_enemy_actor(monster: Monster) -> void:
 	enemy_actor = monster
@@ -28,8 +30,10 @@ func clear_actors() -> void:
 		actor = null
 		
 
+
 func toggle_player() -> void:
 	Global.toggle_player.emit()
+
 
 func toggle_visible() -> void:
 	visible = !visible

@@ -1,5 +1,5 @@
 extends EncounterZone
-
+class_name WildZone
 @export var encounter_table: Array[EncounterEntry] = []
 
 func trigger() -> void:
