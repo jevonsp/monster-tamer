@@ -189,6 +189,7 @@ func attempt_interaction() -> void:
 			
 			
 func toggle_processing() -> void:
+	clear_inputs()
 	processing = !processing
 #endregion
 
