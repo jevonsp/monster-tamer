@@ -16,4 +16,5 @@ func choose_encounter() -> void:
 	for e in encounter_table:
 		if roll <= e.chance:
 			var level = randi_range(e.level_low, e.level_high)
+			Global.player_party_requested.emit()
 			Global.wild_battle_requested.emit(e.monster, level)

@@ -15,5 +15,6 @@ func set_up(level: int) -> Monster:
 	monster.set_monster_data(self)
 	monster.set_level(level)
 	monster.set_monster_moves()
+	monster.set_stats()
 	
 	return monster

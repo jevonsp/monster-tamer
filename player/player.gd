@@ -25,6 +25,7 @@ var storage: Array[Monster] = []
 func _ready() -> void:
 	add_to_group("player")
 	Global.toggle_player.connect(toggle_processing)
+	Global.player_party_requested.connect(send_player_party)
 	tile_start_pos = position; tile_target_pos = position
 	
 	
@@ -191,6 +192,7 @@ func toggle_processing() -> void:
 	processing = !processing
 #endregion
 
+#region Party Utils
 func add(monster: Monster):
 	"""Single entry point for adding monsters to the party or storage"""
 	if not _add_to_party(monster):
@@ -209,3 +211,7 @@ func _add_to_party(monster: Monster) -> bool:
 	
 func _add_to_storage(monster: Monster) -> void:
 	storage.append(monster)
+
+func send_player_party() -> void:
+	Global.send_player_party.emit(party)
+#endregion

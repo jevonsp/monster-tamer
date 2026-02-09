@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://ba2j8pt8gyeia" path="res://world_objects/wild_zone.tscn" id="4_c651c"]
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/EncounterEntry.gd" id="5_kfbq2"]
-[ext_resource type="Resource" uid="uid://dgl3ljdmiqueh" path="res://monsters/TestmonData.tres" id="6_4dugh"]
+[ext_resource type="Resource" uid="uid://dnpr3t8vm34dc" path="res://monsters/fox_mcleaf/fox_mcleaf.tres" id="6_4dugh"]
 [ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
 
-[sub_resource type="Resource" id="Resource_67ri8"]
+[sub_resource type="Resource" id="Resource_kfbq2"]
 script = ExtResource("5_kfbq2")
 monster = ExtResource("6_4dugh")
 chance = 1.0
@@ -25,14 +25,14 @@ script = ExtResource("1_xwkvk")
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(16, 16)
+position = Vector2(32, 16)
 WALK_SPEED = 4.5
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
 position = Vector2(32, 32)
 collision_layer = 4
 collision_mask = 2
-encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_67ri8")])
+encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_kfbq2")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WildZone" unique_id=472468069]
 position = Vector2(8, 8)

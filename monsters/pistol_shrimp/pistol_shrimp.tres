@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://cdor45ba2o0aa"]
+
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://monsters/classes/Move.gd" id="1_486ne"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/classes/MonsterData.gd" id="2_nmn5g"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="3_nmn5g"]
+
+[resource]
+script = ExtResource("2_nmn5g")
+species = "Pistol Shrimp"
+texture = ExtResource("3_nmn5g")
+metadata/_custom_type_script = "uid://vx6b6njwqnde"
