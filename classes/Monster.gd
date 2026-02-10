@@ -13,7 +13,7 @@ static var EXPERIENCE_PER_LEVEL = 50
 @export var defense: int = 1
 @export var speed: int = 1
 
-@export var moves: Array[Move] = []
+@export var moves: Array = []
 
 func set_monster_data(md: MonsterData) -> void:
 	monster_data = md
@@ -29,18 +29,18 @@ func set_level(l: int) -> void:
 func set_monster_moves() -> void:
 	var move_level = monster_data.move_level
 	var move_gained = monster_data.move_gained
-	var moves_to_gain: Array[Move] = []
+	var moves_to_gain: Array[Move] = [null, null, null, null]
 	for i in range(len(move_gained)):
 		if move_level[i] <= level:
-			if moves.size() < 4:
-				moves_to_gain.append(move_gained[i])
-			else:
-				moves_to_gain.pop_back()
-				moves_to_gain.push_front(move_gained[i])
+			moves_to_gain.pop_back()
+			moves_to_gain.push_front(move_gained[i])
 	moves = moves_to_gain
 	print_debug("%s moves:" % [name])
 	for m in moves:
-		print("   ", m.name)
+		if m != null:
+			print("   ", m.name)
+		else:
+			print("    Empty slot")
 
 
 func set_stats() -> void:

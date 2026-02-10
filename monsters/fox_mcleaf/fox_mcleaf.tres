@@ -1,11 +1,14 @@
 [gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://dnpr3t8vm34dc"]
 
-[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://monsters/classes/Move.gd" id="1_gby7b"]
-[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/classes/MonsterData.gd" id="2_tijwr"]
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_2oh31"]
+[ext_resource type="Resource" uid="uid://ol1xenrdt8ut" path="res://moves/nettles.tres" id="2_2bxm2"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://classes/MonsterData.gd" id="3_j4pe2"]
 [ext_resource type="Texture2D" uid="uid://daakn8svovn2f" path="res://monsters/fox_mcleaf/fox_mcleaf_remake.png" id="3_tijwr"]
 
 [resource]
-script = ExtResource("2_tijwr")
+script = ExtResource("3_j4pe2")
 species = "Fox McLeaf"
 texture = ExtResource("3_tijwr")
+move_level = Array[int]([1])
+move_gained = Array[ExtResource("1_2oh31")]([ExtResource("2_2bxm2")])
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

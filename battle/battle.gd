@@ -9,6 +9,8 @@ var enemy_actor
 var player_party: Array[Monster] = []
 var enemy_party: Array[Monster] = []
 
+var turn_queue: Dictionary = {}
+
 var last_focused_option: int = 1:
 	set(value):
 		last_focused_option = value
@@ -156,7 +158,8 @@ func update_exp() -> void:
 func update_moves() -> void:
 	var move_labels: Array[Label] = [move_label_0, move_label_1, move_label_2, move_label_3]
 	for i in range(player_actor.moves.size()):
-		move_labels[i].text = player_actor.moves[i].name
+		if player_actor.moves[i] != null:
+			move_labels[i].text = player_actor.moves[i].name
 		
 		
 func clear_battle() -> void:
@@ -170,37 +173,50 @@ func clear_battle() -> void:
 
 #region UI Logic
 func _on_option_pressed(which: Button) -> void:
+	var num: int
 	match which.name:
 		"Party":
-			last_focused_option = 0
+			num = 0
 		"Fight":
-			last_focused_option = 1
+			num = 1
 			change_vis_state(VisibilityState.MOVES)
 			focus_last_used_move(last_focused_move)
 		"Run":
-			last_focused_option = 2
+			num = 2
 			clear_battle()
 		"Item":
-			last_focused_option = 3
+			num = 3
+	last_focused_option = num
 	
 	
 func _on_move_pressed(which: Button) -> void:
+	var num: int
 	match which.name:
 		"Button0":
-			last_focused_move = 0
+			num = 0
 		"Button1":
-			last_focused_move = 1
+			num = 1
 		"Button2":
-			last_focused_move = 2
+			num = 2
 		"Button3":
-			last_focused_move = 3
+			num = 3
+	var move = player_actor.moves[num]
+	validate_add_move(move, player_actor)
+	
+	last_focused_move = num
+	
+	# TODO: Signals ? 
+	get_enemy_action()
+	execute_turn_queue()
 	
 	
 func focus_last_used_option(value: int):
 	option_buttons_grid.get_children()[value].grab_focus()
 	
+	
 func focus_last_used_move(value: int):
 	move_buttons_grid.get_children()[value].grab_focus()
+	
 	
 func change_vis_state(state: VisibilityState) -> void:
 	vis_state = state
@@ -214,3 +230,66 @@ func change_vis_state(state: VisibilityState) -> void:
 			move_buttons_grid.visible = true
 			focus_last_used_move(last_focused_move)
 #endregion
+
+func add_to_turn_queue(action, actor: Monster, target: Monster) -> void:
+	turn_queue[action] = [actor, target]
+	
+	
+func validate_add_move(move: Move, actor: Monster = null) -> void:
+	if actor == null:
+		actor = player_actor
+	if move != null:
+		if not move.is_self_targeting:
+			var target = enemy_actor if actor == player_actor else player_actor
+			add_to_turn_queue(move, actor, target)
+		else:
+			add_to_turn_queue(move, actor, actor)
+	else:
+		print_debug("Selected Null for move")
+	
+	
+	
+func get_enemy_action() -> void:
+	var enemy_moves: Array = enemy_actor.moves
+	var actual_moves: Array[Move]
+	for entry in enemy_moves:
+		if entry != null:
+			actual_moves.append(entry)
+	
+	var move = actual_moves.pick_random()
+	
+	validate_add_move(move, enemy_actor)
+	
+	
+func get_sorted_turn_actions() -> Array:
+	var actions = turn_queue.keys()
+	
+	actions.sort_custom(func(a, b) -> bool:
+		var actor_a: Monster = turn_queue[a][0]
+		var actor_b: Monster = turn_queue[b][0]
+		
+		if a.priority != b.priority:
+			return a.priority > b.priority
+			
+		return actor_a.speed > actor_b.speed
+	)
+	
+	return actions
+	
+	
+func execute_turn_queue() -> void:
+	var sorted = get_sorted_turn_actions()
+	
+	for action in sorted:
+		var data = turn_queue[action]
+		var actor = data[0]
+		var target = data[1]
+		
+		action.execute(actor, target)
+		
+	clear_turn_queue()
+	
+	
+func clear_turn_queue() -> void:
+	turn_queue.clear()
+		

@@ -1,11 +1,14 @@
 [gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://cvmykrss1u38p"]
 
-[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://monsters/classes/Move.gd" id="1_iw871"]
-[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/classes/MonsterData.gd" id="2_q7sp7"]
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_d3g7e"]
+[ext_resource type="Resource" uid="uid://cwyt2ao20ny41" path="res://moves/match_strike.tres" id="2_jrfpv"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://classes/MonsterData.gd" id="3_8al2p"]
 [ext_resource type="Texture2D" uid="uid://dbj603tewa6r5" path="res://monsters/pyro_badger/pyro_badger_remake.png" id="3_q7sp7"]
 
 [resource]
-script = ExtResource("2_q7sp7")
+script = ExtResource("3_8al2p")
 species = "Pyro Badger"
 texture = ExtResource("3_q7sp7")
+move_level = Array[int]([1])
+move_gained = Array[ExtResource("1_d3g7e")]([ExtResource("2_jrfpv")])
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

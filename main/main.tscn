@@ -50,6 +50,7 @@ WALK_SPEED = 4.5
 position = Vector2(32, 32)
 collision_layer = 4
 collision_mask = 2
+overall_chance = 1.0
 encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_kfbq2"), SubResource("Resource_bsumw"), SubResource("Resource_fwcvl")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WildZone" unique_id=472468069]

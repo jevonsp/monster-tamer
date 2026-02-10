@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://c87emu6ybl5ua"]
+
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_sb7qw"]
+
+[resource]
+script = ExtResource("1_sb7qw")
+name = "Puddle Slap"
+description = "Slap a puddle, making a small splash."
+metadata/_custom_type_script = "uid://cawunai26wo8m"
