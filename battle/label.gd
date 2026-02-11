@@ -39,6 +39,7 @@ func advance_text() -> void:
 	
 	
 func text_finished() -> void:
+	print_debug("Text finished")
 	Global.text_box_complete.emit()
 	clean_up()
 	

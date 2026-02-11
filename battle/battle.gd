@@ -30,20 +30,20 @@ var last_focused_move: int = 1:
 @onready var move_label_1: Label = $Content/MoveButtons/Button1/Label
 @onready var move_label_2: Label = $Content/MoveButtons/Button2/Label
 @onready var move_label_3: Label = $Content/MoveButtons/Button3/Label
-@onready var player_level_label: Label = $Content/Player/LevelLabel
-@onready var player_name_label: Label = $Content/Player/NameLabel
-@onready var player_texture_rect: TextureRect = $Content/Player/TextureRect
-@onready var player_hp_bar: ProgressBar = $Content/Player/HPBar
-@onready var player_exp_bar: ProgressBar = $Content/Player/EXPBar
-@onready var enemy_level_label: Label = $Content/Enemy/LevelLabel
-@onready var enemy_name_label: Label = $Content/Enemy/NameLabel
-@onready var enemy_texture_rect: TextureRect = $Content/Enemy/TextureRect
-@onready var enemy_hp_bar: ProgressBar = $Content/Enemy/HPBar
+@onready var player_level_label: Label = $Content/PlayerLevelLabel
+@onready var player_name_label: Label = $Content/PlayerNameLabel
+@onready var player_texture_rect: TextureRect = $Content/PlayerTextureRect
+@onready var player_hp_bar: ProgressBar = $Content/PlayerHPBar
+@onready var player_exp_bar: ProgressBar = $Content/PlayerEXPBar
+@onready var enemy_level_label: Label = $Content/EnemyLevelLabel
+@onready var enemy_name_label: Label = $Content/EnemyNameLabel
+@onready var enemy_texture_rect: TextureRect = $Content/EnemyTextureRect
+@onready var enemy_hp_bar: ProgressBar = $Content/EnemyHPBar
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
 func _ready() -> void:
-	Global.send_player_party.connect(set_player_party)
-	Global.wild_battle_requested.connect(create_wild_battle)
+	connect_signals()
 	bind_buttons()
 
 
@@ -59,7 +59,12 @@ func _input(event: InputEvent) -> void:
 				change_vis_state(VisibilityState.OPTIONS)
 
 
-#region Battle Setup
+func connect_signals() -> void:
+	Global.send_player_party.connect(set_player_party)
+	Global.wild_battle_requested.connect(create_wild_battle)
+	Global.send_sprite_shake.connect(_on_send_sprite_shake)
+
+
 func bind_buttons() -> void:
 	var option_buttons = get_tree().get_nodes_in_group("option_buttons")
 	for b: Button in option_buttons:
@@ -143,9 +148,11 @@ func update_textures() -> void:
 func update_hitpoints() -> void:
 	player_hp_bar.max_value = player_actor.max_hitpoints
 	player_hp_bar.value = player_actor.current_hitpoints
+	player_hp_bar.actor = player_actor
+	
 	enemy_hp_bar.max_value = enemy_actor.max_hitpoints
 	enemy_hp_bar.value = enemy_actor.current_hitpoints
-	
+	enemy_hp_bar.actor = enemy_actor
 	
 func update_exp() -> void:
 	var max_exp = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
@@ -169,9 +176,8 @@ func clear_battle() -> void:
 	enemy_party = []
 	toggle_visible()
 	toggle_player()
-#endregion
 
-#region UI Logic
+
 func _on_option_pressed(which: Button) -> void:
 	var num: int
 	match which.name:
@@ -231,9 +237,8 @@ func change_vis_state(state: VisibilityState) -> void:
 			option_buttons_grid.visible = false
 			move_buttons_grid.visible = true
 			focus_last_used_move(last_focused_move)
-#endregion
 
-#region Turn Execution
+
 func add_to_turn_queue(action, actor: Monster, target: Monster) -> void:
 	turn_queue[action] = [actor, target]
 	
@@ -298,4 +303,10 @@ func execute_turn_queue() -> void:
 	
 func clear_turn_queue() -> void:
 	turn_queue.clear()
-#endregion
+
+
+func _on_send_sprite_shake(target: Monster) -> void:
+	if target == player_actor:
+		animation_player.play("player_hit")
+	else:
+		animation_player.play("enemy_hit")

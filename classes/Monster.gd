@@ -45,3 +45,8 @@ func set_monster_moves() -> void:
 
 func set_stats() -> void:
 	current_hitpoints = max_hitpoints
+
+
+
+func take_damage(amount: int) -> void:
+	pass

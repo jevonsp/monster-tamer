@@ -14,4 +14,4 @@ func execute(actor: Monster, target: Monster):
 	Global.send_text_box.emit(text, true)
 	Global.send_move_animation.emit(animation)
 	await Global.move_animation_complete
-	print("got move_animation_complete")
+	Global.send_sprite_shake.emit(target)

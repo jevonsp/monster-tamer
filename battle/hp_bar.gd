@@ -1,1 +1,2 @@
 extends ProgressBar
+var actor

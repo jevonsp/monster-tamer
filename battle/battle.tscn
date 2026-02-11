@@ -6,11 +6,69 @@
 [ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/label.gd" id="4_4mnim"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
 
+[sub_resource type="Animation" id="Animation_4mnim"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(30, 152)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content/EnemyTextureRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(864, 152)]
+}
+
+[sub_resource type="Animation" id="Animation_l1kiu"]
+resource_name = "enemy_hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content/EnemyTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(864, 152), Vector2(934, 164), Vector2(864, 152)]
+}
+
 [sub_resource type="Animation" id="Animation_7fucf"]
 resource_name = "player_hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(30, 152), Vector2(-40, 164), Vector2(30, 152)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iorop"]
 _data = {
+&"RESET": SubResource("Animation_4mnim"),
+&"enemy_hit": SubResource("Animation_l1kiu"),
 &"player_hit": SubResource("Animation_7fucf")
 }
 
@@ -210,70 +268,92 @@ text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Player" type="VBoxContainer" parent="Content" unique_id=720071698]
+[node name="PlayerLevelLabel" type="Label" parent="Content" unique_id=1568394748]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 54.0
 offset_right = 416.0
-offset_bottom = 470.0
-
-[node name="LevelLabel" type="Label" parent="Content/Player" unique_id=1568394748]
-layout_mode = 2
+offset_bottom = 99.0
 theme_override_font_sizes/font_size = 32
 text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NameLabel" type="Label" parent="Content/Player" unique_id=425096907]
-layout_mode = 2
+[node name="PlayerNameLabel" type="Label" parent="Content" unique_id=425096907]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 103.0
+offset_right = 416.0
+offset_bottom = 148.0
 theme_override_font_sizes/font_size = 32
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Content/Player" unique_id=1951812552]
+[node name="PlayerTextureRect" type="TextureRect" parent="Content" unique_id=1951812552]
 custom_minimum_size = Vector2(0, 256)
-layout_mode = 2
+layout_mode = 0
+offset_left = 30.0
+offset_top = 152.0
+offset_right = 414.0
+offset_bottom = 408.0
 texture = ExtResource("2_tiqy5")
 expand_mode = 3
 stretch_mode = 5
 flip_h = true
 
-[node name="HPBar" parent="Content/Player" unique_id=1881680306 instance=ExtResource("3_qubjc")]
-layout_mode = 2
+[node name="PlayerHPBar" parent="Content" unique_id=1881680306 instance=ExtResource("3_qubjc")]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 412.0
+offset_right = 416.0
+offset_bottom = 439.0
 
-[node name="EXPBar" type="ProgressBar" parent="Content/Player" unique_id=447239853]
-layout_mode = 2
+[node name="PlayerEXPBar" type="ProgressBar" parent="Content" unique_id=447239853]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 443.0
+offset_right = 416.0
+offset_bottom = 470.0
 
-[node name="Enemy" type="VBoxContainer" parent="Content" unique_id=1037151586]
+[node name="EnemyLevelLabel" type="Label" parent="Content" unique_id=1192345644]
 layout_mode = 0
 offset_left = 864.0
 offset_top = 54.0
 offset_right = 1248.0
-offset_bottom = 439.0
-
-[node name="LevelLabel" type="Label" parent="Content/Enemy" unique_id=1192345644]
-layout_mode = 2
+offset_bottom = 99.0
 theme_override_font_sizes/font_size = 32
 text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NameLabel" type="Label" parent="Content/Enemy" unique_id=402344739]
-layout_mode = 2
+[node name="EnemyNameLabel" type="Label" parent="Content" unique_id=402344739]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 103.0
+offset_right = 1248.0
+offset_bottom = 148.0
 theme_override_font_sizes/font_size = 32
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Content/Enemy" unique_id=1588136732]
+[node name="EnemyTextureRect" type="TextureRect" parent="Content" unique_id=1588136732]
 custom_minimum_size = Vector2(0, 256)
-layout_mode = 2
+layout_mode = 0
+offset_left = 864.0
+offset_top = 152.0
+offset_right = 1248.0005
+offset_bottom = 408.0
 texture = ExtResource("2_tiqy5")
 stretch_mode = 5
 
-[node name="HPBar" parent="Content/Enemy" unique_id=1017245820 instance=ExtResource("3_qubjc")]
-layout_mode = 2
+[node name="EnemyHPBar" parent="Content" unique_id=1017245820 instance=ExtResource("3_qubjc")]
+layout_mode = 0
+offset_left = 864.0
+offset_top = 412.0
+offset_right = 1248.0
+offset_bottom = 439.0
 
 [node name="Panel" type="Panel" parent="Content" unique_id=1233652202]
 layout_mode = 0
