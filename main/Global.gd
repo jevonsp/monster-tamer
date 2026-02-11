@@ -18,5 +18,6 @@ signal move_animation_complete
 # Sprite Shake
 signal send_sprite_shake(target: Monster)
 # Hitpoints
-signal hitpoints_changed(target: Monster, old_hp: int, new_hp: int)
+signal send_hitpoints_change(target: Monster, new_hp: int)
+signal hitpoints_animation_complete
 @warning_ignore_restore("unused_signal")

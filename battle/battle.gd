@@ -2,8 +2,20 @@ extends CanvasLayer
 enum VisibilityState {OPTIONS, MOVES}	
 var vis_state: VisibilityState = VisibilityState.OPTIONS
 
-var processing: bool = false
-
+var processing: bool = false:
+	set(value):
+		processing = value
+		if not processing:
+			var focused = get_viewport().gui_get_focus_owner()
+			if focused:
+				focused.release_focus()
+		else:
+			match vis_state:
+				VisibilityState.OPTIONS:
+					focus_last_used_option(last_focused_option)
+				VisibilityState.MOVES:
+					focus_last_used_move(last_focused_move)
+					
 var player_actor
 var enemy_actor
 var player_party: Array[Monster] = []
@@ -47,9 +59,7 @@ func _ready() -> void:
 	bind_buttons()
 
 
-func _input(event: InputEvent) -> void:
-	if not processing:
-		return
+func _unhandled_input(event: InputEvent) -> void:
 	match vis_state:
 		VisibilityState.OPTIONS:
 			if event.is_action_pressed("no"):
@@ -154,6 +164,7 @@ func update_hitpoints() -> void:
 	enemy_hp_bar.value = enemy_actor.current_hitpoints
 	enemy_hp_bar.actor = enemy_actor
 	
+	
 func update_exp() -> void:
 	var max_exp = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
 	var min_exp = Monster.EXPERIENCE_PER_LEVEL * (player_actor.level - 1)
@@ -214,6 +225,7 @@ func _on_move_pressed(which: Button) -> void:
 	
 	# TODO: Signals ?
 	processing = false
+	print("set processing: ", processing)
 	#get_enemy_action()
 	execute_turn_queue()
 	
@@ -295,11 +307,10 @@ func execute_turn_queue() -> void:
 		var actor = data[0]
 		var target = data[1]
 		
-		action.execute(actor, target)
+		await action.execute(actor, target)
 		
 	clear_turn_queue()
 	processing = true
-	
 	
 func clear_turn_queue() -> void:
 	turn_queue.clear()
