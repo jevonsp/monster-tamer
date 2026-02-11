@@ -1,5 +1,5 @@
-extends Resource
 class_name Move
+extends Resource
 
 @export var name: String = ""
 @export var animation: PackedScene
@@ -22,5 +22,6 @@ func execute(actor: Monster, target: Monster):
 	await Global.hitpoints_animation_complete
 	
 	var post_text: Array[String] = ["It dealt %s damage!" % [damage]]
+	
 	Global.send_text_box.emit(post_text, false)
 	await Global.text_box_complete
