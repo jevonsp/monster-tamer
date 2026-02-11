@@ -10,4 +10,8 @@ class_name Move
 
 
 func execute(actor: Monster, target: Monster):
-	print("%s would use %s on %s" % [actor.name, name, target.name])
+	var text: Array[String] = ["%s used %s on %s" % [actor.name, name, target.name]]
+	Global.send_text_box.emit(text, true)
+	Global.send_move_animation.emit(animation)
+	await Global.move_animation_complete
+	print("got move_animation_complete")

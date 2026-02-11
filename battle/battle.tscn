@@ -2,6 +2,17 @@
 
 [ext_resource type="Script" uid="uid://b5jkgp3idbiag" path="res://battle/battle.gd" id="1_tiqy5"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="2_tiqy5"]
+[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_qubjc"]
+[ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/label.gd" id="4_4mnim"]
+[ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
+
+[sub_resource type="Animation" id="Animation_7fucf"]
+resource_name = "player_hit"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iorop"]
+_data = {
+&"player_hit": SubResource("Animation_7fucf")
+}
 
 [node name="Battle" type="CanvasLayer" unique_id=661795331]
 script = ExtResource("1_tiqy5")
@@ -228,7 +239,7 @@ expand_mode = 3
 stretch_mode = 5
 flip_h = true
 
-[node name="HPBar" type="ProgressBar" parent="Content/Player" unique_id=404966868]
+[node name="HPBar" parent="Content/Player" unique_id=1881680306 instance=ExtResource("3_qubjc")]
 layout_mode = 2
 
 [node name="EXPBar" type="ProgressBar" parent="Content/Player" unique_id=447239853]
@@ -261,7 +272,7 @@ layout_mode = 2
 texture = ExtResource("2_tiqy5")
 stretch_mode = 5
 
-[node name="HPBar" type="ProgressBar" parent="Content/Enemy" unique_id=1185066293]
+[node name="HPBar" parent="Content/Enemy" unique_id=1017245820 instance=ExtResource("3_qubjc")]
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="Content" unique_id=1233652202]
@@ -270,3 +281,30 @@ offset_left = 656.0
 offset_top = 528.0
 offset_right = 1264.0
 offset_bottom = 704.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Content/Panel" unique_id=1303723309]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Content/Panel/MarginContainer" unique_id=989317058]
+custom_minimum_size = Vector2(600, 168)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "Test Text"
+autowrap_mode = 3
+script = ExtResource("4_4mnim")
+
+[node name="AnimationContainer" type="Node2D" parent="." unique_id=2106150403]
+script = ExtResource("5_l1kiu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1384391644]
+libraries/ = SubResource("AnimationLibrary_iorop")

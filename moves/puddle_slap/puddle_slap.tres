@@ -1,9 +1,11 @@
 [gd_resource type="Resource" script_class="Move" format=3 uid="uid://c87emu6ybl5ua"]
 
+[ext_resource type="PackedScene" uid="uid://beitjwnnngvje" path="res://moves/puddle_slap/puddle_slap_animation.tscn" id="1_dfaxd"]
 [ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_sb7qw"]
 
 [resource]
 script = ExtResource("1_sb7qw")
 name = "Puddle Slap"
+animation = ExtResource("1_dfaxd")
 description = "Slap a puddle, making a small splash."
 metadata/_custom_type_script = "uid://cawunai26wo8m"

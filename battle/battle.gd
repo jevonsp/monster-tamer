@@ -52,10 +52,10 @@ func _input(event: InputEvent) -> void:
 		return
 	match vis_state:
 		VisibilityState.OPTIONS:
-			if event.is_action_pressed("ui_cancel"):
+			if event.is_action_pressed("no"):
 				option_buttons_grid.get_children()[2].grab_focus()
 		VisibilityState.MOVES:
-			if event.is_action_pressed("ui_cancel"):
+			if event.is_action_pressed("no"):
 				change_vis_state(VisibilityState.OPTIONS)
 
 
@@ -201,12 +201,14 @@ func _on_move_pressed(which: Button) -> void:
 		"Button3":
 			num = 3
 	var move = player_actor.moves[num]
-	validate_add_move(move, player_actor)
+	if not validate_add_move(move, player_actor):
+		return
 	
 	last_focused_move = num
 	
-	# TODO: Signals ? 
-	get_enemy_action()
+	# TODO: Signals ?
+	processing = false
+	#get_enemy_action()
 	execute_turn_queue()
 	
 	
@@ -231,21 +233,24 @@ func change_vis_state(state: VisibilityState) -> void:
 			focus_last_used_move(last_focused_move)
 #endregion
 
+#region Turn Execution
 func add_to_turn_queue(action, actor: Monster, target: Monster) -> void:
 	turn_queue[action] = [actor, target]
 	
 	
-func validate_add_move(move: Move, actor: Monster = null) -> void:
+func validate_add_move(move: Move, actor: Monster = null) -> bool:
 	if actor == null:
 		actor = player_actor
 	if move != null:
 		if not move.is_self_targeting:
 			var target = enemy_actor if actor == player_actor else player_actor
 			add_to_turn_queue(move, actor, target)
+			return true
 		else:
 			add_to_turn_queue(move, actor, actor)
+			return true
 	else:
-		print_debug("Selected Null for move")
+		return false
 	
 	
 	
@@ -288,8 +293,9 @@ func execute_turn_queue() -> void:
 		action.execute(actor, target)
 		
 	clear_turn_queue()
+	processing = true
 	
 	
 func clear_turn_queue() -> void:
 	turn_queue.clear()
-		
+#endregion

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://cdor45ba2o0aa"]
 
 [ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_5ruug"]
-[ext_resource type="Resource" uid="uid://c87emu6ybl5ua" path="res://moves/puddle_slap.tres" id="2_6co7i"]
+[ext_resource type="Resource" uid="uid://c87emu6ybl5ua" path="res://moves/puddle_slap/puddle_slap.tres" id="2_6co7i"]
 [ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://classes/MonsterData.gd" id="3_droyv"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="3_nmn5g"]
 

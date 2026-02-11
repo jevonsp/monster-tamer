@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ca2t8g1fmv3er"]
+
+[ext_resource type="Script" uid="uid://bueuj70uu73wj" path="res://battle/hp_bar.gd" id="1_bmsta"]
+
+[node name="HPBar" type="ProgressBar" unique_id=1881680306]
+script = ExtResource("1_bmsta")

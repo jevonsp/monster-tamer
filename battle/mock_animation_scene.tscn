@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ckili6s527fn2"]
+
+[node name="MockAnimationScene" type="Node2D" unique_id=1682853272]
+
+[node name="AnimationCenterPoint" type="Node2D" parent="." unique_id=1013994175]
+position = Vector2(640, 250)
+
+[node name="PlayerCenterPoint" type="Node2D" parent="." unique_id=1475019861]
+position = Vector2(225, 250)
+
+[node name="EnemyCenterPoint" type="Node2D" parent="." unique_id=978560159]
+position = Vector2(1055, 250)
+
+[node name="Origin" type="Node2D" parent="." unique_id=2046963555]
