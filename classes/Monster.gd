@@ -59,3 +59,4 @@ func take_damage(amount: int) -> void:
 
 func faint():
 	is_fainted = true
+	Global.send_monster_fainted.emit(self)

@@ -7,5 +7,7 @@
 script = ExtResource("1_sb7qw")
 name = "Puddle Slap"
 animation = ExtResource("1_dfaxd")
+base_power = 10
+priority = 1
 description = "Slap a puddle, making a small splash."
 metadata/_custom_type_script = "uid://cawunai26wo8m"

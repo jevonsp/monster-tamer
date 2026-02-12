@@ -20,4 +20,6 @@ signal send_sprite_shake(target: Monster)
 # Hitpoints
 signal send_hitpoints_change(target: Monster, new_hp: int)
 signal hitpoints_animation_complete
+# Fainting
+signal send_monster_fainted(monster: Monster)
 @warning_ignore_restore("unused_signal")

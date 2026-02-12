@@ -1,9 +1,5 @@
 extends CanvasLayer
 
-# ============================================================================
-# STATE
-# ============================================================================
-
 enum VisibilityState { OPTIONS, MOVES }
 
 var vis_state: VisibilityState = VisibilityState.OPTIONS
@@ -19,10 +15,7 @@ var turn_queue: Array = []
 var _last_focused_option: int = 1
 var _last_focused_move: int = 1
 
-# ============================================================================
-# NODE REFERENCES
-# ============================================================================
-
+#region NODE REFERENCES
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -44,11 +37,9 @@ var _last_focused_move: int = 1
 	$Content/MoveButtons/Button2/Label,
 	$Content/MoveButtons/Button3/Label
 ]
+#endregion
 
-# ============================================================================
-# LIFECYCLE
-# ============================================================================
-
+#region LIFECYCLE
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
@@ -68,7 +59,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _connect_signals() -> void:
 	Global.send_player_party.connect(set_player_party)
 	Global.wild_battle_requested.connect(_start_wild_battle)
-	Global.send_sprite_shake.connect(_play_sprite_shake)
 
 
 func _bind_buttons() -> void:
@@ -77,11 +67,9 @@ func _bind_buttons() -> void:
 	
 	for button in get_tree().get_nodes_in_group("move_buttons"):
 		button.pressed.connect(_on_move_pressed.bind(button))
+#endregion
 
-# ============================================================================
-# BATTLE FLOW
-# ============================================================================
-
+#region BATTLE FLOW
 func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	_clear_actors()
 	
@@ -116,11 +104,9 @@ func _clear_all() -> void:
 
 func set_player_party(party: Array[Monster]) -> void:
 	player_party = party
+#endregion
 
-# ============================================================================
-# TURN EXECUTION
-# ============================================================================
-
+#region # TURN EXECUTION
 func _execute_player_turn(move: Move) -> void:
 	if not _add_move_to_queue(move, player_actor):
 		return
@@ -165,7 +151,9 @@ func _execute_turn_queue() -> void:
 	_sort_turn_queue()
 	
 	for entry in turn_queue:
-		await entry.action.execute(entry.actor, entry.target)
+		var actor = entry.actor
+		var target = entry.target
+		await entry.action.execute(actor, target)
 	
 	turn_queue.clear()
 	processing = true
@@ -178,11 +166,9 @@ func _sort_turn_queue() -> void:
 			return a.action.priority > b.action.priority
 		return a.actor.speed > b.actor.speed
 	)
+#endregion
 
-# ============================================================================
-# UI UPDATES
-# ============================================================================
-
+#region # UI UPDATES
 func _display_current_monsters() -> void:
 	_update_levels()
 	_update_names()
@@ -204,17 +190,19 @@ func _update_names() -> void:
 
 func _update_textures() -> void:
 	player_texture_rect.texture = player_actor.monster_data.texture
+	player_texture_rect.player_actor = player_actor # BIND
 	enemy_texture_rect.texture = enemy_actor.monster_data.texture
+	enemy_texture_rect.enemy_actor = enemy_actor # BIND
 
 
 func _update_hitpoints() -> void:
 	player_hp_bar.max_value = player_actor.max_hitpoints
 	player_hp_bar.value = player_actor.current_hitpoints
-	player_hp_bar.actor = player_actor
+	player_hp_bar.actor = player_actor # BIND
 	
 	enemy_hp_bar.max_value = enemy_actor.max_hitpoints
 	enemy_hp_bar.value = enemy_actor.current_hitpoints
-	enemy_hp_bar.actor = enemy_actor
+	enemy_hp_bar.actor = enemy_actor # BIND
 
 
 func _update_exp() -> void:
@@ -230,17 +218,17 @@ func _update_moves() -> void:
 		if player_actor.moves[i] != null:
 			move_labels[i].text = player_actor.moves[i].name
 
-# ============================================================================
-# UI NAVIGATION
-# ============================================================================
+func _toggle_player() -> void:
+	Global.toggle_player.emit()
 
 func _toggle_visible() -> void:
 	visible = !visible
 	processing = !processing
 	if visible:
 		_focus_default()
+#endregion
 
-
+#region # UI FOCUS
 func _change_vis_state(new_state: VisibilityState) -> void:
 	vis_state = new_state
 	
@@ -286,11 +274,9 @@ func _manage_focus() -> void:
 		_focus_default()
 	else:
 		_drop_focus()
+#endregion
 
-# ============================================================================
-# INPUT HANDLERS
-# ============================================================================
-
+#region INPUT HANDLERS
 func _on_option_pressed(button: Button) -> void:
 	match button.name:
 		"Party":
@@ -311,17 +297,4 @@ func _on_move_pressed(button: Button) -> void:
 	
 	var move = player_actor.moves[num]
 	_execute_player_turn(move)
-
-# ============================================================================
-# EFFECTS
-# ============================================================================
-
-func _play_sprite_shake(target: Monster) -> void:
-	if target == player_actor:
-		animation_player.play("player_hit")
-	else:
-		animation_player.play("enemy_hit")
-
-
-func _toggle_player() -> void:
-	Global.toggle_player.emit()
+#endregion

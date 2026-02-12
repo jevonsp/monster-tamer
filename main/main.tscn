@@ -13,7 +13,7 @@ script = ExtResource("5_kfbq2")
 monster = ExtResource("7_grrlh")
 chance = 1.0
 level_low = 1
-level_high = 2
+level_high = 1
 metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3wy1v"]

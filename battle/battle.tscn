@@ -1,69 +1,21 @@
 [gd_scene format=3 uid="uid://bnqog2bk3p7mv"]
 
 [ext_resource type="Script" uid="uid://b5jkgp3idbiag" path="res://battle/battle.gd" id="1_tiqy5"]
-[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="2_tiqy5"]
+[ext_resource type="PackedScene" uid="uid://bbdhbxa071x5y" path="res://battle/texture_rect.tscn" id="2_l1kiu"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_qubjc"]
 [ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/label.gd" id="4_4mnim"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
 
 [sub_resource type="Animation" id="Animation_4mnim"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Content/PlayerTextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(30, 152)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Content/EnemyTextureRect:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(864, 152)]
-}
 
 [sub_resource type="Animation" id="Animation_l1kiu"]
 resource_name = "enemy_hit"
 length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Content/EnemyTextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(864, 152), Vector2(934, 164), Vector2(864, 152)]
-}
 
 [sub_resource type="Animation" id="Animation_7fucf"]
 resource_name = "player_hit"
 length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Content/PlayerTextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(30, 152), Vector2(-40, 164), Vector2(30, 152)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iorop"]
 _data = {
@@ -290,17 +242,12 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerTextureRect" type="TextureRect" parent="Content" unique_id=1951812552]
-custom_minimum_size = Vector2(0, 256)
+[node name="PlayerTextureRect" parent="Content" unique_id=2099373258 instance=ExtResource("2_l1kiu")]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 152.0
-offset_right = 414.0
-offset_bottom = 408.0
-texture = ExtResource("2_tiqy5")
-expand_mode = 3
-stretch_mode = 5
-flip_h = true
+offset_left = 97.0
+offset_top = 150.0
+offset_right = 353.0
+offset_bottom = 406.0
 
 [node name="PlayerHPBar" parent="Content" unique_id=1881680306 instance=ExtResource("3_qubjc")]
 layout_mode = 0
@@ -338,15 +285,13 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyTextureRect" type="TextureRect" parent="Content" unique_id=1588136732]
-custom_minimum_size = Vector2(0, 256)
+[node name="EnemyTextureRect" parent="Content" unique_id=1661973216 instance=ExtResource("2_l1kiu")]
 layout_mode = 0
-offset_left = 864.0
-offset_top = 152.0
-offset_right = 1248.0005
-offset_bottom = 408.0
-texture = ExtResource("2_tiqy5")
-stretch_mode = 5
+offset_left = 931.0
+offset_top = 150.0
+offset_right = 1187.0
+offset_bottom = 406.0
+flip_h = false
 
 [node name="EnemyHPBar" parent="Content" unique_id=1017245820 instance=ExtResource("3_qubjc")]
 layout_mode = 0
