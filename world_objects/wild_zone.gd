@@ -4,7 +4,6 @@ class_name WildZone
 @export var encounter_table: Array[EncounterEntry] = []
 
 func trigger() -> void:
-	print("wild_zone trigger")
 	if roll_encounter():
 		choose_encounter()
 		return

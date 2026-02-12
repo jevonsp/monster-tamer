@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://nd38ug6ct58r"]
+
+[ext_resource type="Script" uid="uid://cfcvn6i8d4qer" path="res://moves/move_animation.gd" id="1_cywcv"]
+
+[sub_resource type="Animation" id="Animation_q30ls"]
+resource_name = "move"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u103t"]
+_data = {
+&"move": SubResource("Animation_q30ls")
+}
+
+[node name="MatchStrikeAnimation" type="Node2D" unique_id=1974965689]
+script = ExtResource("1_cywcv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=615238736]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=880765497]
+libraries/ = SubResource("AnimationLibrary_u103t")

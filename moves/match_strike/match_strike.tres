@@ -1,9 +1,11 @@
 [gd_resource type="Resource" script_class="Move" format=3 uid="uid://cwyt2ao20ny41"]
 
 [ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_n08cl"]
+[ext_resource type="PackedScene" uid="uid://nd38ug6ct58r" path="res://moves/match_strike/match_strike_animation.tscn" id="1_yxk6y"]
 
 [resource]
 script = ExtResource("1_n08cl")
 name = "Match Strike"
+animation = ExtResource("1_yxk6y")
 description = "Hits the enemy with a match."
 metadata/_custom_type_script = "uid://cawunai26wo8m"
