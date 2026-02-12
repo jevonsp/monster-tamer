@@ -38,12 +38,6 @@ func set_monster_moves() -> void:
 			moves_to_gain.pop_back()
 			moves_to_gain.push_front(move_gained[i])
 	moves = moves_to_gain
-	print_debug("%s moves:" % [self])
-	for m in moves:
-		if m != null:
-			print("   ", m.name)
-		else:
-			print("    Empty slot")
 
 
 func set_stats() -> void:

@@ -10,10 +10,8 @@ extends Resource
 
 
 func execute(actor: Monster, target: Monster):
-	print_debug("Move=%s, Actor=%s, Target=%s" % [self, actor, target])
 	var damage = base_power
 	var pre_text: Array[String] = ["%s used %s on %s" % [actor.name, name, target.name]]
-	print("pre_text: ", pre_text)
 	
 	Global.send_text_box.emit(pre_text, true)
 	

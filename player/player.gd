@@ -199,9 +199,6 @@ func add(monster: Monster):
 	"""Single entry point for adding monsters to the party or storage"""
 	if not _add_to_party(monster):
 		_add_to_storage(monster)
-	print_debug("Player party: ")
-	for m in party:
-		print("   ", m.name)
 
 func _add_to_party(monster: Monster) -> bool:
 	"""Adds an existing monster to the party or storage"""

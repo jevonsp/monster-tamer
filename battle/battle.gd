@@ -1,26 +1,20 @@
 extends CanvasLayer
-
 enum VisibilityState { OPTIONS, MOVES }
-
 const FOCUS_DEFAULTS = {
 	OPTIONS = 1,
 	MOVES = 1
 }
-
 var vis_state: VisibilityState = VisibilityState.OPTIONS
 var processing: bool = false
-
 var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []
 var enemy_party: Array[Monster] = []
 var turn_queue: Array[Dictionary] = []
-
 var _last_focused: Dictionary = {
 	VisibilityState.OPTIONS: 1,
 	VisibilityState.MOVES: 1
 }
-
 #region NODE REFERENCES
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
