@@ -27,4 +27,6 @@ signal monster_fainted_animation_complete
 signal send_monster_death_experience(amount: int)
 signal monster_gained_exp(target: Monster, amount: int)
 signal experience_animation_complete
+# Level
+signal monster_gained_level(target: Monster, amount: int)
 @warning_ignore_restore("unused_signal")

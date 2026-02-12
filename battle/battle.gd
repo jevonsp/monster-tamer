@@ -197,24 +197,30 @@ func _lose() -> void:
 
 #region UI UPDATES
 func _display_current_monsters() -> void:
+	"""Main entry point for displaying new monsters"""
 	_update_labels()
 	_update_textures()
 	_update_bars()
 	_update_moves()
 
 func _update_labels() -> void:
-	player_labels.level.text = "Lvl. %s" % player_actor.level
-	player_labels.name.text = player_actor.name
-	enemy_labels.level.text = "Lvl. %s" % enemy_actor.level
-	enemy_labels.name.text = enemy_actor.name
+	player_labels["level"].text = "Lvl. %s" % player_actor.level
+	player_labels["name"].text = player_actor.name
+	player_labels["level"].actor = player_actor
+	player_labels["level"].level = player_actor.level
+	
+	enemy_labels["level"].text = "Lvl. %s" % enemy_actor.level
+	enemy_labels["name"].text = enemy_actor.name
 
 func _update_textures() -> void:
-	player_display.texture.texture = player_actor.monster_data.texture
-	player_display.texture.player_actor = player_actor
-	enemy_display.texture.texture = enemy_actor.monster_data.texture
-	enemy_display.texture.enemy_actor = enemy_actor
+	player_display["texture"].texture = player_actor.monster_data.texture
+	player_display["texture"].player_actor = player_actor
+	
+	enemy_display["texture"].texture = enemy_actor.monster_data.texture
+	enemy_display["texture"].enemy_actor = enemy_actor
 
 func _update_bars() -> void:
+	"""Call only on new player_actor"""
 	# HP Bars
 	player_display.hp_bar.max_value = player_actor.max_hitpoints
 	player_display.hp_bar.value = player_actor.current_hitpoints
@@ -225,8 +231,8 @@ func _update_bars() -> void:
 	enemy_display.hp_bar.actor = enemy_actor
 	
 	# EXP Bar
-	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
 	var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (player_actor.level - 1)
+	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
 	
 	player_display.exp_bar.max_value = max_exp
 	player_display.exp_bar.min_value = min_exp
