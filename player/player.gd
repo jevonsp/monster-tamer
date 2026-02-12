@@ -86,12 +86,11 @@ func process_turning_state(delta: float) -> void:
 	turn_timer += delta
 	
 	var input_dir = get_input_direction()
-	if input_dir != Vector2.ZERO:
-		if input_dir == facing_direction:
-			var last_key = held_keys.back() if not held_keys.is_empty() else ""
-			if last_key in key_hold_times and key_hold_times[last_key] >= TURN_DURATION:
-				if can_move_in(input_dir):
-					return
+	var should_move = input_dir == facing_direction and \
+			not held_keys.is_empty() and \
+			key_hold_times.get(held_keys.back(), 0) >= TURN_DURATION
+	if should_move and can_move_in(input_dir):
+		return
 	
 	if turn_timer >= TURN_DURATION:
 		var blend_dir = facing_direction
@@ -101,31 +100,60 @@ func process_turning_state(delta: float) -> void:
 		anim_state.travel("Idle")
 
 
+#func process_walking_state(delta: float) -> void:
+	#move_progress += WALK_SPEED * delta
+	#
+	#if move_progress >= 1.0:
+		#position = tile_target_pos
+		#move_progress = 0.0
+		#Global.step_completed.emit(global_position)
+		#
+		#var input_dir = get_input_direction()
+		#if input_dir != Vector2.ZERO:
+			#var new_facing_direction = input_dir
+			#
+			#if new_facing_direction != facing_direction:
+				#current_state = State.IDLE
+				#anim_state.travel("Idle")
+				#start_turning(new_facing_direction)
+			#else:
+				#if not can_move_in(input_dir):
+					#current_state = State.IDLE
+					#anim_state.travel("Idle")
+		#else:
+			#current_state = State.IDLE
+			#anim_state.travel("Idle")
+	#else:
+		#position = tile_start_pos.lerp(tile_target_pos, move_progress)
+
 func process_walking_state(delta: float) -> void:
 	move_progress += WALK_SPEED * delta
 	
-	if move_progress >= 1.0:
-		position = tile_target_pos
-		move_progress = 0.0
-		Global.step_completed.emit(global_position)
-		
-		var input_dir = get_input_direction()
-		if input_dir != Vector2.ZERO:
-			var new_facing_direction = input_dir
-			
-			if new_facing_direction != facing_direction:
-				current_state = State.IDLE
-				anim_state.travel("Idle")
-				start_turning(new_facing_direction)
-			else:
-				if not can_move_in(input_dir):
-					current_state = State.IDLE
-					anim_state.travel("Idle")
-		else:
-			current_state = State.IDLE
-			anim_state.travel("Idle")
-	else:
+	if move_progress < 1.0:
 		position = tile_start_pos.lerp(tile_target_pos, move_progress)
+		return
+	
+	# Complete the walk step
+	position = tile_target_pos
+	move_progress = 0.0
+	Global.step_completed.emit(global_position)
+	
+	var input_dir = get_input_direction()
+	
+	if input_dir == Vector2.ZERO:
+		current_state = State.IDLE
+		anim_state.travel("Idle")
+		return
+	
+	if input_dir != facing_direction:
+		current_state = State.IDLE
+		anim_state.travel("Idle")
+		start_turning(input_dir)
+		return
+	
+	if not can_move_in(input_dir):
+		current_state = State.IDLE
+		anim_state.travel("Idle")
 
 
 func start_turning(new_facing_direction: Vector2) -> void:
