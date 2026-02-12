@@ -42,8 +42,8 @@ func advance_text() -> void:
 	
 	
 func text_finished() -> void:
-	Global.text_box_complete.emit()
 	clean_up()
+	Global.text_box_complete.emit()
 	
 	
 func clean_up() -> void:

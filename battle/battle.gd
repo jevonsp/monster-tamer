@@ -126,6 +126,7 @@ func _execute_player_turn(move: Move) -> void:
 		return
 	
 	processing = false
+	_manage_focus()
 	_get_enemy_action()
 	await _execute_turn_queue()
 	processing = true
@@ -167,6 +168,8 @@ func _execute_turn_queue() -> void:
 		await entry.action.execute(entry.actor, entry.target)
 	
 	turn_queue.clear()
+	processing = true
+	_manage_focus()
 
 
 func _sort_turn_queue() -> void:
