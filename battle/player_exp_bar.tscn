@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://lq32c6hrp08x"]
+
+[ext_resource type="Script" uid="uid://d37n32ohpoo5j" path="res://battle/player_exp_bar.gd" id="1_i5u7q"]
+
+[node name="PlayerEXPBar" type="ProgressBar" unique_id=2114861553]
+offset_right = 384.0
+offset_bottom = 27.0
+script = ExtResource("1_i5u7q")

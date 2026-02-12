@@ -22,4 +22,9 @@ signal send_hitpoints_change(target: Monster, new_hp: int)
 signal hitpoints_animation_complete
 # Fainting
 signal send_monster_fainted(monster: Monster)
+signal monster_fainted_animation_complete
+# Experience
+signal send_monster_death_experience(amount: int)
+signal monster_gained_exp(target: Monster, amount: int)
+signal experience_animation_complete
 @warning_ignore_restore("unused_signal")

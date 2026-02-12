@@ -16,6 +16,7 @@ static var EXPERIENCE_PER_LEVEL = 50
 @export var moves: Array = []
 
 @export var is_fainted: bool = false
+@export var was_in_battle: bool = false
 
 func set_monster_data(md: MonsterData) -> void:
 	monster_data = md
@@ -52,11 +53,18 @@ func set_stats() -> void:
 
 func take_damage(amount: int) -> void:
 	current_hitpoints = max(0, current_hitpoints - amount)
-	if current_hitpoints <= 0:
-		faint()
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
+	if current_hitpoints <= 0:
+		await Global.hitpoints_animation_complete
+		faint()
 
 
 func faint():
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
+	Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
+	
+	
+func gain_exp(amount: int) -> void:
+	experience += amount
+	Global.monster_gained_exp.emit(self, amount)

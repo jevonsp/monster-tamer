@@ -1,21 +1,38 @@
 extends TextureRect
 var player_actor
 var enemy_actor
-
+var original_position: Vector2
 @onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
 
 func _ready() -> void:
+	original_position = global_position
 	Global.send_sprite_shake.connect(_play_sprite_shake)
 	Global.send_monster_fainted.connect(_play_monster_faint)
 	
-func _play_monster_faint(target: Monster) -> void:
-	if target == player_actor:
-		animation_player.play("player_faint")
-	else:
-		animation_player.play("enemy_faint")
 	
 func _play_sprite_shake(target: Monster) -> void:
 	if target == player_actor:
 		animation_player.play("player_hit")
 	else:
 		animation_player.play("enemy_hit")
+
+
+func _play_monster_faint(target: Monster) -> void:
+	if target == player_actor:
+		animation_player.play("player_faint")
+	else:
+		animation_player.play("enemy_faint")
+	
+	
+func clear_image() -> void:
+	reset_texture()
+	reset_position()
+	Global.monster_fainted_animation_complete.emit()
+
+
+func reset_texture() -> void:
+	texture = null
+	
+	
+func reset_position() -> void:
+	global_position = original_position

@@ -57,7 +57,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _connect_signals() -> void:
-	Global.send_player_party.connect(set_player_party)
+	Global.send_player_party.connect(_set_player_party)
 	Global.wild_battle_requested.connect(_start_wild_battle)
 
 
@@ -73,8 +73,11 @@ func _bind_buttons() -> void:
 func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	_clear_actors()
 	
-	enemy_actor = monster_data.set_up(level)
-	player_actor = player_party[0]
+	var monster = monster_data.set_up(level)
+	_set_wild_party([monster])
+	set_enemy_actor()
+	
+	set_player_actor()
 	
 	_toggle_player()
 	_display_current_monsters()
@@ -86,6 +89,28 @@ func end_battle() -> void:
 	_toggle_visible()
 	_toggle_player()
 
+
+func _set_player_party(party: Array[Monster]) -> void:
+	player_party = party
+
+
+func _set_wild_party(party: Array[Monster]) -> void:
+	enemy_party = party
+	
+
+func set_player_actor(monster: Monster = null) -> void: 
+	if monster == null:
+		player_actor = player_party[0]
+	else:
+		player_actor = monster
+	player_actor.was_in_battle = true
+
+
+func set_enemy_actor(monster: Monster = null) -> void: 
+	if monster == null:
+		enemy_actor = enemy_party[0]
+	else:
+		enemy_actor = monster
 
 func _clear_actors() -> void:
 	player_actor = null
@@ -100,10 +125,6 @@ func _clear_all() -> void:
 	turn_queue.clear()
 	vis_state = VisibilityState.OPTIONS
 	processing = false
-
-
-func set_player_party(party: Array[Monster]) -> void:
-	player_party = party
 #endregion
 
 #region # TURN EXECUTION
@@ -152,9 +173,21 @@ func _execute_turn_queue() -> void:
 	
 	for entry in turn_queue:
 		var actor = entry.actor
-		var target = entry.target
+		var target: Monster = entry.target
+		var exp_completed = [false]
+		var on_exp_complete = func(): exp_completed[0] = true
+		Global.experience_animation_complete.connect(on_exp_complete, CONNECT_ONE_SHOT)
+		
 		await entry.action.execute(actor, target)
-	
+		if target and target.is_fainted and target == enemy_actor:
+			if not exp_completed[0]:
+				await Global.experience_animation_complete
+				print("got signal")
+		if _check_win():
+			_win()
+		if _check_lose():
+			_lose()
+			
 	turn_queue.clear()
 	processing = true
 	_manage_focus()
@@ -166,6 +199,27 @@ func _sort_turn_queue() -> void:
 			return a.action.priority > b.action.priority
 		return a.actor.speed > b.actor.speed
 	)
+	
+func _check_win() -> bool:
+	for monster in enemy_party:
+		if not monster.is_fainted:
+			return false
+	return true
+	
+	
+func _check_lose() -> bool:
+	for monster in player_party:
+		if not monster.is_fainted:
+			return false 
+	return true
+	
+	
+func _win() -> void:
+	print("would win here")
+
+
+func _lose() -> void:
+	print("would lose here")
 #endregion
 
 #region # UI UPDATES
@@ -208,9 +262,12 @@ func _update_hitpoints() -> void:
 func _update_exp() -> void:
 	var max_exp = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
 	var min_exp = Monster.EXPERIENCE_PER_LEVEL * (player_actor.level - 1)
+	
 	player_exp_bar.max_value = max_exp
 	player_exp_bar.min_value = min_exp
 	player_exp_bar.value = player_actor.experience
+	
+	player_exp_bar.actor = player_actor
 
 
 func _update_moves() -> void:

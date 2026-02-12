@@ -1,17 +1,103 @@
 [gd_scene format=3 uid="uid://bnqog2bk3p7mv"]
 
 [ext_resource type="Script" uid="uid://b5jkgp3idbiag" path="res://battle/battle.gd" id="1_tiqy5"]
+[ext_resource type="Script" uid="uid://te2pxu06ls6w" path="res://battle/player_level_label.gd" id="2_7fucf"]
 [ext_resource type="PackedScene" uid="uid://bbdhbxa071x5y" path="res://battle/texture_rect.tscn" id="2_l1kiu"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_qubjc"]
 [ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/label.gd" id="4_4mnim"]
+[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_l1kiu"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
 
 [sub_resource type="Animation" id="Animation_4mnim"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(97, 150)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content/EnemyTextureRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(931, 150)]
+}
+
+[sub_resource type="Animation" id="Animation_rxlun"]
+resource_name = "enemy_faint"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content/EnemyTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(931, 150), Vector2(931, 740)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content/EnemyTextureRect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.46666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"clear_image"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_l1kiu"]
 resource_name = "enemy_hit"
 length = 0.3
+
+[sub_resource type="Animation" id="Animation_iorop"]
+resource_name = "player_faint"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Content/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(97, 150), Vector2(97, 740)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Content/PlayerTextureRect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"clear_image"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_7fucf"]
 resource_name = "player_hit"
@@ -20,7 +106,9 @@ length = 0.3
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iorop"]
 _data = {
 &"RESET": SubResource("Animation_4mnim"),
+&"enemy_faint": SubResource("Animation_rxlun"),
 &"enemy_hit": SubResource("Animation_l1kiu"),
+&"player_faint": SubResource("Animation_iorop"),
 &"player_hit": SubResource("Animation_7fucf")
 }
 
@@ -230,6 +318,7 @@ theme_override_font_sizes/font_size = 32
 text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("2_7fucf")
 
 [node name="PlayerNameLabel" type="Label" parent="Content" unique_id=425096907]
 layout_mode = 0
@@ -246,8 +335,8 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 97.0
 offset_top = 150.0
-offset_right = 353.0
-offset_bottom = 406.0
+offset_right = 353.00024
+offset_bottom = 406.00024
 
 [node name="PlayerHPBar" parent="Content" unique_id=1881680306 instance=ExtResource("3_qubjc")]
 layout_mode = 0
@@ -256,12 +345,12 @@ offset_top = 412.0
 offset_right = 416.0
 offset_bottom = 439.0
 
-[node name="PlayerEXPBar" type="ProgressBar" parent="Content" unique_id=447239853]
+[node name="PlayerEXPBar" parent="Content" unique_id=2114861553 instance=ExtResource("4_l1kiu")]
 layout_mode = 0
 offset_left = 32.0
-offset_top = 443.0
+offset_top = 441.0
 offset_right = 416.0
-offset_bottom = 470.0
+offset_bottom = 468.0
 
 [node name="EnemyLevelLabel" type="Label" parent="Content" unique_id=1192345644]
 layout_mode = 0
