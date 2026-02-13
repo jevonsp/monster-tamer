@@ -1,5 +1,25 @@
 [gd_scene format=3 uid="uid://b0vyjd3isbdso"]
 
-[node name="NPC" type="CharacterBody2D" unique_id=431393256]
+[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="1_2xp5l"]
+[ext_resource type="Script" uid="uid://bnutwr2lh7i8r" path="res://npc/npc.gd" id="1_nhy3c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gfcum"]
+size = Vector2(16, 16)
+
+[node name="NPC" type="CharacterBody2D" unique_id=431393256 groups=["interactable"]]
+collision_layer = 8
+script = ExtResource("1_nhy3c")
+dialogue = Array[String](["This is test dialogue"])
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1612357514]
+position = Vector2(8, 8)
+texture = ExtResource("1_2xp5l")
+offset = Vector2(0, -4)
+hframes = 3
+vframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1494368532]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_gfcum")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=514376438]

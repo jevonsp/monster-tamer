@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/EncounterEntry.gd" id="5_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
 [ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger.tres" id="7_grrlh"]
+[ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://npc/npc.tscn" id="8_67ri8"]
+[ext_resource type="PackedScene" uid="uid://cxpdnabe54fq0" path="res://ui/overworld_text_box.tscn" id="9_grrlh"]
 
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
@@ -20,13 +22,25 @@ metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
 size = Vector2(16, 16)
 
 [node name="Main" type="Node2D" unique_id=89812463]
+y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(32, 16)
+position = Vector2(16, 32)
 WALK_SPEED = 4.5
+
+[node name="OverworldTextBox" parent="Player" unique_id=2089038544 instance=ExtResource("9_grrlh")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 17.0
+offset_right = 159.0
+offset_bottom = 89.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
 position = Vector2(32, 32)
@@ -41,3 +55,6 @@ shape = SubResource("RectangleShape2D_3wy1v")
 
 [node name="Battle" parent="." unique_id=661795331 instance=ExtResource("7_4dugh")]
 visible = false
+
+[node name="NPC" parent="." unique_id=431393256 instance=ExtResource("8_67ri8")]
+position = Vector2(16, 16)

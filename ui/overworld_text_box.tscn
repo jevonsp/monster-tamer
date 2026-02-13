@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cxpdnabe54fq0"]
+
+[ext_resource type="Script" uid="uid://c1cxmfjvonmsb" path="res://ui/overworld_text_box.gd" id="1_wxwfi"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="2_eo1c5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0.72156864)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="OverworldTextBox" type="Panel" unique_id=2089038544]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1121.0
+offset_bottom = -647.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
+script = ExtResource("1_wxwfi")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=131261441]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer" unique_id=2096299235]
+custom_minimum_size = Vector2(150, 64)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("2_eo1c5")
+text = "Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text"
+horizontal_alignment = 1
+autowrap_mode = 3

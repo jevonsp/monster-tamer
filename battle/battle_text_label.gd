@@ -2,7 +2,7 @@ extends Label
 var processing: bool = false
 var text_array: Array[String]
 var is_auto_complete: bool = false
-var text_index: int = 0
+var text_index: int
 
 func _ready() -> void:
 	text = ""
@@ -22,7 +22,7 @@ func load_text(ta: Array[String], auto_complete: bool) -> void:
 	is_auto_complete = auto_complete
 	if not is_auto_complete:
 		processing = true
-	text_index = text_array.size() - 1
+	text_index = 0
 	if text_index <= -1:
 		return
 	display_text()
@@ -37,7 +37,7 @@ func display_text() -> void:
 	
 func advance_text() -> void:
 	text_index += 1
-	if text_index >= text_array.size() - 1:
+	if text_index >= text_array.size():
 		text_finished()
 	
 	

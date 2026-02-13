@@ -1,5 +1,5 @@
-extends Resource
 class_name MonsterData
+extends Resource
 
 @export var species: String = ""
 @export var texture: Texture2D

@@ -1,5 +1,5 @@
-extends Resource
 class_name Monster
+extends Resource
 static var EXPERIENCE_PER_LEVEL = 50
 @export var monster_data: MonsterData
 @export var name: String = ""
@@ -42,7 +42,6 @@ func set_monster_moves() -> void:
 
 func set_stats() -> void:
 	current_hitpoints = max_hitpoints
-
 
 
 func take_damage(amount: int) -> void:

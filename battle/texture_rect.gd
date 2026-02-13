@@ -8,7 +8,6 @@ func _ready() -> void:
 	original_position = global_position
 	Global.send_sprite_shake.connect(_play_sprite_shake)
 	Global.send_monster_fainted.connect(_play_monster_faint)
-	print_debug("Reset position to: ", original_position)
 	
 	
 func _play_sprite_shake(target: Monster) -> void:

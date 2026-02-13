@@ -52,6 +52,7 @@ func _input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("yes"):
 		attempt_interaction()
+		get_viewport().set_input_as_handled()
 
 #region Movement and Interaction
 func update_held_keys(delta: float) -> void:

@@ -9,6 +9,10 @@ signal send_respawn_player
 signal wild_battle_requested(mon_data: MonsterData, level: int)
 signal player_party_requested
 signal send_player_party(party: Array[Monster])
+# Overworld
+# DialogueLabel
+signal send_overworld_text_box(text: Array[String], auto_complete: bool)
+signal overworld_text_box_complete
 # Battle
 # Label
 signal send_battle_text_box(text: Array[String], auto_complete: bool)
