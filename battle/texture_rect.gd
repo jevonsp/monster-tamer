@@ -8,6 +8,7 @@ func _ready() -> void:
 	original_position = global_position
 	Global.send_sprite_shake.connect(_play_sprite_shake)
 	Global.send_monster_fainted.connect(_play_monster_faint)
+	print_debug("Reset position to: ", original_position)
 	
 	
 func _play_sprite_shake(target: Monster) -> void:
@@ -20,8 +21,10 @@ func _play_sprite_shake(target: Monster) -> void:
 func _play_monster_faint(target: Monster) -> void:
 	if target == player_actor:
 		animation_player.play("player_faint")
+		player_actor = null
 	else:
 		animation_player.play("enemy_faint")
+		enemy_actor = null
 	
 	
 func clear_image() -> void:
@@ -35,4 +38,4 @@ func reset_texture() -> void:
 	
 	
 func reset_position() -> void:
-	global_position = original_position
+	animation_player.play("RESET")

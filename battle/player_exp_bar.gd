@@ -11,19 +11,29 @@ func _on_monster_gained_exp(monster: Monster, amount: int) -> void:
 		await tween_bar(monster, amount)
 		Global.experience_animation_complete.emit()
 
+
 func tween_bar(monster: Monster, amount: int):
-	var experience = value
-	var level = monster.level
 	var base = Monster.EXPERIENCE_PER_LEVEL
-	while amount >= 0:
-		var next: int = level * base - experience
-		if amount >= next:
-			var exp_to_gain = amount - next
-			amount -= next
-			var tween = get_tree().create_tween()
-			tween.tween_property(self, "value", exp_to_gain, Global.DEFAULT_DELAY)
-			await tween.finished
+	var remaining_exp = amount
+	
+	while remaining_exp > 0:
+		var current_exp = monster.experience
+		var exp_needed = base * monster.level - current_exp
+		var exp_to_gain = min(remaining_exp, exp_needed)
+		
+		var tween = get_tree().create_tween()
+		tween.tween_property(self, "value", current_exp + exp_to_gain, Global.DEFAULT_DELAY)
+		await tween.finished
+		
+		monster.experience += exp_to_gain
+		remaining_exp -= exp_to_gain
+		
+		if monster.experience >= base * monster.level:
 			monster.gain_level()
+			set_new_bounds(monster.level)
+			value = monster.experience
+		
+	set_new_bounds(monster.level)
 			
 
 func set_new_bounds(level: int) -> void:

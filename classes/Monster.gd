@@ -60,7 +60,6 @@ func faint():
 	
 	
 func gain_exp(amount: int) -> void:
-	experience += amount
 	Global.monster_gained_exp.emit(self, amount)
 
 

@@ -13,7 +13,7 @@ func execute(actor: Monster, target: Monster):
 	var damage = base_power
 	var pre_text: Array[String] = ["%s used %s on %s" % [actor.name, name, target.name]]
 	
-	Global.send_text_box.emit(pre_text, true)
+	Global.send_battle_text_box.emit(pre_text, true)
 	
 	Global.send_move_animation.emit(animation)
 	await Global.move_animation_complete
@@ -25,5 +25,5 @@ func execute(actor: Monster, target: Monster):
 	
 	var post_text: Array[String] = ["It dealt %s damage!" % [damage]]
 	
-	Global.send_text_box.emit(post_text, false)
-	await Global.text_box_complete
+	Global.send_battle_text_box.emit(post_text, false)
+	await Global.battle_text_box_complete

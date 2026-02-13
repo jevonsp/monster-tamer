@@ -82,8 +82,8 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	player_actor = player_party[0]
 	player_actor.was_in_battle = true
 	
-	_toggle_player()
 	_display_current_monsters()
+	_toggle_player()
 	_toggle_visible()
 
 func end_battle() -> void:
@@ -99,10 +99,11 @@ func _clear_actors() -> void:
 	enemy_actor = null
 
 func _clear_all() -> void:
-	player_actor = null
-	enemy_actor = null
+	_clear_actors()
 	player_party = []
 	enemy_party = []
+	_clear_actor_references()
+	_clear_textures()
 	turn_queue.clear()
 	vis_state = VisibilityState.OPTIONS
 	processing = false
@@ -179,8 +180,9 @@ func _sort_turn_queue() -> void:
 func _check_win() -> bool:
 	for monster in enemy_party:
 		if not monster.is_fainted:
+			print("monster: %s is alive" % [monster])
 			return false
-	return false
+	return true
 
 func _check_lose() -> bool:
 	for monster in player_party:
@@ -189,10 +191,17 @@ func _check_lose() -> bool:
 	return false
 
 func _win() -> void:
-	print("would win here")
+	var text: Array[String] = ["You won!"]
+	Global.send_battle_text_box.emit(text, false)
+	await Global.battle_text_box_complete
+	end_battle()
 
 func _lose() -> void:
-	print("would lose here")
+	var text: Array[String] = ["You lost!"]
+	Global.send_battle_text_box.emit(text, false)
+	await Global.battle_text_box_complete
+	end_battle()
+	Global.send_respawn_player.emit()
 #endregion
 
 #region UI UPDATES
@@ -207,7 +216,7 @@ func _update_labels() -> void:
 	player_labels["level"].text = "Lvl. %s" % player_actor.level
 	player_labels["name"].text = player_actor.name
 	player_labels["level"].actor = player_actor
-	player_labels["level"].level = player_actor.level
+	player_labels["level"].label_level = player_actor.level
 	
 	enemy_labels["level"].text = "Lvl. %s" % enemy_actor.level
 	enemy_labels["name"].text = enemy_actor.name
@@ -221,23 +230,33 @@ func _update_textures() -> void:
 
 func _update_bars() -> void:
 	"""Call only on new player_actor"""
-	# HP Bars
-	player_display.hp_bar.max_value = player_actor.max_hitpoints
-	player_display.hp_bar.value = player_actor.current_hitpoints
-	player_display.hp_bar.actor = player_actor
+	player_display["hp_bar"].max_value = player_actor.max_hitpoints
+	player_display["hp_bar"].value = player_actor.current_hitpoints
+	player_display["hp_bar"].actor = player_actor
 	
-	enemy_display.hp_bar.max_value = enemy_actor.max_hitpoints
-	enemy_display.hp_bar.value = enemy_actor.current_hitpoints
-	enemy_display.hp_bar.actor = enemy_actor
+	enemy_display["hp_bar"].max_value = enemy_actor.max_hitpoints
+	enemy_display["hp_bar"].value = enemy_actor.current_hitpoints
+	enemy_display["hp_bar"].actor = enemy_actor
 	
-	# EXP Bar
 	var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (player_actor.level - 1)
 	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
 	
-	player_display.exp_bar.max_value = max_exp
-	player_display.exp_bar.min_value = min_exp
-	player_display.exp_bar.value = player_actor.experience
-	player_display.exp_bar.actor = player_actor
+	player_display["exp_bar"].max_value = max_exp
+	player_display["exp_bar"].min_value = min_exp
+	player_display["exp_bar"].value = player_actor.experience
+	player_display["exp_bar"].actor = player_actor
+
+func _clear_actor_references() -> void:
+	player_labels["level"].actor = null
+	player_display["texture"].player_actor = null
+	enemy_display["texture"].enemy_actor = null
+	player_display["hp_bar"].actor = null
+	enemy_display["hp_bar"].actor = null
+	player_display["exp_bar"].actor = null
+
+func _clear_textures() -> void:
+	player_display["texture"].texture = null
+	enemy_display["texture"].texture = null
 
 func _update_moves() -> void:
 	for i in player_actor.moves.size():

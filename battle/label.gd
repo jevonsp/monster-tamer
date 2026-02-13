@@ -6,7 +6,7 @@ var text_index: int = 0
 
 func _ready() -> void:
 	text = ""
-	Global.send_text_box.connect(load_text)
+	Global.send_battle_text_box.connect(load_text)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -31,7 +31,7 @@ func load_text(ta: Array[String], auto_complete: bool) -> void:
 func display_text() -> void:
 	text = text_array[text_index]
 	if is_auto_complete:
-		await get_tree().create_timer(Global.DEFAULT_DELAY).timeout
+		await get_tree().create_timer((Global.DEFAULT_DELAY) / 2).timeout
 		advance_text()
 	
 	
@@ -43,7 +43,7 @@ func advance_text() -> void:
 	
 func text_finished() -> void:
 	clean_up()
-	Global.text_box_complete.emit()
+	Global.battle_text_box_complete.emit()
 	
 	
 func clean_up() -> void:

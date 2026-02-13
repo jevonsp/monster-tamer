@@ -1,6 +1,6 @@
 extends Label
 var actor
-var level
+var label_level
 
 func _ready() -> void:
 	Global.monster_gained_level.connect(_on_monster_gained_level)
@@ -8,5 +8,5 @@ func _ready() -> void:
 	
 func _on_monster_gained_level(monster: Monster, amount: int) -> void:
 	if actor == monster:
-		level += amount
-		text = "Lvl. %s" % [level]
+		label_level += amount
+		text = "Lvl. %s" % [label_level]

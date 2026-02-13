@@ -18,6 +18,8 @@ var processing: bool = true
 var party: Array[Monster] = []
 var storage: Array[Monster] = []
 
+var respawn_point: Vector2 = Vector2.ZERO
+
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var anim_state = animation_tree.get("parameters/playback")
@@ -29,12 +31,10 @@ func _ready() -> void:
 	Global.send_monster_death_experience.connect(_grant_party_experience)
 	tile_start_pos = position; tile_target_pos = position
 	
-	
 func _process(delta: float) -> void:
 	if not processing:
 		return
 	update_held_keys(delta)
-		
 		
 func _physics_process(delta: float) -> void:
 	if not processing:
@@ -47,14 +47,12 @@ func _physics_process(delta: float) -> void:
 		State.WALKING:
 			process_walking_state(delta)
 
-
 func _input(event: InputEvent) -> void:
 	if not processing:
 		return
 	if event.is_action_pressed("yes"):
 		attempt_interaction()
-		
-		
+
 #region Movement and Interaction
 func update_held_keys(delta: float) -> void:
 	var directions = ["up", "down", "right", "left"]
@@ -69,7 +67,6 @@ func update_held_keys(delta: float) -> void:
 		elif Input.is_action_pressed(dir) and dir in key_hold_times:
 			key_hold_times[dir] += delta
 
-
 func process_idle_state() -> void:
 	var input_dir = get_input_direction()
 	
@@ -80,7 +77,6 @@ func process_idle_state() -> void:
 			start_turning(new_facing_direction)
 		else:
 			can_move_in(input_dir)
-
 
 func process_turning_state(delta: float) -> void:
 	turn_timer += delta
@@ -99,33 +95,6 @@ func process_turning_state(delta: float) -> void:
 		current_state = State.IDLE
 		anim_state.travel("Idle")
 
-
-#func process_walking_state(delta: float) -> void:
-	#move_progress += WALK_SPEED * delta
-	#
-	#if move_progress >= 1.0:
-		#position = tile_target_pos
-		#move_progress = 0.0
-		#Global.step_completed.emit(global_position)
-		#
-		#var input_dir = get_input_direction()
-		#if input_dir != Vector2.ZERO:
-			#var new_facing_direction = input_dir
-			#
-			#if new_facing_direction != facing_direction:
-				#current_state = State.IDLE
-				#anim_state.travel("Idle")
-				#start_turning(new_facing_direction)
-			#else:
-				#if not can_move_in(input_dir):
-					#current_state = State.IDLE
-					#anim_state.travel("Idle")
-		#else:
-			#current_state = State.IDLE
-			#anim_state.travel("Idle")
-	#else:
-		#position = tile_start_pos.lerp(tile_target_pos, move_progress)
-
 func process_walking_state(delta: float) -> void:
 	move_progress += WALK_SPEED * delta
 	
@@ -133,7 +102,6 @@ func process_walking_state(delta: float) -> void:
 		position = tile_start_pos.lerp(tile_target_pos, move_progress)
 		return
 	
-	# Complete the walk step
 	position = tile_target_pos
 	move_progress = 0.0
 	Global.step_completed.emit(global_position)
@@ -155,7 +123,6 @@ func process_walking_state(delta: float) -> void:
 		current_state = State.IDLE
 		anim_state.travel("Idle")
 
-
 func start_turning(new_facing_direction: Vector2) -> void:
 	animation_tree.set("parameters/Turn/blend_position", new_facing_direction)
 	animation_tree.set("parameters/Idle/blend_position", new_facing_direction)
@@ -168,7 +135,6 @@ func start_turning(new_facing_direction: Vector2) -> void:
 	turn_timer = 0.0
 	Global.step_completed.emit(global_position)
 	anim_state.travel("Turn")
-
 
 func can_move_in(input_dir: Vector2) -> bool:
 	ray_cast_2d.target_position = input_dir * TILE_SIZE
@@ -186,7 +152,6 @@ func can_move_in(input_dir: Vector2) -> bool:
 	anim_state.travel("Walk")
 	return true
 
-
 func get_input_direction() -> Vector2:
 	if held_keys.is_empty():
 		return Vector2.ZERO
@@ -201,7 +166,6 @@ func get_input_direction() -> Vector2:
 	var key = held_keys.back()
 	return direction_map.get(key, Vector2.ZERO)
 	
-	
 func clear_inputs() -> void:
 	held_keys.clear()
 	key_hold_times.clear()
@@ -209,13 +173,11 @@ func clear_inputs() -> void:
 	move_progress = 0.0
 	anim_state.travel("Idle")
 
-
 func attempt_interaction() -> void:
 	if ray_cast_2d.is_colliding():
 		var collider = ray_cast_2d.get_collider()
 		if collider.is_in_group("interactable"):
 			collider.interact(self)
-			
 			
 func toggle_processing() -> void:
 	clear_inputs()
@@ -239,10 +201,8 @@ func _add_to_party(monster: Monster) -> bool:
 func _add_to_storage(monster: Monster) -> void:
 	storage.append(monster)
 
-
 func send_player_party() -> void:
 	Global.send_player_party.emit(party)
-	
 	
 func _grant_party_experience(amount: int) -> void:
 	var getting_exp: Array[Monster]
