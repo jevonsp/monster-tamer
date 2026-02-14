@@ -28,11 +28,9 @@ func load_text(ta: Array[String], auto_complete: bool) -> void:
 	Global.toggle_player.emit()
 	toggle_visible()
 	text_array = ta
-	print(text_array)
 	is_auto_complete = auto_complete
 	if not is_auto_complete:
 		processing = true
-		print("Processing set to: ", processing)
 	text_index = 0
 	if text_index <= -1:
 		return
@@ -41,7 +39,6 @@ func load_text(ta: Array[String], auto_complete: bool) -> void:
 	
 func display_text() -> void:
 	label.text = text_array[text_index]
-	print(label.text)
 	if is_auto_complete:
 		await get_tree().create_timer((Global.DEFAULT_DELAY) / 2).timeout
 		advance_text()
@@ -49,7 +46,6 @@ func display_text() -> void:
 	
 func advance_text() -> void:
 	text_index += 1
-	print(text_index)
 	if text_index >= text_array.size():
 		text_finished()
 	

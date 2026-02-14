@@ -1,21 +1,84 @@
+@tool
 class_name NPC
 extends CharacterBody2D
-
+enum Direction {UP, DOWN, LEFT, RIGHT}
+@export var direction: Direction = Direction.DOWN:
+	set(value):
+		direction = value
+		if Engine.is_editor_hint():
+			_update_direction_visual()
 @export_multiline var dialogue: Array[String] = [""]
 @export var is_autocomplete: bool = false
+@export var facing_dir: Vector2 = Vector2.DOWN
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		_update_direction_visual()
+
+
+func _update_direction_visual() -> void:
+	if not is_node_ready():
+		return
+		
+	if not has_node("AnimationPlayer"):
+		return
+		
+	var anim_player = get_node("AnimationPlayer") as AnimationPlayer
+	if not anim_player:
+		return
+		
+	match direction:
+		Direction.UP:
+			animation_player.play("TurnUp")
+		Direction.DOWN:
+			animation_player.play("TurnDown")
+		Direction.LEFT:
+			animation_player.play("TurnLeft")
+		Direction.RIGHT:
+			animation_player.play("TurnRight")
+
 
 func interact(body: CharacterBody2D) -> void:
-	print("interact")
+	_turn_to_body(body)
 	_say_dialogue()
 
 
 func _turn_to_body(body: CharacterBody2D) -> void:
-	# Get dir then turn_to_dir(dir)
-	pass
+	var dir = (body.global_position - global_position).normalized()
+	if dir == get_vector():
+		return
+	_turn_to_dir(dir)
 
 
 func _turn_to_dir(dir: Vector2) -> void:
-	pass
+	match dir:
+		Vector2.UP:
+			animation_player.play("TurnUp")
+			direction = Direction.UP
+		Vector2.DOWN:
+			animation_player.play("TurnDown")
+			direction = Direction.DOWN
+		Vector2.LEFT:
+			animation_player.play("TurnLeft")
+			direction = Direction.LEFT
+		Vector2.RIGHT:
+			animation_player.play("TurnRight")
+			direction = Direction.RIGHT
+
+
+func get_vector() -> Vector2:
+	match direction:
+		Direction.UP:
+			return Vector2.UP
+		Direction.DOWN:
+			return Vector2.DOWN
+		Direction.LEFT:
+			return Vector2.LEFT
+		Direction.RIGHT:
+			return Vector2.RIGHT
+		_:
+			return Vector2.ZERO
 
 
 func _say_dialogue(d: Array[String] = [""], autocomplete = null) -> void:
