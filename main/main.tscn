@@ -25,6 +25,9 @@ size = Vector2(16, 16)
 y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 
+[node name="Battle" parent="." unique_id=661795331 instance=ExtResource("7_4dugh")]
+visible = false
+
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
@@ -32,7 +35,6 @@ position = Vector2(64, 48)
 WALK_SPEED = 4.5
 
 [node name="OverworldTextBox" parent="Player" unique_id=2089038544 instance=ExtResource("9_grrlh")]
-visible = false
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -54,8 +56,6 @@ encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_fwcvl")])
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3wy1v")
 
-[node name="Battle" parent="." unique_id=661795331 instance=ExtResource("7_4dugh")]
-visible = false
-
 [node name="NPC" parent="." unique_id=431393256 instance=ExtResource("8_67ri8")]
 position = Vector2(64, 32)
+is_question = true

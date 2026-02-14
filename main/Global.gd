@@ -11,7 +11,7 @@ signal player_party_requested
 signal send_player_party(party: Array[Monster])
 # Overworld
 # DialogueLabel
-signal send_overworld_text_box(text: Array[String], auto_complete: bool)
+signal send_overworld_text_box(text: Array[String], auto_complete: bool, is_question: bool)
 signal overworld_text_box_complete
 # Battle
 # Label

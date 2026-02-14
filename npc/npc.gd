@@ -9,6 +9,7 @@ enum Direction {UP, DOWN, LEFT, RIGHT}
 			_update_direction_visual()
 @export_multiline var dialogue: Array[String] = [""]
 @export var is_autocomplete: bool = false
+@export var is_question: bool = false
 @export var facing_dir: Vector2 = Vector2.DOWN
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -81,7 +82,8 @@ func get_vector() -> Vector2:
 			return Vector2.ZERO
 
 
-func _say_dialogue(d: Array[String] = [""], autocomplete = null) -> void:
+func _say_dialogue(d: Array[String] = [""], autocomplete = null, question = null) -> void:
 	var dia = d if d != [""] else dialogue
 	var ac = autocomplete if autocomplete != null else is_autocomplete
-	Global.send_overworld_text_box.emit(dia, ac)
+	var iq = question if question != null else is_question
+	Global.send_overworld_text_box.emit(dia, ac, iq)

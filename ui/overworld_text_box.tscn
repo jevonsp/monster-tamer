@@ -48,3 +48,55 @@ theme_override_fonts/font = ExtResource("2_eo1c5")
 text = "Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text"
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1486501230]
+layout_mode = 0
+offset_left = 74.0
+offset_top = -22.0
+offset_right = 158.0
+offset_bottom = -2.0
+
+[node name="No" type="Button" parent="HBoxContainer" unique_id=752553216]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
+
+[node name="Label" type="Label" parent="HBoxContainer/No" unique_id=833450066]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("2_eo1c5")
+theme_override_font_sizes/font_size = 32
+text = "NO"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Yes" type="Button" parent="HBoxContainer" unique_id=1187289545]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
+
+[node name="Label" type="Label" parent="HBoxContainer/Yes" unique_id=903643917]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("2_eo1c5")
+theme_override_font_sizes/font_size = 32
+text = "YES"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[connection signal="pressed" from="HBoxContainer/No" to="." method="_on_no_pressed"]
+[connection signal="pressed" from="HBoxContainer/Yes" to="." method="_on_yes_pressed"]
