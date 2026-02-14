@@ -1,5 +1,5 @@
 extends ProgressBar
-var actor
+var actor = null
 
 func _ready() -> void:
 	Global.monster_gained_exp.connect(_on_monster_gained_exp)
@@ -42,3 +42,11 @@ func set_new_bounds(level: int) -> void:
 	
 	min_value = min_exp
 	max_value = max_exp
+
+func update():
+	if actor != null:
+		set_new_bounds(actor.level)
+		modulate = Color.WHITE
+	else:
+		value = 0
+		modulate = Color.TRANSPARENT

@@ -1,2 +1,8 @@
 extends TextureRect
-var actor
+var actor = null
+
+func update():
+	if actor != null:
+		texture = actor.monster_data.texture
+	else:
+		texture = null
