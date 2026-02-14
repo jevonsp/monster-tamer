@@ -16,6 +16,9 @@ signal overworld_text_box_complete
 # Menu
 signal request_open_menu
 signal on_menu_closed
+# Party
+signal request_open_party
+signal on_party_closed
 # Battle
 # Label
 signal send_battle_text_box(text: Array[String], auto_complete: bool)

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://deu2vrcwep874"]
+
+[ext_resource type="Script" uid="uid://te2pxu06ls6w" path="res://battle/player_level_label.gd" id="1_lvfdj"]
+
+[node name="PlayerLevelLabel" type="Label" unique_id=2042695058]
+offset_left = 32.0
+offset_top = 54.0
+offset_right = 416.0
+offset_bottom = 99.0
+theme_override_font_sizes/font_size = 32
+text = "Lvl.99"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_lvfdj")

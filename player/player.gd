@@ -240,6 +240,7 @@ func _respawn() -> void:
 	heal_and_revive_party()
 
 func _open_menu() -> void:
+	send_player_party()
 	if move_progress != 0.0:
 		await Global.step_completed
 	toggle_processing()
