@@ -29,7 +29,10 @@ func _ready() -> void:
 	Global.toggle_player.connect(toggle_processing)
 	Global.player_party_requested.connect(send_player_party)
 	Global.send_monster_death_experience.connect(_grant_party_experience)
+	Global.send_respawn_player.connect(_respawn)
 	tile_start_pos = position; tile_target_pos = position
+	# TODO: Remove - for testing
+	set_respawn_point()
 	
 func _process(delta: float) -> void:
 	if not processing:
@@ -217,5 +220,5 @@ func _grant_party_experience(amount: int) -> void:
 func set_respawn_point() -> void:
 	respawn_point = global_position
 	
-func respawn() -> void:
+func _respawn() -> void:
 	global_position = respawn_point

@@ -32,10 +32,11 @@ visible = false
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(64, 48)
+position = Vector2(16, 32)
 WALK_SPEED = 4.5
 
 [node name="OverworldTextBox" parent="Player" unique_id=2089038544 instance=ExtResource("9_grrlh")]
+visible = false
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -58,7 +59,7 @@ position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3wy1v")
 
 [node name="NPC" parent="." unique_id=431393256 instance=ExtResource("8_67ri8")]
-position = Vector2(64, 32)
+position = Vector2(16, 16)
 is_question = true
 
 [node name="NPCRespawnComponent" parent="NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]

@@ -18,6 +18,7 @@ func execute(actor: Monster, target: Monster):
 	Global.send_move_animation.emit(animation)
 	await Global.move_animation_complete
 	
+	print_debug("Sending %s as target (shake)" % [target.name])
 	Global.send_sprite_shake.emit(target)
 	
 	target.take_damage(damage)

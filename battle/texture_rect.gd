@@ -11,17 +11,25 @@ func _ready() -> void:
 	
 	
 func _play_sprite_shake(target: Monster) -> void:
+	if animation_player.is_playing():
+		return
 	if target == player_actor:
+		print_debug("Playing: player_hit")
 		animation_player.play("player_hit")
 	else:
+		print_debug("Playing: enemy_hit")
 		animation_player.play("enemy_hit")
 
 
 func _play_monster_faint(target: Monster) -> void:
+	if animation_player.is_playing():
+		return
 	if target == player_actor:
+		print_debug("Playing: player_faint")
 		animation_player.play("player_faint")
 		player_actor = null
 	else:
+		print_debug("Playing: enemy_faint")
 		animation_player.play("enemy_faint")
 		enemy_actor = null
 	
