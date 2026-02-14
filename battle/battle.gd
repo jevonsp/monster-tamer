@@ -51,6 +51,8 @@ var _last_focused: Dictionary = {
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
+	if visible:
+		_toggle_visible()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):

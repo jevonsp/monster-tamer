@@ -13,6 +13,9 @@ signal send_player_party(party: Array[Monster])
 # DialogueLabel
 signal send_overworld_text_box(object: Node, text: Array[String], auto_complete: bool, is_question: bool)
 signal overworld_text_box_complete
+# Menu
+signal request_open_menu
+signal on_menu_closed
 # Battle
 # Label
 signal send_battle_text_box(text: Array[String], auto_complete: bool)

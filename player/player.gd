@@ -26,10 +26,7 @@ var respawn_point: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	add_to_group("player")
-	Global.toggle_player.connect(toggle_processing)
-	Global.player_party_requested.connect(send_player_party)
-	Global.send_monster_death_experience.connect(_grant_party_experience)
-	Global.send_respawn_player.connect(_respawn)
+	_bind_signals()
 	tile_start_pos = position; tile_target_pos = position
 	# TODO: Remove - for testing
 	set_respawn_point()
@@ -54,8 +51,18 @@ func _input(event: InputEvent) -> void:
 	if not processing:
 		return
 	if event.is_action_pressed("yes"):
-		attempt_interaction()
+		_attempt_interaction()
 		get_viewport().set_input_as_handled()
+	if event.is_action_pressed("menu"):
+		_open_menu()
+		get_viewport().set_input_as_handled()
+
+func _bind_signals() -> void:
+	Global.toggle_player.connect(toggle_processing)
+	Global.player_party_requested.connect(send_player_party)
+	Global.send_monster_death_experience.connect(_grant_party_experience)
+	Global.send_respawn_player.connect(_respawn)
+	Global.on_menu_closed.connect(_on_menu_closed)
 
 #region Movement and Interaction
 func update_held_keys(delta: float) -> void:
@@ -177,7 +184,7 @@ func clear_inputs() -> void:
 	move_progress = 0.0
 	anim_state.travel("Idle")
 
-func attempt_interaction() -> void:
+func _attempt_interaction() -> void:
 	if ray_cast_2d.is_colliding():
 		var collider = ray_cast_2d.get_collider()
 		if collider.is_in_group("interactable"):
@@ -215,6 +222,14 @@ func _grant_party_experience(amount: int) -> void:
 			getting_exp.append(monster)
 	for monster in getting_exp:
 		monster.gain_exp(int(amount / float(getting_exp.size())))
+		
+func heal_party() -> void:
+	for monster in party:
+		monster.heal(false)
+		
+func heal_and_revive_party() -> void:
+	for monster in party:
+		monster.heal(true)
 #endregion
 
 func set_respawn_point() -> void:
@@ -222,3 +237,13 @@ func set_respawn_point() -> void:
 	
 func _respawn() -> void:
 	global_position = respawn_point
+	heal_and_revive_party()
+
+func _open_menu() -> void:
+	if move_progress != 0.0:
+		await Global.step_completed
+	toggle_processing()
+	Global.request_open_menu.emit()
+
+func _on_menu_closed():
+	toggle_processing()

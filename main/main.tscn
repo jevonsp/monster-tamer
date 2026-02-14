@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://npc/npc.tscn" id="8_67ri8"]
 [ext_resource type="PackedScene" uid="uid://cxpdnabe54fq0" path="res://ui/overworld_text_box.tscn" id="9_grrlh"]
 [ext_resource type="PackedScene" uid="uid://jmc7gqpbmo2n" path="res://npc/components/npc_respawn_component.tscn" id="10_0i4oc"]
+[ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu.tscn" id="11_bsumw"]
 
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
@@ -27,6 +28,9 @@ y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 
 [node name="Battle" parent="." unique_id=661795331 instance=ExtResource("7_4dugh")]
+visible = false
+
+[node name="Menu" parent="." unique_id=1924602964 instance=ExtResource("11_bsumw")]
 visible = false
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]

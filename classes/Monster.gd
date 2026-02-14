@@ -1,5 +1,6 @@
 class_name Monster
 extends Resource
+## An instance of a monster
 static var EXPERIENCE_PER_LEVEL = 50
 @export var monster_data: MonsterData
 @export var name: String = ""
@@ -57,6 +58,12 @@ func faint():
 	print_debug("Sending %s fainted" % [name])
 	Global.send_monster_fainted.emit(self)
 	Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
+	
+	
+func heal(revives: bool) -> void:
+	current_hitpoints = max_hitpoints
+	if revives:
+		is_fainted = false
 	
 	
 func gain_exp(amount: int) -> void:
