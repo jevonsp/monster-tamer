@@ -213,3 +213,9 @@ func _grant_party_experience(amount: int) -> void:
 	for monster in getting_exp:
 		monster.gain_exp(int(amount / float(getting_exp.size())))
 #endregion
+
+func set_respawn_point() -> void:
+	respawn_point = global_position
+	
+func respawn() -> void:
+	global_position = respawn_point

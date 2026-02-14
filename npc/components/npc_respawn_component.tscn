@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://jmc7gqpbmo2n"]
+
+[ext_resource type="Script" uid="uid://k1k4fhtphqbv" path="res://npc_respawn_component.gd" id="1_frr2n"]
+
+[node name="NPCRespawnComponent" type="Node" unique_id=1019413968]
+script = ExtResource("1_frr2n")

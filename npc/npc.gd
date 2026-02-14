@@ -12,10 +12,18 @@ enum Direction {UP, DOWN, LEFT, RIGHT}
 @export var is_question: bool = false
 @export var facing_dir: Vector2 = Vector2.DOWN
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+var components: Array[NPCComponent] = []
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		_update_direction_visual()
+	_set_component_array()
+
+
+func _set_component_array() -> void:
+	for child in get_children():
+		if child is NPCComponent:
+			components.append(child)
 
 
 func _update_direction_visual() -> void:
@@ -86,4 +94,11 @@ func _say_dialogue(d: Array[String] = [""], autocomplete = null, question = null
 	var dia = d if d != [""] else dialogue
 	var ac = autocomplete if autocomplete != null else is_autocomplete
 	var iq = question if question != null else is_question
-	Global.send_overworld_text_box.emit(dia, ac, iq)
+	Global.send_overworld_text_box.emit(self, dia, ac, iq)
+	
+	
+func trigger() -> void:
+	print_debug("NPC got Trigger")
+	var player = get_tree().get_first_node_in_group("player")
+	for c in components:
+		c.trigger(player)

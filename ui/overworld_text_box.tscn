@@ -46,7 +46,6 @@ layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("2_eo1c5")
 text = "Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text Test Text"
-horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1486501230]
