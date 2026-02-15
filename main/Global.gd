@@ -21,7 +21,8 @@ signal request_open_party
 signal on_party_closed
 # Summary
 signal send_summary_index(index: int)
-signal request_open_summary()
+signal request_open_summary
+signal on_summary_closed
 # Battle
 # Label
 signal send_battle_text_box(text: Array[String], auto_complete: bool)

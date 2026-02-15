@@ -37,6 +37,21 @@ func _connect_signals() -> void:
 	Global.send_summary_index.connect(_set_party_index)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not processing:
+		return
+	if event.is_action_pressed("menu"):
+		_toggle_visible()
+		Global.on_summary_closed.emit()
+		Global.toggle_player.emit()
+		get_viewport().set_input_as_handled()
+	if event.is_action_pressed("no"):
+		_toggle_visible()
+		Global.on_summary_closed.emit()
+		Global.request_open_party.emit()
+		get_viewport().set_input_as_handled()
+
+
 func _clear_monster() -> void:
 	var labels = [
 		gender_label,

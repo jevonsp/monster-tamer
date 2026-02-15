@@ -20,8 +20,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("menu"):
 		_toggle_visible()
-		Global.toggle_player.emit()
 		Global.on_party_closed.emit()
+		Global.toggle_player.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
 		_toggle_visible()
@@ -66,4 +66,5 @@ func _on_monster_pressed(button: Button) -> void:
 	var num := int(button.name.trim_prefix("Panel"))
 	Global.send_summary_index.emit(num)
 	Global.request_open_summary.emit()
+	_toggle_visible()
 	
