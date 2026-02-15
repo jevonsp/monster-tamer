@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://c7dppshejn64v"]
+
+[ext_resource type="Script" uid="uid://bvhr7o4kr8dn7" path="res://ui/summary_move_panel.gd" id="1_hwvib"]
+
+[node name="SummaryMovePanel0" type="Panel" unique_id=244005857]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_hwvib")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=456331800]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=296320718]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=946442853]
+layout_mode = 2
+alignment = 1
+
+[node name="BPLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=578664664]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "BP: 40"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1310856745]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Move"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PPLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1249664898]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "PP:25"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1324065241]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. "
+autowrap_mode = 3

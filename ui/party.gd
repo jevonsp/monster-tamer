@@ -10,8 +10,8 @@ var processing: bool = false
 }
 
 func _ready() -> void:
-	Global.send_player_party.connect(_on_party_change)
-	Global.request_open_party.connect(_toggle_visible)
+	_connect_signals()
+	_bind_buttons()
 	if visible:
 		_toggle_visible()
 
@@ -21,11 +21,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		_toggle_visible()
 		Global.toggle_player.emit()
+		Global.on_party_closed.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
 		_toggle_visible()
+		Global.on_party_closed.emit()
 		Global.request_open_menu.emit()
 		get_viewport().set_input_as_handled()
+
+
+func _connect_signals() -> void:
+	Global.send_player_party.connect(_on_party_change)
+	Global.request_open_party.connect(_toggle_visible)
+
+
+func _bind_buttons() -> void:
+	for panel in panels:
+		panels[panel].pressed.connect(_on_monster_pressed.bind(panels[panel]))
+
 
 func _on_party_change(party: Array[Monster]) -> void:
 	# Set all component's actor to new monster
@@ -47,3 +60,10 @@ func _toggle_visible() -> void:
 func _focus_default() -> void:
 	var panel = panels.keys()[0]
 	panels[panel].grab_focus()
+
+
+func _on_monster_pressed(button: Button) -> void:
+	var num := int(button.name.trim_prefix("Panel"))
+	Global.send_summary_index.emit(num)
+	Global.request_open_summary.emit()
+	

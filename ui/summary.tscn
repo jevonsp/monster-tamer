@@ -1,0 +1,200 @@
+[gd_scene format=3 uid="uid://dohpco4ojenuk"]
+
+[ext_resource type="PackedScene" uid="uid://cju8x0fsbax2m" path="res://ui/name_label.tscn" id="1_25wx7"]
+[ext_resource type="Script" uid="uid://1cyiewtnenc2" path="res://ui/summary.gd" id="1_e1nmq"]
+[ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="2_3muql"]
+[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_e1nmq"]
+[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_3k2wb"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="5_pfpua"]
+[ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party_texture_rect.gd" id="6_fycbb"]
+[ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary_move_panel.tscn" id="8_3k2wb"]
+
+[node name="Summary" type="Control" unique_id=239759928]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_e1nmq")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=125043798]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Main" type="VBoxContainer" parent="MarginContainer" unique_id=744111431]
+layout_mode = 2
+
+[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Main" unique_id=277566281]
+layout_mode = 2
+
+[node name="GenderLabel" type="Label" parent="MarginContainer/Main/HBoxContainer0" unique_id=1081210295]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "M"
+
+[node name="NameLabel" parent="MarginContainer/Main/HBoxContainer0" unique_id=287393468 instance=ExtResource("1_25wx7")]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="PlayerLevelLabel" parent="MarginContainer/Main/HBoxContainer0" unique_id=2042695058 instance=ExtResource("2_3muql")]
+layout_mode = 2
+size_flags_horizontal = 8
+horizontal_alignment = 2
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Main" unique_id=282849657]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Main/HBoxContainer1" unique_id=649014275]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spacer" type="Control" parent="MarginContainer/Main/HBoxContainer1/VBoxContainer" unique_id=996017712]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HPBar" parent="MarginContainer/Main/HBoxContainer1/VBoxContainer" unique_id=1881680306 instance=ExtResource("3_e1nmq")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="PlayerEXPBar" parent="MarginContainer/Main/HBoxContainer1/VBoxContainer" unique_id=2114861553 instance=ExtResource("4_3k2wb")]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Main" unique_id=825966220]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Portrait" type="TextureRect" parent="MarginContainer/Main/HBoxContainer2" unique_id=2102256963]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("5_pfpua")
+stretch_mode = 4
+flip_h = true
+script = ExtResource("6_fycbb")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Main/HBoxContainer2" unique_id=1530699065]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel0" type="Panel" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer" unique_id=363181361]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel0" unique_id=1292917071]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer" unique_id=1473992908]
+custom_minimum_size = Vector2(492, 288)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Panel1" type="Panel" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer" unique_id=440081514]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1" unique_id=1154589341]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Stats" type="GridContainer" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer" unique_id=1266676530]
+layout_mode = 2
+columns = 2
+
+[node name="StatLabel0" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=2131597148]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "Stat: ###"
+horizontal_alignment = 1
+
+[node name="StatLabel1" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=417725230]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "Stat: ###"
+horizontal_alignment = 1
+
+[node name="StatLabel2" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=971899235]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "Stat: ###"
+horizontal_alignment = 1
+
+[node name="StatLabel3" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=909823420]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "Stat: ###"
+horizontal_alignment = 1
+
+[node name="StatLabel4" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1647408342]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "Stat: ###"
+horizontal_alignment = 1
+
+[node name="StatLabel5" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1046798238]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "Stat: ###"
+horizontal_alignment = 1
+
+[node name="Moves" type="GridContainer" parent="MarginContainer/Main" unique_id=1676475490]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="SummaryMovePanel0" parent="MarginContainer/Main/Moves" unique_id=244005857 instance=ExtResource("8_3k2wb")]
+layout_mode = 2
+
+[node name="SummaryMovePanel1" parent="MarginContainer/Main/Moves" unique_id=2077138963 instance=ExtResource("8_3k2wb")]
+layout_mode = 2
+
+[node name="SummaryMovePanel2" parent="MarginContainer/Main/Moves" unique_id=1210772967 instance=ExtResource("8_3k2wb")]
+layout_mode = 2
+
+[node name="SummaryMovePanel3" parent="MarginContainer/Main/Moves" unique_id=2119701110 instance=ExtResource("8_3k2wb")]
+layout_mode = 2

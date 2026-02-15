@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://ba2j8pt8gyeia" path="res://world_objects/wild_zone.tscn" id="4_c651c"]
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/EncounterEntry.gd" id="5_kfbq2"]
+[ext_resource type="PackedScene" uid="uid://0pg7xs4iidpt" path="res://ui/summary_screen.tscn" id="5_na0o7"]
 [ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
 [ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger.tres" id="7_grrlh"]
 [ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://npc/npc.tscn" id="8_67ri8"]
@@ -28,11 +29,18 @@ size = Vector2(16, 16)
 y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 
-[node name="Battle" parent="." unique_id=661795331 instance=ExtResource("7_4dugh")]
+[node name="Interfaces" type="Node" parent="." unique_id=1085661733]
+
+[node name="Battle" parent="Interfaces" unique_id=661795331 instance=ExtResource("7_4dugh")]
 visible = false
 
-[node name="Menu" parent="." unique_id=1924602964 instance=ExtResource("11_bsumw")]
+[node name="Menu" parent="Interfaces" unique_id=1924602964 instance=ExtResource("11_bsumw")]
 visible = false
+
+[node name="Party" parent="Interfaces" unique_id=1780068965 instance=ExtResource("12_fwcvl")]
+visible = false
+
+[node name="SummaryScreen" parent="Interfaces" unique_id=1479296266 instance=ExtResource("5_na0o7")]
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
@@ -68,6 +76,3 @@ position = Vector2(16, 16)
 is_question = true
 
 [node name="NPCRespawnComponent" parent="NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
-
-[node name="Party" parent="." unique_id=1780068965 instance=ExtResource("12_fwcvl")]
-visible = false

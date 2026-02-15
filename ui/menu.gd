@@ -17,12 +17,10 @@ func _input(event: InputEvent) -> void:
 	if not processing:
 		return
 	if event.is_action_pressed("menu"):
-		print("menu pressed")
 		_toggle_visible()
 		get_viewport().set_input_as_handled()
 		Global.on_menu_closed.emit()
 	if event.is_action_pressed("no"):
-		print("no pressed")
 		_toggle_visible()
 		get_viewport().set_input_as_handled()
 		Global.on_menu_closed.emit()
@@ -42,7 +40,6 @@ func _on_menu_pressed(button: Button) -> void:
 
 
 func _toggle_visible() -> void:
-	print("_toggle_visible")
 	visible = !visible
 	processing = not processing
 	if visible:
@@ -50,10 +47,6 @@ func _toggle_visible() -> void:
 
 		
 func _focus_default():
-	print("_focus_default")
 	var buttons = get_tree().get_nodes_in_group("menu_buttons")
 	if buttons:
 		buttons[0].grab_focus()
-	for button in buttons:
-		if button.has_focus():
-			print("%s has focus" % [button])
