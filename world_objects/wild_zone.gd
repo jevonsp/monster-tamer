@@ -30,4 +30,5 @@ func choose_encounter() -> void:
 			var level = randi_range(e.level_low, e.level_high)
 			Global.player_party_requested.emit()
 			Global.wild_battle_requested.emit(e.monster, level)
+			Global.battle_started.emit()
 			return

@@ -2,6 +2,8 @@ extends Control
 var processing: bool = false
 var party: Array[Monster]
 var index: int = -1
+var in_battle: bool = false
+#region Onready Vars
 @onready var gender_label: Label = $MarginContainer/Main/HBoxContainer0/GenderLabel
 @onready var name_label: Label = $MarginContainer/Main/HBoxContainer0/NameLabel
 @onready var level_label: Label = $MarginContainer/Main/HBoxContainer0/PlayerLevelLabel
@@ -19,6 +21,7 @@ var index: int = -1
 @onready var summary_move_panel_1: Panel = $MarginContainer/Main/Moves/SummaryMovePanel1
 @onready var summary_move_panel_2: Panel = $MarginContainer/Main/Moves/SummaryMovePanel2
 @onready var summary_move_panel_3: Panel = $MarginContainer/Main/Moves/SummaryMovePanel3
+#endregion
 
 
 func _ready() -> void:
@@ -35,6 +38,8 @@ func _connect_signals() -> void:
 	Global.on_party_closed.connect(_clear_player_party)
 	Global.request_open_summary.connect(_toggle_visible)
 	Global.send_summary_index.connect(_set_party_index)
+	Global.battle_started.connect(_on_battle_started)
+	Global.battle_ended.connect(_on_battle_ended)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -43,12 +48,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		_toggle_visible()
 		Global.on_summary_closed.emit()
-		Global.toggle_player.emit()
+		if not in_battle:
+			Global.toggle_player.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
 		_toggle_visible()
 		Global.on_summary_closed.emit()
-		Global.request_open_party.emit()
+		if not in_battle:
+			Global.request_open_party.emit()
 		get_viewport().set_input_as_handled()
 
 
@@ -137,8 +144,17 @@ func _display_monster(monster: Monster) -> void:
 		move_panels[panel_index].description_label.text = move.description
 		panel_index += 1
 
+
 func _set_party_index(i: int) -> void:
 	index = i
+
+
+func _on_battle_started() -> void:
+	in_battle = true
+	
+	
+func _on_battle_ended() -> void:
+	in_battle = false
 
 
 func _toggle_visible() -> void:

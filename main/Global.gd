@@ -5,6 +5,7 @@ const DEFAULT_DELAY: float = 1.0
 signal toggle_player
 signal step_completed(position: Vector2)
 signal send_respawn_player
+signal battle_started
 # WildZone
 signal wild_battle_requested(mon_data: MonsterData, level: int)
 signal player_party_requested
@@ -24,6 +25,7 @@ signal send_summary_index(index: int)
 signal request_open_summary
 signal on_summary_closed
 # Battle
+signal battle_ended
 # Label
 signal send_battle_text_box(text: Array[String], auto_complete: bool)
 signal battle_text_box_complete

@@ -92,6 +92,7 @@ func end_battle() -> void:
 	_clear_all()
 	_toggle_visible()
 	_toggle_player()
+	Global.battle_ended.emit()
 
 func _set_player_party(party: Array[Monster]) -> void:
 	player_party = party
