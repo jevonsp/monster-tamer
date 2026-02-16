@@ -468,3 +468,87 @@ size_flags_vertical = 4
 [node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1845985601 instance=ExtResource("1_o4ru8")]
 layout_mode = 2
 size_flags_vertical = 4
+
+[node name="Control" type="Control" parent="MarginContainer" unique_id=1536488358]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Options" type="VBoxContainer" parent="MarginContainer/Control" unique_id=294831393]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -168.0
+offset_right = 249.0
+offset_bottom = 168.0
+grow_vertical = 2
+
+[node name="Use" type="Button" parent="MarginContainer/Control/Options" unique_id=1017615335]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Use" unique_id=212887599]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Options/Use/MarginContainer" unique_id=111101904]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "USE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Give" type="Button" parent="MarginContainer/Control/Options" unique_id=731130695]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Give" unique_id=1186920735]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Options/Give/MarginContainer" unique_id=1840281999]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "GIVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Summary" type="Button" parent="MarginContainer/Control/Options" unique_id=1447029223]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Summary" unique_id=51435937]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Options/Summary/MarginContainer" unique_id=1532625572]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "SUMM."
+horizontal_alignment = 1
+vertical_alignment = 1

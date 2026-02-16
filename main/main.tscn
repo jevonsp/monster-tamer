@@ -36,10 +36,10 @@ script = ExtResource("1_xwkvk")
 [node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("11_bsumw")]
 visible = false
 
-[node name="Summary" parent="Interfaces" unique_id=239759928 instance=ExtResource("3_na0o7")]
+[node name="Party" parent="Interfaces" unique_id=265451228 instance=ExtResource("12_fwcvl")]
 visible = false
 
-[node name="Party" parent="Interfaces" unique_id=265451228 instance=ExtResource("12_fwcvl")]
+[node name="Summary" parent="Interfaces" unique_id=239759928 instance=ExtResource("3_na0o7")]
 visible = false
 
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]

@@ -7,7 +7,7 @@ class_name GroundItem
 			visible = false
 			collision_shape_2d.disabled = true
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
-
+ 
 func interact(body: CharacterBody2D) -> void:
 	super(body)
 	if not is_question:
