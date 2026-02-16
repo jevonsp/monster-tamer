@@ -109,7 +109,8 @@ func _text_finished() -> void:
 	
 	
 func _clean_up() -> void:
-	_toggle_questions_visible()
+	if yes_button.visible:
+		_toggle_questions_visible()
 	_toggle_visible()
 	main_label.text = ""
 	processing = false
