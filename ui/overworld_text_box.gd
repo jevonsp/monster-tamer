@@ -18,6 +18,24 @@ func _ready() -> void:
 	_toggle_questions_visible()
 	if visible:
 		_toggle_visible()
+		
+	yes_button.gui_input.connect(_on_button_gui_input.bind(yes_button))
+	no_button.gui_input.connect(_on_button_gui_input.bind(no_button))
+	
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if not processing:
+		return
+	if is_question and yes_button.visible:
+		return
+	if event.is_action_pressed("yes"):
+		_advance_text()
+		get_viewport().set_input_as_handled()
+
+
+func _on_button_gui_input(event: InputEvent, _button: Button) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
 
 
 func _toggle_visible() -> void:
@@ -33,16 +51,6 @@ func _toggle_questions_visible() -> void:
 		for button in [no_button, yes_button]:
 			if button.has_focus():
 				button.release_focus()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if not processing:
-		return
-	if is_question and yes_button.visible:
-		return
-	if event.is_action_pressed("yes"):
-		_advance_text()
-		get_viewport().set_input_as_handled()
 
 
 func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: bool) -> void:
@@ -115,10 +123,8 @@ func _clean_up() -> void:
 
 
 func _on_no_pressed() -> void:
-	print("no")
 	answer_given.emit(false)
 
 
 func _on_yes_pressed() -> void:
-	print("yes")
 	answer_given.emit(true)

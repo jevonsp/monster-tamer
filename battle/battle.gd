@@ -1,20 +1,10 @@
 extends Control
-enum VisibilityState { OPTIONS, MOVES }
-const FOCUS_DEFAULTS = {
-	OPTIONS = 1,
-	MOVES = 1
-}
-var vis_state: VisibilityState = VisibilityState.OPTIONS
 var processing: bool = false
 var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []
 var enemy_party: Array[Monster] = []
 var turn_queue: Array[Dictionary] = []
-var _last_focused: Dictionary = {
-	VisibilityState.OPTIONS: 1,
-	VisibilityState.MOVES: 1
-}
 #region NODE REFERENCES
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
@@ -61,18 +51,18 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):
-		match vis_state:
-			VisibilityState.OPTIONS:
+		match input_handler.vis_state:
+			input_handler.VisibilityState.OPTIONS:
 				option_buttons_grid.get_child(2).grab_focus()
-			VisibilityState.MOVES:
-				_change_vis_state(VisibilityState.OPTIONS)
+			input_handler.VisibilityState.MOVES:
+				input_handler._change_vis_state(input_handler.VisibilityState.OPTIONS)
 
 
 func _toggle_visible() -> void:
 	visible = !visible
 	processing = !processing
 	if visible:
-		_focus_default()
+		input_handler._focus_default()
 
 
 func _toggle_player() -> void:
@@ -86,9 +76,9 @@ func _connect_signals() -> void:
 
 func _bind_buttons() -> void:
 	for button in get_tree().get_nodes_in_group("option_buttons"):
-		button.pressed.connect(_on_option_pressed.bind(button))
+		button.pressed.connect(input_handler._on_option_pressed.bind(button))
 	for button in get_tree().get_nodes_in_group("move_buttons"):
-		button.pressed.connect(_on_move_pressed.bind(button))
+		button.pressed.connect(input_handler._on_move_pressed.bind(button))
 #endregion
 
 #region BATTLE FLOW
@@ -126,7 +116,7 @@ func _clear_all() -> void:
 	ui_handler._clear_actor_references()
 	ui_handler._clear_textures()
 	turn_queue.clear()
-	vis_state = VisibilityState.OPTIONS
+	input_handler.vis_state = input_handler.VisibilityState.OPTIONS
 	processing = false
 #endregion
 
@@ -134,7 +124,7 @@ func _clear_all() -> void:
 func _execute_player_turn(move: Move) -> void:
 	if _add_move_to_queue(move, player_actor):
 		processing = false
-		_manage_focus()
+		input_handler._manage_focus()
 		_get_enemy_action()
 		await _execute_turn_queue()
 		processing = true
@@ -191,7 +181,7 @@ func _execute_turn_queue() -> void:
 			
 	turn_queue.clear()
 	processing = true
-	_manage_focus()
+	input_handler._manage_focus()
 
 func _sort_turn_queue() -> void:
 	turn_queue.sort_custom(func(a, b): 
@@ -289,47 +279,47 @@ func _lose() -> void:
 #endregion
 
 #region UI FOCUS
-func _change_vis_state(new_state: VisibilityState) -> void:
-	vis_state = new_state
-	option_buttons_grid.visible = new_state == VisibilityState.OPTIONS
-	move_buttons_grid.visible = new_state == VisibilityState.MOVES
-	_focus_default()
-
-func _focus_default() -> void:
-	var grid = option_buttons_grid if vis_state == VisibilityState.OPTIONS else move_buttons_grid
-	var index = _last_focused[vis_state]
-	var children = grid.get_children()
-	if index < children.size():
-		children[index].grab_focus()
-
-func _drop_focus() -> void:
-	var focused = get_viewport().gui_get_focus_owner()
-	if focused:
-		focused.release_focus()
-
-func _manage_focus() -> void:
-	if processing:
-		_focus_default()
-	else:
-		_drop_focus()
+#func _change_vis_state(new_state: VisibilityState) -> void:
+	#vis_state = new_state
+	#option_buttons_grid.visible = new_state == VisibilityState.OPTIONS
+	#move_buttons_grid.visible = new_state == VisibilityState.MOVES
+	#_focus_default()
+#
+#func _focus_default() -> void:
+	#var grid = option_buttons_grid if vis_state == VisibilityState.OPTIONS else move_buttons_grid
+	#var index = _last_focused[vis_state]
+	#var children = grid.get_children()
+	#if index < children.size():
+		#children[index].grab_focus()
+#
+#func _drop_focus() -> void:
+	#var focused = get_viewport().gui_get_focus_owner()
+	#if focused:
+		#focused.release_focus()
+#
+#func _manage_focus() -> void:
+	#if processing:
+		#_focus_default()
+	#else:
+		#_drop_focus()
 #endregion
 
 #region INPUT HANDLERS
-func _on_option_pressed(button: Button) -> void:
-	var index_map := {"Party": 0, "Fight": 1, "Run": 2, "Item": 3}
-	if button.name in index_map:
-		_last_focused[VisibilityState.OPTIONS] = index_map[button.name]
-		
-	match button.name:
-		"Fight":
-			_change_vis_state(VisibilityState.MOVES)
-		"Run":
-			end_battle()
-
-func _on_move_pressed(button: Button) -> void:
-	var num := int(button.name.trim_prefix("Button"))
-	_last_focused[VisibilityState.MOVES] = num
-	
-	var move: Move = player_actor.moves[num]
-	_execute_player_turn(move)
+#func _on_option_pressed(button: Button) -> void:
+	#var index_map := {"Party": 0, "Fight": 1, "Run": 2, "Item": 3}
+	#if button.name in index_map:
+		#_last_focused[VisibilityState.OPTIONS] = index_map[button.name]
+		#
+	#match button.name:
+		#"Fight":
+			#_change_vis_state(VisibilityState.MOVES)
+		#"Run":
+			#end_battle()
+#
+#func _on_move_pressed(button: Button) -> void:
+	#var num := int(button.name.trim_prefix("Button"))
+	#_last_focused[VisibilityState.MOVES] = num
+	#
+	#var move: Move = player_actor.moves[num]
+	#_execute_player_turn(move)
 #endregion

@@ -25,12 +25,10 @@ var in_battle: bool = false
 
 
 func _ready() -> void:
-	print("Summary starting visibility: ", visible)
 	if visible:
 		_toggle_visible()
 	_clear_monster()
 	_connect_signals()
-	print("Summary visibility: ", visible)
 
 
 func _connect_signals() -> void:

@@ -98,7 +98,6 @@ func _say_dialogue(d: Array[String] = [""], autocomplete = null, question = null
 	
 	
 func trigger() -> void:
-	print_debug("NPC got Trigger")
 	var player = get_tree().get_first_node_in_group("player")
 	for c in components:
 		c.trigger(player)
