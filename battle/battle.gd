@@ -47,12 +47,17 @@ var _last_focused: Dictionary = {
 ]
 #endregion
 
+@onready var ui_handler: Node = $UIHandler
+@onready var battle_handler: Node = $BattleHandler
+@onready var input_handler: Node = $InputHandler
+
 #region LIFECYCLE
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
 	if visible:
 		_toggle_visible()
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):
@@ -62,9 +67,22 @@ func _unhandled_input(event: InputEvent) -> void:
 			VisibilityState.MOVES:
 				_change_vis_state(VisibilityState.OPTIONS)
 
+
+func _toggle_visible() -> void:
+	visible = !visible
+	processing = !processing
+	if visible:
+		_focus_default()
+
+
+func _toggle_player() -> void:
+	Global.toggle_player.emit()
+
+
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_set_player_party)
 	Global.wild_battle_requested.connect(_start_wild_battle)
+
 
 func _bind_buttons() -> void:
 	for button in get_tree().get_nodes_in_group("option_buttons"):
@@ -84,7 +102,7 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	player_actor = player_party[0]
 	player_actor.was_in_battle = true
 	
-	_display_current_monsters()
+	ui_handler._display_current_monsters()
 	_toggle_player()
 	_toggle_visible()
 
@@ -105,8 +123,8 @@ func _clear_all() -> void:
 	_clear_actors()
 	player_party = []
 	enemy_party = []
-	_clear_actor_references()
-	_clear_textures()
+	ui_handler._clear_actor_references()
+	ui_handler._clear_textures()
 	turn_queue.clear()
 	vis_state = VisibilityState.OPTIONS
 	processing = false
@@ -211,72 +229,63 @@ func _lose() -> void:
 #endregion
 
 #region UI UPDATES
-func _display_current_monsters() -> void:
-	"""Main entry point for displaying new monsters"""
-	_update_labels()
-	_update_textures()
-	_update_bars()
-	_update_moves()
-
-func _update_labels() -> void:
-	player_labels["level"].text = "Lvl. %s" % player_actor.level
-	player_labels["name"].text = player_actor.name
-	player_labels["level"].actor = player_actor
-	player_labels["level"].label_level = player_actor.level
-	
-	enemy_labels["level"].text = "Lvl. %s" % enemy_actor.level
-	enemy_labels["name"].text = enemy_actor.name
-
-func _update_textures() -> void:
-	player_display["texture"].texture = player_actor.monster_data.texture
-	player_display["texture"].player_actor = player_actor
-	
-	enemy_display["texture"].texture = enemy_actor.monster_data.texture
-	enemy_display["texture"].enemy_actor = enemy_actor
-
-func _update_bars() -> void:
-	"""Call only on new player_actor"""
-	player_display["hp_bar"].max_value = player_actor.max_hitpoints
-	player_display["hp_bar"].value = player_actor.current_hitpoints
-	player_display["hp_bar"].actor = player_actor
-	
-	enemy_display["hp_bar"].max_value = enemy_actor.max_hitpoints
-	enemy_display["hp_bar"].value = enemy_actor.current_hitpoints
-	enemy_display["hp_bar"].actor = enemy_actor
-	
-	var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (player_actor.level - 1)
-	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
-	
-	player_display["exp_bar"].max_value = max_exp
-	player_display["exp_bar"].min_value = min_exp
-	player_display["exp_bar"].value = player_actor.experience
-	player_display["exp_bar"].actor = player_actor
-
-func _clear_actor_references() -> void:
-	player_labels["level"].actor = null
-	player_display["texture"].player_actor = null
-	enemy_display["texture"].enemy_actor = null
-	player_display["hp_bar"].actor = null
-	enemy_display["hp_bar"].actor = null
-	player_display["exp_bar"].actor = null
-
-func _clear_textures() -> void:
-	player_display["texture"].texture = null
-	enemy_display["texture"].texture = null
-
-func _update_moves() -> void:
-	for i in player_actor.moves.size():
-		if player_actor.moves[i] != null:
-			move_labels[i].text = player_actor.moves[i].name
-
-func _toggle_player() -> void:
-	Global.toggle_player.emit()
-
-func _toggle_visible() -> void:
-	visible = !visible
-	processing = !processing
-	if visible:
-		_focus_default()
+#func _display_current_monsters() -> void:
+	#"""Main entry point for displaying new monsters"""
+	#_update_labels()
+	#_update_textures()
+	#_update_bars()
+	#_update_moves()
+#
+#func _update_labels() -> void:
+	#player_labels["level"].text = "Lvl. %s" % player_actor.level
+	#player_labels["name"].text = player_actor.name
+	#player_labels["level"].actor = player_actor
+	#player_labels["level"].label_level = player_actor.level
+	#
+	#enemy_labels["level"].text = "Lvl. %s" % enemy_actor.level
+	#enemy_labels["name"].text = enemy_actor.name
+#
+#func _update_textures() -> void:
+	#player_display["texture"].texture = player_actor.monster_data.texture
+	#player_display["texture"].player_actor = player_actor
+	#
+	#enemy_display["texture"].texture = enemy_actor.monster_data.texture
+	#enemy_display["texture"].enemy_actor = enemy_actor
+#
+#func _update_bars() -> void:
+	#"""Call only on new player_actor"""
+	#player_display["hp_bar"].max_value = player_actor.max_hitpoints
+	#player_display["hp_bar"].value = player_actor.current_hitpoints
+	#player_display["hp_bar"].actor = player_actor
+	#
+	#enemy_display["hp_bar"].max_value = enemy_actor.max_hitpoints
+	#enemy_display["hp_bar"].value = enemy_actor.current_hitpoints
+	#enemy_display["hp_bar"].actor = enemy_actor
+	#
+	#var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (player_actor.level - 1)
+	#var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * player_actor.level
+	#
+	#player_display["exp_bar"].max_value = max_exp
+	#player_display["exp_bar"].min_value = min_exp
+	#player_display["exp_bar"].value = player_actor.experience
+	#player_display["exp_bar"].actor = player_actor
+#
+#func _clear_actor_references() -> void:
+	#player_labels["level"].actor = null
+	#player_display["texture"].player_actor = null
+	#enemy_display["texture"].enemy_actor = null
+	#player_display["hp_bar"].actor = null
+	#enemy_display["hp_bar"].actor = null
+	#player_display["exp_bar"].actor = null
+#
+#func _clear_textures() -> void:
+	#player_display["texture"].texture = null
+	#enemy_display["texture"].texture = null
+#
+#func _update_moves() -> void:
+	#for i in player_actor.moves.size():
+		#if player_actor.moves[i] != null:
+			#move_labels[i].text = player_actor.moves[i].name
 #endregion
 
 #region UI FOCUS
