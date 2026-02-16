@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 var processing: bool = false
 @onready var panels: Dictionary = {
 	panel_0 = $MarginContainer/Content/GridContainer/Panel0,

@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 var processing: bool = false
 
 func _ready() -> void:

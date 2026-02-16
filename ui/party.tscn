@@ -9,10 +9,17 @@
 [ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="4_o2fwo"]
 [ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party_texture_rect.gd" id="5_s6yn0"]
 
-[node name="Party" type="CanvasLayer" unique_id=1780068965]
+[node name="Party" type="Control" unique_id=265451228]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_o2fwo")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=395795150]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1762479831]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,10 +30,10 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Content" type="Control" parent="MarginContainer" unique_id=1277642624]
+[node name="Content" type="Control" parent="MarginContainer" unique_id=1330966625]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/Content" unique_id=393571076]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/Content" unique_id=379402114]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,13 +43,13 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 
-[node name="Panel0" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=1766202081]
+[node name="Panel0" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=1217057276]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0" unique_id=1962772897]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0" unique_id=1577165827]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,10 +57,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer" unique_id=1074590067]
+[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer" unique_id=696900499]
 layout_mode = 2
 
-[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer0" unique_id=1084929235]
+[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer0" unique_id=859086595]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
@@ -65,7 +72,7 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer0" unique_id=987641101]
+[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer0" unique_id=444361862]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
@@ -77,25 +84,25 @@ layout_mode = 2
 size_flags_horizontal = 8
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer" unique_id=468438872]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer" unique_id=721495867]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer" unique_id=221535098]
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer" unique_id=1358435398]
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1" unique_id=980958286]
+[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1" unique_id=1013688695]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("3_inosj")
 flip_h = true
 script = ExtResource("5_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1" unique_id=2099224307]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1" unique_id=1929144058]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1698877431]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1259197653]
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -107,13 +114,13 @@ size_flags_vertical = 4
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Panel1" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=920146773]
+[node name="Panel1" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=181673083]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1" unique_id=2089327400]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1" unique_id=1600316878]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -121,10 +128,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer" unique_id=161948054]
+[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer" unique_id=630726314]
 layout_mode = 2
 
-[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0" unique_id=1319840667]
+[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0" unique_id=1580177607]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
@@ -132,59 +139,59 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=1623917680 instance=ExtResource("1_lummr")]
+[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=95673324 instance=ExtResource("1_lummr")]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0" unique_id=614699172]
+[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0" unique_id=1500941949]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=195623385 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=691158150 instance=ExtResource("4_o2fwo")]
 layout_mode = 2
 size_flags_horizontal = 8
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer" unique_id=1680929141]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer" unique_id=1221849400]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer" unique_id=1242142793]
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer" unique_id=588784285]
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1" unique_id=1010841164]
+[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1" unique_id=1394271554]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("3_inosj")
 flip_h = true
 script = ExtResource("5_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1" unique_id=1771202094]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1" unique_id=1702367994]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1593806458]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=425782184]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1647812867 instance=ExtResource("2_lummr")]
+[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=857138996 instance=ExtResource("2_lummr")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=66480336 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1437583646 instance=ExtResource("1_o4ru8")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Panel2" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=1780234326]
+[node name="Panel2" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=34622055]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2" unique_id=1375359290]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2" unique_id=1827251662]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -192,10 +199,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer" unique_id=310701062]
+[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer" unique_id=1479081928]
 layout_mode = 2
 
-[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0" unique_id=1181524323]
+[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0" unique_id=1199689690]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
@@ -203,59 +210,59 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=1089173509 instance=ExtResource("1_lummr")]
+[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=524985291 instance=ExtResource("1_lummr")]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0" unique_id=191206070]
+[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0" unique_id=1629763726]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=408170260 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=1135254436 instance=ExtResource("4_o2fwo")]
 layout_mode = 2
 size_flags_horizontal = 8
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer" unique_id=828879724]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer" unique_id=310001517]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer" unique_id=1657035341]
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer" unique_id=1864275973]
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1" unique_id=1082912039]
+[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1" unique_id=1342329832]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("3_inosj")
 flip_h = true
 script = ExtResource("5_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1" unique_id=1462846238]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1" unique_id=820798147]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=2059864211]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=748672274]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=2032539180 instance=ExtResource("2_lummr")]
+[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1595043521 instance=ExtResource("2_lummr")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=810408864 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1394407105 instance=ExtResource("1_o4ru8")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Panel3" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=8658246]
+[node name="Panel3" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=491709858]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3" unique_id=430775826]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3" unique_id=436916285]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -263,10 +270,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer" unique_id=919385314]
+[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer" unique_id=1070775750]
 layout_mode = 2
 
-[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0" unique_id=510441653]
+[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0" unique_id=718025995]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
@@ -274,59 +281,59 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=860365421 instance=ExtResource("1_lummr")]
+[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=1607460659 instance=ExtResource("1_lummr")]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0" unique_id=328395733]
+[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0" unique_id=1689154968]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=2059691671 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=1432163695 instance=ExtResource("4_o2fwo")]
 layout_mode = 2
 size_flags_horizontal = 8
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer" unique_id=42788539]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer" unique_id=103175753]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer" unique_id=335592678]
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer" unique_id=1325203177]
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1" unique_id=148341901]
+[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1" unique_id=875690243]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("3_inosj")
 flip_h = true
 script = ExtResource("5_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1" unique_id=1254131810]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1" unique_id=446708750]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1667288256]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1003141665]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1826297191 instance=ExtResource("2_lummr")]
+[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=2013389407 instance=ExtResource("2_lummr")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1076187665 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=782198508 instance=ExtResource("1_o4ru8")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Panel4" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=1372677689]
+[node name="Panel4" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=972315485]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4" unique_id=1022547545]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4" unique_id=1089950236]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -334,10 +341,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer" unique_id=334841609]
+[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer" unique_id=1387229925]
 layout_mode = 2
 
-[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0" unique_id=520774710]
+[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0" unique_id=522199051]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
@@ -345,59 +352,59 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=222521105 instance=ExtResource("1_lummr")]
+[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=1764507123 instance=ExtResource("1_lummr")]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0" unique_id=1926116750]
+[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0" unique_id=1362821823]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=822450524 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=139426001 instance=ExtResource("4_o2fwo")]
 layout_mode = 2
 size_flags_horizontal = 8
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer" unique_id=255140852]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer" unique_id=1749646441]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer" unique_id=186010061]
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer" unique_id=1092423813]
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1" unique_id=1908906439]
+[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1" unique_id=452397209]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("3_inosj")
 flip_h = true
 script = ExtResource("5_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1" unique_id=148223567]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1" unique_id=1287555932]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=120174476]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=953490979]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1833705565 instance=ExtResource("2_lummr")]
+[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=652501832 instance=ExtResource("2_lummr")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=315526972 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1666392767 instance=ExtResource("1_o4ru8")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Panel5" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=2117564878]
+[node name="Panel5" type="Button" parent="MarginContainer/Content/GridContainer" unique_id=1875036835]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5" unique_id=1915210433]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5" unique_id=1711424040]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -405,10 +412,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer" unique_id=2144422074]
+[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer" unique_id=1343140809]
 layout_mode = 2
 
-[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0" unique_id=1223734105]
+[node name="MarginContainer0" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0" unique_id=684582276]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
@@ -416,48 +423,48 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=1841995845 instance=ExtResource("1_lummr")]
+[node name="NameLabel" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0/MarginContainer0" unique_id=552570471 instance=ExtResource("1_lummr")]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0" unique_id=92228939]
+[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0" unique_id=908000971]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=1357707979 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=856422017 instance=ExtResource("4_o2fwo")]
 layout_mode = 2
 size_flags_horizontal = 8
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer" unique_id=699167141]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer" unique_id=135058891]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer" unique_id=1838825359]
+[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer" unique_id=724852399]
 layout_mode = 2
 
-[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1" unique_id=95055074]
+[node name="Portrait" type="TextureRect" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1" unique_id=362295264]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("3_inosj")
 flip_h = true
 script = ExtResource("5_s6yn0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1" unique_id=1417360303]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1" unique_id=1921677326]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=495180245]
+[node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=295562635]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=903962692 instance=ExtResource("2_lummr")]
+[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=135202900 instance=ExtResource("2_lummr")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=320521999 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1845985601 instance=ExtResource("1_o4ru8")]
 layout_mode = 2
 size_flags_vertical = 4

@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary_move_panel.tscn" id="8_3k2wb"]
 
 [node name="Summary" type="Control" unique_id=239759928]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +19,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_e1nmq")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=125043798]
+[node name="Content" type="MarginContainer" parent="." unique_id=125043798]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,50 +31,50 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Main" type="VBoxContainer" parent="MarginContainer" unique_id=744111431]
+[node name="Main" type="VBoxContainer" parent="Content" unique_id=744111431]
 layout_mode = 2
 
-[node name="HBoxContainer0" type="HBoxContainer" parent="MarginContainer/Main" unique_id=277566281]
+[node name="HBoxContainer0" type="HBoxContainer" parent="Content/Main" unique_id=277566281]
 layout_mode = 2
 
-[node name="GenderLabel" type="Label" parent="MarginContainer/Main/HBoxContainer0" unique_id=1081210295]
+[node name="GenderLabel" type="Label" parent="Content/Main/HBoxContainer0" unique_id=1081210295]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "M"
 
-[node name="NameLabel" parent="MarginContainer/Main/HBoxContainer0" unique_id=287393468 instance=ExtResource("1_25wx7")]
+[node name="NameLabel" parent="Content/Main/HBoxContainer0" unique_id=287393468 instance=ExtResource("1_25wx7")]
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Main/HBoxContainer0" unique_id=2042695058 instance=ExtResource("2_3muql")]
+[node name="PlayerLevelLabel" parent="Content/Main/HBoxContainer0" unique_id=2042695058 instance=ExtResource("2_3muql")]
 layout_mode = 2
 size_flags_horizontal = 8
 horizontal_alignment = 2
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="MarginContainer/Main" unique_id=282849657]
+[node name="HBoxContainer1" type="HBoxContainer" parent="Content/Main" unique_id=282849657]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Main/HBoxContainer1" unique_id=649014275]
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/Main/HBoxContainer1" unique_id=649014275]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="MarginContainer/Main/HBoxContainer1/VBoxContainer" unique_id=996017712]
+[node name="Spacer" type="Control" parent="Content/Main/HBoxContainer1/VBoxContainer" unique_id=996017712]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Main/HBoxContainer1/VBoxContainer" unique_id=1881680306 instance=ExtResource("3_e1nmq")]
+[node name="HPBar" parent="Content/Main/HBoxContainer1/VBoxContainer" unique_id=1881680306 instance=ExtResource("3_e1nmq")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Main/HBoxContainer1/VBoxContainer" unique_id=2114861553 instance=ExtResource("4_3k2wb")]
+[node name="PlayerEXPBar" parent="Content/Main/HBoxContainer1/VBoxContainer" unique_id=2114861553 instance=ExtResource("4_3k2wb")]
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Main" unique_id=825966220]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Content/Main" unique_id=825966220]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Portrait" type="TextureRect" parent="MarginContainer/Main/HBoxContainer2" unique_id=2102256963]
+[node name="Portrait" type="TextureRect" parent="Content/Main/HBoxContainer2" unique_id=2102256963]
 custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 size_flags_vertical = 4
@@ -84,15 +83,15 @@ stretch_mode = 4
 flip_h = true
 script = ExtResource("6_fycbb")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Main/HBoxContainer2" unique_id=1530699065]
+[node name="HBoxContainer" type="HBoxContainer" parent="Content/Main/HBoxContainer2" unique_id=1530699065]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Panel0" type="Panel" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer" unique_id=363181361]
+[node name="Panel0" type="Panel" parent="Content/Main/HBoxContainer2/HBoxContainer" unique_id=363181361]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel0" unique_id=1292917071]
+[node name="MarginContainer" type="MarginContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel0" unique_id=1292917071]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,7 +103,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="DescriptionLabel" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer" unique_id=1473992908]
+[node name="DescriptionLabel" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer" unique_id=1473992908]
 custom_minimum_size = Vector2(492, 288)
 layout_mode = 2
 size_flags_vertical = 1
@@ -114,11 +113,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Panel1" type="Panel" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer" unique_id=440081514]
+[node name="Panel1" type="Panel" parent="Content/Main/HBoxContainer2/HBoxContainer" unique_id=440081514]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1" unique_id=1154589341]
+[node name="MarginContainer" type="MarginContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1" unique_id=1154589341]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -130,11 +129,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Stats" type="GridContainer" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer" unique_id=1266676530]
+[node name="Stats" type="GridContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer" unique_id=1266676530]
 layout_mode = 2
 columns = 2
 
-[node name="StatLabel0" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=2131597148]
+[node name="StatLabel0" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=2131597148]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -142,7 +141,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel1" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=417725230]
+[node name="StatLabel1" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=417725230]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -150,7 +149,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel2" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=971899235]
+[node name="StatLabel2" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=971899235]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -158,7 +157,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel3" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=909823420]
+[node name="StatLabel3" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=909823420]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -166,7 +165,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel4" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1647408342]
+[node name="StatLabel4" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1647408342]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -174,7 +173,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel5" type="Label" parent="MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1046798238]
+[node name="StatLabel5" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1046798238]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -182,19 +181,19 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="Moves" type="GridContainer" parent="MarginContainer/Main" unique_id=1676475490]
+[node name="Moves" type="GridContainer" parent="Content/Main" unique_id=1676475490]
 layout_mode = 2
 size_flags_vertical = 3
 columns = 2
 
-[node name="SummaryMovePanel0" parent="MarginContainer/Main/Moves" unique_id=244005857 instance=ExtResource("8_3k2wb")]
+[node name="SummaryMovePanel0" parent="Content/Main/Moves" unique_id=244005857 instance=ExtResource("8_3k2wb")]
 layout_mode = 2
 
-[node name="SummaryMovePanel1" parent="MarginContainer/Main/Moves" unique_id=2077138963 instance=ExtResource("8_3k2wb")]
+[node name="SummaryMovePanel1" parent="Content/Main/Moves" unique_id=2077138963 instance=ExtResource("8_3k2wb")]
 layout_mode = 2
 
-[node name="SummaryMovePanel2" parent="MarginContainer/Main/Moves" unique_id=1210772967 instance=ExtResource("8_3k2wb")]
+[node name="SummaryMovePanel2" parent="Content/Main/Moves" unique_id=1210772967 instance=ExtResource("8_3k2wb")]
 layout_mode = 2
 
-[node name="SummaryMovePanel3" parent="MarginContainer/Main/Moves" unique_id=2119701110 instance=ExtResource("8_3k2wb")]
+[node name="SummaryMovePanel3" parent="Content/Main/Moves" unique_id=2119701110 instance=ExtResource("8_3k2wb")]
 layout_mode = 2

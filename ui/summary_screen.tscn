@@ -5,3 +5,4 @@
 [node name="SummaryScreen" type="CanvasLayer" unique_id=1479296266]
 
 [node name="Summary" parent="." unique_id=239759928 instance=ExtResource("2_thbka")]
+visible = true

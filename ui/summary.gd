@@ -4,23 +4,23 @@ var party: Array[Monster]
 var index: int = -1
 var in_battle: bool = false
 #region Onready Vars
-@onready var gender_label: Label = $MarginContainer/Main/HBoxContainer0/GenderLabel
-@onready var name_label: Label = $MarginContainer/Main/HBoxContainer0/NameLabel
-@onready var level_label: Label = $MarginContainer/Main/HBoxContainer0/PlayerLevelLabel
-@onready var hp_bar: ProgressBar = $MarginContainer/Main/HBoxContainer1/VBoxContainer/HPBar
-@onready var exp_bar: ProgressBar = $MarginContainer/Main/HBoxContainer1/VBoxContainer/PlayerEXPBar
-@onready var portrait: TextureRect = $MarginContainer/Main/HBoxContainer2/Portrait
-@onready var description_label: Label = $MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer/DescriptionLabel
-@onready var stat_label_0: Label = $MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel0
-@onready var stat_label_1: Label = $MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel1
-@onready var stat_label_2: Label = $MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel2
-@onready var stat_label_3: Label = $MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel3
-@onready var stat_label_4: Label = $MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel4
-@onready var stat_label_5: Label = $MarginContainer/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel5
-@onready var summary_move_panel_0: Panel = $MarginContainer/Main/Moves/SummaryMovePanel0
-@onready var summary_move_panel_1: Panel = $MarginContainer/Main/Moves/SummaryMovePanel1
-@onready var summary_move_panel_2: Panel = $MarginContainer/Main/Moves/SummaryMovePanel2
-@onready var summary_move_panel_3: Panel = $MarginContainer/Main/Moves/SummaryMovePanel3
+@onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
+@onready var name_label: Label = $Content/Main/HBoxContainer0/NameLabel
+@onready var level_label: Label = $Content/Main/HBoxContainer0/PlayerLevelLabel
+@onready var hp_bar: ProgressBar = $Content/Main/HBoxContainer1/VBoxContainer/HPBar
+@onready var exp_bar: ProgressBar = $Content/Main/HBoxContainer1/VBoxContainer/PlayerEXPBar
+@onready var portrait: TextureRect = $Content/Main/HBoxContainer2/Portrait
+@onready var description_label: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer/DescriptionLabel
+@onready var stat_label_0: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel0
+@onready var stat_label_1: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel1
+@onready var stat_label_2: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel2
+@onready var stat_label_3: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel3
+@onready var stat_label_4: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel4
+@onready var stat_label_5: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel5
+@onready var summary_move_panel_0: Panel = $Content/Main/Moves/SummaryMovePanel0
+@onready var summary_move_panel_1: Panel = $Content/Main/Moves/SummaryMovePanel1
+@onready var summary_move_panel_2: Panel = $Content/Main/Moves/SummaryMovePanel2
+@onready var summary_move_panel_3: Panel = $Content/Main/Moves/SummaryMovePanel3
 #endregion
 
 

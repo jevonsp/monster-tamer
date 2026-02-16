@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 enum VisibilityState { OPTIONS, MOVES }
 const FOCUS_DEFAULTS = {
 	OPTIONS = 1,

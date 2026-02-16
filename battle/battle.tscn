@@ -13,7 +13,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Content/PlayerTextureRect:position")
+tracks/0/path = NodePath("Battle/Content/PlayerTextureRect:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -25,7 +25,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Content/EnemyTextureRect:position")
+tracks/1/path = NodePath("Battle/Content/EnemyTextureRect:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -41,7 +41,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Content/EnemyTextureRect:position")
+tracks/0/path = NodePath("Battle/Content/EnemyTextureRect:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -53,7 +53,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Content/EnemyTextureRect")
+tracks/1/path = NodePath("Battle/Content/EnemyTextureRect")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -71,7 +71,7 @@ length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Content/EnemyTextureRect:position")
+tracks/0/path = NodePath("Battle/Content/EnemyTextureRect:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -87,7 +87,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Content/PlayerTextureRect:position")
+tracks/0/path = NodePath("Battle/Content/PlayerTextureRect:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -99,7 +99,7 @@ tracks/0/keys = {
 tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Content/PlayerTextureRect")
+tracks/1/path = NodePath("Battle/Content/PlayerTextureRect")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -117,7 +117,7 @@ length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Content/PlayerTextureRect:position")
+tracks/0/path = NodePath("Battle/Content/PlayerTextureRect:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -136,18 +136,24 @@ _data = {
 &"player_hit": SubResource("Animation_7fucf")
 }
 
-[node name="Battle" type="CanvasLayer" unique_id=661795331]
-script = ExtResource("1_tiqy5")
-
-[node name="Content" type="Control" parent="." unique_id=1735734365]
+[node name="Battle" type="Control" unique_id=1219946530]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_tiqy5")
 
-[node name="OptionButtons" type="GridContainer" parent="Content" unique_id=1288648861]
+[node name="Content" type="Control" parent="." unique_id=2083652698]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OptionButtons" type="GridContainer" parent="Content" unique_id=543327414]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -159,12 +165,12 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Party" type="Button" parent="Content/OptionButtons" unique_id=1536864013 groups=["option_buttons"]]
+[node name="Party" type="Button" parent="Content/OptionButtons" unique_id=381117065 groups=["option_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Party" unique_id=33241065]
+[node name="Label" type="Label" parent="Content/OptionButtons/Party" unique_id=827280725]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -179,12 +185,12 @@ text = "Party"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Fight" type="Button" parent="Content/OptionButtons" unique_id=2056039398 groups=["option_buttons"]]
+[node name="Fight" type="Button" parent="Content/OptionButtons" unique_id=984732887 groups=["option_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Fight" unique_id=1878537168]
+[node name="Label" type="Label" parent="Content/OptionButtons/Fight" unique_id=2046674151]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -199,12 +205,12 @@ text = "Fight"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Run" type="Button" parent="Content/OptionButtons" unique_id=1591535956 groups=["option_buttons"]]
+[node name="Run" type="Button" parent="Content/OptionButtons" unique_id=128311388 groups=["option_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Run" unique_id=1377270769]
+[node name="Label" type="Label" parent="Content/OptionButtons/Run" unique_id=1276720000]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -219,12 +225,12 @@ text = "Run"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Item" type="Button" parent="Content/OptionButtons" unique_id=1488662084 groups=["option_buttons"]]
+[node name="Item" type="Button" parent="Content/OptionButtons" unique_id=1959242337 groups=["option_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Item" unique_id=340005847]
+[node name="Label" type="Label" parent="Content/OptionButtons/Item" unique_id=1049757330]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -239,7 +245,7 @@ text = "Item"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveButtons" type="GridContainer" parent="Content" unique_id=1599325903]
+[node name="MoveButtons" type="GridContainer" parent="Content" unique_id=1494816550]
 visible = false
 layout_mode = 1
 anchors_preset = 2
@@ -252,12 +258,12 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Button0" type="Button" parent="Content/MoveButtons" unique_id=358415546 groups=["move_buttons"]]
+[node name="Button0" type="Button" parent="Content/MoveButtons" unique_id=758091456 groups=["move_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/MoveButtons/Button0" unique_id=1154774212]
+[node name="Label" type="Label" parent="Content/MoveButtons/Button0" unique_id=1536510534]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -272,12 +278,12 @@ text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button1" type="Button" parent="Content/MoveButtons" unique_id=1535762806 groups=["move_buttons"]]
+[node name="Button1" type="Button" parent="Content/MoveButtons" unique_id=473783525 groups=["move_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/MoveButtons/Button1" unique_id=1072629768]
+[node name="Label" type="Label" parent="Content/MoveButtons/Button1" unique_id=938543823]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -292,12 +298,12 @@ text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button2" type="Button" parent="Content/MoveButtons" unique_id=428295278 groups=["move_buttons"]]
+[node name="Button2" type="Button" parent="Content/MoveButtons" unique_id=1567848708 groups=["move_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/MoveButtons/Button2" unique_id=845959561]
+[node name="Label" type="Label" parent="Content/MoveButtons/Button2" unique_id=2027993403]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -312,12 +318,12 @@ text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button3" type="Button" parent="Content/MoveButtons" unique_id=85904420 groups=["move_buttons"]]
+[node name="Button3" type="Button" parent="Content/MoveButtons" unique_id=805030582 groups=["move_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/MoveButtons/Button3" unique_id=1473716675]
+[node name="Label" type="Label" parent="Content/MoveButtons/Button3" unique_id=2095495132]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -332,7 +338,7 @@ text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerLevelLabel" type="Label" parent="Content" unique_id=1568394748]
+[node name="PlayerLevelLabel" type="Label" parent="Content" unique_id=991289335]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 54.0
@@ -344,7 +350,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_7fucf")
 
-[node name="PlayerNameLabel" type="Label" parent="Content" unique_id=425096907]
+[node name="PlayerNameLabel" type="Label" parent="Content" unique_id=1127918032]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 103.0
@@ -364,10 +370,16 @@ offset_bottom = 406.00006
 
 [node name="PlayerHPBar" parent="Content" unique_id=1881680306 instance=ExtResource("3_qubjc")]
 layout_mode = 0
+anchors_preset = 0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_left = 32.0
 offset_top = 412.0
 offset_right = 416.0
 offset_bottom = 439.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="PlayerEXPBar" parent="Content" unique_id=2114861553 instance=ExtResource("4_l1kiu")]
 layout_mode = 0
@@ -376,7 +388,7 @@ offset_top = 441.0
 offset_right = 416.0
 offset_bottom = 468.0
 
-[node name="EnemyLevelLabel" type="Label" parent="Content" unique_id=1192345644]
+[node name="EnemyLevelLabel" type="Label" parent="Content" unique_id=1141364250]
 layout_mode = 0
 offset_left = 864.0
 offset_top = 54.0
@@ -387,7 +399,7 @@ text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyNameLabel" type="Label" parent="Content" unique_id=402344739]
+[node name="EnemyNameLabel" type="Label" parent="Content" unique_id=294592335]
 layout_mode = 0
 offset_left = 864.0
 offset_top = 103.0
@@ -398,7 +410,7 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyTextureRect" parent="Content" unique_id=1661973216 instance=ExtResource("2_l1kiu")]
+[node name="EnemyTextureRect" parent="Content" unique_id=192231794 instance=ExtResource("2_l1kiu")]
 layout_mode = 0
 offset_left = 931.0
 offset_top = 150.0
@@ -406,21 +418,27 @@ offset_right = 1187.0
 offset_bottom = 406.0
 flip_h = false
 
-[node name="EnemyHPBar" parent="Content" unique_id=1017245820 instance=ExtResource("3_qubjc")]
+[node name="EnemyHPBar" parent="Content" unique_id=1570994503 instance=ExtResource("3_qubjc")]
 layout_mode = 0
+anchors_preset = 0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_left = 864.0
 offset_top = 412.0
 offset_right = 1248.0
 offset_bottom = 439.0
+grow_horizontal = 1
+grow_vertical = 1
 
-[node name="Panel" type="Panel" parent="Content" unique_id=1233652202]
+[node name="Panel" type="Panel" parent="Content" unique_id=342962520]
 layout_mode = 0
 offset_left = 656.0
 offset_top = 528.0
 offset_right = 1264.0
 offset_bottom = 704.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Content/Panel" unique_id=1303723309]
+[node name="MarginContainer" type="MarginContainer" parent="Content/Panel" unique_id=1572917684]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -432,7 +450,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="BattleTextLabel" type="Label" parent="Content/Panel/MarginContainer" unique_id=989317058]
+[node name="BattleTextLabel" type="Label" parent="Content/Panel/MarginContainer" unique_id=666657808]
 custom_minimum_size = Vector2(600, 168)
 layout_mode = 2
 size_flags_vertical = 1
@@ -441,8 +459,9 @@ text = "Test Text"
 autowrap_mode = 3
 script = ExtResource("4_4mnim")
 
-[node name="AnimationContainer" type="Node2D" parent="." unique_id=2106150403]
+[node name="AnimationContainer" type="Node2D" parent="." unique_id=1888418741]
 script = ExtResource("5_l1kiu")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1384391644]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1783395323]
+root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_iorop")
