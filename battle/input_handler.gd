@@ -34,6 +34,7 @@ func _manage_focus() -> void:
 		_focus_default()
 	else:
 		_drop_focus()
+		
 func _on_option_pressed(button: Button) -> void:
 	var index_map := {"Party": 0, "Fight": 1, "Run": 2, "Item": 3}
 	if button.name in index_map:
@@ -50,4 +51,4 @@ func _on_move_pressed(button: Button) -> void:
 	_last_focused[VisibilityState.MOVES] = num
 	
 	var move: Move = battle.player_actor.moves[num]
-	battle._execute_player_turn(move)
+	battle.battle_handler._execute_player_turn(move)

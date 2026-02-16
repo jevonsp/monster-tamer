@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bbdhbxa071x5y" path="res://battle/texture_rect.tscn" id="2_l1kiu"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_qubjc"]
 [ext_resource type="Script" uid="uid://cy7t60y654aht" path="res://battle/input_handler.gd" id="3_rxlun"]
+[ext_resource type="Script" uid="uid://blgot5be2ccke" path="res://battle/battle_handler.gd" id="3_vlrs1"]
 [ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/battle_text_label.gd" id="4_4mnim"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_l1kiu"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
@@ -151,6 +152,7 @@ script = ExtResource("1_tiqy5")
 script = ExtResource("2_iorop")
 
 [node name="BattleHandler" type="Node" parent="." unique_id=330754811]
+script = ExtResource("3_vlrs1")
 
 [node name="InputHandler" type="Node" parent="." unique_id=1703311790]
 script = ExtResource("3_rxlun")
