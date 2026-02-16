@@ -1,5 +1,5 @@
 extends StaticBody2D
-
+class_name StaticObject
 @export_multiline var text: Array[String] = [""]
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false

@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu.tscn" id="11_bsumw"]
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
+[ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/static_object/ground_item.tscn" id="15_5xyti"]
 
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
@@ -82,3 +83,9 @@ is_question = true
 [node name="Sign" parent="." unique_id=425176937 instance=ExtResource("14_73k8k")]
 position = Vector2(48, 16)
 text = Array[String](["This is a sign."])
+is_question = true
+
+[node name="GroundItem" parent="." unique_id=726795139 instance=ExtResource("15_5xyti")]
+position = Vector2(48, 48)
+text = Array[String](["Item found"])
+is_question = true

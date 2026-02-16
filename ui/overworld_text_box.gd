@@ -54,6 +54,7 @@ func _toggle_questions_visible() -> void:
 
 
 func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: bool) -> void:
+	print("question=", question)
 	Global.toggle_player.emit()
 	_toggle_visible()
 	obj_ref = obj
@@ -91,6 +92,7 @@ func _advance_text() -> void:
 	
 	
 func _await_question() -> bool:
+	print("awaiting question")
 	_toggle_questions_visible()
 	var answer = await answer_given
 	if answer:
@@ -99,6 +101,7 @@ func _await_question() -> bool:
 	
 	
 func _trigger() -> void:
+	print("triggering obj ref. obj ref=", obj_ref)
 	if obj_ref.has_method("trigger"):
 		obj_ref.trigger()
 	
