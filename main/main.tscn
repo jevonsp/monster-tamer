@@ -43,23 +43,23 @@ visible = false
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
 visible = false
 
+[node name="OverworldTextBox" parent="Interfaces" unique_id=2089038544 instance=ExtResource("9_grrlh")]
+visible = false
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 591.0
+offset_top = 380.0
+offset_right = 1278.0
+offset_bottom = 720.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
 position = Vector2(16, 32)
 WALK_SPEED = 4.5
-
-[node name="OverworldTextBox" parent="Player" unique_id=2089038544 instance=ExtResource("9_grrlh")]
-visible = false
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 17.0
-offset_right = 159.0
-offset_bottom = 89.0
-grow_horizontal = 1
-grow_vertical = 1
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
 position = Vector2(32, 32)

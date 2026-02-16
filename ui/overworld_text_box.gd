@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 signal answer_given(answer: bool)
 var processing: bool = false
 var text_array: Array[String]
@@ -6,9 +6,10 @@ var is_auto_complete: bool = false
 var is_question: bool = false
 var text_index: int
 var obj_ref: Node
-@onready var main_label: Label = $MarginContainer/Label
-@onready var no_button: Button = $HBoxContainer/No
-@onready var yes_button: Button = $HBoxContainer/Yes
+@onready var main_label: Label = $Panel/MarginContainer/Label
+@onready var no_button: Button = $Panel/HBoxContainer/No
+@onready var yes_button: Button = $Panel/HBoxContainer/Yes
+
 
 func _ready() -> void:
 	main_label.text = ""
