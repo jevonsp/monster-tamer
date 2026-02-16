@@ -94,12 +94,6 @@ func _clear_monster() -> void:
 
 
 func _display_monster(monster: Monster) -> void:
-	print("Displaying %s" % monster)
-	print("Monster name: ", monster.name)
-	print("Monster level: ", monster.level)
-	print("Monster max_hitpoints: ", monster.max_hitpoints)
-	print("Monster current_hitpoints: ", monster.current_hitpoints)
-	print("Monster monster_data: ", monster.monster_data)
 	gender_label.text = "TBD"
 	name_label.text = monster.name
 	level_label.text = "Lvl. %s" % [monster.level]
@@ -156,23 +150,14 @@ func _on_battle_ended() -> void:
 
 
 func _toggle_visible() -> void:
-	print("%s toggled visible" % self)
-	print("Summary visibility: ", visible)
-	print("Party size: ", party.size())
-	print("Index: ", index)
 	visible = not visible
 	processing = not processing
 	if index > -1:
-		print("Monster at index: ", party[index])
-		print("Is monster valid? ", is_instance_valid(party[index]))
 		var monster = party[index]
 		_display_monster(monster)
 
 
 func _set_player_party(p: Array[Monster]) -> void:
-	print("Set player party - size: ", p.size())
-	for i in p.size():
-		print("  [%d]: %s (valid: %s)" % [i, p[i], is_instance_valid(p[i])])
 	party = p
 	
 

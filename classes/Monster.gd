@@ -55,7 +55,6 @@ func take_damage(amount: int) -> void:
 
 func faint():
 	is_fainted = true
-	print_debug("Sending %s fainted" % [name])
 	Global.send_monster_fainted.emit(self)
 	Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
 	

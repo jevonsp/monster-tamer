@@ -58,7 +58,6 @@ func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: boo
 	_toggle_visible()
 	obj_ref = obj
 	is_question = question
-	print("got is_question:", is_question)
 	text_array = ta
 	is_auto_complete = auto_complete
 	if not is_auto_complete:

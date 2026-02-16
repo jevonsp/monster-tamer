@@ -42,8 +42,6 @@ func _execute_turn_queue() -> void:
 	for entry in turn_queue:
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
-		print_debug("Actor: ", actor.name)
-		print_debug("Target: ", target.name)
 		var exp_completed = [false]
 		var on_exp_complete = func(): exp_completed[0] = true
 		Global.experience_animation_complete.connect(on_exp_complete, CONNECT_ONE_SHOT)
@@ -74,14 +72,12 @@ func _sort_turn_queue() -> void:
 func _check_win() -> bool:
 	for monster in battle.enemy_party:
 		if not monster.is_fainted:
-			print_debug("enemy monster: %s is alive" % [monster.name])
 			return false
 	return true
 
 func _check_lose() -> bool:
 	for monster in battle.player_party:
 		if not monster.is_fainted:
-			print_debug("player monster: %s is alive" % [monster.name])
 			return false
 	return true
 
