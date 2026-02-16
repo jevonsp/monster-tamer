@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bx454q08456b7"]
 
-[ext_resource type="Script" uid="uid://bb8nk6f84xnxt" path="res://ground_item.gd" id="2_mxhni"]
+[ext_resource type="Script" uid="uid://bb8nk6f84xnxt" path="res://world_objects/interactable/ground_item/ground_item.gd" id="2_mxhni"]
 [ext_resource type="Texture2D" uid="uid://iikfm8js0p7y" path="res://world_objects/interactable/static_object/ball.png" id="2_ncpfj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eferr"]
