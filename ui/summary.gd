@@ -3,6 +3,7 @@ var processing: bool = false
 var party: Array[Monster]
 var index: int = -1
 var in_battle: bool = false
+
 #region Onready Vars
 @onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
 @onready var name_label: Label = $Content/Main/HBoxContainer0/NameLabel
@@ -23,6 +24,25 @@ var in_battle: bool = false
 @onready var summary_move_panel_3: Panel = $Content/Main/Moves/SummaryMovePanel3
 #endregion
 
+@onready var labels: Array[Label] = [
+	gender_label,
+	name_label,
+	level_label,
+	description_label,
+	stat_label_0,
+	stat_label_1,
+	stat_label_2,
+	stat_label_3,
+	stat_label_4,
+	stat_label_5,
+]
+
+@onready var move_panels: Array[Panel] = [
+	summary_move_panel_0,
+	summary_move_panel_1,
+	summary_move_panel_2,
+	summary_move_panel_3,
+]
 
 func _ready() -> void:
 	if visible:
@@ -58,27 +78,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _clear_monster() -> void:
-	var labels = [
-		gender_label,
-		name_label,
-		level_label,
-		description_label,
-		stat_label_0,
-		stat_label_1,
-		stat_label_2,
-		stat_label_3,
-		stat_label_4,
-		stat_label_5,
-	]
 	for label in labels:
 		label.text = ""
 	
-	var move_panels = [
-		summary_move_panel_0,
-		summary_move_panel_1,
-		summary_move_panel_2,
-		summary_move_panel_3,
-	]
 	for panel in move_panels:
 		for label in [
 			panel.bp_label,
@@ -120,12 +122,6 @@ func _display_monster(monster: Monster) -> void:
 	stat_label_4.text = "TBD: "
 	stat_label_5.text = "TBD: "
 	
-	var move_panels = [
-		summary_move_panel_0,
-		summary_move_panel_1,
-		summary_move_panel_2,
-		summary_move_panel_3,
-	]
 	var panel_index = 0
 	for move in monster.moves:
 		if move == null:
