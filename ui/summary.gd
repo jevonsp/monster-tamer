@@ -53,7 +53,7 @@ func _ready() -> void:
 
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_set_player_party)
-	Global.on_party_closed.connect(_clear_player_party)
+	Global.on_menu_closed.connect(_clear_player_party)
 	Global.request_open_summary.connect(_toggle_visible)
 	Global.send_summary_index.connect(_set_party_index)
 	Global.battle_started.connect(_on_battle_started)

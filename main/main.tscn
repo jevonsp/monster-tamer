@@ -83,7 +83,6 @@ is_question = true
 [node name="Sign" parent="." unique_id=425176937 instance=ExtResource("14_73k8k")]
 position = Vector2(48, 16)
 text = Array[String](["This is a sign."])
-is_question = true
 
 [node name="GroundItem" parent="." unique_id=726795139 instance=ExtResource("15_5xyti")]
 position = Vector2(48, 48)

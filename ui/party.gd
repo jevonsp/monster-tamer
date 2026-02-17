@@ -31,9 +31,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		Global.toggle_player.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
-		_toggle_visible()
-		Global.on_party_closed.emit()
-		Global.request_open_menu.emit()
+		if not options_box.visible:
+			_toggle_visible()
+			Global.on_party_closed.emit()
+			Global.request_open_menu.emit()
+		else:
+			_toggle_options_visible()
 		get_viewport().set_input_as_handled()
 
 
@@ -75,10 +78,11 @@ func _toggle_options_visible() -> void:
 	options_box.visible = not options_box.visible
 	if options_box.visible:
 		_focus_default_option()
+	else:
+		_focus_default_monster()
 		
 		
 func _focus_default_monster() -> void:
-	print("focus default")
 	var panel
 	if last_focused_monster == -1:
 		panel = panels.keys()[0]
@@ -113,6 +117,7 @@ func _on_option_pressed(button: Button) -> void:
 			print("Give")
 		"Summary":
 			_open_monster_summary(last_focused_monster)
+			
 
 
 func _open_monster_summary(index: int) -> void:
