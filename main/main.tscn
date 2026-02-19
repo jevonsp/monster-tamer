@@ -76,7 +76,9 @@ shape = SubResource("RectangleShape2D_3wy1v")
 
 [node name="NPC" parent="." unique_id=431393256 instance=ExtResource("8_67ri8")]
 position = Vector2(16, 16)
+direction = 4
 is_question = true
+facing_vec = Vector2(1, 0)
 
 [node name="NPCRespawnComponent" parent="NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
 

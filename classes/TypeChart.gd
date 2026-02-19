@@ -7,27 +7,25 @@ enum Type {
 	GRASS,
 }
 
-static var efficacy: Dictionary = {
-	not_very = 0.5,
-	normal = 1.0,
-	super_effective = 2.0,
-}
+const NOT_VERY := 0.5
+const NORMAL := 1.0
+const SUPER_EFFECTIVE := 2.0
 
 static var type_chart: Dictionary = {
 	Type.FIRE: {
-		Type.FIRE: &"normal",
-		Type.WATER: &"not_very",
-		Type.GRASS: &"super_effective",
+		Type.FIRE: NORMAL,
+		Type.WATER: NOT_VERY,
+		Type.GRASS: SUPER_EFFECTIVE,
 	},
 	Type.WATER: {
-		Type.FIRE: &"super_effective",
-		Type.WATER: &"normal",
-		Type.GRASS: &"not_very",
+		Type.FIRE: SUPER_EFFECTIVE,
+		Type.WATER: NORMAL,
+		Type.GRASS: NOT_VERY,
 	},
 	Type.GRASS: {
-		Type.FIRE: &"not_very",
-		Type.WATER: &"super_effective",
-		Type.GRASS: &"normal",
+		Type.FIRE: NOT_VERY,
+		Type.WATER: SUPER_EFFECTIVE,
+		Type.GRASS: NORMAL,
 	},
 }
 
