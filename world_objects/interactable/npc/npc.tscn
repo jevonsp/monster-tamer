@@ -519,30 +519,7 @@ collision_layer = 8
 script = ExtResource("1_nhy3c")
 dialogue = Array[String](["This is test dialogue"])
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1494368532]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_gfcum")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1598010124]
-position = Vector2(8, 8)
-texture = ExtResource("1_2xp5l")
-offset = Vector2(0, -4)
-hframes = 3
-vframes = 3
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=763466347]
-libraries/ = SubResource("AnimationLibrary_e0slm")
-
-[node name="AnimationTree" type="AnimationTree" parent="." unique_id=566667100]
-tree_root = SubResource("AnimationNodeStateMachine_jh6rw")
-anim_player = NodePath("../AnimationPlayer")
-parameters/Idle/blend_position = Vector2(0, 0.9482758)
-parameters/Jump/blend_position = Vector2(0, 0)
-parameters/Turn/blend_position = Vector2(0, 0)
-parameters/Walk/blend_position = Vector2(0.071542144, -0.09482753)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=880382688]
-visible = false
 
 [node name="HBoxContainer" type="GridContainer" parent="CanvasLayer" unique_id=893009571]
 offset_right = 384.0
@@ -576,6 +553,35 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "D"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1494368532]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_gfcum")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1598010124]
+position = Vector2(8, 8)
+texture = ExtResource("1_2xp5l")
+offset = Vector2(0, -4)
+hframes = 3
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=763466347]
+libraries/ = SubResource("AnimationLibrary_e0slm")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=566667100]
+tree_root = SubResource("AnimationNodeStateMachine_jh6rw")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Idle/blend_position = Vector2(-0.0031796694, 0.70689654)
+parameters/Jump/blend_position = Vector2(0, 0)
+parameters/Turn/blend_position = Vector2(0.49761522, -0.28448272)
+parameters/Walk/blend_position = Vector2(-0.0031796694, 1.0086207)
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=564290287]
+position = Vector2(8, 8)
+target_position = Vector2(0, 16)
+collision_mask = 9
+hit_from_inside = true
+collide_with_areas = true
 
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Left" to="." method="_on_left_pressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Right" to="." method="_on_right_pressed"]

@@ -153,6 +153,7 @@ func can_move_in(input_dir: Vector2) -> bool:
 
 	if ray_cast_2d.is_colliding():
 		return false
+		
 	tile_start_pos = position
 	tile_target_pos = position + (input_dir * TILE_SIZE)
 	move_progress = 0.0
