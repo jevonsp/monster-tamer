@@ -521,38 +521,47 @@ dialogue = Array[String](["This is test dialogue"])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=880382688]
 
-[node name="HBoxContainer" type="GridContainer" parent="CanvasLayer" unique_id=893009571]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer" unique_id=893009571]
 offset_right = 384.0
 offset_bottom = 128.0
 columns = 2
 
-[node name="Left" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=247707689]
+[node name="Left" type="Button" parent="CanvasLayer/GridContainer" unique_id=247707689]
 custom_minimum_size = Vector2(124, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "L"
 
-[node name="Right" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=2056794253]
+[node name="Right" type="Button" parent="CanvasLayer/GridContainer" unique_id=2056794253]
 custom_minimum_size = Vector2(124, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "R"
 
-[node name="Up" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=1446077806]
+[node name="Up" type="Button" parent="CanvasLayer/GridContainer" unique_id=1446077806]
 custom_minimum_size = Vector2(124, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "U"
 
-[node name="Down" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=1473261508]
+[node name="Down" type="Button" parent="CanvasLayer/GridContainer" unique_id=1473261508]
 custom_minimum_size = Vector2(124, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "D"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1677720291]
+offset_left = 384.0
+offset_right = 640.0
+offset_bottom = 128.0
+
+[node name="Button" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=181906863]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1494368532]
 position = Vector2(8, 8)
@@ -583,7 +592,8 @@ collision_mask = 9
 hit_from_inside = true
 collide_with_areas = true
 
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Left" to="." method="_on_left_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Right" to="." method="_on_right_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Up" to="." method="_on_up_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Down" to="." method="_on_down_pressed"]
+[connection signal="pressed" from="CanvasLayer/GridContainer/Left" to="." method="_on_left_pressed"]
+[connection signal="pressed" from="CanvasLayer/GridContainer/Right" to="." method="_on_right_pressed"]
+[connection signal="pressed" from="CanvasLayer/GridContainer/Up" to="." method="_on_up_pressed"]
+[connection signal="pressed" from="CanvasLayer/GridContainer/Down" to="." method="_on_down_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/Button" to="." method="_on_button_pressed"]

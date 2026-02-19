@@ -1,6 +1,7 @@
 @tool
 class_name NPC
 extends CharacterBody2D
+signal finished_walk_segment
 const TILE_SIZE: int = 16
 const WALK_SPEED := 4.0
 enum Direction {NONE, UP, DOWN, LEFT, RIGHT}
@@ -112,6 +113,12 @@ func walk_to_tile(pos: Vector2) -> void:
 		await start_turning(dir_vec)
 	if check_able_to_move(dir_vec):
 		current_state = State.WALKING
+		
+		
+func walk_tiles(tiles: Array[Vector2]) -> void:
+	for tile in tiles:
+		await walk_to_tile(tile)
+		await finished_walk_segment
 
 
 func start_turning(new_facing_direction: Vector2) -> void:
@@ -167,6 +174,7 @@ func animate_move(delta: float) -> void:
 		
 		current_state = State.IDLE
 		anim_state.travel("Idle")
+		finished_walk_segment.emit()
 		return
 
 	var dir_vec = (eventual_target_pos - global_position).normalized()
@@ -178,6 +186,7 @@ func animate_move(delta: float) -> void:
 	if not check_able_to_move(dir_vec):
 		current_state = State.IDLE
 		anim_state.travel("Idle")
+		finished_walk_segment.emit()
 
 
 func _on_left_pressed() -> void:
@@ -194,3 +203,10 @@ func _on_up_pressed() -> void:
 
 func _on_down_pressed() -> void:
 	walk_to_tile(global_position + Vector2(0, TILE_SIZE * 2))
+
+
+func _on_button_pressed() -> void:
+	var tiles: Array[Vector2] = [
+		global_position + Vector2(0, TILE_SIZE * 5), global_position + Vector2(TILE_SIZE * 5, TILE_SIZE * 5)
+	]
+	walk_tiles(tiles)
