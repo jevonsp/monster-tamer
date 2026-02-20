@@ -55,7 +55,9 @@ func _toggle_questions_visible() -> void:
 
 func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: bool) -> void:
 	print("question=", question)
-	Global.toggle_player.emit()
+	var player = get_tree().get_first_node_in_group("player")
+	if player.processing:
+		Global.toggle_player.emit()
 	_toggle_visible()
 	obj_ref = obj
 	is_question = question

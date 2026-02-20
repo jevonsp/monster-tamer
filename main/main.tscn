@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_item.tscn" id="15_5xyti"]
+[ext_resource type="PackedScene" uid="uid://ch4kvp8k6tpxs" path="res://world_objects/interactable/npc/trainer/trainer.tscn" id="16_n3o0a"]
 
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
@@ -60,7 +61,7 @@ grow_vertical = 1
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(48, 32)
+position = Vector2(96, 64)
 WALK_SPEED = 4.5
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
@@ -76,17 +77,20 @@ shape = SubResource("RectangleShape2D_3wy1v")
 
 [node name="NPC" parent="." unique_id=431393256 instance=ExtResource("8_67ri8")]
 position = Vector2(16, 16)
-direction = 4
+dialogue = Array[String](["This is test question"])
 is_question = true
-facing_vec = Vector2(1, 0)
 
 [node name="NPCRespawnComponent" parent="NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
+
+[node name="Trainer" parent="." unique_id=1980082865 instance=ExtResource("16_n3o0a")]
+position = Vector2(64, 64)
+dialogue = Array[String](["Lets battle!"])
 
 [node name="Sign" parent="." unique_id=425176937 instance=ExtResource("14_73k8k")]
 position = Vector2(48, 16)
 text = Array[String](["This is a sign."])
 
 [node name="GroundItem" parent="." unique_id=726795139 instance=ExtResource("15_5xyti")]
-position = Vector2(48, 48)
+position = Vector2(64, 16)
 text = Array[String](["Item found"])
 is_question = true

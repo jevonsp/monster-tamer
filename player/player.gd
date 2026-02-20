@@ -48,6 +48,7 @@ func _physics_process(delta: float) -> void:
 			process_walking_state(delta)
 
 func _input(event: InputEvent) -> void:
+	print("player processing: ", processing)
 	if not processing:
 		return
 	if event.is_action_pressed("yes"):

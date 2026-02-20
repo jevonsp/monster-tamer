@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ch4kvp8k6tpxs"]
+
+[ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="1_fsd5s"]
+[ext_resource type="Script" uid="uid://cjap5pj6g6260" path="res://trainer.gd" id="2_h4uv0"]
+
+[node name="Trainer" unique_id=431393256 instance=ExtResource("1_fsd5s")]
+script = ExtResource("2_h4uv0")
+vision_range = 7
+dialogue = Array[String]([""])

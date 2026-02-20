@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="1_2xp5l"]
 [ext_resource type="Script" uid="uid://bnutwr2lh7i8r" path="res://world_objects/interactable/npc/npc.gd" id="1_nhy3c"]
+[ext_resource type="Texture2D" uid="uid://bxg3xll7mkw2d" path="res://world_objects/interactable/npc/exclamation_point-Sheet.png" id="3_vb6mh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gfcum"]
 size = Vector2(16, 16)
@@ -514,54 +515,76 @@ states/Walk/node = SubResource("AnimationNodeBlendSpace2D_hg6s5")
 states/Walk/position = Vector2(644.5, 54.5)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_8t03j"), "Idle", "Turn", SubResource("AnimationNodeStateMachineTransition_2ieo8"), "Turn", "Idle", SubResource("AnimationNodeStateMachineTransition_ebec5"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_yllr7"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_kb6p2"), "Turn", "Jump", SubResource("AnimationNodeStateMachineTransition_wodsf"), "Jump", "Turn", SubResource("AnimationNodeStateMachineTransition_32hag"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_tqiix"), "Jump", "Walk", SubResource("AnimationNodeStateMachineTransition_e7oew"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_c35mf"), "Walk", "Jump", SubResource("AnimationNodeStateMachineTransition_65viv"), "Turn", "Walk", SubResource("AnimationNodeStateMachineTransition_x7c3f"), "Walk", "Turn", SubResource("AnimationNodeStateMachineTransition_bjvpn")]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_3l580"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihykk"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dqs0"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_du8rd"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xj3p"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlwsg"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_514qu"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uo82y"]
+atlas = ExtResource("3_vb6mh")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wrqyr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3l580")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihykk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dqs0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_du8rd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xj3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlwsg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_514qu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uo82y")
+}],
+"loop": false,
+"name": &"default",
+"speed": 60.0
+}]
+
 [node name="NPC" type="CharacterBody2D" unique_id=431393256 groups=["interactable"]]
 collision_layer = 8
 script = ExtResource("1_nhy3c")
 dialogue = Array[String](["This is test dialogue"])
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=880382688]
-
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer" unique_id=893009571]
-offset_right = 384.0
-offset_bottom = 128.0
-columns = 2
-
-[node name="Left" type="Button" parent="CanvasLayer/GridContainer" unique_id=247707689]
-custom_minimum_size = Vector2(124, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "L"
-
-[node name="Right" type="Button" parent="CanvasLayer/GridContainer" unique_id=2056794253]
-custom_minimum_size = Vector2(124, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "R"
-
-[node name="Up" type="Button" parent="CanvasLayer/GridContainer" unique_id=1446077806]
-custom_minimum_size = Vector2(124, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "U"
-
-[node name="Down" type="Button" parent="CanvasLayer/GridContainer" unique_id=1473261508]
-custom_minimum_size = Vector2(124, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "D"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1677720291]
-offset_left = 384.0
-offset_right = 640.0
-offset_bottom = 128.0
-
-[node name="Button" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=181906863]
-layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1494368532]
 position = Vector2(8, 8)
@@ -580,7 +603,7 @@ libraries/ = SubResource("AnimationLibrary_e0slm")
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=566667100]
 tree_root = SubResource("AnimationNodeStateMachine_jh6rw")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Idle/blend_position = Vector2(-0.0031796694, 0.70689654)
+parameters/Idle/blend_position = Vector2(0, 1)
 parameters/Jump/blend_position = Vector2(0, 0)
 parameters/Turn/blend_position = Vector2(0.49761522, -0.28448272)
 parameters/Walk/blend_position = Vector2(-0.0031796694, 1.0086207)
@@ -588,12 +611,14 @@ parameters/Walk/blend_position = Vector2(-0.0031796694, 1.0086207)
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=564290287]
 position = Vector2(8, 8)
 target_position = Vector2(0, 16)
-collision_mask = 9
+collision_mask = 11
 hit_from_inside = true
 collide_with_areas = true
 
-[connection signal="pressed" from="CanvasLayer/GridContainer/Left" to="." method="_on_left_pressed"]
-[connection signal="pressed" from="CanvasLayer/GridContainer/Right" to="." method="_on_right_pressed"]
-[connection signal="pressed" from="CanvasLayer/GridContainer/Up" to="." method="_on_up_pressed"]
-[connection signal="pressed" from="CanvasLayer/GridContainer/Down" to="." method="_on_down_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Button" to="." method="_on_button_pressed"]
+[node name="ExclamationPoint" type="AnimatedSprite2D" parent="." unique_id=1030997798]
+visible = false
+position = Vector2(8, -8)
+sprite_frames = SubResource("SpriteFrames_wrqyr")
+frame = 7
+frame_progress = 1.0
+offset = Vector2(0, -5)
