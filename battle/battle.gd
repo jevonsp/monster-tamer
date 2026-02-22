@@ -95,18 +95,37 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	_toggle_player()
 	_toggle_visible()
 
+
+func _start_trainer_battle(trainer_party: Array[Monster]) -> void:
+	_clear_actors()
+	
+	enemy_party = trainer_party.duplicate()
+	enemy_actor = enemy_party[0]
+	
+
 func end_battle() -> void:
 	_clear_all()
 	_toggle_visible()
 	_toggle_player()
 	Global.battle_ended.emit()
 
+
 func _set_player_party(party: Array[Monster]) -> void:
 	player_party = party
+
+
+func _check_player_actor_fainted() -> bool:
+	return player_actor.is_fainted
+
+
+func _check_enemy_actor_fainted() -> bool:
+	return enemy_actor.is_fainted
+
 
 func _clear_actors() -> void:
 	player_actor = null
 	enemy_actor = null
+
 
 func _clear_all() -> void:
 	_clear_actors()

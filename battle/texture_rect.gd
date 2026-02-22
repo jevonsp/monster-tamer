@@ -30,6 +30,14 @@ func _play_monster_faint(target: Monster) -> void:
 		enemy_actor = null
 	
 	
+func _play_monster_switch_in(_target: Monster) -> void:
+	pass
+	
+	
+func _play_monster_switch_out(_target: Monster) -> void:
+	pass
+	
+	
 func clear_image() -> void:
 	reset_texture()
 	reset_position()

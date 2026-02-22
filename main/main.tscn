@@ -61,7 +61,7 @@ grow_vertical = 1
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(96, 64)
+position = Vector2(48, 32)
 WALK_SPEED = 4.5
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]

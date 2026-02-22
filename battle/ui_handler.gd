@@ -37,8 +37,8 @@ func _update_bars() -> void:
 	var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (battle.player_actor.level - 1)
 	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * battle.player_actor.level
 	
-	battle.player_display["exp_bar"].max_value = max_exp
 	battle.player_display["exp_bar"].min_value = min_exp
+	battle.player_display["exp_bar"].max_value = max_exp
 	battle.player_display["exp_bar"].value = battle.player_actor.experience
 	battle.player_display["exp_bar"].actor = battle.player_actor
 

@@ -56,6 +56,11 @@ func take_damage(amount: int) -> void:
 func faint():
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
+	# Waits for the currently opened text box to be closed
+	await Global.battle_text_box_complete
+	var ta: Array[String] = ["%s fainted!" % [name]]
+	Global.send_battle_text_box.emit(ta, true)
+	await Global.battle_text_box_complete
 	Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
 	
 	
@@ -72,5 +77,9 @@ func gain_exp(amount: int) -> void:
 
 
 func gain_level(amount: int = 1) -> void:
+	print("leveling from %s to %s" % [level, level + amount])
 	level += amount
 	Global.monster_gained_level.emit(self, amount)
+	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
+	Global.send_battle_text_box.emit(ta, false)
+	await Global.battle_text_box_complete

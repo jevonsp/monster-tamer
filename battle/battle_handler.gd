@@ -10,6 +10,7 @@ func _execute_player_turn(move: Move) -> void:
 		await _execute_turn_queue()
 		battle.processing = true
 
+
 func _get_enemy_action() -> void:
 	var available_moves: Array[Move] = []
 	for move in battle.enemy_actor.moves:
@@ -18,6 +19,7 @@ func _get_enemy_action() -> void:
 	
 	if not available_moves.is_empty():
 		_add_move_to_queue(available_moves.pick_random(), battle.enemy_actor)
+
 
 func _add_move_to_queue(move: Move, actor: Monster) -> bool:
 	if move == null:
@@ -31,10 +33,12 @@ func _add_move_to_queue(move: Move, actor: Monster) -> bool:
 	})
 	return true
 
+
 func _get_target(actor: Monster, move: Move) -> Monster:
 	if move.is_self_targeting:
 		return actor
 	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
+
 
 func _execute_turn_queue() -> void:
 	_sort_turn_queue()
@@ -51,16 +55,17 @@ func _execute_turn_queue() -> void:
 			if not exp_completed[0]:
 				await Global.experience_animation_complete
 		
-		if _check_win():
+		if _check_enemy_out_of_monsters():
 			_win()
 			return
-		if _check_lose():
+		if _check_player_out_of_monsters():
 			_lose()
 			return
 			
 	turn_queue.clear()
 	battle.processing = true
 	battle.input_handler._manage_focus()
+
 
 func _sort_turn_queue() -> void:
 	turn_queue.sort_custom(func(a, b): 
@@ -69,23 +74,27 @@ func _sort_turn_queue() -> void:
 		return a.actor.speed > b.actor.speed
 	)
 
-func _check_win() -> bool:
+
+func _check_enemy_out_of_monsters() -> bool:
 	for monster in battle.enemy_party:
 		if not monster.is_fainted:
 			return false
 	return true
 
-func _check_lose() -> bool:
+
+func _check_player_out_of_monsters() -> bool:
 	for monster in battle.player_party:
 		if not monster.is_fainted:
 			return false
 	return true
+
 
 func _win() -> void:
 	var text: Array[String] = ["You won!"]
 	Global.send_battle_text_box.emit(text, false)
 	await Global.battle_text_box_complete
 	battle.end_battle()
+
 
 func _lose() -> void:
 	var text: Array[String] = ["You lost!"]
