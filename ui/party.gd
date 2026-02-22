@@ -70,6 +70,11 @@ func _toggle_visible() -> void:
 	processing = not processing
 	if visible:
 		_focus_default_monster()
+		for panel in panels:
+			panel.active = true
+	else:
+		for panel in panels:
+			panel.active = false
 	if options_box.visible:
 		_focus_default_option()
 		

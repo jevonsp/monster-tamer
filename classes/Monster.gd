@@ -70,14 +70,35 @@ func heal(revives: bool) -> void:
 		is_fainted = false
 	
 	
-func gain_exp(amount: int) -> void:
+func gain_exp(amount: int, in_battle: bool = false) -> void:
 	if is_fainted:
 		return
-	Global.monster_gained_exp.emit(self, amount)
+	var remaining_exp = amount
+	while remaining_exp > 0:
+		var exp_left = get_next_level_exp() - experience
+		var exp_to_gain = min(remaining_exp, exp_left)
+		remaining_exp -= exp_to_gain
+		var current_exp = experience
+		experience += exp_to_gain
+		print("would gain %s exp, %s exp left" % [exp_to_gain, remaining_exp])
+		print("exp would go frm %s -> %s" % [current_exp, experience])
+		Global.monster_gained_experience.emit(self, exp_to_gain)
+		if in_battle:
+			print("in_battle")
+			await Global.experience_animation_complete
+		if experience >= get_next_level_exp():
+			await gain_level()
+
+
+func get_current_level_exp() -> int:
+	return EXPERIENCE_PER_LEVEL * (level - 1)
+	
+	
+func get_next_level_exp() -> int:
+	return EXPERIENCE_PER_LEVEL * level
 
 
 func gain_level(amount: int = 1) -> void:
-	print("leveling from %s to %s" % [level, level + amount])
 	level += amount
 	Global.monster_gained_level.emit(self, amount)
 	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]

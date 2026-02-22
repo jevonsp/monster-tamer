@@ -3,6 +3,7 @@ const DEFAULT_DELAY: float = 1.0
 @warning_ignore_start("unused_signal")
 # Player
 signal toggle_player
+signal toggle_in_battle
 signal step_completed(position: Vector2)
 signal send_respawn_player
 signal battle_started
@@ -44,8 +45,9 @@ signal send_monster_fainted(monster: Monster)
 signal monster_fainted_animation_complete
 # Experience
 signal send_monster_death_experience(amount: int)
-signal monster_gained_exp(target: Monster, amount: int)
+signal monster_gained_experience(target: Monster, amount: int)
 signal experience_animation_complete
+signal player_done_giving_exp
 # Level
 signal monster_gained_level(target: Monster, amount: int)
 @warning_ignore_restore("unused_signal")

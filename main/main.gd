@@ -17,7 +17,7 @@ func _process(_delta: float) -> void:
 		get_tree().quit()
 
 
-func _input(event):
+func _input(_event):
 	pass
 	#if event is InputEventMouse:
 		#get_viewport().set_input_as_handled()

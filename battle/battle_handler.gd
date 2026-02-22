@@ -46,14 +46,10 @@ func _execute_turn_queue() -> void:
 	for entry in turn_queue:
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
-		var exp_completed = [false]
-		var on_exp_complete = func(): exp_completed[0] = true
-		Global.experience_animation_complete.connect(on_exp_complete, CONNECT_ONE_SHOT)
 		
 		await entry.action.execute(actor, target)
 		if target and target.is_fainted and target == battle.enemy_actor:
-			if not exp_completed[0]:
-				await Global.experience_animation_complete
+			await Global.player_done_giving_exp
 		
 		if _check_enemy_out_of_monsters():
 			_win()

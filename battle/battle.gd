@@ -62,10 +62,14 @@ func _toggle_visible() -> void:
 	processing = !processing
 	if visible:
 		input_handler._focus_default()
+		player_display["exp_bar"].active = true
+	else:
+		player_display["exp_bar"].active = false
 
 
 func _toggle_player() -> void:
 	Global.toggle_player.emit()
+	Global.toggle_in_battle.emit()
 
 
 func _connect_signals() -> void:

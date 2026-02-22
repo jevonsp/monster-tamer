@@ -13,6 +13,10 @@ var held_keys: Array = []
 var key_hold_times: Dictionary = {}
 var turn_timer: float = 0.0
 var processing: bool = true
+var in_battle: bool = false:
+	set(value):
+		in_battle = value
+		print(in_battle)
 #endregion
 
 var party: Array[Monster] = []
@@ -59,6 +63,7 @@ func _input(event: InputEvent) -> void:
 
 func _bind_signals() -> void:
 	Global.toggle_player.connect(toggle_processing)
+	Global.toggle_in_battle.connect(toggle_in_battle)
 	Global.player_party_requested.connect(send_player_party)
 	Global.send_monster_death_experience.connect(_grant_party_experience)
 	Global.send_respawn_player.connect(_respawn)
@@ -194,6 +199,9 @@ func _attempt_interaction() -> void:
 func toggle_processing() -> void:
 	clear_inputs()
 	processing = !processing
+	
+func toggle_in_battle() -> void:
+	in_battle = not in_battle
 #endregion
 
 #region Party Utils
@@ -222,7 +230,8 @@ func _grant_party_experience(amount: int) -> void:
 		if monster.was_in_battle:
 			getting_exp.append(monster)
 	for monster in getting_exp:
-		monster.gain_exp(int(amount / float(getting_exp.size())))
+		await monster.gain_exp(int(amount / float(getting_exp.size())), in_battle)
+	Global.player_done_giving_exp.emit()
 		
 func heal_party() -> void:
 	for monster in party:
