@@ -71,10 +71,10 @@ func _toggle_visible() -> void:
 	if visible:
 		_focus_default_monster()
 		for panel in panels:
-			panel.active = true
+			panels[panel].player_exp_bar.active = true
 	else:
 		for panel in panels:
-			panel.active = false
+			panels[panel].player_exp_bar.active = false
 	if options_box.visible:
 		_focus_default_option()
 		

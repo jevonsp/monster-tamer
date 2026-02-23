@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://dccjfwinnfoc3" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="Script" uid="uid://c2p5hrggrr333" path="res://player/party_handler.gd" id="2_yw30f"]
+[ext_resource type="Script" uid="uid://b6d3li8e862ak" path="res://player/inventory_handler.gd" id="3_qjkh3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oul6g"]
 size = Vector2(16, 16)
@@ -517,6 +519,12 @@ transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition
 [node name="Player" type="CharacterBody2D" unique_id=930582059]
 collision_layer = 2
 script = ExtResource("1_rkbax")
+
+[node name="PartyHandler" type="Node" parent="." unique_id=746245453]
+script = ExtResource("2_yw30f")
+
+[node name="InventoryHandler" type="Node" parent="." unique_id=68802711]
+script = ExtResource("3_qjkh3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1210260323]
 position = Vector2(8, 8)

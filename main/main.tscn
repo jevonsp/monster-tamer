@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary.tscn" id="3_na0o7"]
 [ext_resource type="PackedScene" uid="uid://ba2j8pt8gyeia" path="res://world_objects/encounter/wild_zone.tscn" id="4_c651c"]
+[ext_resource type="PackedScene" uid="uid://bdu1o6lykdp4n" path="res://ui/inventory.tscn" id="5_4hmqs"]
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="5_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
 [ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger.tres" id="7_grrlh"]
@@ -16,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_item.tscn" id="15_5xyti"]
 [ext_resource type="PackedScene" uid="uid://ch4kvp8k6tpxs" path="res://world_objects/interactable/npc/trainer/trainer.tscn" id="16_n3o0a"]
+[ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="17_s758e"]
 
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
@@ -41,6 +43,9 @@ visible = false
 visible = false
 
 [node name="Summary" parent="Interfaces" unique_id=239759928 instance=ExtResource("3_na0o7")]
+visible = false
+
+[node name="Inventory" parent="Interfaces" unique_id=713585617 instance=ExtResource("5_4hmqs")]
 visible = false
 
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
@@ -77,7 +82,7 @@ shape = SubResource("RectangleShape2D_3wy1v")
 
 [node name="NPC" parent="." unique_id=431393256 instance=ExtResource("8_67ri8")]
 position = Vector2(16, 16)
-dialogue = Array[String](["This is test question"])
+dialogue = Array[String](["Would you like to heal your monsters and set your respawn point?"])
 is_question = true
 
 [node name="NPCRespawnComponent" parent="NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
@@ -92,5 +97,4 @@ text = Array[String](["This is a sign."])
 
 [node name="GroundItem" parent="." unique_id=726795139 instance=ExtResource("15_5xyti")]
 position = Vector2(64, 16)
-text = Array[String](["Item found"])
-is_question = true
+item = ExtResource("17_s758e")

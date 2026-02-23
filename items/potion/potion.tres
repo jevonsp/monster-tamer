@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://c2vdpfxevsbcy"]
+
+[ext_resource type="Script" uid="uid://c3s5668st8huq" path="res://classes/Item.gd" id="1_joxrx"]
+
+[resource]
+script = ExtResource("1_joxrx")
+name = "Potion"
+description = "Heals for 20."
+is_healing = true
+metadata/_custom_type_script = "uid://c3s5668st8huq"

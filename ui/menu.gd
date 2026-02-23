@@ -32,7 +32,8 @@ func _on_menu_pressed(button: Button) -> void:
 			Global.request_open_party.emit()
 			_toggle_visible()
 		"Items":
-			print("Items")
+			Global.request_open_inventory.emit()
+			_toggle_visible()
 		"Save":
 			print("Save")
 		"Options":

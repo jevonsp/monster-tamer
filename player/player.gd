@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 #region Movement Vars
 const TILE_SIZE := 16.0
 @export var WALK_SPEED := 5.0
@@ -19,11 +20,10 @@ var in_battle: bool = false:
 		print(in_battle)
 #endregion
 
-var party: Array[Monster] = []
-var storage: Array[Monster] = []
-
 var respawn_point: Vector2 = Vector2.ZERO
 
+@onready var party_handler: Node = $PartyHandler
+@onready var inventory_handler: Node = $InventoryHandler
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var anim_state = animation_tree.get("parameters/playback")
@@ -64,8 +64,6 @@ func _input(event: InputEvent) -> void:
 func _bind_signals() -> void:
 	Global.toggle_player.connect(toggle_processing)
 	Global.toggle_in_battle.connect(toggle_in_battle)
-	Global.player_party_requested.connect(send_player_party)
-	Global.send_monster_death_experience.connect(_grant_party_experience)
 	Global.send_respawn_player.connect(_respawn)
 	Global.on_menu_closed.connect(_on_menu_closed)
 
@@ -202,44 +200,9 @@ func toggle_processing() -> void:
 	
 func toggle_in_battle() -> void:
 	in_battle = not in_battle
-#endregion
-
-#region Party Utils
-func add(monster: Monster):
-	"""Single entry point for adding monsters to the party or storage"""
-	if not _add_to_party(monster):
-		_add_to_storage(monster)
-
-func _add_to_party(monster: Monster) -> bool:
-	"""Adds an existing monster to the party or storage"""
-	if party.size() < 6:
-		party.append(monster)
-		return true
-	else:
-		return false
-	
-func _add_to_storage(monster: Monster) -> void:
-	storage.append(monster)
-
-func send_player_party() -> void:
-	Global.send_player_party.emit(party)
-	
-func _grant_party_experience(amount: int) -> void:
-	var getting_exp: Array[Monster]
-	for monster in party:
-		if monster.was_in_battle:
-			getting_exp.append(monster)
-	for monster in getting_exp:
-		await monster.gain_exp(int(amount / float(getting_exp.size())), in_battle)
-	Global.player_done_giving_exp.emit()
-		
-func heal_party() -> void:
-	for monster in party:
-		monster.heal(false)
-		
-func heal_and_revive_party() -> void:
-	for monster in party:
-		monster.heal(true)
+	if not in_battle:
+		for monster in party_handler.party:
+			monster.was_in_battle = false
 #endregion
 
 func set_respawn_point() -> void:
@@ -247,10 +210,11 @@ func set_respawn_point() -> void:
 	
 func _respawn() -> void:
 	global_position = respawn_point
-	heal_and_revive_party()
+	party_handler.heal_and_revive_party()
 
 func _open_menu() -> void:
-	send_player_party()
+	party_handler.send_player_party()
+	inventory_handler.send_player_inventory()
 	if move_progress != 0.0:
 		await Global.step_completed
 	toggle_processing()

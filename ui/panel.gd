@@ -1,5 +1,4 @@
 extends Button
-
 @onready var name_label: Label = $VBoxContainer/HBoxContainer0/MarginContainer0/NameLabel
 @onready var player_level_label: Label = $VBoxContainer/HBoxContainer0/MarginContainer1/PlayerLevelLabel
 @onready var portrait: TextureRect = $VBoxContainer/HBoxContainer1/Portrait

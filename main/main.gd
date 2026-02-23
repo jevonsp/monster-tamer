@@ -9,7 +9,7 @@ func _ready() -> void:
 	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	var monster = PISTOL_SHRIMP.set_up(1)
-	player.add(monster)
+	player.party_handler.add(monster)
 
 
 func _process(_delta: float) -> void:

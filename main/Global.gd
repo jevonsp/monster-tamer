@@ -9,8 +9,12 @@ signal send_respawn_player
 signal battle_started
 # WildZone
 signal wild_battle_requested(mon_data: MonsterData, level: int)
-signal player_party_requested
+# Party
 signal send_player_party(party: Array[Monster])
+#signal player_party_requested
+# Inventory
+signal send_player_inventory(inventory: Dictionary[Item, int])
+#signal player_inventory_requested
 # Trainer
 
 # Overworld
@@ -23,6 +27,9 @@ signal on_menu_closed
 # Party
 signal request_open_party
 signal on_party_closed
+# Inventory
+signal request_open_inventory
+signal on_inventory_closed
 # Summary
 signal send_summary_index(index: int)
 signal request_open_summary
