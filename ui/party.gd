@@ -1,5 +1,6 @@
 extends Control
 var processing: bool = false
+var is_accessed_from_inventory: bool = false
 var last_focused_monster: int = -1
 var last_focused_option: int = -1
 @onready var panels: Dictionary = {
@@ -43,6 +44,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_on_party_change)
 	Global.request_open_party.connect(_toggle_visible)
+	Global.request_access_party_from_inventory.connect(_toggle_is_accessed_from_inventory)
 
 
 func _bind_buttons() -> void:
@@ -77,8 +79,8 @@ func _toggle_visible() -> void:
 			panels[panel].player_exp_bar.active = false
 	if options_box.visible:
 		_focus_default_option()
-		
-		
+	
+	
 func _toggle_options_visible() -> void:
 	options_box.visible = not options_box.visible
 	if options_box.visible:
@@ -88,12 +90,18 @@ func _toggle_options_visible() -> void:
 		
 		
 func _focus_default_monster() -> void:
-	var panel
+	var panel_key
 	if last_focused_monster == -1:
-		panel = panels.keys()[0]
+		panel_key = panels.keys()[0]
 	else:
-		panel = panels.keys()[last_focused_monster]
-	panels[panel].grab_focus()
+		panel_key = panels.keys()[last_focused_monster]
+		
+	var panel = panels[panel_key]
+	print("Panel visible: ", panel.visible)
+	print("Panel disabled: ", panel.disabled)
+	print("Panel focus mode: ", panel.focus_mode)
+	
+	panel.grab_focus()
 
 
 func _focus_default_option() -> void:
@@ -106,9 +114,15 @@ func _focus_default_option() -> void:
 
 
 func _on_monster_pressed(button: Button) -> void:
-	_toggle_options_visible()
-	var num := int(button.name.trim_prefix("Panel"))
-	last_focused_monster = num
+	if not is_accessed_from_inventory:
+		_toggle_options_visible()
+		var num := int(button.name.trim_prefix("Panel"))
+		last_focused_monster = num
+	else:
+		Global.monster_selected.emit(button.actor)
+		_toggle_visible()
+		_toggle_is_accessed_from_inventory()
+		Global.request_open_inventory.emit()
 
 
 func _on_option_pressed(button: Button) -> void:
@@ -122,10 +136,13 @@ func _on_option_pressed(button: Button) -> void:
 			print("Give")
 		"Summary":
 			_open_monster_summary(last_focused_monster)
-			
 
 
 func _open_monster_summary(index: int) -> void:
 	Global.send_summary_index.emit(index)
 	Global.request_open_summary.emit()
 	_toggle_visible()
+
+
+func _toggle_is_accessed_from_inventory() -> void:
+	is_accessed_from_inventory = not is_accessed_from_inventory

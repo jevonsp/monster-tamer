@@ -4,7 +4,7 @@ var party: Array[Monster] = []
 var storage: Array[Monster] = []
 @onready var player: CharacterBody2D = $".."
 
-func _bind_signals() -> void:
+func bind_signals() -> void:
 	Global.player_party_requested.connect(send_player_party)
 	Global.send_monster_death_experience.connect(_grant_party_experience)
 

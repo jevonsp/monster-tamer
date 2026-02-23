@@ -6,5 +6,6 @@
 script = ExtResource("1_joxrx")
 name = "Potion"
 description = "Heals for 20."
+is_usable = true
 is_healing = true
 metadata/_custom_type_script = "uid://c3s5668st8huq"

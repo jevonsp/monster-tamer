@@ -4,6 +4,7 @@ var processing: bool = false
 var text_array: Array[String]
 var is_auto_complete: bool = false
 var is_question: bool = false
+var toggles_player: bool = false
 var text_index: int
 var obj_ref: Node
 @onready var main_label: Label = $Panel/MarginContainer/Label
@@ -53,7 +54,7 @@ func _toggle_questions_visible() -> void:
 				button.release_focus()
 
 
-func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: bool) -> void:
+func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: bool, tp: bool) -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	if player.processing:
 		Global.toggle_player.emit()
@@ -62,6 +63,7 @@ func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: boo
 	is_question = question
 	text_array = ta
 	is_auto_complete = auto_complete
+	toggles_player = tp
 	if not is_auto_complete:
 		processing = true
 	text_index = 0
@@ -123,7 +125,9 @@ func _clean_up() -> void:
 	is_auto_complete = false
 	obj_ref = null
 	text_index = 0
-	Global.toggle_player.emit()
+	if toggles_player:
+		Global.toggle_player.emit()
+	toggles_player = false
 
 
 func _on_no_pressed() -> void:

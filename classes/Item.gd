@@ -5,6 +5,7 @@ class_name Item
 @export var inventory_texture: Texture2D
 @export var description: String = ""
 @export var is_held: bool = false
+@export var is_usable: bool = false
 @export var is_healing: bool = false
 
 func use(_target: Monster) -> void:

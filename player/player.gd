@@ -66,6 +66,7 @@ func _bind_signals() -> void:
 	Global.toggle_in_battle.connect(toggle_in_battle)
 	Global.send_respawn_player.connect(_respawn)
 	Global.on_menu_closed.connect(_on_menu_closed)
+	party_handler.bind_signals()
 
 #region Movement and Interaction
 func update_held_keys(delta: float) -> void:

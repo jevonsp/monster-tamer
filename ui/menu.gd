@@ -13,7 +13,7 @@ func _bind_buttons() -> void:
 		button.pressed.connect(_on_menu_pressed.bind(button))
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
 	if event.is_action_pressed("menu"):
@@ -29,11 +29,11 @@ func _input(event: InputEvent) -> void:
 func _on_menu_pressed(button: Button) -> void:
 	match button.name:
 		"Party":
+			_toggle_visible()
 			Global.request_open_party.emit()
-			_toggle_visible()
 		"Items":
-			Global.request_open_inventory.emit()
 			_toggle_visible()
+			Global.request_open_inventory.emit()
 		"Save":
 			print("Save")
 		"Options":
@@ -46,8 +46,8 @@ func _toggle_visible() -> void:
 	if visible:
 		_focus_default()
 
-		
-func _focus_default():
+
+func _focus_default() -> void:
 	var buttons = get_tree().get_nodes_in_group("menu_buttons")
 	if buttons:
 		buttons[0].grab_focus()

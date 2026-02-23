@@ -28,7 +28,8 @@ func interact(body: CharacterBody2D) -> void:
 			return
 		if text == [""]:
 			var formatted: Array[String] = ["You found a %s!" % [item.name]]
-			Global.send_overworld_text_box.emit(self, formatted, is_autocomplete, is_question)
+			var tp = true # Toggles Player
+			Global.send_overworld_text_box.emit(self, formatted, is_autocomplete, is_question, tp)
 	if not is_question:
 		await Global.overworld_text_box_complete
 		trigger(body)

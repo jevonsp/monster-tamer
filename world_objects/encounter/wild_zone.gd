@@ -14,6 +14,7 @@ func roll_encounter() -> bool:
 	
 	
 func choose_encounter() -> void:
+	Global.player_party_requested.emit()
 	var total_chance := 0.0
 	for e in encounter_table:
 		total_chance += e.chance
@@ -28,7 +29,6 @@ func choose_encounter() -> void:
 		cumulative_chance += e.chance
 		if roll <= cumulative_chance:
 			var level = randi_range(e.level_low, e.level_high)
-			Global.player_party_requested.emit()
 			Global.wild_battle_requested.emit(e.monster, level)
 			Global.battle_started.emit()
 			return

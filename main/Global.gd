@@ -11,15 +11,15 @@ signal battle_started
 signal wild_battle_requested(mon_data: MonsterData, level: int)
 # Party
 signal send_player_party(party: Array[Monster])
-#signal player_party_requested
+signal player_party_requested
 # Inventory
 signal send_player_inventory(inventory: Dictionary[Item, int])
-#signal player_inventory_requested
+signal player_inventory_requested
 # Trainer
 
 # Overworld
 # DialogueLabel
-signal send_overworld_text_box(object: Node, text: Array[String], auto_complete: bool, is_question: bool)
+signal send_overworld_text_box(object: Node, text: Array[String], auto_complete: bool, is_question: bool, toggles_player: bool)
 signal overworld_text_box_complete
 # Menu
 signal request_open_menu
@@ -27,9 +27,13 @@ signal on_menu_closed
 # Party
 signal request_open_party
 signal on_party_closed
+signal monster_selected(monster: Monster)
 # Inventory
 signal request_open_inventory
 signal on_inventory_closed
+signal request_access_party_from_inventory
+signal use_item_on(item: Item, monster: Monster)
+signal give_item_to(item: Item, monster: Monster)
 # Summary
 signal send_summary_index(index: int)
 signal request_open_summary

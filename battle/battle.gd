@@ -116,6 +116,7 @@ func end_battle() -> void:
 
 func _set_player_party(party: Array[Monster]) -> void:
 	player_party = party
+	print(player_party)
 
 
 func _check_player_actor_fainted() -> bool:

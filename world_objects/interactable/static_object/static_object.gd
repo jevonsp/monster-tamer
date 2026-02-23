@@ -9,4 +9,5 @@ func interact(body: CharacterBody2D) -> void:
 		printerr("Static Obj %s interacted with by Body %s,\nThis should never happen.\nExiting interact()")
 		return
 	if text != [""]:
-		Global.send_overworld_text_box.emit(self, text, is_autocomplete, is_question)
+		var tp = true # Toggles Player
+		Global.send_overworld_text_box.emit(self, text, is_autocomplete, is_question, tp)
