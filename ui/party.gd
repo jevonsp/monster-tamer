@@ -32,6 +32,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		Global.toggle_player.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
+		if is_accessed_from_inventory:
+			_toggle_visible()
+			Global.request_open_inventory.emit()
+			return
 		if not options_box.visible:
 			_toggle_visible()
 			Global.on_party_closed.emit()
@@ -142,13 +146,14 @@ func _on_option_pressed(button: Button) -> void:
 func use() -> void:
 	_toggle_options_visible()
 	_toggle_visible()
-	Global.request_access_inventory_from_party.emit()
+	Global.request_access_inventory_from_party.emit(true, false)
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
 	print("got item: ", item.name)
 	if not item.is_usable:
 		var ta: Array[String] = ["That item isn't usable!"]
-		Global.send_overworld_text_box.emit(self, ta, true, false)
+		var toggles_player = false
+		Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
 		await Global.overworld_text_box_complete
 		return
 	var actor = panels.values()[last_focused_monster].actor
@@ -158,17 +163,19 @@ func use() -> void:
 func give() -> void:
 	_toggle_options_visible()
 	_toggle_visible()
-	Global.request_access_inventory_from_party.emit()
+	Global.request_access_inventory_from_party.emit(false, true)
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
 	print("got item: ", item.name)
 	if not item.is_held:
 		var ta: Array[String] = ["That item isn't holdable!"]
-		Global.send_overworld_text_box.emit(self, ta, true, false)
+		var toggles_player = false
+		Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
 		await Global.overworld_text_box_complete
 		return
 	var actor = panels.values()[last_focused_monster].actor
 	Global.give_item_to.emit(item, actor)
+
 
 func _open_monster_summary(index: int) -> void:
 	Global.send_summary_index.emit(index)

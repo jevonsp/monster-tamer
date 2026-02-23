@@ -30,12 +30,12 @@ signal on_menu_closed
 signal request_open_party
 signal on_party_closed
 signal monster_selected(monster: Monster)
-signal request_access_inventory_from_party
+signal request_access_inventory_from_party(is_using: bool, is_giving: bool)
 # UI Inventory
 signal request_open_inventory
 signal on_inventory_closed
 signal item_selected(item: Item)
-signal request_access_party_from_inventory
+signal request_access_party_from_inventory()
 # Summary
 signal send_summary_index(index: int)
 signal request_open_summary

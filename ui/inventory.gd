@@ -2,6 +2,8 @@ extends Control
 const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
 var processing: bool = false
 var is_accessed_from_party: bool = false
+var is_using: bool = false
+var is_giving: bool = false
 var last_focused_option: Button = null
 var last_focused_button: Button = null
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
@@ -27,6 +29,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		Global.toggle_player.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
+		if is_accessed_from_party:
+			print("[inventory] no pressed, is_accessed_from_party=", is_accessed_from_party, " — closing inventory, reopening")
+			_toggle_visible()
+			print("[inventory] visible=", visible, " processing=", processing, " is_accessed_from_party=", is_accessed_from_party)
+			Global.request_open_party.emit()
+			get_viewport().set_input_as_handled()
+			return
 		if not options_box.visible:
 			_toggle_visible()
 			Global.on_inventory_closed.emit()
@@ -69,7 +78,13 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 	if not is_accessed_from_party:
 		_toggle_options_visible()
 	else:
-		var item = last_focused_button.item_repr
+		var item: Item = last_focused_button.item_repr
+		if is_using and item.is_held:
+			await show_cant_use_text()
+			return
+		if is_giving and not item.is_held:
+			await show_cant_hold_text()
+			return
 		_toggle_visible()
 		Global.item_selected.emit(item)
 		Global.request_open_party.emit()
@@ -95,7 +110,7 @@ func _toggle_visible() -> void:
 		last_focused_button = null
 		last_focused_option = option_buttons.use
 		if is_accessed_from_party:
-			_toggle_is_accessed_from_party()
+			_toggle_is_accessed_from_party(false, false)
 		
 
 
@@ -128,9 +143,7 @@ func _focus_option_default() -> void:
 
 func use(item: Item) -> void:
 	if not item.is_usable:
-		var ta: Array[String] = ["That item isn't usable!"]
-		Global.send_overworld_text_box.emit(self, ta, true, false)
-		await Global.overworld_text_box_complete
+		show_cant_use_text()
 		return
 	if not is_accessed_from_party:
 		_toggle_options_visible()
@@ -143,9 +156,7 @@ func use(item: Item) -> void:
 
 func give(item: Item) -> void:
 	if not item.is_held:
-		var ta: Array[String] = ["That item isn't holdable!"]
-		Global.send_overworld_text_box.emit(self, ta, true, false)
-		await Global.overworld_text_box_complete
+		await show_cant_hold_text()
 		return
 	if not is_accessed_from_party:
 		_toggle_options_visible()
@@ -156,5 +167,20 @@ func give(item: Item) -> void:
 		Global.give_item_to.emit(item, monster)
 
 
-func _toggle_is_accessed_from_party() -> void:
+func show_cant_use_text() -> void:
+	var ta: Array[String] = ["That item isn't usable!"]
+	var toggles_player = false
+	Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
+	await Global.overworld_text_box_complete
+
+
+func show_cant_hold_text() -> void:
+	var ta: Array[String] = ["That item isn't holdable!"]
+	var toggles_player = false
+	Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
+	await Global.overworld_text_box_complete
+
+
+func _toggle_is_accessed_from_party(using: bool, giving: bool) -> void:
+	is_using = using; is_giving = giving
 	is_accessed_from_party = not is_accessed_from_party
