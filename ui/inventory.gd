@@ -1,6 +1,7 @@
 extends Control
 const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
 var processing: bool = false
+var is_accessed_from_party: bool = false
 var last_focused_option: Button = null
 var last_focused_button: Button = null
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
@@ -42,6 +43,7 @@ func _bind_buttons() -> void:
 func _connect_signals() -> void:
 	Global.send_player_inventory.connect(_on_inventory_change)
 	Global.request_open_inventory.connect(_toggle_visible)
+	Global.request_access_inventory_from_party.connect(_toggle_is_accessed_from_party)
 
 
 func _on_inventory_change(inventory: Dictionary[Item, int]) -> void:
@@ -64,7 +66,13 @@ func _create_item(amount: int, item: Item):
 
 func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 	last_focused_button = inventory_panel
-	_toggle_options_visible()
+	if not is_accessed_from_party:
+		_toggle_options_visible()
+	else:
+		var item = last_focused_button.item_repr
+		_toggle_visible()
+		Global.item_selected.emit(item)
+		Global.request_open_party.emit()
 		
 		
 func _on_option_pressed(button: Button) -> void:
@@ -86,6 +94,8 @@ func _toggle_visible() -> void:
 	if not visible:
 		last_focused_button = null
 		last_focused_option = option_buttons.use
+		if is_accessed_from_party:
+			_toggle_is_accessed_from_party()
 		
 
 
@@ -122,12 +132,13 @@ func use(item: Item) -> void:
 		Global.send_overworld_text_box.emit(self, ta, true, false)
 		await Global.overworld_text_box_complete
 		return
-	_toggle_options_visible()
-	_toggle_visible()
-	Global.request_access_party_from_inventory.emit()
-	Global.request_open_party.emit()
-	var monster = await Global.monster_selected
-	print("would use %s on %s" % [item.name, monster.name])
+	if not is_accessed_from_party:
+		_toggle_options_visible()
+		_toggle_visible()
+		Global.request_access_party_from_inventory.emit()
+		Global.request_open_party.emit()
+		var monster = await Global.monster_selected
+		Global.use_item_on.emit(item, monster)
 
 
 func give(item: Item) -> void:
@@ -136,9 +147,14 @@ func give(item: Item) -> void:
 		Global.send_overworld_text_box.emit(self, ta, true, false)
 		await Global.overworld_text_box_complete
 		return
-	_toggle_options_visible()
-	_toggle_visible()
-	Global.request_access_party_from_inventory.emit()
-	Global.request_open_party.emit()
-	var monster = await Global.monster_selected
-	print("would give %s to %s" % [item.name, monster.name])
+	if not is_accessed_from_party:
+		_toggle_options_visible()
+		_toggle_visible()
+		Global.request_access_party_from_inventory.emit()
+		Global.request_open_party.emit()
+		var monster = await Global.monster_selected
+		Global.give_item_to.emit(item, monster)
+
+
+func _toggle_is_accessed_from_party() -> void:
+	is_accessed_from_party = not is_accessed_from_party

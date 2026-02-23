@@ -97,9 +97,6 @@ func _focus_default_monster() -> void:
 		panel_key = panels.keys()[last_focused_monster]
 		
 	var panel = panels[panel_key]
-	print("Panel visible: ", panel.visible)
-	print("Panel disabled: ", panel.disabled)
-	print("Panel focus mode: ", panel.focus_mode)
 	
 	panel.grab_focus()
 
@@ -126,17 +123,52 @@ func _on_monster_pressed(button: Button) -> void:
 
 
 func _on_option_pressed(button: Button) -> void:
-	var index_map := {"Use": 0, "Give": 1, "Summary": 2}
+	var index_map := {"Use": 0, "Give": 1, "Summary": 2, "Move": 3}
 	if button.name in index_map:
 		last_focused_option = index_map[button.name]
 	match button.name:
 		"Use":
 			print("Use")
+			use()
 		"Give":
 			print("Give")
+			give()
 		"Summary":
 			_open_monster_summary(last_focused_monster)
+		"Move":
+			print("Move")
 
+
+func use() -> void:
+	_toggle_options_visible()
+	_toggle_visible()
+	Global.request_access_inventory_from_party.emit()
+	Global.request_open_inventory.emit()
+	var item = await Global.item_selected
+	print("got item: ", item.name)
+	if not item.is_usable:
+		var ta: Array[String] = ["That item isn't usable!"]
+		Global.send_overworld_text_box.emit(self, ta, true, false)
+		await Global.overworld_text_box_complete
+		return
+	var actor = panels.values()[last_focused_monster].actor
+	Global.use_item_on.emit(item, actor)
+	
+	
+func give() -> void:
+	_toggle_options_visible()
+	_toggle_visible()
+	Global.request_access_inventory_from_party.emit()
+	Global.request_open_inventory.emit()
+	var item = await Global.item_selected
+	print("got item: ", item.name)
+	if not item.is_held:
+		var ta: Array[String] = ["That item isn't holdable!"]
+		Global.send_overworld_text_box.emit(self, ta, true, false)
+		await Global.overworld_text_box_complete
+		return
+	var actor = panels.values()[last_focused_monster].actor
+	Global.give_item_to.emit(item, actor)
 
 func _open_monster_summary(index: int) -> void:
 	Global.send_summary_index.emit(index)

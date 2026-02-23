@@ -22,9 +22,9 @@ func send_player_inventory() -> void:
 
 
 func _on_use_item_on(item: Item, monster: Monster) -> void:
-	pass
+	print("got _on_use_item_on %s %s" % [item, monster])
 	
 func _on_give_item_to(item: Item, monster: Monster) -> void:
-	pass
+	print("got _on_give_item_to %s %s" % [item, monster])
 	
 	
