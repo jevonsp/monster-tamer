@@ -43,7 +43,7 @@ func advance_text() -> void:
 	
 func text_finished() -> void:
 	clean_up()
-	Global.battle_text_box_complete.emit()
+	Global.text_box_complete.emit()
 	
 	
 func clean_up() -> void:

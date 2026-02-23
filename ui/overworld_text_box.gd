@@ -58,7 +58,8 @@ func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: boo
 	var player = get_tree().get_first_node_in_group("player")
 	if player.processing:
 		Global.toggle_player.emit()
-	_toggle_visible()
+	if not visible:
+		_toggle_visible()
 	obj_ref = obj
 	is_question = question
 	text_array = ta
@@ -111,7 +112,7 @@ func _trigger() -> void:
 	
 func _text_finished() -> void:
 	_clean_up()
-	Global.overworld_text_box_complete.emit()
+	Global.text_box_complete.emit()
 	
 	
 func _clean_up() -> void:

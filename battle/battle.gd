@@ -4,6 +4,7 @@ var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []
 var enemy_party: Array[Monster] = []
+
 #region NODE REFERENCES
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
@@ -75,6 +76,7 @@ func _toggle_player() -> void:
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_set_player_party)
 	Global.wild_battle_requested.connect(_start_wild_battle)
+	input_handler._connect_signals()
 
 
 func _bind_buttons() -> void:
@@ -93,7 +95,8 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	enemy_actor = enemy_party[0]
 	
 	player_actor = player_party[0]
-	player_actor.was_in_battle = true
+	
+	_set_actors_in_battle()
 	
 	ui_handler._display_current_monsters()
 	_toggle_player()
@@ -105,7 +108,13 @@ func _start_trainer_battle(trainer_party: Array[Monster]) -> void:
 	
 	enemy_party = trainer_party.duplicate()
 	enemy_actor = enemy_party[0]
-	
+
+
+func _set_actors_in_battle():
+	for party in [player_party, enemy_party]:
+		for m: Monster in party:
+			m.player_in_battle = true
+
 
 func end_battle() -> void:
 	_clear_all()
@@ -116,7 +125,6 @@ func end_battle() -> void:
 
 func _set_player_party(party: Array[Monster]) -> void:
 	player_party = party
-	print(player_party)
 
 
 func _check_player_actor_fainted() -> bool:

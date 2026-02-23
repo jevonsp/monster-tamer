@@ -14,10 +14,7 @@ var held_keys: Array = []
 var key_hold_times: Dictionary = {}
 var turn_timer: float = 0.0
 var processing: bool = true
-var in_battle: bool = false:
-	set(value):
-		in_battle = value
-		print(in_battle)
+var in_battle: bool = false
 #endregion
 
 var respawn_point: Vector2 = Vector2.ZERO
@@ -191,6 +188,8 @@ func clear_inputs() -> void:
 
 func _attempt_interaction() -> void:
 	if ray_cast_2d.is_colliding():
+		if move_progress != 0.0:
+			await Global.step_completed
 		var collider = ray_cast_2d.get_collider()
 		if collider.is_in_group("interactable"):
 			collider.interact(self)
@@ -203,7 +202,7 @@ func toggle_in_battle() -> void:
 	in_battle = not in_battle
 	if not in_battle:
 		for monster in party_handler.party:
-			monster.was_in_battle = false
+			monster.was_active_in_battle = false
 #endregion
 
 func set_respawn_point() -> void:
@@ -211,7 +210,7 @@ func set_respawn_point() -> void:
 	
 func _respawn() -> void:
 	global_position = respawn_point
-	party_handler.heal_and_revive_party()
+	party_handler.fully_heal_and_revive_party()
 
 func _open_menu() -> void:
 	party_handler.send_player_party()

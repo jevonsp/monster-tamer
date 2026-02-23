@@ -88,13 +88,13 @@ func _check_player_out_of_monsters() -> bool:
 func _win() -> void:
 	var text: Array[String] = ["You won!"]
 	Global.send_battle_text_box.emit(text, false)
-	await Global.battle_text_box_complete
+	await Global.text_box_complete
 	battle.end_battle()
 
 
 func _lose() -> void:
 	var text: Array[String] = ["You lost!"]
 	Global.send_battle_text_box.emit(text, false)
-	await Global.battle_text_box_complete
+	await Global.text_box_complete
 	battle.end_battle()
 	Global.send_respawn_player.emit()

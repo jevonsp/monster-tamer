@@ -2,6 +2,7 @@ extends Control
 const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
 var processing: bool = false
 var is_accessed_from_party: bool = false
+var is_accessed_from_menu: bool = false
 var is_using: bool = false
 var is_giving: bool = false
 var last_focused_option: Button = null
@@ -30,16 +31,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
 		if is_accessed_from_party:
-			print("[inventory] no pressed, is_accessed_from_party=", is_accessed_from_party, " — closing inventory, reopening")
 			_toggle_visible()
-			print("[inventory] visible=", visible, " processing=", processing, " is_accessed_from_party=", is_accessed_from_party)
 			Global.request_open_party.emit()
 			get_viewport().set_input_as_handled()
 			return
 		if not options_box.visible:
 			_toggle_visible()
 			Global.on_inventory_closed.emit()
-			Global.request_open_menu.emit()
+			if is_accessed_from_menu:
+				Global.request_open_menu.emit()
+			is_accessed_from_menu = false
 		else:
 			_toggle_options_visible()
 		get_viewport().set_input_as_handled()
@@ -53,6 +54,7 @@ func _connect_signals() -> void:
 	Global.send_player_inventory.connect(_on_inventory_change)
 	Global.request_open_inventory.connect(_toggle_visible)
 	Global.request_access_inventory_from_party.connect(_toggle_is_accessed_from_party)
+	Global.request_access_inventory_from_menu.connect(_toggle_is_accessed_from_menu)
 
 
 func _on_inventory_change(inventory: Dictionary[Item, int]) -> void:
@@ -184,3 +186,7 @@ func show_cant_hold_text() -> void:
 func _toggle_is_accessed_from_party(using: bool, giving: bool) -> void:
 	is_using = using; is_giving = giving
 	is_accessed_from_party = not is_accessed_from_party
+
+
+func _toggle_is_accessed_from_menu() -> void:
+	is_accessed_from_menu = not is_accessed_from_menu

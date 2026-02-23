@@ -11,6 +11,9 @@ var _last_focused: Dictionary = {
 }
 @onready var battle: Control = $".."
 
+func _connect_signals() -> void:
+	Global.on_inventory_closed.connect(_focus_default)
+
 func _change_vis_state(new_state: VisibilityState) -> void:
 	vis_state = new_state
 	battle.option_buttons_grid.visible = new_state == VisibilityState.OPTIONS
@@ -18,6 +21,7 @@ func _change_vis_state(new_state: VisibilityState) -> void:
 	_focus_default()
 
 func _focus_default() -> void:
+	print("f")
 	var grid = battle.option_buttons_grid if vis_state == VisibilityState.OPTIONS else battle.move_buttons_grid
 	var index = _last_focused[vis_state]
 	var children = grid.get_children()
@@ -41,10 +45,15 @@ func _on_option_pressed(button: Button) -> void:
 		_last_focused[VisibilityState.OPTIONS] = index_map[button.name]
 		
 	match button.name:
+		"Party":
+			print("Party")
 		"Fight":
 			_change_vis_state(VisibilityState.MOVES)
 		"Run":
 			battle.end_battle()
+		"Item":
+			print("Item")
+			Global.request_open_inventory.emit()
 
 func _on_move_pressed(button: Button) -> void:
 	var num := int(button.name.trim_prefix("Button"))

@@ -31,7 +31,7 @@ func interact(body: CharacterBody2D) -> void:
 			var tp = true # Toggles Player
 			Global.send_overworld_text_box.emit(self, formatted, is_autocomplete, is_question, tp)
 	if not is_question:
-		await Global.overworld_text_box_complete
+		await Global.text_box_complete
 		trigger(body)
 		return
 

@@ -89,6 +89,9 @@ is_question = true
 
 [node name="Trainer" parent="." unique_id=1980082865 instance=ExtResource("16_n3o0a")]
 position = Vector2(64, 64)
+starting_tile = Vector2(64, 64)
+initial_direction = 2
+is_defeated = false
 dialogue = Array[String](["Lets battle!"])
 
 [node name="Sign" parent="." unique_id=425176937 instance=ExtResource("14_73k8k")]

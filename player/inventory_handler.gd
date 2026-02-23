@@ -23,9 +23,11 @@ func send_player_inventory() -> void:
 
 func _on_use_item_on(item: Item, monster: Monster) -> void:
 	print("got _on_use_item_on %s %s" % [item, monster])
+	await item.use(monster)
 	
 	
 func _on_give_item_to(item: Item, monster: Monster) -> void:
 	print("got _on_give_item_to %s %s" % [item, monster])
+	await monster.give(item)
 	
 	

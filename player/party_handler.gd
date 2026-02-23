@@ -16,6 +16,7 @@ func add(monster: Monster):
 
 func _add_to_party(monster: Monster) -> bool:
 	"""Adds an existing monster to the party or storage"""
+	monster.is_player_monster = true
 	if party.size() < 6:
 		party.append(monster)
 		return true
@@ -31,17 +32,14 @@ func send_player_party() -> void:
 func _grant_party_experience(amount: int) -> void:
 	var getting_exp: Array[Monster]
 	for monster in party:
-		if monster.was_in_battle:
+		if monster.was_active_in_battle:
 			getting_exp.append(monster)
 	for monster in getting_exp:
 		await monster.gain_exp(int(amount / float(getting_exp.size())), player.in_battle)
 	Global.player_done_giving_exp.emit()
 		
-func heal_party() -> void:
-	for monster in party:
-		monster.heal(false)
 		
-func heal_and_revive_party() -> void:
+func fully_heal_and_revive_party() -> void:
 	for monster in party:
-		monster.heal(true)
+		monster.fully_heal_and_revive()
 #endregion

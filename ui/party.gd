@@ -17,6 +17,7 @@ var last_focused_option: int = -1
 	give = $MarginContainer/Control/Options/Give,
 	summary = $MarginContainer/Control/Options/Summary,
 }
+
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()

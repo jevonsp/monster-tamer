@@ -26,4 +26,4 @@ func execute(actor: Monster, target: Monster):
 	var post_text: Array[String] = ["It dealt %s damage!" % [damage]]
 	
 	Global.send_battle_text_box.emit(post_text, false)
-	await Global.battle_text_box_complete
+	await Global.text_box_complete

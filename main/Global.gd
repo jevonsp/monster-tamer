@@ -19,13 +19,14 @@ signal use_item_on(item: Item, monster: Monster)
 signal give_item_to(item: Item, monster: Monster)
 # Trainer
 
+signal text_box_complete
 # Overworld
 # DialogueLabel
 signal send_overworld_text_box(object: Node, text: Array[String], auto_complete: bool, is_question: bool, toggles_player: bool)
-signal overworld_text_box_complete
 # Menu
 signal request_open_menu
 signal on_menu_closed
+signal request_access_inventory_from_menu
 # UI Party
 signal request_open_party
 signal on_party_closed
@@ -35,7 +36,7 @@ signal request_access_inventory_from_party(is_using: bool, is_giving: bool)
 signal request_open_inventory
 signal on_inventory_closed
 signal item_selected(item: Item)
-signal request_access_party_from_inventory()
+signal request_access_party_from_inventory
 # Summary
 signal send_summary_index(index: int)
 signal request_open_summary
@@ -44,7 +45,6 @@ signal on_summary_closed
 signal battle_ended
 # Label
 signal send_battle_text_box(text: Array[String], auto_complete: bool)
-signal battle_text_box_complete
 # Move Animation
 signal send_move_animation(scene: PackedScene)
 signal move_animation_complete

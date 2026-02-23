@@ -5,9 +5,15 @@ class_name Trainer
 	set(value):
 		vision_range = value
 		_update_tiles_in_sight()
-
+#region Variables
+@export var starting_tile: Vector2 = Vector2.ZERO
+@export var initial_direction: Direction = Direction.NONE
+@export var is_defeated: bool = false
+#endregion
 func _ready() -> void:
 	super()
+	starting_tile = global_position
+	initial_direction = direction
 	if Engine.is_editor_hint():
 		_update_tiles_in_sight()
 		return
@@ -40,3 +46,9 @@ func check_vision_collision(pos: Vector2) -> void:
 				await walk_list_tiles([tiles_in_sight[i - 1]])
 			_say_dialogue()
 			return
+
+
+func reset_position() -> void:
+	global_position = starting_tile
+	var new_vec = _vector_from_dir(initial_direction)
+	start_turning(new_vec)

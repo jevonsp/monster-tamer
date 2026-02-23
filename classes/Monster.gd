@@ -16,8 +16,11 @@ static var EXPERIENCE_PER_LEVEL = 50
 
 @export var moves: Array = []
 
+@export var is_player_monster: bool = false
+
 @export var is_fainted: bool = false
-@export var was_in_battle: bool = false
+@export var was_active_in_battle: bool = false
+@export var player_in_battle: bool = false
 
 func set_monster_data(md: MonsterData) -> void:
 	monster_data = md
@@ -49,25 +52,35 @@ func take_damage(amount: int) -> void:
 	current_hitpoints = max(0, current_hitpoints - amount)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	if current_hitpoints <= 0:
-		await Global.hitpoints_animation_complete
-		faint()
+		await faint()
 
 
 func faint():
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
 	# Waits for the currently opened text box to be closed
-	await Global.battle_text_box_complete
 	var ta: Array[String] = ["%s fainted!" % [name]]
-	Global.send_battle_text_box.emit(ta, true)
-	await Global.battle_text_box_complete
-	Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
+	if player_in_battle:
+		await Global.text_box_complete
+		Global.send_battle_text_box.emit(ta, true)
+	else:
+		Global.send_overworld_text_box.emit(self. ta, false, false, true)
+	await Global.text_box_complete
+	if not is_player_monster:
+		Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
 	
 	
-func heal(revives: bool) -> void:
-	current_hitpoints = max_hitpoints
+func heal(amount: int, revives: bool = false) -> void:
+	current_hitpoints = max(current_hitpoints + amount, max_hitpoints)
+	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	if revives:
 		is_fainted = false
+	
+	
+func fully_heal_and_revive() -> void:
+	current_hitpoints = max_hitpoints
+	Global.send_hitpoints_change.emit(self, current_hitpoints)
+	is_fainted = false
 	
 	
 func gain_exp(amount: int, in_battle: bool = false) -> void:
@@ -90,6 +103,10 @@ func gain_exp(amount: int, in_battle: bool = false) -> void:
 			await gain_level()
 
 
+func give(item: Item) -> void:
+	print("%s would add %s as held item" % [name, item.name])
+
+
 func get_current_level_exp() -> int:
 	return EXPERIENCE_PER_LEVEL * (level - 1)
 	
@@ -103,4 +120,4 @@ func gain_level(amount: int = 1) -> void:
 	Global.monster_gained_level.emit(self, amount)
 	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
 	Global.send_battle_text_box.emit(ta, false)
-	await Global.battle_text_box_complete
+	await Global.text_box_complete
