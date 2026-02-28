@@ -13,6 +13,7 @@ var _last_focused: Dictionary = {
 
 func _connect_signals() -> void:
 	Global.on_inventory_closed.connect(_focus_default)
+	Global.on_party_closed.connect(_focus_default)
 
 
 func _change_vis_state(new_state: VisibilityState) -> void:
@@ -51,6 +52,7 @@ func _on_option_pressed(button: Button) -> void:
 	match button.name:
 		"Party":
 			print("Party")
+			Global.request_open_party.emit()
 		"Fight":
 			_change_vis_state(VisibilityState.MOVES)
 		"Run":

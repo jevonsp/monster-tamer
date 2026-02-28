@@ -112,6 +112,7 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 				await show_cant_use_text()
 				return
 			Global.add_item_to_turn_queue.emit(item)
+			Global.item_used.emit(item)
 			_toggle_visible()
 			_toggle_giving(false)
 			_toggle_using(false)

@@ -28,6 +28,7 @@ signal send_player_inventory(inventory: Dictionary[Item, int])
 signal player_inventory_requested
 signal use_item_on(item: Item, monster: Monster)
 signal give_item_to(item: Item, monster: Monster)
+signal item_used(item: Item)
 #endregion
 
 #region General UI
@@ -78,6 +79,12 @@ signal monster_gained_experience(target: Monster, amount: int)
 signal experience_animation_complete
 signal player_done_giving_exp
 signal monster_gained_level(target: Monster, amount: int)
+signal grab_default_battle_focus
+signal switch_battle_actors(old: Monster, new: Monster)
+signal send_monster_switch_out(target: Monster)
+signal send_monster_switch_in(target: Monster)
+signal monster_switch_out_animation_complete
+signal monster_switch_in_animation_complete
 #endregion
 
 @warning_ignore_restore("unused_signal")

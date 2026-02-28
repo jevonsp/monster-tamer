@@ -29,7 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if is_question and yes_button.visible:
 		return
-	if event.is_action_pressed("yes"):
+	if event.is_action_pressed("yes") or event.is_action_pressed("no"):
 		_advance_text()
 		get_viewport().set_input_as_handled()
 

@@ -12,7 +12,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
-	if event.is_action_pressed("yes"):
+	if event.is_action_pressed("yes") or event.is_action_pressed("no"):
 		advance_text()
 		get_viewport().set_input_as_handled()
 

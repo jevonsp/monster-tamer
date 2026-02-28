@@ -1,7 +1,7 @@
 extends Node
 @onready var battle: Control = $".."
 var turn_queue: Array[Dictionary] = []
-
+var executing_turn: bool = false
 func _ready() -> void:
 	Global.add_item_to_turn_queue.connect(_execute_player_turn)
 
@@ -49,6 +49,7 @@ func _get_target(actor: Monster, action) -> Monster:
 
 
 func _execute_turn_queue() -> void:
+	executing_turn = true
 	_sort_turn_queue()
 	
 	for entry in turn_queue:
@@ -68,6 +69,7 @@ func _execute_turn_queue() -> void:
 			
 	turn_queue.clear()
 	battle.processing = true
+	executing_turn = false
 	battle.input_handler._manage_focus()
 
 

@@ -36,7 +36,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		match interfaces.ui_context:
 			Global.AccessFrom.INVENTORY:
 				_toggle_visible()
+				Global.on_party_closed.emit()
 				Global.request_open_inventory.emit()
+				return
+			Global.AccessFrom.BATTLE:
+				_toggle_visible()
+				Global.on_party_closed.emit()
 				return
 		if not options_box.visible:
 			_toggle_visible()

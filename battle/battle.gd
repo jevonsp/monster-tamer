@@ -51,6 +51,8 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if battle_handler.executing_turn:
+		return
 	if event.is_action_pressed("no"):
 		match input_handler.vis_state:
 			input_handler.VisibilityState.OPTIONS:
@@ -77,6 +79,7 @@ func _toggle_player() -> void:
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_set_player_party)
 	Global.wild_battle_requested.connect(_start_wild_battle)
+	Global.switch_battle_actors.connect(switch_actors)
 	input_handler._connect_signals()
 
 
@@ -94,9 +97,9 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	
 	var monster: Monster = monster_data.set_up(level)
 	enemy_party = [monster]
-	enemy_actor = enemy_party[0]
+	set_enemy_actor(enemy_party[0])
 	
-	player_actor = player_party[0]
+	set_player_actor(player_party[0])
 	
 	_set_actors_in_battle()
 	
@@ -106,16 +109,24 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 
 
 func _start_trainer_battle(trainer_party: Array[Monster]) -> void:
+	Global.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	_clear_actors()
 	
-	enemy_party = trainer_party.duplicate()
-	enemy_actor = enemy_party[0]
+	_set_enemy_party(trainer_party)
+	set_enemy_actor(enemy_party[0])
+	set_player_actor(player_party[0])
 
 
 func _set_actors_in_battle():
 	for party in [player_party, enemy_party]:
 		for m: Monster in party:
 			m.player_in_battle = true
+			
+			
+func _set_actors_out_of_battle():
+	for party in [player_party]:
+		for m: Monster in party:
+			m.player_in_battle = false
 
 
 func end_battle() -> void:
@@ -125,8 +136,27 @@ func end_battle() -> void:
 	Global.battle_ended.emit()
 
 
+func set_player_actor(monster: Monster) -> void:
+	player_actor = monster
+
+
+func set_enemy_actor(monster: Monster) -> void:
+	enemy_actor = monster
+
+
 func _set_player_party(party: Array[Monster]) -> void:
 	player_party = party
+
+
+func _set_enemy_party(party: Array[Monster]) -> void:
+	enemy_party = party.duplicate()
+
+
+func switch_actors(old: Monster, new: Monster) -> void:
+	if old == player_actor:
+		player_actor = new
+	elif old == enemy_actor:
+		enemy_actor = new
 
 
 func _check_player_actor_fainted() -> bool:
@@ -143,6 +173,7 @@ func _clear_actors() -> void:
 
 
 func _clear_all() -> void:
+	_set_actors_out_of_battle()
 	_clear_actors()
 	player_party = []
 	enemy_party = []
