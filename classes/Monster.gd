@@ -71,7 +71,8 @@ func faint():
 	
 	
 func heal(amount: int, revives: bool = false) -> void:
-	current_hitpoints = max(current_hitpoints + amount, max_hitpoints)
+	current_hitpoints = min(current_hitpoints + amount, max_hitpoints)
+	print("current_hitpoints: ", current_hitpoints)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	if revives:
 		is_fainted = false
@@ -91,13 +92,9 @@ func gain_exp(amount: int, in_battle: bool = false) -> void:
 		var exp_left = get_next_level_exp() - experience
 		var exp_to_gain = min(remaining_exp, exp_left)
 		remaining_exp -= exp_to_gain
-		var current_exp = experience
 		experience += exp_to_gain
-		print("would gain %s exp, %s exp left" % [exp_to_gain, remaining_exp])
-		print("exp would go frm %s -> %s" % [current_exp, experience])
 		Global.monster_gained_experience.emit(self, exp_to_gain)
 		if in_battle:
-			print("in_battle")
 			await Global.experience_animation_complete
 		if experience >= get_next_level_exp():
 			await gain_level()

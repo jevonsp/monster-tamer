@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://8ygcbs5f8pca" path="res://player/player.tscn" id="1_53q0u"]
 [ext_resource type="Script" uid="uid://caqok8yjmcdwq" path="res://main/main.gd" id="1_xwkvk"]
+[ext_resource type="Script" uid="uid://bht67orrcfsor" path="res://ui/interfaces.gd" id="2_piupu"]
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary.tscn" id="3_na0o7"]
 [ext_resource type="PackedScene" uid="uid://ba2j8pt8gyeia" path="res://world_objects/encounter/wild_zone.tscn" id="4_c651c"]
@@ -35,6 +36,7 @@ y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 
 [node name="Interfaces" type="CanvasLayer" parent="." unique_id=248139648]
+script = ExtResource("2_piupu")
 
 [node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("11_bsumw")]
 visible = false

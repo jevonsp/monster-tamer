@@ -1,8 +1,8 @@
 extends Control
 var processing: bool = false
-var is_accessed_from_inventory: bool = false
 var last_focused_monster: int = -1
 var last_focused_option: int = -1
+@onready var interfaces: CanvasLayer = $".."
 @onready var panels: Dictionary = {
 	panel_0 = $MarginContainer/Content/GridContainer/Panel0,
 	panel_1 = $MarginContainer/Content/GridContainer/Panel1,
@@ -33,10 +33,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		Global.toggle_player.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
-		if is_accessed_from_inventory:
-			_toggle_visible()
-			Global.request_open_inventory.emit()
-			return
+		match interfaces.ui_context:
+			Global.AccessFrom.INVENTORY:
+				_toggle_visible()
+				Global.request_open_inventory.emit()
+				return
 		if not options_box.visible:
 			_toggle_visible()
 			Global.on_party_closed.emit()
@@ -49,7 +50,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_on_party_change)
 	Global.request_open_party.connect(_toggle_visible)
-	Global.request_access_party_from_inventory.connect(_toggle_is_accessed_from_inventory)
 
 
 func _bind_buttons() -> void:
@@ -80,6 +80,8 @@ func _toggle_visible() -> void:
 		for panel in panels:
 			panels[panel].player_exp_bar.active = true
 	else:
+		if interfaces.ui_context != Global.AccessFrom.BATTLE:
+			Global.switch_ui_context.emit(Global.AccessFrom.NONE)
 		for panel in panels:
 			panels[panel].player_exp_bar.active = false
 	if options_box.visible:
@@ -116,15 +118,19 @@ func _focus_default_option() -> void:
 
 
 func _on_monster_pressed(button: Button) -> void:
-	if not is_accessed_from_inventory:
-		_toggle_options_visible()
-		var num := int(button.name.trim_prefix("Panel"))
-		last_focused_monster = num
-	else:
-		Global.monster_selected.emit(button.actor)
-		_toggle_visible()
-		_toggle_is_accessed_from_inventory()
-		Global.request_open_inventory.emit()
+	print("pressed")
+	print("context: ", interfaces.ui_context)
+	match interfaces.ui_context:
+		Global.AccessFrom.PARTY:
+			_toggle_options_visible()
+			var num := int(button.name.trim_prefix("Panel"))
+			last_focused_monster = num
+		Global.AccessFrom.INVENTORY:
+			Global.monster_selected.emit(button.actor)
+			_toggle_visible()
+			interfaces.ui_context = Global.AccessFrom.NONE
+			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+			Global.request_open_inventory.emit()
 
 
 func _on_option_pressed(button: Button) -> void:
@@ -147,7 +153,8 @@ func _on_option_pressed(button: Button) -> void:
 func use() -> void:
 	_toggle_options_visible()
 	_toggle_visible()
-	Global.request_access_inventory_from_party.emit(true, false)
+	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+	Global.set_inventory_use.emit(true)
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
 	print("got item: ", item.name)
@@ -164,7 +171,8 @@ func use() -> void:
 func give() -> void:
 	_toggle_options_visible()
 	_toggle_visible()
-	Global.request_access_inventory_from_party.emit(false, true)
+	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+	Global.set_inventory_give.emit(true)
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
 	print("got item: ", item.name)
@@ -182,7 +190,3 @@ func _open_monster_summary(index: int) -> void:
 	Global.send_summary_index.emit(index)
 	Global.request_open_summary.emit()
 	_toggle_visible()
-
-
-func _toggle_is_accessed_from_inventory() -> void:
-	is_accessed_from_inventory = not is_accessed_from_inventory

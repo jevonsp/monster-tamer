@@ -1,5 +1,6 @@
 extends Control
 var processing: bool = false
+@onready var interfaces: CanvasLayer = $".."
 
 func _ready() -> void:
 	_bind_buttons()
@@ -30,10 +31,11 @@ func _on_menu_pressed(button: Button) -> void:
 	match button.name:
 		"Party":
 			_toggle_visible()
+			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 			Global.request_open_party.emit()
 		"Items":
 			_toggle_visible()
-			Global.request_access_inventory_from_menu.emit()
+			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 			Global.request_open_inventory.emit()
 		"Save":
 			print("Save")
@@ -46,6 +48,9 @@ func _toggle_visible() -> void:
 	processing = not processing
 	if visible:
 		_focus_default()
+		Global.switch_ui_context.emit(Global.AccessFrom.MENU)
+	else:
+		Global.switch_ui_context.emit(Global.AccessFrom.NONE)
 
 
 func _focus_default() -> void:

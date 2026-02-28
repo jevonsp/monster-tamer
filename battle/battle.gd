@@ -4,6 +4,7 @@ var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []
 var enemy_party: Array[Monster] = []
+@onready var interfaces: CanvasLayer = $".."
 
 #region NODE REFERENCES
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
@@ -88,6 +89,7 @@ func _bind_buttons() -> void:
 
 #region BATTLE FLOW
 func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
+	Global.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	_clear_actors()
 	
 	var monster: Monster = monster_data.set_up(level)

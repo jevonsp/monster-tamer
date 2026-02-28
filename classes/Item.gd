@@ -9,9 +9,9 @@ class_name Item
 @export var is_healing: bool = false
 @export var is_revival: bool = false
 @export var base_healing: int = 20
+@export_range(-5, 5) var priority: int = 0
 
-
-func execute(target: Monster) -> void:
+func execute(_actor: Monster, target: Monster) -> void:
 	"""In-battle"""
 	var pre_text: Array[String] = ["Used a %s on %s" % [name, target.name]]
 	
@@ -33,9 +33,15 @@ func use(target: Monster) -> void:
 	print("OOB %s used on %s" % [name, target.name])
 	if is_healing:
 		if target.current_hitpoints == target.max_hitpoints:
+			var fail_text: Array[String] = ["%s is already full health!" % [target.name]]
+			Global.send_overworld_text_box.emit(null, fail_text, true, false, false)
+			await Global.text_box_complete
 			return
 		target.heal(base_healing, is_revival)
 		await Global.hitpoints_animation_complete
+		var success_text: Array[String] = ["%s gained %s hitpoints." % [target.name, base_healing]]
+		Global.send_overworld_text_box.emit(null, success_text, true, false, false)
+		await Global.text_box_complete
 
 
 func give(_target: Monster) -> void:

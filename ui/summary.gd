@@ -3,7 +3,7 @@ var processing: bool = false
 var party: Array[Monster]
 var index: int = -1
 var in_battle: bool = false
-
+@onready var interfaces: CanvasLayer = $".."
 #region Onready Vars
 @onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
 @onready var name_label: Label = $Content/Main/HBoxContainer0/NameLabel

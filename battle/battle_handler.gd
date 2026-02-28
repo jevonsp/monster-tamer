@@ -2,8 +2,12 @@ extends Node
 @onready var battle: Control = $".."
 var turn_queue: Array[Dictionary] = []
 
-func _execute_player_turn(move: Move) -> void:
-	if _add_move_to_queue(move, battle.player_actor):
+func _ready() -> void:
+	Global.add_item_to_turn_queue.connect(_execute_player_turn)
+
+
+func _execute_player_turn(action) -> void:
+	if _add_action_to_queue(action, battle.player_actor):
 		battle.processing = false
 		battle.input_handler._manage_focus()
 		_get_enemy_action()
@@ -18,25 +22,29 @@ func _get_enemy_action() -> void:
 			available_moves.append(move)
 	
 	if not available_moves.is_empty():
-		_add_move_to_queue(available_moves.pick_random(), battle.enemy_actor)
+		_add_action_to_queue(available_moves.pick_random(), battle.enemy_actor)
 
 
-func _add_move_to_queue(move: Move, actor: Monster) -> bool:
-	if move == null:
+func _add_action_to_queue(action, actor: Monster) -> bool:
+	if action == null:
 		return false
 	
-	var target: Monster = _get_target(actor, move)
+	var target: Monster = _get_target(actor, action)
 	turn_queue.append({
-		"action": move,
+		"action": action,
 		"actor": actor,
 		"target": target
 	})
 	return true
 
 
-func _get_target(actor: Monster, move: Move) -> Monster:
-	if move.is_self_targeting:
-		return actor
+func _get_target(actor: Monster, action) -> Monster:
+	if action is Move:
+		if action.is_self_targeting:
+			return actor
+	if action is Item:
+		if action.is_healing:
+			return actor
 	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
 
 

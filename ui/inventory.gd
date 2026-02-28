@@ -1,12 +1,12 @@
 extends Control
 const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
 var processing: bool = false
-var is_accessed_from_party: bool = false
-var is_accessed_from_menu: bool = false
+# TODO: Change this to an enum in Global
 var is_using: bool = false
 var is_giving: bool = false
 var last_focused_option: Button = null
 var last_focused_button: Button = null
+@onready var interfaces: CanvasLayer = $".."
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
 @onready var option_buttons: Dictionary = {
@@ -25,12 +25,22 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
 	if event.is_action_pressed("menu"):
+		if interfaces.ui_context == Global.AccessFrom.BATTLE:
+			_toggle_visible()
+			Global.on_inventory_closed.emit()
+			get_viewport().set_input_as_handled()
+			return
 		_toggle_visible()
 		Global.on_inventory_closed.emit()
 		Global.toggle_player.emit()
 		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
-		if is_accessed_from_party:
+		if interfaces.ui_context == Global.AccessFrom.BATTLE:
+			_toggle_visible()
+			Global.on_inventory_closed.emit()
+			get_viewport().set_input_as_handled()
+			return
+		if interfaces.ui_context == Global.AccessFrom.PARTY:
 			_toggle_visible()
 			Global.request_open_party.emit()
 			get_viewport().set_input_as_handled()
@@ -38,12 +48,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not options_box.visible:
 			_toggle_visible()
 			Global.on_inventory_closed.emit()
-			if is_accessed_from_menu:
+			Global.toggle_player.emit()
+			if interfaces.ui_context == Global.AccessFrom.MENU:
 				Global.request_open_menu.emit()
-			is_accessed_from_menu = false
+			interfaces.ui_context = Global.AccessFrom.NONE
 		else:
 			_toggle_options_visible()
 		get_viewport().set_input_as_handled()
+
 
 func _bind_buttons() -> void:
 	for button in option_buttons:
@@ -53,8 +65,8 @@ func _bind_buttons() -> void:
 func _connect_signals() -> void:
 	Global.send_player_inventory.connect(_on_inventory_change)
 	Global.request_open_inventory.connect(_toggle_visible)
-	Global.request_access_inventory_from_party.connect(_toggle_is_accessed_from_party)
-	Global.request_access_inventory_from_menu.connect(_toggle_is_accessed_from_menu)
+	Global.set_inventory_use.connect(_toggle_using)
+	Global.set_inventory_give.connect(_toggle_giving)
 
 
 func _on_inventory_change(inventory: Dictionary[Item, int]) -> void:
@@ -77,20 +89,32 @@ func _create_item(amount: int, item: Item):
 
 func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 	last_focused_button = inventory_panel
-	if not is_accessed_from_party:
-		_toggle_options_visible()
-	else:
-		var item: Item = last_focused_button.item_repr
-		if is_using and item.is_held:
-			await show_cant_use_text()
-			return
-		if is_giving and not item.is_held:
-			await show_cant_hold_text()
-			return
-		_toggle_visible()
-		Global.item_selected.emit(item)
-		Global.request_open_party.emit()
-		
+	var item: Item = last_focused_button.item_repr
+	match interfaces.ui_context:
+		Global.AccessFrom.INVENTORY:
+			_toggle_options_visible()
+		Global.AccessFrom.PARTY:
+			if is_using and item.is_held:
+				await show_cant_use_text()
+				return
+			if is_giving and not item.is_held:
+				await show_cant_hold_text()
+				return
+			_toggle_visible()
+			_toggle_giving(false)
+			_toggle_using(false)
+			Global.item_selected.emit(item)
+			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+			Global.request_open_party.emit()
+		Global.AccessFrom.BATTLE:
+			print("Invent pressed in battle")
+			if not item.is_usable:
+				await show_cant_use_text()
+				return
+			Global.add_item_to_turn_queue.emit(item)
+			_toggle_visible()
+			_toggle_giving(false)
+			_toggle_using(false)
 		
 func _on_option_pressed(button: Button) -> void:
 	var item = last_focused_button.item_repr
@@ -111,9 +135,11 @@ func _toggle_visible() -> void:
 	if not visible:
 		last_focused_button = null
 		last_focused_option = option_buttons.use
-		if is_accessed_from_party:
-			_toggle_is_accessed_from_party(false, false)
-		
+		if interfaces.ui_context == Global.AccessFrom.PARTY:
+			_toggle_giving(false)
+			_toggle_using(false)
+		if interfaces.ui_context != Global.AccessFrom.BATTLE:
+			Global.switch_ui_context.emit(Global.AccessFrom.NONE)
 
 
 func _toggle_options_visible() -> void:
@@ -147,10 +173,10 @@ func use(item: Item) -> void:
 	if not item.is_usable:
 		show_cant_use_text()
 		return
-	if not is_accessed_from_party:
+	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
 		_toggle_options_visible()
 		_toggle_visible()
-		Global.request_access_party_from_inventory.emit()
+		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 		Global.request_open_party.emit()
 		var monster = await Global.monster_selected
 		Global.use_item_on.emit(item, monster)
@@ -160,10 +186,10 @@ func give(item: Item) -> void:
 	if not item.is_held:
 		await show_cant_hold_text()
 		return
-	if not is_accessed_from_party:
+	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
 		_toggle_options_visible()
 		_toggle_visible()
-		Global.request_access_party_from_inventory.emit()
+		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 		Global.request_open_party.emit()
 		var monster = await Global.monster_selected
 		Global.give_item_to.emit(item, monster)
@@ -180,13 +206,12 @@ func show_cant_hold_text() -> void:
 	var ta: Array[String] = ["That item isn't holdable!"]
 	var toggles_player = false
 	Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
-	await Global.overworld_text_box_complete
+	await Global.text_box_complete
 
 
-func _toggle_is_accessed_from_party(using: bool, giving: bool) -> void:
-	is_using = using; is_giving = giving
-	is_accessed_from_party = not is_accessed_from_party
+func _toggle_using(value) -> void:
+	is_using = value
 
 
-func _toggle_is_accessed_from_menu() -> void:
-	is_accessed_from_menu = not is_accessed_from_menu
+func _toggle_giving(value) -> void:
+	is_giving = value

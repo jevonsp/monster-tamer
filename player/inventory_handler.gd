@@ -15,6 +15,7 @@ func add(item: Item, amount: int = 1) -> void:
 	print("inventory now:")
 	for i in inventory:
 		print("%s: %s" % [inventory[i], i.name])
+	send_player_inventory()
 
 
 func send_player_inventory() -> void:
@@ -22,12 +23,10 @@ func send_player_inventory() -> void:
 
 
 func _on_use_item_on(item: Item, monster: Monster) -> void:
-	print("got _on_use_item_on %s %s" % [item, monster])
 	await item.use(monster)
 	
 	
 func _on_give_item_to(item: Item, monster: Monster) -> void:
-	print("got _on_give_item_to %s %s" % [item, monster])
 	await monster.give(item)
 	
 	

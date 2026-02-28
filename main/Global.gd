@@ -1,66 +1,83 @@
 extends Node
+
 const DEFAULT_DELAY: float = 1.0
+
+enum AccessFrom {NONE, MENU, BATTLE, PARTY, INVENTORY}
+
 @warning_ignore_start("unused_signal")
-# Player
+
+#region Player
 signal toggle_player
 signal toggle_in_battle
 signal step_completed(position: Vector2)
 signal send_respawn_player
 signal battle_started
-# WildZone
+#endregion
+
+#region Wild Zone
 signal wild_battle_requested(mon_data: MonsterData, level: int)
-# Player Party
+#endregion
+
+#region Party
 signal send_player_party(party: Array[Monster])
 signal player_party_requested
-# Player Inventory
+#endregion
+
+#region Inventory
 signal send_player_inventory(inventory: Dictionary[Item, int])
 signal player_inventory_requested
 signal use_item_on(item: Item, monster: Monster)
 signal give_item_to(item: Item, monster: Monster)
-# Trainer
+#endregion
 
-signal text_box_complete
-# Overworld
-# DialogueLabel
+#region General UI
+signal switch_ui_context(new_context: AccessFrom)
+#endregion
+
+#region Overworld
 signal send_overworld_text_box(object: Node, text: Array[String], auto_complete: bool, is_question: bool, toggles_player: bool)
-# Menu
+signal text_box_complete
 signal request_open_menu
 signal on_menu_closed
-signal request_access_inventory_from_menu
-# UI Party
+#endregion
+
+#region Party UI
 signal request_open_party
 signal on_party_closed
 signal monster_selected(monster: Monster)
-signal request_access_inventory_from_party(is_using: bool, is_giving: bool)
-# UI Inventory
+signal item_finished_using
+#endregion
+
+#region Inventory UI
 signal request_open_inventory
 signal on_inventory_closed
 signal item_selected(item: Item)
-signal request_access_party_from_inventory
-# Summary
+signal add_item_to_turn_queue(item: Item)
+signal set_inventory_use(value: bool)
+signal set_inventory_give(value: bool)
+#endregion
+
+#region Summary UI
 signal send_summary_index(index: int)
 signal request_open_summary
 signal on_summary_closed
-# Battle
+#endregion
+
+#region Battle
 signal battle_ended
-# Label
 signal send_battle_text_box(text: Array[String], auto_complete: bool)
-# Move Animation
 signal send_move_animation(scene: PackedScene)
 signal move_animation_complete
-# Sprite Shake
 signal send_sprite_shake(target: Monster)
-# Hitpoints
 signal send_hitpoints_change(target: Monster, new_hp: int)
 signal hitpoints_animation_complete
-# Fainting
 signal send_monster_fainted(monster: Monster)
 signal monster_fainted_animation_complete
-# Experience
 signal send_monster_death_experience(amount: int)
 signal monster_gained_experience(target: Monster, amount: int)
 signal experience_animation_complete
 signal player_done_giving_exp
-# Level
 signal monster_gained_level(target: Monster, amount: int)
+#endregion
+
 @warning_ignore_restore("unused_signal")
