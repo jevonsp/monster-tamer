@@ -1,5 +1,8 @@
 extends Resource
+class_name Switch
 @export_range(-5, 5) var priority: int = 5
+var actor: Monster
+var target: Monster
 
 func execute(old: Monster, new: Monster) -> void:
 	var out_text: Array[String] = ["Thats enough, %s!" % [old.name]]
@@ -8,6 +11,8 @@ func execute(old: Monster, new: Monster) -> void:
 	
 	Global.send_monster_switch_out.emit(old)
 	await Global.monster_switch_out_animation_complete
+	
+	Global.switch_monster_to_first.emit(new)
 	
 	Global.switch_battle_actors.emit(old, new)
 	

@@ -2,8 +2,10 @@ extends Node
 @onready var battle: Control = $".."
 var turn_queue: Array[Dictionary] = []
 var executing_turn: bool = false
+
 func _ready() -> void:
 	Global.add_item_to_turn_queue.connect(_execute_player_turn)
+	Global.add_switch_to_turn_queue.connect(_execute_player_turn)
 
 
 func _execute_player_turn(action) -> void:
@@ -29,12 +31,19 @@ func _add_action_to_queue(action, actor: Monster) -> bool:
 	if action == null:
 		return false
 	
-	var target: Monster = _get_target(actor, action)
-	turn_queue.append({
-		"action": action,
-		"actor": actor,
-		"target": target
-	})
+	if action is Move or action is Item:
+		var target: Monster = _get_target(actor, action)
+		turn_queue.append({
+			"action": action,
+			"actor": actor,
+			"target": target
+		})
+	elif action is Switch:
+		turn_queue.append({
+			"action": action,
+			"actor": action.actor,
+			"target": action.target
+		})
 	return true
 
 
@@ -55,6 +64,19 @@ func _execute_turn_queue() -> void:
 	for entry in turn_queue:
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
+		
+		if entry.action is Move:
+			var actor_is_player_side: bool = actor == battle.player_actor
+			var actor_is_enemy_side: bool = actor == battle.enemy_actor
+			
+			if not actor_is_player_side and not actor_is_enemy_side:
+				continue
+	
+			if not entry.action.is_self_targeting:
+				if actor_is_player_side and target != battle.enemy_actor:
+					target = battle.enemy_actor
+				elif actor_is_enemy_side and target != battle.player_actor:
+					target = battle.player_actor
 		
 		await entry.action.execute(actor, target)
 		if target and target.is_fainted and target == battle.enemy_actor:

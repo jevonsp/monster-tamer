@@ -1,7 +1,8 @@
-extends TextureRect
+extends AnimationPlayer
 var player_actor
 var enemy_actor
-@onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
+@onready var player_texture_rect: TextureRect = $"../Content/PlayerTextureRect"
+@onready var enemy_texture_rect: TextureRect = $"../Content/EnemyTextureRect"
 
 func _ready() -> void:
 	Global.send_sprite_shake.connect(_play_sprite_shake)
@@ -11,62 +12,63 @@ func _ready() -> void:
 	
 	
 func _play_sprite_shake(target: Monster) -> void:
-	if animation_player.is_playing():
-		return
+	if is_playing():
+		stop()
 	if target == player_actor:
-		animation_player.play("player_hit")
+		play("player_hit")
 	else:
-		animation_player.play("enemy_hit")
+		play("enemy_hit")
 
 
 func _play_monster_faint(target: Monster) -> void:
-	if animation_player.is_playing():
-		return
+	if is_playing():
+		stop()
 	if target == player_actor:
-		animation_player.play("player_faint")
+		play("player_faint")
 		player_actor = null
 	else:
-		animation_player.play("enemy_faint")
+		play("enemy_faint")
 		enemy_actor = null
 	
 	
 func _play_monster_switch_out(target: Monster) -> void:
-	if animation_player.is_playing():
-		return
-	print("out target: ", target)
+	if is_playing():
+		stop()
+	print("out target: ", target, " name: ", target.name)
 	if target == player_actor:
-		animation_player.play("player_switch_out")
+		play("player_switch_out")
 		player_actor = null
 	else:
-		animation_player.play("enemy_switch_out")
+		play("enemy_switch_out")
 		enemy_actor = null
 	
-	await animation_player.animation_finished
+	await animation_finished
 	Global.monster_switch_out_animation_complete.emit()
 	
 	
 func _play_monster_switch_in(target: Monster) -> void:
-	if animation_player.is_playing():
-		return
-	print("in target: ", target)
+	if is_playing():
+		stop()
+	print("in target: ", target, " name: ", target.name)
 	if target == player_actor:
-		animation_player.play("player_switch_in")
+		play("player_switch_in")
 	else:
-		animation_player.play("enemy_switch_in")
+		play("enemy_switch_in")
 	
-	await animation_player.animation_finished
+	await animation_finished
 	Global.monster_switch_in_animation_complete.emit()
 	
 	
 func clear_image() -> void:
-	reset_texture()
+	reset_textures()
 	reset_position()
 	Global.monster_fainted_animation_complete.emit()
 
 
-func reset_texture() -> void:
-	texture = null
+func reset_textures() -> void:
+	player_texture_rect.texture = null
+	enemy_texture_rect.texture = null
 	
 	
 func reset_position() -> void:
-	animation_player.play("RESET")
+	play("RESET")

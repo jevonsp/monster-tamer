@@ -1,5 +1,8 @@
 extends Control
-var processing: bool = false
+var processing: bool = false:
+	set(value):
+		processing = value
+		print(processing)
 var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []
@@ -92,6 +95,7 @@ func _bind_buttons() -> void:
 
 #region BATTLE FLOW
 func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
+	processing = false
 	Global.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	_clear_actors()
 	
@@ -103,9 +107,7 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	
 	_set_actors_in_battle()
 	
-	ui_handler._display_current_monsters()
-	_toggle_player()
-	_toggle_visible()
+	await _switch_to_battle()
 
 
 func _start_trainer_battle(trainer_party: Array[Monster]) -> void:
@@ -116,6 +118,14 @@ func _start_trainer_battle(trainer_party: Array[Monster]) -> void:
 	set_enemy_actor(enemy_party[0])
 	set_player_actor(player_party[0])
 
+
+func _switch_to_battle() -> void:
+	ui_handler._display_current_monsters()
+	_toggle_player()
+	_toggle_visible()
+	ui_handler.animation_player.play("both_switch_in")
+	await ui_handler.animation_player.animation_finished
+	processing = true
 
 func _set_actors_in_battle():
 	for party in [player_party, enemy_party]:
@@ -157,6 +167,7 @@ func switch_actors(old: Monster, new: Monster) -> void:
 		player_actor = new
 	elif old == enemy_actor:
 		enemy_actor = new
+	ui_handler._display_current_monsters()
 
 
 func _check_player_actor_fainted() -> bool:

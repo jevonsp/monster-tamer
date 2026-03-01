@@ -1,5 +1,6 @@
 extends Node
 @onready var battle: Control = $".."
+@onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 
 func _display_current_monsters() -> void:
 	"""Main entry point for displaying new monsters"""
@@ -19,10 +20,11 @@ func _update_labels() -> void:
 
 func _update_textures() -> void:
 	battle.player_display["texture"].texture = battle.player_actor.monster_data.texture
-	battle.player_display["texture"].player_actor = battle.player_actor
 	
 	battle.enemy_display["texture"].texture = battle.enemy_actor.monster_data.texture
-	battle.enemy_display["texture"].enemy_actor = battle.enemy_actor
+	
+	animation_player.player_actor = battle.player_actor
+	animation_player.enemy_actor = battle.enemy_actor
 
 func _update_bars() -> void:
 	"""Call only on new player_actor"""
@@ -44,8 +46,8 @@ func _update_bars() -> void:
 
 func _clear_actor_references() -> void:
 	battle.player_labels["level"].actor = null
-	battle.player_display["texture"].player_actor = null
-	battle.enemy_display["texture"].enemy_actor = null
+	animation_player.player_actor = null
+	animation_player.enemy_actor = null
 	battle.player_display["hp_bar"].actor = null
 	battle.enemy_display["hp_bar"].actor = null
 	battle.player_display["exp_bar"].actor = null

@@ -125,10 +125,10 @@ func _focus_default_option() -> void:
 func _on_monster_pressed(button: Button) -> void:
 	print("pressed")
 	print("context: ", interfaces.ui_context)
+	var num := int(button.name.trim_prefix("Panel"))
 	match interfaces.ui_context:
 		Global.AccessFrom.PARTY:
 			_toggle_options_visible()
-			var num := int(button.name.trim_prefix("Panel"))
 			last_focused_monster = num
 		Global.AccessFrom.INVENTORY:
 			Global.monster_selected.emit(button.actor)
@@ -136,6 +136,15 @@ func _on_monster_pressed(button: Button) -> void:
 			interfaces.ui_context = Global.AccessFrom.NONE
 			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 			Global.request_open_inventory.emit()
+		Global.AccessFrom.BATTLE:
+			if num == 0:
+				var ta: Array[String] = ["That monster is already fighting!"]
+				Global.send_overworld_text_box.emit(null, ta, true, false, false)
+				await Global.text_box_complete
+				return
+			Global.request_switch_creation.emit(num)
+			_toggle_visible()
+			
 
 
 func _on_option_pressed(button: Button) -> void:

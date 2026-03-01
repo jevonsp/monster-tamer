@@ -75,6 +75,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not in_battle:
 			Global.request_open_party.emit()
 		get_viewport().set_input_as_handled()
+	if event.is_action_pressed("right"):
+		index = (index + 1) % party.size()
+		var next_monster = party[index]
+		_clear_monster()
+		_display_monster(next_monster)
+	if event.is_action_pressed("left"):
+		index = (index - 1) % party.size()
+		var next_monster = party[index]
+		_clear_monster()
+		_display_monster(next_monster)
 
 
 func _clear_monster() -> void:

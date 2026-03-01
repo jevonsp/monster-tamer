@@ -21,6 +21,9 @@ signal wild_battle_requested(mon_data: MonsterData, level: int)
 #region Party
 signal send_player_party(party: Array[Monster])
 signal player_party_requested
+signal add_switch_to_turn_queue(switch: Switch)
+signal switch_monster_to_first(monster: Monster)
+signal battle_switch_complete
 #endregion
 
 #region Inventory
@@ -47,6 +50,7 @@ signal request_open_party
 signal on_party_closed
 signal monster_selected(monster: Monster)
 signal item_finished_using
+signal request_switch_creation(index: int)
 #endregion
 
 #region Inventory UI

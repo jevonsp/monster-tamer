@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/battle_text_label.gd" id="4_4mnim"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_l1kiu"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
+[ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 
 [sub_resource type="Animation" id="Animation_4mnim"]
 length = 0.001
@@ -36,6 +37,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(931, 150)]
+}
+
+[sub_resource type="Animation" id="Animation_t8p1f"]
+resource_name = "both_switch_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/Content/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-269, 150), Vector2(97, 150)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Battle/Content/EnemyTextureRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1297, 150), Vector2(931, 150)]
 }
 
 [sub_resource type="Animation" id="Animation_rxlun"]
@@ -84,6 +113,38 @@ tracks/0/keys = {
 "values": [Vector2(931, 150), Vector2(1023, 181), Vector2(931, 150)]
 }
 
+[sub_resource type="Animation" id="Animation_vlrs1"]
+resource_name = "enemy_switch_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/Content/EnemyTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1297, 150), Vector2(931, 150)]
+}
+
+[sub_resource type="Animation" id="Animation_hvjow"]
+resource_name = "enemy_switch_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/Content/EnemyTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(931, 150), Vector2(1297, 150)]
+}
+
 [sub_resource type="Animation" id="Animation_iorop"]
 resource_name = "player_faint"
 length = 0.5
@@ -130,13 +191,50 @@ tracks/0/keys = {
 "values": [Vector2(97, 150), Vector2(9, 181), Vector2(97, 150)]
 }
 
+[sub_resource type="Animation" id="Animation_qybyd"]
+resource_name = "player_switch_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/Content/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-269, 150), Vector2(97, 150)]
+}
+
+[sub_resource type="Animation" id="Animation_eu6g2"]
+resource_name = "player_switch_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/Content/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(97, 150), Vector2(-269, 150)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iorop"]
 _data = {
 &"RESET": SubResource("Animation_4mnim"),
+&"both_switch_in": SubResource("Animation_t8p1f"),
 &"enemy_faint": SubResource("Animation_rxlun"),
 &"enemy_hit": SubResource("Animation_l1kiu"),
+&"enemy_switch_in": SubResource("Animation_vlrs1"),
+&"enemy_switch_out": SubResource("Animation_hvjow"),
 &"player_faint": SubResource("Animation_iorop"),
-&"player_hit": SubResource("Animation_7fucf")
+&"player_hit": SubResource("Animation_7fucf"),
+&"player_switch_in": SubResource("Animation_qybyd"),
+&"player_switch_out": SubResource("Animation_eu6g2")
 }
 
 [node name="Battle" type="Control" unique_id=1219946530]
@@ -379,6 +477,7 @@ offset_left = 97.0
 offset_top = 150.0
 offset_right = 353.00024
 offset_bottom = 406.00006
+script = null
 
 [node name="PlayerHPBar" parent="Content" unique_id=1881680306 instance=ExtResource("3_qubjc")]
 layout_mode = 0
@@ -426,9 +525,10 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 931.0
 offset_top = 150.0
-offset_right = 1187.0
+offset_right = 1187.0002
 offset_bottom = 406.0
 flip_h = false
+script = null
 
 [node name="EnemyHPBar" parent="Content" unique_id=1570994503 instance=ExtResource("3_qubjc")]
 layout_mode = 0
@@ -477,3 +577,4 @@ script = ExtResource("5_l1kiu")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1783395323]
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_iorop")
+script = ExtResource("11_hvjow")
