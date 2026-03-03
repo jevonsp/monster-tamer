@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dqpocp0lr7l2e"]
+
+[ext_resource type="Script" uid="uid://tobkt8np1ja8" path="res://world_objects/interactable/static_object/storage_component.gd" id="1_4fruq"]
+
+[node name="StorageComponent" type="Node" unique_id=890186058]
+script = ExtResource("1_4fruq")

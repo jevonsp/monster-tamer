@@ -1,7 +1,12 @@
 extends Control
 var processing: bool = false
-var last_focused_monster: int = -1
+var is_moving: bool = false
+var last_focused_monster: int = -1:
+	set(value):
+		last_focused_monster = value
+		print("last_focused_monster: ", last_focused_monster)
 var last_focused_option: int = -1
+var index_moving_monster: int = -1
 @onready var interfaces: CanvasLayer = $".."
 @onready var panels: Dictionary = {
 	panel_0 = $MarginContainer/Content/GridContainer/Panel0,
@@ -16,6 +21,7 @@ var last_focused_option: int = -1
 	use = $MarginContainer/Control/Options/Use,
 	give = $MarginContainer/Control/Options/Give,
 	summary = $MarginContainer/Control/Options/Summary,
+	move = $MarginContainer/Control/Options/Move,
 }
 
 func _ready() -> void:
@@ -123,13 +129,16 @@ func _focus_default_option() -> void:
 
 
 func _on_monster_pressed(button: Button) -> void:
-	print("pressed")
 	print("context: ", interfaces.ui_context)
 	var num := int(button.name.trim_prefix("Panel"))
 	match interfaces.ui_context:
 		Global.AccessFrom.PARTY:
-			_toggle_options_visible()
-			last_focused_monster = num
+			if is_moving:
+				last_focused_monster = num
+				stop_moving()
+			else:
+				_toggle_options_visible()
+				last_focused_monster = num
 		Global.AccessFrom.INVENTORY:
 			Global.monster_selected.emit(button.actor)
 			_toggle_visible()
@@ -149,6 +158,7 @@ func _on_monster_pressed(button: Button) -> void:
 
 func _on_option_pressed(button: Button) -> void:
 	var index_map := {"Use": 0, "Give": 1, "Summary": 2, "Move": 3}
+	print("pressed: ", button.name)
 	if button.name in index_map:
 		last_focused_option = index_map[button.name]
 	match button.name:
@@ -159,9 +169,11 @@ func _on_option_pressed(button: Button) -> void:
 			print("Give")
 			give()
 		"Summary":
+			print("Summary")
 			_open_monster_summary(last_focused_monster)
 		"Move":
 			print("Move")
+			start_moving()
 
 
 func use() -> void:
@@ -204,3 +216,18 @@ func _open_monster_summary(index: int) -> void:
 	Global.send_summary_index.emit(index)
 	Global.request_open_summary.emit()
 	_toggle_visible()
+
+
+func start_moving() -> void:
+	_toggle_options_visible()
+	is_moving = true
+	index_moving_monster = last_focused_monster
+	print("moving: ", index_moving_monster)
+
+func stop_moving() -> void:
+	is_moving = false
+	if index_moving_monster == last_focused_monster:
+		return
+	else:
+		Global.out_of_battle_switch.emit(index_moving_monster, last_focused_monster)
+	

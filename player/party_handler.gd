@@ -9,6 +9,7 @@ func bind_signals() -> void:
 	Global.send_monster_death_experience.connect(_grant_party_experience)
 	Global.request_switch_creation.connect(_on_request_switch_creation)
 	Global.switch_monster_to_first.connect(_on_switch_monster_to_first)
+	Global.out_of_battle_switch.connect(_on_out_of_battle_switch)
 
 
 #region Party Utils
@@ -77,5 +78,12 @@ func _on_switch_monster_to_first(monster: Monster) -> void:
 		print("%s: %s %s" % [count, m.name, m])
 		count += 1
 	
-	Global.send_player_party.emit(party)
+	send_player_party()
+	
+func _on_out_of_battle_switch(index_one: int, index_two: int) -> void:
+	var temp = party[index_one]
+	party[index_one] = party[index_two]
+	party[index_two] = temp
+	
+	send_player_party()
 #endregion

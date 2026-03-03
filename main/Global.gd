@@ -24,6 +24,7 @@ signal player_party_requested
 signal add_switch_to_turn_queue(switch: Switch)
 signal switch_monster_to_first(monster: Monster)
 signal battle_switch_complete
+signal out_of_battle_switch(index_one: int, index_two: int)
 #endregion
 
 #region Inventory
@@ -66,6 +67,13 @@ signal set_inventory_give(value: bool)
 signal send_summary_index(index: int)
 signal request_open_summary
 signal on_summary_closed
+#endregion
+
+#region Storage UI
+signal request_open_storage
+signal storage_deposit_monster(monster: Monster)
+signal storage_withdraw_monster(monster: Monster)
+signal storage_move_monsters(monster_out: Monster, monster_in: Monster)
 #endregion
 
 #region Battle

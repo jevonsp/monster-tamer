@@ -3,6 +3,7 @@ class_name StaticObject
 @export_multiline var text: Array[String] = [""]
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
+@export var components: Array[Node]
 
 func interact(body: CharacterBody2D) -> void:
 	if not body.is_in_group("player"):
@@ -11,3 +12,7 @@ func interact(body: CharacterBody2D) -> void:
 	if text != [""]:
 		var tp = true # Toggles Player
 		Global.send_overworld_text_box.emit(self, text, is_autocomplete, is_question, tp)
+
+func trigger(body) -> void:
+	for component in components:
+		component.trigger(body)
