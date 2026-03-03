@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_lvuwl")
 name = "Nettles"
+type = 3
 animation = ExtResource("1_etv51")
 description = "Sting the opponent!"
 metadata/_custom_type_script = "uid://cawunai26wo8m"

@@ -8,6 +8,7 @@
 [resource]
 script = ExtResource("3_droyv")
 species = "Pistol Shrimp"
+type = 2
 texture = ExtResource("3_nmn5g")
 move_level = Array[int]([1])
 move_gained = Array[ExtResource("1_5ruug")]([ExtResource("2_6co7i")])

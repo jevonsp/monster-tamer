@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("1_n08cl")
 name = "Match Strike"
+type = 1
 animation = ExtResource("1_yxk6y")
 description = "Hits the enemy with a match."
 metadata/_custom_type_script = "uid://cawunai26wo8m"

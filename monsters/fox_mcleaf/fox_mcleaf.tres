@@ -8,6 +8,7 @@
 [resource]
 script = ExtResource("3_j4pe2")
 species = "Fox McLeaf"
+type = 3
 texture = ExtResource("3_tijwr")
 move_level = Array[int]([1])
 move_gained = Array[ExtResource("1_2oh31")]([ExtResource("2_2bxm2")])

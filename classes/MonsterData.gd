@@ -2,6 +2,7 @@ class_name MonsterData
 extends Resource
 ## Canonical Base Entry for a Species
 @export var species: String = ""
+@export var type: TypeChart.Type
 @export var texture: Texture2D
 @export_subgroup("Moves")
 @export var move_level: Array[int] = []

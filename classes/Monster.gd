@@ -4,6 +4,7 @@ extends Resource
 static var EXPERIENCE_PER_LEVEL = 50
 @export var monster_data: MonsterData
 @export var name: String = ""
+@export var type: TypeChart.Type
 
 @export var level: int = 1
 @export var experience: int = 0
@@ -22,8 +23,10 @@ static var EXPERIENCE_PER_LEVEL = 50
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
 
+
 func set_monster_data(md: MonsterData) -> void:
 	monster_data = md
+	type = monster_data.type
 	name = monster_data.species
 
 
@@ -51,6 +54,7 @@ func set_stats() -> void:
 func take_damage(amount: int) -> void:
 	current_hitpoints = max(0, current_hitpoints - amount)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
+	await Global.hitpoints_animation_complete
 	if current_hitpoints <= 0:
 		await faint()
 

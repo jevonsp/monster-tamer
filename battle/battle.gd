@@ -1,8 +1,5 @@
 extends Control
-var processing: bool = false:
-	set(value):
-		processing = value
-		print(processing)
+var processing: bool = false
 var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []

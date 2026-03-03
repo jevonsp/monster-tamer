@@ -299,6 +299,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Fight" unique_id=2046674151]
 layout_mode = 1
@@ -339,6 +340,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Item" unique_id=1049757330]
 layout_mode = 1
@@ -477,7 +479,6 @@ offset_left = 97.0
 offset_top = 150.0
 offset_right = 353.00024
 offset_bottom = 406.00006
-script = null
 
 [node name="PlayerHPBar" parent="Content" unique_id=1881680306 instance=ExtResource("3_qubjc")]
 layout_mode = 0
@@ -528,7 +529,6 @@ offset_top = 150.0
 offset_right = 1187.0002
 offset_bottom = 406.0
 flip_h = false
-script = null
 
 [node name="EnemyHPBar" parent="Content" unique_id=1570994503 instance=ExtResource("3_qubjc")]
 layout_mode = 0
@@ -543,7 +543,7 @@ offset_bottom = 439.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="Panel" type="Panel" parent="Content" unique_id=342962520]
+[node name="Panel" type="Button" parent="Content" unique_id=1357420864]
 layout_mode = 0
 offset_left = 656.0
 offset_top = 528.0

@@ -3,6 +3,7 @@ var processing: bool = false
 var text_array: Array[String]
 var is_auto_complete: bool = false
 var text_index: int
+@onready var panel: Button = $"../.."
 
 func _ready() -> void:
 	text = ""
@@ -29,6 +30,7 @@ func load_text(ta: Array[String], auto_complete: bool) -> void:
 	
 	
 func display_text() -> void:
+	panel.grab_focus()
 	text = text_array[text_index]
 	if is_auto_complete:
 		await get_tree().create_timer((Global.DEFAULT_DELAY) / 2).timeout
@@ -39,6 +41,8 @@ func advance_text() -> void:
 	text_index += 1
 	if text_index >= text_array.size():
 		text_finished()
+	else:
+		display_text()
 	
 	
 func text_finished() -> void:
@@ -47,6 +51,7 @@ func text_finished() -> void:
 	
 	
 func clean_up() -> void:
+	panel.release_focus()
 	text = ""
 	processing = false
 	text_array = []
