@@ -1,8 +1,9 @@
 extends Node
 
 var party: Array[Monster] = []
-var storage: Array[Monster] = []
+var storage: Dictionary = {}
 @onready var player: CharacterBody2D = $".."
+
 
 func bind_signals() -> void:
 	Global.player_party_requested.connect(send_player_party)
@@ -10,6 +11,12 @@ func bind_signals() -> void:
 	Global.request_switch_creation.connect(_on_request_switch_creation)
 	Global.switch_monster_to_first.connect(_on_switch_monster_to_first)
 	Global.out_of_battle_switch.connect(_on_out_of_battle_switch)
+	Global.request_move_in_storage.connect(_move_in_storage)
+
+
+func create_storage() -> void:
+	for i in range(300):
+		storage[i] = null
 
 
 #region Party Utils
@@ -29,12 +36,28 @@ func _add_to_party(monster: Monster) -> bool:
 		return false
 	
 	
-func _add_to_storage(monster: Monster) -> void:
-	storage.append(monster)
+func _add_to_storage(monster: Monster, index: int = -1) -> void:
+	if index == -1:
+		for key in storage:
+			if storage[key] == null:
+				storage[key] = monster
+				break
+	else:
+		storage[index] = monster
+
+
+func _move_in_storage(from_index: int, to_index: int) -> void:
+	var temp = storage[to_index]
+	storage[to_index] = storage[from_index]
+	storage[from_index] = temp
 
 
 func send_player_party() -> void:
 	Global.send_player_party.emit(party)
+	
+	
+func send_player_storage() -> void:
+	Global.send_player_storage.emit(storage)
 	
 	
 func _grant_party_experience(amount: int) -> void:

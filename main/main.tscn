@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger.tres" id="7_grrlh"]
 [ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="8_67ri8"]
 [ext_resource type="PackedScene" uid="uid://cxpdnabe54fq0" path="res://ui/overworld_text_box.tscn" id="9_grrlh"]
+[ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage.tscn" id="9_jofbb"]
 [ext_resource type="PackedScene" uid="uid://jmc7gqpbmo2n" path="res://world_objects/interactable/npc/components/npc_respawn_component.tscn" id="10_0i4oc"]
 [ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu.tscn" id="11_bsumw"]
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party.tscn" id="12_fwcvl"]
@@ -66,6 +67,9 @@ offset_right = 1278.0
 offset_bottom = 720.0
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="Storage" parent="Interfaces" unique_id=1376996790 instance=ExtResource("9_jofbb")]
+visible = false
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 

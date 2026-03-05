@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://qugnwvtxqunc"]
 
 [ext_resource type="Script" uid="uid://c1cgwgjnj8eje" path="res://ui/storage.gd" id="1_3akcg"]
+[ext_resource type="Texture2D" uid="uid://daakn8svovn2f" path="res://monsters/fox_mcleaf/fox_mcleaf_remake.png" id="2_iann6"]
+[ext_resource type="PackedScene" uid="uid://bnuc18rhqu7vf" path="res://ui/storage_button.tscn" id="3_o6mah"]
 
 [node name="Storage" type="Control" unique_id=1376996790]
 layout_mode = 3
@@ -11,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3akcg")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1153672509]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=609094487]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,131 +25,280 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer" unique_id=1793011992]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=808990803]
 layout_mode = 2
-columns = 5
 
-[node name="Button0" type="Button" parent="MarginContainer/GridContainer" unique_id=382612810]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=940718714]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Button1" type="Button" parent="MarginContainer/GridContainer" unique_id=1927424134]
+[node name="Control" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1240209377]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Button2" type="Button" parent="MarginContainer/GridContainer" unique_id=1626177785]
+[node name="InfoPanel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/Control" unique_id=743695036]
+custom_minimum_size = Vector2(0, 354)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Button3" type="Button" parent="MarginContainer/GridContainer" unique_id=1521340818]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel" unique_id=128432016]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Button4" type="Button" parent="MarginContainer/GridContainer" unique_id=595837819]
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=1480978489]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Name"
+horizontal_alignment = 1
 
-[node name="Button5" type="Button" parent="MarginContainer/GridContainer" unique_id=1708534979]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=593111207]
+custom_minimum_size = Vector2(64, 128)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+texture = ExtResource("2_iann6")
+stretch_mode = 5
 
-[node name="Button6" type="Button" parent="MarginContainer/GridContainer" unique_id=1748265864]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=1584347044]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Lvl. 99"
+horizontal_alignment = 1
 
-[node name="Button7" type="Button" parent="MarginContainer/GridContainer" unique_id=61051974]
+[node name="Options" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control" unique_id=243893078]
+custom_minimum_size = Vector2(0, 354)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Button8" type="Button" parent="MarginContainer/GridContainer" unique_id=158145084]
+[node name="Move" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=534265602]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
 
-[node name="Button9" type="Button" parent="MarginContainer/GridContainer" unique_id=1296470773]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Move" unique_id=1515487250]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
 
-[node name="Button10" type="Button" parent="MarginContainer/GridContainer" unique_id=1623230813]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Move/MarginContainer" unique_id=966383068]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Move"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Button11" type="Button" parent="MarginContainer/GridContainer" unique_id=996099511]
+[node name="Withdraw" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1803873963]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
 
-[node name="Button12" type="Button" parent="MarginContainer/GridContainer" unique_id=1435969613]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Withdraw" unique_id=413172487]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
 
-[node name="Button13" type="Button" parent="MarginContainer/GridContainer" unique_id=1940815731]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Withdraw/MarginContainer" unique_id=444249686]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Withdraw"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Button14" type="Button" parent="MarginContainer/GridContainer" unique_id=841670904]
+[node name="Deposit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1040836209]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
 
-[node name="Button15" type="Button" parent="MarginContainer/GridContainer" unique_id=1841233071]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Deposit" unique_id=1552411954]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
 
-[node name="Button16" type="Button" parent="MarginContainer/GridContainer" unique_id=338039330]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Deposit/MarginContainer" unique_id=1233926767]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Deposit"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Button17" type="Button" parent="MarginContainer/GridContainer" unique_id=1712448440]
+[node name="Release" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1799173775]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
 
-[node name="Button18" type="Button" parent="MarginContainer/GridContainer" unique_id=2146694166]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Release" unique_id=1407221081]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
 
-[node name="Button19" type="Button" parent="MarginContainer/GridContainer" unique_id=278529067]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Release/MarginContainer" unique_id=673533270]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Release"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Button20" type="Button" parent="MarginContainer/GridContainer" unique_id=1894316646]
+[node name="MarginContainer1" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2119113775]
+custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Button21" type="Button" parent="MarginContainer/GridContainer" unique_id=530842341]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1" unique_id=1802434114]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Button22" type="Button" parent="MarginContainer/GridContainer" unique_id=153547897]
+[node name="Party" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer" unique_id=806568730]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 0
 
-[node name="Button23" type="Button" parent="MarginContainer/GridContainer" unique_id=1516909527]
+[node name="Button0" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party" unique_id=1939630010 instance=ExtResource("3_o6mah")]
+custom_minimum_size = Vector2(100, 120)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Button24" type="Button" parent="MarginContainer/GridContainer" unique_id=805823007]
+[node name="Button1" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party" unique_id=852233313 instance=ExtResource("3_o6mah")]
+custom_minimum_size = Vector2(100, 120)
 layout_mode = 2
-size_flags_horizontal = 3
+
+[node name="Button2" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party" unique_id=1241203870 instance=ExtResource("3_o6mah")]
+custom_minimum_size = Vector2(100, 120)
+layout_mode = 2
+
+[node name="Button3" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party" unique_id=204899834 instance=ExtResource("3_o6mah")]
+custom_minimum_size = Vector2(100, 120)
+layout_mode = 2
+
+[node name="Button4" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party" unique_id=335365241 instance=ExtResource("3_o6mah")]
+custom_minimum_size = Vector2(100, 120)
+layout_mode = 2
+
+[node name="Button5" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party" unique_id=545763259 instance=ExtResource("3_o6mah")]
+custom_minimum_size = Vector2(100, 120)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer" unique_id=922045754]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer" unique_id=1115671100]
+layout_mode = 2
 size_flags_vertical = 3
+columns = 6
+
+[node name="Button0" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=65420902 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button1" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1516552873 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button2" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=2012186207 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button3" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1067354134 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button4" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=910560510 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button5" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=425846186 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button6" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=2053072031 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button7" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=910085691 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button8" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=932331216 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button9" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=911255471 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button10" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1054176546 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button11" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=2146019536 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button12" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=348409911 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button13" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=804539810 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button14" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1128159588 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button15" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=390404216 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button16" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=140194596 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button17" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1540069663 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button18" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1149246384 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button19" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=593969814 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button20" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=169559351 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button21" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1319355197 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button22" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1663730110 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button23" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=857294926 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button24" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1140549770 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button25" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1380822269 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button26" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=603516882 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button27" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1369274063 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button28" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=926797226 instance=ExtResource("3_o6mah")]
+layout_mode = 2
+
+[node name="Button29" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=759769885 instance=ExtResource("3_o6mah")]
+layout_mode = 2

@@ -31,6 +31,7 @@ func _ready() -> void:
 	tile_start_pos = position; tile_target_pos = position
 	# TODO: Remove - for testing
 	set_respawn_point()
+	party_handler.create_storage()
 	
 func _process(delta: float) -> void:
 	if not processing:
