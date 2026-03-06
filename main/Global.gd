@@ -20,13 +20,15 @@ signal wild_battle_requested(mon_data: MonsterData, level: int)
 
 #region Party
 signal send_player_party(party: Array[Monster])
+signal send_player_storage(storage: Array[Monster])
+signal send_player_party_and_storage(party: Array[Monster], storage: Dictionary)
+signal request_move_party_to_storage(from_index: int, to_index: int)
+signal request_move_storage_to_party(from_index: int, to_index: int)
 signal player_party_requested
 signal add_switch_to_turn_queue(switch: Switch)
 signal switch_monster_to_first(monster: Monster)
 signal battle_switch_complete
 signal out_of_battle_switch(index_one: int, index_two: int)
-signal request_add_to_storage
-signal request_move_in_storage(from_index: int, to_index: int)
 #endregion
 
 #region Inventory
@@ -72,11 +74,9 @@ signal on_summary_closed
 #endregion
 
 #region Storage UI
-signal send_player_storage(storage: Array[Monster])
 signal request_open_storage
 signal storage_deposit_monster(monster: Monster)
 signal storage_withdraw_monster(monster: Monster)
-signal storage_move_monsters(monster_out: Monster, monster_in: Monster)
 #endregion
 
 #region Battle

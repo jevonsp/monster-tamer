@@ -11,7 +11,6 @@ func bind_signals() -> void:
 	Global.request_switch_creation.connect(_on_request_switch_creation)
 	Global.switch_monster_to_first.connect(_on_switch_monster_to_first)
 	Global.out_of_battle_switch.connect(_on_out_of_battle_switch)
-	Global.request_move_in_storage.connect(_move_in_storage)
 
 
 func create_storage() -> void:
@@ -19,15 +18,25 @@ func create_storage() -> void:
 		storage[i] = null
 
 
-#region Party Utils
+func send_player_party() -> void:
+	Global.send_player_party.emit(party)
+	
+	
+func send_player_storage() -> void:
+	Global.send_player_storage.emit(storage)
+	
+	
+func send_player_party_and_storage() -> void:
+	Global.send_player_party_and_storage.emit(party, storage)
+	
+	
 func add(monster: Monster):
-	"""Single entry point for adding monsters to the party or storage"""
+	"""Single entry point for adding new monsters to the party or storage"""
 	if not _add_to_party(monster):
 		_add_to_storage(monster)
 
 
 func _add_to_party(monster: Monster) -> bool:
-	"""Adds an existing monster to the party or storage"""
 	monster.is_player_monster = true
 	if party.size() < 6:
 		party.append(monster)
@@ -46,19 +55,8 @@ func _add_to_storage(monster: Monster, index: int = -1) -> void:
 		storage[index] = monster
 
 
-func _move_in_party(from_index: int, to_index: int) -> void:
-	var temp = party[to_index]
-	party[to_index] = party[from_index]
-	party[from_index] = temp
-
-
-func _move_in_storage(from_index: int, to_index: int) -> void:
-	var temp = storage[to_index]
-	storage[to_index] = storage[from_index]
-	storage[from_index] = temp
-
-
 func _deposit_monster(monster: Monster) -> void:
+	"""Only use on monsters in party"""
 	var idx = party.find(monster)
 	if idx < 0:
 		return
@@ -67,19 +65,12 @@ func _deposit_monster(monster: Monster) -> void:
 
 
 func _withdraw_monster(monster: Monster) -> void:
+	"""Only use on monsters in storage"""
 	var val = storage.find_key(monster)
 	if val == null:
 		return
 	storage[val] = null
 	_add_to_party(monster)
-
-
-func send_player_party() -> void:
-	Global.send_player_party.emit(party)
-	
-	
-func send_player_storage() -> void:
-	Global.send_player_storage.emit(storage)
 	
 	
 func _grant_party_experience(amount: int) -> void:
@@ -99,36 +90,22 @@ func fully_heal_and_revive_party() -> void:
 		
 func _on_request_switch_creation(index: int) -> void:
 	var switch = Switch.new()
-	print("switching in: ", party[index], "name: ", party[index].name)
 	switch.actor = party[0]
 	switch.target = party[index]
 	Global.add_switch_to_turn_queue.emit(switch)
 	
 	
 func _on_switch_monster_to_first(monster: Monster) -> void:
-	print("party before:")
-	var count = 0
-	for m in party:
-		print("%s: %s %s" % [count, m.name, m])
-		count += 1
-		
 	var idx = party.find(monster)
 	var temp = party[0]
 	party[0] = party[idx]
 	party[idx] = temp
 	
-	print("party after:")
-	count = 0
-	for m in party:
-		print("%s: %s %s" % [count, m.name, m])
-		count += 1
-	
 	send_player_party()
+	
 	
 func _on_out_of_battle_switch(index_one: int, index_two: int) -> void:
 	var temp = party[index_one]
 	party[index_one] = party[index_two]
 	party[index_two] = temp
-	
 	send_player_party()
-#endregion

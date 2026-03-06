@@ -2,7 +2,10 @@
 
 [ext_resource type="Script" uid="uid://c1cgwgjnj8eje" path="res://ui/storage.gd" id="1_3akcg"]
 [ext_resource type="Texture2D" uid="uid://daakn8svovn2f" path="res://monsters/fox_mcleaf/fox_mcleaf_remake.png" id="2_iann6"]
+[ext_resource type="Script" uid="uid://buaxjmoio8ia7" path="res://ui/visiblity&focus_handler.gd" id="3_7pa4g"]
 [ext_resource type="PackedScene" uid="uid://bnuc18rhqu7vf" path="res://ui/storage_button.tscn" id="3_o6mah"]
+[ext_resource type="Script" uid="uid://bnir4gws1aoh4" path="res://ui/update_handler.gd" id="4_jsr3y"]
+[ext_resource type="Script" uid="uid://bl2ajfxg0i8xv" path="res://ui/input_handler.gd" id="4_ttbmr"]
 
 [node name="Storage" type="Control" unique_id=1376996790]
 layout_mode = 3
@@ -12,6 +15,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3akcg")
+
+[node name="UpdateHandler" type="Node" parent="." unique_id=1012723756]
+script = ExtResource("4_jsr3y")
+
+[node name="Visiblity&FocusHandler" type="Node" parent="." unique_id=1791051965]
+script = ExtResource("3_7pa4g")
+
+[node name="InputHandler" type="Node" parent="." unique_id=1265144151]
+script = ExtResource("4_ttbmr")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=609094487]
 layout_mode = 1
@@ -213,7 +225,7 @@ layout_mode = 2
 size_flags_vertical = 3
 columns = 6
 
-[node name="Button0" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=65420902 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button0" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=65420902 groups=["left_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
 [node name="Button1" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1516552873 groups=["storage"] instance=ExtResource("3_o6mah")]
@@ -228,10 +240,10 @@ layout_mode = 2
 [node name="Button4" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=910560510 groups=["storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button5" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=425846186 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button5" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=425846186 groups=["right_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button6" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=2053072031 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button6" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=2053072031 groups=["left_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
 [node name="Button7" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=910085691 groups=["storage"] instance=ExtResource("3_o6mah")]
@@ -246,10 +258,10 @@ layout_mode = 2
 [node name="Button10" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1054176546 groups=["storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button11" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=2146019536 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button11" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=2146019536 groups=["right_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button12" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=348409911 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button12" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=348409911 groups=["left_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
 [node name="Button13" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=804539810 groups=["storage"] instance=ExtResource("3_o6mah")]
@@ -264,10 +276,10 @@ layout_mode = 2
 [node name="Button16" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=140194596 groups=["storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button17" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1540069663 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button17" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1540069663 groups=["right_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button18" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1149246384 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button18" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1149246384 groups=["left_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
 [node name="Button19" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=593969814 groups=["storage"] instance=ExtResource("3_o6mah")]
@@ -282,10 +294,10 @@ layout_mode = 2
 [node name="Button22" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1663730110 groups=["storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button23" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=857294926 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button23" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=857294926 groups=["right_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button24" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1140549770 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button24" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1140549770 groups=["left_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
 [node name="Button25" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=1380822269 groups=["storage"] instance=ExtResource("3_o6mah")]
@@ -300,5 +312,5 @@ layout_mode = 2
 [node name="Button28" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=926797226 groups=["storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
 
-[node name="Button29" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=759769885 groups=["storage"] instance=ExtResource("3_o6mah")]
+[node name="Button29" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=759769885 groups=["right_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
