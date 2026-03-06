@@ -9,6 +9,8 @@ var storage_ref: Dictionary
 var storage_global_index: int = 0
 var storage_monster_index: int = 0
 var storage_page_index: int = 0
+
+var last_selected_monster: Button = null
 var last_selected_option: Button = null
 
 var monster_hovering: Dictionary = {}
@@ -63,6 +65,9 @@ func _toggle_visible() -> void:
 	processing = not processing
 	if visible:
 		_focus_default_monster()
+	else:
+		last_selected_monster = null
+		last_selected_option = null
 
 
 func _toggle_options_visible() -> void:
@@ -77,8 +82,16 @@ func _toggle_options_visible() -> void:
 
 func _focus_default_monster() -> void:
 	# INFO I do not know why this call must be deferred. It does not work otherwise.
-	var target = grid_container.get_child(max(storage_monster_index, 0))
+	var target
+	if last_selected_monster:
+		target = last_selected_monster
+	else:
+		target = grid_container.get_child(max(storage_monster_index, 0))
 	target.call_deferred("grab_focus")
+
+
+func _set_monster_focus(button: Button) -> void:
+	last_selected_monster = button
 
 
 func _focus_default_option() -> void:
@@ -96,6 +109,7 @@ func _update_monster_index(button) -> void:
 	storage_monster_index = idx
 	update_global_index()
 	
+	
 func _update_monster_index_party(button) -> void:
 	var idx = button.name.to_int()
 	if idx >= party_ref.size():
@@ -111,6 +125,7 @@ func _update_monster_index_party(button) -> void:
 	}
 	print(monster_hovering["monster"])
 
+
 func _update_monster_index_storage(_button) -> void:
 	if storage_ref:
 		monster_hovering = {
@@ -119,15 +134,20 @@ func _update_monster_index_storage(_button) -> void:
 		}
 		print(monster_hovering["monster"])
 
+
 func update_global_index() -> void:
 	storage_global_index = storage_page_index * 30 + storage_monster_index
 
 
-func _on_monster_pressed(_button) -> void:
+func _on_monster_pressed(button: Button) -> void:
 	match state:
 		State.DEFAULT:
 			_toggle_options_visible()
-	print("would do operation on: ", monster_hovering["monster"])
+		State.MOVING:
+			if button.is_in_group("storage"):
+				print("storage")
+			if button.is_in_group("party"):
+				print("party")
 
 
 func move_page(dir: Vector2) -> void:
@@ -175,27 +195,37 @@ func _on_option_pressed(button) -> void:
 
 func initiate_move() -> void:
 	if monster_hovering == null:
+		printerr("no monster_hovering somehow")
 		return
 	if monster_hovering["monster"] == null:
+		print("nothing hovered")
 		return
 	print("would move: ", monster_hovering["monster"])
+	_toggle_options_visible()
+	state = State.MOVING
 	
 	
 func initiate_withdraw() -> void:
 	if monster_hovering == null:
+		printerr("no monster_hovering somehow")
 		return
 	if monster_hovering["monster"] == null:
+		print("nothing hovered")
 		return
 	if monster_hovering["context"] is Array:
+		print("cant withdraw a monster already in party")
 		return
-	print("would withdraw: ", monster_hovering["monster"])
+	print("would withdraw: ", monster_hovering["monster"], " context = Dict")
 	
 	
 func initiate_deposit() -> void:
 	if monster_hovering == null:
+		printerr("no monster_hovering somehow")
 		return
 	if monster_hovering["monster"] == null:
+		print("nothing hovered")
 		return
 	if monster_hovering["context"] is Dictionary:
+		print("cant deposit a monster already in storage")
 		return
-	print("would deposit: ", monster_hovering["monster"])
+	print("would deposit: ", monster_hovering["monster"], " context = Array")

@@ -25,6 +25,7 @@ signal add_switch_to_turn_queue(switch: Switch)
 signal switch_monster_to_first(monster: Monster)
 signal battle_switch_complete
 signal out_of_battle_switch(index_one: int, index_two: int)
+signal request_add_to_storage
 signal request_move_in_storage(from_index: int, to_index: int)
 #endregion
 

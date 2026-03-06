@@ -46,10 +46,32 @@ func _add_to_storage(monster: Monster, index: int = -1) -> void:
 		storage[index] = monster
 
 
+func _move_in_party(from_index: int, to_index: int) -> void:
+	var temp = party[to_index]
+	party[to_index] = party[from_index]
+	party[from_index] = temp
+
+
 func _move_in_storage(from_index: int, to_index: int) -> void:
 	var temp = storage[to_index]
 	storage[to_index] = storage[from_index]
 	storage[from_index] = temp
+
+
+func _deposit_monster(monster: Monster) -> void:
+	var idx = party.find(monster)
+	if idx < 0:
+		return
+	party.erase(idx)
+	_add_to_storage(monster)
+
+
+func _withdraw_monster(monster: Monster) -> void:
+	var val = storage.find_key(monster)
+	if val == null:
+		return
+	storage[val] = null
+	_add_to_party(monster)
 
 
 func send_player_party() -> void:
