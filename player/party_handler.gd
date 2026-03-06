@@ -13,6 +13,8 @@ func bind_signals() -> void:
 	Global.out_of_battle_switch.connect(_on_out_of_battle_switch)
 	Global.storage_deposit_monster.connect(_deposit_monster)
 	Global.storage_withdraw_monster.connect(_withdraw_monster)
+	Global.request_move_party_to_storage.connect(_move_party_to_storage)
+	Global.request_move_storage_to_party.connect(_move_storage_to_party)
 
 
 func create_storage() -> void:
@@ -76,6 +78,25 @@ func _withdraw_monster(monster: Monster) -> void:
 	_add_to_party(monster)
 	send_player_party_and_storage()
 	
+	
+func _move_party_to_storage(from_index: int, to_index: int) -> void:
+	var temp = storage[to_index]
+	storage[to_index] = party[from_index]
+	if temp != null:
+		party[from_index] = temp
+	else:
+		party.erase(party[from_index])
+	send_player_party_and_storage()
+	
+	
+func _move_storage_to_party(from_index: int, to_index: int) -> void:
+	if to_index >= party.size():
+		_withdraw_monster(storage[from_index])
+	else:
+		var temp = party[to_index]
+		party[to_index] = storage[from_index]
+		storage[from_index] = temp
+	send_player_party_and_storage()
 	
 func _grant_party_experience(amount: int) -> void:
 	var getting_exp: Array[Monster]

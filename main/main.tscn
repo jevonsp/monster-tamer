@@ -58,6 +58,7 @@ visible = false
 
 [node name="OverworldTextBox" parent="Interfaces" unique_id=2089038544 instance=ExtResource("9_grrlh")]
 visible = false
+z_index = 2
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0

@@ -6,6 +6,7 @@ var party_ref: Array[Monster]
 var storage_ref: Dictionary
 var last_selected_monster: Button = null
 var last_selected_option: Button = null
+var moving_context: Dictionary = {}
 var page_index: int = 0
 
 #region Node References
@@ -56,3 +57,58 @@ func _on_send_player_party_and_storage(party: Array[Monster], storage: Dictionar
 	party_ref = party.duplicate(true)
 	storage_ref = storage.duplicate(true)
 	update_handler.display_monsters()
+
+
+func guard_clause_deposit() -> bool:
+	print(party_ref.size())
+	if party_ref.size() <= 1:
+		var ta: Array[String] = ["You can't deposit your last monster!"]
+		Global.send_overworld_text_box.emit(null, ta, true, false, false)
+		await Global.text_box_complete
+		return false
+	return true
+
+
+func start_move() -> void:
+	if last_selected_monster.is_in_group("party") and last_selected_monster.actor != null:
+		if not await guard_clause_deposit():
+			return
+		moving_context = {
+			"index": last_selected_monster.name.to_int(),
+			"from": "party",
+		}
+		state = State.MOVING
+	elif last_selected_monster.is_in_group("storage") and last_selected_monster.actor != null:
+		moving_context = {
+			"index": last_selected_monster.name.to_int(),
+			"from": "storage",
+		}
+		state = State.MOVING
+	print(moving_context)
+
+
+func complete_move() -> void:
+	var to_idx = last_selected_monster.name.to_int()
+	match moving_context["from"]:
+		"storage":
+			Global.request_move_storage_to_party.emit(moving_context["index"], to_idx)
+		"party":
+			Global.request_move_party_to_storage.emit(moving_context["index"], to_idx)
+	state = State.DEFAULT
+	moving_context = {}
+	
+	
+func deposit() -> void:
+	if not await guard_clause_deposit():
+		return
+	if last_selected_monster.is_in_group("storage"):
+		return
+	Global.storage_deposit_monster.emit(last_selected_monster.actor)
+	visiblity_focus_handler._toggle_options_visible()
+	
+	
+func withdraw() -> void:
+	if last_selected_monster.is_in_group("party"):
+		return
+	Global.storage_withdraw_monster.emit(last_selected_monster.actor)
+	visiblity_focus_handler._toggle_options_visible()
