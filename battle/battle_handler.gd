@@ -50,9 +50,13 @@ func _get_target(actor: Monster, action) -> Monster:
 	if action is Move:
 		if action.is_self_targeting:
 			return actor
+
 	if action is Item:
 		if action.use_effect is HealingEffect:
 			return actor
+		if action.catch_effect:
+			return battle.enemy_actor
+
 	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
 
 

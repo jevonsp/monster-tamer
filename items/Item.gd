@@ -9,11 +9,17 @@ class_name Item
 
 @export var use_effect: ItemEffect
 @export var held_effect: ItemEffect
+@export var catch_effect: CatchEffect
+
 
 func execute(actor: Monster, target: Monster) -> void:
 	var pre_text: Array[String] = ["Used a %s on %s" % [name, target.name]]
 	Global.send_battle_text_box.emit(pre_text, true)
-	if use_effect:
+
+	if catch_effect:
+		@warning_ignore("redundant_await")
+		await catch_effect.execute(actor, target)
+	elif use_effect:
 		@warning_ignore("redundant_await")
 		await use_effect.execute(actor, target)
 
@@ -22,7 +28,7 @@ func use(target: Monster) -> void:
 	if use_effect:
 		@warning_ignore("redundant_await")
 		await use_effect.use(target)
-		
-		
+
+
 func give(_target: Monster) -> void:
-	pass
+	print("would give here")
