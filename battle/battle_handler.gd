@@ -52,7 +52,7 @@ func _get_target(actor: Monster, action) -> Monster:
 		if action.is_self_targeting:
 			return actor
 	if action is Item:
-		if action.is_healing:
+		if action.is_healing or action.is_revival:
 			return actor
 	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
 
