@@ -19,10 +19,10 @@ func _input(event: InputEvent) -> void:
 func _on_monster_pressed(b: Button) -> void:
 	match storage.state:
 		storage.State.DEFAULT:
-			print("DEFAULT")
 			visiblity_focus_handler._toggle_options_visible()
 		storage.State.MOVING:
 			print("MOVING")
+
 
 func _on_option_pressed(b: Button) -> void:
 	match b.name:
@@ -30,8 +30,15 @@ func _on_option_pressed(b: Button) -> void:
 			print("Move")
 		"Withdraw":
 			print("Withdraw")
+			if storage.last_selected_monster.is_in_group("party"):
+				return
+			Global.storage_withdraw_monster.emit(storage.last_selected_monster.actor)
+			visiblity_focus_handler._toggle_options_visible()
 		"Deposit":
-			print("Deposit")
+			if storage.last_selected_monster.is_in_group("storage"):
+				return
+			Global.storage_deposit_monster.emit(storage.last_selected_monster.actor)
+			visiblity_focus_handler._toggle_options_visible()
 		"Release":
 			print("Release")
 

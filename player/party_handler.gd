@@ -11,6 +11,8 @@ func bind_signals() -> void:
 	Global.request_switch_creation.connect(_on_request_switch_creation)
 	Global.switch_monster_to_first.connect(_on_switch_monster_to_first)
 	Global.out_of_battle_switch.connect(_on_out_of_battle_switch)
+	Global.storage_deposit_monster.connect(_deposit_monster)
+	Global.storage_withdraw_monster.connect(_withdraw_monster)
 
 
 func create_storage() -> void:
@@ -60,8 +62,9 @@ func _deposit_monster(monster: Monster) -> void:
 	var idx = party.find(monster)
 	if idx < 0:
 		return
-	party.erase(idx)
+	party.erase(monster)
 	_add_to_storage(monster)
+	send_player_party_and_storage()
 
 
 func _withdraw_monster(monster: Monster) -> void:
@@ -71,6 +74,7 @@ func _withdraw_monster(monster: Monster) -> void:
 		return
 	storage[val] = null
 	_add_to_party(monster)
+	send_player_party_and_storage()
 	
 	
 func _grant_party_experience(amount: int) -> void:
