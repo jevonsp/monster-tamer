@@ -107,8 +107,7 @@ func _await_question() -> bool:
 func _trigger() -> void:
 	print("triggering obj ref. obj ref=", obj_ref)
 	if obj_ref.has_method("trigger"):
-		var player = get_tree().get_first_node_in_group("player")
-		obj_ref.trigger(player)
+		obj_ref.trigger()
 	
 	
 func _text_finished() -> void:
