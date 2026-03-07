@@ -100,6 +100,9 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 			if is_giving and item.held_effect == null:
 				await show_cant_hold_text()
 				return
+			if is_using and item.use_effect == null:
+				await show_cant_use_text()
+				return
 			_toggle_visible()
 			_toggle_giving(false)
 			_toggle_using(false)
@@ -107,9 +110,11 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 			Global.request_open_party.emit()
 		Global.AccessFrom.BATTLE:
-			if item.use_effect == null:
-				await show_cant_use_text()
+			if item.use_effect == null and item.catch_effect == null:
+				await show_cant_use_in_battle_text()
+				last_focused_button.grab_focus()
 				return
+			
 			Global.add_item_to_turn_queue.emit(item)
 			Global.item_used.emit(item)
 			_toggle_visible()
@@ -197,7 +202,13 @@ func give(item: Item) -> void:
 func show_cant_use_text() -> void:
 	var ta: Array[String] = ["That item isn't usable!"]
 	Global.send_overworld_text_box.emit(self, ta, true, false, false)
-	await Global.overworld_text_box_complete
+	await Global.text_box_complete
+
+
+func show_cant_use_in_battle_text() -> void:
+	var ta: Array[String] = ["That item isn't usable!"]
+	Global.send_battle_text_box.emit(ta, true)
+	await Global.text_box_complete
 
 
 func show_cant_hold_text() -> void:

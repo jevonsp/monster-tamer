@@ -6,6 +6,7 @@ var storage: Dictionary = {}
 
 
 func bind_signals() -> void:
+	Global.capture_monster.connect(add)
 	Global.player_party_requested.connect(send_player_party)
 	Global.send_monster_death_experience.connect(_grant_party_experience)
 	Global.request_switch_creation.connect(_on_request_switch_creation)

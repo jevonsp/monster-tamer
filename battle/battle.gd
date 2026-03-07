@@ -80,6 +80,7 @@ func _connect_signals() -> void:
 	Global.send_player_party.connect(_set_player_party)
 	Global.wild_battle_requested.connect(_start_wild_battle)
 	Global.switch_battle_actors.connect(switch_actors)
+	Global.trainer_battle_requested.connect(_start_trainer_battle)
 	input_handler._connect_signals()
 
 
@@ -99,22 +100,22 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	var monster: Monster = monster_data.set_up(level)
 	enemy_party = [monster]
 	set_enemy_actor(enemy_party[0])
-	
 	set_player_actor(player_party[0])
-	
 	_set_actors_in_battle()
 	
 	await _switch_to_battle()
 
 
-func _start_trainer_battle(trainer_party: Array[Monster]) -> void:
+func _start_trainer_battle(trainer: Trainer) -> void:
 	Global.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	_clear_actors()
 	
-	_set_enemy_party(trainer_party)
+	_set_enemy_party(trainer.party, trainer.party_levels)
 	set_enemy_actor(enemy_party[0])
 	set_player_actor(player_party[0])
-
+	_set_actors_in_battle()
+	
+	await _switch_to_battle()
 
 func _switch_to_battle() -> void:
 	ui_handler._display_current_monsters()
@@ -123,6 +124,7 @@ func _switch_to_battle() -> void:
 	ui_handler.animation_player.play("both_switch_in")
 	await ui_handler.animation_player.animation_finished
 	processing = true
+
 
 func _set_actors_in_battle():
 	for party in [player_party, enemy_party]:
@@ -155,8 +157,10 @@ func _set_player_party(party: Array[Monster]) -> void:
 	player_party = party
 
 
-func _set_enemy_party(party: Array[Monster]) -> void:
-	enemy_party = party.duplicate()
+func _set_enemy_party(party: Array[MonsterData], levels: Array[int]) -> void:
+	for i in range(len(party)):
+		var monster: Monster = party[i].set_up(levels[i])
+		enemy_party.append(monster)
 
 
 func switch_actors(old: Monster, new: Monster) -> void:

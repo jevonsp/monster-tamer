@@ -5,7 +5,10 @@ class_name Trainer
 	set(value):
 		vision_range = value
 		_update_tiles_in_sight()
+@export var party: Array[MonsterData] = []
+@export var party_levels: Array[int] = []
 #region Variables
+@export_subgroup("Variables")
 @export var starting_tile: Vector2 = Vector2.ZERO
 @export var initial_direction: Direction = Direction.NONE
 @export var is_defeated: bool = false
@@ -40,12 +43,14 @@ func _update_tiles_in_sight() -> void:
 func check_vision_collision(pos: Vector2) -> void:
 	for i in range(len(tiles_in_sight)):
 		if pos == tiles_in_sight[i]:
+			Global.player_party_requested.emit()
 			Global.toggle_player.emit()
 			await animate_exclamation()
 			if i > 0:
 				await walk_list_tiles([tiles_in_sight[i - 1]])
-			_say_dialogue()
-			return
+			await _say_dialogue()
+			Global.trainer_battle_requested.emit(self)
+			Global.battle_started.emit()
 
 
 func reset_position() -> void:

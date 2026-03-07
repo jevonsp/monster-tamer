@@ -65,6 +65,7 @@ func _say_dialogue(d: Array[String] = [""], autocomplete = null, question = null
 	var iq = question if question != null else is_question
 	var tp = true # Toggles Player
 	Global.send_overworld_text_box.emit(self, dia, ac, iq, tp)
+	await Global.text_box_complete
 
 
 func trigger() -> void:

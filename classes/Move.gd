@@ -27,12 +27,13 @@ func execute(actor: Monster, target: Monster):
 	await Global.hitpoints_animation_complete
 	
 	var post_text: Array[String] = []
-	if efficacy > 1.0:
-		post_text.append("It's super effective!")
-	if efficacy < 1.0:
-		post_text.append("It's not very effective...")
-		
+	
 	post_text.append("It dealt %s damage!" % [damage])
+	
+	if efficacy > 1.0:
+		post_text[0] += "\nIt's super effective!"
+	if efficacy < 1.0:
+		post_text[0] += "\nIt's not very effective..."  
 	
 	print(post_text)
 	

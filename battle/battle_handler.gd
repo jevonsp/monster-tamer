@@ -101,14 +101,14 @@ func _sort_turn_queue() -> void:
 
 func _check_enemy_out_of_monsters() -> bool:
 	for monster in battle.enemy_party:
-		if not monster.is_fainted:
+		if monster.is_able_to_fight:
 			return false
 	return true
 
 
 func _check_player_out_of_monsters() -> bool:
 	for monster in battle.player_party:
-		if not monster.is_fainted:
+		if monster.is_able_to_fight:
 			return false
 	return true
 

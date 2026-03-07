@@ -10,7 +10,15 @@
 [ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/battle_text_label.gd" id="4_4mnim"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_l1kiu"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
+[ext_resource type="Texture2D" uid="uid://iikfm8js0p7y" path="res://world_objects/interactable/ground_item/ball.png" id="11_eu6g2"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
+[ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
+
+[sub_resource type="Curve2D" id="Curve2D_eu6g2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, -48, 0, 0, 0, 0, 112, -96, 0, 0, 0, 0, 208, -128, 0, 0, 0, 0, 352, -144, 0, 0, 0, 0, 416, -144, 0, 0, 0, 0, 464, -144, 0, 0, 0, 0, 608, -128, 0, 0, 0, 0, 720, -96, 0, 0, 0, 0, 816, -48, 0, 0, 0, 0, 864, 0)
+}
+point_count = 11
 
 [sub_resource type="Animation" id="Animation_4mnim"]
 length = 0.001
@@ -573,6 +581,20 @@ script = ExtResource("4_4mnim")
 
 [node name="AnimationContainer" type="Node2D" parent="." unique_id=1888418741]
 script = ExtResource("5_l1kiu")
+
+[node name="Path2D" type="Path2D" parent="AnimationContainer" unique_id=457981979]
+position = Vector2(224, 272)
+curve = SubResource("Curve2D_eu6g2")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="AnimationContainer/Path2D" unique_id=268699456]
+rotates = false
+
+[node name="ItemSprite" type="Sprite2D" parent="AnimationContainer/Path2D/PathFollow2D" unique_id=1761635139]
+visible = false
+scale = Vector2(8, 8)
+texture = ExtResource("11_eu6g2")
+hframes = 3
+script = ExtResource("12_t8p1f")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1783395323]
 root_node = NodePath("../..")

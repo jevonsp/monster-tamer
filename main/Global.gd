@@ -14,11 +14,13 @@ signal send_respawn_player
 signal battle_started
 #endregion
 
-#region Wild Zone
+#region Wild/Trainer
 signal wild_battle_requested(mon_data: MonsterData, level: int)
+signal trainer_battle_requested(trainer: Trainer)
 #endregion
 
 #region Party
+signal capture_monster(monster: Monster)
 signal send_player_party(party: Array[Monster])
 signal send_player_storage(storage: Array[Monster])
 signal send_player_party_and_storage(party: Array[Monster], storage: Dictionary)
@@ -84,6 +86,13 @@ signal battle_ended
 signal send_battle_text_box(text: Array[String], auto_complete: bool)
 signal send_move_animation(scene: PackedScene)
 signal move_animation_complete
+signal send_item_throw_animation(item: Item)
+signal item_animation_complete
+signal send_item_wiggle(times: int)
+signal wiggle_animation_complete
+signal send_capture_animation
+signal send_escape_animation
+signal capture_or_escape_animation_complete
 signal send_sprite_shake(target: Monster)
 signal send_hitpoints_change(target: Monster, new_hp: int)
 signal hitpoints_animation_complete

@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bdu1o6lykdp4n"]
 
 [ext_resource type="Script" uid="uid://by733glh2208p" path="res://ui/inventory.gd" id="1_70ao8"]
-[ext_resource type="PackedScene" uid="uid://cq60mqy70b8je" path="res://ui/inventory_panel.tscn" id="1_kosh3"]
 
 [node name="Inventory" type="Control" unique_id=713585617]
 layout_mode = 3
@@ -39,9 +38,6 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
-
-[node name="InventoryPanel" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=444482965 instance=ExtResource("1_kosh3")]
-layout_mode = 2
 
 [node name="Options" type="VBoxContainer" parent="." unique_id=1103134984]
 visible = false

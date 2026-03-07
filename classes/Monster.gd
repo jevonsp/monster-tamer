@@ -20,6 +20,9 @@ static var EXPERIENCE_PER_LEVEL = 50
 @export var is_player_monster: bool = false
 
 @export var is_fainted: bool = false
+@export var is_captured: bool = false
+var is_able_to_fight: bool:
+	get: return not is_fainted and not is_captured
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
 
@@ -122,3 +125,13 @@ func gain_level(amount: int = 1) -> void:
 	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
 	Global.send_battle_text_box.emit(ta, false)
 	await Global.text_box_complete
+	
+	
+func attempt_catch(item: Item, actor: Monster) -> Dictionary:
+	var catch_rate = item.catch_effect.catch_rate_modifier
+	var result = {
+		"times": 3,
+		"success": true
+	}
+	return result
+	
