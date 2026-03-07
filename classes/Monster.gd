@@ -127,8 +127,8 @@ func gain_level(amount: int = 1) -> void:
 	await Global.text_box_complete
 	
 	
-func attempt_catch(item: Item, actor: Monster) -> Dictionary:
-	var catch_rate = item.catch_effect.catch_rate_modifier
+func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
+	var _catch_rate = item.catch_effect.catch_rate_modifier
 	var result = {
 		"times": 3,
 		"success": true
