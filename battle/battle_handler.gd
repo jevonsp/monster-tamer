@@ -97,8 +97,8 @@ func _resolve_move_target(actor: Monster, target: Monster, move: Move) -> Monste
 	if move.is_self_targeting:
 		return actor
 
-	var is_player_side := actor == battle.player_actor
-	var is_enemy_side := actor == battle.enemy_actor
+	var is_player_side: bool = actor == battle.player_actor
+	var is_enemy_side: bool = actor == battle.enemy_actor
 
 	if is_player_side:
 		return battle.enemy_actor
@@ -153,7 +153,8 @@ func _check_player_out_of_monsters() -> bool:
 
 
 func _win() -> void:
-	battle.enemy_trainer.is_defeated = true
+	if battle.enemy_trainer:
+		battle.enemy_trainer.is_defeated = true
 	var text: Array[String] = ["You won!"]
 	Global.send_battle_text_box.emit(text, false)
 	await Global.text_box_complete
