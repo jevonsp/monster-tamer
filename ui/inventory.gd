@@ -3,6 +3,7 @@ const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
 var processing: bool = false
 var is_using: bool = false
 var is_giving: bool = false
+var is_trainer_battle: bool = false
 var last_focused_option: Button = null
 var last_focused_button: Button = null
 @onready var interfaces: CanvasLayer = $".."
@@ -67,6 +68,8 @@ func _connect_signals() -> void:
 	Global.request_open_inventory.connect(_toggle_visible)
 	Global.set_inventory_use.connect(_toggle_using)
 	Global.set_inventory_give.connect(_toggle_giving)
+	Global.trainer_battle_requested.connect(func(_trainer): is_trainer_battle = true)
+	Global.battle_ended.connect(func(): is_trainer_battle = false)
 
 
 func _on_inventory_change(inventory: Dictionary[Item, int]) -> void:
@@ -114,7 +117,10 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 				await show_cant_use_in_battle_text()
 				last_focused_button.grab_focus()
 				return
-			
+			if is_trainer_battle and item.catch_effect:
+				await show_cant_use_in_trainer_battle_text()
+				last_focused_button.grab_focus()
+				return
 			Global.add_item_to_turn_queue.emit(item)
 			Global.item_used.emit(item)
 			_toggle_visible()
@@ -207,6 +213,12 @@ func show_cant_use_text() -> void:
 
 func show_cant_use_in_battle_text() -> void:
 	var ta: Array[String] = ["That item isn't usable!"]
+	Global.send_battle_text_box.emit(ta, true)
+	await Global.text_box_complete
+
+
+func show_cant_use_in_trainer_battle_text() -> void:
+	var ta: Array[String] = ["This is a trainer battle!!"]
 	Global.send_battle_text_box.emit(ta, true)
 	await Global.text_box_complete
 
