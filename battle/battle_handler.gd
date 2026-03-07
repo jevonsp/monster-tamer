@@ -64,27 +64,66 @@ func _execute_turn_queue() -> void:
 	executing_turn = true
 	_sort_turn_queue()
 	for entry in turn_queue:
+		if not _is_relevant_entry(entry):
+			continue
+
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
+
 		if entry.action is Move:
-			var actor_is_player_side: bool = actor == battle.player_actor
-			var actor_is_enemy_side: bool = actor == battle.enemy_actor
-			if not actor_is_player_side and not actor_is_enemy_side:
-				continue
-			if not entry.action.is_self_targeting:
-				if actor_is_player_side and target != battle.enemy_actor:
-					target = battle.enemy_actor
-				elif actor_is_enemy_side and target != battle.player_actor:
-					target = battle.player_actor
+			target = _resolve_move_target(actor, target, entry.action)
+
 		await entry.action.execute(actor, target)
-		if target and target.is_fainted and target == battle.enemy_actor:
-			await Global.player_done_giving_exp
-		if _check_enemy_out_of_monsters():
-			_win()
+
+		if await _handle_post_action(target):
 			return
-		if _check_player_out_of_monsters():
-			_lose()
-			return
+
+	_reset_turn_state()
+
+
+func _is_relevant_entry(entry: Dictionary) -> bool:
+	if not (entry.action is Move):
+		return true
+
+	var actor: Monster = entry.actor
+	if actor == battle.player_actor:
+		return true
+	if actor == battle.enemy_actor:
+		return true
+	return false
+
+
+func _resolve_move_target(actor: Monster, target: Monster, move: Move) -> Monster:
+	if move.is_self_targeting:
+		return actor
+
+	var is_player_side := actor == battle.player_actor
+	var is_enemy_side := actor == battle.enemy_actor
+
+	if is_player_side:
+		return battle.enemy_actor
+	if is_enemy_side:
+		return battle.player_actor
+
+	return target
+
+
+func _handle_post_action(target: Monster) -> bool:
+	if target and target.is_fainted and target == battle.enemy_actor:
+		await Global.player_done_giving_exp
+
+	if _check_enemy_out_of_monsters():
+		_win()
+		return true
+
+	if _check_player_out_of_monsters():
+		_lose()
+		return true
+
+	return false
+
+
+func _reset_turn_state() -> void:
 	turn_queue.clear()
 	battle.processing = true
 	executing_turn = false
@@ -114,6 +153,7 @@ func _check_player_out_of_monsters() -> bool:
 
 
 func _win() -> void:
+	battle.enemy_trainer.is_defeated = true
 	var text: Array[String] = ["You won!"]
 	Global.send_battle_text_box.emit(text, false)
 	await Global.text_box_complete
