@@ -38,9 +38,9 @@ func _on_menu_pressed(button: Button) -> void:
 			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 			Global.request_open_inventory.emit()
 		"Save":
-			print("Save")
+			print_debug("Save not yet implemented")
 		"Options":
-			print("Options")
+			print_debug("Options not yet implemented")
 
 
 func _toggle_visible() -> void:

@@ -51,14 +51,12 @@ func _on_option_pressed(button: Button) -> void:
 		
 	match button.name:
 		"Party":
-			print("Party")
 			Global.request_open_party.emit()
 		"Fight":
 			_change_vis_state(VisibilityState.MOVES)
 		"Run":
 			battle.end_battle()
 		"Item":
-			print("Item")
 			Global.request_open_inventory.emit()
 
 

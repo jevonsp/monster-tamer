@@ -33,9 +33,7 @@ func execute(actor: Monster, target: Monster):
 	if efficacy > 1.0:
 		post_text[0] += "\nIt's super effective!"
 	if efficacy < 1.0:
-		post_text[0] += "\nIt's not very effective..."  
-	
-	print(post_text)
+		post_text[0] += "\nIt's not very effective..."
 	
 	Global.send_battle_text_box.emit(post_text, false)
 	await Global.text_box_complete

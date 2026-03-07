@@ -26,11 +26,7 @@ func _animate_throw_item() -> void:
 
 
 func _animate_ball_shake(times: int) -> void:
-	print("shake started, times: ", times)
-	print("tree paused: ", get_tree().paused)
 	await get_tree().process_frame
-	print("got a frame")
-	print("tree paused: ", get_tree().paused)
 	Global.wiggle_animation_complete.emit()
 
 

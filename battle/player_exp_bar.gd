@@ -19,10 +19,8 @@ func update():
 func _on_monster_gained_experience(monster: Monster, amount: int) -> void:
 	if monster == actor:
 		if not active:
-			print("not active")
 			update_value(amount)
 		else:
-			print("active")
 			tween_bar(amount)
 		
 func _on_monster_gained_level(monster: Monster, _amount: int) -> void:

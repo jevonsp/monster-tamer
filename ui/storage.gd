@@ -60,7 +60,6 @@ func _on_send_player_party_and_storage(party: Array[Monster], storage: Dictionar
 
 
 func guard_clause_deposit() -> bool:
-	print(party_ref.size())
 	if party_ref.size() <= 1:
 		var ta: Array[String] = ["You can't deposit your last monster!"]
 		Global.send_overworld_text_box.emit(null, ta, true, false, false)
@@ -84,7 +83,6 @@ func start_move() -> void:
 			"from": "storage",
 		}
 		state = State.MOVING
-	print(moving_context)
 
 
 func complete_move() -> void:

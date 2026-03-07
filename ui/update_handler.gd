@@ -23,7 +23,6 @@ func update_party(party: Array) -> void:
 func update_storage(storage: Dictionary, page_index: int) -> void:
 	for i in range(30):
 		grid_container.get_child(i).clear_monster()
-	print("displaying monsters: ", 30 * page_index, " through: ", 29 + (30 * page_index))
 	if parent.storage_ref:
 		for i in range(30):
 			grid_container.get_child(i).update(storage[i + 30 * page_index])

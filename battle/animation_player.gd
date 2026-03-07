@@ -34,7 +34,6 @@ func _play_monster_faint(target: Monster) -> void:
 func _play_monster_switch_out(target: Monster) -> void:
 	if is_playing():
 		stop()
-	print("out target: ", target, " name: ", target.name)
 	if target == player_actor:
 		play("player_switch_out")
 		player_actor = null
@@ -49,7 +48,6 @@ func _play_monster_switch_out(target: Monster) -> void:
 func _play_monster_switch_in(target: Monster) -> void:
 	if is_playing():
 		stop()
-	print("in target: ", target, " name: ", target.name)
 	if target == player_actor:
 		play("player_switch_in")
 	else:

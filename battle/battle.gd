@@ -3,6 +3,7 @@ var processing: bool = false
 var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []
+var enemy_trainer: Trainer = null
 var enemy_party: Array[Monster] = []
 @onready var interfaces: CanvasLayer = $".."
 
@@ -110,6 +111,7 @@ func _start_trainer_battle(trainer: Trainer) -> void:
 	Global.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	_clear_actors()
 	
+	enemy_trainer = trainer
 	_set_enemy_party(trainer.party, trainer.party_levels)
 	set_enemy_actor(enemy_party[0])
 	set_player_actor(player_party[0])
@@ -187,6 +189,7 @@ func _clear_actors() -> void:
 func _clear_all() -> void:
 	_set_actors_out_of_battle()
 	_clear_actors()
+	enemy_trainer = null
 	player_party = []
 	enemy_party = []
 	ui_handler._clear_actor_references()

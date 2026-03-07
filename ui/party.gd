@@ -1,10 +1,7 @@
 extends Control
 var processing: bool = false
 var is_moving: bool = false
-var last_focused_monster: int = -1:
-	set(value):
-		last_focused_monster = value
-		print("last_focused_monster: ", last_focused_monster)
+var last_focused_monster: int = -1
 var last_focused_option: int = -1
 var index_moving_monster: int = -1
 @onready var interfaces: CanvasLayer = $".."
@@ -129,7 +126,6 @@ func _focus_default_option() -> void:
 
 
 func _on_monster_pressed(button: Button) -> void:
-	print("context: ", interfaces.ui_context)
 	var num := int(button.name.trim_prefix("Panel"))
 	match interfaces.ui_context:
 		Global.AccessFrom.PARTY:
@@ -158,21 +154,17 @@ func _on_monster_pressed(button: Button) -> void:
 
 func _on_option_pressed(button: Button) -> void:
 	var index_map := {"Use": 0, "Give": 1, "Summary": 2, "Move": 3}
-	print("pressed: ", button.name)
 	if button.name in index_map:
 		last_focused_option = index_map[button.name]
 	match button.name:
 		"Use":
-			print("Use")
 			use()
 		"Give":
-			print("Give")
+			print_debug("Give not implemented")
 			give()
 		"Summary":
-			print("Summary")
 			_open_monster_summary(last_focused_monster)
 		"Move":
-			print("Move")
 			start_moving()
 
 
@@ -183,7 +175,6 @@ func use() -> void:
 	Global.set_inventory_use.emit(true)
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
-	print("got item: ", item.name)
 	if item.use_effect == null:
 		var ta: Array[String] = ["That item isn't usable!"]
 		var toggles_player = false
@@ -201,7 +192,6 @@ func give() -> void:
 	Global.set_inventory_give.emit(true)
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
-	print("got item: ", item.name)
 	if item.held_effect == null:
 		var ta: Array[String] = ["That item isn't holdable!"]
 		var toggles_player = false
@@ -222,7 +212,6 @@ func start_moving() -> void:
 	_toggle_options_visible()
 	is_moving = true
 	index_moving_monster = last_focused_monster
-	print("moving: ", index_moving_monster)
 
 func stop_moving() -> void:
 	is_moving = false
