@@ -12,4 +12,3 @@ func _connect_signals() -> void:
 
 func _on_switch_ui_context(new_context: Global.AccessFrom) -> void:
 	ui_context = new_context
-	var access_from_name := func(value: int) -> String: return Global.AccessFrom.find_key(value)

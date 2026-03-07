@@ -25,7 +25,7 @@ func _animate_throw_item() -> void:
 	Global.item_animation_complete.emit()
 
 
-func _animate_ball_shake(times: int) -> void:
+func _animate_ball_shake(_times: int) -> void:
 	await get_tree().process_frame
 	Global.wiggle_animation_complete.emit()
 
