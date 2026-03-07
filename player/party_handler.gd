@@ -1,7 +1,10 @@
 extends Node
 
+const MAX_PARTY_SIZE := 6
+const STORAGE_SIZE := 300
+
 var party: Array[Monster] = []
-var storage: Dictionary = {}
+var storage: Dictionary[int, Monster] = {}
 @onready var player: CharacterBody2D = $".."
 
 
@@ -19,7 +22,7 @@ func bind_signals() -> void:
 
 
 func create_storage() -> void:
-	for i in range(300):
+	for i in range(STORAGE_SIZE):
 		storage[i] = null
 
 
@@ -43,7 +46,7 @@ func add(monster: Monster):
 
 func _add_to_party(monster: Monster) -> bool:
 	monster.is_player_monster = true
-	if party.size() < 6:
+	if party.size() < MAX_PARTY_SIZE:
 		party.append(monster)
 		return true
 	else:
@@ -100,12 +103,16 @@ func _move_storage_to_party(from_index: int, to_index: int) -> void:
 	send_player_party_and_storage()
 	
 func _grant_party_experience(amount: int) -> void:
-	var getting_exp: Array[Monster]
+	var getting_exp: Array[Monster] = []
 	for monster in party:
 		if monster.was_active_in_battle:
 			getting_exp.append(monster)
+	if getting_exp.is_empty():
+		Global.player_done_giving_exp.emit()
+		return
+	var share := int(amount / float(getting_exp.size()))
 	for monster in getting_exp:
-		await monster.gain_exp(int(amount / float(getting_exp.size())), player.in_battle)
+		await monster.gain_exp(share, player.in_battle)
 	Global.player_done_giving_exp.emit()
 		
 		

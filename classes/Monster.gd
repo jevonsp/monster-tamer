@@ -15,7 +15,7 @@ static var EXPERIENCE_PER_LEVEL = 50
 @export var defense: int = 1
 @export var speed: int = 1
 
-@export var moves: Array = []
+@export var moves: Array[Move] = []
 
 @export var is_player_monster: bool = false
 
@@ -71,7 +71,7 @@ func faint():
 		await Global.text_box_complete
 		Global.send_battle_text_box.emit(ta, true)
 	else:
-		Global.send_overworld_text_box.emit(self. ta, false, false, true)
+		Global.send_overworld_text_box.emit(self, ta, false, false, true)
 	await Global.text_box_complete
 	if not is_player_monster:
 		Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)

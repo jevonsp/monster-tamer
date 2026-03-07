@@ -184,11 +184,11 @@ func use() -> void:
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
 	print("got item: ", item.name)
-	if not item.is_usable:
+	if item.use_effect == null:
 		var ta: Array[String] = ["That item isn't usable!"]
 		var toggles_player = false
 		Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
-		await Global.overworld_text_box_complete
+		await Global.text_box_complete
 		return
 	var actor = panels.values()[last_focused_monster].actor
 	Global.use_item_on.emit(item, actor)
@@ -202,11 +202,11 @@ func give() -> void:
 	Global.request_open_inventory.emit()
 	var item = await Global.item_selected
 	print("got item: ", item.name)
-	if not item.is_held:
+	if item.held_effect == null:
 		var ta: Array[String] = ["That item isn't holdable!"]
 		var toggles_player = false
 		Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
-		await Global.overworld_text_box_complete
+		await Global.text_box_complete
 		return
 	var actor = panels.values()[last_focused_monster].actor
 	Global.give_item_to.emit(item, actor)

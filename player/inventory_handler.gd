@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func add(item: Item, amount: int = 1) -> void:
-	if inventory.get(item):
+	if inventory.has(item):
 		inventory[item] += amount
 	else:
 		inventory[item] = amount
@@ -17,7 +17,7 @@ func add(item: Item, amount: int = 1) -> void:
 	
 	
 func remove(item: Item, amount: int = 1) -> void:
-	if inventory.get(item):
+	if inventory.has(item):
 		inventory[item] -= amount
 		if inventory[item] == 0:
 			inventory.erase(item)

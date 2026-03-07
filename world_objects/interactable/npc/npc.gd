@@ -11,12 +11,12 @@ enum State {IDLE, TURNING, WALKING, JUMPING}
 		direction = value
 		if Engine.is_editor_hint():
 			_update_direction_visual()
-@export_multiline var dialogue: Array[String] = [""]
+@export_multiline var dialogue: Array[String] = []
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
 var current_state = State.IDLE
 var facing_vec: Vector2 = Vector2.DOWN
-var tiles_in_sight: Array = []
+var tiles_in_sight: Array[Vector2] = []
 var tile_start_pos: Vector2 = Vector2.ZERO
 var tile_target_pos: Vector2 = Vector2.ZERO
 var eventual_target_pos: Vector2 = Vector2.ZERO
@@ -59,8 +59,8 @@ func interact(body: CharacterBody2D) -> void:
 	_say_dialogue()
 
 
-func _say_dialogue(d: Array[String] = [""], autocomplete = null, question = null) -> void:
-	var dia = d if d != [""] else dialogue
+func _say_dialogue(d: Array[String] = [], autocomplete = null, question = null) -> void:
+	var dia = d if not d.is_empty() else dialogue
 	var ac = autocomplete if autocomplete != null else is_autocomplete
 	var iq = question if question != null else is_question
 	var tp = true # Toggles Player

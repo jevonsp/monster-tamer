@@ -20,16 +20,17 @@ func setup() -> void:
 		
 
 func interact(body: CharacterBody2D) -> void:
-	if text != [""]:
-		super(body)
+	if not body.is_in_group("player"):
+		printerr("Static Obj %s interacted with by Body %s,\nThis should never happen.\nExiting interact()")
+		return
+	
+	if not text.is_empty():
+		var tp = true # Toggles Player
+		Global.send_overworld_text_box.emit(self, text, is_autocomplete, is_question, tp)
 	else:
-		if not body.is_in_group("player"):
-			printerr("Static Obj %s interacted with by Body %s,\nThis should never happen.\nExiting interact()")
-			return
-		if text == [""]:
-			var formatted: Array[String] = ["You found a %s!" % [item.name]]
-			var tp = true # Toggles Player
-			Global.send_overworld_text_box.emit(self, formatted, is_autocomplete, is_question, tp)
+		var formatted: Array[String] = ["You found a %s!" % [item.name]]
+		var tp = true # Toggles Player
+		Global.send_overworld_text_box.emit(self, formatted, is_autocomplete, is_question, tp)
 	if not is_question:
 		await Global.text_box_complete
 		trigger(body)
