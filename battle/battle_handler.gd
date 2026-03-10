@@ -111,16 +111,40 @@ func _resolve_move_target(actor: Monster, target: Monster, move: Move) -> Monste
 func _handle_post_action(target: Monster) -> bool:
 	if target and target.is_fainted and target == battle.enemy_actor:
 		await Global.player_done_giving_exp
-
-	if _check_enemy_out_of_monsters():
-		_win()
-		return true
-
-	if _check_player_out_of_monsters():
-		_lose()
-		return true
+	
+	if _check_enemy_actor_fainted():
+		if _check_enemy_out_of_monsters():
+			_win()
+			return true
+		else:
+			await _force_enemy_send_new_monster() 
+			return false
+	
+	if _check_player_actor_fainted():
+		if _check_player_out_of_monsters():
+			_lose()
+			return true
+		else:
+			await _force_player_send_new_monster()
+			return false
 
 	return false
+
+
+func _check_player_actor_fainted() -> bool:
+	return battle.player_actor.is_fainted
+
+
+func _check_enemy_actor_fainted() -> bool:
+	return battle.enemy_actor.is_fainted
+
+
+func _force_player_send_new_monster():
+	pass
+
+
+func _force_enemy_send_new_monster():
+	pass
 
 
 func _reset_turn_state() -> void:
