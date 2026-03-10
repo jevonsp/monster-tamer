@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://65a5ermnwm58"]
+
+[ext_resource type="Script" uid="uid://y3yk1gfcm5t6" path="res://classes/saving-loading/save_tester.gd" id="1_8gvh7"]
+
+[node name="SaveTester" type="Control" unique_id=1586745583]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8gvh7")
+
+[node name="BoxContainer" type="BoxContainer" parent="." unique_id=572344715]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 528.0
+offset_bottom = 128.0
+
+[node name="Button" type="Button" parent="BoxContainer" unique_id=765772386]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Test Save"
+
+[node name="Button2" type="Button" parent="BoxContainer" unique_id=1042759295]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Test Erase"
+
+[connection signal="pressed" from="BoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="BoxContainer/Button2" to="." method="_on_button_2_pressed"]

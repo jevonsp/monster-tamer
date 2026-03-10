@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cxpdnabe54fq0" path="res://ui/overworld_text_box.tscn" id="9_grrlh"]
 [ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage.tscn" id="9_jofbb"]
 [ext_resource type="PackedScene" uid="uid://jmc7gqpbmo2n" path="res://world_objects/interactable/npc/components/npc_respawn_component.tscn" id="10_0i4oc"]
+[ext_resource type="PackedScene" uid="uid://65a5ermnwm58" path="res://classes/saving-loading/save_tester.tscn" id="10_d00gp"]
 [ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu.tscn" id="11_bsumw"]
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
@@ -74,6 +75,8 @@ grow_vertical = 1
 
 [node name="Storage" parent="Interfaces" unique_id=1376996790 instance=ExtResource("9_jofbb")]
 visible = false
+
+[node name="SaveTester" parent="Interfaces" unique_id=1586745583 instance=ExtResource("10_d00gp")]
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 

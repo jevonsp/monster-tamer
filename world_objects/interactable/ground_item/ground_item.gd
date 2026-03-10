@@ -40,7 +40,24 @@ func interact(body: CharacterBody2D) -> void:
 func trigger(body) -> void:
 	if body is Player:
 		body.inventory_handler.add(item)
-	obtain()
+		obtain()
+
 
 func obtain() -> void:
 	is_obtained = true
+
+
+func on_save_game(saved_data_array: Array[SavedData]) -> void:
+	var new_saved_data = SavedData.new()
+	
+	new_saved_data.node_path = get_path()
+	new_saved_data.is_obtained = is_obtained
+	
+	saved_data_array.append(new_saved_data)
+
+
+func on_load_game(saved_data_array: Array[SavedData]) -> void:
+	for data: SavedData in saved_data_array:
+		if data.node_path == get_path():
+			if data.is_obtained:
+				obtain()

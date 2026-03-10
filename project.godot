@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*uid://ceb6usvu15r15"
+SaverLoader="*uid://du1mlwngfelbr"
 
 [display]
 
@@ -33,6 +34,7 @@ enabled=PackedStringArray("res://addons/gdscript-linter/plugin.cfg")
 [global_group]
 
 interactable=""
+save_object=""
 
 [input]
 

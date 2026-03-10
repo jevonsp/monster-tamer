@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://bwmithvrs81lb"]
+
+[ext_resource type="Script" uid="uid://coyl3epbkw5dr" path="res://main/title_screen.gd" id="1_e5l7q"]
+
+[node name="TitleScreen" type="Control" unique_id=1206539597]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e5l7q")
+
+[node name="BoxContainer" type="BoxContainer" parent="." unique_id=116915758]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -232.0
+offset_right = 256.0
+offset_bottom = 232.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+vertical = true
+
+[node name="Continue" type="Button" parent="BoxContainer" unique_id=1871493092]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BoxContainer/Continue" unique_id=938587220]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NewGame" type="Button" parent="BoxContainer" unique_id=263335561]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BoxContainer/NewGame" unique_id=1970304169]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "New Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EraseSave" type="Button" parent="BoxContainer" unique_id=730752493]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BoxContainer/EraseSave" unique_id=1585338537]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Erase Save"
+horizontal_alignment = 1
+vertical_alignment = 1
