@@ -119,6 +119,7 @@ func _start_trainer_battle(trainer: Trainer) -> void:
 	
 	await _switch_to_battle()
 
+
 func _switch_to_battle() -> void:
 	ui_handler._display_current_monsters()
 	_toggle_player()

@@ -56,7 +56,7 @@ func interact(body: CharacterBody2D) -> void:
 	var new_facing_direction = (body.global_position - global_position).normalized()
 	if new_facing_direction != facing_vec:
 		start_turning(new_facing_direction)
-	_say_dialogue()
+	await _say_dialogue()
 
 
 func _say_dialogue(d: Array[String] = [], autocomplete = null, question = null) -> void:

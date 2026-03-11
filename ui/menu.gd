@@ -1,5 +1,7 @@
 extends Control
 var processing: bool = false
+var last_focused_button: Button = null
+var should_save_game: bool = false
 @onready var interfaces: CanvasLayer = $".."
 
 func _ready() -> void:
@@ -10,8 +12,9 @@ func _ready() -> void:
 
 
 func _bind_buttons() -> void:
-	for button in get_tree().get_nodes_in_group("menu_buttons"):
+	for button: Button in get_tree().get_nodes_in_group("menu_buttons"):
 		button.pressed.connect(_on_menu_pressed.bind(button))
+		button.focus_entered.connect(_on_focus_entered.bind(button))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -38,9 +41,14 @@ func _on_menu_pressed(button: Button) -> void:
 			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 			Global.request_open_inventory.emit()
 		"Save":
-			print_debug("Save not yet implemented")
+			await _start_save_process()
+			_focus_default()
 		"Options":
 			print_debug("Options not yet implemented")
+
+
+func _on_focus_entered(button: Button) -> void:
+	last_focused_button = button
 
 
 func _toggle_visible() -> void:
@@ -50,10 +58,32 @@ func _toggle_visible() -> void:
 		_focus_default()
 		Global.switch_ui_context.emit(Global.AccessFrom.MENU)
 	else:
+		last_focused_button = null
 		Global.switch_ui_context.emit(Global.AccessFrom.NONE)
 
 
 func _focus_default() -> void:
+	if last_focused_button:
+		last_focused_button.grab_focus()
+		return
 	var buttons = get_tree().get_nodes_in_group("menu_buttons")
 	if buttons:
 		buttons[0].grab_focus()
+
+
+func _start_save_process():
+	var text_array: Array[String] = ["Would you like to save the game?"]
+	Global.send_overworld_text_box.emit(self, text_array, false, true, false)
+	await Global.text_box_complete
+	if should_save_game:
+		_finish_save_process()
+	should_save_game = false
+
+
+func _finish_save_process() -> void:
+	SaverLoader.save_game()
+	print("saved game")
+
+
+func trigger() -> void:
+	should_save_game = true

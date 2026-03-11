@@ -608,7 +608,7 @@ parameters/Jump/blend_position = Vector2(0, 0)
 parameters/Turn/blend_position = Vector2(0.49761522, -0.28448272)
 parameters/Walk/blend_position = Vector2(-0.0031796694, 1.0086207)
 
-[node name="RayCast2D" type="RayCast2D" parent="." unique_id=564290287]
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=564290287 groups=["interactable", "save_object"]]
 position = Vector2(8, 8)
 target_position = Vector2(0, 16)
 collision_mask = 11

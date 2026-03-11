@@ -5,3 +5,5 @@ class_name SavedData
 @export var node_path: NodePath
 
 @export var is_obtained: bool = false
+
+@export var is_defeated: bool = false
