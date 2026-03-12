@@ -157,11 +157,6 @@ func _on_monster_pressed(button: Button) -> void:
 				Global.request_switch_creation.emit(num)
 				_toggle_visible()
 			else:
-				if num == 0:
-					var ta: Array[String] = ["That monster is already fighting!"]
-					Global.send_overworld_text_box.emit(null, ta, true, false, false)
-					await Global.text_box_complete
-					return
 				var monster_selected: Monster = button.actor
 				if not monster_selected.is_able_to_fight:
 					var ta: Array[String] = ["That monster is not able to fight!"]

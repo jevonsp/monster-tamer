@@ -25,10 +25,8 @@ func _play_monster_faint(target: Monster) -> void:
 		stop()
 	if target == player_actor:
 		play("player_faint")
-		player_actor = null
 	else:
 		play("enemy_faint")
-		enemy_actor = null
 	
 	
 func _play_monster_switch_out(target: Monster) -> void:
