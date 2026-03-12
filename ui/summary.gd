@@ -1,8 +1,15 @@
 extends Control
+var DEFAULT_STYLE: StyleBoxFlat = load("res://ui/new_style_box_flat_default.tres")
+var RED_STYLE: StyleBoxFlat = load("res://ui/new_style_box_flat_red.tres")
 var processing: bool = false
+var is_move_focused: bool = false
+var is_learning_move: bool = false
+var is_moving_move: bool = false
 var party: Array[Monster]
 var index: int = -1
 var in_battle: bool = false
+var last_focused_move_button: Button = null
+var moving_index_one: int = -1
 @onready var interfaces: CanvasLayer = $".."
 #region Onready Vars
 @onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
@@ -18,10 +25,10 @@ var in_battle: bool = false
 @onready var stat_label_3: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel3
 @onready var stat_label_4: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel4
 @onready var stat_label_5: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel5
-@onready var summary_move_panel_0: Panel = $Content/Main/Moves/SummaryMovePanel0
-@onready var summary_move_panel_1: Panel = $Content/Main/Moves/SummaryMovePanel1
-@onready var summary_move_panel_2: Panel = $Content/Main/Moves/SummaryMovePanel2
-@onready var summary_move_panel_3: Panel = $Content/Main/Moves/SummaryMovePanel3
+@onready var summary_move_panel_0: Button = $Content/Main/Moves/SummaryMovePanel0
+@onready var summary_move_panel_1: Button = $Content/Main/Moves/SummaryMovePanel1
+@onready var summary_move_panel_2: Button = $Content/Main/Moves/SummaryMovePanel2
+@onready var summary_move_panel_3: Button = $Content/Main/Moves/SummaryMovePanel3
 #endregion
 
 @onready var labels: Array[Label] = [
@@ -37,7 +44,7 @@ var in_battle: bool = false
 	stat_label_5,
 ]
 
-@onready var move_panels: Array[Panel] = [
+@onready var move_panels: Array[Button] = [
 	summary_move_panel_0,
 	summary_move_panel_1,
 	summary_move_panel_2,
@@ -49,6 +56,7 @@ func _ready() -> void:
 		_toggle_visible()
 	_clear_monster()
 	_connect_signals()
+	_bind_buttons()
 
 
 func _connect_signals() -> void:
@@ -60,31 +68,64 @@ func _connect_signals() -> void:
 	Global.battle_ended.connect(_on_battle_ended)
 
 
+func _bind_buttons() -> void:
+	for b: Button in move_panels:
+		b.focus_entered.connect(_on_focus_entered.bind(b))
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
+
+	if is_learning_move:
+		_handle_learning_input(event)
+	elif is_move_focused:
+		_handle_move_focused_input(event)
+	else:
+		_handle_default_input(event)
+
+
+func _handle_default_input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		_toggle_visible()
 		Global.on_summary_closed.emit()
 		if not in_battle:
 			Global.toggle_player.emit()
-		get_viewport().set_input_as_handled()
-	if event.is_action_pressed("no"):
+	elif event.is_action_pressed("no"):
 		_toggle_visible()
 		Global.on_summary_closed.emit()
 		if not in_battle:
 			Global.request_open_party.emit()
-		get_viewport().set_input_as_handled()
-	if event.is_action_pressed("right"):
+	elif event.is_action_pressed("right"):
 		index = (index + 1) % party.size()
-		var next_monster = party[index]
 		_clear_monster()
-		_display_monster(next_monster)
-	if event.is_action_pressed("left"):
+		_display_monster(party[index])
+	elif event.is_action_pressed("left"):
 		index = (index - 1) % party.size()
-		var next_monster = party[index]
 		_clear_monster()
-		_display_monster(next_monster)
+		_display_monster(party[index])
+	elif event.is_action_pressed("yes"):
+		_focus_default_move()
+	else:
+		return
+
+	get_viewport().set_input_as_handled()
+
+
+func _handle_move_focused_input(event: InputEvent) -> void:
+	if event.is_action_pressed("yes"):
+		if not is_moving_move:
+			_start_moving_move()
+		else:
+			_finish_moving_move()
+	elif event.is_action_pressed("no"):
+		_unfocus_moves()
+		
+	get_viewport().set_input_as_handled()
+
+
+func _handle_learning_input(event: InputEvent) -> void:
+	pass
 
 
 func _clear_monster() -> void:
@@ -135,11 +176,9 @@ func _display_monster(monster: Monster) -> void:
 	var panel_index = 0
 	for move in monster.moves:
 		if move == null:
-			continue
-		move_panels[panel_index].bp_label.text = "BP: %s" % [move.base_power]
-		move_panels[panel_index].name_label.text = move.name
-		move_panels[panel_index].pp_label.text = "PP: XX"
-		move_panels[panel_index].description_label.text = move.description
+			move_panels[panel_index].clear()
+		move_panels[panel_index].move = move
+		move_panels[panel_index].setup()
 		panel_index += 1
 
 
@@ -161,12 +200,57 @@ func _toggle_visible() -> void:
 	if index > -1:
 		var monster = party[index]
 		_display_monster(monster)
+	if not visible:
+		for b: Button in move_panels:
+			b.clear()
 
 
 func _set_player_party(p: Array[Monster]) -> void:
+	# WARNING This BORROWS the party from the player
 	party = p
-	
+	print("got party: ", party)
+	_display_monster(party[index])
+
 
 func _clear_player_party() -> void:
 	party = []
 	index = -1
+
+
+func _on_focus_entered(button: Button) -> void:
+	last_focused_move_button = button 
+
+
+func _focus_default_move() -> void:
+	is_move_focused = true
+	if last_focused_move_button:
+		last_focused_move_button.grab_focus()
+		return
+	summary_move_panel_0.grab_focus()
+
+
+func _unfocus_moves() -> void:
+	last_focused_move_button.release_focus()
+	moving_index_one = -1
+	is_move_focused = false
+
+
+func _start_moving_move() -> void:
+	var idx = move_panels.find(last_focused_move_button)
+	if idx != -1:
+		print(idx)
+		moving_index_one = idx
+		is_moving_move = true
+	for button in move_panels:
+		button.add_theme_stylebox_override("focus", RED_STYLE)
+
+
+func _finish_moving_move() -> void:
+	var idx = move_panels.find(last_focused_move_button)
+	if idx != -1:
+		var moving_index_two = idx
+		Global.request_switch_moves.emit(party[index], moving_index_one, moving_index_two)
+	moving_index_one = -1
+	is_moving_move = false
+	for button in move_panels:
+		button.add_theme_stylebox_override("focus", DEFAULT_STYLE)

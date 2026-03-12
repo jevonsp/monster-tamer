@@ -1,10 +1,14 @@
 [gd_scene format=3 uid="uid://c7dppshejn64v"]
 
 [ext_resource type="Script" uid="uid://bvhr7o4kr8dn7" path="res://ui/summary_move_panel.gd" id="1_hwvib"]
+[ext_resource type="StyleBox" uid="uid://dluiqrwi2287l" path="res://ui/new_style_box_flat_default.tres" id="1_urfay"]
 
-[node name="SummaryMovePanel0" type="Panel" unique_id=244005857]
+[node name="SummaryMovePanel0" type="Button" unique_id=253956150]
+offset_right = 485.0
+offset_bottom = 173.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/focus = ExtResource("1_urfay")
 script = ExtResource("1_hwvib")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=456331800]

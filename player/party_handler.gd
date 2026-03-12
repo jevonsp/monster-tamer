@@ -19,6 +19,7 @@ func bind_signals() -> void:
 	Global.storage_withdraw_monster.connect(_withdraw_monster)
 	Global.request_move_party_to_storage.connect(_move_party_to_storage)
 	Global.request_move_storage_to_party.connect(_move_storage_to_party)
+	Global.request_switch_moves.connect(_on_switch_moves)
 
 
 func create_storage() -> void:
@@ -142,4 +143,14 @@ func _on_out_of_battle_switch(index_one: int, index_two: int) -> void:
 	var temp = party[index_one]
 	party[index_one] = party[index_two]
 	party[index_two] = temp
+	
+	send_player_party()
+
+
+func _on_switch_moves(monster: Monster, index_one: int, index_two: int) -> void:
+	if index_one == -1 or index_two == -1:
+		return
+	var temp = monster.moves[index_one]
+	monster.moves[index_one] = monster.moves[index_two]
+	monster.moves[index_two] = temp
 	send_player_party()

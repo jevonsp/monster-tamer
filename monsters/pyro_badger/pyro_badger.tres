@@ -10,6 +10,7 @@ script = ExtResource("3_8al2p")
 species = "Pyro Badger"
 type = 1
 texture = ExtResource("3_q7sp7")
-move_level = Array[int]([1])
-move_gained = Array[ExtResource("1_d3g7e")]([ExtResource("2_jrfpv")])
+moves = Dictionary[int, ExtResource("1_d3g7e")]({
+1: ExtResource("2_jrfpv")
+})
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

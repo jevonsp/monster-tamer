@@ -5,16 +5,12 @@
 [ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://classes/MonsterData.gd" id="3_droyv"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="3_nmn5g"]
 
-[sub_resource type="Resource" id="Resource_5ruug"]
-script = ExtResource("1_5ruug")
-name = "Test Move"
-metadata/_custom_type_script = "uid://cawunai26wo8m"
-
 [resource]
 script = ExtResource("3_droyv")
 species = "Pistol Shrimp"
 type = 2
 texture = ExtResource("3_nmn5g")
-move_level = Array[int]([1, 2])
-move_gained = Array[ExtResource("1_5ruug")]([ExtResource("2_6co7i"), SubResource("Resource_5ruug")])
+moves = Dictionary[int, ExtResource("1_5ruug")]({
+1: ExtResource("2_6co7i")
+})
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

@@ -183,6 +183,7 @@ func _on_option_pressed(button: Button) -> void:
 			_open_monster_summary(last_focused_monster)
 		"Move":
 			start_moving()
+	get_viewport().set_input_as_handled()
 
 
 func use() -> void:
@@ -223,6 +224,7 @@ func _open_monster_summary(index: int) -> void:
 	Global.send_summary_index.emit(index)
 	Global.request_open_summary.emit()
 	_toggle_visible()
+	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 
 
 func start_moving() -> void:

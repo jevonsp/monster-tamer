@@ -33,6 +33,10 @@ signal battle_switch_complete
 signal out_of_battle_switch(index_one: int, index_two: int)
 #endregion
 
+#region Summary
+signal request_switch_moves(monster: Monster, index_one: int, index_two: int)
+#endregion
+
 #region Inventory
 signal send_player_inventory(inventory: Dictionary[Item, int])
 signal player_inventory_requested

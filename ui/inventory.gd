@@ -45,6 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			_toggle_visible()
 			Global.request_open_party.emit()
 			get_viewport().set_input_as_handled()
+			interfaces.ui_context = Global.AccessFrom.PARTY
 			return
 		if not options_box.visible:
 			_toggle_visible()

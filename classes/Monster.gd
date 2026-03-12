@@ -40,13 +40,12 @@ func set_level(l: int) -> void:
 
 
 func set_monster_moves() -> void:
-	var move_level = monster_data.move_level
-	var move_gained = monster_data.move_gained
 	var moves_to_gain: Array[Move] = [null, null, null, null]
-	for i in range(len(move_gained)):
-		if move_level[i] <= level:
+	for key_level in monster_data.moves.keys():
+		var move = monster_data.moves[key_level]
+		if key_level <= level:
 			moves_to_gain.pop_back()
-			moves_to_gain.push_front(move_gained[i])
+			moves_to_gain.push_front(move)
 	moves = moves_to_gain
 
 
@@ -127,6 +126,8 @@ func gain_level(amount: int = 1) -> void:
 	await Global.text_box_complete
 	
 	
+func check_gain_moves() -> void:
+	pass
 	
 func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 	var _catch_rate = item.catch_effect.catch_rate_modifier

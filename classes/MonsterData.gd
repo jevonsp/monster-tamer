@@ -5,9 +5,7 @@ extends Resource
 @export var type: TypeChart.Type
 @export var texture: Texture2D
 @export_subgroup("Moves")
-@export var move_level: Array[int] = []
-@export var move_gained: Array[Move] = []
-
+@export var moves: Dictionary[int, Move]
 
 func set_up(level: int) -> Monster:
 	"""Single entry point for Monster creation"""
