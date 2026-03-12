@@ -109,7 +109,7 @@ func _resolve_move_target(actor: Monster, target: Monster, move: Move) -> Monste
 
 
 func _handle_post_action(target: Monster) -> bool:
-	if target and target.is_fainted and target == battle.enemy_actor:
+	if target and target.is_fainted and not target.is_player_monster:
 		await Global.player_done_giving_exp
 	
 	if _check_enemy_actor_fainted():

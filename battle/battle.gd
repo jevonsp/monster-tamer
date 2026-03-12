@@ -150,6 +150,8 @@ func end_battle() -> void:
 
 func set_player_actor(monster: Monster) -> void:
 	player_actor = monster
+	if player_actor:
+		player_actor.was_active_in_battle = true
 
 
 func set_enemy_actor(monster: Monster) -> void:
@@ -169,6 +171,8 @@ func _set_enemy_party(party: Array[MonsterData], levels: Array[int]) -> void:
 func switch_actors(old: Monster, new: Monster) -> void:
 	if old == player_actor:
 		player_actor = new
+		if player_actor:
+			player_actor.was_active_in_battle = true
 	elif old == enemy_actor:
 		enemy_actor = new
 	ui_handler._display_current_monsters()
