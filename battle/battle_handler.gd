@@ -140,11 +140,31 @@ func _check_enemy_actor_fainted() -> bool:
 
 
 func _force_player_send_new_monster():
-	pass
+	Global.request_forced_switch.emit()
+	var target = await Global.send_selected_force_switch
+	
+	var switch = Switch.new()
+	switch.actor = battle.player_actor
+	switch.target = target
+	
+	await switch.execute(switch.actor, switch.target)
 
 
 func _force_enemy_send_new_monster():
-	pass
+	var available_monsters: Array[Monster]
+	for monster: Monster in battle.enemy_party:
+		if monster.is_able_to_fight:
+			available_monsters.append(monster)
+	
+	var next_monster = available_monsters.pick_random()
+	var switch = Switch.new()
+	
+	switch.actor = battle.enemy_actor
+	switch.target = next_monster
+	switch.out_unformatted = "Enemy %s withdrew %%s." % [battle.enemy_trainer.npc_name]
+	switch.in_unformatted = "Enemy %s sent out %%s." % [battle.enemy_trainer.npc_name]
+	
+	await switch.execute(switch.actor, switch.target)
 
 
 func _reset_turn_state() -> void:

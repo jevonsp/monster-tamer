@@ -19,6 +19,8 @@ class_name Trainer
 
 func _ready() -> void:
 	super()
+	if npc_name == "NPC":
+		npc_name = "Trainer"
 	starting_tile = global_position
 	initial_direction = direction
 	if Engine.is_editor_hint():

@@ -1,6 +1,7 @@
 extends Control
 var processing: bool = false
 var is_moving: bool = false
+var is_forced_switch: bool = false
 var last_focused_monster: int = -1
 var last_focused_option: int = -1
 var index_moving_monster: int = -1
@@ -31,10 +32,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
 	if event.is_action_pressed("menu"):
-		_toggle_visible()
-		Global.on_party_closed.emit()
-		Global.toggle_player.emit()
-		get_viewport().set_input_as_handled()
+		if not is_forced_switch:
+			_toggle_visible()
+			Global.on_party_closed.emit()
+			Global.toggle_player.emit()
+			get_viewport().set_input_as_handled()
 	if event.is_action_pressed("no"):
 		match interfaces.ui_context:
 			Global.AccessFrom.INVENTORY:
@@ -43,9 +45,12 @@ func _unhandled_input(event: InputEvent) -> void:
 				Global.request_open_inventory.emit()
 				return
 			Global.AccessFrom.BATTLE:
-				_toggle_visible()
-				Global.on_party_closed.emit()
-				return
+				if not is_forced_switch:
+					_toggle_visible()
+					Global.on_party_closed.emit()
+					return
+				else:
+					return
 		if not options_box.visible:
 			_toggle_visible()
 			Global.on_party_closed.emit()
@@ -58,6 +63,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_on_party_change)
 	Global.request_open_party.connect(_toggle_visible)
+	Global.request_forced_switch.connect(_on_request_forced_switch)
 
 
 func _bind_buttons() -> void:
@@ -142,14 +148,30 @@ func _on_monster_pressed(button: Button) -> void:
 			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 			Global.request_open_inventory.emit()
 		Global.AccessFrom.BATTLE:
-			if num == 0:
-				var ta: Array[String] = ["That monster is already fighting!"]
-				Global.send_overworld_text_box.emit(null, ta, true, false, false)
-				await Global.text_box_complete
-				return
-			Global.request_switch_creation.emit(num)
-			_toggle_visible()
-			
+			if not is_forced_switch:
+				if num == 0:
+					var ta: Array[String] = ["That monster is already fighting!"]
+					Global.send_overworld_text_box.emit(null, ta, true, false, false)
+					await Global.text_box_complete
+					return
+				Global.request_switch_creation.emit(num)
+				_toggle_visible()
+			else:
+				if num == 0:
+					var ta: Array[String] = ["That monster is already fighting!"]
+					Global.send_overworld_text_box.emit(null, ta, true, false, false)
+					await Global.text_box_complete
+					return
+				var monster_selected: Monster = button.actor
+				if not monster_selected.is_able_to_fight:
+					var ta: Array[String] = ["That monster is not able to fight!"]
+					Global.send_overworld_text_box.emit(null, ta, true, false, false)
+					await Global.text_box_complete
+					return
+				else:
+					Global.send_selected_force_switch.emit(monster_selected)
+					is_forced_switch = false
+					_toggle_visible()
 
 
 func _on_option_pressed(button: Button) -> void:
@@ -213,10 +235,15 @@ func start_moving() -> void:
 	is_moving = true
 	index_moving_monster = last_focused_monster
 
+
 func stop_moving() -> void:
 	is_moving = false
 	if index_moving_monster == last_focused_monster:
 		return
 	else:
 		Global.out_of_battle_switch.emit(index_moving_monster, last_focused_monster)
-	
+
+
+func _on_request_forced_switch() -> void:
+	is_forced_switch = true
+	_toggle_visible()

@@ -6,6 +6,7 @@ const TILE_SIZE: int = 16
 const WALK_SPEED := 4.0
 enum Direction {NONE, UP, DOWN, LEFT, RIGHT}
 enum State {IDLE, TURNING, WALKING, JUMPING}
+@export var npc_name: String = "NPC"
 @export var direction: Direction = Direction.DOWN:
 	set(value):
 		direction = value

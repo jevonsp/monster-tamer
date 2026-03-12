@@ -3,9 +3,11 @@ class_name Switch
 @export_range(-5, 5) var priority: int = 5
 var actor: Monster
 var target: Monster
+var out_unformatted: String = "Thats enough, %s!"
+var in_unformatted: String = "Its your turn, %s"
 
 func execute(old: Monster, new: Monster) -> void:
-	var out_text: Array[String] = ["Thats enough, %s!" % [old.name]]
+	var out_text: Array[String] = [out_unformatted % [old.name]]
 	Global.send_battle_text_box.emit(out_text, true)
 	await Global.text_box_complete
 	
@@ -18,6 +20,6 @@ func execute(old: Monster, new: Monster) -> void:
 	
 	Global.send_monster_switch_in.emit(new)
 	
-	var in_text: Array[String] = ["Its your turn, %s" % [new.name]]
+	var in_text: Array[String] = [in_unformatted % [new.name]]
 	Global.send_battle_text_box.emit(in_text, false)
 	await Global.text_box_complete

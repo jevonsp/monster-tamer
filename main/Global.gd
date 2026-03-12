@@ -109,6 +109,8 @@ signal send_monster_switch_out(target: Monster)
 signal send_monster_switch_in(target: Monster)
 signal monster_switch_out_animation_complete
 signal monster_switch_in_animation_complete
+signal request_forced_switch
+signal send_selected_force_switch(target: Monster)
 #endregion
 
 @warning_ignore_restore("unused_signal")
