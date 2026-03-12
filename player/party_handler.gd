@@ -102,6 +102,7 @@ func _move_storage_to_party(from_index: int, to_index: int) -> void:
 		storage[from_index] = temp
 	send_player_party_and_storage()
 	
+	
 func _grant_party_experience(amount: int) -> void:
 	var getting_exp: Array[Monster] = []
 	for monster in party:
