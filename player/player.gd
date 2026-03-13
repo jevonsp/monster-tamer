@@ -14,7 +14,7 @@ var held_keys: Array = []
 var key_hold_times: Dictionary = {}
 var turn_timer: float = 0.0
 var processing: bool = true
-var in_battle: bool = false
+static var in_battle: bool = false
 #endregion
 
 var respawn_point: Vector2 = Vector2.ZERO

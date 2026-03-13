@@ -12,3 +12,4 @@ func _connect_signals() -> void:
 
 func _on_switch_ui_context(new_context: Global.AccessFrom) -> void:
 	ui_context = new_context
+	print(Global.AccessFrom.keys()[ui_context])

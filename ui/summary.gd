@@ -11,6 +11,7 @@ var in_battle: bool = false
 var last_focused_move_button: Button = null
 var moving_index_one: int = -1
 @onready var interfaces: CanvasLayer = $".."
+@onready var overworld_text_box: Control = $"../OverworldTextBox"
 #region Onready Vars
 @onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
 @onready var name_label: Label = $Content/Main/HBoxContainer0/NameLabel
@@ -125,7 +126,8 @@ func _handle_move_focused_input(event: InputEvent) -> void:
 
 
 func _handle_learning_input(event: InputEvent) -> void:
-	pass
+	if last_focused_move_button.move == null:
+		pass
 
 
 func _clear_monster() -> void:

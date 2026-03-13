@@ -124,10 +124,41 @@ func gain_level(amount: int = 1) -> void:
 	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
 	Global.send_battle_text_box.emit(ta, false)
 	await Global.text_box_complete
+	if check_should_gain_moves():
+		if get_learn_index() >= 0:
+			await learn_move(monster_data.moves[level], get_learn_index())
+		else:
+			await decide_move(monster_data.moves[level])
 	
 	
-func check_gain_moves() -> void:
+func check_should_gain_moves() -> bool:
+	if monster_data.moves.has(level):
+		return true
+	return false
+	
+	
+func get_learn_index() -> int:
+	for i in range(4):
+		if moves[i] == null:
+			return i
+	return -1
+	
+	
+func decide_move(_move: Move) -> void:
 	pass
+	
+	
+func learn_move(move: Move, index: int) -> void:
+	moves[index] = move
+	var ta: Array[String] = ["%s learned %s." % [name, move.name]]
+	if Player.in_battle:
+		Global.send_battle_text_box.emit(ta, false)
+	else:
+		Global.send_overworld_text_box.emit(null, ta, false, false, false)
+		
+	await Global.text_box_complete
+	
+	
 	
 func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 	var _catch_rate = item.catch_effect.catch_rate_modifier
