@@ -35,6 +35,7 @@ signal out_of_battle_switch(index_one: int, index_two: int)
 
 #region Summary
 signal request_switch_moves(monster: Monster, index_one: int, index_two: int)
+signal request_summary_learn_move(move: Move)
 #endregion
 
 #region Inventory
@@ -50,6 +51,7 @@ signal switch_ui_context(new_context: AccessFrom)
 signal send_text_box(
 	object: Node, text: Array[String], auto_complete: bool, is_question: bool, toggles_player: bool
 )
+signal answer_given(answer: bool)
 signal text_box_complete
 #endregion
 
@@ -76,8 +78,7 @@ signal set_inventory_give(value: bool)
 #endregion
 
 #region Summary UI
-signal send_summary_index(index: int)
-signal request_open_summary
+signal request_open_summary(monster: Monster)
 signal on_summary_closed
 signal move_learning_finished
 #endregion

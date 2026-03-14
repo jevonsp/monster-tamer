@@ -4,6 +4,7 @@ var RED_STYLE: StyleBoxFlat = load("res://ui/new_style_box_flat_red.tres")
 var processing: bool = false
 var is_move_focused: bool = false
 var is_learning_move: bool = false
+var move_learning: Move = null
 var is_moving_move: bool = false
 var party: Array[Monster]
 var index: int = -1
@@ -64,9 +65,9 @@ func _connect_signals() -> void:
 	Global.send_player_party.connect(_set_player_party)
 	Global.on_menu_closed.connect(_clear_player_party)
 	Global.request_open_summary.connect(_toggle_visible)
-	Global.send_summary_index.connect(_set_party_index)
 	Global.battle_started.connect(_on_battle_started)
 	Global.battle_ended.connect(_on_battle_ended)
+	Global.request_summary_learn_move.connect(_on_request_summary_learn_move)
 
 
 func _bind_buttons() -> void:
@@ -126,8 +127,8 @@ func _handle_move_focused_input(event: InputEvent) -> void:
 
 
 func _handle_learning_input(event: InputEvent) -> void:
-	if last_focused_move_button.move == null:
-		pass
+	if event.is_action_pressed("no"):
+		handle_cancel_learning()
 
 
 func _clear_monster() -> void:
@@ -196,15 +197,20 @@ func _on_battle_ended() -> void:
 	in_battle = false
 
 
-func _toggle_visible() -> void:
+func _toggle_visible(monster: Monster = null) -> void:
 	visible = not visible
 	processing = not processing
-	if index > -1:
-		var monster = party[index]
+	if monster != null:
 		_display_monster(monster)
+		var idx = party.find(monster)
+		_set_party_index(idx)
 	if not visible:
 		for b: Button in move_panels:
 			b.clear()
+			is_move_focused = false
+			is_learning_move = false
+			is_moving_move = false
+			move_learning = null
 
 
 func _set_player_party(p: Array[Monster]) -> void:
@@ -256,3 +262,19 @@ func _finish_moving_move() -> void:
 	is_moving_move = false
 	for button in move_panels:
 		button.add_theme_stylebox_override("focus", DEFAULT_STYLE)
+
+
+func _on_request_summary_learn_move(move: Move) -> void:
+	is_learning_move = true
+	move_learning = move
+
+
+func handle_cancel_learning() -> void:
+	var text_array: Array[String] = ["Are you sure you want %s to stop learning %s" % \
+			[party[index].name, move_learning.name]]
+	Global.send_text_box.emit(null, text_array, false, true, false)
+	var answer = await Global.answer_given
+	if answer:
+		text_array = ["%s did not learn %s" % [party[index].name]]
+	else:
+		pass

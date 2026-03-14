@@ -144,7 +144,9 @@ func get_learn_index() -> int:
 	return -1
 	
 	
-func decide_move(_move: Move) -> void:
+func decide_move(move: Move) -> void:
+	Global.request_summary_learn_move.emit(move)
+	Global.request_open_summary.emit()
 	await Global.move_learning_finished
 	
 	

@@ -2,6 +2,7 @@ extends Control
 var processing: bool = false
 var is_moving: bool = false
 var is_forced_switch: bool = false
+var party_ref: Array[Monster] = []
 var last_focused_monster: int = -1
 var last_focused_option: int = -1
 var index_moving_monster: int = -1
@@ -74,6 +75,7 @@ func _bind_buttons() -> void:
 
 
 func _on_party_change(party: Array[Monster]) -> void:
+	party_ref = party
 	# Set all component's actor to new monster
 	for i in range(6):
 		var panel = panels.keys()[i]
@@ -180,7 +182,7 @@ func _on_option_pressed(button: Button) -> void:
 			print_debug("Give not implemented")
 			give()
 		"Summary":
-			_open_monster_summary(last_focused_monster)
+			_open_monster_summary(party_ref[last_focused_monster])
 		"Move":
 			start_moving()
 	get_viewport().set_input_as_handled()
@@ -220,9 +222,8 @@ func give() -> void:
 	Global.give_item_to.emit(item, actor)
 
 
-func _open_monster_summary(index: int) -> void:
-	Global.send_summary_index.emit(index)
-	Global.request_open_summary.emit()
+func _open_monster_summary(monster: Monster) -> void:
+	Global.request_open_summary.emit(monster)
 	_toggle_visible()
 	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 

@@ -26,6 +26,18 @@
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="20_re7it"]
 [ext_resource type="PackedScene" uid="uid://dqpocp0lr7l2e" path="res://world_objects/interactable/static_object/storage_component.tscn" id="21_vapsy"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0.72156864)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
 monster = ExtResource("19_d00gp")
@@ -64,6 +76,8 @@ visible = false
 
 [node name="OverworldTextBox" parent="Interfaces" unique_id=2060252590 instance=ExtResource("9_n53tw")]
 visible = false
+focus_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 

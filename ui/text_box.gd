@@ -1,5 +1,4 @@
 extends Panel
-signal answer_given(answer: bool)
 @export var in_battle_text_box: bool = false
 var processing: bool = false
 var text_array: Array[String]
@@ -105,7 +104,7 @@ func _advance_text() -> void:
 
 func _await_question() -> bool:
 	_toggle_questions_visible()
-	var answer = await answer_given
+	var answer = await Global.answer_given
 	if answer:
 		return true
 	return false
@@ -141,8 +140,8 @@ func _clean_up() -> void:
 
 
 func _on_no_pressed() -> void:
-	answer_given.emit(false)
+	Global.answer_given.emit(false)
 
 
 func _on_yes_pressed() -> void:
-	answer_given.emit(true)
+	Global.answer_given.emit(true)
