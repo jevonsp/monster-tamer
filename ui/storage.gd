@@ -29,8 +29,8 @@ func _ready() -> void:
 	if visible:
 		processing = true
 		visiblity_focus_handler._focus_default_monster()
-	
-	
+
+
 func _bind_buttons() -> void:
 	for b: Button in grid_container.get_children():
 		b.focus_entered.connect(visiblity_focus_handler._set_monster_focus.bind(b))
@@ -62,7 +62,7 @@ func _on_send_player_party_and_storage(party: Array[Monster], storage: Dictionar
 func guard_clause_deposit() -> bool:
 	if party_ref.size() <= 1:
 		var ta: Array[String] = ["You can't deposit your last monster!"]
-		Global.send_overworld_text_box.emit(null, ta, true, false, false)
+		Global.send_text_box.emit(null, ta, true, false, false)
 		await Global.text_box_complete
 		return false
 	return true
@@ -83,6 +83,11 @@ func start_move() -> void:
 			"from": "storage",
 		}
 		state = State.MOVING
+
+
+func cancel_move() -> void:
+	moving_context = {}
+	state = State.DEFAULT
 
 
 func complete_move() -> void:

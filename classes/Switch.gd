@@ -9,7 +9,7 @@ var in_unformatted: String = "Its your turn, %s"
 func execute(old: Monster, new: Monster) -> void:
 	var out_text: Array[String] = [out_unformatted % [old.name]]
 	if old.is_able_to_fight:
-		Global.send_battle_text_box.emit(out_text, true)
+		Global.send_text_box.emit(null, out_text, true, false, false)
 		await Global.text_box_complete
 	
 	Global.send_monster_switch_out.emit(old)
@@ -22,5 +22,5 @@ func execute(old: Monster, new: Monster) -> void:
 	Global.send_monster_switch_in.emit(new)
 	
 	var in_text: Array[String] = [in_unformatted % [new.name]]
-	Global.send_battle_text_box.emit(in_text, false)
+	Global.send_text_box.emit(null, in_text, false, false, false)
 	await Global.text_box_complete

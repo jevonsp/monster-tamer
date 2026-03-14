@@ -7,12 +7,25 @@
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_qubjc"]
 [ext_resource type="Script" uid="uid://cy7t60y654aht" path="res://battle/input_handler.gd" id="3_rxlun"]
 [ext_resource type="Script" uid="uid://blgot5be2ccke" path="res://battle/battle_handler.gd" id="3_vlrs1"]
-[ext_resource type="Script" uid="uid://bk6ypbk1qdow6" path="res://battle/battle_text_label.gd" id="4_4mnim"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_l1kiu"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
+[ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box.gd" id="9_t8p1f"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="10_rgsk0"]
 [ext_resource type="Texture2D" uid="uid://iikfm8js0p7y" path="res://world_objects/interactable/ground_item/ball.png" id="11_eu6g2"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 [ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0.72156864)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -551,33 +564,99 @@ offset_bottom = 439.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="Panel" type="Button" parent="Content" unique_id=1357420864]
-layout_mode = 0
-offset_left = 656.0
-offset_top = 528.0
-offset_right = 1264.0
-offset_bottom = 704.0
+[node name="BattleTextBox" type="Panel" parent="Content" unique_id=2060252590]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -624.0
+offset_top = -192.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_neighbor_left = NodePath(".")
+focus_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
+script = ExtResource("9_t8p1f")
+in_battle_text_box = true
 
-[node name="MarginContainer" type="MarginContainer" parent="Content/Panel" unique_id=1572917684]
+[node name="MarginContainer" type="MarginContainer" parent="Content/BattleTextBox" unique_id=131261441]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
+theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="BattleTextLabel" type="Label" parent="Content/Panel/MarginContainer" unique_id=666657808]
-custom_minimum_size = Vector2(600, 168)
+[node name="MainLabel" type="Label" parent="Content/BattleTextBox/MarginContainer" unique_id=2096299235]
+custom_minimum_size = Vector2(0, 176)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 32
-text = "Test Text"
+theme_override_fonts/font = ExtResource("10_rgsk0")
+theme_override_font_sizes/font_size = 64
+text = "TEXT TEXT TEXT"
 autowrap_mode = 3
-script = ExtResource("4_4mnim")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Content/BattleTextBox" unique_id=1486501230]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -311.0
+offset_top = -80.0
+offset_bottom = -5.0
+grow_horizontal = 0
+
+[node name="No" type="Button" parent="Content/BattleTextBox/HBoxContainer" unique_id=752553216]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_bottom = NodePath(".")
+theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
+
+[node name="Label" type="Label" parent="Content/BattleTextBox/HBoxContainer/No" unique_id=833450066]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("10_rgsk0")
+theme_override_font_sizes/font_size = 64
+text = "NO"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Yes" type="Button" parent="Content/BattleTextBox/HBoxContainer" unique_id=1187289545]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_neighbor_bottom = NodePath(".")
+theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
+
+[node name="Label" type="Label" parent="Content/BattleTextBox/HBoxContainer/Yes" unique_id=903643917]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("10_rgsk0")
+theme_override_font_sizes/font_size = 64
+text = "YES"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="AnimationContainer" type="Node2D" parent="." unique_id=1888418741]
 script = ExtResource("5_l1kiu")

@@ -47,11 +47,13 @@ signal item_used(item: Item)
 
 #region General UI
 signal switch_ui_context(new_context: AccessFrom)
+signal send_text_box(
+	object: Node, text: Array[String], auto_complete: bool, is_question: bool, toggles_player: bool
+)
+signal text_box_complete
 #endregion
 
 #region Overworld
-signal send_overworld_text_box(object: Node, text: Array[String], auto_complete: bool, is_question: bool, toggles_player: bool)
-signal text_box_complete
 signal request_open_menu
 signal on_menu_closed
 #endregion
@@ -77,6 +79,7 @@ signal set_inventory_give(value: bool)
 signal send_summary_index(index: int)
 signal request_open_summary
 signal on_summary_closed
+signal move_learning_finished
 #endregion
 
 #region Storage UI
@@ -87,7 +90,6 @@ signal storage_withdraw_monster(monster: Monster)
 
 #region Battle
 signal battle_ended
-signal send_battle_text_box(text: Array[String], auto_complete: bool)
 signal send_move_animation(scene: PackedScene)
 signal move_animation_complete
 signal send_item_throw_animation(item: Item)

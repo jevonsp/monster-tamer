@@ -16,7 +16,7 @@ func execute(actor: Monster, target: Monster):
 	
 	var pre_text: Array[String] = ["%s used %s on %s" % [actor.name, name, target.name]]
 	
-	Global.send_battle_text_box.emit(pre_text, true)
+	Global.send_text_box.emit(null, pre_text, true, false, false)
 	
 	Global.send_move_animation.emit(animation)
 	await Global.move_animation_complete
@@ -35,5 +35,5 @@ func execute(actor: Monster, target: Monster):
 	if efficacy < 1.0:
 		post_text[0] += "\nIt's not very effective..."
 	
-	Global.send_battle_text_box.emit(post_text, false)
+	Global.send_text_box.emit(null, post_text, false, false, false)
 	await Global.text_box_complete

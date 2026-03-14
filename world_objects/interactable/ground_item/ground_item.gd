@@ -26,21 +26,21 @@ func interact(body: CharacterBody2D) -> void:
 	
 	if not text.is_empty():
 		var tp = true # Toggles Player
-		Global.send_overworld_text_box.emit(self, text, is_autocomplete, is_question, tp)
+		Global.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
 	else:
 		var formatted: Array[String] = ["You found a %s!" % [item.name]]
 		var tp = true # Toggles Player
-		Global.send_overworld_text_box.emit(self, formatted, is_autocomplete, is_question, tp)
+		Global.send_text_box.emit(self, formatted, is_autocomplete, is_question, tp)
 	if not is_question:
 		await Global.text_box_complete
-		trigger(body)
+		trigger()
 		return
 
 
-func trigger(body) -> void:
-	if body is Player:
-		body.inventory_handler.add(item)
-		obtain()
+func trigger() -> void:
+	var player = get_tree().get_first_node_in_group("player")
+	player.inventory_handler.add(item)
+	obtain()
 
 
 func obtain() -> void:

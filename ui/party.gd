@@ -151,7 +151,7 @@ func _on_monster_pressed(button: Button) -> void:
 			if not is_forced_switch:
 				if num == 0:
 					var ta: Array[String] = ["That monster is already fighting!"]
-					Global.send_overworld_text_box.emit(null, ta, true, false, false)
+					Global.send_text_box.emit(null, ta, true, false, false)
 					await Global.text_box_complete
 					return
 				Global.request_switch_creation.emit(num)
@@ -160,7 +160,7 @@ func _on_monster_pressed(button: Button) -> void:
 				var monster_selected: Monster = button.actor
 				if not monster_selected.is_able_to_fight:
 					var ta: Array[String] = ["That monster is not able to fight!"]
-					Global.send_overworld_text_box.emit(null, ta, true, false, false)
+					Global.send_text_box.emit(null, ta, true, false, false)
 					await Global.text_box_complete
 					return
 				else:
@@ -196,7 +196,7 @@ func use() -> void:
 	if item.use_effect == null:
 		var ta: Array[String] = ["That item isn't usable!"]
 		var toggles_player = false
-		Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
+		Global.send_text_box.emit(self, ta, true, false, toggles_player)
 		await Global.text_box_complete
 		return
 	var actor = panels.values()[last_focused_monster].actor
@@ -213,7 +213,7 @@ func give() -> void:
 	if item.held_effect == null:
 		var ta: Array[String] = ["That item isn't holdable!"]
 		var toggles_player = false
-		Global.send_overworld_text_box.emit(self, ta, true, false, toggles_player)
+		Global.send_text_box.emit(self, ta, true, false, toggles_player)
 		await Global.text_box_complete
 		return
 	var actor = panels.values()[last_focused_monster].actor

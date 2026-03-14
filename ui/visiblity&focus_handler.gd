@@ -6,6 +6,8 @@ func _toggle_visible() -> void:
 	storage.processing = not storage.processing
 	if storage.visible:
 		_focus_default_monster()
+	else:
+		Global.toggle_player.emit()
 
 
 func _toggle_options_visible() -> void:

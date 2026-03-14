@@ -73,7 +73,7 @@ func _focus_default() -> void:
 
 func _start_save_process():
 	var text_array: Array[String] = ["Would you like to save the game?"]
-	Global.send_overworld_text_box.emit(self, text_array, false, true, false)
+	Global.send_text_box.emit(self, text_array, false, true, false)
 	await Global.text_box_complete
 	if should_save_game:
 		_finish_save_process()

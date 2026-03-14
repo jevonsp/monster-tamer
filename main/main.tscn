@@ -10,8 +10,8 @@
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="5_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
 [ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="8_67ri8"]
-[ext_resource type="PackedScene" uid="uid://cxpdnabe54fq0" path="res://ui/overworld_text_box.tscn" id="9_grrlh"]
 [ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage.tscn" id="9_jofbb"]
+[ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box.tscn" id="9_n53tw"]
 [ext_resource type="PackedScene" uid="uid://jmc7gqpbmo2n" path="res://world_objects/interactable/npc/components/npc_respawn_component.tscn" id="10_0i4oc"]
 [ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu.tscn" id="11_bsumw"]
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party.tscn" id="12_fwcvl"]
@@ -59,20 +59,10 @@ visible = false
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
 visible = false
 
-[node name="OverworldTextBox" parent="Interfaces" unique_id=2089038544 instance=ExtResource("9_grrlh")]
-visible = false
-z_index = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 591.0
-offset_top = 380.0
-offset_right = 1278.0
-offset_bottom = 720.0
-grow_horizontal = 1
-grow_vertical = 1
-
 [node name="Storage" parent="Interfaces" unique_id=1376996790 instance=ExtResource("9_jofbb")]
+visible = false
+
+[node name="OverworldTextBox" parent="Interfaces" unique_id=2060252590 instance=ExtResource("9_n53tw")]
 visible = false
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
@@ -118,6 +108,7 @@ item = ExtResource("17_s758e")
 [node name="BaseBall" parent="GroundItems" unique_id=425176937 instance=ExtResource("15_5xyti")]
 position = Vector2(64, 32)
 item = ExtResource("20_re7it")
+is_question = true
 
 [node name="Sign" parent="." unique_id=1974786927 instance=ExtResource("14_73k8k")]
 position = Vector2(32, 16)

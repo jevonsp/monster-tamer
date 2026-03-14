@@ -1,5 +1,6 @@
-extends Control
+extends Panel
 signal answer_given(answer: bool)
+@export var in_battle_text_box: bool = false
 var processing: bool = false
 var text_array: Array[String]
 var is_auto_complete: bool = false
@@ -7,23 +8,23 @@ var is_question: bool = false
 var toggles_player: bool = false
 var text_index: int
 var obj_ref: Node
-@onready var main_label: Label = $Panel/MarginContainer/Label
-@onready var no_button: Button = $Panel/HBoxContainer/No
-@onready var yes_button: Button = $Panel/HBoxContainer/Yes
+@onready var text_box: Panel = $"."
+@onready var main_label: Label = $MarginContainer/MainLabel
+@onready var no_button: Button = $HBoxContainer/No
+@onready var yes_button: Button = $HBoxContainer/Yes
 
 
 func _ready() -> void:
 	main_label.text = ""
-	Global.send_overworld_text_box.connect(_load_text)
-
+	Global.send_text_box.connect(_load_text)
 	_toggle_questions_visible()
-	if visible:
+	if not in_battle_text_box and visible:
 		_toggle_visible()
-		
+
 	yes_button.gui_input.connect(_on_button_gui_input.bind(yes_button))
 	no_button.gui_input.connect(_on_button_gui_input.bind(no_button))
-	
-	
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
@@ -54,7 +55,13 @@ func _toggle_questions_visible() -> void:
 				button.release_focus()
 
 
-func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: bool, tp: bool) -> void:
+func _load_text(
+	obj: Node, ta: Array[String], auto_complete: bool, question: bool, toggle: bool
+		) -> void:
+	if not in_battle_text_box and Player.in_battle:
+		return
+	if in_battle_text_box and not Player.in_battle:
+		return
 	var player = get_tree().get_first_node_in_group("player")
 	if player.processing:
 		Global.toggle_player.emit()
@@ -64,16 +71,17 @@ func _load_text(obj: Node, ta: Array[String], auto_complete: bool, question: boo
 	is_question = question
 	text_array = ta
 	is_auto_complete = auto_complete
-	toggles_player = tp
+	toggles_player = toggle
 	if not is_auto_complete:
 		processing = true
 	text_index = 0
 	if text_index <= -1:
 		return
 	_display_text()
-	
-	
+
+
 func _display_text() -> void:
+	text_box.grab_focus()
 	main_label.text = text_array[text_index]
 	if is_question:
 		if text_array.size() - text_index == 1:
@@ -81,8 +89,8 @@ func _display_text() -> void:
 	if is_auto_complete:
 		await get_tree().create_timer((Global.DEFAULT_DELAY) / 2).timeout
 		_advance_text()
-	
-	
+
+
 func _advance_text() -> void:
 	text_index += 1
 	if text_index >= text_array.size():
@@ -93,39 +101,40 @@ func _advance_text() -> void:
 			if await _await_question():
 				_trigger()
 	_text_finished()
-	
-	
+
+
 func _await_question() -> bool:
-	print("awaiting question")
 	_toggle_questions_visible()
 	var answer = await answer_given
 	if answer:
 		return true
 	return false
-	
-	
+
+
 func _trigger() -> void:
-	print("triggering obj ref. obj ref=", obj_ref)
 	if obj_ref.has_method("trigger"):
 		obj_ref.trigger()
-	
-	
+
+
 func _text_finished() -> void:
 	_clean_up()
 	Global.text_box_complete.emit()
-	
-	
+
+
 func _clean_up() -> void:
 	if yes_button.visible:
 		_toggle_questions_visible()
-	_toggle_visible()
+	if not in_battle_text_box:
+		_toggle_visible()
+	if text_box.has_focus():
+		text_box.release_focus()
 	main_label.text = ""
 	processing = false
+	obj_ref = null
 	text_array = []
+	text_index = 0
 	is_question = false
 	is_auto_complete = false
-	obj_ref = null
-	text_index = 0
 	if toggles_player:
 		Global.toggle_player.emit()
 	toggles_player = false

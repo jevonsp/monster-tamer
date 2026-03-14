@@ -208,25 +208,25 @@ func give(item: Item) -> void:
 
 func show_cant_use_text() -> void:
 	var ta: Array[String] = ["That item isn't usable!"]
-	Global.send_overworld_text_box.emit(self, ta, true, false, false)
+	Global.send_text_box.emit(self, ta, true, false, false)
 	await Global.text_box_complete
 
 
 func show_cant_use_in_battle_text() -> void:
 	var ta: Array[String] = ["That item isn't usable!"]
-	Global.send_battle_text_box.emit(ta, true)
+	Global.send_text_box.emit(self, ta, true, false, false)
 	await Global.text_box_complete
 
 
 func show_cant_use_in_trainer_battle_text() -> void:
 	var ta: Array[String] = ["This is a trainer battle!!"]
-	Global.send_battle_text_box.emit(ta, true)
+	Global.send_text_box.emit(self, ta, true, false, false)
 	await Global.text_box_complete
 
 
 func show_cant_hold_text() -> void:
 	var ta: Array[String] = ["That item isn't holdable!"]
-	Global.send_overworld_text_box.emit(self, ta, true, false, false)
+	Global.send_text_box.emit(self, ta, true, false, false)
 	await Global.text_box_complete
 
 

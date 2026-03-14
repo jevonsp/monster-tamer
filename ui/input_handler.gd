@@ -15,6 +15,15 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("right") and storage.last_selected_monster.is_in_group("right_side"):
 		move_page(Vector2.RIGHT)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not storage.processing:
+		return
+	match storage.state:
+		storage.State.DEFAULT:
+			if event.is_action_pressed("no"):
+				visiblity_focus_handler._toggle_visible()
+		storage.State.MOVING:
+			storage.cancel_move()
 
 func _on_monster_pressed(b: Button) -> void:
 	match storage.state:

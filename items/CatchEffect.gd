@@ -11,9 +11,7 @@ func execute(item: Item, actor: Monster, target: Monster) -> void:
 	var times = result["times"]
 	
 	Global.send_item_wiggle.emit(times)
-	print("waiting for wiggle")
 	await Global.wiggle_animation_complete
-	print("wiggle done")
 	
 	var post_text: Array[String] = []
 	
@@ -36,5 +34,5 @@ func execute(item: Item, actor: Monster, target: Monster) -> void:
 				
 	await Global.capture_or_escape_animation_complete
 	
-	Global.send_battle_text_box.emit(post_text, false)
+	Global.send_text_box.emit(post_text, false)
 	await Global.text_box_complete

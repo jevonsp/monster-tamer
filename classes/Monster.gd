@@ -68,9 +68,9 @@ func faint():
 	var ta: Array[String] = ["%s fainted!" % [name]]
 	if player_in_battle:
 		await Global.text_box_complete
-		Global.send_battle_text_box.emit(ta, true)
+		Global.send_text_box.emit(self, ta, true, false, false)
 	else:
-		Global.send_overworld_text_box.emit(self, ta, false, false, true)
+		Global.send_text_box.emit(self, ta, false, false, true)
 	await Global.text_box_complete
 	if not is_player_monster:
 		Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
@@ -122,7 +122,7 @@ func gain_level(amount: int = 1) -> void:
 	level += amount
 	Global.monster_gained_level.emit(self, amount)
 	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
-	Global.send_battle_text_box.emit(ta, false)
+	Global.send_text_box.emit(self, ta, false, false, false)
 	await Global.text_box_complete
 	if check_should_gain_moves():
 		if get_learn_index() >= 0:
@@ -145,19 +145,18 @@ func get_learn_index() -> int:
 	
 	
 func decide_move(_move: Move) -> void:
-	pass
+	await Global.move_learning_finished
 	
 	
 func learn_move(move: Move, index: int) -> void:
 	moves[index] = move
 	var ta: Array[String] = ["%s learned %s." % [name, move.name]]
 	if Player.in_battle:
-		Global.send_battle_text_box.emit(ta, false)
+		Global.send_text_box.emit(self, ta, false, false, false)
 	else:
-		Global.send_overworld_text_box.emit(null, ta, false, false, false)
+		Global.send_text_box.emit(self, ta, false, false, false)
 		
 	await Global.text_box_complete
-	
 	
 	
 func attempt_catch(item: Item, _actor: Monster) -> Dictionary:

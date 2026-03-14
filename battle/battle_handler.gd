@@ -201,14 +201,14 @@ func _win() -> void:
 		battle.enemy_trainer.is_defeated = true
 	var text: Array[String] = \
 			battle.enemy_trainer.losing_dialogue if battle.enemy_trainer else ["You won!"]
-	Global.send_battle_text_box.emit(text, false)
+	Global.send_text_box.emit(null, text, false, false, false)
 	await Global.text_box_complete
 	battle.end_battle()
 
 
 func _lose() -> void:
 	var text: Array[String] = ["You lost!"]
-	Global.send_battle_text_box.emit(text, false)
+	Global.send_text_box.emit(null, text, false, false, false)
 	await Global.text_box_complete
 	battle.end_battle()
 	Global.send_respawn_player.emit()

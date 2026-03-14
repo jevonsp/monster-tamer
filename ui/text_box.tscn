@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://cxpdnabe54fq0"]
+[gd_scene format=3 uid="uid://ddh270jnw5hsd"]
 
-[ext_resource type="Script" uid="uid://c1cxmfjvonmsb" path="res://ui/overworld_text_box.gd" id="1_wxwfi"]
-[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="2_eo1c5"]
+[ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box.gd" id="2_f4mci"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="2_jrwbe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
 content_margin_left = 0.0
@@ -15,17 +15,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="OverworldTextBox" type="Control" unique_id=383230074]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_wxwfi")
-
-[node name="Panel" type="Panel" parent="." unique_id=2060252590]
-layout_mode = 1
+[node name="TextBox" type="Panel" unique_id=2060252590]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -38,8 +28,9 @@ offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
+script = ExtResource("2_f4mci")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=131261441]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=131261441]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,32 +42,31 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="Panel/MarginContainer" unique_id=2096299235]
-custom_minimum_size = Vector2(668, 0)
+[node name="MainLabel" type="Label" parent="MarginContainer" unique_id=2096299235]
+custom_minimum_size = Vector2(0, 176)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("2_eo1c5")
+theme_override_fonts/font = ExtResource("2_jrwbe")
 theme_override_font_sizes/font_size = 64
 text = "TEXT TEXT TEXT"
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=1486501230]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1486501230]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 31.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -311.0
 offset_top = -98.0
-offset_right = 342.0
 offset_bottom = -5.0
-grow_horizontal = 2
+grow_horizontal = 0
 
-[node name="No" type="Button" parent="Panel/HBoxContainer" unique_id=752553216]
+[node name="No" type="Button" parent="HBoxContainer" unique_id=752553216]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
 
-[node name="Label" type="Label" parent="Panel/HBoxContainer/No" unique_id=833450066]
+[node name="Label" type="Label" parent="HBoxContainer/No" unique_id=833450066]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -85,19 +75,19 @@ offset_top = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("2_eo1c5")
+theme_override_fonts/font = ExtResource("2_jrwbe")
 theme_override_font_sizes/font_size = 64
 text = "NO"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Yes" type="Button" parent="Panel/HBoxContainer" unique_id=1187289545]
+[node name="Yes" type="Button" parent="HBoxContainer" unique_id=1187289545]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
 
-[node name="Label" type="Label" parent="Panel/HBoxContainer/Yes" unique_id=903643917]
+[node name="Label" type="Label" parent="HBoxContainer/Yes" unique_id=903643917]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -106,12 +96,12 @@ offset_top = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("2_eo1c5")
+theme_override_fonts/font = ExtResource("2_jrwbe")
 theme_override_font_sizes/font_size = 64
 text = "YES"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[connection signal="pressed" from="Panel/HBoxContainer/No" to="." method="_on_no_pressed"]
-[connection signal="pressed" from="Panel/HBoxContainer/Yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="HBoxContainer/No" to="." method="_on_no_pressed"]
+[connection signal="pressed" from="HBoxContainer/Yes" to="." method="_on_yes_pressed"]

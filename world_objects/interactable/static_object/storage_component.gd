@@ -1,6 +1,7 @@
 extends Node
 
-func trigger(body: CharacterBody2D) -> void:
+func trigger() -> void:
+	var player = get_tree().get_first_node_in_group("player")
 	Global.toggle_player.emit()
-	body.party_handler.send_player_party_and_storage()
+	player.party_handler.send_player_party_and_storage()
 	Global.request_open_storage.emit()

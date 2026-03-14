@@ -11,8 +11,9 @@ func interact(body: CharacterBody2D) -> void:
 		return
 	if not text.is_empty():
 		var tp = true # Toggles Player
-		Global.send_overworld_text_box.emit(self, text, is_autocomplete, is_question, tp)
+		Global.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
 
-func trigger(body) -> void:
+
+func trigger() -> void:
 	for component in components:
-		component.trigger(body)
+		component.trigger()

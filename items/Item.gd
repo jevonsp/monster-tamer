@@ -15,7 +15,7 @@ class_name Item
 
 func execute(actor: Monster, target: Monster) -> void:
 	var pre_text: Array[String] = ["Used a %s on %s" % [name, target.name]]
-	Global.send_battle_text_box.emit(pre_text, true)
+	Global.send_text_box.emit(null, pre_text, true, false, false)
 	await Global.text_box_complete
 	
 	if catch_effect:
