@@ -145,9 +145,25 @@ func get_learn_index() -> int:
 	
 	
 func decide_move(move: Move) -> void:
-	Global.request_summary_learn_move.emit(move)
-	Global.request_open_summary.emit()
-	await Global.move_learning_finished
+	var decided = false
+	while not decided:
+		var ta: Array[String] = \
+				["%s is trying to learn %s, but already knows four moves. Delete one?" % [name, move.name]]
+		Global.send_text_box.emit(self, ta, false, true, false)
+		var answer = await Global.answer_given
+		if answer:
+			decided = true
+			Global.request_summary_learn_move.emit(move)
+			Global.request_open_summary.emit(self)
+			await Global.move_learning_finished
+		else:
+			ta = ["Are you sure you want %s to stop learning %s" % [name, move.name]]
+			Global.send_text_box.emit(self, ta, false, true, false)
+			var confirmed_skip = await Global.answer_given
+			if confirmed_skip:
+				decided = true
+				ta = ["%s did not learn %s" % [name, move.name]]
+				Global.send_text_box.emit(self, ta, false, false, false)
 	
 	
 func learn_move(move: Move, index: int) -> void:

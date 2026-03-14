@@ -275,6 +275,7 @@ func handle_cancel_learning() -> void:
 	Global.send_text_box.emit(null, text_array, false, true, false)
 	var answer = await Global.answer_given
 	if answer:
-		text_array = ["%s did not learn %s" % [party[index].name]]
+		text_array = ["%s did not learn %s" % [party[index].name, move_learning.name]]
+		_toggle_visible()
 	else:
 		pass
