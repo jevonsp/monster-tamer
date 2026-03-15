@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://lhi4amumrkry"]
 
 [ext_resource type="Script" uid="uid://fl60sqp3s8d3" path="res://world_objects/teleporter/teleporter.gd" id="1_8ruom"]
-[ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://iris_transition.gdshader" id="1_u3sw1"]
+[ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://world_objects/teleporter/iris_transition.gdshader" id="1_u3sw1"]
 [ext_resource type="Texture2D" uid="uid://b7a0yr4li8ta0" path="res://world_objects/teleporter/door.png" id="3_gqidb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8ruom"]
