@@ -63,6 +63,9 @@ func _get_target(actor: Monster, action) -> Monster:
 func _execute_turn_queue() -> void:
 	executing_turn = true
 	_sort_turn_queue()
+	
+	var battle_context = BattleContext.new(self, battle)
+	
 	for entry in turn_queue:
 		if not _is_relevant_entry(entry):
 			continue
@@ -73,7 +76,7 @@ func _execute_turn_queue() -> void:
 		if entry.action is Move:
 			target = _resolve_move_target(actor, target, entry.action)
 
-		await entry.action.execute(actor, target)
+		await entry.action.execute(actor, target, battle_context)
 
 		if await _handle_post_action(target):
 			return
@@ -112,7 +115,7 @@ func _handle_post_action(target: Monster) -> bool:
 	if target and target.is_fainted and not target.is_player_monster:
 		await Global.player_done_giving_exp
 	
-	if _check_enemy_actor_fainted():
+	if not _check_enemy_actor_able_to_fight():
 		if _check_enemy_out_of_monsters():
 			_win()
 			return true
@@ -120,7 +123,7 @@ func _handle_post_action(target: Monster) -> bool:
 			await _force_enemy_send_new_monster() 
 			return false
 	
-	if _check_player_actor_fainted():
+	if not _check_player_actor_able_to_fight():
 		if _check_player_out_of_monsters():
 			_lose()
 			return true
@@ -131,12 +134,12 @@ func _handle_post_action(target: Monster) -> bool:
 	return false
 
 
-func _check_player_actor_fainted() -> bool:
-	return battle.player_actor.is_fainted
+func _check_player_actor_able_to_fight() -> bool:
+	return battle.player_actor.is_able_to_fight
 
 
-func _check_enemy_actor_fainted() -> bool:
-	return battle.enemy_actor.is_fainted
+func _check_enemy_actor_able_to_fight() -> bool:
+	return battle.enemy_actor.is_able_to_fight
 
 
 func _force_player_send_new_monster():
@@ -147,7 +150,8 @@ func _force_player_send_new_monster():
 	switch.actor = battle.player_actor
 	switch.target = target
 	
-	await switch.execute(switch.actor, switch.target)
+	var battle_context = BattleContext.new(self, battle)
+	await switch.execute(switch.actor, switch.target, battle_context)
 
 
 func _force_enemy_send_new_monster():
@@ -164,7 +168,8 @@ func _force_enemy_send_new_monster():
 	switch.out_unformatted = "Enemy %s withdrew %%s." % [battle.enemy_trainer.npc_name]
 	switch.in_unformatted = "Enemy %s sent out %%s." % [battle.enemy_trainer.npc_name]
 	
-	await switch.execute(switch.actor, switch.target)
+	var battle_context = BattleContext.new(self, battle)
+	await switch.execute(switch.actor, switch.target, battle_context)
 
 
 func _reset_turn_state() -> void:
@@ -199,8 +204,9 @@ func _check_player_out_of_monsters() -> bool:
 func _win() -> void:
 	if battle.enemy_trainer:
 		battle.enemy_trainer.is_defeated = true
+	var default: Array[String] = ["You won!"]
 	var text: Array[String] = \
-			battle.enemy_trainer.losing_dialogue if battle.enemy_trainer else ["You won!"]
+			battle.enemy_trainer.losing_dialogue if battle.enemy_trainer else default
 	Global.send_text_box.emit(null, text, false, false, false)
 	await Global.text_box_complete
 	battle.end_battle()

@@ -13,17 +13,15 @@ class_name Item
 @export var catch_effect: CatchEffect
 
 
-func execute(actor: Monster, target: Monster) -> void:
-	var pre_text: Array[String] = ["Used a %s on %s" % [name, target.name]]
-	Global.send_text_box.emit(null, pre_text, true, false, false)
-	await Global.text_box_complete
+func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:
+	await battle_context.show_item_used_text(self, actor, target)
 	
 	if catch_effect:
 		@warning_ignore("redundant_await")
-		await catch_effect.execute(self, actor, target)
+		await catch_effect.execute(self, actor, target, battle_context)
 	elif use_effect:
 		@warning_ignore("redundant_await")
-		await use_effect.execute(actor, target)
+		await use_effect.execute(actor, target, battle_context)
 
 
 func use(target: Monster) -> void:

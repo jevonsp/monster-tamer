@@ -80,6 +80,7 @@ func heal(amount: int, revives: bool = false) -> void:
 	current_hitpoints = min(current_hitpoints + amount, max_hitpoints)
 	print("current_hitpoints: ", current_hitpoints)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
+	await Global.hitpoints_animation_complete
 	if revives:
 		is_fainted = false
 	

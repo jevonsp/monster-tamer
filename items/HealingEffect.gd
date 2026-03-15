@@ -4,9 +4,8 @@ class_name HealingEffect
 @export var base_healing: int = 20
 @export var revives: bool = false
 
-func execute(_actor: Monster, target: Monster) -> void:
-	target.heal(base_healing, revives)
-	await Global.hitpoints_animation_complete
+func execute(_actor: Monster, target: Monster, battle_context: BattleContext) -> void:
+	await target.heal(base_healing, revives)
 	
 	var post_text: Array[String] = [""]
 	if revives:
@@ -14,8 +13,7 @@ func execute(_actor: Monster, target: Monster) -> void:
 	if base_healing > 0:
 		post_text[0] += "It healed %s hitpoints!" % [base_healing]
 		
-	Global.send_text_box.emit(null, post_text, false, false, false)
-	await Global.text_box_complete
+	await battle_context.show_text(post_text, true)
 
 
 func use(target: Monster) -> void:
