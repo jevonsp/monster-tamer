@@ -10,7 +10,6 @@ func _ready() -> void:
 	assert(teleporter_point != null)
 
 
-
 func _teleport_sequence_iris(body: CharacterBody2D) -> void:
 	iris_color_rect.visible = true
 	await _iris_close()
@@ -38,7 +37,6 @@ func _tween_iris(from: float, to: float, duration: float) -> void:
 		from, to, duration
 	)
 	await tween.finished
-
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

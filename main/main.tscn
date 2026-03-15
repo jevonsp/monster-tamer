@@ -118,11 +118,11 @@ dialogue = Array[String](["How strong are you? Lets find out!"])
 [node name="GroundItems" type="Node" parent="." unique_id=367338342]
 
 [node name="Potion" parent="GroundItems" unique_id=726795139 instance=ExtResource("15_5xyti")]
-position = Vector2(64, 16)
+position = Vector2(16, 48)
 item = ExtResource("17_s758e")
 
 [node name="BaseBall" parent="GroundItems" unique_id=425176937 instance=ExtResource("15_5xyti")]
-position = Vector2(80, 16)
+position = Vector2(32, 48)
 item = ExtResource("20_re7it")
 is_question = true
 
@@ -140,14 +140,14 @@ components = [NodePath("StorageComponent")]
 [node name="StorageComponent" parent="Storage" unique_id=890186058 instance=ExtResource("21_vapsy")]
 
 [node name="Teleporter" parent="." unique_id=643132918 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
-position = Vector2(80, 32)
+position = Vector2(80, 16)
 teleporter_point = NodePath("TeleporterPoint")
 
 [node name="TeleporterPoint" parent="Teleporter" unique_id=2086915789 instance=ExtResource("27_d8vpj")]
 position = Vector2(96, 0)
 
 [node name="Teleporter2" parent="." unique_id=625626596 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
-position = Vector2(192, 32)
+position = Vector2(192, 16)
 teleporter_point = NodePath("TeleporterPoint")
 
 [node name="TeleporterPoint" parent="Teleporter2" unique_id=1046749787 instance=ExtResource("27_d8vpj")]
