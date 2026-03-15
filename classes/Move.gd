@@ -23,11 +23,12 @@ func execute(actor: Monster, target: Monster, battle_context: BattleContext):
 	await target.take_damage(damage)
 	
 	var post_text: Array[String] = []
-	
 	post_text.append("It dealt %s damage!" % [damage])
 	if efficacy > 1.0:
 		post_text[0] += "\nIt's super effective!"
 	if efficacy < 1.0:
 		post_text[0] += "\nIt's not very effective..."
-	
 	await battle_context.show_move_result_text(post_text)
+	
+	await target.check_faint()
+	

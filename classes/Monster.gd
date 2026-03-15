@@ -57,6 +57,9 @@ func take_damage(amount: int) -> void:
 	current_hitpoints = max(0, current_hitpoints - amount)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	await Global.hitpoints_animation_complete
+
+
+func check_faint() -> void:
 	if current_hitpoints <= 0:
 		await faint()
 
@@ -64,13 +67,11 @@ func take_damage(amount: int) -> void:
 func faint():
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
-	# Waits for the currently opened text box to be closed
 	var ta: Array[String] = ["%s fainted!" % [name]]
-	if player_in_battle:
-		await Global.text_box_complete
-		Global.send_text_box.emit(self, ta, true, false, false)
+	if Player.in_battle:
+		Global.send_text_box.emit(null, ta, true, false, false)
 	else:
-		Global.send_text_box.emit(self, ta, false, false, true)
+		Global.send_text_box.emit(null, ta, false, false, true)
 	await Global.text_box_complete
 	if not is_player_monster:
 		Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)

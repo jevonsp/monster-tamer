@@ -67,20 +67,29 @@ func _execute_turn_queue() -> void:
 	var battle_context = BattleContext.new(self, battle)
 	
 	for entry in turn_queue:
+		
 		if not _is_relevant_entry(entry):
 			continue
 
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
-
+		
+		print("action: ", entry["action"])
+		print("actor: ", actor.name)
+		print("target: ", target.name)
+		
 		if entry.action is Move:
 			target = _resolve_move_target(actor, target, entry.action)
 
 		await entry.action.execute(actor, target, battle_context)
 
+		print("executed action")
+
 		if await _handle_post_action(target):
 			return
-
+		
+		print("handled post action")
+		
 	_reset_turn_state()
 
 
@@ -112,6 +121,7 @@ func _resolve_move_target(actor: Monster, target: Monster, move: Move) -> Monste
 
 
 func _handle_post_action(target: Monster) -> bool:
+	print("post action target: ", target.name)
 	if target and target.is_fainted and not target.is_player_monster:
 		await Global.player_done_giving_exp
 	
