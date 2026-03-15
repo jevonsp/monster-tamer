@@ -26,6 +26,8 @@ var is_able_to_fight: bool:
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
 
+var statuses: Array[StatusInstance] = []
+
 
 func set_monster_data(md: MonsterData) -> void:
 	monster_data = md
@@ -62,6 +64,39 @@ func take_damage(amount: int) -> void:
 func check_faint() -> void:
 	if current_hitpoints <= 0:
 		await faint()
+
+
+func add_status(status_data: StatusData, duration: int = -1, context: BattleContext = null) -> void:
+	var instance := StatusInstance.new(status_data, self, duration)
+	statuses.append(instance)
+	if context != null:
+		await instance.on_apply(context)
+
+
+func remove_status(instance: StatusInstance) -> void:
+	if instance in statuses:
+		instance.on_remove(null)
+		statuses.erase(instance)
+
+
+func has_status(status_name: String) -> bool:
+	for s in statuses:
+		if s.data and s.data.status_name == status_name:
+			return true
+	return false
+
+
+func tick_statuses(context: BattleContext) -> void:
+	var to_remove: Array[StatusInstance] = []
+	for status in statuses:
+		await status.on_turn_start(context)
+		status.tick_duration()
+		if status.is_expired():
+			to_remove.append(status)
+	for s in to_remove:
+		if s.data != null:
+			await s.on_remove(context)
+		statuses.erase(s)
 
 
 func faint():

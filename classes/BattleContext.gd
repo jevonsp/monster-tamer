@@ -59,7 +59,7 @@ func show_item_used_text(item: Item, _actor: Monster, target: Monster) -> void:
 
 
 func show_capture_result_text(lines: Array[String]) -> void:
-	Global.send_text_box.emit(lines, false)
+	Global.send_text_box.emit(null, lines, false, false, false)
 	await Global.text_box_complete
 
 # --- Animation helpers -----------------------------------------------------
