@@ -25,6 +25,8 @@
 [ext_resource type="PackedScene" uid="uid://b5a6d0pcrx4rd" path="res://world_objects/interactable/static_object/storage.tscn" id="20_q0sk7"]
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="20_re7it"]
 [ext_resource type="PackedScene" uid="uid://dqpocp0lr7l2e" path="res://world_objects/interactable/static_object/storage_component.tscn" id="21_vapsy"]
+[ext_resource type="PackedScene" uid="uid://lhi4amumrkry" path="res://world_objects/teleporter/teleporter.tscn" id="26_d00gp"]
+[ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="27_d8vpj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
 content_margin_left = 0.0
@@ -116,11 +118,11 @@ dialogue = Array[String](["How strong are you? Lets find out!"])
 [node name="GroundItems" type="Node" parent="." unique_id=367338342]
 
 [node name="Potion" parent="GroundItems" unique_id=726795139 instance=ExtResource("15_5xyti")]
-position = Vector2(48, 48)
+position = Vector2(64, 16)
 item = ExtResource("17_s758e")
 
 [node name="BaseBall" parent="GroundItems" unique_id=425176937 instance=ExtResource("15_5xyti")]
-position = Vector2(64, 32)
+position = Vector2(80, 16)
 item = ExtResource("20_re7it")
 is_question = true
 
@@ -136,3 +138,17 @@ is_question = true
 components = [NodePath("StorageComponent")]
 
 [node name="StorageComponent" parent="Storage" unique_id=890186058 instance=ExtResource("21_vapsy")]
+
+[node name="Teleporter" parent="." unique_id=643132918 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
+position = Vector2(80, 32)
+teleporter_point = NodePath("TeleporterPoint")
+
+[node name="TeleporterPoint" parent="Teleporter" unique_id=2086915789 instance=ExtResource("27_d8vpj")]
+position = Vector2(96, 0)
+
+[node name="Teleporter2" parent="." unique_id=625626596 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
+position = Vector2(192, 32)
+teleporter_point = NodePath("TeleporterPoint")
+
+[node name="TeleporterPoint" parent="Teleporter2" unique_id=1046749787 instance=ExtResource("27_d8vpj")]
+position = Vector2(-128, 0)

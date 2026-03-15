@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://lhi4amumrkry"]
+
+[ext_resource type="Script" uid="uid://fl60sqp3s8d3" path="res://world_objects/teleporter/teleporter.gd" id="1_8ruom"]
+[ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://iris_transition.gdshader" id="1_u3sw1"]
+[ext_resource type="Texture2D" uid="uid://b7a0yr4li8ta0" path="res://world_objects/teleporter/door.png" id="3_gqidb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ruom"]
+shader = ExtResource("1_u3sw1")
+shader_parameter/iris_size = 0.999999977648
+shader_parameter/feather = 0.02999999932944
+shader_parameter/centre = Vector2(0.5, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gqidb"]
+size = Vector2(16, 16)
+
+[node name="Teleporter" type="Node2D" unique_id=643132918]
+script = ExtResource("1_8ruom")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=695816521]
+
+[node name="IrisColorRect" type="ColorRect" parent="CanvasLayer" unique_id=2113627849]
+visible = false
+material = SubResource("ShaderMaterial_8ruom")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=488132345]
+position = Vector2(8, 8)
+texture = ExtResource("3_gqidb")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=570738900]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1290091936]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_gqidb")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
