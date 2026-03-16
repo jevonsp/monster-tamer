@@ -26,25 +26,29 @@ func tick_duration() -> void:
 		remaining_turns -= 1
 
 
+func expire() -> void:
+	remaining_turns = 0
+
+
 func on_apply(context: BattleContext) -> void:
 	if data:
 		@warning_ignore("redundant_await")
-		await data.on_apply(owner, context)
+		await data.on_apply(self, owner, context)
 
 
 func on_turn_start(context: BattleContext) -> void:
 	if data:
 		@warning_ignore("redundant_await")
-		await data.on_turn_start(owner, context)
+		await data.on_turn_start(self, owner, context)
 
 
 func on_turn_end(context: BattleContext) -> void:
 	if data:
 		@warning_ignore("redundant_await")
-		await data.on_turn_end(owner, context)
+		await data.on_turn_end(self, owner, context)
 
 
 func on_remove(context: BattleContext) -> void:
 	if data:
 		@warning_ignore("redundant_await")
-		await data.on_remove(owner, context)
+		await data.on_remove(self, owner, context)

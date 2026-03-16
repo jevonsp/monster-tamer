@@ -21,6 +21,8 @@ static var EXPERIENCE_PER_LEVEL = 50
 
 @export var is_fainted: bool = false
 @export var is_captured: bool = false
+@export var is_able_to_act: bool = true
+
 var is_able_to_fight: bool:
 	get: return not is_fainted and not is_captured
 @export var was_active_in_battle: bool = false
@@ -87,8 +89,16 @@ func has_status(status_name: String) -> bool:
 
 
 func tick_statuses_start(context: BattleContext) -> void:
+	var to_remove: Array[StatusInstance] = []
 	for status in statuses:
 		await status.on_turn_start(context)
+		if status.is_expired():
+			to_remove.append(status)
+
+	for s in to_remove:
+		if s.data != null:
+			await s.on_remove(context)
+		statuses.erase(s)
 
 
 func tick_statuses_end(context: BattleContext) -> void:

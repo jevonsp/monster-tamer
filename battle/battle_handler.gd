@@ -76,8 +76,12 @@ func _execute_turn_queue() -> void:
 		
 		await _tick_statuses_start(actor, battle_context)
 		
+		if not actor.is_able_to_act:
+			continue
+		
 		if entry.action is Move:
 			target = _resolve_move_target(actor, target, entry.action)
+			
 		await entry.action.execute(actor, target, battle_context)
 		
 		if await _handle_post_action(target):
