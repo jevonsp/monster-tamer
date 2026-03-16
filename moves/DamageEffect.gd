@@ -29,4 +29,32 @@ func apply(actor: Monster, target: Monster, context: BattleContext, move_name: S
 
 func calculate_damage(actor: Monster, target: Monster) -> int:
 	var efficacy := TypeChart.get_attacking_type_efficacy(type, target.type)
-	return 1
+	var attacking_stat: float
+	var attacking_stat_stage_multi: float
+	var attacking_multi: float
+	var defending_stat: float
+	var defending_stat_stage_multi: float
+	var defending_multi: float
+	match damage_type:
+		DamageType.PHYSICAL:
+			attacking_stat_stage_multi = actor.get_stat_stage_multi(Monster.Stat.ATTACK)
+			attacking_stat = actor.attack * attacking_stat_stage_multi
+			attacking_multi = actor.stat_multipliers[Monster.Stat.ATTACK]
+			
+			defending_stat_stage_multi = target.get_stat_stage_multi(Monster.Stat.DEFENSE)
+			defending_stat = target.defense * defending_stat_stage_multi
+		DamageType.SPECIAL:
+			attacking_stat_stage_multi = actor.get_stat_stage_multi(Monster.Stat.ATTACK)
+			attacking_stat = actor.special_attack * attacking_stat_stage_multi
+			attacking_multi = actor.stat_multipliers[Monster.Stat.SPECIAL_ATTACK]
+			
+			defending_stat_stage_multi = target.get_stat_stage_multi(Monster.Stat.SPECIAL_DEFENSE)
+			defending_stat = target.special_defense * defending_stat_stage_multi
+	
+	var level_based_damage = (((2 * actor.level) / 5.0) + 2)
+	var scaling_based_damage = (base_power * (attacking_stat / defending_stat))
+	var multi = efficacy * attacking_multi * defending_multi
+	
+	var final_damage = ((level_based_damage * scaling_based_damage) / 50.0) * multi
+	
+	return final_damage

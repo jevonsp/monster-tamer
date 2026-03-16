@@ -23,7 +23,7 @@ enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, E
 @export var is_captured: bool = false
 @export var is_able_to_act: bool = true
 @export var was_active_in_battle: bool = false
-
+@export var player_in_battle: bool = false
 #region Stat Dicts
 var stat_stages: Dictionary = {
 	Stat.ATTACK: 0,
@@ -92,15 +92,14 @@ func set_stats() -> void:
 	current_hitpoints = max_hitpoints
 
 
-func get_modified_stat(stat: Stat) -> float:
+func get_stat_stage_multi(stat: Stat) -> float:
 	var stage: int = stat_stages.get(stat, 0)
 	
 	match stat:
 		Stat.ACCURACY, Stat.EVASION:
-			return stat_multipliers.get(stat, 1.0) * special_stat_multis[stage]
-			
-	var property: StringName = stat_properties[stat]
-	return get(property) * stat_multipliers.get(stat, 1.0) * normal_stat_multis[stage]
+			return special_stat_multis[stage]
+		_:
+			return normal_stat_multis[stage]
 
 
 func take_damage(amount: int) -> void:

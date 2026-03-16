@@ -102,7 +102,6 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	enemy_party = [monster]
 	set_enemy_actor(enemy_party[0])
 	set_player_actor(player_party[0])
-	_set_actors_in_battle()
 	
 	await _switch_to_battle()
 
@@ -115,7 +114,6 @@ func _start_trainer_battle(trainer: Trainer) -> void:
 	_set_enemy_party(trainer.party, trainer.party_levels)
 	set_enemy_actor(enemy_party[0])
 	set_player_actor(player_party[0])
-	_set_actors_in_battle()
 	
 	await _switch_to_battle()
 
@@ -127,18 +125,6 @@ func _switch_to_battle() -> void:
 	ui_handler.animation_player.play("both_switch_in")
 	await ui_handler.animation_player.animation_finished
 	processing = true
-
-
-func _set_actors_in_battle():
-	for party in [player_party, enemy_party]:
-		for m: Monster in party:
-			m.player_in_battle = true
-			
-			
-func _set_actors_out_of_battle():
-	for party in [player_party]:
-		for m: Monster in party:
-			m.player_in_battle = false
 
 
 func end_battle() -> void:
@@ -192,7 +178,6 @@ func _clear_actors() -> void:
 
 
 func _clear_all() -> void:
-	_set_actors_out_of_battle()
 	_clear_actors()
 	enemy_trainer = null
 	player_party = []
