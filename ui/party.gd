@@ -3,8 +3,8 @@ var processing: bool = false
 var is_moving: bool = false
 var is_forced_switch: bool = false
 var party_ref: Array[Monster] = []
-var last_focused_monster: int = -1
-var last_focused_option: int = -1
+var last_selected_monster: Button = null
+var last_selected_option: Button = null
 var index_moving_monster: int = -1
 @onready var interfaces: CanvasLayer = $".."
 @onready var panels: Dictionary = {
@@ -83,9 +83,9 @@ func _on_party_change(party: Array[Monster]) -> void:
 			panels[panel].update_actor(party[i])
 		else:
 			panels[panel].update_actor(null)
-			
-	if last_focused_monster > party.size():
-		last_focused_monster = -1
+	
+	if last_selected_monster and last_selected_monster.actor == null:
+		last_selected_monster = null
 			
 			
 func _toggle_visible() -> void:
@@ -113,36 +113,46 @@ func _toggle_options_visible() -> void:
 		
 		
 func _focus_default_monster() -> void:
-	var panel_key
-	if last_focused_monster == -1:
-		panel_key = panels.keys()[0]
-	else:
-		panel_key = panels.keys()[last_focused_monster]
-		
-	var panel = panels[panel_key]
-	
+	if last_selected_monster and last_selected_monster.actor != null:
+		last_selected_monster.grab_focus()
+		return
+
+	var keys := panels.keys()
+	if keys.is_empty():
+		return
+
+	var first_key = keys[0]
+	var panel: Button = panels[first_key]
+	last_selected_monster = panel
 	panel.grab_focus()
 
 
 func _focus_default_option() -> void:
-	var option
-	if last_focused_option == -1:
-		option = option_buttons.keys()[0]
-	else:
-		option = option_buttons.keys()[last_focused_option]
-	option_buttons[option].grab_focus()
+	if last_selected_option and last_selected_option.is_inside_tree():
+		last_selected_option.grab_focus()
+		return
+
+	var keys := option_buttons.keys()
+	if keys.is_empty():
+		return
+
+	var first_key = keys[0]
+	var option_button: Button = option_buttons[first_key]
+	last_selected_option = option_button
+	option_button.grab_focus()
 
 
 func _on_monster_pressed(button: Button) -> void:
 	var num := int(button.name.trim_prefix("Panel"))
+	last_selected_monster = button
 	match interfaces.ui_context:
 		Global.AccessFrom.PARTY:
 			if is_moving:
-				last_focused_monster = num
+				index_moving_monster = num
 				stop_moving()
 			else:
 				_toggle_options_visible()
-				last_focused_monster = num
+				index_moving_monster = num
 		Global.AccessFrom.INVENTORY:
 			Global.monster_selected.emit(button.actor)
 			_toggle_visible()
@@ -172,9 +182,7 @@ func _on_monster_pressed(button: Button) -> void:
 
 
 func _on_option_pressed(button: Button) -> void:
-	var index_map := {"Use": 0, "Give": 1, "Summary": 2, "Move": 3}
-	if button.name in index_map:
-		last_focused_option = index_map[button.name]
+	last_selected_option = button
 	match button.name:
 		"Use":
 			use()
@@ -201,7 +209,7 @@ func use() -> void:
 		Global.send_text_box.emit(self, ta, true, false, toggles_player)
 		await Global.text_box_complete
 		return
-	var actor = panels.values()[last_focused_monster].actor
+	var actor: Monster = last_selected_monster.actor
 	Global.use_item_on.emit(item, actor)
 	
 	
@@ -218,7 +226,7 @@ func give() -> void:
 		Global.send_text_box.emit(self, ta, true, false, toggles_player)
 		await Global.text_box_complete
 		return
-	var actor = panels.values()[last_focused_monster].actor
+	var actor: Monster = last_selected_monster.actor
 	Global.give_item_to.emit(item, actor)
 
 
@@ -231,15 +239,20 @@ func _open_monster_summary(monster: Monster) -> void:
 func start_moving() -> void:
 	_toggle_options_visible()
 	is_moving = true
-	index_moving_monster = last_focused_monster
+	if last_selected_monster:
+		index_moving_monster = int(last_selected_monster.name.trim_prefix("Panel"))
 
 
 func stop_moving() -> void:
 	is_moving = false
-	if index_moving_monster == last_focused_monster:
+	if not last_selected_monster:
+		return
+
+	var current_index := int(last_selected_monster.name.trim_prefix("Panel"))
+	if index_moving_monster == current_index:
 		return
 	else:
-		Global.out_of_battle_switch.emit(index_moving_monster, last_focused_monster)
+		Global.out_of_battle_switch.emit(index_moving_monster, current_index)
 
 
 func _on_request_forced_switch() -> void:
