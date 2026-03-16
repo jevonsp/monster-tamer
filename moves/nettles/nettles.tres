@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Move" format=3 uid="uid://ol1xenrdt8ut"]
 
 [ext_resource type="PackedScene" uid="uid://clbfchycibjwt" path="res://moves/nettles/nettles_animation.tscn" id="1_etv51"]
-[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_lvuwl"]
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="1_lvuwl"]
 
 [resource]
 script = ExtResource("1_lvuwl")

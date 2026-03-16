@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Move" format=3 uid="uid://cwyt2ao20ny41"]
 
-[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://classes/Move.gd" id="1_n08cl"]
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="1_n08cl"]
 [ext_resource type="PackedScene" uid="uid://nd38ug6ct58r" path="res://moves/match_strike/match_strike_animation.tscn" id="1_yxk6y"]
 
 [resource]

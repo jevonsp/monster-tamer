@@ -1,6 +1,5 @@
 extends StatusData
-class_name PoisonStatus
-## StatusData template for poison. Set status_name = "Poison" on the resource.
+class_name DoTStatus
 
 @export var damage_per_turn: int = 2
 

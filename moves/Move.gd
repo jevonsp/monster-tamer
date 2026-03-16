@@ -42,4 +42,3 @@ func _legacy_execute(actor: Monster, target: Monster, battle_context: BattleCont
 
 	await battle_context.show_move_result_text(post_text)
 	await target.check_faint()
-

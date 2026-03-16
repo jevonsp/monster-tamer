@@ -19,7 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_item.tscn" id="15_5xyti"]
 [ext_resource type="PackedScene" uid="uid://ch4kvp8k6tpxs" path="res://world_objects/interactable/npc/trainer/trainer.tscn" id="16_n3o0a"]
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="17_s758e"]
-[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://classes/MonsterData.gd" id="18_n53tw"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="18_n53tw"]
 [ext_resource type="Resource" uid="uid://dnpr3t8vm34dc" path="res://monsters/fox_mcleaf/fox_mcleaf.tres" id="19_d00gp"]
 [ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger.tres" id="19_n53tw"]
 [ext_resource type="PackedScene" uid="uid://b5a6d0pcrx4rd" path="res://world_objects/interactable/static_object/storage.tscn" id="20_q0sk7"]
