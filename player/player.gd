@@ -29,7 +29,6 @@ func _ready() -> void:
 	add_to_group("player")
 	_bind_signals()
 	tile_start_pos = position; tile_target_pos = position
-	# TODO: Remove - for testing
 	set_respawn_point()
 	party_handler.create_storage()
 	

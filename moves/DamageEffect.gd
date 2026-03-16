@@ -2,15 +2,18 @@ extends MoveEffect
 class_name DamageEffect
 
 @export var type: TypeChart.Type
-@export var base_power: int = 3
+@export var base_power: int = 30
 enum DamageType { PHYSICAL, SPECIAL }
 @export var damage_type: DamageType = DamageType.PHYSICAL
 
 
 func apply(actor: Monster, target: Monster, context: BattleContext, move_name: String = "attack", animation: PackedScene = null) -> void:
 	var efficacy := TypeChart.get_attacking_type_efficacy(type, target.type)
-	var damage := ceili(base_power * efficacy)
-
+	var damage := calculate_damage(actor, target)
+	
+	var is_critical = calculate_critical(actor)
+	damage = damage * 2 if is_critical else damage
+	
 	await context.show_move_used_text(actor, move_name, target)
 	if animation != null:
 		await context.play_move_animation(animation)
@@ -43,6 +46,7 @@ func calculate_damage(actor: Monster, target: Monster) -> int:
 			
 			defending_stat_stage_multi = target.get_stat_stage_multi(Monster.Stat.DEFENSE)
 			defending_stat = target.defense * defending_stat_stage_multi
+			defending_multi = target.stat_multipliers[Monster.Stat.DEFENSE]
 		DamageType.SPECIAL:
 			attacking_stat_stage_multi = actor.get_stat_stage_multi(Monster.Stat.ATTACK)
 			attacking_stat = actor.special_attack * attacking_stat_stage_multi
@@ -50,11 +54,17 @@ func calculate_damage(actor: Monster, target: Monster) -> int:
 			
 			defending_stat_stage_multi = target.get_stat_stage_multi(Monster.Stat.SPECIAL_DEFENSE)
 			defending_stat = target.special_defense * defending_stat_stage_multi
+			defending_multi = target.stat_multipliers[Monster.Stat.SPECIAL_DEFENSE]
 	
 	var level_based_damage = (((2 * actor.level) / 5.0) + 2)
 	var scaling_based_damage = (base_power * (attacking_stat / defending_stat))
 	var multi = efficacy * attacking_multi * defending_multi
-	
-	var final_damage = ((level_based_damage * scaling_based_damage) / 50.0) * multi
-	
-	return final_damage
+	var final_damage = (((level_based_damage * scaling_based_damage) / 50.0) + 2) * multi
+	return int(ceil(final_damage))
+
+
+func calculate_critical(actor: Monster) -> bool:
+	var critical_chance = actor.get_stat_stage_multi(Monster.Stat.CRITICAL)
+	if randf() <= critical_chance:
+		return true
+	return false

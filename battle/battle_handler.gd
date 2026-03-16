@@ -74,9 +74,12 @@ func _execute_turn_queue() -> void:
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
 		
+		if _should_exit_action(actor, target):
+			continue
+		
 		await _tick_statuses_start(actor, battle_context)
 		
-		if not actor.is_able_to_act:
+		if _should_exit_action(actor, target):
 			continue
 		
 		if entry.action is Move:
@@ -84,12 +87,22 @@ func _execute_turn_queue() -> void:
 			
 		await entry.action.execute(actor, target, battle_context)
 		
+		if _should_exit_action(actor, target):
+			continue
+		
 		if await _handle_post_action(target):
 			return
+		
+		if _should_exit_action(actor, target):
+			continue
 		
 		await _tick_statuses_end(actor, battle_context)
 		
 	_reset_turn_state()
+
+
+func _should_exit_action(actor: Monster, target: Monster) -> bool:
+	return not actor.is_able_to_act or not target.is_able_to_act
 
 
 func _tick_statuses_start(actor: Monster, context: BattleContext) -> void:

@@ -2,7 +2,7 @@ class_name Monster
 extends Resource
 ## An instance of a monster
 static var EXPERIENCE_PER_LEVEL = 50
-enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION }
+enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION, CRITICAL }
 @export var monster_data: MonsterData
 @export var name: String = ""
 @export var type: TypeChart.Type
@@ -10,13 +10,15 @@ enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, E
 @export var level: int = 1
 @export var experience: int = 0
 
-@export var max_hitpoints: int = 10
+@export var max_hitpoints: int
 @export var current_hitpoints: int
+
 @export var attack: int = 1
 @export var special_attack: int = 1
 @export var defense: int = 1
 @export var special_defense: int = 1
 @export var speed: int = 1
+
 @export var moves: Array[Move] = []
 @export var is_player_monster: bool = false
 @export var is_fainted: bool = false
@@ -33,6 +35,7 @@ var stat_stages: Dictionary = {
 	Stat.SPEED: 0,
 	Stat.ACCURACY: 0,
 	Stat.EVASION: 0,
+	Stat.CRITICAL: 0,
 }
 var stat_multipliers: Dictionary = {
 	Stat.ATTACK: 1.0,
@@ -59,6 +62,13 @@ var special_stat_multis: Dictionary = {
 	-6: 3/9.0, -5: 3/8.0, -4: 3/7.0, -3: 3/6.0, -2: 3/5.0, -1: 3/4.0,
 	0: 3/3.0,
 	1: 4/3.0, 2: 5/3.0, 3: 6/3.0, 4: 7/3.0, 5: 8/3.0, 6: 9/3.0,
+}
+var critical_stage_multi: Dictionary = {
+	0: 1/16.0,
+	1: 1/8.0,
+	2: 1/4.0,
+	3: 1/2.0,
+	4: 1
 }
 #endregion
 
@@ -89,6 +99,13 @@ func set_monster_moves() -> void:
 
 
 func set_stats() -> void:
+	attack = int((2 * monster_data.base_attack * level) / 100.0) + 5
+	defense = int((2 * monster_data.base_defense * level) / 100.0) + 5
+	special_attack = int((2 * monster_data.base_special_attack * level) / 100.0) + 5
+	special_defense = int((2 * monster_data.base_special_defense * level) / 100.0) + 5
+	speed = int((2 * monster_data.base_speed * level) / 100.0) + 5
+	
+	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
 	current_hitpoints = max_hitpoints
 
 
@@ -98,6 +115,8 @@ func get_stat_stage_multi(stat: Stat) -> float:
 	match stat:
 		Stat.ACCURACY, Stat.EVASION:
 			return special_stat_multis[stage]
+		Stat.CRITICAL:
+			return critical_stage_multi[stage]
 		_:
 			return normal_stat_multis[stage]
 
@@ -182,7 +201,9 @@ func heal(amount: int, revives: bool = false) -> void:
 	
 	
 func fully_heal_and_revive() -> void:
+	print("current hp: ", current_hitpoints)
 	current_hitpoints = max_hitpoints
+	print("current hp: ", current_hitpoints)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	is_fainted = false
 	
@@ -219,13 +240,14 @@ func gain_level(amount: int = 1) -> void:
 	level += amount
 	Global.monster_gained_level.emit(self, amount)
 	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
-	Global.send_text_box.emit(self, ta, false, false, false)
+	Global.send_text_box.emit(null, ta, false, false, false)
 	await Global.text_box_complete
 	if check_should_gain_moves():
 		if get_learn_index() >= 0:
 			await learn_move(monster_data.moves[level], get_learn_index())
 		else:
 			await decide_move(monster_data.moves[level])
+	set_stats()
 	
 	
 func check_should_gain_moves() -> bool:

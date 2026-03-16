@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_8demg")
 status_name = "Poison"
+default_duration = -1
 metadata/_custom_type_script = "uid://bdtqy4povlkyg"

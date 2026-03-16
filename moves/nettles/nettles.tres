@@ -2,6 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://clbfchycibjwt" path="res://moves/nettles/nettles_animation.tscn" id="1_etv51"]
 [ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="1_lvuwl"]
+[ext_resource type="Script" uid="uid://c3d1u67cjiyob" path="res://moves/MoveEffect.gd" id="2_ejhev"]
+[ext_resource type="Script" uid="uid://g1i3kodg4e2d" path="res://moves/DamageEffect.gd" id="3_361o3"]
+[ext_resource type="Script" uid="uid://byo84w6nmxgws" path="res://moves/ApplyStatusEffect.gd" id="4_jtwf1"]
+[ext_resource type="Resource" uid="uid://ces2o65hbbdg1" path="res://statuses/poison.tres" id="5_m13rr"]
+
+[sub_resource type="Resource" id="Resource_jtwf1"]
+script = ExtResource("3_361o3")
+type = 3
+metadata/_custom_type_script = "uid://g1i3kodg4e2d"
+
+[sub_resource type="Resource" id="Resource_8pmp8"]
+script = ExtResource("4_jtwf1")
+status_data = ExtResource("5_m13rr")
+metadata/_custom_type_script = "uid://byo84w6nmxgws"
 
 [resource]
 script = ExtResource("1_lvuwl")
@@ -9,4 +23,5 @@ name = "Nettles"
 type = 3
 animation = ExtResource("1_etv51")
 description = "Sting the opponent!"
+effects = Array[ExtResource("2_ejhev")]([SubResource("Resource_jtwf1"), SubResource("Resource_8pmp8")])
 metadata/_custom_type_script = "uid://cawunai26wo8m"

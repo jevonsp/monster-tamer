@@ -6,6 +6,13 @@ extends Resource
 @export var texture: Texture2D
 @export_subgroup("Moves")
 @export var moves: Dictionary[int, Move]
+@export_subgroup("Base Stats")
+@export var base_hitpoints: int = 50
+@export var base_attack: int = 50
+@export var base_special_attack: int = 50
+@export var base_defense: int = 50
+@export var base_special_defense: int = 50
+@export var base_speed: int = 50
 
 func set_up(level: int) -> Monster:
 	"""Single entry point for Monster creation"""

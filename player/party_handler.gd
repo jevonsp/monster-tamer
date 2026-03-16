@@ -121,6 +121,7 @@ func _grant_party_experience(amount: int) -> void:
 func fully_heal_and_revive_party() -> void:
 	for monster in party:
 		monster.fully_heal_and_revive()
+	send_player_party()
 		
 		
 func _on_request_switch_creation(index: int) -> void:
