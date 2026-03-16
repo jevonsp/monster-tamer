@@ -10,7 +10,7 @@ extends Resource
 @export_multiline var description: String = ""
 
 ## If non-empty, execute runs these effects in order (animation passed to each). Otherwise uses legacy single-damage behavior.
-@export var effects: Array[Resource] = []
+@export var effects: Array[MoveEffect] = []
 
 
 func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:
@@ -20,6 +20,7 @@ func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> 
 
 	for effect in effects:
 		if effect is MoveEffect:
+			@warning_ignore("redundant_await")
 			await effect.apply(actor, target, battle_context, name, animation)
 
 

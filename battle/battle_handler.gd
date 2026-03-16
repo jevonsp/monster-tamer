@@ -65,15 +65,16 @@ func _execute_turn_queue() -> void:
 	_sort_turn_queue()
 
 	var battle_context := BattleContext.new(self, battle)
-	await _tick_statuses_start(battle_context)
-
+	
 	for entry in turn_queue:
-		
+
 		if not _is_relevant_entry(entry):
 			continue
 
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
+		
+		await _tick_statuses_start(actor, battle_context)
 		
 		if entry.action is Move:
 			target = _resolve_move_target(actor, target, entry.action)
@@ -82,18 +83,17 @@ func _execute_turn_queue() -> void:
 		if await _handle_post_action(target):
 			return
 		
-	await _tick_statuses_end(battle_context)
+		await _tick_statuses_end(actor, battle_context)
+		
 	_reset_turn_state()
 
 
-func _tick_statuses_start(context: BattleContext) -> void:
-	await battle.player_actor.tick_statuses_start(context)
-	await battle.enemy_actor.tick_statuses_start(context)
+func _tick_statuses_start(actor: Monster, context: BattleContext) -> void:
+	await actor.tick_statuses_start(context)
 
 
-func _tick_statuses_end(context: BattleContext) -> void:
-	await battle.player_actor.tick_statuses_end(context)
-	await battle.enemy_actor.tick_statuses_end(context)
+func _tick_statuses_end(actor: Monster, context: BattleContext) -> void:
+	await actor.tick_statuses_end(context)
 
 
 func _is_relevant_entry(entry: Dictionary) -> bool:
