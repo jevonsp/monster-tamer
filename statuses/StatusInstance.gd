@@ -18,7 +18,7 @@ func _init(p_data: StatusData = null, p_owner: Monster = null, duration: int = -
 
 
 func is_expired() -> bool:
-	return remaining_turns <= 0
+	return remaining_turns == 0
 
 
 func tick_duration() -> void:

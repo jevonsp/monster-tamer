@@ -2,6 +2,7 @@ class_name Monster
 extends Resource
 ## An instance of a monster
 static var EXPERIENCE_PER_LEVEL = 50
+enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION }
 @export var monster_data: MonsterData
 @export var name: String = ""
 @export var type: TypeChart.Type
@@ -12,24 +13,58 @@ static var EXPERIENCE_PER_LEVEL = 50
 @export var max_hitpoints: int = 10
 @export var current_hitpoints: int
 @export var attack: int = 1
+@export var special_attack: int = 1
 @export var defense: int = 1
+@export var special_defense: int = 1
 @export var speed: int = 1
-
 @export var moves: Array[Move] = []
-
 @export var is_player_monster: bool = false
-
 @export var is_fainted: bool = false
 @export var is_captured: bool = false
 @export var is_able_to_act: bool = true
+@export var was_active_in_battle: bool = false
+
+#region Stat Dicts
+var stat_stages: Dictionary = {
+	Stat.ATTACK: 0,
+	Stat.SPECIAL_ATTACK: 0,
+	Stat.DEFENSE: 0,
+	Stat.SPECIAL_DEFENSE: 0,
+	Stat.SPEED: 0,
+	Stat.ACCURACY: 0,
+	Stat.EVASION: 0,
+}
+var stat_multipliers: Dictionary = {
+	Stat.ATTACK: 1.0,
+	Stat.SPECIAL_ATTACK: 1.0,
+	Stat.DEFENSE: 1.0,
+	Stat.SPECIAL_DEFENSE: 1.0,
+	Stat.SPEED: 1.0,
+	Stat.ACCURACY: 1.0,
+	Stat.EVASION: 1.0,
+}
+var stat_properties: Dictionary = {
+	Stat.ATTACK: &"attack",
+	Stat.SPECIAL_ATTACK: &"special_attack",
+	Stat.DEFENSE: &"defense",
+	Stat.SPECIAL_DEFENSE: &"special_defense",
+	Stat.SPEED: &"speed",
+}
+var normal_stat_multis: Dictionary = {
+	-6: 2/8.0,-5: 2/7.0,-4: 2/6.0,-3: 2/5.0,-2: 2/4.0,-1: 2/3.0,
+	0: 2/2.0,
+	1: 3/2.0, 2: 4/2.0, 3: 5/2.0, 4: 6/2.0, 5: 7/2.0, 6: 8/2.0,
+}
+var special_stat_multis: Dictionary = {
+	-6: 3/9.0, -5: 3/8.0, -4: 3/7.0, -3: 3/6.0, -2: 3/5.0, -1: 3/4.0,
+	0: 3/3.0,
+	1: 4/3.0, 2: 5/3.0, 3: 6/3.0, 4: 7/3.0, 5: 8/3.0, 6: 9/3.0,
+}
+#endregion
 
 var is_able_to_fight: bool:
 	get: return not is_fainted and not is_captured
-@export var was_active_in_battle: bool = false
-@export var player_in_battle: bool = false
-
 var statuses: Array[StatusInstance] = []
-
 
 func set_monster_data(md: MonsterData) -> void:
 	monster_data = md
@@ -55,6 +90,17 @@ func set_monster_moves() -> void:
 
 func set_stats() -> void:
 	current_hitpoints = max_hitpoints
+
+
+func get_modified_stat(stat: Stat) -> float:
+	var stage: int = stat_stages.get(stat, 0)
+	
+	match stat:
+		Stat.ACCURACY, Stat.EVASION:
+			return stat_multipliers.get(stat, 1.0) * special_stat_multis[stage]
+			
+	var property: StringName = stat_properties[stat]
+	return get(property) * stat_multipliers.get(stat, 1.0) * normal_stat_multis[stage]
 
 
 func take_damage(amount: int) -> void:

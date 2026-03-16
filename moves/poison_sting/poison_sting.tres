@@ -5,21 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://dxqm4n57mcx1y" path="res://moves/poison_sting/poison_sting_animation.tscn" id="1_e0sm0"]
 [ext_resource type="Script" uid="uid://g1i3kodg4e2d" path="res://moves/DamageEffect.gd" id="1_muk2f"]
 [ext_resource type="Script" uid="uid://byo84w6nmxgws" path="res://moves/ApplyStatusEffect.gd" id="2_cgw7u"]
-[ext_resource type="Script" uid="uid://bdtqy4povlkyg" path="res://statuses/DoTStatus.gd" id="3_e0sm0"]
+[ext_resource type="Resource" uid="uid://ces2o65hbbdg1" path="res://statuses/poison.tres" id="5_e0sm0"]
 
 [sub_resource type="Resource" id="Resource_8r684"]
 script = ExtResource("1_muk2f")
 base_power = 2
 metadata/_custom_type_script = "uid://g1i3kodg4e2d"
 
-[sub_resource type="Resource" id="Resource_msm5d"]
-script = ExtResource("3_e0sm0")
-status_name = "Poison"
-metadata/_custom_type_script = "uid://bdtqy4povlkyg"
-
 [sub_resource type="Resource" id="Resource_vsfqg"]
 script = ExtResource("2_cgw7u")
-status_data = SubResource("Resource_msm5d")
+status_data = ExtResource("5_e0sm0")
 metadata/_custom_type_script = "uid://byo84w6nmxgws"
 
 [resource]

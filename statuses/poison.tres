@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DoTStatus" format=3 uid="uid://ces2o65hbbdg1"]
+
+[ext_resource type="Script" uid="uid://bdtqy4povlkyg" path="res://statuses/DoTStatus.gd" id="1_8demg"]
+
+[resource]
+script = ExtResource("1_8demg")
+status_name = "Poison"
+metadata/_custom_type_script = "uid://bdtqy4povlkyg"

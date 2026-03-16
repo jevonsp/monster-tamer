@@ -3,6 +3,8 @@ class_name DamageEffect
 
 @export var type: TypeChart.Type
 @export var base_power: int = 3
+enum DamageType { PHYSICAL, SPECIAL }
+@export var damage_type: DamageType = DamageType.PHYSICAL
 
 
 func apply(actor: Monster, target: Monster, context: BattleContext, move_name: String = "attack", animation: PackedScene = null) -> void:
@@ -23,3 +25,8 @@ func apply(actor: Monster, target: Monster, context: BattleContext, move_name: S
 
 	await context.show_move_result_text(lines)
 	await target.check_faint()
+
+
+func calculate_damage(actor: Monster, target: Monster) -> int:
+	var efficacy := TypeChart.get_attacking_type_efficacy(type, target.type)
+	return 1
