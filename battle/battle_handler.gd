@@ -65,7 +65,7 @@ func _execute_turn_queue() -> void:
 	_sort_turn_queue()
 
 	var battle_context := BattleContext.new(self, battle)
-	await _tick_statuses(battle_context)
+	await _tick_statuses_start(battle_context)
 
 	for entry in turn_queue:
 		
@@ -82,12 +82,18 @@ func _execute_turn_queue() -> void:
 		if await _handle_post_action(target):
 			return
 		
+	await _tick_statuses_end(battle_context)
 	_reset_turn_state()
 
 
-func _tick_statuses(context: BattleContext) -> void:
-	await battle.player_actor.tick_statuses(context)
-	await battle.enemy_actor.tick_statuses(context)
+func _tick_statuses_start(context: BattleContext) -> void:
+	await battle.player_actor.tick_statuses_start(context)
+	await battle.enemy_actor.tick_statuses_start(context)
+
+
+func _tick_statuses_end(context: BattleContext) -> void:
+	await battle.player_actor.tick_statuses_end(context)
+	await battle.enemy_actor.tick_statuses_end(context)
 
 
 func _is_relevant_entry(entry: Dictionary) -> bool:
