@@ -185,6 +185,5 @@ func _clear_all() -> void:
 	ui_handler._clear_actor_references()
 	ui_handler._clear_textures()
 	battle_handler.turn_queue.clear()
-	input_handler.vis_state = input_handler.VisibilityState.OPTIONS
 	processing = false
 #endregion

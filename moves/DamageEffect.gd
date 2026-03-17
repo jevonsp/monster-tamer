@@ -13,18 +13,20 @@ func apply(actor: Monster, target: Monster, context: BattleContext, move_name: S
 	
 	var is_critical = calculate_critical(actor)
 	damage = damage * 2 if is_critical else damage
-	
 	await context.show_move_used_text(actor, move_name, target)
 	if animation != null:
 		await context.play_move_animation(animation)
 	context.play_hit_reaction(target)
 	await target.take_damage(damage)
 
-	var lines: Array[String] = ["It dealt %s damage!" % damage]
+	var lines: Array[String] = [""]
+	if is_critical:
+		lines[0] += "A critical hit!\n"
+	lines[0] += "It dealt %s damage!\n" % damage
 	if efficacy > 1.0:
-		lines[0] += "\nIt's super effective!"
+		lines[0] += "It's super effective!"
 	elif efficacy < 1.0:
-		lines[0] += "\nIt's not very effective..."
+		lines[0] += "It's not very effective..."
 
 	await context.show_move_result_text(lines)
 	await target.check_faint()
