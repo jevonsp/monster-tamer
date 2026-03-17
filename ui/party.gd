@@ -43,6 +43,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Global.AccessFrom.INVENTORY:
 				_toggle_visible()
 				Global.on_party_closed.emit()
+				Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 				Global.request_open_inventory.emit()
 				return
 			Global.AccessFrom.BATTLE:
@@ -187,7 +188,6 @@ func _on_option_pressed(button: Button) -> void:
 		"Use":
 			use()
 		"Give":
-			print_debug("Give not implemented")
 			give()
 		"Summary":
 			_open_monster_summary(last_selected_monster.actor)

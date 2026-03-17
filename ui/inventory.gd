@@ -43,9 +43,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if interfaces.ui_context == Global.AccessFrom.PARTY:
 			_toggle_visible()
+			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 			Global.request_open_party.emit()
 			get_viewport().set_input_as_handled()
-			interfaces.ui_context = Global.AccessFrom.PARTY
 			return
 		if not options_box.visible:
 			_toggle_visible()
@@ -100,7 +100,6 @@ func _can_use_outside_battle(item: Item) -> bool:
 
 
 func _can_give_to_monster(item: Item) -> bool:
-	# "Give" means held item. Disallow balls and consumables.
 	if item.catch_effect != null:
 		return false
 	if item.use_effect != null:
@@ -210,6 +209,10 @@ func _focus_option_default() -> void:
 
 
 func use(item: Item) -> void:
+	if not _can_use_outside_battle(item):
+		await show_cant_use_text()
+		_toggle_options_visible()
+		return
 	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
 		_toggle_options_visible()
 		_toggle_visible()
@@ -221,6 +224,10 @@ func use(item: Item) -> void:
 
 
 func give(item: Item) -> void:
+	if not _can_give_to_monster(item):
+		await show_cant_hold_text()
+		_toggle_options_visible()
+		return
 	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
 		_toggle_options_visible()
 		_toggle_visible()
