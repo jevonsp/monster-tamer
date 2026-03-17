@@ -1,7 +1,7 @@
 extends Label
-var actor
+var actor: Monster = null
 
-func update():
+func update() -> void:
 	if actor != null:
 		text = actor.name
 	else:

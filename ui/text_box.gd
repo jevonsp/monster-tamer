@@ -1,12 +1,12 @@
 extends Panel
 @export var in_battle_text_box: bool = false
 var processing: bool = false
-var text_array: Array[String]
+var text_array: Array[String] = []
 var is_auto_complete: bool = false
 var is_question: bool = false
 var toggles_player: bool = false
-var text_index: int
-var obj_ref: Node
+var text_index: int = -1
+var obj_ref: Node = null
 @onready var text_box: Panel = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
 @onready var no_button: Button = $HBoxContainer/No
@@ -40,12 +40,12 @@ func _on_button_gui_input(event: InputEvent, _button: Button) -> void:
 
 
 func _toggle_visible() -> void:
-	visible = !visible
+	visible = not visible
 
 
 func _toggle_questions_visible() -> void:
-	no_button.visible = !yes_button.visible
-	yes_button.visible = !yes_button.visible
+	no_button.visible = not yes_button.visible
+	yes_button.visible = not yes_button.visible
 	if yes_button.visible:
 		yes_button.grab_focus()
 	else:
@@ -57,6 +57,8 @@ func _toggle_questions_visible() -> void:
 func _load_text(
 	obj: Node, ta: Array[String], auto_complete: bool, question: bool, toggle: bool
 		) -> void:
+	print_debug("TEXT: load in_battle=%s visible=%s auto=%s question=%s toggle_player=%s lines=%s obj=%s" \
+			% [in_battle_text_box, visible, auto_complete, question, toggle, ta.size(), obj])
 	if not in_battle_text_box and Player.in_battle:
 		return
 	if in_battle_text_box and not Player.in_battle:
@@ -116,6 +118,8 @@ func _trigger() -> void:
 
 
 func _text_finished() -> void:
+	print_debug("TEXT: finished in_battle=%s lines=%s question=%s auto=%s" \
+			% [in_battle_text_box, text_array.size(), is_question, is_auto_complete])
 	_clean_up()
 	Global.text_box_complete.emit()
 

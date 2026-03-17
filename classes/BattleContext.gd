@@ -107,21 +107,27 @@ func play_escape_animation() -> void:
 # --- Battle flow helpers ---------------------------------------------------
 
 func perform_switch(old_monster: Monster, new_monster: Monster, out_text: String, in_text: String) -> void:
+	print_debug("BATTLE: perform_switch old=%s new=%s" % [old_monster.name if old_monster else "null", new_monster.name if new_monster else "null"])
 	if old_monster.is_able_to_fight:
+		print_debug("BATTLE: perform_switch out_text for %s" % [old_monster.name])
 		var t_out: Array[String] = [out_text % [old_monster.name]]
 		Global.send_text_box.emit(null, t_out, true, false, false)
 		await Global.text_box_complete
 		
+	print_debug("BATTLE: perform_switch play_switch_out %s" % [old_monster.name])
 	await play_switch_out(old_monster)
+	print_debug("BATTLE: perform_switch switch actors old=%s new=%s" % [old_monster.name, new_monster.name])
 	
 	Global.switch_monster_to_first.emit(new_monster)
 	Global.switch_battle_actors.emit(old_monster, new_monster)
 	
+	print_debug("BATTLE: perform_switch play_switch_in %s" % [new_monster.name])
 	play_switch_in(new_monster)
 	
 	var t_in: Array[String] = [in_text % [new_monster.name]]
 	Global.send_text_box.emit(null, t_in, false, false, false)
 	await Global.text_box_complete
+	print_debug("BATTLE: perform_switch text in complete %s" % [new_monster.name])
 
 
 func handle_capture_success(target: Monster) -> void:

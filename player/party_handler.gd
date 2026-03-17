@@ -105,16 +105,22 @@ func _move_storage_to_party(from_index: int, to_index: int) -> void:
 	
 	
 func _grant_party_experience(amount: int) -> void:
+	print_debug("EXP: start distribution amount=%s" % [amount])
 	var getting_exp: Array[Monster] = []
 	for monster in party:
 		if monster.was_active_in_battle:
 			getting_exp.append(monster)
 	if getting_exp.is_empty():
+		print_debug("EXP: no eligible monsters; emitting player_done_giving_exp")
 		Global.player_done_giving_exp.emit()
 		return
 	var share := int(amount / float(getting_exp.size()))
+	print_debug("EXP: eligible=%s share=%s" % [getting_exp.size(), share])
 	for monster in getting_exp:
+		print_debug("EXP: granting %s to %s (in_battle=%s)" % [share, monster.name, player.in_battle])
 		await monster.gain_exp(share, player.in_battle)
+		print_debug("EXP: finished %s" % [monster.name])
+	print_debug("EXP: done; emitting player_done_giving_exp")
 	Global.player_done_giving_exp.emit()
 		
 		
@@ -125,6 +131,7 @@ func fully_heal_and_revive_party() -> void:
 		
 		
 func _on_request_switch_creation(index: int) -> void:
+	print_debug("BATTLE: request_switch_creation index=%s current=%s target=%s" % [index, party[0].name if party.size() > 0 else "null", party[index].name if index < party.size() else "null"])
 	var switch = Switch.new()
 	switch.actor = party[0]
 	switch.target = party[index]

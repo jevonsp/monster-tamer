@@ -106,7 +106,6 @@ func set_stats() -> void:
 	speed = int((2 * monster_data.base_speed * level) / 100.0) + 5
 	
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
-	current_hitpoints = max_hitpoints
 
 
 func get_stat_stage_multi(stat: Stat) -> float:
@@ -123,12 +122,14 @@ func get_stat_stage_multi(stat: Stat) -> float:
 
 func take_damage(amount: int) -> void:
 	current_hitpoints = max(0, current_hitpoints - amount)
+	print_debug("BATTLE: %s take_damage amount=%s -> hp=%s/%s" % [name, amount, current_hitpoints, max_hitpoints])
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	await Global.hitpoints_animation_complete
 
 
 func check_faint() -> void:
 	if current_hitpoints <= 0:
+		print_debug("BATTLE: %s check_faint -> faint() current_hp=%s" % [name, current_hitpoints])
 		await faint()
 
 
@@ -179,21 +180,26 @@ func tick_statuses_end(context: BattleContext) -> void:
 
 
 func faint():
+	if is_fainted:
+		return
+	print_debug("BATTLE: %s faint() start is_player=%s is_fainted=%s" % [name, is_player_monster, is_fainted])
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
+	print_debug("BATTLE: %s send_monster_fainted emitted" % [name])
 	var ta: Array[String] = ["%s fainted!" % [name]]
 	if Player.in_battle:
 		Global.send_text_box.emit(null, ta, true, false, false)
 	else:
 		Global.send_text_box.emit(null, ta, false, false, true)
 	await Global.text_box_complete
+	print_debug("BATTLE: %s faint text complete" % [name])
 	if not is_player_monster:
+		print_debug("BATTLE: %s send_monster_death_experience amount=%s" % [name, EXPERIENCE_PER_LEVEL * level])
 		Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
 	
 	
 func heal(amount: int, revives: bool = false) -> void:
 	current_hitpoints = min(current_hitpoints + amount, max_hitpoints)
-	print("current_hitpoints: ", current_hitpoints)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	await Global.hitpoints_animation_complete
 	if revives:
@@ -201,9 +207,7 @@ func heal(amount: int, revives: bool = false) -> void:
 	
 	
 func fully_heal_and_revive() -> void:
-	print("current hp: ", current_hitpoints)
 	current_hitpoints = max_hitpoints
-	print("current hp: ", current_hitpoints)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	is_fainted = false
 	
@@ -211,6 +215,7 @@ func fully_heal_and_revive() -> void:
 func gain_exp(amount: int, in_battle: bool = false) -> void:
 	if is_fainted:
 		return
+	print_debug("EXP: %s gain_exp amount=%s in_battle=%s" % [name, amount, in_battle])
 	var remaining_exp = amount
 	while remaining_exp > 0:
 		var exp_left = get_next_level_exp() - experience
@@ -219,13 +224,16 @@ func gain_exp(amount: int, in_battle: bool = false) -> void:
 		experience += exp_to_gain
 		Global.monster_gained_experience.emit(self, exp_to_gain)
 		if in_battle:
+			print_debug("EXP: %s waiting for experience_animation_complete" % [name])
 			await Global.experience_animation_complete
+			print_debug("EXP: %s experience_animation_complete" % [name])
 		if experience >= get_next_level_exp():
+			print_debug("EXP: %s level up triggered" % [name])
 			await gain_level()
 
 
 func give(item: Item) -> void:
-	print("%s would add %s as held item" % [name, item.name])
+	print_debug("%s would add %s as held item" % [name, item.name])
 
 
 func get_current_level_exp() -> int:
@@ -238,16 +246,22 @@ func get_next_level_exp() -> int:
 
 func gain_level(amount: int = 1) -> void:
 	level += amount
+	print_debug("EXP: %s gain_level amount=%s -> level=%s" % [name, amount, level])
 	Global.monster_gained_level.emit(self, amount)
 	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
 	Global.send_text_box.emit(null, ta, false, false, false)
 	await Global.text_box_complete
+	print_debug("EXP: %s level-up text complete" % [name])
 	if check_should_gain_moves():
+		print_debug("EXP: %s should gain move at level=%s" % [name, level])
 		if get_learn_index() >= 0:
+			print_debug("EXP: %s learning move in empty slot index=%s" % [name, get_learn_index()])
 			await learn_move(monster_data.moves[level], get_learn_index())
 		else:
+			print_debug("EXP: %s has 4 moves; entering decide_move" % [name])
 			await decide_move(monster_data.moves[level])
 	set_stats()
+	print_debug("EXP: %s gain_level complete" % [name])
 	
 	
 func check_should_gain_moves() -> bool:
@@ -274,7 +288,9 @@ func decide_move(move: Move) -> void:
 			decided = true
 			Global.request_summary_learn_move.emit(move)
 			Global.request_open_summary.emit(self)
+			print_debug("EXP: %s waiting for move_learning_finished" % [name])
 			await Global.move_learning_finished
+			print_debug("EXP: %s move_learning_finished" % [name])
 		else:
 			ta = ["Are you sure you want %s to stop learning %s" % [name, move.name]]
 			Global.send_text_box.emit(self, ta, false, true, false)
@@ -286,6 +302,7 @@ func decide_move(move: Move) -> void:
 	
 	
 func learn_move(move: Move, index: int) -> void:
+	print_debug("EXP: %s learn_move %s at index=%s" % [name, move.name, index])
 	moves[index] = move
 	var ta: Array[String] = ["%s learned %s." % [name, move.name]]
 	if Player.in_battle:
@@ -294,6 +311,7 @@ func learn_move(move: Move, index: int) -> void:
 		Global.send_text_box.emit(self, ta, false, false, false)
 		
 	await Global.text_box_complete
+	print_debug("EXP: %s learn_move text complete" % [name])
 	
 	
 func attempt_catch(item: Item, _actor: Monster) -> Dictionary:

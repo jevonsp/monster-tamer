@@ -7,7 +7,7 @@ extends Resource
 @export_subgroup("Moves")
 @export var moves: Dictionary[int, Move]
 @export_subgroup("Base Stats")
-@export var base_hitpoints: int = 50
+@export var base_hitpoints: int = 50 
 @export var base_attack: int = 50
 @export var base_special_attack: int = 50
 @export var base_defense: int = 50
@@ -22,5 +22,6 @@ func set_up(level: int) -> Monster:
 	monster.set_level(level)
 	monster.set_monster_moves()
 	monster.set_stats()
+	monster.current_hitpoints = monster.max_hitpoints
 	
 	return monster

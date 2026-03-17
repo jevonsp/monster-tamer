@@ -1,12 +1,12 @@
 extends Control
-var DEFAULT_STYLE: StyleBoxFlat = load("res://ui/new_style_box_flat_default.tres")
-var RED_STYLE: StyleBoxFlat = load("res://ui/new_style_box_flat_red.tres")
+const DEFAULT_STYLE: StyleBoxFlat = preload("res://ui/new_style_box_flat_default.tres")
+const RED_STYLE: StyleBoxFlat = preload("res://ui/new_style_box_flat_red.tres")
 var processing: bool = false
 var is_move_focused: bool = false
 var is_learning_move: bool = false
 var move_learning: Move = null
 var is_moving_move: bool = false
-var party: Array[Monster]
+var party: Array[Monster] = []
 var index: int = -1
 var in_battle: bool = false
 var last_focused_move_button: Button = null
@@ -216,7 +216,6 @@ func _toggle_visible(monster: Monster = null) -> void:
 func _set_player_party(p: Array[Monster]) -> void:
 	# WARNING This BORROWS the party from the player
 	party = p
-	print("got party: ", party)
 	_display_monster(party[index])
 
 
@@ -226,7 +225,7 @@ func _clear_player_party() -> void:
 
 
 func _on_focus_entered(button: Button) -> void:
-	last_focused_move_button = button 
+	last_focused_move_button = button
 
 
 func _focus_default_move() -> void:
@@ -238,7 +237,9 @@ func _focus_default_move() -> void:
 
 
 func _unfocus_moves() -> void:
-	last_focused_move_button.release_focus()
+	if last_focused_move_button:
+		last_focused_move_button.release_focus()
+		last_focused_move_button = null
 	moving_index_one = -1
 	is_move_focused = false
 
@@ -246,7 +247,6 @@ func _unfocus_moves() -> void:
 func _start_moving_move() -> void:
 	var idx = move_panels.find(last_focused_move_button)
 	if idx != -1:
-		print(idx)
 		moving_index_one = idx
 		is_moving_move = true
 	for button in move_panels:

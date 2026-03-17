@@ -22,7 +22,7 @@ func apply(actor: Monster, target: Monster, context: BattleContext, move_name: S
 	var lines: Array[String] = [""]
 	if is_critical:
 		lines[0] += "A critical hit!\n"
-	lines[0] += "It dealt %s damage!\n" % damage
+	lines[0] += "It dealt %s damage.\n" % damage
 	if efficacy > 1.0:
 		lines[0] += "It's super effective!"
 	elif efficacy < 1.0:

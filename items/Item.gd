@@ -31,4 +31,4 @@ func use(target: Monster) -> void:
 
 
 func give(_target: Monster) -> void:
-	print("would give here")
+	print_debug("would give here")

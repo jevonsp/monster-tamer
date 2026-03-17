@@ -9,6 +9,7 @@ var enemy_party: Array[Monster] = []
 
 #region NODE REFERENCES
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
+@onready var run_button: Button = $Content/OptionButtons/Run
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -57,7 +58,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):
 		match input_handler.vis_state:
 			input_handler.VisibilityState.OPTIONS:
-				option_buttons_grid.get_child(2).grab_focus()
+				run_button.grab_focus()
 			input_handler.VisibilityState.MOVES:
 				input_handler._change_vis_state(input_handler.VisibilityState.OPTIONS)
 
@@ -155,6 +156,7 @@ func _set_enemy_party(party: Array[MonsterData], levels: Array[int]) -> void:
 
 
 func switch_actors(old: Monster, new: Monster) -> void:
+	print_debug("BATTLE: switch_actors old=%s new=%s" % [old.name if old else "null", new.name if new else "null"])
 	if old == player_actor:
 		player_actor = new
 		if player_actor:
@@ -185,5 +187,6 @@ func _clear_all() -> void:
 	ui_handler._clear_actor_references()
 	ui_handler._clear_textures()
 	battle_handler.turn_queue.clear()
+	battle_handler.executing_turn = false
 	processing = false
 #endregion

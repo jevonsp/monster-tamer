@@ -76,6 +76,7 @@ func _handle_battle_press(button: Button, num: int) -> void:
 			Global.send_text_box.emit(null, ["That monster is already fighting!"], true, false, false)
 			await Global.text_box_complete
 			return
+		print_debug("BATTLE: player requested switch index=%s target=%s" % [num, button.actor.name if button.actor else "null"])
 		Global.request_switch_creation.emit(num)
 		visibility_focus_handler._toggle_visible()
 	else:
@@ -83,6 +84,7 @@ func _handle_battle_press(button: Button, num: int) -> void:
 			Global.send_text_box.emit(null, ["That monster is not able to fight!"], true, false, false)
 			await Global.text_box_complete
 			return
+		print_debug("BATTLE: player forced switch selected=%s" % [button.actor.name if button.actor else "null"])
 		Global.send_selected_force_switch.emit(button.actor)
 		party.is_forced_switch = false
 		visibility_focus_handler._toggle_visible()

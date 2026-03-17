@@ -78,6 +78,8 @@ func _on_option_pressed(button: Button) -> void:
 
 func _on_move_pressed(button: Button) -> void:
 	_set_move_focus(button)
+	if not battle.processing or battle.battle_handler.executing_turn:
+		return
 	var num := int(button.name.trim_prefix("Button"))
 	var move: Move = battle.player_actor.moves[num]
 	battle.battle_handler._execute_player_turn(move)

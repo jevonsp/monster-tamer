@@ -20,8 +20,12 @@ func _on_monster_gained_experience(monster: Monster, amount: int) -> void:
 	if monster == actor:
 		if not active:
 			update_value(amount)
+			Global.experience_animation_complete.emit()
 		else:
 			tween_bar(amount)
+	elif active:
+		# Unblock EXP grants for non-displayed monsters in battle.
+		Global.experience_animation_complete.emit()
 		
 func _on_monster_gained_level(monster: Monster, _amount: int) -> void:
 	update_bounds(monster)

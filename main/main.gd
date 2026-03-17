@@ -9,7 +9,7 @@ func _ready() -> void:
 	get_window().size = Vector2i(1280, 720)
 	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	for md in [PISTOL_SHRIMP, PYRO_BADGER]:
+	for md in [PYRO_BADGER, PISTOL_SHRIMP]:
 		var m = md.set_up(1)
 		player.party_handler.add(m)
 

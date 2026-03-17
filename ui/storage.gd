@@ -1,6 +1,9 @@
 extends Control
 enum State {DEFAULT, MOVING}
-var state: State = State.DEFAULT
+var state: State = State.DEFAULT:
+	set(value):
+		state = value
+		print_debug("state: ", State.values()[state])
 var processing: bool = false
 var party_ref: Array[Monster]
 var storage_ref: Dictionary
@@ -17,7 +20,7 @@ var page_index: int = 0
 
 #region Helper Nodes
 @onready var update_handler: Node = $UpdateHandler
-@onready var visiblity_focus_handler: Node = $"Visiblity&FocusHandler"
+@onready var visiblity_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var input_handler: Node = $InputHandler
 #endregion
 
@@ -68,18 +71,28 @@ func guard_clause_deposit() -> bool:
 	return true
 
 
+func _button_index(button: Button) -> int:
+	if button.name.begins_with("Button"):
+		return button.name.trim_prefix("Button").to_int()
+	return button.name.to_int()
+
+
+func _storage_index(button: Button) -> int:
+	return _button_index(button) + (page_index * 30)
+
+
 func start_move() -> void:
 	if last_selected_monster.is_in_group("party") and last_selected_monster.actor != null:
 		if not await guard_clause_deposit():
 			return
 		moving_context = {
-			"index": last_selected_monster.name.to_int(),
+			"index": _button_index(last_selected_monster),
 			"from": "party",
 		}
 		state = State.MOVING
 	elif last_selected_monster.is_in_group("storage") and last_selected_monster.actor != null:
 		moving_context = {
-			"index": last_selected_monster.name.to_int(),
+			"index": _storage_index(last_selected_monster),
 			"from": "storage",
 		}
 		state = State.MOVING
@@ -91,12 +104,22 @@ func cancel_move() -> void:
 
 
 func complete_move() -> void:
-	var to_idx = last_selected_monster.name.to_int()
+	if moving_context.is_empty():
+		print_debug("storage.move.complete: blocked empty context")
+		return
 	match moving_context["from"]:
 		"storage":
-			Global.request_move_storage_to_party.emit(moving_context["index"], to_idx)
+			if not last_selected_monster.is_in_group("party"):
+				print_debug("storage.move.complete: blocked storage->party dest not in party")
+				return
+			var to_party_idx = _button_index(last_selected_monster)
+			Global.request_move_storage_to_party.emit(moving_context["index"], to_party_idx)
 		"party":
-			Global.request_move_party_to_storage.emit(moving_context["index"], to_idx)
+			if not last_selected_monster.is_in_group("storage"):
+				print_debug("storage.move.complete: blocked party->storage dest not in storage")
+				return
+			var to_storage_idx = _storage_index(last_selected_monster)
+			Global.request_move_party_to_storage.emit(moving_context["index"], to_storage_idx)
 	state = State.DEFAULT
 	moving_context = {}
 	

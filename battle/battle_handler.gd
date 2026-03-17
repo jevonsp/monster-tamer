@@ -10,10 +10,15 @@ func _ready() -> void:
 
 
 func _execute_player_turn(action) -> void:
+	if executing_turn or not battle.processing:
+		return
+	print_debug("BATTLE: _execute_player_turn action=%s" % [action])
 	if _add_action_to_queue(action, battle.player_actor):
 		battle.processing = false
 		battle.input_handler._manage_focus()
+		print_debug("BATTLE: player action queued; requesting enemy action")
 		_get_enemy_action()
+		print_debug("BATTLE: executing turn queue size=%s" % [turn_queue.size()])
 		await _execute_turn_queue()
 		battle.processing = true
 
@@ -24,7 +29,9 @@ func _get_enemy_action() -> void:
 		if move != null:
 			available_moves.append(move)
 	if not available_moves.is_empty():
-		_add_action_to_queue(available_moves.pick_random(), battle.enemy_actor)
+		var picked = available_moves.pick_random()
+		print_debug("BATTLE: enemy picked move=%s" % [picked])
+		_add_action_to_queue(picked, battle.enemy_actor)
 
 
 func _add_action_to_queue(action, actor: Monster) -> bool:
@@ -32,12 +39,14 @@ func _add_action_to_queue(action, actor: Monster) -> bool:
 		return false
 	if action is Move or action is Item:
 		var target: Monster = _get_target(actor, action)
+		print_debug("BATTLE: queue action=%s actor=%s target=%s" % [action, actor.name, target.name if target else "null"])
 		turn_queue.append({
 			"action": action,
 			"actor": actor,
 			"target": target
 		})
 	elif action is Switch:
+		print_debug("BATTLE: queue switch actor=%s target=%s" % [action.actor.name, action.target.name])
 		turn_queue.append({
 			"action": action,
 			"actor": action.actor,
@@ -63,46 +72,68 @@ func _get_target(actor: Monster, action) -> Monster:
 func _execute_turn_queue() -> void:
 	executing_turn = true
 	_sort_turn_queue()
+	print_debug("BATTLE: turn queue sorted size=%s" % [turn_queue.size()])
 
 	var battle_context := BattleContext.new(self, battle)
 	
 	for entry in turn_queue:
 
 		if not _is_relevant_entry(entry):
+			print_debug("BATTLE: skipping irrelevant entry action=%s" % [entry.action])
 			continue
 
 		var actor: Monster = entry.actor
 		var target: Monster = entry.target
+		print_debug("BATTLE: entry start action=%s actor=%s target=%s" % [entry.action, actor.name, target.name if target else "null"])
 		
 		if _should_exit_action(actor, target):
+			print_debug("BATTLE: entry exit before statuses actor=%s target=%s" % [actor.name, target.name if target else "null"])
 			continue
 		
 		await _tick_statuses_start(actor, battle_context)
 		
 		if _should_exit_action(actor, target):
+			print_debug("BATTLE: entry exit after statuses_start actor=%s target=%s" % [actor.name, target.name if target else "null"])
 			continue
 		
 		if entry.action is Move:
 			target = _resolve_move_target(actor, target, entry.action)
+			print_debug("BATTLE: resolved move target=%s" % [target.name if target else "null"])
 			
 		await entry.action.execute(actor, target, battle_context)
+		print_debug("BATTLE: action execute complete action=%s actor=%s target=%s" % [entry.action, actor.name, target.name if target else "null"])
 		
 		if _should_exit_action(actor, target):
+			print_debug("BATTLE: entry exit after action actor=%s target=%s" % [actor.name, target.name if target else "null"])
 			continue
 		
 		if await _handle_post_action(target):
+			print_debug("BATTLE: post_action ended battle for target=%s" % [target.name if target else "null"])
 			return
 		
 		if _should_exit_action(actor, target):
+			print_debug("BATTLE: entry exit after post_action actor=%s target=%s" % [actor.name, target.name if target else "null"])
 			continue
 		
 		await _tick_statuses_end(actor, battle_context)
+		print_debug("BATTLE: entry end statuses_end actor=%s" % [actor.name])
+		
+		if battle.enemy_actor and battle.enemy_actor.is_fainted:
+			if await _handle_post_action(battle.enemy_actor):
+				return
+		elif battle.player_actor and battle.player_actor.is_fainted:
+			if await _handle_post_action(battle.player_actor):
+				return
 		
 	_reset_turn_state()
 
 
 func _should_exit_action(actor: Monster, target: Monster) -> bool:
-	return not actor.is_able_to_act or not target.is_able_to_act
+	var should_exit = not actor.is_able_to_act or not target.is_able_to_act
+	if should_exit:
+		print_debug("BATTLE: should_exit_action actor=%s target=%s actor_can_act=%s target_can_act=%s" \
+				% [actor.name, target.name if target else "null", actor.is_able_to_act, target.is_able_to_act])
+	return should_exit
 
 
 func _tick_statuses_start(actor: Monster, context: BattleContext) -> void:
@@ -143,21 +174,30 @@ func _resolve_move_target(actor: Monster, target: Monster, move: Move) -> Monste
 
 func _handle_post_action(target: Monster) -> bool:
 	if target and target.is_fainted and not target.is_player_monster:
+		print_debug("BATTLE: post_action target fainted target=%s is_player=%s" % [target.name, target.is_player_monster])
+		print_debug("BATTLE: fainted enemy %s. Waiting for EXP distribution to finish." % [target.name])
 		await Global.player_done_giving_exp
+		print_debug("BATTLE: EXP distribution complete.")
 	
 	if not _check_enemy_actor_able_to_fight():
+		print_debug("BATTLE: enemy actor not able to fight")
 		if _check_enemy_out_of_monsters():
+			print_debug("BATTLE: enemy out of monsters -> win.")
 			_win()
 			return true
 		else:
+			print_debug("BATTLE: enemy needs new monster -> force switch.")
 			await _force_enemy_send_new_monster() 
 			return false
 	
 	if not _check_player_actor_able_to_fight():
+		print_debug("BATTLE: player actor not able to fight")
 		if _check_player_out_of_monsters():
+			print_debug("BATTLE: player out of monsters -> lose.")
 			_lose()
 			return true
 		else:
+			print_debug("BATTLE: player needs new monster -> force switch.")
 			await _force_player_send_new_monster()
 			return false
 
@@ -173,15 +213,20 @@ func _check_enemy_actor_able_to_fight() -> bool:
 
 
 func _force_player_send_new_monster():
+	print_debug("BATTLE: force_player_send_new_monster begin")
 	Global.request_forced_switch.emit()
+	print_debug("BATTLE: waiting for send_selected_force_switch")
 	var target = await Global.send_selected_force_switch
+	print_debug("BATTLE: received forced switch target=%s" % [target.name if target else "null"])
 	
 	var switch = Switch.new()
 	switch.actor = battle.player_actor
 	switch.target = target
 	
 	var battle_context = BattleContext.new(self, battle)
+	print_debug("BATTLE: executing forced player switch actor=%s target=%s" % [switch.actor.name, switch.target.name])
 	await switch.execute(switch.actor, switch.target, battle_context)
+	print_debug("BATTLE: forced player switch complete")
 
 
 func _force_enemy_send_new_monster():
@@ -191,6 +236,7 @@ func _force_enemy_send_new_monster():
 			available_monsters.append(monster)
 	
 	var next_monster = available_monsters.pick_random()
+	print_debug("BATTLE: enemy force switch available=%s picked=%s" % [available_monsters.size(), next_monster.name if next_monster else "null"])
 	var switch = Switch.new()
 	
 	switch.actor = battle.enemy_actor
@@ -199,10 +245,13 @@ func _force_enemy_send_new_monster():
 	switch.in_unformatted = "Enemy %s sent out %%s." % [battle.enemy_trainer.npc_name]
 	
 	var battle_context = BattleContext.new(self, battle)
+	print_debug("BATTLE: executing forced enemy switch actor=%s target=%s" % [switch.actor.name, switch.target.name])
 	await switch.execute(switch.actor, switch.target, battle_context)
+	print_debug("BATTLE: forced enemy switch complete")
 
 
 func _reset_turn_state() -> void:
+	print_debug("BATTLE: reset turn state")
 	turn_queue.clear()
 	battle.processing = true
 	executing_turn = false

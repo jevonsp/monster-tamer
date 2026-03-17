@@ -6,7 +6,7 @@ var actor: Monster = null
 @onready var hp_bar: ProgressBar = $VBoxContainer/HBoxContainer1/VBoxContainer/HPBar
 @onready var player_exp_bar: ProgressBar = $VBoxContainer/HBoxContainer1/VBoxContainer/PlayerEXPBar
 
-func update_actor(a):
+func update_actor(a: Monster) -> void:
 	for node in [
 		name_label,
 		player_level_label,

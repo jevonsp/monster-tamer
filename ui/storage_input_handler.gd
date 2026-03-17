@@ -1,7 +1,7 @@
 extends Node
 @onready var storage: Control = $".."
 #region Helper Nodes
-@onready var visiblity_focus_handler: Node = $"../Visiblity&FocusHandler"
+@onready var visiblity_focus_handler: Node = $"../Visibility&FocusHandler"
 @onready var update_handler: Node = $"../UpdateHandler"
 #endregion
 
@@ -23,7 +23,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			if event.is_action_pressed("no"):
 				visiblity_focus_handler._toggle_visible()
 		storage.State.MOVING:
-			storage.cancel_move()
+			if event.is_action_pressed("no"):
+				storage.cancel_move()
 
 func _on_monster_pressed(b: Button) -> void:
 	match storage.state:

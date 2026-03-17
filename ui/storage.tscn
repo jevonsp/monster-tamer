@@ -19,7 +19,7 @@ script = ExtResource("1_3akcg")
 [node name="UpdateHandler" type="Node" parent="." unique_id=1012723756]
 script = ExtResource("4_jsr3y")
 
-[node name="Visiblity&FocusHandler" type="Node" parent="." unique_id=1791051965]
+[node name="Visibility&FocusHandler" type="Node" parent="." unique_id=1791051965]
 script = ExtResource("3_7pa4g")
 
 [node name="InputHandler" type="Node" parent="." unique_id=1265144151]

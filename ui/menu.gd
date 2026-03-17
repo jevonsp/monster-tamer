@@ -52,7 +52,7 @@ func _on_focus_entered(button: Button) -> void:
 
 
 func _toggle_visible() -> void:
-	visible = !visible
+	visible = not visible
 	processing = not processing
 	if visible:
 		_focus_default()
@@ -71,7 +71,7 @@ func _focus_default() -> void:
 		buttons[0].grab_focus()
 
 
-func _start_save_process():
+func _start_save_process() -> void:
 	var text_array: Array[String] = ["Would you like to save the game?"]
 	Global.send_text_box.emit(self, text_array, false, true, false)
 	await Global.text_box_complete
@@ -82,7 +82,6 @@ func _start_save_process():
 
 func _finish_save_process() -> void:
 	SaverLoader.save_game()
-	print("saved game")
 
 
 func trigger() -> void:
