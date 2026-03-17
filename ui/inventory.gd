@@ -1,11 +1,11 @@
 extends Control
 const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
+enum Mode { BROWSE, PICK_USE_TARGET, PICK_GIVE_TARGET }
 var processing: bool = false
-var is_using: bool = false
-var is_giving: bool = false
+var mode: Mode = Mode.BROWSE
 var is_trainer_battle: bool = false
-var last_focused_option: Button = null
-var last_focused_button: Button = null
+var last_selected_option: Button = null
+var last_selected_item_button: Button = null
 @onready var interfaces: CanvasLayer = $".."
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
@@ -67,8 +67,8 @@ func _bind_buttons() -> void:
 func _connect_signals() -> void:
 	Global.send_player_inventory.connect(_on_inventory_change)
 	Global.request_open_inventory.connect(_toggle_visible)
-	Global.set_inventory_use.connect(_toggle_using)
-	Global.set_inventory_give.connect(_toggle_giving)
+	Global.set_inventory_use.connect(_set_mode_use_target)
+	Global.set_inventory_give.connect(_set_mode_give_target)
 	Global.trainer_battle_requested.connect(func(_trainer): is_trainer_battle = true)
 	Global.battle_ended.connect(func(): is_trainer_battle = false)
 
@@ -91,47 +91,76 @@ func _create_item(amount: int, item: Item) -> void:
 	inventory_panel.pressed.connect(_on_inventory_panel_pressed.bind(inventory_panel))
 
 
+func _set_item_focus(inventory_panel: Button) -> void:
+	last_selected_item_button = inventory_panel
+
+
+func _can_use_outside_battle(item: Item) -> bool:
+	return item.use_effect != null
+
+
+func _can_give_to_monster(item: Item) -> bool:
+	# "Give" means held item. Disallow balls and consumables.
+	if item.catch_effect != null:
+		return false
+	if item.use_effect != null:
+		return false
+	return item.held_effect != null
+
+
+func _set_mode_use_target(value: bool) -> void:
+	mode = Mode.PICK_USE_TARGET if value else Mode.BROWSE
+
+
+func _set_mode_give_target(value: bool) -> void:
+	mode = Mode.PICK_GIVE_TARGET if value else Mode.BROWSE
+
+
 func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
-	last_focused_button = inventory_panel
-	var item: Item = last_focused_button.item_repr
+	_set_item_focus(inventory_panel)
+	var item: Item = inventory_panel.item_repr
 	match interfaces.ui_context:
 		Global.AccessFrom.INVENTORY:
 			_toggle_options_visible()
 		Global.AccessFrom.PARTY:
-			if is_using and item.held_effect != null:
-				await show_cant_use_text()
-				return
-			if is_giving and item.held_effect == null:
-				await show_cant_hold_text()
-				return
-			if is_using and item.use_effect == null:
-				await show_cant_use_text()
-				return
+			match mode:
+				Mode.PICK_GIVE_TARGET:
+					if not _can_give_to_monster(item):
+						await show_cant_hold_text()
+						return
+				Mode.PICK_USE_TARGET:
+					if not _can_use_outside_battle(item):
+						await show_cant_use_text()
+						return
+				_:
+					if not _can_use_outside_battle(item):
+						await show_cant_use_text()
+						return
 			_toggle_visible()
-			_toggle_giving(false)
-			_toggle_using(false)
+			mode = Mode.BROWSE
 			Global.item_selected.emit(item)
 			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 			Global.request_open_party.emit()
 		Global.AccessFrom.BATTLE:
 			if item.use_effect == null and item.catch_effect == null:
 				await show_cant_use_in_battle_text()
-				last_focused_button.grab_focus()
+				last_selected_item_button.grab_focus()
 				return
 			if is_trainer_battle and item.catch_effect:
 				await show_cant_use_in_trainer_battle_text()
-				last_focused_button.grab_focus()
+				last_selected_item_button.grab_focus()
 				return
 			Global.add_item_to_turn_queue.emit(item)
 			Global.item_used.emit(item)
 			_toggle_visible()
-			_toggle_giving(false)
-			_toggle_using(false)
+			mode = Mode.BROWSE
 
 
 func _on_option_pressed(button: Button) -> void:
-	var item: Item = last_focused_button.item_repr
-	last_focused_option = button
+	if last_selected_item_button == null:
+		return
+	var item: Item = last_selected_item_button.item_repr
+	last_selected_option = button
 	match button.name:
 		"Use":
 			use(item)
@@ -144,11 +173,10 @@ func _toggle_visible() -> void:
 	processing = not processing
 	_focus_default()
 	if not visible:
-		last_focused_button = null
-		last_focused_option = option_buttons.use
-		if interfaces.ui_context == Global.AccessFrom.PARTY:
-			_toggle_giving(false)
-			_toggle_using(false)
+		last_selected_item_button = null
+		last_selected_option = option_buttons.use
+		mode = Mode.BROWSE
+		options_box.visible = false
 		if interfaces.ui_context != Global.AccessFrom.BATTLE:
 			Global.switch_ui_context.emit(Global.AccessFrom.NONE)
 
@@ -162,45 +190,42 @@ func _toggle_options_visible() -> void:
 
 
 func _focus_default() -> void:
-	if last_focused_button == null:
+	if last_selected_item_button == null:
 		var child_count: int = v_box_container.get_child_count()
 		if child_count <= 0:
 			return
 		var first_child: Button = v_box_container.get_child(0)
 		if first_child:
+			last_selected_item_button = first_child
 			first_child.grab_focus()
 	else:
-		last_focused_button.grab_focus()
+		last_selected_item_button.grab_focus()
 
 
 func _focus_option_default() -> void:
-	if last_focused_option != null:
-		last_focused_option.grab_focus()
+	if last_selected_option != null:
+		last_selected_option.grab_focus()
 	else:
 		option_buttons.use.grab_focus()
 
 
 func use(item: Item) -> void:
-	if item.use_effect == null:
-		show_cant_use_text()
-		return
 	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
 		_toggle_options_visible()
 		_toggle_visible()
 		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+		_set_mode_use_target(true)
 		Global.request_open_party.emit()
 		var monster: Monster = await Global.monster_selected
 		Global.use_item_on.emit(item, monster)
 
 
 func give(item: Item) -> void:
-	if item.held_effect == null:
-		await show_cant_hold_text()
-		return
 	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
 		_toggle_options_visible()
 		_toggle_visible()
 		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+		_set_mode_give_target(true)
 		Global.request_open_party.emit()
 		var monster: Monster = await Global.monster_selected
 		Global.give_item_to.emit(item, monster)
@@ -228,11 +253,3 @@ func show_cant_hold_text() -> void:
 	var ta: Array[String] = ["That item isn't holdable!"]
 	Global.send_text_box.emit(self, ta, true, false, false)
 	await Global.text_box_complete
-
-
-func _toggle_using(value: bool) -> void:
-	is_using = value
-
-
-func _toggle_giving(value: bool) -> void:
-	is_giving = value

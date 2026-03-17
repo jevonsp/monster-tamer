@@ -190,7 +190,7 @@ func _on_option_pressed(button: Button) -> void:
 			print_debug("Give not implemented")
 			give()
 		"Summary":
-			_open_monster_summary(party_ref[last_focused_monster])
+			_open_monster_summary(last_selected_monster.actor)
 		"Move":
 			start_moving()
 	get_viewport().set_input_as_handled()
