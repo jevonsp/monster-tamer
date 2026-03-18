@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c1cgwgjnj8eje" path="res://ui/storage.gd" id="1_3akcg"]
 [ext_resource type="Texture2D" uid="uid://daakn8svovn2f" path="res://monsters/fox_mcleaf/fox_mcleaf_remake.png" id="2_iann6"]
-[ext_resource type="Script" uid="uid://buaxjmoio8ia7" path="res://ui/storage_visiblity&focus_handler.gd" id="3_7pa4g"]
+[ext_resource type="Script" uid="uid://buaxjmoio8ia7" path="res://ui/storage_visibility&focus_handler.gd" id="3_7pa4g"]
 [ext_resource type="PackedScene" uid="uid://bnuc18rhqu7vf" path="res://ui/storage_button.tscn" id="3_o6mah"]
 [ext_resource type="Script" uid="uid://bnir4gws1aoh4" path="res://ui/storage_update_handler.gd" id="4_jsr3y"]
 [ext_resource type="Script" uid="uid://bl2ajfxg0i8xv" path="res://ui/storage_input_handler.gd" id="4_ttbmr"]

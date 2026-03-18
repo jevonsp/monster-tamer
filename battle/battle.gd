@@ -40,9 +40,9 @@ var enemy_party: Array[Monster] = []
 ]
 #endregion
 
-@onready var ui_handler: Node = $UIHandler
 @onready var battle_handler: Node = $BattleHandler
-@onready var input_handler: Node = $InputHandler
+@onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
+
 
 #region LIFECYCLE
 func _ready() -> void:
@@ -56,18 +56,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	if battle_handler.executing_turn:
 		return
 	if event.is_action_pressed("no"):
-		match input_handler.vis_state:
-			input_handler.VisibilityState.OPTIONS:
+		match visibility_focus_handler.vis_state:
+			visibility_focus_handler.VisibilityState.OPTIONS:
 				run_button.grab_focus()
-			input_handler.VisibilityState.MOVES:
-				input_handler._change_vis_state(input_handler.VisibilityState.OPTIONS)
+			visibility_focus_handler.VisibilityState.MOVES:
+				visibility_focus_handler._change_vis_state(visibility_focus_handler.VisibilityState.OPTIONS)
 
 
 func _toggle_visible() -> void:
 	visible = !visible
 	processing = !processing
 	if visible:
-		input_handler._focus_default()
+		visibility_focus_handler._focus_default()
 		player_display["exp_bar"].active = true
 	else:
 		player_display["exp_bar"].active = false
@@ -83,14 +83,14 @@ func _connect_signals() -> void:
 	Global.wild_battle_requested.connect(_start_wild_battle)
 	Global.switch_battle_actors.connect(switch_actors)
 	Global.trainer_battle_requested.connect(_start_trainer_battle)
-	input_handler._connect_signals()
+	visibility_focus_handler._connect_signals()
 
 
 func _bind_buttons() -> void:
 	for button in get_tree().get_nodes_in_group("option_buttons"):
-		button.pressed.connect(input_handler._on_option_pressed.bind(button))
+		button.pressed.connect(visibility_focus_handler._on_option_pressed.bind(button))
 	for button in get_tree().get_nodes_in_group("move_buttons"):
-		button.pressed.connect(input_handler._on_move_pressed.bind(button))
+		button.pressed.connect(visibility_focus_handler._on_move_pressed.bind(button))
 #endregion
 
 #region BATTLE FLOW
@@ -120,11 +120,11 @@ func _start_trainer_battle(trainer: Trainer) -> void:
 
 
 func _switch_to_battle() -> void:
-	ui_handler._display_current_monsters()
+	visibility_focus_handler._display_current_monsters()
 	_toggle_player()
 	_toggle_visible()
-	ui_handler.animation_player.play("both_switch_in")
-	await ui_handler.animation_player.animation_finished
+	visibility_focus_handler.animation_player.play("both_switch_in")
+	await visibility_focus_handler.animation_player.animation_finished
 	processing = true
 
 
@@ -163,7 +163,7 @@ func switch_actors(old: Monster, new: Monster) -> void:
 			player_actor.was_active_in_battle = true
 	elif old == enemy_actor:
 		enemy_actor = new
-	ui_handler._display_current_monsters()
+	visibility_focus_handler._display_current_monsters()
 
 
 func _check_player_actor_fainted() -> bool:
@@ -184,8 +184,8 @@ func _clear_all() -> void:
 	enemy_trainer = null
 	player_party = []
 	enemy_party = []
-	ui_handler._clear_actor_references()
-	ui_handler._clear_textures()
+	visibility_focus_handler._clear_actor_references()
+	visibility_focus_handler._clear_textures()
 	battle_handler.turn_queue.clear()
 	battle_handler.executing_turn = false
 	processing = false

@@ -15,7 +15,7 @@ func _execute_player_turn(action) -> void:
 	print_debug("BATTLE: _execute_player_turn action=%s" % [action])
 	if _add_action_to_queue(action, battle.player_actor):
 		battle.processing = false
-		battle.input_handler._manage_focus()
+		battle.visibility_focus_handler._manage_focus()
 		print_debug("BATTLE: player action queued; requesting enemy action")
 		_get_enemy_action()
 		print_debug("BATTLE: executing turn queue size=%s" % [turn_queue.size()])
@@ -255,7 +255,7 @@ func _reset_turn_state() -> void:
 	turn_queue.clear()
 	battle.processing = true
 	executing_turn = false
-	battle.input_handler._manage_focus()
+	battle.visibility_focus_handler._manage_focus()
 
 
 func _sort_turn_queue() -> void:
