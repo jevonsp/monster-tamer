@@ -5,6 +5,7 @@ var processing: bool = false
 var is_move_focused: bool = false
 var is_learning_move: bool = false
 var move_learning: Move = null
+var learning_monster: Monster = null
 var is_moving_move: bool = false
 var party: Array[Monster] = []
 var index: int = -1
@@ -68,6 +69,7 @@ func _connect_signals() -> void:
 	Global.battle_started.connect(_on_battle_started)
 	Global.battle_ended.connect(_on_battle_ended)
 	Global.request_summary_learn_move.connect(_on_request_summary_learn_move)
+	Global.request_summary_move_learning.connect(_resolve_move_learning)
 
 
 func _bind_buttons() -> void:
@@ -129,6 +131,8 @@ func _handle_move_focused_input(event: InputEvent) -> void:
 func _handle_learning_input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):
 		handle_cancel_learning()
+	if event.is_action("yes"):
+		ask_remove_move()
 
 
 func _clear_monster() -> void:
@@ -211,6 +215,7 @@ func _toggle_visible(monster: Monster = null) -> void:
 			is_learning_move = false
 			is_moving_move = false
 			move_learning = null
+			learning_monster = null
 
 
 func _set_player_party(p: Array[Monster]) -> void:
@@ -269,13 +274,87 @@ func _on_request_summary_learn_move(move: Move) -> void:
 	move_learning = move
 
 
-func handle_cancel_learning() -> void:
-	var text_array: Array[String] = ["Are you sure you want %s to stop learning %s" % \
-			[party[index].name, move_learning.name]]
+func _resolve_move_learning(monster: Monster, move: Move) -> void:
+	learning_monster = monster
+	move_learning = move
+
+	var learn_index := monster.get_learn_index()
+	if learn_index >= 0:
+		print_debug("EXP: %s learning move in empty slot index=%s" % [monster.name, learn_index])
+		monster.learn_move(move, learn_index)
+		await _announce_move_learned(monster, move)
+		Global.move_learning_finished.emit()
+		return
+
+	print_debug("EXP: %s has 4 moves; entering summary move learning" % [monster.name])
+	var decided := false
+	while not decided:
+		Global.send_text_box.emit(
+			monster,
+			["%s is trying to learn %s, but already knows four moves. Delete one?" % [monster.name, move.name]],
+			false,
+			true,
+			false
+		)
+		var answer = await Global.answer_given
+		if not answer:
+			decided = await handle_cancel_learning()
+			continue
+		decided = true
+
+	is_learning_move = true
+	Global.request_summary_learn_move.emit(move)
+	if not visible:
+		_toggle_visible(monster)
+	else:
+		_display_monster(monster)
+		var idx = party.find(monster)
+		if idx != -1:
+			_set_party_index(idx)
+	processing = true
+	_focus_default_move()
+
+func ask_remove_move() -> void:
+	if last_focused_move_button == null or move_learning == null or learning_monster == null:
+		return
+	var move_removing = last_focused_move_button.move
+	if move_removing == null:
+		return
+	var text_array: Array[String] = ["Are you sure you want to remove %s for %s?" % \
+			[move_removing.name, move_learning.name]]
 	Global.send_text_box.emit(null, text_array, false, true, false)
 	var answer = await Global.answer_given
 	if answer:
-		text_array = ["%s did not learn %s" % [party[index].name, move_learning.name]]
+		var replacing_index := move_panels.find(last_focused_move_button)
+		if replacing_index == -1:
+			return
+		learning_monster.learn_move(move_learning, replacing_index)
+		_display_monster(learning_monster)
+		_unfocus_moves()
+		is_learning_move = false
+		await _announce_move_learned(learning_monster, move_learning)
 		_toggle_visible()
-	else:
-		pass
+		Global.move_learning_finished.emit()
+
+func handle_cancel_learning() -> bool:
+	if learning_monster == null or move_learning == null:
+		return false
+	var text_array: Array[String] = ["Are you sure you want %s to stop learning %s" % \
+			[learning_monster.name, move_learning.name]]
+	Global.send_text_box.emit(null, text_array, false, true, false)
+	var answer = await Global.answer_given
+	if answer:
+		text_array = ["%s did not learn %s" % [learning_monster.name, move_learning.name]]
+		Global.send_text_box.emit(null, text_array, false, false, false)
+		await Global.text_box_complete
+		if visible:
+			_toggle_visible()
+		Global.move_learning_finished.emit()
+		return true
+	return false
+
+
+func _announce_move_learned(monster: Monster, move: Move) -> void:
+	Global.send_text_box.emit(monster, ["%s learned %s." % [monster.name, move.name]], false, false, false)
+	await Global.text_box_complete
+	print_debug("EXP: %s learn_move text complete" % [monster.name])

@@ -7,6 +7,7 @@ var executing_turn: bool = false
 func _ready() -> void:
 	Global.add_item_to_turn_queue.connect(_execute_player_turn)
 	Global.add_switch_to_turn_queue.connect(_execute_player_turn)
+	Global.request_battle_level_up_resolution.connect(_resolve_level_up)
 
 
 func _execute_player_turn(action) -> void:
@@ -173,11 +174,7 @@ func _resolve_move_target(actor: Monster, target: Monster, move: Move) -> Monste
 
 
 func _handle_post_action(target: Monster) -> bool:
-	if target and target.is_fainted and not target.is_player_monster:
-		print_debug("BATTLE: post_action target fainted target=%s is_player=%s" % [target.name, target.is_player_monster])
-		print_debug("BATTLE: fainted enemy %s. Waiting for EXP distribution to finish." % [target.name])
-		await Global.player_done_giving_exp
-		print_debug("BATTLE: EXP distribution complete.")
+	await _resolve_faint_aftermath(target)
 	
 	if not _check_enemy_actor_able_to_fight():
 		print_debug("BATTLE: enemy actor not able to fight")
@@ -202,6 +199,46 @@ func _handle_post_action(target: Monster) -> bool:
 			return false
 
 	return false
+
+
+func _resolve_faint_aftermath(target: Monster) -> void:
+	if target == null or not target.is_fainted:
+		return
+
+	print_debug("BATTLE: post_action target fainted target=%s is_player=%s" % [target.name, target.is_player_monster])
+	var text_array: Array[String] = ["%s fainted!" % [target.name]]
+	Global.send_text_box.emit(null, text_array, true, false, false)
+	await Global.text_box_complete
+	print_debug("BATTLE: %s faint text complete" % [target.name])
+
+	if target.is_player_monster:
+		return
+
+	var exp_amount = Monster.EXPERIENCE_PER_LEVEL * target.level
+	print_debug("BATTLE: %s send_monster_death_experience amount=%s" % [target.name, exp_amount])
+	Global.send_monster_death_experience.emit(exp_amount)
+	print_debug("BATTLE: fainted enemy %s. Waiting for EXP distribution to finish." % [target.name])
+	await Global.player_done_giving_exp
+	print_debug("BATTLE: EXP distribution complete.")
+
+
+func _resolve_level_up(monster: Monster, amount: int) -> void:
+	print_debug("EXP: resolving level-up in battle for %s amount=%s level=%s" % [monster.name, amount, monster.level])
+	var text_array: Array[String] = ["%s leveled up to %s." % [monster.name, monster.level]]
+	Global.send_text_box.emit(null, text_array, false, false, false)
+	await Global.text_box_complete
+	print_debug("EXP: %s level-up text complete" % [monster.name])
+
+	if monster.check_should_gain_moves():
+		print_debug("EXP: %s should gain move at level=%s" % [monster.name, monster.level])
+		var move_to_learn: Move = monster.get_move_to_learn()
+		if move_to_learn != null:
+			Global.request_summary_move_learning.emit(monster, move_to_learn)
+			print_debug("EXP: %s waiting for move_learning_finished" % [monster.name])
+			await Global.move_learning_finished
+			print_debug("EXP: %s move_learning_finished" % [monster.name])
+
+	Global.battle_level_up_resolution_complete.emit()
 
 
 func _check_player_actor_able_to_fight() -> bool:

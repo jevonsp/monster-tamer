@@ -153,15 +153,6 @@ func faint():
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
 	print_debug("BATTLE: %s send_monster_fainted emitted" % [name])
-	var ta: Array[String] = ["%s fainted!" % [name]]
-	
-	Global.send_text_box.emit(null, ta, true, false, not Player.in_battle)
-	await Global.text_box_complete
-	
-	print_debug("BATTLE: %s faint text complete" % [name])
-	if not is_player_monster:
-		print_debug("BATTLE: %s send_monster_death_experience amount=%s" % [name, EXPERIENCE_PER_LEVEL * level])
-		Global.send_monster_death_experience.emit(EXPERIENCE_PER_LEVEL * level)
 	
 	
 func heal(amount: int, revives: bool = false) -> void:
@@ -195,7 +186,7 @@ func gain_exp(amount: int, in_battle: bool = false) -> void:
 			print_debug("EXP: %s experience_animation_complete" % [name])
 		if experience >= get_next_level_exp():
 			print_debug("EXP: %s level up triggered" % [name])
-			await gain_level()
+			await gain_level(1, in_battle)
 
 
 func give(item: Item) -> void:
@@ -210,28 +201,25 @@ func get_next_level_exp() -> int:
 	return EXPERIENCE_PER_LEVEL * level
 
 
-func gain_level(amount: int = 1) -> void:
+func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 	level += amount
+	set_stats()
 	print_debug("EXP: %s gain_level amount=%s -> level=%s" % [name, amount, level])
 	Global.monster_gained_level.emit(self, amount)
-	var ta: Array[String] = ["%s leveled up to %s." % [name, level]]
-	Global.send_text_box.emit(null, ta, false, false, false)
-	await Global.text_box_complete
-	print_debug("EXP: %s level-up text complete" % [name])
-	if check_should_gain_moves():
-		print_debug("EXP: %s should gain move at level=%s" % [name, level])
-		if get_learn_index() >= 0:
-			print_debug("EXP: %s learning move in empty slot index=%s" % [name, get_learn_index()])
-			await learn_move(monster_data.moves[level], get_learn_index())
-		else:
-			print_debug("EXP: %s has 4 moves; entering decide_move" % [name])
-			await decide_move(monster_data.moves[level])
-	set_stats()
+	if in_battle:
+		print_debug("EXP: %s waiting for battle-side level-up resolution" % [name])
+		Global.request_battle_level_up_resolution.emit(self, amount)
+		await Global.battle_level_up_resolution_complete
+		print_debug("EXP: %s battle-side level-up resolution complete" % [name])
 	print_debug("EXP: %s gain_level complete" % [name])
 	
 	
 func check_should_gain_moves() -> bool:
 	return monster_data.moves.has(level)
+
+
+func get_move_to_learn() -> Move:
+	return monster_data.moves.get(level)
 	
 	
 func get_learn_index() -> int:
@@ -241,39 +229,9 @@ func get_learn_index() -> int:
 	return -1
 	
 	
-func decide_move(move: Move) -> void:
-	var decided = false
-	while not decided:
-		var ta: Array[String] = \
-				["%s is trying to learn %s, but already knows four moves. Delete one?" % [name, move.name]]
-		Global.send_text_box.emit(self, ta, false, true, false)
-		var answer = await Global.answer_given
-		if answer:
-			decided = true
-			Global.request_summary_learn_move.emit(move)
-			Global.request_open_summary.emit(self)
-			print_debug("EXP: %s waiting for move_learning_finished" % [name])
-			await Global.move_learning_finished
-			print_debug("EXP: %s move_learning_finished" % [name])
-		else:
-			ta = ["Are you sure you want %s to stop learning %s" % [name, move.name]]
-			Global.send_text_box.emit(self, ta, false, true, false)
-			var confirmed_skip = await Global.answer_given
-			if confirmed_skip:
-				decided = true
-				ta = ["%s did not learn %s" % [name, move.name]]
-				Global.send_text_box.emit(self, ta, false, false, false)
-	
-	
 func learn_move(move: Move, index: int) -> void:
 	print_debug("EXP: %s learn_move %s at index=%s" % [name, move.name, index])
 	moves[index] = move
-	var ta: Array[String] = ["%s learned %s." % [name, move.name]]
-	if Player.in_battle:
-		Global.send_text_box.emit(self, ta, false, false, false)
-		
-	await Global.text_box_complete
-	print_debug("EXP: %s learn_move text complete" % [name])
 	
 	
 func attempt_catch(item: Item, _actor: Monster) -> Dictionary:

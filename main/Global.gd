@@ -36,6 +36,7 @@ signal out_of_battle_switch(index_one: int, index_two: int)
 #region Summary
 signal request_switch_moves(monster: Monster, index_one: int, index_two: int)
 signal request_summary_learn_move(move: Move)
+signal request_summary_move_learning(monster: Monster, move: Move)
 #endregion
 
 #region Inventory
@@ -110,6 +111,8 @@ signal monster_gained_experience(target: Monster, amount: int)
 signal experience_animation_complete
 signal player_done_giving_exp
 signal monster_gained_level(target: Monster, amount: int)
+signal request_battle_level_up_resolution(monster: Monster, amount: int)
+signal battle_level_up_resolution_complete
 signal grab_default_battle_focus
 signal switch_battle_actors(old: Monster, new: Monster)
 signal send_monster_switch_out(target: Monster)

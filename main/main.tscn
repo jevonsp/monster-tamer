@@ -81,6 +81,8 @@ visible = false
 focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 
+[node name="LevelUpHelper" type="Node" parent="Interfaces" unique_id=947033967]
+
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
