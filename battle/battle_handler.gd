@@ -7,6 +7,7 @@ const ActionQueueBuilder = preload("res://battle/action_queue_builder.gd")
 var turn_queue: Array[Dictionary] = []
 var executing_turn: bool = false
 var action_queue_builder := ActionQueueBuilder.new()
+var is_escaped: bool = false
 
 
 func _ready() -> void:
@@ -31,6 +32,14 @@ func _execute_player_turn(action) -> void:
 			_reset_turn_state()
 
 
+func _attempt_run() -> void:
+	if executing_turn or not battle.processing:
+		return
+	print_debug("BATTLE: _attempt_run action")
+	var action = Run.new()
+	_execute_player_turn(action)
+	
+	
 func _reset_turn_state() -> void:
 	print_debug("BATTLE: reset turn state")
 	turn_queue.clear()

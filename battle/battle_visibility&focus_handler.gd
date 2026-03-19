@@ -10,6 +10,7 @@ var _last_selected_by_state: Dictionary = {
 }
 @onready var battle: Control = $".."
 @onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
+@onready var turn_executor: Node = $"../TurnExecutor"
 
 func _connect_signals() -> void:
 	Global.on_inventory_closed.connect(_focus_default)
@@ -71,7 +72,7 @@ func _on_option_pressed(button: Button) -> void:
 		"Fight":
 			_change_vis_state(VisibilityState.MOVES)
 		"Run":
-			battle.end_battle()
+			battle.battle_handler._attempt_run()
 		"Item":
 			Global.request_open_inventory.emit()
 
@@ -143,6 +144,7 @@ func _clear_actor_references() -> void:
 func _clear_textures() -> void:
 	battle.player_display["texture"].texture = null
 	battle.enemy_display["texture"].texture = null
+	animation_player.play("RESET")
 
 
 func _update_moves() -> void:

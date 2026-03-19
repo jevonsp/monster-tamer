@@ -1,6 +1,6 @@
 extends Node
 @onready var battle: Control = $".."
-
+var run_count: int = 0
 
 func execute_turn_queue(
 	handler: Node,
@@ -41,7 +41,9 @@ func execute_turn_queue(
 		if entry.action is Move:
 			target = _resolve_move_target(actor, target, entry.action)
 			print_debug("BATTLE: resolved move target=%s" % [target.name if target else "null"])
-
+		if entry.action is Run:
+			run_count += 1
+			
 		await entry.action.execute(actor, target, battle_context)
 		print_debug(
 			"BATTLE: action execute complete action=%s actor=%s target=%s"

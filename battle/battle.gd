@@ -42,6 +42,7 @@ var enemy_party: Array[Monster] = []
 
 @onready var battle_handler: Node = $BattleHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
+@onready var turn_executor: Node = $TurnExecutor
 
 
 #region LIFECYCLE
@@ -188,5 +189,6 @@ func _clear_all() -> void:
 	visibility_focus_handler._clear_textures()
 	battle_handler.turn_queue.clear()
 	battle_handler.executing_turn = false
+	turn_executor.run_count = 0
 	processing = false
 #endregion

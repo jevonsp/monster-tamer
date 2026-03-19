@@ -27,6 +27,14 @@ func add_action_to_queue(
 			"actor": action.actor,
 			"target": action.target
 		})
+	elif action is Run:
+		var target = battle.enemy_actor if actor == battle.player_actor else battle.player_actor
+		print_debug("BATTLE: queue run actor=%s target=%s" % [actor.name, target.name])
+		turn_queue.append({
+			"action": action,
+			"actor": actor,
+			"target": target
+		})
 	return true
 
 

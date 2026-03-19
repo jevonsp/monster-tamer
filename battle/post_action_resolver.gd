@@ -4,8 +4,12 @@ extends Node
 
 
 func handle_post_action(target: Monster, handler: Node) -> bool:
+	if handler.is_escaped:
+		_escape()
+		return true
+	
 	await _resolve_faint_aftermath(target)
-
+	
 	if not _check_enemy_actor_able_to_fight():
 		print_debug("BATTLE: enemy actor not able to fight")
 		if _check_enemy_out_of_monsters():
@@ -110,3 +114,7 @@ func _lose() -> void:
 	await Global.text_box_complete
 	battle.end_battle()
 	Global.send_respawn_player.emit()
+	
+	
+func _escape() -> void:
+	battle.end_battle()
