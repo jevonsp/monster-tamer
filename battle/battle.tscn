@@ -675,3 +675,9 @@ script = ExtResource("12_t8p1f")
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_iorop")
 script = ExtResource("11_hvjow")
+
+[node name="PostActionResolver" type="Node" parent="." unique_id=507874397]
+
+[node name="ForcedSwitchHandler" type="Node" parent="." unique_id=2077464127]
+
+[node name="TurnExecutor" type="Node" parent="." unique_id=1144879331]
