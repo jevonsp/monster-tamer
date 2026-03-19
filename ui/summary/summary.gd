@@ -1,6 +1,6 @@
 extends Control
-const DEFAULT_STYLE: StyleBoxFlat = preload("res://ui/new_style_box_flat_default.tres")
-const RED_STYLE: StyleBoxFlat = preload("res://ui/new_style_box_flat_red.tres")
+const DEFAULT_STYLE: StyleBoxFlat = preload("res://ui/summary/new_style_box_flat_default.tres")
+const RED_STYLE: StyleBoxFlat = preload("res://ui/summary/new_style_box_flat_red.tres")
 var processing: bool = false
 var is_move_focused: bool = false
 var is_learning_move: bool = false

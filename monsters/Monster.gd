@@ -64,7 +64,7 @@ func set_stats() -> void:
 		monster_data.base_special_defense, 
 		monster_data.base_speed,
 	]
-	for i in range(5):
+	for i in range(stats.size()):
 		stats[i] = int((2 * base_stats[i] * level) / 100.0) + 5
 	
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
