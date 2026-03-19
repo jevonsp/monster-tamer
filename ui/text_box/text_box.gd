@@ -57,8 +57,9 @@ func _toggle_questions_visible() -> void:
 func _load_text(
 	obj: Node, ta: Array[String], auto_complete: bool, question: bool, toggle: bool
 		) -> void:
-	print_debug("TEXT: load in_battle=%s visible=%s auto=%s question=%s toggle_player=%s lines=%s obj=%s" \
-			% [in_battle_text_box, visible, auto_complete, question, toggle, ta.size(), obj])
+	if visible:
+		print_debug(\
+		"TEXT: load in_battle=%s auto=%s question=%s toggle_player=%s lines=%s obj=%s" % [in_battle_text_box, auto_complete, question, toggle, ta.size(), obj])
 	if not in_battle_text_box and Player.in_battle:
 		return
 	if in_battle_text_box and not Player.in_battle:

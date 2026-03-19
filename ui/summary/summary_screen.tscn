@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://0pg7xs4iidpt"]
 
-[ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary.tscn" id="2_thbka"]
+[ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary/summary.tscn" id="2_thbka"]
 
 [node name="SummaryScreen" type="CanvasLayer" unique_id=1479296266]
 

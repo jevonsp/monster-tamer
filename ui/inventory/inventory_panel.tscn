@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cq60mqy70b8je"]
 
-[ext_resource type="Script" uid="uid://cpcd6jfij0cjn" path="res://ui/inventory_panel.gd" id="1_shgow"]
+[ext_resource type="Script" uid="uid://cpcd6jfij0cjn" path="res://ui/inventory/inventory_panel.gd" id="1_shgow"]
 [ext_resource type="Texture2D" uid="uid://b3uqijcjsxeo1" path="res://world_objects/interactable/static_object/sign.png" id="2_2054l"]
 
 [node name="InventoryPanel" type="Button" unique_id=444482965]

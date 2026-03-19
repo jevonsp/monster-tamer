@@ -4,17 +4,17 @@
 [ext_resource type="Script" uid="uid://caqok8yjmcdwq" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="Script" uid="uid://bht67orrcfsor" path="res://ui/interfaces.gd" id="2_piupu"]
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="2_pjrb6"]
-[ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary.tscn" id="3_na0o7"]
+[ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary/summary.tscn" id="3_na0o7"]
 [ext_resource type="PackedScene" uid="uid://ba2j8pt8gyeia" path="res://world_objects/encounter/wild_zone.tscn" id="4_c651c"]
-[ext_resource type="PackedScene" uid="uid://bdu1o6lykdp4n" path="res://ui/inventory.tscn" id="5_4hmqs"]
+[ext_resource type="PackedScene" uid="uid://bdu1o6lykdp4n" path="res://ui/inventory/inventory.tscn" id="5_4hmqs"]
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="5_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
 [ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="8_67ri8"]
-[ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage.tscn" id="9_jofbb"]
-[ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box.tscn" id="9_n53tw"]
+[ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage/storage.tscn" id="9_jofbb"]
+[ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="9_n53tw"]
 [ext_resource type="PackedScene" uid="uid://jmc7gqpbmo2n" path="res://world_objects/interactable/npc/components/npc_respawn_component.tscn" id="10_0i4oc"]
-[ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu.tscn" id="11_bsumw"]
-[ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party.tscn" id="12_fwcvl"]
+[ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu/menu.tscn" id="11_bsumw"]
+[ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_item.tscn" id="15_5xyti"]
 [ext_resource type="PackedScene" uid="uid://ch4kvp8k6tpxs" path="res://world_objects/interactable/npc/trainer/trainer.tscn" id="16_n3o0a"]
@@ -80,8 +80,6 @@ visible = false
 visible = false
 focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
-
-[node name="LevelUpHelper" type="Node" parent="Interfaces" unique_id=947033967]
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 

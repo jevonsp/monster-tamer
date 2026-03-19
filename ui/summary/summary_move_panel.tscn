@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c7dppshejn64v"]
 
-[ext_resource type="Script" uid="uid://bvhr7o4kr8dn7" path="res://ui/summary_move_panel.gd" id="1_hwvib"]
-[ext_resource type="StyleBox" uid="uid://dluiqrwi2287l" path="res://ui/new_style_box_flat_default.tres" id="1_urfay"]
+[ext_resource type="Script" uid="uid://bvhr7o4kr8dn7" path="res://ui/summary/summary_move_panel.gd" id="1_hwvib"]
+[ext_resource type="StyleBox" uid="uid://dluiqrwi2287l" path="res://ui/summary/new_style_box_flat_default.tres" id="1_urfay"]
 
 [node name="SummaryMovePanel0" type="Button" unique_id=253956150]
 offset_right = 485.0

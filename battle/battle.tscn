@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_l1kiu"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
 [ext_resource type="Script" uid="uid://b4f1ougodrdyi" path="res://battle/battle_visibility&focus_handler.gd" id="5_rgsk0"]
-[ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box.gd" id="9_t8p1f"]
+[ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
 [ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="10_rgsk0"]
 [ext_resource type="Texture2D" uid="uid://iikfm8js0p7y" path="res://world_objects/interactable/ground_item/ball.png" id="11_eu6g2"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]

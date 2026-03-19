@@ -180,7 +180,7 @@ func _handle_post_action(target: Monster) -> bool:
 		print_debug("BATTLE: enemy actor not able to fight")
 		if _check_enemy_out_of_monsters():
 			print_debug("BATTLE: enemy out of monsters -> win.")
-			_win()
+			await _win()
 			return true
 		else:
 			print_debug("BATTLE: enemy needs new monster -> force switch.")
@@ -191,7 +191,7 @@ func _handle_post_action(target: Monster) -> bool:
 		print_debug("BATTLE: player actor not able to fight")
 		if _check_player_out_of_monsters():
 			print_debug("BATTLE: player out of monsters -> lose.")
-			_lose()
+			await _lose()
 			return true
 		else:
 			print_debug("BATTLE: player needs new monster -> force switch.")

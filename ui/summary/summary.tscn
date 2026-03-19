@@ -1,13 +1,14 @@
 [gd_scene format=3 uid="uid://dohpco4ojenuk"]
 
-[ext_resource type="PackedScene" uid="uid://cju8x0fsbax2m" path="res://ui/name_label.tscn" id="1_25wx7"]
-[ext_resource type="Script" uid="uid://1cyiewtnenc2" path="res://ui/summary.gd" id="1_e1nmq"]
+[ext_resource type="PackedScene" uid="uid://cju8x0fsbax2m" path="res://ui/party/name_label.tscn" id="1_25wx7"]
+[ext_resource type="Script" uid="uid://1cyiewtnenc2" path="res://ui/summary/summary.gd" id="1_e1nmq"]
+[ext_resource type="Script" uid="uid://3rbidck70x4b" path="res://ui/text_box/move_learning_controller.gd" id="2_3k2wb"]
 [ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="2_3muql"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_e1nmq"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_3k2wb"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="5_pfpua"]
-[ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party_texture_rect.gd" id="6_fycbb"]
-[ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary_move_panel.tscn" id="8_3k2wb"]
+[ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party/party_texture_rect.gd" id="6_fycbb"]
+[ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="8_3k2wb"]
 
 [node name="Summary" type="Control" unique_id=239759928]
 layout_mode = 3
@@ -18,6 +19,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_e1nmq")
+
+[node name="MoveLearningController" type="Node" parent="." unique_id=2036052759]
+script = ExtResource("2_3k2wb")
 
 [node name="Content" type="MarginContainer" parent="." unique_id=125043798]
 layout_mode = 1
