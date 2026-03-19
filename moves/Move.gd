@@ -4,42 +4,42 @@ extends Resource
 @export var name: String = ""
 @export var type: TypeChart.Type
 @export var base_power: int = 3
+@export_range(0, 100, 5) var accuracy: int = 100
 @export_range(-5, 5) var priority: int = 0
 @export var animation: PackedScene
 @export var is_self_targeting: bool = false
 @export_multiline var description: String = ""
-
-## If non-empty, execute runs these effects in order (animation passed to each). Otherwise uses legacy single-damage behavior.
 @export var effects: Array[MoveEffect] = []
 
+var should_exit: bool = false
 
 func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:
-	if effects.is_empty():
-		await _legacy_execute(actor, target, battle_context)
+	var is_miss = calculate_miss(actor, target)
+	
+	if is_miss:
+		var text_array: Array[String] = ["%s's attack missed!" % [actor]]
+		await battle_context.show_text(text_array)
 		return
-
+	
 	for effect in effects:
 		if effect is MoveEffect:
 			@warning_ignore("redundant_await")
 			await effect.apply(actor, target, battle_context, name, animation)
+			if should_exit:
+				return
 
 
-func _legacy_execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:
-	var damage = ceili(base_power * TypeChart.get_attacking_type_efficacy(type, target.type))
-	var efficacy = TypeChart.get_attacking_type_efficacy(type, target.type)
-
-	await battle_context.show_move_used_text(actor, name, target)
-	await battle_context.play_move_animation(animation)
-
-	battle_context.play_hit_reaction(target)
-	await target.take_damage(damage)
-
-	var post_text: Array[String] = []
-	post_text.append("It dealt %s damage!" % [damage])
-	if efficacy > 1.0:
-		post_text[0] += "\nIt's super effective!"
-	if efficacy < 1.0:
-		post_text[0] += "\nIt's not very effective..."
-
-	await battle_context.show_move_result_text(post_text)
-	await target.check_faint()
+func calculate_miss(actor: Monster, target: Monster) -> bool:
+	var adjusted_stage = \
+			clamp(actor.stat_multis.stat_stages[Monster.Stat.ACCURACY] - \
+			target.stat_multis.stat_stages[Monster.Stat.EVASION], -6, 6)
+	
+	var stat_stage_multi = MonsterStatTable.special_stat_multis[adjusted_stage]
+	var stat_multi = \
+			actor.stat_multis.stat_multipliers[Monster.Stat.ACCURACY] * target.stat_multis.stat_multipliers[Monster.Stat.EVASION]
+	var accuracy_float = accuracy / 100.0
+	
+	var final_accuracy = accuracy_float * stat_multi * stat_stage_multi
+	print("final_accuracy: ", final_accuracy)
+	
+	return randf() >= final_accuracy

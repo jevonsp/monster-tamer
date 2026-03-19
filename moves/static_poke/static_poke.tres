@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://g1i3kodg4e2d" path="res://moves/DamageEffect.gd" id="3_2ry4l"]
 [ext_resource type="Script" uid="uid://byo84w6nmxgws" path="res://moves/ApplyStatusEffect.gd" id="4_a1l0h"]
 [ext_resource type="Script" uid="uid://clsj4nqsr1m1i" path="res://statuses/ActionPreventionStatus.gd" id="5_0kfyj"]
+[ext_resource type="Script" uid="uid://bxcqvbb6f0nh7" path="res://statuses/StatModifierStatus.gd" id="6_0kfyj"]
 
 [sub_resource type="Resource" id="Resource_a1l0h"]
 script = ExtResource("3_2ry4l")
@@ -20,8 +21,13 @@ script = ExtResource("4_a1l0h")
 status_data = SubResource("Resource_7civb")
 metadata/_custom_type_script = "uid://byo84w6nmxgws"
 
+[sub_resource type="Resource" id="Resource_q6f7d"]
+script = ExtResource("6_0kfyj")
+metadata/_custom_type_script = "uid://bxcqvbb6f0nh7"
+
 [sub_resource type="Resource" id="Resource_b4a53"]
 script = ExtResource("4_a1l0h")
+status_data = SubResource("Resource_q6f7d")
 metadata/_custom_type_script = "uid://byo84w6nmxgws"
 
 [resource]

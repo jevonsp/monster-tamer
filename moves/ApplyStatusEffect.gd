@@ -10,5 +10,7 @@ func apply(_actor: Monster, target: Monster, context: BattleContext, _move_name:
 	for status: StatusInstance in target.statuses:
 		if status.data.status_name == status_data.status_name:
 			has_status = true
-	if not has_status:
+	if not has_status and target.is_able_to_fight:
 		await target.add_status(status_data, duration, context)
+		var text_array: Array[String] = ["%s was afflicted with %s" % [target.name, status_data.status_name]]
+		await context.show_text(text_array)

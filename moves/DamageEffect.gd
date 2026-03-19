@@ -50,7 +50,7 @@ func calculate_damage(actor: Monster, target: Monster) -> int:
 			defending_stat = target.defense * defending_stat_stage_multi
 			defending_multi = target.stat_multis.stat_multipliers[Monster.Stat.DEFENSE]
 		DamageType.SPECIAL:
-			attacking_stat_stage_multi = actor.get_stat_stage_multi(Monster.Stat.ATTACK)
+			attacking_stat_stage_multi = actor.get_stat_stage_multi(Monster.Stat.SPECIAL_ATTACK)
 			attacking_stat = actor.special_attack * attacking_stat_stage_multi
 			attacking_multi = actor.stat_multis.stat_multipliers[Monster.Stat.SPECIAL_ATTACK]
 			
@@ -63,6 +63,7 @@ func calculate_damage(actor: Monster, target: Monster) -> int:
 	var stab_bonus = 1.5 if actor.type == type else 1.0
 	var multi = efficacy * attacking_multi * defending_multi * stab_bonus
 	var final_damage = (((level_based_damage * scaling_based_damage) / 50.0) + 2) * multi
+	
 	return int(ceil(final_damage))
 
 
