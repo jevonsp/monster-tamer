@@ -1,6 +1,5 @@
 extends Node
 
-
 func ask_delete_existing_move(monster: Monster, move: Move) -> bool:
 	var text: Array[String] = [
 		"%s is trying to learn %s, but already knows four moves. Delete one?"
