@@ -1,9 +1,10 @@
 extends Control
+const PARTY_SLOT_COUNT := 6
+const TOTAL_STORAGE_SLOTS := 300
+const STORAGE_PAGE_COUNT := 10
+const STORAGE_SLOTS_PER_PAGE := int(TOTAL_STORAGE_SLOTS / float(STORAGE_PAGE_COUNT))
 enum State {DEFAULT, MOVING}
-var state: State = State.DEFAULT:
-	set(value):
-		state = value
-		print_debug("state: ", State.values()[state])
+var state: State = State.DEFAULT
 var processing: bool = false
 var party_ref: Array[Monster]
 var storage_ref: Dictionary
@@ -78,7 +79,7 @@ func _button_index(button: Button) -> int:
 
 
 func _storage_index(button: Button) -> int:
-	return _button_index(button) + (page_index * 30)
+	return _button_index(button) + (page_index * STORAGE_SLOTS_PER_PAGE)
 
 
 func start_move() -> void:

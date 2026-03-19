@@ -8,6 +8,7 @@ static var stat_properties: Dictionary = {
 	Monster.Stat.SPECIAL_DEFENSE: &"special_defense",
 	Monster.Stat.SPEED: &"speed",
 }
+# gdlint:ignore-block-start
 static var normal_stat_multis: Dictionary = {
 	-6: 2/8.0,-5: 2/7.0,-4: 2/6.0,-3: 2/5.0,-2: 2/4.0,-1: 2/3.0,
 	0: 2/2.0,
@@ -25,3 +26,4 @@ static var critical_stage_multi: Dictionary = {
 	3: 1/2.0,
 	4: 1
 }
+# gdlint:ignore-block-end

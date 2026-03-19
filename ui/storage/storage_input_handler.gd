@@ -52,7 +52,7 @@ func _on_option_pressed(b: Button) -> void:
 func move_page(dir: Vector2) -> void:
 	match dir:
 		Vector2.LEFT:
-			storage.page_index = posmod(storage.page_index - 1, 10)
+			storage.page_index = posmod(storage.page_index - 1, storage.STORAGE_PAGE_COUNT)
 		Vector2.RIGHT:
-			storage.page_index = (storage.page_index + 1) % 10
+			storage.page_index = (storage.page_index + 1) % storage.STORAGE_PAGE_COUNT
 	update_handler.display_monsters()
