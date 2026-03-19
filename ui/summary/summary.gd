@@ -14,6 +14,7 @@ var last_focused_move_button: Button = null
 var moving_index_one: int = -1
 @onready var interfaces: CanvasLayer = $".."
 @onready var overworld_text_box: Control = $"../OverworldTextBox"
+@onready var move_learning_controller: Node = $MoveLearningController
 #region Onready Vars
 @onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
 @onready var name_label: Label = $Content/Main/HBoxContainer0/NameLabel
@@ -282,21 +283,14 @@ func _resolve_move_learning(monster: Monster, move: Move) -> void:
 	if learn_index >= 0:
 		print_debug("EXP: %s learning move in empty slot index=%s" % [monster.name, learn_index])
 		monster.learn_move(move, learn_index)
-		await _announce_move_learned(monster, move)
+		await move_learning_controller.announce_move_learned(monster, move)
 		Global.move_learning_finished.emit()
 		return
 
 	print_debug("EXP: %s has 4 moves; entering summary move learning" % [monster.name])
 	var decided := false
 	while not decided:
-		Global.send_text_box.emit(
-			monster,
-			["%s is trying to learn %s, but already knows four moves. Delete one?" % [monster.name, move.name]],
-			false,
-			true,
-			false
-		)
-		var answer = await Global.answer_given
+		var answer = await move_learning_controller.ask_delete_existing_move(monster, move)
 		if not answer:
 			decided = await handle_cancel_learning()
 			continue
@@ -320,10 +314,7 @@ func ask_remove_move() -> void:
 	var move_removing = last_focused_move_button.move
 	if move_removing == null:
 		return
-	var text_array: Array[String] = ["Are you sure you want to remove %s for %s?" % \
-			[move_removing.name, move_learning.name]]
-	Global.send_text_box.emit(null, text_array, false, true, false)
-	var answer = await Global.answer_given
+	var answer = await move_learning_controller.confirm_replace_move(move_removing, move_learning)
 	if answer:
 		var replacing_index := move_panels.find(last_focused_move_button)
 		if replacing_index == -1:
@@ -332,29 +323,18 @@ func ask_remove_move() -> void:
 		_display_monster(learning_monster)
 		_unfocus_moves()
 		is_learning_move = false
-		await _announce_move_learned(learning_monster, move_learning)
+		await move_learning_controller.announce_move_learned(learning_monster, move_learning)
 		_toggle_visible()
 		Global.move_learning_finished.emit()
 
 func handle_cancel_learning() -> bool:
 	if learning_monster == null or move_learning == null:
 		return false
-	var text_array: Array[String] = ["Are you sure you want %s to stop learning %s" % \
-			[learning_monster.name, move_learning.name]]
-	Global.send_text_box.emit(null, text_array, false, true, false)
-	var answer = await Global.answer_given
+	var answer = await move_learning_controller.confirm_stop_learning(learning_monster, move_learning)
 	if answer:
-		text_array = ["%s did not learn %s" % [learning_monster.name, move_learning.name]]
-		Global.send_text_box.emit(null, text_array, false, false, false)
-		await Global.text_box_complete
+		await move_learning_controller.show_did_not_learn(learning_monster, move_learning)
 		if visible:
 			_toggle_visible()
 		Global.move_learning_finished.emit()
 		return true
 	return false
-
-
-func _announce_move_learned(monster: Monster, move: Move) -> void:
-	Global.send_text_box.emit(monster, ["%s learned %s." % [monster.name, move.name]], false, false, false)
-	await Global.text_box_complete
-	print_debug("EXP: %s learn_move text complete" % [monster.name])
