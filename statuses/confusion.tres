@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ConfusionStatus" format=3]
+
+[ext_resource type="Script" path="res://statuses/ConfusionStatus.gd" id="1_j2k6s"]
+
+[resource]
+script = ExtResource("1_j2k6s")
+status_id = "confusion"
+status_name = "Confusion"
+default_duration = 4
+self_hit_chance = 0.5
+self_hit_power = 30
+confusion_message = "%s is confused!"
+self_hit_message = "%s hurt itself in its confusion!"

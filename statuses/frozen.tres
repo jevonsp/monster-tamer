@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ForcedActionBlockStatus" format=3]
+
+[ext_resource type="Script" path="res://statuses/ForcedActionBlockStatus.gd" id="1_r4t8p"]
+
+[resource]
+script = ExtResource("1_r4t8p")
+status_id = "frozen"
+status_name = "Frozen"
+default_duration = 3
+action_block_message = "%s is frozen solid!"

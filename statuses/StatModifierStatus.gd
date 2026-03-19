@@ -1,9 +1,16 @@
 extends StatusData
 class_name StatModifierStatus
 
-func on_apply(_instance: StatusInstance, _owner: Monster, _context: BattleContext) -> void:
-	pass
+@export var stat: Monster.Stat = Monster.Stat.SPEED
+@export var multiplier: float = 1.0
 
 
-func on_remove(_instance: StatusInstance, _owner: Monster, _context: BattleContext) -> void:
-	pass
+func modify_effective_stat(
+	_instance: StatusInstance,
+	_owner: Monster,
+	p_stat: Monster.Stat,
+	value: float
+) -> float:
+	if p_stat != stat:
+		return value
+	return value * multiplier

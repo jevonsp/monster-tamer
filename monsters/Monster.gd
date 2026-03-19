@@ -23,7 +23,6 @@ enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, E
 @export var is_player_monster: bool = false
 @export var is_fainted: bool = false
 @export var is_captured: bool = false
-@export var is_able_to_act: bool = true
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
 
@@ -118,6 +117,67 @@ func has_status(status_name: String) -> bool:
 		if s.data and s.data.status_name == status_name:
 			return true
 	return false
+
+
+func has_status_id(status_identifier: String) -> bool:
+	for s in statuses:
+		if s.data and s.data.get_identifier() == status_identifier:
+			return true
+	return false
+
+
+func reset_status_turn_state() -> void:
+	for status in statuses:
+		status.reset_turn_state()
+
+
+func get_effective_stat(stat: Stat) -> float:
+	var base_value: float = 1.0
+	if MonsterStatTable.stat_properties.has(stat):
+		base_value = float(get(MonsterStatTable.stat_properties[stat]))
+
+	var value := base_value
+	if stat_multis != null:
+		value *= get_stat_stage_multi(stat)
+		value *= stat_multis.stat_multipliers.get(stat, 1.0)
+
+	for status in statuses:
+		value = status.modify_effective_stat(stat, value)
+
+	return value
+
+
+func get_effective_speed() -> float:
+	return get_effective_stat(Stat.SPEED)
+
+
+func can_attempt_action(context: BattleContext) -> bool:
+	for status in statuses:
+		if not status.can_attempt_action(context):
+			return false
+	return true
+
+
+func get_action_block_text() -> Array[String]:
+	for status in statuses:
+		var text := status.get_action_block_text()
+		if not text.is_empty():
+			return text
+	return []
+
+
+func has_action_override(context: BattleContext, chosen_action) -> bool:
+	for status in statuses:
+		if status.has_action_override(context, chosen_action):
+			return true
+	return false
+
+
+func execute_action_override(target: Monster, context: BattleContext, chosen_action) -> void:
+	for status in statuses:
+		if status.has_action_override(context, chosen_action):
+			await status.execute_action_override(target, context, chosen_action)
+			return
 
 
 func tick_statuses_start(context: BattleContext) -> void:
