@@ -5,7 +5,8 @@ extends Resource
 @export var type: TypeChart.Type
 @export var texture: Texture2D
 @export_subgroup("Moves")
-@export var moves: Dictionary[int, Move]
+@export var starting_moves: Array[Move]
+@export var level_up_moves: Dictionary[int, Move]
 @export_subgroup("Base Stats")
 @export var base_hitpoints: int = 50 
 @export var base_attack: int = 50

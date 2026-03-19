@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="ForcedActionBlockStatus" format=3]
+[gd_resource type="Resource" script_class="ForcedActionBlockStatus" format=3 uid="uid://bv1gu2xsww7hi"]
 
-[ext_resource type="Script" path="res://statuses/ForcedActionBlockStatus.gd" id="1_r4t8p"]
+[ext_resource type="Script" uid="uid://dlfq0fmrh6eut" path="res://statuses/ForcedActionBlockStatus.gd" id="1_r4t8p"]
 
 [resource]
 script = ExtResource("1_r4t8p")
+remove_chance = 0.3
+action_block_message = "%s is frozen solid!"
 status_id = "frozen"
 status_name = "Frozen"
-default_duration = 3
-action_block_message = "%s is frozen solid!"
+status_slot = 0

@@ -1,9 +1,15 @@
 extends Resource
 class_name StatusData
 
+enum StatusSlot {
+	MAIN,
+	SEPARATE
+}
+
 @export var status_id: String = ""
 @export var status_name: String = ""
 @export var default_duration: int = 3
+@export var status_slot: StatusSlot = StatusSlot.MAIN
 
 
 func on_apply(_instance: StatusInstance, _owner: Monster, _context: BattleContext) -> void:

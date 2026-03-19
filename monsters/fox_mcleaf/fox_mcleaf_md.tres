@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://dnpr3t8vm34dc"]
+
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="1_dqs7m"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_5vakr"]
+[ext_resource type="Resource" uid="uid://ol1xenrdt8ut" path="res://moves/nettles/nettles.tres" id="3_oxsnc"]
+[ext_resource type="Texture2D" uid="uid://daakn8svovn2f" path="res://monsters/fox_mcleaf/fox_mcleaf_remake.png" id="4_78v8v"]
+
+[resource]
+script = ExtResource("2_5vakr")
+species = "Fox McLeaf"
+type = 3
+texture = ExtResource("4_78v8v")
+starting_moves = Array[ExtResource("1_dqs7m")]([ExtResource("3_oxsnc")])
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

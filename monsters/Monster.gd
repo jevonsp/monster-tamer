@@ -3,6 +3,12 @@ extends Resource
 ## An instance of a monster
 static var EXPERIENCE_PER_LEVEL = 50
 enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION, CRITICAL }
+enum StatusApplyResult {
+	APPLIED,
+	REFRESHED,
+	BLOCKED_DUPLICATE,
+	BLOCKED_SLOT_CONFLICT
+}
 @export var monster_data: MonsterData
 @export var name: String = ""
 @export var type: TypeChart.Type
@@ -45,9 +51,12 @@ func set_level(l: int) -> void:
 
 
 func set_monster_moves() -> void:
-	var moves_to_gain: Array[Move] = [null, null, null, null]
-	for key_level in monster_data.moves.keys():
-		var move = monster_data.moves[key_level]
+	var moves_to_gain: Array[Move] = monster_data.starting_moves
+	while moves_to_gain.size() < 4:
+		moves_to_gain.append(null)
+		
+	for key_level in monster_data.level_up_moves.keys():
+		var move = monster_data.level_up_moves[key_level]
 		if key_level <= level:
 			moves_to_gain.pop_back()
 			moves_to_gain.push_front(move)
@@ -99,11 +108,29 @@ func check_faint() -> void:
 		await faint()
 
 
-func add_status(status_data: StatusData, duration: int = -1, context: BattleContext = null) -> void:
-	var instance := StatusInstance.new(status_data, self, duration)
+func add_status(
+	status_data: StatusData,
+	duration: int = -1,
+	context: BattleContext = null
+) -> StatusApplyResult:
+	var resolved_duration := duration if duration > 0 else status_data.default_duration
+	var existing_status := get_status_by_id(status_data.get_identifier())
+
+	if existing_status != null:
+		if status_data.status_slot == StatusData.StatusSlot.SEPARATE:
+			existing_status.remaining_turns = resolved_duration
+			return StatusApplyResult.REFRESHED
+		return StatusApplyResult.BLOCKED_DUPLICATE
+
+	var conflicting_status := get_status_in_slot(status_data.status_slot)
+	if conflicting_status != null and status_data.status_slot == StatusData.StatusSlot.MAIN:
+		return StatusApplyResult.BLOCKED_SLOT_CONFLICT
+
+	var instance := StatusInstance.new(status_data, self, resolved_duration)
 	statuses.append(instance)
 	if context != null:
 		await instance.on_apply(context)
+	return StatusApplyResult.APPLIED
 
 
 func remove_status(instance: StatusInstance) -> void:
@@ -124,6 +151,24 @@ func has_status_id(status_identifier: String) -> bool:
 		if s.data and s.data.get_identifier() == status_identifier:
 			return true
 	return false
+
+
+func get_status_by_id(status_identifier: String) -> StatusInstance:
+	for status in statuses:
+		if status.data and status.data.get_identifier() == status_identifier:
+			return status
+	return null
+
+
+func has_status_in_slot(status_slot: StatusData.StatusSlot) -> bool:
+	return get_status_in_slot(status_slot) != null
+
+
+func get_status_in_slot(status_slot: StatusData.StatusSlot) -> StatusInstance:
+	for status in statuses:
+		if status.data and status.data.status_slot == status_slot:
+			return status
+	return null
 
 
 func reset_status_turn_state() -> void:
@@ -275,11 +320,11 @@ func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 	
 	
 func check_should_gain_moves() -> bool:
-	return monster_data.moves.has(level)
+	return monster_data.level_up_moves.has(level)
 
 
 func get_move_to_learn() -> Move:
-	return monster_data.moves.get(level)
+	return monster_data.level_up_moves.get(level)
 	
 	
 func get_learn_index() -> int:

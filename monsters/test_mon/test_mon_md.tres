@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://77yqmbccjqd6"]
+
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="1_3g4w2"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_yohn8"]
+[ext_resource type="Texture2D" uid="uid://d2u46btjgfa8h" path="res://monsters/test_mon/test_mon.png" id="3_6x6x4"]
+[ext_resource type="Resource" uid="uid://dfl86vfipebns" path="res://moves/drowzy_yawn/drowzy_yawn.tres" id="3_024sk"]
+[ext_resource type="Resource" uid="uid://vfpc6nx35foc" path="res://moves/ice_pack/ice_pack.tres" id="4_vpip3"]
+[ext_resource type="Resource" uid="uid://c2emuc4iwqnur" path="res://moves/static_poke/static_poke.tres" id="5_w3cql"]
+[ext_resource type="Resource" uid="uid://b331jmu0uv6mb" path="res://moves/three_card_monte/three_card_monte.tres" id="6_kkqsp"]
+
+[resource]
+script = ExtResource("2_yohn8")
+species = "Test Mon"
+texture = ExtResource("3_6x6x4")
+starting_moves = Array[ExtResource("1_3g4w2")]([ExtResource("3_024sk"), ExtResource("4_vpip3"), ExtResource("5_w3cql"), ExtResource("6_kkqsp")])
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

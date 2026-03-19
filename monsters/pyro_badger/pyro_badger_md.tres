@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://cvmykrss1u38p"]
+
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="1_ayl76"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_l7w1c"]
+[ext_resource type="Resource" uid="uid://cwyt2ao20ny41" path="res://moves/match_strike/match_strike.tres" id="3_6q7ea"]
+[ext_resource type="Texture2D" uid="uid://dbj603tewa6r5" path="res://monsters/pyro_badger/pyro_badger_remake.png" id="4_wpvun"]
+
+[resource]
+script = ExtResource("2_l7w1c")
+species = "Pyro Badger"
+type = 1
+texture = ExtResource("4_wpvun")
+starting_moves = Array[ExtResource("1_ayl76")]([ExtResource("3_6q7ea")])
+metadata/_custom_type_script = "uid://vx6b6njwqnde"
