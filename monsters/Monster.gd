@@ -26,51 +26,8 @@ enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, E
 @export var is_able_to_act: bool = true
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
-#region Stat Dicts
-var stat_stages: Dictionary = {
-	Stat.ATTACK: 0,
-	Stat.SPECIAL_ATTACK: 0,
-	Stat.DEFENSE: 0,
-	Stat.SPECIAL_DEFENSE: 0,
-	Stat.SPEED: 0,
-	Stat.ACCURACY: 0,
-	Stat.EVASION: 0,
-	Stat.CRITICAL: 0,
-}
-var stat_multipliers: Dictionary = {
-	Stat.ATTACK: 1.0,
-	Stat.SPECIAL_ATTACK: 1.0,
-	Stat.DEFENSE: 1.0,
-	Stat.SPECIAL_DEFENSE: 1.0,
-	Stat.SPEED: 1.0,
-	Stat.ACCURACY: 1.0,
-	Stat.EVASION: 1.0,
-}
-var stat_properties: Dictionary = {
-	Stat.ATTACK: &"attack",
-	Stat.SPECIAL_ATTACK: &"special_attack",
-	Stat.DEFENSE: &"defense",
-	Stat.SPECIAL_DEFENSE: &"special_defense",
-	Stat.SPEED: &"speed",
-}
-var normal_stat_multis: Dictionary = {
-	-6: 2/8.0,-5: 2/7.0,-4: 2/6.0,-3: 2/5.0,-2: 2/4.0,-1: 2/3.0,
-	0: 2/2.0,
-	1: 3/2.0, 2: 4/2.0, 3: 5/2.0, 4: 6/2.0, 5: 7/2.0, 6: 8/2.0,
-}
-var special_stat_multis: Dictionary = {
-	-6: 3/9.0, -5: 3/8.0, -4: 3/7.0, -3: 3/6.0, -2: 3/5.0, -1: 3/4.0,
-	0: 3/3.0,
-	1: 4/3.0, 2: 5/3.0, 3: 6/3.0, 4: 7/3.0, 5: 8/3.0, 6: 9/3.0,
-}
-var critical_stage_multi: Dictionary = {
-	0: 1/16.0,
-	1: 1/8.0,
-	2: 1/4.0,
-	3: 1/2.0,
-	4: 1
-}
-#endregion
+
+@export var stat_multis: MonsterStatMultipliers = null
 
 var is_able_to_fight: bool:
 	get: return not is_fainted and not is_captured
@@ -99,25 +56,35 @@ func set_monster_moves() -> void:
 
 
 func set_stats() -> void:
-	attack = int((2 * monster_data.base_attack * level) / 100.0) + 5
-	defense = int((2 * monster_data.base_defense * level) / 100.0) + 5
-	special_attack = int((2 * monster_data.base_special_attack * level) / 100.0) + 5
-	special_defense = int((2 * monster_data.base_special_defense * level) / 100.0) + 5
-	speed = int((2 * monster_data.base_speed * level) / 100.0) + 5
+	var stats = [attack, defense, special_attack, special_defense, speed]
+	var base_stats = [
+		monster_data.base_attack, 
+		monster_data.base_defense, 
+		monster_data.base_special_attack, 
+		monster_data.base_special_defense, 
+		monster_data.base_speed,
+	]
+	for i in range(5):
+		stats[i] = int((2 * base_stats[i] * level) / 100.0) + 5
 	
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
 
 
+func create_stat_multis() -> void:
+	var monster_stat_multis = MonsterStatMultipliers.new()
+	stat_multis = monster_stat_multis
+
+
 func get_stat_stage_multi(stat: Stat) -> float:
-	var stage: int = stat_stages.get(stat, 0)
+	var stage: int = stat_multis.stat_stages.get(stat, 0)
 	
 	match stat:
 		Stat.ACCURACY, Stat.EVASION:
-			return special_stat_multis[stage]
+			return MonsterStatTable.special_stat_multis[stage]
 		Stat.CRITICAL:
-			return critical_stage_multi[stage]
+			return MonsterStatTable.critical_stage_multi[stage]
 		_:
-			return normal_stat_multis[stage]
+			return MonsterStatTable.normal_stat_multis[stage]
 
 
 func take_damage(amount: int) -> void:
@@ -187,11 +154,10 @@ func faint():
 	Global.send_monster_fainted.emit(self)
 	print_debug("BATTLE: %s send_monster_fainted emitted" % [name])
 	var ta: Array[String] = ["%s fainted!" % [name]]
-	if Player.in_battle:
-		Global.send_text_box.emit(null, ta, true, false, false)
-	else:
-		Global.send_text_box.emit(null, ta, false, false, true)
+	
+	Global.send_text_box.emit(null, ta, true, false, not Player.in_battle)
 	await Global.text_box_complete
+	
 	print_debug("BATTLE: %s faint text complete" % [name])
 	if not is_player_monster:
 		print_debug("BATTLE: %s send_monster_death_experience amount=%s" % [name, EXPERIENCE_PER_LEVEL * level])
@@ -265,9 +231,7 @@ func gain_level(amount: int = 1) -> void:
 	
 	
 func check_should_gain_moves() -> bool:
-	if monster_data.moves.has(level):
-		return true
-	return false
+	return monster_data.moves.has(level)
 	
 	
 func get_learn_index() -> int:
@@ -307,8 +271,6 @@ func learn_move(move: Move, index: int) -> void:
 	var ta: Array[String] = ["%s learned %s." % [name, move.name]]
 	if Player.in_battle:
 		Global.send_text_box.emit(self, ta, false, false, false)
-	else:
-		Global.send_text_box.emit(self, ta, false, false, false)
 		
 	await Global.text_box_complete
 	print_debug("EXP: %s learn_move text complete" % [name])
@@ -321,4 +283,3 @@ func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 		"success": true
 	}
 	return result
-	
