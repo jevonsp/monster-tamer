@@ -150,13 +150,11 @@ func _resolve_move_learning(monster: Monster, move: Move) -> void:
 
 	var learn_index := monster.get_learn_index()
 	if learn_index >= 0:
-		print_debug("EXP: %s learning move in empty slot index=%s" % [monster.name, learn_index])
 		monster.learn_move(move, learn_index)
 		await move_learning_controller.announce_move_learned(monster, move)
 		Global.move_learning_finished.emit()
 		return
 
-	print_debug("EXP: %s has 4 moves; entering summary move learning" % [monster.name])
 	var decided := false
 	while not decided:
 		var answer = await move_learning_controller.ask_delete_existing_move(monster, move)

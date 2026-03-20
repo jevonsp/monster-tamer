@@ -1,18 +1,18 @@
 [gd_resource type="Resource" script_class="CompositeStatusData" format=3 uid="uid://cl32llbs70ct5"]
 
-[ext_resource type="Script" uid="uid://b18e0rv4f1awr" path="res://statuses/CompositeStatusData.gd" id="1_6jvbt"]
+[ext_resource type="Script" path="res://statuses/CompositeStatusData.gd" id="1_6jvbt"]
 [ext_resource type="Script" uid="uid://dnndjdqteveku" path="res://statuses/StatusData.gd" id="1_pkuca"]
 [ext_resource type="Script" uid="uid://bdtqy4povlkyg" path="res://statuses/DoTStatus.gd" id="2_dyst8"]
 [ext_resource type="Script" uid="uid://bxcqvbb6f0nh7" path="res://statuses/StatModifierStatus.gd" id="3_ky6a3"]
 
-[sub_resource type="Resource" id="Resource_burn_dot"]
+[sub_resource type="Resource" id="Resource_pkuca"]
 script = ExtResource("2_dyst8")
 status_id = "burn"
 status_name = "Burn"
 default_duration = -1
 metadata/_custom_type_script = "uid://bdtqy4povlkyg"
 
-[sub_resource type="Resource" id="Resource_burn_attack_drop"]
+[sub_resource type="Resource" id="Resource_8uurh"]
 script = ExtResource("3_ky6a3")
 stat = 0
 multiplier = 0.5
@@ -20,7 +20,7 @@ metadata/_custom_type_script = "uid://bxcqvbb6f0nh7"
 
 [resource]
 script = ExtResource("1_6jvbt")
-child_statuses = Array[ExtResource("1_pkuca")]([SubResource("Resource_burn_dot"), SubResource("Resource_burn_attack_drop")])
+child_statuses = Array[ExtResource("1_pkuca")]([SubResource("Resource_pkuca"), SubResource("Resource_8uurh")])
 status_id = "burn"
 status_name = "Burn"
 default_duration = -1

@@ -109,14 +109,12 @@ func get_stat_stage_multi(stat: Stat) -> float:
 
 func take_damage(amount: int) -> void:
 	current_hitpoints = max(0, current_hitpoints - amount)
-	print_debug("BATTLE: %s take_damage amount=%s -> hp=%s/%s" % [name, amount, current_hitpoints, max_hitpoints])
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	await Global.hitpoints_animation_complete
 
 
 func check_faint() -> void:
 	if current_hitpoints <= 0:
-		print_debug("BATTLE: %s check_faint -> faint() current_hp=%s" % [name, current_hitpoints])
 		await faint()
 
 
@@ -266,10 +264,8 @@ func tick_statuses_end(context: BattleContext) -> void:
 func faint():
 	if is_fainted:
 		return
-	print_debug("BATTLE: %s faint() start is_player=%s is_fainted=%s" % [name, is_player_monster, is_fainted])
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
-	print_debug("BATTLE: %s send_monster_fainted emitted" % [name])
 	
 	
 func heal(amount: int, revives: bool = false) -> void:
@@ -289,7 +285,6 @@ func fully_heal_and_revive() -> void:
 func gain_exp(amount: int, in_battle: bool = false) -> void:
 	if is_fainted:
 		return
-	print_debug("EXP: %s gain_exp amount=%s in_battle=%s" % [name, amount, in_battle])
 	var remaining_exp = amount
 	while remaining_exp > 0:
 		var exp_left = get_next_level_exp() - experience
@@ -298,11 +293,8 @@ func gain_exp(amount: int, in_battle: bool = false) -> void:
 		experience += exp_to_gain
 		Global.monster_gained_experience.emit(self, exp_to_gain)
 		if in_battle:
-			print_debug("EXP: %s waiting for experience_animation_complete" % [name])
 			await Global.experience_animation_complete
-			print_debug("EXP: %s experience_animation_complete" % [name])
 		if experience >= get_next_level_exp():
-			print_debug("EXP: %s level up triggered" % [name])
 			await gain_level(1, in_battle)
 
 
@@ -321,14 +313,10 @@ func get_next_level_exp() -> int:
 func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 	level += amount
 	set_stats()
-	print_debug("EXP: %s gain_level amount=%s -> level=%s" % [name, amount, level])
 	Global.monster_gained_level.emit(self, amount)
 	if in_battle:
-		print_debug("EXP: %s waiting for battle-side level-up resolution" % [name])
 		Global.request_battle_level_up_resolution.emit(self, amount)
 		await Global.battle_level_up_resolution_complete
-		print_debug("EXP: %s battle-side level-up resolution complete" % [name])
-	print_debug("EXP: %s gain_level complete" % [name])
 	
 	
 func check_should_gain_moves() -> bool:
@@ -347,7 +335,6 @@ func get_learn_index() -> int:
 	
 	
 func learn_move(move: Move, index: int) -> void:
-	print_debug("EXP: %s learn_move %s at index=%s" % [name, move.name, index])
 	moves[index] = move
 	
 	

@@ -157,7 +157,6 @@ func _set_enemy_party(party: Array[MonsterData], levels: Array[int]) -> void:
 
 
 func switch_actors(old: Monster, new: Monster) -> void:
-	print_debug("BATTLE: switch_actors old=%s new=%s" % [old.name if old else "null", new.name if new else "null"])
 	if old == player_actor:
 		player_actor = new
 		if player_actor:

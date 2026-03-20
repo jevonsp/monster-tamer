@@ -1,21 +1,21 @@
 [gd_resource type="Resource" script_class="CompositeStatusData" format=3 uid="uid://cwrlp3dcw1awg"]
 
-[ext_resource type="Script" uid="uid://b18e0rv4f1awr" path="res://statuses/CompositeStatusData.gd" id="1_6jvbt"]
+[ext_resource type="Script" path="res://statuses/CompositeStatusData.gd" id="1_6jvbt"]
 [ext_resource type="Script" uid="uid://dnndjdqteveku" path="res://statuses/StatusData.gd" id="1_23mrq"]
 [ext_resource type="Script" uid="uid://bxcqvbb6f0nh7" path="res://statuses/StatModifierStatus.gd" id="2_ky6a3"]
-[ext_resource type="Script" uid="uid://lbgh57of5lqq" path="res://statuses/RandomActionBlockStatus.gd" id="3_1c2pr"]
+[ext_resource type="Script" path="res://statuses/RandomActionBlockStatus.gd" id="3_1c2pr"]
 
-[sub_resource type="Resource" id="Resource_speed_penalty"]
+[sub_resource type="Resource" id="Resource_23mrq"]
 script = ExtResource("2_ky6a3")
 multiplier = 0.5
 metadata/_custom_type_script = "uid://bxcqvbb6f0nh7"
 
-[sub_resource type="Resource" id="Resource_action_block"]
+[sub_resource type="Resource" id="Resource_2so1d"]
 script = ExtResource("3_1c2pr")
 
 [resource]
 script = ExtResource("1_6jvbt")
-child_statuses = Array[ExtResource("1_23mrq")]([SubResource("Resource_speed_penalty"), SubResource("Resource_action_block")])
+child_statuses = Array[ExtResource("1_23mrq")]([SubResource("Resource_23mrq"), SubResource("Resource_2so1d")])
 status_id = "paralyze"
 status_name = "Paralyze"
 default_duration = -1

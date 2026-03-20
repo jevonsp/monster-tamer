@@ -11,17 +11,12 @@ func add_action_to_queue(
 		return false
 	if action is Move or action is Item:
 		var target: Monster = _get_target(actor, action, battle)
-		print_debug(
-			"BATTLE: queue action=%s actor=%s target=%s"
-			% [action, actor.name, target.name if target else "null"]
-		)
 		turn_queue.append({
 			"action": action,
 			"actor": actor,
 			"target": target
 		})
 	elif action is Switch:
-		print_debug("BATTLE: queue switch actor=%s target=%s" % [action.actor.name, action.target.name])
 		turn_queue.append({
 			"action": action,
 			"actor": action.actor,
@@ -29,7 +24,6 @@ func add_action_to_queue(
 		})
 	elif action is Run:
 		var target = battle.enemy_actor if actor == battle.player_actor else battle.player_actor
-		print_debug("BATTLE: queue run actor=%s target=%s" % [actor.name, target.name])
 		turn_queue.append({
 			"action": action,
 			"actor": actor,
@@ -47,7 +41,6 @@ func queue_enemy_action(battle: Control, turn_queue: Array[Dictionary]) -> void:
 		return
 
 	var picked = available_moves.pick_random()
-	print_debug("BATTLE: enemy picked move=%s" % [picked])
 	add_action_to_queue(picked, battle.enemy_actor, battle, turn_queue)
 
 

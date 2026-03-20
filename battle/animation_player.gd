@@ -25,7 +25,6 @@ func reset_position() -> void:
 	
 	
 func clear_image() -> void:
-	print_debug("BATTLE: animation faint clear_image")
 	reset_textures()
 	reset_position()
 	Global.monster_fainted_animation_complete.emit()
@@ -41,7 +40,6 @@ func _play_sprite_shake(target: Monster) -> void:
 
 
 func _play_monster_faint(target: Monster) -> void:
-	print_debug("BATTLE: animation faint target=%s" % [target.name if target else "null"])
 	if is_playing():
 		stop()
 	if target == player_actor:
@@ -51,7 +49,6 @@ func _play_monster_faint(target: Monster) -> void:
 	
 	
 func _play_monster_switch_out(target: Monster) -> void:
-	print_debug("BATTLE: animation switch_out target=%s" % [target.name if target else "null"])
 	if is_playing():
 		stop()
 	if target == player_actor:
@@ -62,12 +59,10 @@ func _play_monster_switch_out(target: Monster) -> void:
 		enemy_actor = null
 	
 	await animation_finished
-	print_debug("BATTLE: animation switch_out complete target=%s" % [target.name if target else "null"])
 	Global.monster_switch_out_animation_complete.emit()
 	
 	
 func _play_monster_switch_in(target: Monster) -> void:
-	print_debug("BATTLE: animation switch_in target=%s" % [target.name if target else "null"])
 	if is_playing():
 		stop()
 	if target == player_actor:
@@ -76,7 +71,6 @@ func _play_monster_switch_in(target: Monster) -> void:
 		play("enemy_switch_in")
 	
 	await animation_finished
-	print_debug("BATTLE: animation switch_in complete target=%s" % [target.name if target else "null"])
 	Global.monster_switch_in_animation_complete.emit()
 
 

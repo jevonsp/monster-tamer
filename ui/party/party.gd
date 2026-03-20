@@ -74,7 +74,6 @@ func _on_party_change(party: Array[Monster]) -> void:
 
 
 func _on_request_forced_switch() -> void:
-	print_debug("BATTLE: party UI forced switch requested")
 	is_forced_switch = true
 	visibility_focus_handler._toggle_visible()
 

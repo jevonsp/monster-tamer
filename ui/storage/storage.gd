@@ -106,18 +106,15 @@ func cancel_move() -> void:
 
 func complete_move() -> void:
 	if moving_context.is_empty():
-		print_debug("storage.move.complete: blocked empty context")
 		return
 	match moving_context["from"]:
 		"storage":
 			if not last_selected_monster.is_in_group("party"):
-				print_debug("storage.move.complete: blocked storage->party dest not in party")
 				return
 			var to_party_idx = _button_index(last_selected_monster)
 			Global.request_move_storage_to_party.emit(moving_context["index"], to_party_idx)
 		"party":
 			if not last_selected_monster.is_in_group("storage"):
-				print_debug("storage.move.complete: blocked party->storage dest not in storage")
 				return
 			var to_storage_idx = _storage_index(last_selected_monster)
 			Global.request_move_party_to_storage.emit(moving_context["index"], to_storage_idx)
