@@ -351,11 +351,11 @@ func learn_move(move: Move, index: int) -> void:
 	moves[index] = move
 	
 	
-func attempt_catch(item: Item, actor: Monster) -> Dictionary:
+func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 	var ball_bonus = item.catch_effect.catch_rate_modifier
 	var status_bonus: float = get_status_catch_bonus()
-	var hp_max = actor.max_hitpoints
-	var hp_curr = actor.current_hitpoints
+	var hp_max = max_hitpoints
+	var hp_curr = current_hitpoints
 	var modified_catch_rate: int = \
 			min(255, (3 * hp_max - 2 * hp_curr) / (3 * float(hp_max)) * ball_bonus * status_bonus) 
 	var shake_probability = \

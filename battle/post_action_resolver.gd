@@ -9,6 +9,11 @@ func handle_post_action(target: Monster, handler: Node) -> bool:
 		return true
 	
 	await _resolve_faint_aftermath(target)
+
+	if _check_enemy_actor_captured():
+		print_debug("BATTLE: enemy actor captured")
+		_capture()
+		return true
 	
 	if not _check_enemy_actor_able_to_fight():
 		print_debug("BATTLE: enemy actor not able to fight")
@@ -84,6 +89,10 @@ func _check_enemy_actor_able_to_fight() -> bool:
 	return battle.enemy_actor.is_able_to_fight
 
 
+func _check_enemy_actor_captured() -> bool:
+	return battle.enemy_actor != null and battle.enemy_actor.is_captured
+
+
 func _check_enemy_out_of_monsters() -> bool:
 	for monster in battle.enemy_party:
 		if monster.is_able_to_fight:
@@ -117,4 +126,8 @@ func _lose() -> void:
 	
 	
 func _escape() -> void:
+	battle.end_battle()
+
+
+func _capture() -> void:
 	battle.end_battle()

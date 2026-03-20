@@ -94,9 +94,8 @@ func play_ball_wiggle(times: int) -> void:
 	await Global.wiggle_animation_complete
 
 
-func play_capture_animation(target: Monster) -> void:
+func play_capture_animation() -> void:
 	Global.send_capture_animation.emit()
-	Global.capture_monster.emit(target)
 	await Global.capture_or_escape_animation_complete
 
 
@@ -132,7 +131,7 @@ func perform_switch(old_monster: Monster, new_monster: Monster, out_text: String
 
 func handle_capture_success(target: Monster) -> void:
 	target.is_captured = true
-	await play_capture_animation(target)
+	await play_capture_animation()
 
 
 func handle_capture_failure() -> void:

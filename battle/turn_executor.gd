@@ -80,16 +80,16 @@ func execute_turn_queue(
 			% [entry.action, actor.name, target.name if target else "null"]
 		)
 
+		if await post_action_resolver.handle_post_action(target, handler):
+			print_debug("BATTLE: post_action ended battle for target=%s" % [target.name if target else "null"])
+			return true
+
 		if _should_skip_entry(actor, target):
 			print_debug(
 				"BATTLE: entry exit after action actor=%s target=%s"
 				% [actor.name, target.name if target else "null"]
 			)
 			continue
-
-		if await post_action_resolver.handle_post_action(target, handler):
-			print_debug("BATTLE: post_action ended battle for target=%s" % [target.name if target else "null"])
-			return true
 
 		if _should_skip_entry(actor, target):
 			print_debug(

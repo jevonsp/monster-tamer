@@ -13,9 +13,9 @@
 [ext_resource type="Script" uid="uid://cde8yn8umva7i" path="res://battle/turn_executor.gd" id="6_dxsh4"]
 [ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
 [ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="10_rgsk0"]
-[ext_resource type="Texture2D" uid="uid://iikfm8js0p7y" path="res://world_objects/interactable/ground_item/ball.png" id="11_eu6g2"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 [ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
+[ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="14_tkkqt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
 content_margin_left = 0.0
@@ -60,6 +60,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(931, 150)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Battle/AnimationContainer/Path2D/PathFollow2D/ItemSprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
 }
 
 [sub_resource type="Animation" id="Animation_t8p1f"]
@@ -246,6 +258,78 @@ tracks/0/keys = {
 "values": [Vector2(97, 150), Vector2(-269, 150)]
 }
 
+[sub_resource type="Animation" id="Animation_dxsh4"]
+resource_name = "shake_four"
+length = 1.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/AnimationContainer/Path2D/PathFollow2D/ItemSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.5, 1.6, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 1, 2, 1, 0, 1, 4, 5, 6, 3]
+}
+
+[sub_resource type="Animation" id="Animation_tkkqt"]
+resource_name = "shake_one"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/AnimationContainer/Path2D/PathFollow2D/ItemSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_phvbk"]
+resource_name = "shake_three"
+length = 1.2
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/AnimationContainer/Path2D/PathFollow2D/ItemSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 1, 2, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_sf8fp"]
+resource_name = "shake_two"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Battle/AnimationContainer/Path2D/PathFollow2D/ItemSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 0, 1, 2, 1]
+}
+
+[sub_resource type="Animation" id="Animation_a56dj"]
+resource_name = "shake_zero"
+length = 0.2
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iorop"]
 _data = {
 &"RESET": SubResource("Animation_4mnim"),
@@ -257,7 +341,12 @@ _data = {
 &"player_faint": SubResource("Animation_iorop"),
 &"player_hit": SubResource("Animation_7fucf"),
 &"player_switch_in": SubResource("Animation_qybyd"),
-&"player_switch_out": SubResource("Animation_eu6g2")
+&"player_switch_out": SubResource("Animation_eu6g2"),
+&"shake_four": SubResource("Animation_dxsh4"),
+&"shake_one": SubResource("Animation_tkkqt"),
+&"shake_three": SubResource("Animation_phvbk"),
+&"shake_two": SubResource("Animation_sf8fp"),
+&"shake_zero": SubResource("Animation_a56dj")
 }
 
 [node name="Battle" type="Control" unique_id=1219946530]
@@ -677,10 +766,11 @@ curve = SubResource("Curve2D_eu6g2")
 rotates = false
 
 [node name="ItemSprite" type="Sprite2D" parent="AnimationContainer/Path2D/PathFollow2D" unique_id=1761635139]
-visible = false
+position = Vector2(1, -2)
 scale = Vector2(8, 8)
-texture = ExtResource("11_eu6g2")
-hframes = 3
+texture = ExtResource("14_tkkqt")
+hframes = 7
+frame = 1
 script = ExtResource("12_t8p1f")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1783395323]
