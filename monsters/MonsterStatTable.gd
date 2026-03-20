@@ -8,6 +8,13 @@ static var stat_properties: Dictionary = {
 	Monster.Stat.SPECIAL_DEFENSE: &"special_defense",
 	Monster.Stat.SPEED: &"speed",
 }
+
+static func get_stat_enum(stat_name: StringName) -> Monster.Stat:
+	for key in stat_properties:
+		if stat_properties[key] == stat_name:
+			return key
+	return Monster.Stat.ATTACK
+
 # gdlint:ignore-block-start
 static var normal_stat_multis: Dictionary = {
 	-6: 2/8.0,-5: 2/7.0,-4: 2/6.0,-3: 2/5.0,-2: 2/4.0,-1: 2/3.0,

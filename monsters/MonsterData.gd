@@ -14,6 +14,8 @@ extends Resource
 @export var base_defense: int = 50
 @export var base_special_defense: int = 50
 @export var base_speed: int = 50
+@export_subgroup("Other Stats")
+@export var catch_rate: int = 200
 
 func set_up(level: int) -> Monster:
 	"""Single entry point for Monster creation"""

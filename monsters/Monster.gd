@@ -2,7 +2,7 @@ class_name Monster
 extends Resource
 ## An instance of a monster
 static var EXPERIENCE_PER_LEVEL = 50
-enum Stat { ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION, CRITICAL }
+enum Stat { NONE, ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION, CRITICAL }
 enum StatusApplyResult {
 	APPLIED,
 	REFRESHED,
@@ -12,6 +12,7 @@ enum StatusApplyResult {
 @export var monster_data: MonsterData
 @export var name: String = ""
 @export var type: TypeChart.Type
+@export var nature: String = ""
 
 @export var level: int = 1
 @export var experience: int = 0
@@ -36,12 +37,14 @@ enum StatusApplyResult {
 
 var is_able_to_fight: bool:
 	get: return not is_fainted and not is_captured
+	
 var statuses: Array[StatusInstance] = []
 
 func set_monster_data(md: MonsterData) -> void:
 	monster_data = md
 	type = monster_data.type
 	name = monster_data.species
+	nature = NatureChart.get_random_nature()
 
 
 func set_level(l: int) -> void:
@@ -65,6 +68,13 @@ func set_monster_moves() -> void:
 
 func set_stats() -> void:
 	var stats = [attack, defense, special_attack, special_defense, speed]
+	var stat_enums = [
+		Monster.Stat.ATTACK,
+		Monster.Stat.DEFENSE,
+		Monster.Stat.SPECIAL_ATTACK,
+		Monster.Stat.SPECIAL_DEFENSE,
+		Monster.Stat.SPEED
+	]
 	var base_stats = [
 		monster_data.base_attack, 
 		monster_data.base_defense, 
@@ -73,7 +83,9 @@ func set_stats() -> void:
 		monster_data.base_speed,
 	]
 	for i in range(stats.size()):
-		stats[i] = int((2 * base_stats[i] * level) / 100.0) + 5
+		stats[i] = \
+				ceili((int((2 * base_stats[i] * level) / 100.0) + 5) \
+				* NatureChart.get_nature_multiplier(nature, stat_enums[i]))
 	
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
 
@@ -339,10 +351,50 @@ func learn_move(move: Move, index: int) -> void:
 	moves[index] = move
 	
 	
-func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
-	var _catch_rate = item.catch_effect.catch_rate_modifier
+func attempt_catch(item: Item, actor: Monster) -> Dictionary:
+	var ball_bonus = item.catch_effect.catch_rate_modifier
+	var status_bonus: float = get_status_catch_bonus()
+	var hp_max = actor.max_hitpoints
+	var hp_curr = actor.current_hitpoints
+	var modified_catch_rate: int = \
+			min(255, (3 * hp_max - 2 * hp_curr) / (3 * float(hp_max)) * ball_bonus * status_bonus) 
+	var shake_probability = \
+			round(1048560 / round(sqrt(round(sqrt(16711680 / float(modified_catch_rate))))))
+	
+	var times = 0 
+	var success: bool = false if modified_catch_rate < 255 else true
+	if modified_catch_rate < 255:
+		while times < 4:
+			if shake_check(shake_probability):
+				times += 1
+			else:
+				break
+	
+	if times == 4:
+		success = true
+	
 	var result = {
-		"times": 3,
-		"success": true
+		"times": times,
+		"success": success
 	}
+	
+	print("Attempt catch results:")
+	print("times: ", result["times"])
+	print("success: ", result["success"])
+	
 	return result
+
+
+func get_status_catch_bonus() -> float:
+	if has_status_in_slot(StatusData.StatusSlot.MAIN):
+		match get_status_in_slot(StatusData.StatusSlot.MAIN).status_id:
+				"freeze", "sleep":
+					return 2.0
+				"paralyze", "poison", "burn":
+					return 1.5
+	return 1.0
+	
+	
+func shake_check(shake_probablity: int) -> bool:
+	var chance = randi_range(0, 65535)
+	return chance >= shake_probablity

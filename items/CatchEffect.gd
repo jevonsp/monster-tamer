@@ -31,4 +31,5 @@ func execute(item: Item, actor: Monster, target: Monster, battle_context: Battle
 		
 		await battle_context.play_escape_animation()
 	
+	print("post_text: ", post_text)
 	await battle_context.show_text(post_text, true)
