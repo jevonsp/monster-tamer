@@ -7,24 +7,28 @@ class_name CompositeStatusData
 func on_apply(instance: StatusInstance, owner: Monster, context: BattleContext) -> void:
 	for child in child_statuses:
 		if child != null:
+			@warning_ignore("redundant_await")
 			await child.on_apply(instance, owner, context)
 
 
 func on_turn_start(instance: StatusInstance, owner: Monster, context: BattleContext) -> void:
 	for child in child_statuses:
 		if child != null:
+			@warning_ignore("redundant_await")
 			await child.on_turn_start(instance, owner, context)
 
 
 func on_turn_end(instance: StatusInstance, owner: Monster, context: BattleContext) -> void:
 	for child in child_statuses:
 		if child != null:
+			@warning_ignore("redundant_await")
 			await child.on_turn_end(instance, owner, context)
 
 
 func on_remove(instance: StatusInstance, owner: Monster, context: BattleContext) -> void:
 	for child in child_statuses:
 		if child != null:
+			@warning_ignore("redundant_await")
 			await child.on_remove(instance, owner, context)
 
 
