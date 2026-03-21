@@ -1,8 +1,11 @@
 [gd_resource type="Resource" script_class="Move" format=3 uid="uid://dfl86vfipebns"]
 
+[ext_resource type="PackedScene" uid="uid://bo31bpbbsqfqh" path="res://moves/drowzy_yawn/drowzy_yawn_animation.tscn" id="1_6wypi"]
 [ext_resource type="Script" uid="uid://c3d1u67cjiyob" path="res://moves/MoveEffect.gd" id="1_oatj1"]
 [ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="2_6wypi"]
 
 [resource]
 script = ExtResource("2_6wypi")
+name = "Drowzy Yawn"
+animation = ExtResource("1_6wypi")
 metadata/_custom_type_script = "uid://cawunai26wo8m"

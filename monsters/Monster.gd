@@ -2,7 +2,9 @@ class_name Monster
 extends Resource
 ## An instance of a monster
 static var EXPERIENCE_PER_LEVEL = 50
-enum Stat { NONE, ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION, CRITICAL }
+enum Stat { 
+	NONE, ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION, CRITICAL, HITPOINTS 
+}
 enum StatusApplyResult {
 	APPLIED,
 	REFRESHED,
@@ -32,6 +34,8 @@ enum StatusApplyResult {
 @export var is_captured: bool = false
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
+
+@export var held_item: Item
 
 @export var stat_multis: MonsterStatMultipliers = null
 
@@ -88,6 +92,17 @@ func set_stats() -> void:
 				* NatureChart.get_nature_multiplier(nature, stat_enums[i]))
 	
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
+
+
+func get_stat(stat: Stat) -> int:
+	if not held_item and not held_item.held_effect:
+		return MonsterStatTable.stat_properties[stat]
+	match held_item.held_effect.boost_type:
+		HeldEffect.BoostType.FLAT:
+			return int(held_item.held_effect.flat_boost_amount * MonsterStatTable.stat_properties[stat])
+		HeldEffect.BoostType.PERCENTAGE:
+			return int(held_item.held_effect.percentage_boost_amount * MonsterStatTable.stat_properties[stat])
+	return MonsterStatTable.stat_properties[stat]
 
 
 func create_stat_multis() -> void:
@@ -385,3 +400,17 @@ func get_status_catch_bonus() -> float:
 func shake_check(shake_probablity: int) -> bool:
 	var chance = randi_range(0, 65535)
 	return chance >= shake_probablity
+
+
+func hold_item(item: Item) -> bool:
+	if held_item == null:
+		held_item = item
+		return true
+	else:
+		return false
+
+
+func swap_items(item: Item):
+	var temp = held_item
+	hold_item(item)
+	Global.send_item_to_inventory.emit(temp)

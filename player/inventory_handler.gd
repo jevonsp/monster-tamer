@@ -33,8 +33,8 @@ func _on_use_item_on(item: Item, monster: Monster) -> void:
 	remove(item)
 	
 	
-func _on_give_item_to(item: Item, _monster: Monster) -> void:
-	#await monster.give(item)
+func _on_give_item_to(item: Item, monster: Monster) -> void:
+	await item.give(monster)
 	remove(item)
 	
 	

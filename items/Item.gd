@@ -9,7 +9,7 @@ class_name Item
 @export_range(-5, 5) var priority: int = 0
 
 @export var use_effect: ItemEffect
-@export var held_effect: ItemEffect
+@export var held_effect: HeldEffect
 @export var catch_effect: CatchEffect
 
 
@@ -30,5 +30,22 @@ func use(target: Monster) -> void:
 		await use_effect.use(target)
 
 
-func give(_target: Monster) -> void:
-	print_debug("would give here")
+func give(target: Monster) -> void:
+	if held_effect:
+		var success = target.hold_item(self)
+		var ta: Array[String] 
+		if success:
+			ta = ["Gave %s to %s to hold." % [self.name, target.name]]
+			Global.send_text_box.emit(null, ta, false, false, false)
+			await Global.text_box_complete
+		else:
+			ta = ["%s is already holding %s. Swap items?"]
+			Global.send_text_box.emit(null, ta, false, true, false)
+			var answer = await Global.text_box_complete
+			if answer:
+				await target.swap_items(self)
+				ta = ["Gave %s to %s to hold." % [self.name, target.name]]
+				Global.send_text_box.emit(null, ta, false, false, false)
+				await Global.text_box_complete
+			else:
+				return

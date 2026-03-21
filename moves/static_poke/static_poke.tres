@@ -9,6 +9,9 @@
 
 [sub_resource type="Resource" id="Resource_a1l0h"]
 script = ExtResource("3_2ry4l")
+type = null
+base_power = null
+damage_type = null
 metadata/_custom_type_script = "uid://g1i3kodg4e2d"
 
 [sub_resource type="Resource" id="Resource_5rgub"]
