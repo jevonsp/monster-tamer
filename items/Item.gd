@@ -30,22 +30,8 @@ func use(target: Monster) -> void:
 		await use_effect.use(target)
 
 
-func give(target: Monster) -> void:
-	if held_effect:
-		var success = target.hold_item(self)
-		var ta: Array[String] 
-		if success:
-			ta = ["Gave %s to %s to hold." % [self.name, target.name]]
-			Global.send_text_box.emit(null, ta, false, false, false)
-			await Global.text_box_complete
-		else:
-			ta = ["%s is already holding %s. Swap items?"]
-			Global.send_text_box.emit(null, ta, false, true, false)
-			var answer = await Global.text_box_complete
-			if answer:
-				await target.swap_items(self)
-				ta = ["Gave %s to %s to hold." % [self.name, target.name]]
-				Global.send_text_box.emit(null, ta, false, false, false)
-				await Global.text_box_complete
-			else:
-				return
+func give(target: Monster) -> bool:
+	if held_effect == null or target == null:
+		return false
+
+	return target.hold_item(self)

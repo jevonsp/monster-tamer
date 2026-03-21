@@ -34,7 +34,6 @@ func _on_use_item_on(item: Item, monster: Monster) -> void:
 	
 	
 func _on_give_item_to(item: Item, monster: Monster) -> void:
-	await item.give(monster)
 	remove(item)
 	
 	

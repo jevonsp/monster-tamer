@@ -61,10 +61,6 @@ func _on_monster_pressed(button: Button) -> void:
 
 		Global.AccessFrom.INVENTORY:
 			Global.monster_selected.emit(button.actor)
-			visibility_focus_handler._toggle_visible()
-			party.interfaces.ui_context = Global.AccessFrom.NONE
-			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
-			Global.request_open_inventory.emit()
 
 		Global.AccessFrom.BATTLE:
 			await _handle_battle_press(button, num)

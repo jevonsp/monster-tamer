@@ -410,7 +410,7 @@ func hold_item(item: Item) -> bool:
 		return false
 
 
-func swap_items(item: Item):
-	var temp = held_item
-	hold_item(item)
+func swap_items(item: Item) -> void:
+	var temp: Item = held_item
+	held_item = item
 	Global.send_item_to_inventory.emit(temp)

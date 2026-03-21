@@ -119,13 +119,55 @@ func give() -> void:
 	Global.set_inventory_give.emit(true)
 	Global.request_open_inventory.emit()
 
-	var item = await Global.item_selected
+	var item: Item = await Global.item_selected
 	if item.held_effect == null:
-		Global.send_text_box.emit(self, ["That item isn't holdable!"], true, false, false)
+		var ta: Array[String] = ["That item isn't holdable!"]
+		Global.send_text_box.emit(self, ta, true, false, false)
 		await Global.text_box_complete
 		return
 
-	Global.give_item_to.emit(item, last_selected_monster.actor)
+	await _give_item_to_monster(item, last_selected_monster.actor)
+	Global.request_open_inventory.emit()
+	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+	Global.request_open_party.emit()
+
+
+func _give_item_to_monster(item: Item, monster: Monster) -> void:
+	if monster == null:
+		return
+
+	if monster.hold_item(item):
+		Global.give_item_to.emit(item, monster)
+		await _show_item_given_text(item, monster)
+		return
+
+	if not await _confirm_item_swap(monster):
+		return
+
+	monster.swap_items(item)
+	Global.give_item_to.emit(item, monster)
+	await _show_item_given_text(item, monster)
+
+
+func _show_item_given_text(item: Item, monster: Monster) -> void:
+	var ta: Array[String] = ["Gave %s to %s to hold." % [item.name, monster.name]]
+	Global.send_text_box.emit(self, ta, false, false, false)
+	await Global.text_box_complete
+
+
+func _confirm_item_swap(monster: Monster) -> bool:
+	var held_item_name: String = monster.held_item.name if monster.held_item != null else "that item"
+	var ta: Array[String] = ["%s is already holding %s. Swap items?" % [monster.name, held_item_name]]
+	Global.send_text_box.emit(
+		self,
+		ta,
+		false,
+		true,
+		false
+	)
+	var should_swap: bool = await Global.answer_given
+	await Global.text_box_complete
+	return should_swap
 
 
 func open_summary() -> void:
