@@ -4,8 +4,12 @@ extends Node
 
 
 func _toggle_visible() -> void:
-	party.visible = not party.visible
-	party.processing = not party.processing
+	_set_visible(not party.visible)
+
+
+func _set_visible(value: bool) -> void:
+	party.visible = value
+	party.processing = value
 
 	if party.visible:
 		_focus_default_monster()
@@ -17,7 +21,7 @@ func _toggle_visible() -> void:
 		for panel in party.panels:
 			party.panels[panel].player_exp_bar.active = false
 
-	if party.options_box.visible:
+	if party.visible and party.options_box.visible:
 		_focus_default_option()
 
 

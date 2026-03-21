@@ -26,6 +26,7 @@
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="20_re7it"]
 [ext_resource type="PackedScene" uid="uid://dqpocp0lr7l2e" path="res://world_objects/interactable/static_object/storage_component.tscn" id="21_vapsy"]
 [ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="23_qs5eo"]
+[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm_test/tm_test.tres" id="24_frbr6"]
 [ext_resource type="PackedScene" uid="uid://lhi4amumrkry" path="res://world_objects/teleporter/teleporter.tscn" id="26_d00gp"]
 [ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="27_d8vpj"]
 
@@ -124,13 +125,17 @@ position = Vector2(16, 48)
 item = ExtResource("17_s758e")
 
 [node name="BaseBall" parent="GroundItems" unique_id=425176937 instance=ExtResource("15_5xyti")]
-position = Vector2(32, 48)
+position = Vector2(16, 80)
 item = ExtResource("20_re7it")
 is_question = true
 
-[node name="GroundItem" parent="GroundItems" unique_id=1761516484 instance=ExtResource("15_5xyti")]
-position = Vector2(64, 32)
+[node name="SuperSoaker" parent="GroundItems" unique_id=1761516484 instance=ExtResource("15_5xyti")]
+position = Vector2(16, 64)
 item = ExtResource("23_qs5eo")
+
+[node name="TMTest" parent="GroundItems" unique_id=615830621 instance=ExtResource("15_5xyti")]
+position = Vector2(64, 32)
+item = ExtResource("24_frbr6")
 
 [node name="Sign" parent="." unique_id=1974786927 instance=ExtResource("14_73k8k")]
 position = Vector2(32, 16)

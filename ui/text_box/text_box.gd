@@ -47,11 +47,16 @@ func _toggle_questions_visible() -> void:
 	no_button.visible = not yes_button.visible
 	yes_button.visible = not yes_button.visible
 	if yes_button.visible:
-		yes_button.grab_focus()
+		call_deferred("_focus_question_button")
 	else:
 		for button in [no_button, yes_button]:
 			if button.has_focus():
 				button.release_focus()
+
+
+func _focus_question_button() -> void:
+	if yes_button.visible:
+		yes_button.grab_focus()
 
 
 func _load_text(
@@ -80,7 +85,7 @@ func _load_text(
 
 
 func _display_text() -> void:
-	text_box.grab_focus()
+	call_deferred("_focus_text_box")
 	main_label.text = text_array[text_index]
 	if is_question:
 		if text_array.size() - text_index == 1:
@@ -88,6 +93,11 @@ func _display_text() -> void:
 	if is_auto_complete:
 		await get_tree().create_timer((Global.DEFAULT_DELAY) / 2).timeout
 		_advance_text()
+
+
+func _focus_text_box() -> void:
+	if visible and not is_question:
+		text_box.grab_focus()
 
 
 func _advance_text() -> void:
@@ -111,12 +121,18 @@ func _await_question() -> bool:
 
 
 func _trigger() -> void:
+	if obj_ref == null:
+		return
 	if obj_ref.has_method("trigger"):
 		obj_ref.trigger()
 
 
 func _text_finished() -> void:
 	_clean_up()
+	call_deferred("_emit_text_box_complete")
+
+
+func _emit_text_box_complete() -> void:
 	Global.text_box_complete.emit()
 
 

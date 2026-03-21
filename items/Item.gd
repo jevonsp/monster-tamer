@@ -2,15 +2,18 @@ extends Resource
 class_name Item
 
 @export var name: String = ""
-@export var ground_texture: Texture2D
-@export var inventory_texture: Texture2D
-@export var battle_texture: Texture2D
+@export var is_multi_use: bool = false
 @export_multiline var description: String = ""
 @export_range(-5, 5) var priority: int = 0
 
 @export var use_effect: ItemEffect
 @export var held_effect: HeldEffect
 @export var catch_effect: CatchEffect
+
+@export_subgroup("Textures")
+@export var ground_texture: Texture2D
+@export var inventory_texture: Texture2D
+@export var battle_texture: Texture2D
 
 
 func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:

@@ -7,6 +7,7 @@ extends Resource
 @export_subgroup("Moves")
 @export var starting_moves: Array[Move]
 @export var level_up_moves: Dictionary[int, Move]
+@export var learn_set: Array[Move]
 @export_subgroup("Base Stats")
 @export var base_hitpoints: int = 50 
 @export var base_attack: int = 50
@@ -29,3 +30,7 @@ func set_up(level: int) -> Monster:
 	monster.current_hitpoints = monster.max_hitpoints
 	
 	return monster
+
+
+func can_learn_move(move: Move) -> bool:
+	return move in learn_set

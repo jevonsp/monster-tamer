@@ -109,7 +109,13 @@ func use() -> void:
 		await Global.text_box_complete
 		return
 
+	_set_item_use_processing(false, "party use started")
 	Global.use_item_on.emit(item, last_selected_monster.actor)
+	await Global.item_finished_using
+	if not visible:
+		Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+		visibility_focus_handler._set_visible(true)
+	_set_item_use_processing(true, "party use finished")
 
 
 func give() -> void:
@@ -172,5 +178,9 @@ func _confirm_item_swap(monster: Monster) -> bool:
 
 func open_summary() -> void:
 	Global.request_open_summary.emit(last_selected_monster.actor)
-	visibility_focus_handler._toggle_visible()
+	visibility_focus_handler._set_visible(false)
 	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+
+
+func _set_item_use_processing(value: bool, _reason: String) -> void:
+	processing = value and visible

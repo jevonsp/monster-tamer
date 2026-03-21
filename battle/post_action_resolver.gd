@@ -31,7 +31,7 @@ func handle_post_action(target: Monster, handler: Node) -> bool:
 	return false
 
 
-func resolve_level_up(monster: Monster, amount: int) -> void:
+func resolve_level_up(monster: Monster, _amount: int) -> void:
 	var text_array: Array[String] = ["%s leveled up to %s." % [monster.name, monster.level]]
 	Global.send_text_box.emit(null, text_array, false, false, false)
 	await Global.text_box_complete

@@ -1,10 +1,19 @@
 extends Node
 
 @onready var summary: Control = $".."
+@onready var party: Control = $"../../Party"
 
 func _toggle_visible(monster: Monster = null) -> void:
-	summary.visible = not summary.visible
-	summary.processing = not summary.processing
+	_set_visible(not summary.visible, monster)
+
+
+func _set_visible(value: bool, monster: Monster = null) -> void:
+	if value and summary.interfaces.ui_context == Global.AccessFrom.PARTY and party.visible:
+		party.visibility_focus_handler._set_visible(false)
+		Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+
+	summary.visible = value
+	summary.processing = value
 
 	if monster != null:
 		summary.show_monster(monster)

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://c2vdpfxevsbcy"]
 
-[ext_resource type="Script" uid="uid://bev6o0tsn3hyb" path="res://items/HealingEffect.gd" id="1_x1juo"]
+[ext_resource type="Script" uid="uid://bev6o0tsn3hyb" path="res://items/item_effects/HealingEffect.gd" id="1_x1juo"]
 [ext_resource type="Script" uid="uid://c3s5668st8huq" path="res://items/Item.gd" id="2_ies7t"]
 
 [sub_resource type="Resource" id="Resource_n645r"]

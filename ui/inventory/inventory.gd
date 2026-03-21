@@ -222,7 +222,11 @@ func use(item: Item) -> void:
 		_set_mode_use_target(true)
 		Global.request_open_party.emit()
 		var monster: Monster = await Global.monster_selected
+		Global.request_open_party.emit()
 		Global.use_item_on.emit(item, monster)
+		await Global.item_finished_using
+		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+		Global.request_open_inventory.emit()
 
 
 func give(item: Item) -> void:

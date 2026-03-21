@@ -145,69 +145,20 @@ func _on_request_summary_learn_move(move: Move) -> void:
 
 
 func _resolve_move_learning(monster: Monster, move: Move) -> void:
-	learning_monster = monster
-	move_learning = move
-
-	var learn_index := monster.get_learn_index()
-	if learn_index >= 0:
-		monster.learn_move(move, learn_index)
-		await move_learning_controller.announce_move_learned(monster, move)
-		Global.move_learning_finished.emit()
-		return
-
-	var decided := false
-	while not decided:
-		var answer = await move_learning_controller.ask_delete_existing_move(monster, move)
-		if not answer:
-			decided = await handle_cancel_learning()
-			continue
-		decided = true
-
-	is_learning_move = true
-	Global.request_summary_learn_move.emit(move)
-	if not visible:
-		visibility_focus_handler._toggle_visible(monster)
-	else:
-		show_monster(monster)
-	processing = true
-	visibility_focus_handler._focus_default_move()
+	await move_learning_controller.resolve_move_learning(self, monster, move)
 
 
 func ask_remove_move() -> void:
-	if last_focused_move_button == null or move_learning == null or learning_monster == null:
-		return
-
-	var move_removing = last_focused_move_button.move
-	if move_removing == null:
-		return
-
-	var answer = await move_learning_controller.confirm_replace_move(move_removing, move_learning)
-	if not answer:
-		return
-
-	var replacing_index := move_panels.find(last_focused_move_button)
-	if replacing_index == -1:
-		return
-
-	learning_monster.learn_move(move_learning, replacing_index)
-	update_handler.display_monster(learning_monster)
-	visibility_focus_handler._unfocus_moves()
-	is_learning_move = false
-	await move_learning_controller.announce_move_learned(learning_monster, move_learning)
-	visibility_focus_handler._toggle_visible()
-	Global.move_learning_finished.emit()
+	await move_learning_controller.ask_remove_move(self)
 
 
 func handle_cancel_learning() -> bool:
-	if learning_monster == null or move_learning == null:
-		return false
+	return await move_learning_controller.handle_cancel_learning(self)
 
-	var answer = await move_learning_controller.confirm_stop_learning(learning_monster, move_learning)
-	if not answer:
-		return false
 
-	await move_learning_controller.show_did_not_learn(learning_monster, move_learning)
-	if visible:
-		visibility_focus_handler._toggle_visible()
-	Global.move_learning_finished.emit()
-	return true
+func _set_move_learning_processing(value: bool, reason: String) -> void:
+	move_learning_controller.set_move_learning_processing(self, value, reason)
+
+
+func clean_up_learning_move() -> void:
+	move_learning_controller.clean_up_learning_move(self)
