@@ -40,6 +40,9 @@ func _tween_iris(from: float, to: float, duration: float) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is not Player:
+		return
+		
 	await Global.step_completed
 	
 	Global.toggle_player.emit()

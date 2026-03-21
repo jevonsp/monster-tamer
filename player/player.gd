@@ -4,7 +4,8 @@ class_name Player
 const TILE_SIZE := 16.0
 @export var WALK_SPEED := 5.0
 @export var TURN_DURATION := 0.1
-enum State {IDLE, TURNING, WALKING, JUMPING}
+enum State { IDLE, TURNING, MOVING, JUMPING }
+enum TravelState { DEFAULT, SURFING, BIKING }
 var current_state = State.IDLE
 var facing_direction = Vector2.ZERO
 var tile_start_pos: Vector2 = Vector2.ZERO
@@ -14,6 +15,10 @@ var held_keys: Array = []
 var key_hold_times: Dictionary = {}
 var turn_timer: float = 0.0
 var processing: bool = true
+var travel_methods: Dictionary = {
+	bike = false,
+	surf = true,
+}
 static var in_battle: bool = false
 #endregion
 
@@ -45,7 +50,7 @@ func _physics_process(delta: float) -> void:
 			process_idle_state()
 		State.TURNING:
 			process_turning_state(delta)
-		State.WALKING:
+		State.MOVING:
 			process_walking_state(delta)
 
 func _input(event: InputEvent) -> void:
@@ -148,6 +153,7 @@ func start_turning(new_facing_direction: Vector2) -> void:
 	Global.step_completed.emit(global_position)
 	anim_state.travel("Turn")
 
+
 func can_move_in(input_dir: Vector2) -> bool:
 	ray_cast_2d.target_position = input_dir * TILE_SIZE
 	ray_cast_2d.force_raycast_update()
@@ -158,7 +164,7 @@ func can_move_in(input_dir: Vector2) -> bool:
 	tile_start_pos = position
 	tile_target_pos = position + (input_dir * TILE_SIZE)
 	move_progress = 0.0
-	current_state = State.WALKING
+	current_state = State.MOVING
 	
 	var blend_dir = input_dir
 	animation_tree.set("parameters/Walk/blend_position", blend_dir)
@@ -191,7 +197,7 @@ func _attempt_interaction() -> void:
 		if move_progress != 0.0:
 			await Global.step_completed
 		var collider = ray_cast_2d.get_collider()
-		if collider.is_in_group("interactable"):
+		if collider.is_in_group("interactable") and collider.has_method("interact"):
 			collider.interact(self)
 			
 func toggle_processing() -> void:

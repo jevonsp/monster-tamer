@@ -11,7 +11,7 @@ shader_parameter/feather = 0.02999999932944
 shader_parameter/centre = Vector2(0.5, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gqidb"]
-size = Vector2(16, 16)
+size = Vector2(15, 15)
 
 [node name="Teleporter" type="Node2D" unique_id=643132918]
 script = ExtResource("1_8ruom")

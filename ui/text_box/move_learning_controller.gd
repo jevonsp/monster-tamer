@@ -45,7 +45,7 @@ func ask_remove_move(summary: Control) -> void:
 		summary.visibility_focus_handler._focus_default_move()
 		return
 
-	var replacing_index := summary.move_panels.find(summary.last_focused_move_button)
+	var replacing_index = summary.move_panels.find(summary.last_focused_move_button)
 	if replacing_index == -1:
 		set_move_learning_processing(summary, true, "confirm_replace_move missing index")
 		return

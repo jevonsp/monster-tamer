@@ -20,22 +20,17 @@ func _ready() -> void:
 	if not in_battle_text_box and visible:
 		_toggle_visible()
 
-	yes_button.gui_input.connect(_on_button_gui_input.bind(yes_button))
-	no_button.gui_input.connect(_on_button_gui_input.bind(no_button))
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
 	if is_question and yes_button.visible:
+		if event.is_action_pressed("ui_cancel"):
+			Global.answer_given.emit(false)
+			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("yes") or event.is_action_pressed("no"):
 		_advance_text()
-		get_viewport().set_input_as_handled()
-
-
-func _on_button_gui_input(event: InputEvent, _button: Button) -> void:
-	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 
 
