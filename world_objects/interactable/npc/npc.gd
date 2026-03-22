@@ -1,11 +1,7 @@
 @tool
+extends TileMover
 class_name NPC
-extends CharacterBody2D
-signal finished_walk_segment
-const TILE_SIZE: int = 16
-const WALK_SPEED := 4.0
 enum Direction {NONE, UP, DOWN, LEFT, RIGHT}
-enum State {IDLE, TURNING, WALKING, JUMPING}
 @export var npc_name: String = "NPC"
 @export var direction: Direction = Direction.DOWN:
 	set(value):
@@ -15,20 +11,18 @@ enum State {IDLE, TURNING, WALKING, JUMPING}
 @export_multiline var dialogue: Array[String] = []
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
-var current_state = State.IDLE
-var facing_vec: Vector2 = Vector2.DOWN
 var tiles_in_sight: Array[Vector2] = []
-var tile_start_pos: Vector2 = Vector2.ZERO
-var tile_target_pos: Vector2 = Vector2.ZERO
-var eventual_target_pos: Vector2 = Vector2.ZERO
-var move_progress: float = 0.0
 var components: Array[NPCComponent] = []
-@onready var animation_tree: AnimationTree = $AnimationTree
-@onready var anim_state = animation_tree.get("parameters/playback")
-@onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var exclamation_point: AnimatedSprite2D = $ExclamationPoint
 
+var facing_vec: Vector2:
+	get:
+		return facing_direction
+	set(value):
+		facing_direction = value
+
 func _ready() -> void:
+	super()
 	if Engine.is_editor_hint():
 		_update_direction_visual()
 		return
@@ -38,7 +32,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	match current_state:
-		State.WALKING:
+		MoveState.MOVING:
 			animate_move(delta)
 
 
@@ -84,17 +78,13 @@ func _update_direction_visual() -> void:
 		return
 		
 	var dir_vec = _vector_from_dir(direction)
-	facing_vec = dir_vec
+	facing_direction = dir_vec
 	
 	if animation_tree:
 		animation_tree.set("parameters/Idle/blend_position", dir_vec)
 		anim_state.travel("Idle")
 	else:
 		anim_state.travel("Idle")
-
-
-func _is_facing(dir: Vector2) -> bool:
-	return _vector_from_dir(direction) == dir
 
 
 func _vector_from_dir(dir: Direction) -> Vector2:
@@ -125,89 +115,17 @@ func _direction_from_vector(vector: Vector2) -> Direction:
 			return Direction.NONE
 		
 		
-func walk_list_tiles(tiles: Array[Vector2]) -> void:
-	for tile in tiles:
-		await walk_to_tile(tile)
-		await finished_walk_segment
-
-
-func walk_to_tile(pos: Vector2) -> void:
-	var dir_vec = (pos - global_position).normalized()
-	eventual_target_pos = pos
-	if not _is_facing(dir_vec):
-		await start_turning(dir_vec)
-	if check_able_to_move(dir_vec):
-		current_state = State.WALKING
-
-
-func check_able_to_move(dir: Vector2) -> bool:
-	ray_cast_2d.target_position = dir * TILE_SIZE
-	ray_cast_2d.force_raycast_update()
-
-	if ray_cast_2d.is_colliding():
-		return false
-
-	tile_start_pos = position
-	tile_target_pos = position + (dir * TILE_SIZE)
-	move_progress = 0.0
-	current_state = State.WALKING
-
-	animation_tree.set("parameters/Walk/blend_position", dir)
-	anim_state.travel("Walk")
-	return true
-
-
 func start_turning(new_facing_direction: Vector2) -> void:
 	if new_facing_direction == facing_vec:
 		return
-	animation_tree.set("parameters/Turn/blend_position", new_facing_direction)
-	animation_tree.set("parameters/Idle/blend_position", new_facing_direction)
-	animation_tree.set("parameters/Walk/blend_position", new_facing_direction)
-
-	facing_vec = new_facing_direction
-	ray_cast_2d.target_position = new_facing_direction * TILE_SIZE
-	current_state = State.TURNING
-	anim_state.travel("Turn")
+	_begin_turn(new_facing_direction)
 
 	await animation_tree.animation_finished
-
-	var blend_dir = facing_vec
-	animation_tree.set("parameters/Idle/blend_position", blend_dir)
-	current_state = State.IDLE
-	anim_state.travel("Idle")
+	_finish_turn()
 
 
-func animate_move(delta: float) -> void:
-	move_progress += WALK_SPEED * delta
-
-	if move_progress < 1.0:
-		position = tile_start_pos.lerp(tile_target_pos, move_progress)
-		return
-
-	position = tile_target_pos
-	move_progress = 0.0
-
-	if global_position.is_equal_approx(eventual_target_pos):
-		var last_move_dir = (tile_target_pos - tile_start_pos).normalized()
-		if last_move_dir != Vector2.ZERO:
-			facing_vec = last_move_dir
-			animation_tree.set("parameters/Idle/blend_position", facing_vec)
-		
-		current_state = State.IDLE
-		anim_state.travel("Idle")
-		finished_walk_segment.emit()
-		return
-
-	var dir_vec = (eventual_target_pos - global_position).normalized()
-	if abs(dir_vec.x) > abs(dir_vec.y):
-		dir_vec = Vector2(sign(dir_vec.x), 0)
-	else:
-		dir_vec = Vector2(0, sign(dir_vec.y))
-
-	if not check_able_to_move(dir_vec):
-		current_state = State.IDLE
-		anim_state.travel("Idle")
-		finished_walk_segment.emit()
+func _get_walk_speed() -> float:
+	return 4.0
 
 
 func animate_exclamation() -> void:
