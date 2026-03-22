@@ -20,11 +20,11 @@ func interact(body: Player) -> void:
 	ta = ["Would you like to surf?"]
 	Global.send_text_box.emit(self, ta, false, true, false)
 	var answer = await Global.answer_given
+	Global.toggle_player.emit()
 	if answer:
 		print("yes")
-		body.start_surfing()
-		
-	Global.toggle_player.emit()
+		await body.start_surfing()
+	
 	
 	
 func toggle_mode(new_state: State) -> void:
