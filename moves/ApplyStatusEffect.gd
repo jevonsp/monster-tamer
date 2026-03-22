@@ -2,6 +2,7 @@ extends MoveEffect
 class_name ApplyStatusEffect
 
 @export var status_data: StatusData
+@export var application_chance: float = 1.0
 @export var duration_override: int = -1
 
 func apply(
@@ -13,6 +14,11 @@ func apply(
 ) -> void:
 	var duration := duration_override if duration_override > 0 else status_data.default_duration
 	if not target.is_able_to_fight:
+		return
+		
+	var is_successful: bool = randf() <= application_chance
+	
+	if not is_successful:
 		return
 
 	var result := await target.add_status(status_data, duration, context)

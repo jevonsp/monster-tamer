@@ -95,14 +95,15 @@ func set_stats() -> void:
 
 
 func get_stat(stat: Stat) -> int:
-	if not held_item and not held_item.held_effect:
-		return MonsterStatTable.stat_properties[stat]
-	match held_item.held_effect.boost_type:
-		HeldEffect.BoostType.FLAT:
-			return int(held_item.held_effect.flat_boost_amount * MonsterStatTable.stat_properties[stat])
-		HeldEffect.BoostType.PERCENTAGE:
-			return int(held_item.held_effect.percentage_boost_amount * MonsterStatTable.stat_properties[stat])
-	return MonsterStatTable.stat_properties[stat]
+	var prop: StringName = MonsterStatTable.stat_properties[stat]
+	var base: int = int(get(prop))
+	if held_item and held_item.held_effect:
+		match held_item.held_effect.boost_type:
+			HeldEffect.BoostType.FLAT:
+				return base + held_item.held_effect.flat_boost_amount
+			HeldEffect.BoostType.PERCENTAGE:
+				return int(base * held_item.held_effect.percentage_boost_amount)
+	return base
 
 
 func create_stat_multis() -> void:
