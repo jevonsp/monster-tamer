@@ -415,3 +415,9 @@ func swap_items(item: Item) -> void:
 	var temp: Item = held_item
 	held_item = item
 	Global.send_item_to_inventory.emit(temp)
+
+
+func take_item() -> void:
+	var temp = held_item
+	held_item = null
+	Global.send_item_to_inventory.emit(temp)

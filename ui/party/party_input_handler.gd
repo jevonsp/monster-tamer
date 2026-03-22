@@ -88,13 +88,15 @@ func _on_option_pressed(button: Button) -> void:
 	party.last_selected_option = button
 
 	match button.name:
-		"Use":
-			party.use()
-		"Give":
-			party.give()
 		"Summary":
 			party.open_summary()
 		"Move":
 			party.start_moving()
+		"Use":
+			party.use()
+		"Give":
+			party.give()
+		"Take":
+			party.take()
 
 	get_viewport().set_input_as_handled()

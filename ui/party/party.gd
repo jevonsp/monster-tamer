@@ -22,10 +22,11 @@ var moving_source_index: int = -1
 	panel_5 = $MarginContainer/Content/GridContainer/Panel5,
 }
 @onready var option_buttons: Dictionary = {
-	use = $MarginContainer/Control/Options/Use,
-	give = $MarginContainer/Control/Options/Give,
 	summary = $MarginContainer/Control/Options/Summary,
 	move = $MarginContainer/Control/Options/Move,
+	use = $MarginContainer/Control/Options/Use,
+	give = $MarginContainer/Control/Options/Give,
+	take = $MarginContainer/Control/Options/Take
 }
 #endregion
 
@@ -38,6 +39,8 @@ var moving_source_index: int = -1
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
+	if options_box.visible:
+		options_box.visible = false
 	if visible:
 		processing = true
 		visibility_focus_handler._focus_default_monster()
@@ -136,6 +139,32 @@ func give() -> void:
 	Global.request_open_inventory.emit()
 	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 	Global.request_open_party.emit()
+
+
+func take() -> void:
+	var ta: Array[String]
+	var monster: Monster = last_selected_monster.actor
+	var item = monster.held_item
+	
+	if item == null:
+		ta = ["%s isn't holding anything." % monster.name]
+		Global.send_text_box.emit(null, ta, true, false, false)
+		await Global.text_box_complete
+		visibility_focus_handler._focus_default_option()
+		return
+		
+	ta = ["Do you want to take %s from %s" % [item.name, monster.name]]
+	Global.send_text_box.emit(null, ta, false, true, false)
+	var answer = await Global.answer_given
+	await Global.text_box_complete
+	
+	if answer:
+		monster.take_item()
+		ta = ["Took the %s from %s" % [item.name, monster.name]]
+		Global.send_text_box.emit(null, ta, true, false, false)
+		await Global.text_box_complete
+		
+	visibility_focus_handler._focus_default_option()
 
 
 func _give_item_to_monster(item: Item, monster: Monster) -> void:

@@ -46,7 +46,7 @@ func _on_option_pressed(b: Button) -> void:
 		"Deposit":
 			storage.deposit()
 		"Release":
-			print_debug("Release not yet implemented")
+			storage.release()
 
 
 func move_page(dir: Vector2) -> void:

@@ -495,10 +495,58 @@ offset_right = 249.0
 offset_bottom = 168.0
 grow_vertical = 2
 
+[node name="Summary" type="Button" parent="MarginContainer/Control/Options" unique_id=1447029223]
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_top = NodePath("../Take")
+focus_neighbor_right = NodePath(".")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Summary" unique_id=51435937]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Options/Summary/MarginContainer" unique_id=1532625572]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "SUMM."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Move" type="Button" parent="MarginContainer/Control/Options" unique_id=1946629235]
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Move" unique_id=28877384]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/Control/Options/Move/MarginContainer" unique_id=467554894]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Use" type="Button" parent="MarginContainer/Control/Options" unique_id=1017615335]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_top = NodePath("../Move")
 focus_neighbor_right = NodePath(".")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Use" unique_id=212887599]
@@ -544,12 +592,13 @@ text = "GIVE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Summary" type="Button" parent="MarginContainer/Control/Options" unique_id=1447029223]
+[node name="Take" type="Button" parent="MarginContainer/Control/Options" unique_id=1143624376]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Summary")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Summary" unique_id=51435937]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Take" unique_id=1974214259]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -561,34 +610,9 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="MarginContainer/Control/Options/Summary/MarginContainer" unique_id=1532625572]
+[node name="Label" type="Label" parent="MarginContainer/Control/Options/Take/MarginContainer" unique_id=1569337299]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
-text = "SUMM."
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Move" type="Button" parent="MarginContainer/Control/Options" unique_id=1946629235]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../Use")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Control/Options/Move" unique_id=28877384]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="Label" type="Label" parent="MarginContainer/Control/Options/Move/MarginContainer" unique_id=467554894]
-layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "MOVE"
+text = "TAKE"
 horizontal_alignment = 1
 vertical_alignment = 1

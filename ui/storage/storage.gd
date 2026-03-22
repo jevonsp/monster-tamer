@@ -29,7 +29,8 @@ var page_index: int = 0
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
-	visiblity_focus_handler._toggle_options_visible()
+	if options_container.visible:
+		visiblity_focus_handler._toggle_options_visible()
 	if visible:
 		processing = true
 		visiblity_focus_handler._focus_default_monster()
@@ -136,3 +137,38 @@ func withdraw() -> void:
 		return
 	Global.storage_withdraw_monster.emit(last_selected_monster.actor)
 	visiblity_focus_handler._toggle_options_visible()
+
+
+func release() -> void:
+	var ta: Array[String]
+	var monster = last_selected_monster.actor
+	
+	if not await can_release(monster):
+		visiblity_focus_handler._focus_default_option()
+		return
+	
+	ta = ["Do you really want to release %s? This is irreversible." % monster.name]
+	Global.send_text_box.emit(null, ta, false, true, false)
+	
+	var answer = await Global.answer_given
+	await Global.text_box_complete
+	
+	if answer:
+		ta = ["Are you absolutely sure?? YES to relase. NO to back out."]
+		Global.send_text_box.emit(null, ta, false, true, false)
+		answer = await Global.answer_given
+		await Global.text_box_complete
+		if answer:
+			var player = get_tree().get_first_node_in_group("player")
+			await player.party_handler.remove(monster)
+
+
+func can_release(monster: Monster) -> bool:
+	var player = get_tree().get_first_node_in_group("player")
+	if player.party_handler.party.size() == 1 and player.party_handler.party.has(monster):
+		var ta: Array[String] = ["You cant release your last monster!"]
+		Global.send_text_box.emit(null, ta, true, false, false)
+		await Global.text_box_complete
+		return false
+		
+	return true

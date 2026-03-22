@@ -1,6 +1,7 @@
 extends Node
 @onready var storage: Control = $".."
 
+
 func _toggle_visible() -> void:
 	storage.visible = not storage.visible
 	storage.processing = not storage.processing

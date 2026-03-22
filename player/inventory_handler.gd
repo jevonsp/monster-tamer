@@ -6,6 +6,7 @@ func _ready() -> void:
 	Global.use_item_on.connect(_on_use_item_on)
 	Global.give_item_to.connect(_on_give_item_to)
 	Global.item_used.connect(remove)
+	Global.send_item_to_inventory.connect(add)
 
 
 func add(item: Item, amount: int = 1) -> void:

@@ -155,3 +155,21 @@ func _on_switch_moves(monster: Monster, index_one: int, index_two: int) -> void:
 	monster.moves[index_one] = monster.moves[index_two]
 	monster.moves[index_two] = temp
 	send_player_party()
+
+
+func remove_monster(monster: Monster) -> void:
+	if not party.has(monster) or not storage.has(monster):
+		return
+	
+	var ta: Array[String] = ["Goodbye %s, I'll miss you!" % [monster.name]]
+	Global.send_text_box.emit(null, ta, true, false, false)
+	await Global.text_box_complete
+	
+	if party.has(monster):
+		party.erase(monster)
+	if storage.has(monster):
+		var idx = storage.find_key(monster)
+		if idx:
+			storage[idx] = null
+			
+	send_player_party_and_storage()
