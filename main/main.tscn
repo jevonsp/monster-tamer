@@ -89,6 +89,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
 position = Vector2(64, 32)
 WALK_SPEED = 4.5
+available_travel_methods = {
+1: true,
+2: false
+}
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
 position = Vector2(32, 32)

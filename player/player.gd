@@ -1,12 +1,14 @@
 extends CharacterBody2D
 class_name Player
 #region Movement Vars
+enum State { IDLE, TURNING, MOVING, JUMPING }
+enum TravelState { DEFAULT, SURFING, BIKING }
 const TILE_SIZE := 16.0
 @export var WALK_SPEED := 5.0
 @export var TURN_DURATION := 0.1
-enum State { IDLE, TURNING, MOVING, JUMPING }
-enum TravelState { DEFAULT, SURFING, BIKING }
+static var in_battle: bool = false
 var current_state = State.IDLE
+var travel_state = TravelState.DEFAULT
 var facing_direction = Vector2.ZERO
 var tile_start_pos: Vector2 = Vector2.ZERO
 var tile_target_pos: Vector2 = Vector2.ZERO
@@ -15,11 +17,11 @@ var held_keys: Array = []
 var key_hold_times: Dictionary = {}
 var turn_timer: float = 0.0
 var processing: bool = true
-var travel_methods: Dictionary = {
-	bike = false,
-	surf = true,
+var current_map: TileMapLayer = null
+@export var available_travel_methods: Dictionary = {
+	TravelState.SURFING: false,
+	TravelState.BIKING: false,
 }
-static var in_battle: bool = false
 #endregion
 
 var respawn_point: Vector2 = Vector2.ZERO
@@ -42,6 +44,7 @@ func _process(delta: float) -> void:
 		return
 	update_held_keys(delta)
 		
+		
 func _physics_process(delta: float) -> void:
 	if not processing:
 		return
@@ -53,6 +56,7 @@ func _physics_process(delta: float) -> void:
 		State.MOVING:
 			process_walking_state(delta)
 
+
 func _input(event: InputEvent) -> void:
 	if not processing:
 		return
@@ -62,6 +66,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		_open_menu()
 		get_viewport().set_input_as_handled()
+
 
 func _bind_signals() -> void:
 	Global.toggle_player.connect(toggle_processing)
@@ -161,6 +166,10 @@ func can_move_in(input_dir: Vector2) -> bool:
 	if ray_cast_2d.is_colliding():
 		return false
 		
+	var tile = _get_next_tile_coords(input_dir)
+	print(tile)
+	(print(_is_tile_water(tile)))
+		
 	tile_start_pos = position
 	tile_target_pos = position + (input_dir * TILE_SIZE)
 	move_progress = 0.0
@@ -185,12 +194,14 @@ func get_input_direction() -> Vector2:
 	var key = held_keys.back()
 	return direction_map.get(key, Vector2.ZERO)
 	
+	
 func clear_inputs() -> void:
 	held_keys.clear()
 	key_hold_times.clear()
 	current_state = State.IDLE
 	move_progress = 0.0
 	anim_state.travel("Idle")
+
 
 func _attempt_interaction() -> void:
 	if ray_cast_2d.is_colliding():
@@ -200,9 +211,11 @@ func _attempt_interaction() -> void:
 		if collider.is_in_group("interactable") and collider.has_method("interact"):
 			collider.interact(self)
 			
+			
 func toggle_processing() -> void:
 	clear_inputs()
 	processing = !processing
+	
 	
 func toggle_in_battle() -> void:
 	in_battle = not in_battle
@@ -214,9 +227,11 @@ func toggle_in_battle() -> void:
 func set_respawn_point() -> void:
 	respawn_point = global_position
 	
+	
 func _respawn() -> void:
 	global_position = respawn_point
 	party_handler.fully_heal_and_revive_party()
+
 
 func _open_menu() -> void:
 	party_handler.send_player_party()
@@ -226,5 +241,20 @@ func _open_menu() -> void:
 	toggle_processing()
 	Global.request_open_menu.emit()
 
+
 func _on_menu_closed():
 	toggle_processing()
+
+
+func _get_next_tile_coords(dir: Vector2) -> Vector2i:
+	var result: Vector2i = global_position + dir * Vector2(TILE_SIZE, TILE_SIZE)
+	return current_map.local_to_map(result)
+
+
+func _is_tile_water(tile: Vector2i) -> bool:
+	return true if current_map.get_cell_atlas_coords(tile) == Vector2i(2, 0) else false
+
+
+func start_surfing() -> void:
+	travel_state = TravelState.SURFING
+	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.PASSABLE)
