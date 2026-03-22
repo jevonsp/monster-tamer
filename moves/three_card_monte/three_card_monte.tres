@@ -5,4 +5,5 @@
 
 [resource]
 script = ExtResource("2_dtae6")
+name = "Three Card Monte"
 metadata/_custom_type_script = "uid://cawunai26wo8m"

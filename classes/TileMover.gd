@@ -70,22 +70,10 @@ func _on_walk_step_completed() -> void:
 
 
 func try_start_move(dir: Vector2) -> bool:
-	print(
-		"[TileMover.try_start_move] pos=", global_position,
-		" dir=", dir,
-		" ray_target=", dir * TILE_SIZE,
-		" state=", current_state,
-		" eventual_target_pos=", eventual_target_pos
-	)
 	ray_cast_2d.target_position = dir * TILE_SIZE
 	ray_cast_2d.force_raycast_update()
 
 	if ray_cast_2d.is_colliding():
-		print(
-			"[TileMover.try_start_move] blocked collider=",
-			ray_cast_2d.get_collider(),
-			" collision_point=", ray_cast_2d.get_collision_point()
-		)
 		return false
 
 	tile_start_pos = position
@@ -94,11 +82,6 @@ func try_start_move(dir: Vector2) -> bool:
 	current_state = MoveState.MOVING
 	animation_tree.set("parameters/Walk/blend_position", dir)
 	anim_state.travel("Walk")
-	print(
-		"[TileMover.try_start_move] success tile_start_pos=", tile_start_pos,
-		" tile_target_pos=", tile_target_pos,
-		" state=", current_state
-	)
 	return true
 
 
@@ -148,32 +131,17 @@ func walk_list_tiles(tiles: Array[Vector2]) -> void:
 func walk_to_tile(pos: Vector2) -> void:
 	var dir_vec = _get_step_direction_to(pos)
 	eventual_target_pos = pos
-	print(
-		"[TileMover.walk_to_tile] from=", global_position,
-		" to=", pos,
-		" dir_vec=", dir_vec,
-		" facing=", facing_direction,
-		" state=", current_state
-	)
 
 	if global_position.is_equal_approx(eventual_target_pos):
-		print("[TileMover.walk_to_tile] already at target")
 		finished_walk_segment.emit()
 		return
 
 	if not _is_facing(dir_vec):
-		print("[TileMover.walk_to_tile] turning toward ", dir_vec)
 		await start_turning(dir_vec)
 
 	if check_able_to_move(dir_vec):
 		current_state = MoveState.MOVING
-		print(
-			"[TileMover.walk_to_tile] move started tile_target_pos=", tile_target_pos,
-			" eventual_target_pos=", eventual_target_pos,
-			" state=", current_state
-		)
 	else:
-		print("[TileMover.walk_to_tile] unable to start move toward ", dir_vec)
 		finished_walk_segment.emit()
 
 
@@ -187,16 +155,9 @@ func walk_one_tile(dir: Vector2) -> void:
 		cardinal_dir = Vector2.ZERO
 
 	if cardinal_dir == Vector2.ZERO:
-		print("[TileMover.walk_one_tile] zero direction from ", dir)
 		finished_walk_segment.emit()
 		return
 
-	print(
-		"[TileMover.walk_one_tile] from=", global_position,
-		" raw_dir=", dir,
-		" cardinal_dir=", cardinal_dir,
-		" target=", global_position + (cardinal_dir * TILE_SIZE)
-	)
 	await walk_to_tile(global_position + (cardinal_dir * TILE_SIZE))
 
 
@@ -205,22 +166,13 @@ func animate_move(delta: float) -> void:
 		return
 
 	_on_walk_step_completed()
-	print(
-		"[TileMover.animate_move] reached tile pos=", global_position,
-		" tile_target_pos=", tile_target_pos,
-		" eventual_target_pos=", eventual_target_pos,
-		" state=", current_state
-	)
 
 	if global_position.is_equal_approx(eventual_target_pos):
-		print("[TileMover.animate_move] reached eventual target")
 		finish_move_to_idle((tile_target_pos - tile_start_pos).normalized())
 		finished_walk_segment.emit()
 		return
 
 	var dir_vec = _get_step_direction_to(eventual_target_pos)
-	print("[TileMover.animate_move] continuing toward ", dir_vec)
 	if not check_able_to_move(dir_vec):
-		print("[TileMover.animate_move] failed to continue toward ", dir_vec)
 		finish_move_to_idle((tile_target_pos - tile_start_pos).normalized())
 		finished_walk_segment.emit()

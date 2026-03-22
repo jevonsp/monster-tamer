@@ -7,6 +7,8 @@ var is_question: bool = false
 var toggles_player: bool = false
 var text_index: int = -1
 var obj_ref: Node = null
+var trigger_on_close: bool = false
+var deferred_trigger_ref: Node = null
 @onready var text_box: Panel = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
 @onready var no_button: Button = $HBoxContainer/No
@@ -103,7 +105,7 @@ func _advance_text() -> void:
 			return
 		else:
 			if await _await_question():
-				_trigger()
+				trigger_on_close = true
 	_text_finished()
 
 
@@ -122,8 +124,19 @@ func _trigger() -> void:
 		obj_ref.trigger()
 
 
+func _trigger_ref(target: Node) -> void:
+	if target == null:
+		return
+	if target.has_method("trigger"):
+		target.trigger()
+
+
 func _text_finished() -> void:
+	var should_trigger := trigger_on_close
+	var trigger_target := deferred_trigger_ref if deferred_trigger_ref != null else obj_ref
 	_clean_up()
+	if should_trigger:
+		call_deferred("_trigger_ref", trigger_target)
 	call_deferred("_emit_text_box_complete")
 
 
@@ -140,7 +153,6 @@ func _clean_up() -> void:
 		text_box.release_focus()
 	main_label.text = ""
 	processing = false
-	obj_ref = null
 	text_array = []
 	text_index = 0
 	is_question = false
@@ -148,6 +160,12 @@ func _clean_up() -> void:
 	if toggles_player:
 		Global.toggle_player.emit()
 	toggles_player = false
+	if trigger_on_close:
+		deferred_trigger_ref = obj_ref
+	else:
+		deferred_trigger_ref = null
+	obj_ref = null
+	trigger_on_close = false
 
 
 func _on_no_pressed() -> void:

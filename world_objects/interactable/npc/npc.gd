@@ -65,8 +65,10 @@ func _say_dialogue(d: Array[String] = [], autocomplete = null, question = null) 
 
 func trigger() -> void:
 	var player = get_tree().get_first_node_in_group("player")
-	for c in components:
-		c.trigger(player)
+	for c: NPCComponent in components:
+		if c.is_active:
+			@warning_ignore("redundant_await")
+			await c.trigger(player)
 
 
 func _update_direction_visual() -> void:
