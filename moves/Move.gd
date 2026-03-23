@@ -14,13 +14,13 @@ extends Resource
 var should_exit: bool = false
 
 func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:
-	var is_miss = calculate_miss(actor, target)
-	
-	if is_miss:
+	var missed: bool = calculate_miss(actor, target)
+
+	if missed:
 		var text_array: Array[String] = ["%s's attack missed!" % [actor]]
 		await battle_context.show_text(text_array)
 		return
-	
+
 	for effect in effects:
 		if effect is MoveEffect:
 			@warning_ignore("redundant_await")
@@ -30,16 +30,19 @@ func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> 
 
 
 func calculate_miss(actor: Monster, target: Monster) -> bool:
-	var adjusted_stage = \
-			clamp(actor.stat_multis.stat_stages[Monster.Stat.ACCURACY] - \
-			target.stat_multis.stat_stages[Monster.Stat.EVASION], -6, 6)
-	
-	var stat_stage_multi = MonsterStatTable.special_stat_multis[adjusted_stage]
-	var stat_multi = \
-			actor.stat_multis.stat_multipliers[Monster.Stat.ACCURACY] * target.stat_multis.stat_multipliers[Monster.Stat.EVASION]
-	var accuracy_float = accuracy / 100.0
-	
-	var final_accuracy = accuracy_float * stat_multi * stat_stage_multi
+	var adjusted_stage: int = clamp(
+		actor.stat_multis.stat_stages[Monster.Stat.ACCURACY]
+			- target.stat_multis.stat_stages[Monster.Stat.EVASION],
+		-6,
+		6
+	)
+	var stat_stage_multi: float = MonsterStatTable.special_stat_multis[adjusted_stage]
+	var stat_multi: float = (
+		actor.stat_multis.stat_multipliers[Monster.Stat.ACCURACY]
+		* target.stat_multis.stat_multipliers[Monster.Stat.EVASION]
+	)
+	var accuracy_float: float = accuracy / 100.0
+	var final_accuracy: float = accuracy_float * stat_multi * stat_stage_multi
 	print("final_accuracy: ", final_accuracy)
-	
+
 	return randf() >= final_accuracy

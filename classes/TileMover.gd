@@ -6,7 +6,7 @@ signal finished_walk_segment
 
 enum MoveState { IDLE, TURNING, MOVING, JUMPING }
 
-const TILE_SIZE := 16.0
+const TILE_SIZE: float = 16.0
 
 var current_state: MoveState = MoveState.IDLE
 var facing_direction: Vector2 = Vector2.ZERO
@@ -16,7 +16,7 @@ var move_progress: float = 0.0
 var eventual_target_pos: Vector2 = Vector2.ZERO
 
 @onready var animation_tree: AnimationTree = $AnimationTree
-@onready var anim_state = animation_tree.get("parameters/playback")
+@onready var anim_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
 

@@ -1,5 +1,5 @@
-extends Resource
 class_name Item
+extends Resource
 
 @export var name: String = ""
 @export var is_multi_use: bool = false
@@ -18,7 +18,7 @@ class_name Item
 
 func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:
 	await battle_context.show_item_used_text(self, actor, target)
-	
+
 	if catch_effect:
 		@warning_ignore("redundant_await")
 		await catch_effect.execute(self, actor, target, battle_context)

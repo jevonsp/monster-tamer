@@ -1,5 +1,5 @@
-extends RefCounted
 class_name StatusInstance
+extends RefCounted
 
 var data: StatusData
 var remaining_turns: int

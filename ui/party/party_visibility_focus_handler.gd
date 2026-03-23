@@ -47,7 +47,7 @@ func _focus_default_monster() -> void:
 		party.last_selected_monster.grab_focus()
 		return
 
-	var keys = party.panels.keys()
+	var keys: Array = party.panels.keys()
 	if keys.is_empty():
 		return
 
@@ -59,7 +59,7 @@ func _focus_default_option() -> void:
 		party.last_selected_option.grab_focus()
 		return
 
-	var keys = party.option_buttons.keys()
+	var keys: Array = party.option_buttons.keys()
 	if keys.is_empty():
 		return
 

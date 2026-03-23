@@ -1,5 +1,5 @@
-extends Resource
 class_name TypeChart
+extends Resource
 
 enum Type {
 	NONE,
@@ -8,11 +8,11 @@ enum Type {
 	GRASS,
 }
 
-const NOT_VERY := 0.5
-const NORMAL := 1.0
-const SUPER_EFFECTIVE := 2.0
+const NOT_VERY: float = 0.5
+const NORMAL: float = 1.0
+const SUPER_EFFECTIVE: float = 2.0
 
-static var type_chart: Dictionary = {
+const TYPE_CHART: Dictionary = {
 	Type.NONE: {
 		Type.NONE: NORMAL,
 		Type.FIRE: NORMAL,
@@ -40,4 +40,4 @@ static var type_chart: Dictionary = {
 }
 
 static func get_attacking_type_efficacy(attacker: Type, defender: Type) -> float:
-	return type_chart[attacker][defender]
+	return TYPE_CHART[attacker][defender]

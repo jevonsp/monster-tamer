@@ -1,5 +1,5 @@
-extends Resource
 class_name StatusData
+extends Resource
 
 enum StatusSlot {
 	MAIN,

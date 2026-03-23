@@ -1,16 +1,27 @@
 class_name Monster
 extends Resource
-## An instance of a monster
-static var EXPERIENCE_PER_LEVEL = 50
-enum Stat { 
-	NONE, ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED, ACCURACY, EVASION, CRITICAL, HITPOINTS 
-}
+
 enum StatusApplyResult {
 	APPLIED,
 	REFRESHED,
 	BLOCKED_DUPLICATE,
 	BLOCKED_SLOT_CONFLICT
 }
+
+enum Stat {
+	NONE,
+	ATTACK,
+	SPECIAL_ATTACK,
+	DEFENSE,
+	SPECIAL_DEFENSE,
+	SPEED,
+	ACCURACY,
+	EVASION,
+	CRITICAL,
+	HITPOINTS,
+}
+
+const EXPERIENCE_PER_LEVEL: int = 50
 @export var monster_data: MonsterData
 @export var name: String = ""
 @export var type: TypeChart.Type
@@ -40,20 +51,20 @@ enum StatusApplyResult {
 @export var stat_multis: MonsterStatMultipliers = null
 
 var is_able_to_fight: bool:
-	get: return not is_fainted and not is_captured
-	
+	get:
+		return not is_fainted and not is_captured
+
 var statuses: Array[StatusInstance] = []
 
-func set_monster_data(md: MonsterData) -> void:
-	monster_data = md
+func set_monster_data(monster_data_resource: MonsterData) -> void:
+	monster_data = monster_data_resource
 	type = monster_data.type
 	name = monster_data.species
 	nature = NatureChart.get_random_nature()
 
 
-func set_level(l: int) -> void:
-	"""Always use this to set level. Keeps EXP correct"""
-	level = l
+func set_level(new_level: int) -> void:
+	level = new_level
 	experience = EXPERIENCE_PER_LEVEL * (level - 1)
 
 
@@ -61,9 +72,9 @@ func set_monster_moves() -> void:
 	var moves_to_gain: Array[Move] = monster_data.starting_moves
 	while moves_to_gain.size() < 4:
 		moves_to_gain.append(null)
-		
-	for key_level in monster_data.level_up_moves.keys():
-		var move = monster_data.level_up_moves[key_level]
+
+	for key_level: int in monster_data.level_up_moves.keys():
+		var move: Move = monster_data.level_up_moves[key_level]
 		if key_level <= level:
 			moves_to_gain.pop_back()
 			moves_to_gain.push_front(move)
@@ -71,32 +82,33 @@ func set_monster_moves() -> void:
 
 
 func set_stats() -> void:
-	var stats = [attack, defense, special_attack, special_defense, speed]
-	var stat_enums = [
+	var stats: Array[int] = [attack, defense, special_attack, special_defense, speed]
+	var stat_enums: Array[Monster.Stat] = [
 		Monster.Stat.ATTACK,
 		Monster.Stat.DEFENSE,
 		Monster.Stat.SPECIAL_ATTACK,
 		Monster.Stat.SPECIAL_DEFENSE,
-		Monster.Stat.SPEED
+		Monster.Stat.SPEED,
 	]
-	var base_stats = [
-		monster_data.base_attack, 
-		monster_data.base_defense, 
-		monster_data.base_special_attack, 
-		monster_data.base_special_defense, 
+	var base_stats: Array[int] = [
+		monster_data.base_attack,
+		monster_data.base_defense,
+		monster_data.base_special_attack,
+		monster_data.base_special_defense,
 		monster_data.base_speed,
 	]
 	for i in range(stats.size()):
-		stats[i] = \
-				ceili((int((2 * base_stats[i] * level) / 100.0) + 5) \
-				* NatureChart.get_nature_multiplier(nature, stat_enums[i]))
-	
+		stats[i] = ceili(
+			(int((2 * base_stats[i] * level) / 100.0) + 5)
+			* NatureChart.get_nature_multiplier(nature, stat_enums[i])
+		)
+
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
 
 
 func get_stat(stat: Stat) -> int:
-	var prop: StringName = MonsterStatTable.stat_properties[stat]
-	var base: int = int(get(prop))
+	var property_name: StringName = MonsterStatTable.stat_properties[stat]
+	var base: int = int(get(property_name))
 	if held_item and held_item.held_effect:
 		match held_item.held_effect.boost_type:
 			HeldEffect.BoostType.FLAT:
@@ -107,13 +119,13 @@ func get_stat(stat: Stat) -> int:
 
 
 func create_stat_multis() -> void:
-	var monster_stat_multis = MonsterStatMultipliers.new()
+	var monster_stat_multis: MonsterStatMultipliers = MonsterStatMultipliers.new()
 	stat_multis = monster_stat_multis
 
 
 func get_stat_stage_multi(stat: Stat) -> float:
 	var stage: int = stat_multis.stat_stages.get(stat, 0)
-	
+
 	match stat:
 		Stat.ACCURACY, Stat.EVASION:
 			return MonsterStatTable.special_stat_multis[stage]
@@ -131,7 +143,7 @@ func take_damage(amount: int) -> void:
 
 func check_faint() -> void:
 	if current_hitpoints <= 0:
-		await faint()
+		faint()
 
 
 func add_status(
@@ -166,15 +178,15 @@ func remove_status(instance: StatusInstance) -> void:
 
 
 func has_status(status_name: String) -> bool:
-	for s in statuses:
-		if s.data and s.data.status_name == status_name:
+	for status: StatusInstance in statuses:
+		if status.data and status.data.status_name == status_name:
 			return true
 	return false
 
 
 func has_status_id(status_identifier: String) -> bool:
-	for s in statuses:
-		if s.data and s.data.get_identifier() == status_identifier:
+	for status: StatusInstance in statuses:
+		if status.data and status.data.get_identifier() == status_identifier:
 			return true
 	return false
 
@@ -253,58 +265,58 @@ func execute_action_override(target: Monster, context: BattleContext, chosen_act
 
 func tick_statuses_start(context: BattleContext) -> void:
 	var to_remove: Array[StatusInstance] = []
-	for status in statuses:
+	for status: StatusInstance in statuses:
 		await status.on_turn_start(context)
 		if status.is_expired():
 			to_remove.append(status)
 
-	for s in to_remove:
-		if s.data != null:
-			await s.on_remove(context)
-		statuses.erase(s)
+	for status: StatusInstance in to_remove:
+		if status.data != null:
+			await status.on_remove(context)
+		statuses.erase(status)
 
 
 func tick_statuses_end(context: BattleContext) -> void:
 	var to_remove: Array[StatusInstance] = []
-	for status in statuses:
+	for status: StatusInstance in statuses:
 		await status.on_turn_end(context)
 		status.tick_duration()
 		if status.is_expired():
 			to_remove.append(status)
-	for s in to_remove:
-		if s.data != null:
-			await s.on_remove(context)
-		statuses.erase(s)
+	for status: StatusInstance in to_remove:
+		if status.data != null:
+			await status.on_remove(context)
+		statuses.erase(status)
 
 
-func faint():
+func faint() -> void:
 	if is_fainted:
 		return
 	is_fainted = true
 	Global.send_monster_fainted.emit(self)
-	
-	
+
+
 func heal(amount: int, revives: bool = false) -> void:
 	current_hitpoints = min(current_hitpoints + amount, max_hitpoints)
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	await Global.hitpoints_animation_complete
 	if revives:
 		is_fainted = false
-	
-	
+
+
 func fully_heal_and_revive() -> void:
 	current_hitpoints = max_hitpoints
 	Global.send_hitpoints_change.emit(self, current_hitpoints)
 	is_fainted = false
-	
-	
+
+
 func gain_exp(amount: int, in_battle: bool = false) -> void:
 	if is_fainted:
 		return
-	var remaining_exp = amount
+	var remaining_exp: int = amount
 	while remaining_exp > 0:
-		var exp_left = get_next_level_exp() - experience
-		var exp_to_gain = min(remaining_exp, exp_left)
+		var exp_left: int = get_next_level_exp() - experience
+		var exp_to_gain: int = min(remaining_exp, exp_left)
 		remaining_exp -= exp_to_gain
 		experience += exp_to_gain
 		Global.monster_gained_experience.emit(self, exp_to_gain)
@@ -320,8 +332,8 @@ func give(item: Item) -> void:
 
 func get_current_level_exp() -> int:
 	return EXPERIENCE_PER_LEVEL * (level - 1)
-	
-	
+
+
 func get_next_level_exp() -> int:
 	return EXPERIENCE_PER_LEVEL * level
 
@@ -333,39 +345,42 @@ func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 	if in_battle:
 		Global.request_battle_level_up_resolution.emit(self, amount)
 		await Global.battle_level_up_resolution_complete
-	
-	
+
+
 func check_should_gain_moves() -> bool:
 	return monster_data.level_up_moves.has(level)
 
 
 func get_move_to_learn() -> Move:
 	return monster_data.level_up_moves.get(level)
-	
-	
+
+
 func get_learn_index() -> int:
 	for i in range(4):
 		if moves[i] == null:
 			return i
 	return -1
-	
-	
+
+
 func learn_move(move: Move, index: int) -> void:
 	moves[index] = move
-	
-	
+
+
 func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
-	var ball_bonus = item.catch_effect.catch_rate_modifier
+	var ball_bonus: float = item.catch_effect.catch_rate_modifier
 	var status_bonus: float = get_status_catch_bonus()
-	var hp_max = max_hitpoints
-	var hp_curr = current_hitpoints
-	var modified_catch_rate: int = \
-			min(255, (3 * hp_max - 2 * hp_curr) / (3 * float(hp_max)) * ball_bonus * status_bonus) 
-	var shake_probability = \
-			round(1048560 / round(sqrt(round(sqrt(16711680 / float(modified_catch_rate))))))
-	
-	var times = 0 
-	var success: bool = false if modified_catch_rate < 255 else true
+	var hp_max: int = max_hitpoints
+	var hp_curr: int = current_hitpoints
+	var modified_catch_rate: int = min(
+		255,
+		(3 * hp_max - 2 * hp_curr) / (3 * float(hp_max)) * ball_bonus * status_bonus
+	)
+	var shake_probability: int = round(
+		1048560 / round(sqrt(round(sqrt(16711680 / float(modified_catch_rate)))))
+	)
+
+	var times: int = 0
+	var success: bool = modified_catch_rate >= 255
 	if modified_catch_rate < 255:
 		while times < 4:
 			if shake_check(shake_probability):
@@ -375,31 +390,31 @@ func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 	
 	if times == 4:
 		success = true
-	
-	var result = {
+
+	var result: Dictionary = {
 		"times": times,
-		"success": success
+		"success": success,
 	}
-	
+
 	print("Attempt catch results:")
 	print("times: ", result["times"])
 	print("success: ", result["success"])
-	
+
 	return result
 
 
 func get_status_catch_bonus() -> float:
 	if has_status_in_slot(StatusData.StatusSlot.MAIN):
 		match get_status_in_slot(StatusData.StatusSlot.MAIN).status_id:
-				"freeze", "sleep":
-					return 2.0
-				"paralyze", "poison", "burn":
-					return 1.5
+			"freeze", "sleep":
+				return 2.0
+			"paralyze", "poison", "burn":
+				return 1.5
 	return 1.0
-	
-	
+
+
 func shake_check(shake_probablity: int) -> bool:
-	var chance = randi_range(0, 65535)
+	var chance: int = randi_range(0, 65535)
 	return chance >= shake_probablity
 
 

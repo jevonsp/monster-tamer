@@ -1,16 +1,21 @@
 extends Node
+
 enum VisibilityState { OPTIONS, MOVES }
+
 var vis_state: VisibilityState = VisibilityState.OPTIONS:
 	set(value):
 		vis_state = value
 		print(VisibilityState.keys()[value])
+
 var _last_selected_by_state: Dictionary = {
 	VisibilityState.OPTIONS: null,
-	VisibilityState.MOVES: null
+	VisibilityState.MOVES: null,
 }
+
 @onready var battle: Control = $".."
 @onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 @onready var turn_executor: Node = $"../TurnExecutor"
+
 
 func _connect_signals() -> void:
 	Global.on_inventory_closed.connect(_focus_default)
@@ -33,7 +38,11 @@ func _set_move_focus(button: Button) -> void:
 
 
 func _focus_default() -> void:
-	var grid = battle.option_buttons_grid if vis_state == VisibilityState.OPTIONS else battle.move_buttons_grid
+	var grid: Control = (
+		battle.option_buttons_grid
+		if vis_state == VisibilityState.OPTIONS
+		else battle.move_buttons_grid
+	)
 	var stored: Button = _last_selected_by_state[vis_state]
 
 	if stored and stored.get_parent() == grid:
@@ -51,7 +60,7 @@ func _focus_default() -> void:
 
 
 func _drop_focus() -> void:
-	var focused = get_viewport().gui_get_focus_owner()
+	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused:
 		focused.release_focus()
 
@@ -61,11 +70,11 @@ func _manage_focus() -> void:
 		_focus_default()
 	else:
 		_drop_focus()
-		
-		
+
+
 func _on_option_pressed(button: Button) -> void:
 	_set_option_focus(button)
-	
+
 	match button.name:
 		"Party":
 			Global.request_open_party.emit()
@@ -99,16 +108,16 @@ func _update_labels() -> void:
 	battle.player_labels["name"].text = battle.player_actor.name
 	battle.player_labels["level"].actor = battle.player_actor
 	battle.player_labels["level"].label_level = battle.player_actor.level
-	
+
 	battle.enemy_labels["level"].text = "Lvl. %s" % battle.enemy_actor.level
 	battle.enemy_labels["name"].text = battle.enemy_actor.name
 
 
 func _update_textures() -> void:
 	battle.player_display["texture"].texture = battle.player_actor.monster_data.texture
-	
+
 	battle.enemy_display["texture"].texture = battle.enemy_actor.monster_data.texture
-	
+
 	animation_player.player_actor = battle.player_actor
 	animation_player.enemy_actor = battle.enemy_actor
 
@@ -118,14 +127,14 @@ func _update_bars() -> void:
 	battle.player_display["hp_bar"].max_value = battle.player_actor.max_hitpoints
 	battle.player_display["hp_bar"].value = battle.player_actor.current_hitpoints
 	battle.player_display["hp_bar"].actor = battle.player_actor
-	
+
 	battle.enemy_display["hp_bar"].max_value = battle.enemy_actor.max_hitpoints
 	battle.enemy_display["hp_bar"].value = battle.enemy_actor.current_hitpoints
 	battle.enemy_display["hp_bar"].actor = battle.enemy_actor
-	
+
 	var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (battle.player_actor.level - 1)
 	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * battle.player_actor.level
-	
+
 	battle.player_display["exp_bar"].min_value = min_exp
 	battle.player_display["exp_bar"].max_value = max_exp
 	battle.player_display["exp_bar"].value = battle.player_actor.experience

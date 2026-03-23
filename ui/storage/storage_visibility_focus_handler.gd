@@ -1,4 +1,5 @@
 extends Node
+
 @onready var storage: Control = $".."
 
 
@@ -36,7 +37,7 @@ func _set_option_focus(button: Button) -> void:
 
 func _focus_default_option() -> void:
 	if storage.last_selected_option == null:
-		var first_button = storage.options_container.get_child(0)
+		var first_button: Button = storage.options_container.get_child(0)
 		first_button.grab_focus()
 	else:
 		storage.last_selected_option.grab_focus()

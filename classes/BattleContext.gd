@@ -1,12 +1,12 @@
-extends RefCounted
 class_name BattleContext
+extends RefCounted
 
 var handler: Node
 var battle: Control
 
-func _init(_handler: Node, _battle: Control) -> void:
-	handler = _handler
-	battle = _battle
+func _init(battle_handler: Node, battle_control: Control) -> void:
+	handler = battle_handler
+	battle = battle_control
 
 # --- Lookups ---------------------------------------------------------------
 
@@ -26,11 +26,11 @@ func get_opponent(of: Monster) -> Monster:
 	return of
 
 
-func get_player_party() -> Array:
+func get_player_party() -> Array[Monster]:
 	return battle.player_party
 
 
-func get_enemy_party() -> Array:
+func get_enemy_party() -> Array[Monster]:
 	return battle.enemy_party
 
 # --- Text helpers ----------------------------------------------------------
@@ -110,14 +110,14 @@ func perform_switch(old_monster: Monster, new_monster: Monster, out_text: String
 		var t_out: Array[String] = [out_text % [old_monster.name]]
 		Global.send_text_box.emit(null, t_out, true, false, false)
 		await Global.text_box_complete
-		
+
 	await play_switch_out(old_monster)
-	
+
 	Global.switch_monster_to_first.emit(new_monster)
 	Global.switch_battle_actors.emit(old_monster, new_monster)
-	
+
 	play_switch_in(new_monster)
-	
+
 	var t_in: Array[String] = [in_text % [new_monster.name]]
 	Global.send_text_box.emit(null, t_in, false, false, false)
 	await Global.text_box_complete
