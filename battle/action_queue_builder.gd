@@ -79,29 +79,40 @@ func _get_enemy_move_from_battle(battle: Control) -> Move:
 			available_moves[move] -= 1
 			
 		_check_status_component(battle, move, available_moves)
-		
-		
+		_check_stat_boost_component(battle, move, available_moves)
 		
 	return _get_best_move(available_moves)
+
+
+func _get_component(move: Move, component_type) -> MoveEffect:
+	return move.effects.filter(func(e): return is_instance_of(e, component_type)).front()
+
+
+func _has_component_of_type(move: Move, component_type) -> bool:
+	return move.effects.any(func(e): return is_instance_of(e, component_type))
 		
 		
 func _check_status_component(battle: Control, move: Move, dict: Dictionary) -> void:
-	if _has_status_component(move):
-		var status_component: ApplyStatusEffect = _get_status_component(move)
-		var status_data = status_component.status_data
-		
+	if _has_component_of_type(move, ApplyStatusEffect):
+		var component: ApplyStatusEffect = _get_component(move, ApplyStatusEffect)
+		var status_data = component.status_data
 		var player: Monster = battle.player_actor
 		if player.has_status(status_data.status_name):
 			dict[move] -= 1
+
+
+func _check_stat_boost_component(battle: Control, move: Move, dict: Dictionary) -> void:
+	if _has_component_of_type(move, StatBoostEffect):
+		var component: StatBoostEffect = _get_component(move, StatBoostEffect)
+		var stat: Monster.Stat = component.stat
+		var stage_amount: int = component.stage_amount
+		var enemy: Monster = battle.enemy_actor
+		var current_stages: int = enemy.stat_stages_and_multis.stat_stages[stat]
+		if current_stages + stage_amount > 6:
+			dict[move] -= 1
+		elif current_stages + stage_amount < -6:
+			dict[move] -= 1
 		
-		
-func _has_status_component(move: Move) -> bool:
-	return move.effects.any(func(e): return e is ApplyStatusEffect)
-
-
-func _get_status_component(move: Move) -> ApplyStatusEffect:
-	return move.effects.filter(func(e): return e is ApplyStatusEffect).front()
-
 
 func _get_best_move(moves: Dictionary[Move, int]) -> Move:
 	var best_move: Move = null
