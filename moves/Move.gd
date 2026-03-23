@@ -32,7 +32,7 @@ func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> 
 func calculate_miss(actor: Monster, target: Monster) -> bool:
 	var adjusted_stage: int = clamp(
 		actor.stat_stages_and_multis.stat_stages[Monster.Stat.ACCURACY]
-			- target.stat_stages_and_multis.stat_stages[Monster.Stat.EVASION],
+		- target.stat_stages_and_multis.stat_stages[Monster.Stat.EVASION],
 		-6,
 		6
 	)
@@ -43,6 +43,5 @@ func calculate_miss(actor: Monster, target: Monster) -> bool:
 	)
 	var accuracy_float: float = accuracy / 100.0
 	var final_accuracy: float = accuracy_float * stat_multi * stat_stage_multi
-	print("final_accuracy: ", final_accuracy)
 
 	return randf() >= final_accuracy
