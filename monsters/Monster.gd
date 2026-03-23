@@ -5,9 +5,9 @@ enum StatusApplyResult {
 	APPLIED,
 	REFRESHED,
 	BLOCKED_DUPLICATE,
-	BLOCKED_SLOT_CONFLICT
+	BLOCKED_SLOT_CONFLICT,
 }
-
+enum BoostApplyResult { APPLIED, BLOCKED }
 enum Stat {
 	NONE,
 	ATTACK,
@@ -169,6 +169,16 @@ func add_status(
 	if context != null:
 		await instance.on_apply(context)
 	return StatusApplyResult.APPLIED
+
+
+
+func boost_stat(stat: Stat, amount: int) -> BoostApplyResult:
+	var entry = stat_stages_and_multis.stat_stages[stat]
+	if amount > 0 and (entry + amount > 6 or entry + amount < -6):
+		return BoostApplyResult.BLOCKED
+	entry += clamp(amount, -6, 6)
+	return BoostApplyResult.APPLIED
+
 
 
 func remove_status(instance: StatusInstance) -> void:

@@ -15,4 +15,4 @@ func on_turn_end(_instance: StatusInstance, owner_monster: Monster, context: Bat
 		var scaled_damage: int = max(1, owner_monster.max_hitpoints * percent_damage_per_turn)
 		await owner_monster.take_damage(scaled_damage)
 		
-	await owner_monster.check_faint()
+	owner_monster.check_faint()

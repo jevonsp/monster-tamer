@@ -103,6 +103,12 @@ func play_escape_animation() -> void:
 	Global.send_escape_animation.emit()
 	await Global.capture_or_escape_animation_complete
 
+
+func play_stat_animation(monster: Monster, stat: Monster.Stat, amount: int) -> void:
+	Global.send_stat_change_animation.emit(monster, stat, amount)
+	await Global.stat_change_animation_complete
+
+
 # --- Battle flow helpers ---------------------------------------------------
 
 func perform_switch(old_monster: Monster, new_monster: Monster, out_text: String, in_text: String) -> void:

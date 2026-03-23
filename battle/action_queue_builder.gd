@@ -64,20 +64,13 @@ func _get_target(actor: Monster, action, battle: Control) -> Monster:
 
 func _get_enemy_move_from_battle(battle: Control) -> Move:
 	var enemy: Monster = battle.enemy_actor
-	var player: Monster = battle.player_actor
-	
 	var available_moves: Dictionary = {}
 	for i in enemy.moves.size():
 		if enemy.moves[i] != null:
 			available_moves[enemy.moves[i]] = 0
 	
 	for move: Move in available_moves:
-		var type_efficacy = TypeChart.get_attacking_type_efficacy(move.type, player.type)
-		if type_efficacy > 1:
-			available_moves[move] += 1
-		elif type_efficacy < 1:
-			available_moves[move] -= 1
-			
+		_check_type_efficacy(battle, move, available_moves)
 		_check_status_component(battle, move, available_moves)
 		_check_stat_boost_component(battle, move, available_moves)
 		
@@ -92,6 +85,15 @@ func _has_component_of_type(move: Move, component_type) -> bool:
 	return move.effects.any(func(e): return is_instance_of(e, component_type))
 		
 		
+func _check_type_efficacy(battle: Control, move: Move, dict: Dictionary) -> void:
+	var player: Monster = battle.player_actor
+	var type_efficacy = TypeChart.get_attacking_type_efficacy(move.type, player.type)
+	if type_efficacy > 1:
+		dict[move] += 1
+	elif type_efficacy < 1:
+		dict[move] -= 1
+	
+	
 func _check_status_component(battle: Control, move: Move, dict: Dictionary) -> void:
 	if _has_component_of_type(move, ApplyStatusEffect):
 		var component: ApplyStatusEffect = _get_component(move, ApplyStatusEffect)

@@ -122,6 +122,8 @@ signal monster_switch_out_animation_complete
 signal monster_switch_in_animation_complete
 signal request_forced_switch
 signal send_selected_force_switch(target: Monster)
+signal send_stat_change_animation(monster: Monster, stat: Monster.Stat, amount: int)
+signal stat_change_animation_complete
 #endregion
 
 @warning_ignore_restore("unused_signal")

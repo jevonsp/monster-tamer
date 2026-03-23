@@ -35,7 +35,7 @@ func apply(
 		lines[0] += "It's not very effective..."
 
 	await context.show_move_result_text(lines)
-	await target.check_faint()
+	target.check_faint()
 
 
 func _get_damage_stats(actor: Monster, target: Monster) -> Array:
@@ -52,8 +52,8 @@ func _get_damage_stats(actor: Monster, target: Monster) -> Array:
 
 	var attacking_stat = actor.get_stat(atk_stat) * actor.get_stat_stage_multi(atk_stat)
 	var defending_stat = target.get_stat(def_stat) * target.get_stat_stage_multi(def_stat)
-	var attacking_multi = actor.stat_multis.stat_multipliers[atk_stat]
-	var defending_multi = target.stat_multis.stat_multipliers[def_stat]
+	var attacking_multi = actor.stat_stages_and_multis.stat_multipliers[atk_stat]
+	var defending_multi = target.stat_stages_and_multis.stat_multipliers[def_stat]
 
 	return [attacking_stat, defending_stat, attacking_multi, defending_multi]
 

@@ -181,15 +181,33 @@ func _clear_actors() -> void:
 	enemy_actor = null
 
 
-func _clear_all() -> void:
-	_clear_actors()
-	is_wild_battle = true
+func _reset_stats() -> void:
+	for monster: Monster in enemy_party:
+		for entry in monster.stat_stages_and_multis.stat_stages:
+			entry = 0
+		for entry in monster.stat_stages_and_multis.stat_multipliers:
+			entry = 1.0
+	for monster: Monster in player_party:
+		for entry in monster.stat_stages_and_multis.stat_stages:
+			entry = 0
+		for entry in monster.stat_stages_and_multis.stat_multipliers:
+			entry = 1.0
+
+
+func _clear_parties() -> void:
 	enemy_trainer = null
 	player_party = []
 	enemy_party = []
+
+
+func _clear_all() -> void:
+	_reset_stats()
+	_clear_actors()
+	_clear_parties()
 	visibility_focus_handler._clear_actor_references()
 	visibility_focus_handler._clear_textures()
 	battle_handler.turn_queue.clear()
+	is_wild_battle = true
 	battle_handler.executing_turn = false
 	turn_executor.run_count = 0
 	processing = false

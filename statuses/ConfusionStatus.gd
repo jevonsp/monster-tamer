@@ -36,7 +36,7 @@ func execute_action_override(
 	context.play_hit_reaction(owner)
 	await owner.take_damage(damage)
 	await context.show_move_result_text(["It dealt %s damage." % damage])
-	await owner.check_faint()
+	owner.check_faint()
 	instance.runtime_data["confusion_self_hit"] = false
 
 

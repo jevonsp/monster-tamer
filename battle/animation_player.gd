@@ -13,6 +13,7 @@ func _ready() -> void:
 	Global.send_capture_animation.connect(_animate_capture)
 	Global.send_escape_animation.connect(_animate_escape)
 	Global.send_item_wiggle.connect(_animate_ball_shake)
+	Global.send_stat_change_animation.connect(_animate_stat_change)
 	
 
 func reset_textures() -> void:
@@ -106,3 +107,8 @@ func _animate_escape() -> void:
 	await get_tree().process_frame
 	item_sprite.reset_ball()
 	Global.capture_or_escape_animation_complete.emit()
+
+
+func _animate_stat_change() -> void:
+	await get_tree().process_frame
+	Global.stat_change_animation_complete.emit()
