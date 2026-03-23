@@ -33,15 +33,20 @@ func add_action_to_queue(
 
 
 func queue_enemy_action(battle: Control, turn_queue: Array[Dictionary]) -> void:
-	var available_moves: Array[Move] = []
-	for move in battle.enemy_actor.moves:
-		if move != null:
-			available_moves.append(move)
-	if available_moves.is_empty():
-		return
+	if battle.is_wild_battle:
+		var available_moves: Array[Move] = []
+		for move in battle.enemy_actor.moves:
+			if move != null:
+				available_moves.append(move)
+		if available_moves.is_empty():
+			return
 
-	var picked = available_moves.pick_random()
-	add_action_to_queue(picked, battle.enemy_actor, battle, turn_queue)
+		var enemy_move = available_moves.pick_random()
+		add_action_to_queue(enemy_move, battle.enemy_actor, battle, turn_queue)
+	else:
+		var enemy = battle.enemy_actor
+		var enemy_move = _get_enemy_move_from_battle(battle)
+		add_action_to_queue(enemy_move, enemy, battle, turn_queue)
 
 
 func _get_target(actor: Monster, action, battle: Control) -> Monster:
@@ -55,3 +60,54 @@ func _get_target(actor: Monster, action, battle: Control) -> Monster:
 			return battle.enemy_actor
 
 	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
+
+
+func _get_enemy_move_from_battle(battle: Control) -> Move:
+	var enemy: Monster = battle.enemy_actor
+	var player: Monster = battle.player_actor
+	
+	var available_moves: Dictionary = {}
+	for i in enemy.moves.size():
+		if enemy.moves[i] != null:
+			available_moves[enemy.moves[i]] = 0
+	
+	for move: Move in available_moves:
+		var type_efficacy = TypeChart.get_attacking_type_efficacy(move.type, player.type)
+		if type_efficacy > 1:
+			available_moves[move] += 1
+		elif type_efficacy < 1:
+			available_moves[move] -= 1
+			
+		_check_status_component(battle, move, available_moves)
+		
+		
+		
+	return _get_best_move(available_moves)
+		
+		
+func _check_status_component(battle: Control, move: Move, dict: Dictionary) -> void:
+	if _has_status_component(move):
+		var status_component: ApplyStatusEffect = _get_status_component(move)
+		var status_data = status_component.status_data
+		
+		var player: Monster = battle.player_actor
+		if player.has_status(status_data.status_name):
+			dict[move] -= 1
+		
+		
+func _has_status_component(move: Move) -> bool:
+	return move.effects.any(func(e): return e is ApplyStatusEffect)
+
+
+func _get_status_component(move: Move) -> ApplyStatusEffect:
+	return move.effects.filter(func(e): return e is ApplyStatusEffect).front()
+
+
+func _get_best_move(moves: Dictionary[Move, int]) -> Move:
+	var best_move: Move = null
+	var best_score = -INF
+	for move in moves:
+		if moves[move] > best_score:
+			best_score = moves[move]
+			best_move = move
+	return best_move

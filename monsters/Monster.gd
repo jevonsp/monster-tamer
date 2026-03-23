@@ -48,7 +48,7 @@ const EXPERIENCE_PER_LEVEL: int = 50
 
 @export var held_item: Item
 
-@export var stat_multis: MonsterStatMultipliers = null
+@export var stat_stages_and_multis: MonsterStatMultipliers = null
 
 var is_able_to_fight: bool:
 	get:
@@ -119,12 +119,12 @@ func get_stat(stat: Stat) -> int:
 
 
 func create_stat_multis() -> void:
-	var monster_stat_multis: MonsterStatMultipliers = MonsterStatMultipliers.new()
-	stat_multis = monster_stat_multis
+	var new: MonsterStatMultipliers = MonsterStatMultipliers.new()
+	stat_stages_and_multis = new
 
 
 func get_stat_stage_multi(stat: Stat) -> float:
-	var stage: int = stat_multis.stat_stages.get(stat, 0)
+	var stage: int = stat_stages_and_multis.stat_stages.get(stat, 0)
 
 	match stat:
 		Stat.ACCURACY, Stat.EVASION:
@@ -220,9 +220,9 @@ func get_effective_stat(stat: Stat) -> float:
 		base_value = float(get(MonsterStatTable.stat_properties[stat]))
 
 	var value := base_value
-	if stat_multis != null:
+	if stat_stages_and_multis != null:
 		value *= get_stat_stage_multi(stat)
-		value *= stat_multis.stat_multipliers.get(stat, 1.0)
+		value *= stat_stages_and_multis.stat_multipliers.get(stat, 1.0)
 
 	for status in statuses:
 		value = status.modify_effective_stat(stat, value)

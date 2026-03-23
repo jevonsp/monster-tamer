@@ -1,5 +1,5 @@
-extends MoveEffect
 class_name ApplyStatusEffect
+extends MoveEffect
 
 @export var status_data: StatusData
 @export var application_chance: float = 1.0

@@ -1,5 +1,5 @@
-extends MoveEffect
 class_name DamageEffect
+extends MoveEffect
 
 @export var type: TypeChart.Type
 @export var base_power: int = 30
@@ -7,7 +7,13 @@ enum DamageType { PHYSICAL, SPECIAL }
 @export var damage_type: DamageType = DamageType.PHYSICAL
 
 
-func apply(actor: Monster, target: Monster, context: BattleContext, move_name: String = "attack", animation: PackedScene = null) -> void:
+func apply(
+	actor: Monster, 
+	target: Monster, 
+	context: BattleContext, 
+	move_name: String = "attack", 
+	animation: PackedScene = null
+) -> void:
 	var efficacy := TypeChart.get_attacking_type_efficacy(type, target.type)
 	var damage := calculate_damage(actor, target)
 	
