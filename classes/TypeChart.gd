@@ -6,12 +6,15 @@ enum Type {
 	FIRE,
 	WATER,
 	GRASS,
+	AIR,
+	EARTH
 }
 
 const NOT_VERY: float = 0.5
 const NORMAL: float = 1.0
 const SUPER_EFFECTIVE: float = 2.0
 
+# TYPE_CHART_GENERATED_BEGIN
 const TYPE_CHART: Dictionary = {
 	Type.NONE: {
 		Type.NONE: NORMAL,
@@ -38,6 +41,7 @@ const TYPE_CHART: Dictionary = {
 		Type.GRASS: NORMAL,
 	},
 }
+# TYPE_CHART_GENERATED_END
 
 static func get_attacking_type_efficacy(attacker: Type, defender: Type) -> float:
 	return TYPE_CHART[attacker][defender]
