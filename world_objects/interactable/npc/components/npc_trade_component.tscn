@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cdhi7023ab4xs"]
 
-[ext_resource type="Script" uid="uid://c7g3venlp5wl3" path="res://npc_trade_component.gd" id="1_iyeab"]
+[ext_resource type="Script" uid="uid://c7g3venlp5wl3" path="res://world_objects/interactable/npc/components/npc_trade_component.gd" id="1_iyeab"]
 
 [node name="NPCTradeComponent" type="Node" unique_id=414229462]
 script = ExtResource("1_iyeab")

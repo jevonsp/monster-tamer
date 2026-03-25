@@ -37,7 +37,7 @@ func apply(
 			
 	Global.send_text_box.emit(null, ta, true, false, false)
 	await Global.text_box_complete
-
+	
 
 func _stage_pluralizer() -> String:
 	if stage_amount > 1:
