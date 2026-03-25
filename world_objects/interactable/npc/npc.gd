@@ -21,6 +21,7 @@ var facing_vec: Vector2:
 	set(value):
 		facing_direction = value
 
+
 func _ready() -> void:
 	super()
 	if Engine.is_editor_hint():
@@ -58,8 +59,7 @@ func _say_dialogue(d: Array[String] = [], autocomplete = null, question = null) 
 	var dia = d if not d.is_empty() else dialogue
 	var ac = autocomplete if autocomplete != null else is_autocomplete
 	var iq = question if question != null else is_question
-	var tp = true # Toggles Player
-	Global.send_text_box.emit(self, dia, ac, iq, tp)
+	Global.send_text_box.emit(self, dia, ac, iq, true)
 	await Global.text_box_complete
 
 
@@ -115,15 +115,6 @@ func _direction_from_vector(vector: Vector2) -> Direction:
 			return Direction.RIGHT
 		_:
 			return Direction.NONE
-		
-		
-func start_turning(new_facing_direction: Vector2) -> void:
-	if new_facing_direction == facing_vec:
-		return
-	_begin_turn(new_facing_direction)
-
-	await animation_tree.animation_finished
-	_finish_turn()
 
 
 func _get_walk_speed() -> float:

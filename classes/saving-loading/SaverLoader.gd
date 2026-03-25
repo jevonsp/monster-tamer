@@ -58,6 +58,8 @@ func save_player(saved_game: SavedGame, player: Player) -> SavedGame:
 	saved_game.player_position = player.global_position
 	saved_game.player_party = player.party_handler.party
 	saved_game.player_storage = player.party_handler.storage
+	saved_game.player_inventory = player.inventory_handler.inventory
+	saved_game.story_flags = player.story_flag_handler.story_flags
 	
 	return saved_game
 	
@@ -66,3 +68,5 @@ func load_player(saved_game: SavedGame, player: Player):
 	player.global_position = saved_game.player_position
 	player.party_handler.party = saved_game.player_party
 	player.party_handler.storage = saved_game.player_storage
+	player.inventory_handler.inventory = saved_game.player_inventory
+	player.story_flag_handler.story_flags = saved_game.story_flags

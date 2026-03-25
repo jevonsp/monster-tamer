@@ -2,9 +2,11 @@ extends Node
 
 const DEFAULT_DELAY: float = 1.0
 
-enum AccessFrom { NONE, MENU, BATTLE, PARTY, INVENTORY }
+enum AccessFrom { NONE, MENU, BATTLE, PARTY, INVENTORY, STORE }
 
 @warning_ignore_start("unused_signal")
+
+signal story_flag_triggered(flag: Story.Flag, value: bool)
 
 #region PLAYER
 signal toggle_player
@@ -89,6 +91,10 @@ signal move_learning_finished
 signal request_open_storage
 signal storage_deposit_monster(monster: Monster)
 signal storage_withdraw_monster(monster: Monster)
+#endregion
+
+#region STORE UI
+signal request_open_store(store_component: NPCStoreComponent)
 #endregion
 
 #region BATTLE

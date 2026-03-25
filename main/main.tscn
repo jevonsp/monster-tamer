@@ -31,6 +31,8 @@
 [ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="27_d8vpj"]
 [ext_resource type="PackedScene" uid="uid://dttmg54drld8c" path="res://world_objects/interactable/surf_object/surf_object.tscn" id="30_o8j3b"]
 [ext_resource type="PackedScene" uid="uid://cdhi7023ab4xs" path="res://world_objects/interactable/npc/components/npc_trade_component.tscn" id="31_wpkmi"]
+[ext_resource type="PackedScene" uid="uid://bxrnm7g5cssx4" path="res://world_objects/interactable/npc/shop_keeper/shop_keeper.tscn" id="32_o0l78"]
+[ext_resource type="PackedScene" uid="uid://dwx7fw8ds8jy6" path="res://world_objects/interactable/npc/components/npc_store_component.tscn" id="33_576ah"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
 content_margin_left = 0.0
@@ -53,6 +55,9 @@ level_high = 1
 metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3wy1v"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_576ah"]
 size = Vector2(16, 16)
 
 [node name="Main" type="Node2D" unique_id=89812463]
@@ -105,24 +110,6 @@ encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_fwcvl")])
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3wy1v")
 
-[node name="NPC" parent="." unique_id=431393256 instance=ExtResource("8_67ri8")]
-position = Vector2(16, 16)
-dialogue = Array[String](["Would you like to heal your monsters and set your respawn point?"])
-is_question = true
-
-[node name="NPCRespawnComponent" parent="NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
-is_healing = true
-
-[node name="Trainer" parent="." unique_id=1980082865 instance=ExtResource("16_n3o0a")]
-position = Vector2(32, 112)
-party = Array[ExtResource("18_n53tw")]([ExtResource("19_n53tw"), ExtResource("19_d00gp")])
-party_levels = Array[int]([1, 1])
-winning_dialogue = Array[String](["You're not strong enough yet."])
-losing_dialogue = Array[String](["I wasn't... strong enough."])
-starting_tile = Vector2(32, 112)
-npc_name = "Test Trainer"
-dialogue = Array[String](["How strong are you? Lets find out!"])
-
 [node name="GroundItems" type="Node" parent="." unique_id=367338342]
 
 [node name="Potion" parent="GroundItems" unique_id=726795139 instance=ExtResource("15_5xyti")]
@@ -155,20 +142,6 @@ components = [NodePath("StorageComponent")]
 
 [node name="StorageComponent" parent="Storage" unique_id=890186058 instance=ExtResource("21_vapsy")]
 
-[node name="Teleporter" parent="." unique_id=643132918 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
-position = Vector2(80, 16)
-teleporter_point = NodePath("TeleporterPoint")
-
-[node name="TeleporterPoint" parent="Teleporter" unique_id=2086915789 instance=ExtResource("27_d8vpj")]
-position = Vector2(96, 0)
-
-[node name="Teleporter2" parent="." unique_id=625626596 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
-position = Vector2(192, 16)
-teleporter_point = NodePath("TeleporterPoint")
-
-[node name="TeleporterPoint" parent="Teleporter2" unique_id=1046749787 instance=ExtResource("27_d8vpj")]
-position = Vector2(-128, 0)
-
 [node name="SurfObjects" type="Node" parent="." unique_id=519884026]
 
 [node name="SurfObject0" parent="SurfObjects" unique_id=750354463 instance=ExtResource("30_o8j3b")]
@@ -183,11 +156,58 @@ position = Vector2(80, 48)
 [node name="SurfObject3" parent="SurfObjects" unique_id=1718967099 instance=ExtResource("30_o8j3b")]
 position = Vector2(96, 48)
 
-[node name="Trader" parent="." unique_id=1405960500 instance=ExtResource("8_67ri8")]
+[node name="NPCs" type="Node" parent="." unique_id=20466025]
+
+[node name="ShopKeeper" parent="NPCs" unique_id=1375001283 instance=ExtResource("32_o0l78")]
+position = Vector2(128, 32)
+dialogue = Array[String](["Hello, what would you like to buy today?"])
+is_question = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/ShopKeeper" unique_id=1313706516]
+position = Vector2(8, 24)
+shape = SubResource("RectangleShape2D_576ah")
+
+[node name="NPCStoreComponent" parent="NPCs/ShopKeeper" unique_id=221203702 instance=ExtResource("33_576ah")]
+
+[node name="Trader" parent="NPCs" unique_id=1405960500 instance=ExtResource("8_67ri8")]
 position = Vector2(64, 32)
 dialogue = Array[String](["Do you want to trade Monsters?"])
 is_question = true
 
-[node name="NPCTradeComponent" parent="Trader" unique_id=414229462 instance=ExtResource("31_wpkmi")]
+[node name="NPCTradeComponent" parent="NPCs/Trader" unique_id=414229462 instance=ExtResource("31_wpkmi")]
 monster_to_take = ExtResource("19_n53tw")
 monster_to_give = ExtResource("19_d00gp")
+
+[node name="NPC" parent="NPCs" unique_id=431393256 instance=ExtResource("8_67ri8")]
+position = Vector2(16, 16)
+dialogue = Array[String](["Would you like to heal your monsters and set your respawn point?"])
+is_question = true
+
+[node name="NPCRespawnComponent" parent="NPCs/NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
+is_healing = true
+
+[node name="Trainer" parent="NPCs" unique_id=1980082865 instance=ExtResource("16_n3o0a")]
+position = Vector2(32, 112)
+party = Array[ExtResource("18_n53tw")]([ExtResource("19_n53tw"), ExtResource("19_d00gp")])
+party_levels = Array[int]([1, 1])
+winning_dialogue = Array[String](["You're not strong enough yet."])
+losing_dialogue = Array[String](["I wasn't... strong enough."])
+starting_tile = Vector2(32, 112)
+npc_name = "Test Trainer"
+dialogue = Array[String](["How strong are you? Lets find out!"])
+
+[node name="Doors" type="Node" parent="." unique_id=1022210673]
+
+[node name="Teleporter0" parent="Doors" unique_id=643132918 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
+position = Vector2(80, 16)
+teleporter_point = NodePath("TeleporterPoint")
+
+[node name="TeleporterPoint" parent="Doors/Teleporter0" unique_id=2086915789 instance=ExtResource("27_d8vpj")]
+position = Vector2(96, 0)
+
+[node name="Teleporter1" parent="Doors" unique_id=625626596 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
+position = Vector2(192, 16)
+teleporter_point = NodePath("TeleporterPoint")
+
+[node name="TeleporterPoint" parent="Doors/Teleporter1" unique_id=1046749787 instance=ExtResource("27_d8vpj")]
+position = Vector2(-128, 0)

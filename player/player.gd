@@ -26,7 +26,7 @@ var respawn_point: Vector2 = Vector2.ZERO
 
 @onready var party_handler: Node = $PartyHandler
 @onready var inventory_handler: Node = $InventoryHandler
-
+@onready var story_flag_handler: Node = $StoryFlagHandler
 
 func _ready() -> void:
 	super()

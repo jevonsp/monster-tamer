@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ameij"]
 size = Vector2(15, 15)
 
-[node name="SurfObject" type="Area2D" unique_id=750354463 groups=["interactable", "surf_object"]]
+[node name="SurfObject" type="Area2D" unique_id=750354463 groups=["interactable", "save_object", "surf_object"]]
 collision_layer = 8
 script = ExtResource("1_m72t6")
 

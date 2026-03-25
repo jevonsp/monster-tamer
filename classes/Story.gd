@@ -1,0 +1,13 @@
+class_name Story extends Resource
+
+enum Flag {
+	TUTORIAL_FINISHED,
+	BADGE_ONE,
+	BADGE_TWO,
+	BADGE_THREE,
+	BADGE_FOUR,
+	BADGE_FIVE,
+	BADGE_SIX,
+	BADGE_SEVEN,
+	BADGE_EIGHT,
+}
