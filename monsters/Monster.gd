@@ -24,7 +24,8 @@ enum Stat {
 const EXPERIENCE_PER_LEVEL: int = 50
 @export var monster_data: MonsterData
 @export var name: String = ""
-@export var type: TypeChart.Type
+@export var primary_type: Variant = null
+@export var secondary_type: Variant = null
 @export var nature: String = ""
 
 @export var level: int = 1
@@ -58,7 +59,9 @@ var statuses: Array[StatusInstance] = []
 
 func set_monster_data(monster_data_resource: MonsterData) -> void:
 	monster_data = monster_data_resource
-	type = monster_data.type
+	primary_type = monster_data.primary_type
+	if monster_data.secondary_type != TypeChart.Type.NONE:
+		secondary_type = monster_data.secondary_type
 	name = monster_data.species
 	nature = NatureChart.get_random_nature()
 

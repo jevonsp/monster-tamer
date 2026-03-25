@@ -1,5 +1,6 @@
 extends Node2D
 const TEST_MON_MD = preload("res://monsters/test_mon/test_mon_md.tres")
+const PYRO_BADGER_MD = preload("uid://cvmykrss1u38p")
 const GAME_WIDTH := 1280
 const GAME_HEIGHT := 720
 @onready var test_map: TileMapLayer = $TestMap
@@ -13,7 +14,7 @@ func _ready() -> void:
 	
 	set_references()
 	
-	for md in [TEST_MON_MD]:
+	for md in [PYRO_BADGER_MD]:
 		var m = md.set_up(1)
 		player.party_handler.add(m)
 

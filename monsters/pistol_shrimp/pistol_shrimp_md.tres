@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("3_droyv")
 species = "Pistol Shrimp"
-type = 2
+primary_type = 2
 texture = ExtResource("3_nmn5g")
 starting_moves = Array[ExtResource("1_5ruug")]([ExtResource("2_6co7i")])
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

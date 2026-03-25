@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("2_5vakr")
 species = "Fox McLeaf"
-type = 3
+primary_type = 3
 texture = ExtResource("4_78v8v")
 starting_moves = Array[ExtResource("1_dqs7m")]([ExtResource("3_oxsnc")])
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

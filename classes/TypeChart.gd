@@ -67,5 +67,12 @@ const TYPE_CHART: Dictionary = {
 }
 # TYPE_CHART_GENERATED_END
 
-static func get_attacking_type_efficacy(attacker: Type, defender: Type) -> float:
-	return TYPE_CHART[attacker][defender]
+static func get_attacking_type_efficacy(attacking_type: Type, defender: Monster) -> float:
+	var primary_type: Type = defender.primary_type
+	var secondary_type: Type 
+	var primary_efficacy = TYPE_CHART[attacking_type][primary_type]
+	var secondary_efficacy: float = 1.0
+	if defender.secondary_type != null:
+		secondary_type = defender.secondary_type
+		secondary_efficacy = TYPE_CHART[attacking_type][secondary_type]
+	return primary_efficacy * secondary_efficacy

@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("2_l7w1c")
 species = "Pyro Badger"
-type = 1
+primary_type = 1
 texture = ExtResource("4_wpvun")
 starting_moves = Array[ExtResource("1_ayl76")]([ExtResource("3_6q7ea")])
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

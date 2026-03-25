@@ -3,7 +3,8 @@ extends Resource
 
 @export var species: String = ""
 @export_multiline var description: String = ""
-@export var type: TypeChart.Type
+@export var primary_type: TypeChart.Type
+@export var secondary_type: TypeChart.Type
 @export var texture: Texture2D
 @export_subgroup("Moves")
 @export var starting_moves: Array[Move] = []
