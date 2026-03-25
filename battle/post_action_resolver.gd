@@ -89,7 +89,8 @@ func _check_player_out_of_monsters() -> bool:
 
 func _win() -> void:
 	if battle.enemy_trainer:
-		battle.enemy_trainer.is_defeated = true
+		battle.enemy_trainer.defeat()
+		
 	var default: Array[String] = ["You won!"]
 	var text: Array[String] = battle.enemy_trainer.losing_dialogue if battle.enemy_trainer else default
 	Global.send_text_box.emit(null, text, false, false, false)

@@ -6,7 +6,7 @@ enum AccessFrom { NONE, MENU, BATTLE, PARTY, INVENTORY, STORE }
 
 @warning_ignore_start("unused_signal")
 
-signal story_flag_triggered(flag: Story.Flag, value: bool)
+
 
 #region PLAYER
 signal toggle_player
@@ -62,6 +62,7 @@ signal text_box_complete
 #region OVERWORLD
 signal request_open_menu
 signal on_menu_closed
+signal story_flag_triggered(flag: Story.Flag, value: bool)
 #endregion
 
 #region PARTY UI

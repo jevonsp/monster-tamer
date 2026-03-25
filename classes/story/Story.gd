@@ -1,6 +1,7 @@
 class_name Story extends Resource
 
 enum Flag {
+	NONE,
 	TUTORIAL_FINISHED,
 	BADGE_ONE,
 	BADGE_TWO,

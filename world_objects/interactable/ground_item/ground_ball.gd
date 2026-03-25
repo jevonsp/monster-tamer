@@ -1,6 +1,12 @@
 extends StaticObject
-class_name GroundItem
+class_name GroundBall
+
+enum Type { ITEM, MONSTER }
+
+@export var type: Type = Type.ITEM
 @export var item: Item
+@export var monster_data: MonsterData
+@export_range(1, 100) var monster_level: int = 1
 @export var is_obtained: bool = false:
 	set(value):
 		is_obtained = value
@@ -17,20 +23,27 @@ func _ready() -> void:
 func setup() -> void:
 	if item.ground_texture != null:
 		sprite_2d.texture = item.ground_texture
-		
+
 
 func interact(body: CharacterBody2D) -> void:
 	if not body.is_in_group("player"):
 		printerr("Static Obj %s interacted with by Body %s,\nThis should never happen.\nExiting interact()")
 		return
 	
+	var obj_name = item.name if type == Type.ITEM else monster_data.species
+	
 	if not text.is_empty():
-		var tp = true # Toggles Player
-		Global.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
+		Global.send_text_box.emit(self, text, is_autocomplete, is_question, true)
+		await Global.text_box_complete
 	else:
-		var formatted: Array[String] = ["You found a %s!" % [item.name]]
-		var tp = true # Toggles Player
-		Global.send_text_box.emit(self, formatted, is_autocomplete, is_question, tp)
+		if not is_question:
+			var formatted: Array[String] = ["You found a %s!" % [obj_name]]
+			Global.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
+			await Global.text_box_complete
+		else:
+			var formatted: Array[String] = ["Take the %s?" % [obj_name]]
+			Global.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
+			await Global.text_box_complete
 	if not is_question:
 		await Global.text_box_complete
 		trigger()
@@ -38,8 +51,13 @@ func interact(body: CharacterBody2D) -> void:
 
 
 func trigger() -> void:
-	var player = get_tree().get_first_node_in_group("player")
-	player.inventory_handler.add(item)
+	var player: Player = get_tree().get_first_node_in_group("player")
+	match type:
+		Type.ITEM:
+			player.inventory_handler.add(item)
+		Type.MONSTER:
+			var monster = monster_data.set_up(monster_level)
+			player.party_handler.add(monster)
 	obtain()
 
 

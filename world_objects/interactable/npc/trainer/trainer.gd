@@ -71,6 +71,7 @@ func _check_vision_collision(pos: Vector2) -> void:
 				await _say_dialogue()
 				_send_trainer_battle()
 
+
 func _send_trainer_battle() -> void:
 	Global.trainer_battle_requested.emit(self)
 	Global.battle_started.emit()
@@ -102,3 +103,5 @@ func defeat() -> void:
 	is_defeated = true
 	if Global.step_completed.is_connected(_check_vision_collision):
 		Global.step_completed.disconnect(_check_vision_collision)
+	if story_component:
+		story_component.trigger()

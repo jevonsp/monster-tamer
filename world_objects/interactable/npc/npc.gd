@@ -12,7 +12,8 @@ enum Direction {NONE, UP, DOWN, LEFT, RIGHT}
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
 var tiles_in_sight: Array[Vector2] = []
-var components: Array[NPCComponent] = []
+var npc_components: Array[NPCComponent] = []
+var story_component: StoryComponent = null
 @onready var exclamation_point: AnimatedSprite2D = $ExclamationPoint
 
 var facing_vec: Vector2:
@@ -27,7 +28,7 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		_update_direction_visual()
 		return
-	_set_component_array()
+	_set_components()
 	_connect_signals()
 
 
@@ -37,10 +38,12 @@ func _physics_process(delta: float) -> void:
 			animate_move(delta)
 
 
-func _set_component_array() -> void:
+func _set_components() -> void:
 	for child in get_children():
 		if child is NPCComponent:
-			components.append(child)
+			npc_components.append(child)
+		if child is StoryComponent:
+			story_component = child
 
 
 func _connect_signals() -> void:
@@ -65,10 +68,12 @@ func _say_dialogue(d: Array[String] = [], autocomplete = null, question = null) 
 
 func trigger() -> void:
 	var player = get_tree().get_first_node_in_group("player")
-	for c: NPCComponent in components:
+	for c: NPCComponent in npc_components:
 		if c.is_active:
 			@warning_ignore("redundant_await")
 			await c.trigger(player)
+	if story_component:
+		story_component.trigger()
 
 
 func _update_direction_visual() -> void:
