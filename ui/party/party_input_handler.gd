@@ -1,10 +1,8 @@
 extends Node
 
 @onready var party: Control = $".."
-
 #region Helper Nodes
 @onready var visibility_focus_handler: Node = $"../Visibility&FocusHandler"
-#endregion
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -58,10 +56,8 @@ func _on_monster_pressed(button: Button) -> void:
 					visibility_focus_handler._toggle_options_visible()
 				party.State.MOVING:
 					party.stop_moving(num)
-
 		Global.AccessFrom.INVENTORY:
 			Global.monster_selected.emit(button.actor)
-
 		Global.AccessFrom.BATTLE:
 			await _handle_battle_press(button, num)
 
@@ -100,3 +96,4 @@ func _on_option_pressed(button: Button) -> void:
 			party.take()
 
 	get_viewport().set_input_as_handled()
+#endregion

@@ -8,13 +8,10 @@ enum Type { USE, HELD, KEY }
 @export_multiline var description: String = ""
 @export var is_multi_use: bool = false
 @export_range(0, 999_999_999, 50) var price: int = 100
-
 @export_range(-5, 5) var priority: int = 0
-
 @export var use_effect: ItemEffect
 @export var held_effect: HeldEffect
 @export var catch_effect: CatchEffect
-
 @export_subgroup("Textures")
 @export var ground_texture: Texture2D
 @export var inventory_texture: Texture2D

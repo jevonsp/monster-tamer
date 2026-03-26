@@ -1,18 +1,19 @@
-extends ItemEffect
 class_name HealingEffect
+extends ItemEffect
 
 @export var base_healing: int = 20
 @export var revives: bool = false
 
+
 func execute(_actor: Monster, target: Monster, battle_context: BattleContext) -> void:
 	await target.heal(base_healing, revives)
-	
+
 	var post_text: Array[String] = [""]
 	if revives:
 		post_text[0] += "%s was revived!\n" % [target.name]
 	if base_healing > 0:
 		post_text[0] += "It healed %s hitpoints!" % [base_healing]
-		
+
 	await battle_context.show_text(post_text, true)
 
 

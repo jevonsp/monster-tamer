@@ -1,20 +1,17 @@
 extends Control
+
 var processing: bool = false
 var last_focused_button: Button = null
 var should_save_game: bool = false
+
 @onready var interfaces: CanvasLayer = $".."
+
 
 func _ready() -> void:
 	_bind_buttons()
 	Global.request_open_menu.connect(_toggle_visible)
 	if visible:
 		_toggle_visible()
-
-
-func _bind_buttons() -> void:
-	for button: Button in get_tree().get_nodes_in_group("menu_buttons"):
-		button.pressed.connect(_on_menu_pressed.bind(button))
-		button.focus_entered.connect(_on_focus_entered.bind(button))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -28,6 +25,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		_toggle_visible()
 		get_viewport().set_input_as_handled()
 		Global.on_menu_closed.emit()
+
+
+func trigger() -> void:
+	should_save_game = true
+
+
+func _bind_buttons() -> void:
+	for button: Button in get_tree().get_nodes_in_group("menu_buttons"):
+		button.pressed.connect(_on_menu_pressed.bind(button))
+		button.focus_entered.connect(_on_focus_entered.bind(button))
 
 
 func _on_menu_pressed(button: Button) -> void:
@@ -82,7 +89,3 @@ func _start_save_process() -> void:
 
 func _finish_save_process() -> void:
 	SaverLoader.save_game()
-
-
-func trigger() -> void:
-	should_save_game = true

@@ -1,4 +1,5 @@
 extends Node
+
 @onready var battle: Control = $".."
 @onready var forced_switch_handler: Node = $"../ForcedSwitchHandler"
 
@@ -7,13 +8,13 @@ func handle_post_action(target: Monster, handler: Node) -> bool:
 	if handler.is_escaped:
 		_escape()
 		return true
-	
+
 	await _resolve_faint_aftermath(target)
 
 	if _check_enemy_actor_captured():
 		_capture()
 		return true
-	
+
 	if not _check_enemy_actor_able_to_fight():
 		if _check_enemy_out_of_monsters():
 			await _win()
@@ -90,7 +91,7 @@ func _check_player_out_of_monsters() -> bool:
 func _win() -> void:
 	if battle.enemy_trainer:
 		battle.enemy_trainer.defeat()
-		
+
 	var default: Array[String] = ["You won!"]
 	var text: Array[String] = battle.enemy_trainer.losing_dialogue if battle.enemy_trainer else default
 	Global.send_text_box.emit(null, text, false, false, false)
@@ -104,8 +105,8 @@ func _lose() -> void:
 	await Global.text_box_complete
 	battle.end_battle()
 	Global.send_respawn_player.emit()
-	
-	
+
+
 func _escape() -> void:
 	battle.end_battle()
 

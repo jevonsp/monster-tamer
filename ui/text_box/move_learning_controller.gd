@@ -1,5 +1,6 @@
 extends Node
 
+
 func resolve_move_learning(summary: Control, monster: Monster, move: Move) -> void:
 	summary.learning_monster = monster
 	summary.move_learning = move
@@ -30,7 +31,10 @@ func resolve_move_learning(summary: Control, monster: Monster, move: Move) -> vo
 
 
 func ask_remove_move(summary: Control) -> void:
-	if summary.last_focused_move_button == null or summary.move_learning == null or summary.learning_monster == null:
+	if \
+	summary.last_focused_move_button == null or \
+	summary.move_learning == null or \
+	summary.learning_monster == null:
 		return
 
 	var move_removing = summary.last_focused_move_button.move
@@ -89,7 +93,7 @@ func clean_up_learning_move(summary: Control) -> void:
 
 func ask_delete_existing_move(monster: Monster, move: Move) -> bool:
 	var text: Array[String] = [
-		"%s is trying to learn %s, but already knows four moves. Delete one?" % [monster.name, move.name]
+		"%s is trying to learn %s, but already knows four moves. Delete one?" % [monster.name, move.name],
 	]
 	Global.send_text_box.emit(null, text, false, true, false)
 	return await Global.answer_given
@@ -97,7 +101,7 @@ func ask_delete_existing_move(monster: Monster, move: Move) -> bool:
 
 func confirm_replace_move(old_move: Move, new_move: Move) -> bool:
 	var text: Array[String] = [
-		"Are you sure you want to remove %s for %s?" % [old_move.name, new_move.name]
+		"Are you sure you want to remove %s for %s?" % [old_move.name, new_move.name],
 	]
 	Global.send_text_box.emit(null, text, false, true, false)
 	return await Global.answer_given
@@ -105,7 +109,7 @@ func confirm_replace_move(old_move: Move, new_move: Move) -> bool:
 
 func confirm_stop_learning(monster: Monster, move: Move) -> bool:
 	var text: Array[String] = [
-		"Are you sure you want %s to stop learning %s" % [monster.name, move.name]
+		"Are you sure you want %s to stop learning %s" % [monster.name, move.name],
 	]
 	Global.send_text_box.emit(null, text, false, true, false)
 	return await Global.answer_given
@@ -118,7 +122,7 @@ func show_did_not_learn(monster: Monster, move: Move) -> void:
 		ta,
 		true,
 		false,
-		false
+		false,
 	)
 	await Global.text_box_complete
 
@@ -130,6 +134,6 @@ func announce_move_learned(monster: Monster, move: Move) -> void:
 		ta,
 		true,
 		false,
-		false
+		false,
 	)
 	await Global.text_box_complete

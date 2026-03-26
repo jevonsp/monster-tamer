@@ -1,5 +1,5 @@
-extends Resource
 class_name MonsterStatMultipliers
+extends Resource
 
 var stat_stages: Dictionary = {
 	Monster.Stat.ATTACK: 0,

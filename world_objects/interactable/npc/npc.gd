@@ -1,7 +1,9 @@
 @tool
-extends TileMover
 class_name NPC
-enum Direction {NONE, UP, DOWN, LEFT, RIGHT}
+extends TileMover
+
+enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
+
 @export var npc_name: String = "NPC"
 @export var direction: Direction = Direction.DOWN:
 	set(value):
@@ -11,16 +13,17 @@ enum Direction {NONE, UP, DOWN, LEFT, RIGHT}
 @export_multiline var dialogue: Array[String] = []
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
+
 var tiles_in_sight: Array[Vector2] = []
 var npc_components: Array[NPCComponent] = []
 var story_component: StoryComponent = null
-@onready var exclamation_point: AnimatedSprite2D = $ExclamationPoint
-
 var facing_vec: Vector2:
 	get:
 		return facing_direction
 	set(value):
 		facing_direction = value
+
+@onready var exclamation_point: AnimatedSprite2D = $ExclamationPoint
 
 
 func _ready() -> void:
@@ -38,6 +41,31 @@ func _physics_process(delta: float) -> void:
 			animate_move(delta)
 
 
+func interact(body: CharacterBody2D) -> void:
+	var new_facing_direction = (body.global_position - global_position).normalized()
+	if new_facing_direction != facing_vec:
+		start_turning(new_facing_direction)
+	await _say_dialogue()
+
+
+func trigger() -> void:
+	var player = get_tree().get_first_node_in_group("player")
+	for c: NPCComponent in npc_components:
+		if c.is_active:
+			@warning_ignore("redundant_await")
+			await c.trigger(player)
+	if story_component:
+		story_component.trigger()
+
+
+func animate_exclamation() -> void:
+	exclamation_point.visible = true
+	exclamation_point.play()
+	await exclamation_point.animation_finished
+	await get_tree().create_timer(0.1).timeout
+	exclamation_point.visible = false
+
+
 func _set_components() -> void:
 	for child in get_children():
 		if child is NPCComponent:
@@ -51,29 +79,12 @@ func _connect_signals() -> void:
 		return
 
 
-func interact(body: CharacterBody2D) -> void:
-	var new_facing_direction = (body.global_position - global_position).normalized()
-	if new_facing_direction != facing_vec:
-		start_turning(new_facing_direction)
-	await _say_dialogue()
-
-
 func _say_dialogue(d: Array[String] = [], autocomplete = null, question = null) -> void:
 	var dia = d if not d.is_empty() else dialogue
 	var ac = autocomplete if autocomplete != null else is_autocomplete
 	var iq = question if question != null else is_question
 	Global.send_text_box.emit(self, dia, ac, iq, true)
 	await Global.text_box_complete
-
-
-func trigger() -> void:
-	var player = get_tree().get_first_node_in_group("player")
-	for c: NPCComponent in npc_components:
-		if c.is_active:
-			@warning_ignore("redundant_await")
-			await c.trigger(player)
-	if story_component:
-		story_component.trigger()
 
 
 func _update_direction_visual() -> void:
@@ -83,10 +94,10 @@ func _update_direction_visual() -> void:
 	var anim_player = get_node("AnimationPlayer") as AnimationPlayer
 	if not anim_player:
 		return
-		
+
 	var dir_vec = _vector_from_dir(direction)
 	facing_direction = dir_vec
-	
+
 	if animation_tree:
 		animation_tree.set("parameters/Idle/blend_position", dir_vec)
 		anim_state.travel("Idle")
@@ -124,11 +135,3 @@ func _direction_from_vector(vector: Vector2) -> Direction:
 
 func _get_walk_speed() -> float:
 	return 4.0
-
-
-func animate_exclamation() -> void:
-	exclamation_point.visible = true
-	exclamation_point.play()
-	await exclamation_point.animation_finished
-	await get_tree().create_timer(0.1).timeout
-	exclamation_point.visible = false

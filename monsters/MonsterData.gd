@@ -8,7 +8,7 @@ extends Resource
 @export var texture: Texture2D
 @export_subgroup("Moves")
 @export var starting_moves: Array[Move] = []
-@export var level_up_moves: Dictionary[int, Move] = {}
+@export var level_up_moves: Dictionary[int, Move] = { }
 @export var learn_set: Array[Move] = []
 @export_subgroup("Base Stats")
 @export var base_hitpoints: int = 50
@@ -19,6 +19,7 @@ extends Resource
 @export var base_speed: int = 50
 @export_subgroup("Other Stats")
 @export var catch_rate: int = 200
+
 
 func set_up(level: int) -> Monster:
 	var monster: Monster = Monster.new()

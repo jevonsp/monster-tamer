@@ -22,40 +22,35 @@ enum Stat {
 }
 
 const EXPERIENCE_PER_LEVEL: int = 50
+
 @export var monster_data: MonsterData
 @export var name: String = ""
 @export var primary_type: Variant = null
 @export var secondary_type: Variant = null
 @export var nature: String = ""
-
 @export var level: int = 1
 @export var experience: int = 0
-
 @export var max_hitpoints: int
 @export var current_hitpoints: int
-
 @export var attack: int = 1
 @export var special_attack: int = 1
 @export var defense: int = 1
 @export var special_defense: int = 1
 @export var speed: int = 1
-
 @export var moves: Array[Move] = []
 @export var is_player_monster: bool = false
 @export var is_fainted: bool = false
 @export var is_captured: bool = false
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
-
 @export var held_item: Item
-
 @export var stat_stages_and_multis: MonsterStatMultipliers = null
 
 var is_able_to_fight: bool:
 	get:
 		return not is_fainted and not is_captured
-
 var statuses: Array[StatusInstance] = []
+
 
 func set_monster_data(monster_data_resource: MonsterData) -> void:
 	monster_data = monster_data_resource
@@ -103,7 +98,7 @@ func set_stats() -> void:
 	for i in range(stats.size()):
 		stats[i] = ceili(
 			(int((2 * base_stats[i] * level) / 100.0) + 5)
-			* NatureChart.get_nature_multiplier(nature, stat_enums[i])
+			* NatureChart.get_nature_multiplier(nature, stat_enums[i]),
 		)
 
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
@@ -150,9 +145,9 @@ func check_faint() -> void:
 
 
 func add_status(
-	status_data: StatusData,
-	duration: int = -1,
-	context: BattleContext = null
+		status_data: StatusData,
+		duration: int = -1,
+		context: BattleContext = null,
 ) -> StatusApplyResult:
 	var resolved_duration := duration if duration > 0 else status_data.default_duration
 	var existing_status := get_status_by_id(status_data.get_identifier())
@@ -174,14 +169,12 @@ func add_status(
 	return StatusApplyResult.APPLIED
 
 
-
 func boost_stat(stat: Stat, amount: int) -> BoostApplyResult:
 	var entry = stat_stages_and_multis.stat_stages[stat]
 	if amount > 0 and (entry + amount > 6 or entry + amount < -6):
 		return BoostApplyResult.BLOCKED
 	entry += clamp(amount, -6, 6)
 	return BoostApplyResult.APPLIED
-
 
 
 func remove_status(instance: StatusInstance) -> void:
@@ -386,10 +379,10 @@ func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 	var hp_curr: int = current_hitpoints
 	var modified_catch_rate: int = min(
 		255,
-		(3 * hp_max - 2 * hp_curr) / (3 * float(hp_max)) * ball_bonus * status_bonus
+		(3 * hp_max - 2 * hp_curr) / (3 * float(hp_max)) * ball_bonus * status_bonus,
 	)
 	var shake_probability: int = round(
-		1048560 / round(sqrt(round(sqrt(16711680 / float(modified_catch_rate)))))
+		1048560 / round(sqrt(round(sqrt(16711680 / float(modified_catch_rate))))),
 	)
 
 	var times: int = 0
@@ -400,7 +393,7 @@ func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 				times += 1
 			else:
 				break
-	
+
 	if times == 4:
 		success = true
 
@@ -435,8 +428,7 @@ func hold_item(item: Item) -> bool:
 	if held_item == null:
 		held_item = item
 		return true
-	else:
-		return false
+	return false
 
 
 func swap_items(item: Item) -> void:

@@ -1,32 +1,30 @@
-extends TileMover
 class_name Player
+extends TileMover
 
 #region Movement Vars
 enum TravelState { DEFAULT, SURFING, BIKING }
 
-@export var TURN_DURATION := 0.1
-
 static var in_battle: bool = false
-
-var travel_state = TravelState.DEFAULT
-var held_keys: Array = []
-var key_hold_times: Dictionary = {}
-var turn_timer: float = 0.0
-var command_active: bool = false
-var processing: bool = true
-var current_map: TileMapLayer = null
+const  TURN_DURATION := 0.1
 
 @export var available_travel_methods: Dictionary = {
 	TravelState.SURFING: false,
 	TravelState.BIKING: false,
 }
-#endregion
 
+var travel_state = TravelState.DEFAULT
+var held_keys: Array = []
+var key_hold_times: Dictionary = { }
+var turn_timer: float = 0.0
+var command_active: bool = false
+var processing: bool = true
+var current_map: TileMapLayer = null
 var respawn_point: Vector2 = Vector2.ZERO
 
 @onready var party_handler: Node = $PartyHandler
 @onready var inventory_handler: Node = $InventoryHandler
 @onready var story_flag_handler: Node = $StoryFlagHandler
+
 
 func _ready() -> void:
 	super()
@@ -70,14 +68,6 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _bind_signals() -> void:
-	Global.toggle_player.connect(toggle_processing)
-	Global.toggle_in_battle.connect(toggle_in_battle)
-	Global.send_respawn_player.connect(_respawn)
-	Global.on_menu_closed.connect(_on_menu_closed)
-	party_handler.bind_signals()
-
-
 #region Movement and Interaction
 func update_held_keys(delta: float) -> void:
 	var directions = ["up", "down", "right", "left"]
@@ -111,8 +101,8 @@ func process_turning_state(delta: float) -> void:
 
 	var input_dir = get_input_direction()
 	var should_move = input_dir == facing_direction \
-		and not held_keys.is_empty() \
-		and key_hold_times.get(held_keys.back(), 0.0) >= TURN_DURATION
+	and not held_keys.is_empty() \
+	and key_hold_times.get(held_keys.back(), 0.0) >= TURN_DURATION
 	if not command_active and should_move and can_move_in(input_dir):
 		return
 
@@ -152,7 +142,7 @@ func can_move_in(input_dir: Vector2) -> bool:
 	var tile = _get_next_tile_coords(input_dir)
 	if travel_state == TravelState.SURFING and not _is_tile_water(tile):
 		stop_surfing()
-	
+
 	return try_start_move(input_dir)
 
 
@@ -164,7 +154,7 @@ func get_input_direction() -> Vector2:
 		"up": Vector2.UP,
 		"down": Vector2.DOWN,
 		"left": Vector2.LEFT,
-		"right": Vector2.RIGHT
+		"right": Vector2.RIGHT,
 	}
 
 	return direction_map.get(held_keys.back(), Vector2.ZERO)
@@ -194,6 +184,7 @@ func walk_one_tile(dir: Vector2) -> void:
 		await finished_walk_segment
 	_finish_commanded_movement()
 
+
 func clear_inputs() -> void:
 	_clear_manual_input_buffer()
 	command_active = false
@@ -201,6 +192,42 @@ func clear_inputs() -> void:
 	current_state = MoveState.IDLE
 	move_progress = 0.0
 	anim_state.travel("Idle")
+
+
+func toggle_processing() -> void:
+	clear_inputs()
+	processing = !processing
+
+
+func toggle_in_battle() -> void:
+	in_battle = not in_battle
+	if not in_battle:
+		for monster in party_handler.party:
+			monster.was_active_in_battle = false
+#endregion
+
+
+func set_respawn_point() -> void:
+	respawn_point = global_position
+
+
+func start_surfing() -> void:
+	travel_state = TravelState.SURFING
+	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.PASSABLE)
+	await walk_one_tile(facing_direction)
+
+
+func stop_surfing() -> void:
+	travel_state = TravelState.DEFAULT
+	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.NOT_PASSABLE)
+
+
+func _bind_signals() -> void:
+	Global.toggle_player.connect(toggle_processing)
+	Global.toggle_in_battle.connect(toggle_in_battle)
+	Global.send_respawn_player.connect(_respawn)
+	Global.on_menu_closed.connect(_on_menu_closed)
+	party_handler.bind_signals()
 
 
 func _clear_manual_input_buffer() -> void:
@@ -225,23 +252,6 @@ func _attempt_interaction() -> void:
 		var collider = ray_cast_2d.get_collider()
 		if collider.is_in_group("interactable") and collider.has_method("interact"):
 			collider.interact(self)
-
-
-func toggle_processing() -> void:
-	clear_inputs()
-	processing = !processing
-
-
-func toggle_in_battle() -> void:
-	in_battle = not in_battle
-	if not in_battle:
-		for monster in party_handler.party:
-			monster.was_active_in_battle = false
-#endregion
-
-
-func set_respawn_point() -> void:
-	respawn_point = global_position
 
 
 func _respawn() -> void:
@@ -272,16 +282,6 @@ func _is_tile_water(tile: Vector2i) -> bool:
 	return current_map.get_cell_atlas_coords(tile) == Vector2i(2, 0)
 
 
-func start_surfing() -> void:
-	travel_state = TravelState.SURFING
-	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.PASSABLE)
-	await walk_one_tile(facing_direction)
-
-
-func stop_surfing() -> void:
-	travel_state = TravelState.DEFAULT
-	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.NOT_PASSABLE)
-
-
 func _get_walk_speed() -> float:
 	return 5.0
+#endregion

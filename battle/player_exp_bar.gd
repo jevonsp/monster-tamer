@@ -1,6 +1,9 @@
 extends ProgressBar
+
 var actor = null
 var active: bool = false
+
+
 func _ready() -> void:
 	if not Global.monster_gained_experience.is_connected(_on_monster_gained_experience):
 		Global.monster_gained_experience.connect(_on_monster_gained_experience)
@@ -14,27 +17,12 @@ func update():
 	else:
 		value = 0
 		modulate = Color.TRANSPARENT
-	
-	
-func _on_monster_gained_experience(monster: Monster, amount: int) -> void:
-	if monster == actor:
-		if not active:
-			update_value(amount)
-			Global.experience_animation_complete.emit()
-		else:
-			tween_bar(amount)
-	elif active:
-		# Unblock EXP grants for non-displayed monsters in battle.
-		Global.experience_animation_complete.emit()
-		
-func _on_monster_gained_level(monster: Monster, _amount: int) -> void:
-	update_bounds(monster)
-		
-		
+
+
 func update_value(amount: int) -> void:
 	value += amount
-	
-	
+
+
 func update_bounds(monster: Monster) -> void:
 	min_value = monster.get_current_level_exp()
 	value = monster.experience
@@ -46,3 +34,19 @@ func tween_bar(amount: int) -> void:
 	tween.tween_property(self, "value", value + amount, Global.DEFAULT_DELAY)
 	await tween.finished
 	Global.experience_animation_complete.emit()
+
+
+func _on_monster_gained_experience(monster: Monster, amount: int) -> void:
+	if monster == actor:
+		if not active:
+			update_value(amount)
+			Global.experience_animation_complete.emit()
+		else:
+			tween_bar(amount)
+	elif active:
+		# Unblock EXP grants for non-displayed monsters in battle.
+		Global.experience_animation_complete.emit()
+
+
+func _on_monster_gained_level(monster: Monster, _amount: int) -> void:
+	update_bounds(monster)

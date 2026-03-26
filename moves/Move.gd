@@ -13,6 +13,7 @@ extends Resource
 
 var should_exit: bool = false
 
+
 func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> void:
 	var missed: bool = calculate_miss(actor, target)
 
@@ -34,7 +35,7 @@ func calculate_miss(actor: Monster, target: Monster) -> bool:
 		actor.stat_stages_and_multis.stat_stages[Monster.Stat.ACCURACY]
 		- target.stat_stages_and_multis.stat_stages[Monster.Stat.EVASION],
 		-6,
-		6
+		6,
 	)
 	var stat_stage_multi: float = MonsterStatTable.special_stat_multis[adjusted_stage]
 	var stat_multi: float = (
