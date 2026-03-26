@@ -1,7 +1,12 @@
 extends Control
-const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
+
 enum Focused { CATEGORY, ITEM, OPTION }
 enum Mode { BROWSING, PICK_USE_TARGET, PICK_GIVE_TARGET }
+
+const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
+
+@export var inventory: Dictionary[Item.Type, InventoryPage] = { }
+
 var focus_state: Focused = Focused.CATEGORY:
 	set(value):
 		focus_state = value
@@ -10,9 +15,9 @@ var mode: Mode = Mode.BROWSING
 var is_trainer_battle: bool = false
 var last_selected_option: Button = null
 var last_selected_item_button: Button = null
-@export var inventory: Dictionary[Item.Type, InventoryPage] = {}
 var categories: int = 1
 var current_category: int = 0
+
 @onready var interfaces: CanvasLayer = $".."
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
@@ -20,6 +25,8 @@ var current_category: int = 0
 	use = $Options/Use,
 	give = $Options/Give,
 }
+@onready var category_label: Label = $CategoryLabel
+
 
 func _ready() -> void:
 	_connect_signals()
@@ -54,6 +61,67 @@ func _unhandled_input(event: InputEvent) -> void:
 			_item_focused_input(event)
 		Focused.OPTION:
 			_option_focused_input(event)
+
+
+func use(item: Item) -> void:
+	if not _can_use_outside_battle(item):
+		await show_cant_use_text()
+		_toggle_options_visible()
+		return
+	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
+		_toggle_options_visible()
+		_toggle_visible()
+		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+		_set_mode_use_target(true)
+		Global.request_open_party.emit()
+		var monster: Monster = await Global.monster_selected
+		Global.request_open_party.emit()
+		Global.use_item_on.emit(item, monster)
+		await Global.item_finished_using
+		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+		Global.request_open_inventory.emit()
+
+
+func give(item: Item) -> void:
+	if not _can_give_to_monster(item):
+		await show_cant_hold_text()
+		_toggle_options_visible()
+		return
+	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
+		_toggle_options_visible()
+		_toggle_visible()
+		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+		_set_mode_give_target(true)
+		Global.request_open_party.emit()
+		var monster: Monster = await Global.monster_selected
+		await _give_item_to_monster(item, monster)
+		Global.request_open_party.emit()
+		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+		Global.request_open_inventory.emit()
+
+
+func show_cant_use_text() -> void:
+	var ta: Array[String] = ["That item isn't usable!"]
+	Global.send_text_box.emit(self, ta, true, false, false)
+	await Global.text_box_complete
+
+
+func show_cant_use_in_battle_text() -> void:
+	var ta: Array[String] = ["That item isn't usable!"]
+	Global.send_text_box.emit(self, ta, true, false, false)
+	await Global.text_box_complete
+
+
+func show_cant_use_in_trainer_battle_text() -> void:
+	var ta: Array[String] = ["This is a trainer battle!!"]
+	Global.send_text_box.emit(self, ta, true, false, false)
+	await Global.text_box_complete
+
+
+func show_cant_hold_text() -> void:
+	var ta: Array[String] = ["That item isn't holdable!"]
+	Global.send_text_box.emit(self, ta, true, false, false)
+	await Global.text_box_complete
 
 
 func _category_focused_input(event: InputEvent) -> void:
@@ -156,6 +224,7 @@ func _display_current() -> void:
 	for item in current_page.page:
 		var quantity: int = current_page.page[item]
 		_create_item(item, quantity)
+	_display_item_category()
 
 
 func _clear_page() -> void:
@@ -175,6 +244,10 @@ func _switch_page(dir: Vector2) -> void:
 	_display_current()
 	if focus_state == Focused.ITEM:
 		_focus_default()
+
+
+func _display_item_category() -> void:
+	category_label.text = "Category: %s" % Item.Type.keys()[current_category].to_lower().capitalize()
 
 
 func _create_item(item: Item, quantity: int) -> void:
@@ -306,43 +379,6 @@ func _focus_option_default() -> void:
 		option_buttons.use.grab_focus()
 
 
-func use(item: Item) -> void:
-	if not _can_use_outside_battle(item):
-		await show_cant_use_text()
-		_toggle_options_visible()
-		return
-	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
-		_toggle_options_visible()
-		_toggle_visible()
-		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
-		_set_mode_use_target(true)
-		Global.request_open_party.emit()
-		var monster: Monster = await Global.monster_selected
-		Global.request_open_party.emit()
-		Global.use_item_on.emit(item, monster)
-		await Global.item_finished_using
-		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
-		Global.request_open_inventory.emit()
-
-
-func give(item: Item) -> void:
-	if not _can_give_to_monster(item):
-		await show_cant_hold_text()
-		_toggle_options_visible()
-		return
-	if interfaces.ui_context == Global.AccessFrom.INVENTORY:
-		_toggle_options_visible()
-		_toggle_visible()
-		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
-		_set_mode_give_target(true)
-		Global.request_open_party.emit()
-		var monster: Monster = await Global.monster_selected
-		await _give_item_to_monster(item, monster)
-		Global.request_open_party.emit()
-		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
-		Global.request_open_inventory.emit()
-
-
 func _give_item_to_monster(item: Item, monster: Monster) -> void:
 	if monster == null:
 		return
@@ -373,27 +409,3 @@ func _confirm_item_swap(monster: Monster) -> bool:
 	var should_swap: bool = await Global.answer_given
 	await Global.text_box_complete
 	return should_swap
-
-
-func show_cant_use_text() -> void:
-	var ta: Array[String] = ["That item isn't usable!"]
-	Global.send_text_box.emit(self, ta, true, false, false)
-	await Global.text_box_complete
-
-
-func show_cant_use_in_battle_text() -> void:
-	var ta: Array[String] = ["That item isn't usable!"]
-	Global.send_text_box.emit(self, ta, true, false, false)
-	await Global.text_box_complete
-
-
-func show_cant_use_in_trainer_battle_text() -> void:
-	var ta: Array[String] = ["This is a trainer battle!!"]
-	Global.send_text_box.emit(self, ta, true, false, false)
-	await Global.text_box_complete
-
-
-func show_cant_hold_text() -> void:
-	var ta: Array[String] = ["That item isn't holdable!"]
-	Global.send_text_box.emit(self, ta, true, false, false)
-	await Global.text_box_complete

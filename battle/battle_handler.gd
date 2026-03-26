@@ -1,4 +1,5 @@
 extends Node
+
 const ActionQueueBuilder = preload("res://battle/action_queue_builder.gd")
 
 @onready var battle: Control = $".."
@@ -24,7 +25,11 @@ func _execute_player_turn(action) -> void:
 		executing_turn = true
 		battle.visibility_focus_handler._manage_focus()
 		action_queue_builder.queue_enemy_action(battle, turn_queue)
-		var battle_ended: bool = await turn_executor.execute_turn_queue(self, turn_queue, post_action_resolver)
+		var battle_ended: bool = await turn_executor.execute_turn_queue(
+			self,
+			turn_queue,
+			post_action_resolver,
+		)
 		if not battle_ended:
 			_reset_turn_state()
 
@@ -34,8 +39,8 @@ func _attempt_run() -> void:
 		return
 	var action = Run.new()
 	_execute_player_turn(action)
-	
-	
+
+
 func _reset_turn_state() -> void:
 	turn_queue.clear()
 	battle.processing = true

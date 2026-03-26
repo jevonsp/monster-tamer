@@ -6,8 +6,6 @@ enum AccessFrom { NONE, MENU, BATTLE, PARTY, INVENTORY, STORE }
 
 @warning_ignore_start("unused_signal")
 
-
-
 #region PLAYER
 signal toggle_player
 signal toggle_in_battle

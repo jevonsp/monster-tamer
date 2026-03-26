@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CompositeStatusData" format=3 uid="uid://cwrlp3dcw1awg"]
 
-[ext_resource type="Script" path="res://statuses/CompositeStatusData.gd" id="1_6jvbt"]
+[ext_resource type="Script" uid="uid://b18e0rv4f1awr" path="res://statuses/CompositeStatusData.gd" id="1_6jvbt"]
 [ext_resource type="Script" uid="uid://dnndjdqteveku" path="res://statuses/StatusData.gd" id="1_23mrq"]
 [ext_resource type="Script" uid="uid://bxcqvbb6f0nh7" path="res://statuses/StatModifierStatus.gd" id="2_ky6a3"]
 [ext_resource type="Script" path="res://statuses/RandomActionBlockStatus.gd" id="3_1c2pr"]

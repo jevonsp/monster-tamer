@@ -4,11 +4,11 @@ extends RefCounted
 var handler: Node
 var battle: Control
 
+
 func _init(battle_handler: Node, battle_control: Control) -> void:
 	handler = battle_handler
 	battle = battle_control
 
-# --- Lookups ---------------------------------------------------------------
 
 func get_player_actor() -> Monster:
 	return battle.player_actor
@@ -33,7 +33,6 @@ func get_player_party() -> Array[Monster]:
 func get_enemy_party() -> Array[Monster]:
 	return battle.enemy_party
 
-# --- Text helpers ----------------------------------------------------------
 
 func show_text(lines: Array[String], wait_for_close: bool = true) -> void:
 	Global.send_text_box.emit(null, lines, not wait_for_close, false, false)
@@ -62,7 +61,6 @@ func show_capture_result_text(lines: Array[String]) -> void:
 	Global.send_text_box.emit(null, lines, false, false, false)
 	await Global.text_box_complete
 
-# --- Animation helpers -----------------------------------------------------
 
 func play_move_animation(animation_scene: PackedScene) -> void:
 	if animation_scene == null:
@@ -109,9 +107,12 @@ func play_stat_animation(monster: Monster, stat: Monster.Stat, amount: int) -> v
 	await Global.stat_change_animation_complete
 
 
-# --- Battle flow helpers ---------------------------------------------------
-
-func perform_switch(old_monster: Monster, new_monster: Monster, out_text: String, in_text: String) -> void:
+func perform_switch(
+		old_monster: Monster,
+		new_monster: Monster,
+		out_text: String,
+		in_text: String,
+) -> void:
 	if old_monster.is_able_to_fight:
 		var t_out: Array[String] = [out_text % [old_monster.name]]
 		Global.send_text_box.emit(null, t_out, true, false, false)

@@ -1,19 +1,20 @@
-extends Resource
 class_name CatchEffect
+extends Resource
 
 @export var catch_rate_modifier: float = 1.0
+
 
 func execute(item: Item, actor: Monster, target: Monster, battle_context: BattleContext) -> void:
 	await battle_context.play_item_throw(item)
 	await battle_context.play_capture_animation()
-	
+
 	var result = target.attempt_catch(item, actor)
 	var times = result["times"]
-	
+
 	await battle_context.play_ball_wiggle(times)
-	
+
 	var post_text: Array[String] = []
-	
+
 	if result["success"] == true:
 		target.is_captured = true
 		Global.capture_monster.emit(target)
@@ -28,7 +29,7 @@ func execute(item: Item, actor: Monster, target: Monster, battle_context: Battle
 				post_text.append("We almost got it that time!")
 			3:
 				post_text.append("Oh no! It was SO close!")
-		
+
 		await battle_context.play_escape_animation()
 
 	await battle_context.show_text(post_text, true)

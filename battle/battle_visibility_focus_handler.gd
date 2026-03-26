@@ -6,7 +6,6 @@ var vis_state: VisibilityState = VisibilityState.OPTIONS:
 	set(value):
 		vis_state = value
 		print(VisibilityState.keys()[value])
-
 var _last_selected_by_state: Dictionary = {
 	VisibilityState.OPTIONS: null,
 	VisibilityState.MOVES: null,

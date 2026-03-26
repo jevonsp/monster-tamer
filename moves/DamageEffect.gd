@@ -1,22 +1,23 @@
 class_name DamageEffect
 extends MoveEffect
 
+enum DamageType { PHYSICAL, SPECIAL }
+
 @export var type: TypeChart.Type
 @export var base_power: int = 30
-enum DamageType { PHYSICAL, SPECIAL }
 @export var damage_type: DamageType = DamageType.PHYSICAL
 
 
 func apply(
-	actor: Monster, 
-	target: Monster, 
-	context: BattleContext, 
-	move_name: String = "attack", 
-	animation: PackedScene = null
+		actor: Monster,
+		target: Monster,
+		context: BattleContext,
+		move_name: String = "attack",
+		animation: PackedScene = null,
 ) -> void:
 	var efficacy := TypeChart.get_attacking_type_efficacy(type, target)
 	var damage := calculate_damage(actor, target)
-	
+
 	var is_critical = calculate_critical(actor)
 	damage = damage * 2 if is_critical else damage
 	await context.show_move_used_text(actor, move_name, target)
@@ -36,41 +37,6 @@ func apply(
 
 	await context.show_move_result_text(lines)
 	target.check_faint()
-
-
-func _get_damage_stats(actor: Monster, target: Monster) -> Array:
-	var atk_stat: Monster.Stat
-	var def_stat: Monster.Stat
-
-	match damage_type:
-		DamageType.PHYSICAL:
-			atk_stat = Monster.Stat.ATTACK
-			def_stat = Monster.Stat.DEFENSE
-		DamageType.SPECIAL:
-			atk_stat = Monster.Stat.SPECIAL_ATTACK
-			def_stat = Monster.Stat.SPECIAL_DEFENSE
-
-	var attacking_stat = actor.get_stat(atk_stat) * actor.get_stat_stage_multi(atk_stat)
-	var defending_stat = target.get_stat(def_stat) * target.get_stat_stage_multi(def_stat)
-	var attacking_multi = actor.stat_stages_and_multis.stat_multipliers[atk_stat]
-	var defending_multi = target.stat_stages_and_multis.stat_multipliers[def_stat]
-
-	return [attacking_stat, defending_stat, attacking_multi, defending_multi]
-
-
-func _get_item_boost(monster: Monster) -> Variant:
-	if not monster.held_item or not monster.held_item.held_effect:
-		return null
-	if monster.held_item.held_effect.effect_type != HeldEffect.EffectType.TYPE_BOOST:
-		return null
-
-	match monster.held_item.held_effect.BoostType:
-		HeldEffect.BoostType.PERCENTAGE:
-			return monster.held_item.held_effect.get_percent_bonus()
-		HeldEffect.BoostType.FLAT:
-			return monster.held_item.held_effect.get_flat_bonus()
-
-	return null
 
 
 func calculate_damage(actor: Monster, target: Monster) -> int:
@@ -108,3 +74,38 @@ func calculate_critical(actor: Monster) -> bool:
 	if randf() <= critical_chance:
 		return true
 	return false
+
+
+func _get_damage_stats(actor: Monster, target: Monster) -> Array:
+	var atk_stat: Monster.Stat
+	var def_stat: Monster.Stat
+
+	match damage_type:
+		DamageType.PHYSICAL:
+			atk_stat = Monster.Stat.ATTACK
+			def_stat = Monster.Stat.DEFENSE
+		DamageType.SPECIAL:
+			atk_stat = Monster.Stat.SPECIAL_ATTACK
+			def_stat = Monster.Stat.SPECIAL_DEFENSE
+
+	var attacking_stat = actor.get_stat(atk_stat) * actor.get_stat_stage_multi(atk_stat)
+	var defending_stat = target.get_stat(def_stat) * target.get_stat_stage_multi(def_stat)
+	var attacking_multi = actor.stat_stages_and_multis.stat_multipliers[atk_stat]
+	var defending_multi = target.stat_stages_and_multis.stat_multipliers[def_stat]
+
+	return [attacking_stat, defending_stat, attacking_multi, defending_multi]
+
+
+func _get_item_boost(monster: Monster) -> Variant:
+	if not monster.held_item or not monster.held_item.held_effect:
+		return null
+	if monster.held_item.held_effect.effect_type != HeldEffect.EffectType.TYPE_BOOST:
+		return null
+
+	match monster.held_item.held_effect.BoostType:
+		HeldEffect.BoostType.PERCENTAGE:
+			return monster.held_item.held_effect.get_percent_bonus()
+		HeldEffect.BoostType.FLAT:
+			return monster.held_item.held_effect.get_flat_bonus()
+
+	return null

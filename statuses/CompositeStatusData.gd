@@ -1,5 +1,5 @@
-extends StatusData
 class_name CompositeStatusData
+extends StatusData
 
 @export var child_statuses: Array[StatusData] = []
 
@@ -33,10 +33,10 @@ func on_remove(instance: StatusInstance, owner: Monster, context: BattleContext)
 
 
 func modify_effective_stat(
-	instance: StatusInstance,
-	owner: Monster,
-	stat: Monster.Stat,
-	value: float
+		instance: StatusInstance,
+		owner: Monster,
+		stat: Monster.Stat,
+		value: float,
 ) -> float:
 	var modified_value := value
 	for child in child_statuses:
@@ -46,9 +46,9 @@ func modify_effective_stat(
 
 
 func can_attempt_action(
-	instance: StatusInstance,
-	owner: Monster,
-	context: BattleContext
+		instance: StatusInstance,
+		owner: Monster,
+		context: BattleContext,
 ) -> bool:
 	for child in child_statuses:
 		if child != null and not child.can_attempt_action(instance, owner, context):

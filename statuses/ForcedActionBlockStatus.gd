@@ -1,5 +1,5 @@
-extends StatusData
 class_name ForcedActionBlockStatus
+extends StatusData
 
 @export_range(0.0, 1.0, 0.01) var remove_chance: float = 0.0
 @export_multiline var action_block_message: String = "%s cannot move!"
@@ -15,9 +15,9 @@ func on_turn_start(instance: StatusInstance, _owner: Monster, _context: BattleCo
 
 
 func can_attempt_action(
-	instance: StatusInstance,
-	_owner: Monster,
-	_context: BattleContext
+		instance: StatusInstance,
+		_owner: Monster,
+		_context: BattleContext,
 ) -> bool:
 	return not instance.blocks_action_this_turn
 

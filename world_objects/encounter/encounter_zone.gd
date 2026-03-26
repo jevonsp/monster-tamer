@@ -1,14 +1,10 @@
-extends Area2D
 class_name EncounterZone
+extends Area2D
+
 
 func _ready() -> void:
 	Global.step_completed.connect(_on_step_completed)
 
-
-func _on_step_completed(pos: Vector2) -> void:
-	if check_position(pos):
-		trigger()
-	
 
 func check_position(pos: Vector2) -> bool:
 	var space_state = get_world_2d().direct_space_state
@@ -25,3 +21,8 @@ func check_position(pos: Vector2) -> bool:
 
 func trigger() -> void:
 	pass
+
+
+func _on_step_completed(pos: Vector2) -> void:
+	if check_position(pos):
+		trigger()

@@ -1,0 +1,95 @@
+extends GutTest
+
+const InventoryHandlerScript = preload("res://player/inventory_handler.gd")
+
+
+var inventory_handler: Node
+
+
+func before_each() -> void:
+	inventory_handler = InventoryHandlerScript.new()
+	inventory_handler._construct_inventory()
+
+
+func after_each() -> void:
+	inventory_handler = null
+
+
+func test_add_and_remove_updates_item_stack_counts() -> void:
+	var potion := Item.new()
+	potion.item_type = Item.Type.USE
+
+	inventory_handler.add(potion, 3)
+	assert_eq(inventory_handler.inventory[Item.Type.USE].page[potion], 3)
+
+	inventory_handler.remove(potion, 2)
+	assert_eq(inventory_handler.inventory[Item.Type.USE].page[potion], 1)
+
+
+func test_remove_erases_item_at_zero_count() -> void:
+	var potion := Item.new()
+	potion.item_type = Item.Type.USE
+	inventory_handler.add(potion, 1)
+
+	inventory_handler.remove(potion, 1)
+
+	assert_false(inventory_handler.inventory[Item.Type.USE].page.has(potion))
+
+
+func test_on_use_item_on_consumes_non_multi_use_item() -> void:
+	var item := Item.new()
+	item.item_type = Item.Type.USE
+	item.is_multi_use = false
+	item.use_effect = HealingEffect.new()
+	var monster := _make_monster()
+	monster.current_hitpoints = 10
+	inventory_handler.add(item, 1)
+	_connect_heal_signal()
+
+	await inventory_handler._on_use_item_on(item, monster)
+
+	assert_false(inventory_handler.inventory[Item.Type.USE].page.has(item))
+	_disconnect_heal_signal()
+
+
+func _connect_heal_signal() -> void:
+	if not Global.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
+		Global.send_hitpoints_change.connect(_on_send_hitpoints_change)
+	if not Global.send_text_box.is_connected(_on_send_text_box):
+		Global.send_text_box.connect(_on_send_text_box)
+
+
+func _disconnect_heal_signal() -> void:
+	if Global.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
+		Global.send_hitpoints_change.disconnect(_on_send_hitpoints_change)
+	if Global.send_text_box.is_connected(_on_send_text_box):
+		Global.send_text_box.disconnect(_on_send_text_box)
+
+
+func _on_send_hitpoints_change(_target: Monster, _hp: int) -> void:
+	Global.hitpoints_animation_complete.emit()
+
+
+func _on_send_text_box(
+	_object: Node,
+	_text: Array[String],
+	_auto_complete: bool,
+	_is_question: bool,
+	_toggles_player: bool
+) -> void:
+	Global.text_box_complete.emit()
+
+
+func _make_monster() -> Monster:
+	var monster := Monster.new()
+	monster.name = "PartyMon"
+	monster.primary_type = TypeChart.Type.NONE
+	monster.attack = 10
+	monster.defense = 10
+	monster.special_attack = 10
+	monster.special_defense = 10
+	monster.speed = 10
+	monster.max_hitpoints = 50
+	monster.current_hitpoints = 50
+	monster.create_stat_multis()
+	return monster
