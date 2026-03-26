@@ -1,8 +1,12 @@
 extends Control
 const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
-enum Mode { BROWSE, PICK_USE_TARGET, PICK_GIVE_TARGET }
+enum Focused { CATEGORY, ITEM, OPTION }
+enum Mode { BROWSING, PICK_USE_TARGET, PICK_GIVE_TARGET }
+var focus_state: Focused = Focused.CATEGORY:
+	set(value):
+		focus_state = value
 var processing: bool = false
-var mode: Mode = Mode.BROWSE
+var mode: Mode = Mode.BROWSING
 var is_trainer_battle: bool = false
 var last_selected_option: Button = null
 var last_selected_item_button: Button = null
@@ -27,48 +31,93 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
-	if mode == Mode.BROWSE and not options_box.visible:
-		if event.is_action_pressed("left"):
-			_switch_page(Vector2.LEFT)
-			get_viewport().set_input_as_handled()
-			return
-		if event.is_action_pressed("right"):
-			_switch_page(Vector2.RIGHT)
-			get_viewport().set_input_as_handled()
-			return
 	if event.is_action_pressed("menu"):
-		if interfaces.ui_context == Global.AccessFrom.BATTLE:
-			_toggle_visible()
-			Global.on_inventory_closed.emit()
-			get_viewport().set_input_as_handled()
-			return
+		_exit_inventory()
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("no"):
+		match focus_state:
+			Focused.OPTION:
+				_set_focus_state(Focused.ITEM)
+				if options_box.visible:
+					_toggle_options_visible()
+			Focused.ITEM:
+				_set_focus_state(Focused.CATEGORY)
+			Focused.CATEGORY:
+				_exit_inventory()
+		get_viewport().set_input_as_handled()
+		return
+	match focus_state:
+		Focused.CATEGORY:
+			_category_focused_input(event)
+		Focused.ITEM:
+			_item_focused_input(event)
+		Focused.OPTION:
+			_option_focused_input(event)
+
+
+func _category_focused_input(event: InputEvent) -> void:
+	if mode != Mode.BROWSING or options_box.visible:
+		return
+	if event.is_action_pressed("left"):
+		_switch_page(Vector2.LEFT)
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("right"):
+		_switch_page(Vector2.RIGHT)
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("yes"):
+		_set_focus_state(Focused.ITEM)
+		get_viewport().set_input_as_handled()
+		return
+
+
+func _item_focused_input(event: InputEvent) -> void:
+	if mode != Mode.BROWSING or options_box.visible:
+		return
+	if event.is_action_pressed("left"):
+		_switch_page(Vector2.LEFT)
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("right"):
+		_switch_page(Vector2.RIGHT)
+		get_viewport().set_input_as_handled()
+		return
+
+
+func _option_focused_input(_event: InputEvent) -> void:
+	pass
+
+
+func _set_focus_state(new_state: Focused) -> void:
+	if new_state != focus_state:
+		focus_state = new_state
+	match focus_state:
+		Focused.CATEGORY:
+			pass
+		Focused.ITEM:
+			_focus_default()
+		Focused.OPTION:
+			_focus_option_default()
+
+
+func _exit_inventory() -> void:
+	if interfaces.ui_context == Global.AccessFrom.BATTLE:
 		_toggle_visible()
 		Global.on_inventory_closed.emit()
-		Global.toggle_player.emit()
-		get_viewport().set_input_as_handled()
-		
-	if event.is_action_pressed("no"):
-		if interfaces.ui_context == Global.AccessFrom.BATTLE:
-			_toggle_visible()
-			Global.on_inventory_closed.emit()
-			get_viewport().set_input_as_handled()
-			return
-		if interfaces.ui_context == Global.AccessFrom.PARTY:
-			_toggle_visible()
-			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
-			Global.request_open_party.emit()
-			get_viewport().set_input_as_handled()
-			return
-		if not options_box.visible:
-			_toggle_visible()
-			Global.on_inventory_closed.emit()
-			Global.toggle_player.emit()
-			if interfaces.ui_context == Global.AccessFrom.MENU:
-				Global.request_open_menu.emit()
-			interfaces.ui_context = Global.AccessFrom.NONE
-		else:
-			_toggle_options_visible()
-		get_viewport().set_input_as_handled()
+		return
+	if interfaces.ui_context == Global.AccessFrom.PARTY:
+		_toggle_visible()
+		Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+		Global.request_open_party.emit()
+		return
+	_toggle_visible()
+	Global.on_inventory_closed.emit()
+	Global.toggle_player.emit()
+	if interfaces.ui_context == Global.AccessFrom.MENU:
+		Global.request_open_menu.emit()
+	interfaces.ui_context = Global.AccessFrom.NONE
 
 
 func _bind_buttons() -> void:
@@ -124,7 +173,8 @@ func _switch_page(dir: Vector2) -> void:
 		Vector2.RIGHT:
 			current_category = int((current_category + 1) % categories)
 	_display_current()
-	_focus_default()
+	if focus_state == Focused.ITEM:
+		_focus_default()
 
 
 func _create_item(item: Item, quantity: int) -> void:
@@ -151,11 +201,11 @@ func _can_give_to_monster(item: Item) -> bool:
 
 
 func _set_mode_use_target(value: bool) -> void:
-	mode = Mode.PICK_USE_TARGET if value else Mode.BROWSE
+	mode = Mode.PICK_USE_TARGET if value else Mode.BROWSING
 
 
 func _set_mode_give_target(value: bool) -> void:
-	mode = Mode.PICK_GIVE_TARGET if value else Mode.BROWSE
+	mode = Mode.PICK_GIVE_TARGET if value else Mode.BROWSING
 
 
 func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
@@ -163,6 +213,7 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 	var item: Item = inventory_panel.item_repr
 	match interfaces.ui_context:
 		Global.AccessFrom.INVENTORY:
+			_set_focus_state(Focused.OPTION)
 			_toggle_options_visible()
 		Global.AccessFrom.PARTY:
 			match mode:
@@ -181,7 +232,7 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 						await show_cant_use_text()
 						return
 			_toggle_visible()
-			mode = Mode.BROWSE
+			mode = Mode.BROWSING
 			Global.item_selected.emit(item)
 			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 			Global.request_open_party.emit()
@@ -197,7 +248,7 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 			Global.add_item_to_turn_queue.emit(item)
 			Global.item_used.emit(item)
 			_toggle_visible()
-			mode = Mode.BROWSE
+			mode = Mode.BROWSING
 
 
 func _on_option_pressed(button: Button) -> void:
@@ -215,11 +266,13 @@ func _on_option_pressed(button: Button) -> void:
 func _toggle_visible() -> void:
 	visible = not visible
 	processing = not processing
-	_focus_default()
+	_set_focus_state(Focused.CATEGORY)
+	last_selected_item_button = null
 	if not visible:
 		last_selected_item_button = null
 		last_selected_option = option_buttons.use
-		mode = Mode.BROWSE
+		mode = Mode.BROWSING
+		focus_state = Focused.CATEGORY
 		options_box.visible = false
 		if interfaces.ui_context != Global.AccessFrom.BATTLE:
 			Global.switch_ui_context.emit(Global.AccessFrom.NONE)

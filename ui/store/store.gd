@@ -1,10 +1,9 @@
 extends Control
 
 const STORE_PANEL = preload("uid://b301kh78bm7js")
-
+@export var inventory: Dictionary[Item.Type, InventoryPage] = {}
 enum Focused { CATEGORY, ITEM, OPTION }
 enum Transaction { BUYING, SELLING }
-
 var focus_state: Focused = Focused.CATEGORY:
 	set(value):
 		focus_state = value
@@ -15,9 +14,10 @@ var transaction_state: Transaction = Transaction.BUYING:
 		print(Transaction.keys()[transaction_state])
 
 var categories: int = 1
-var current_category: int = 0
-@export var inventory: Dictionary[Item.Type, InventoryPage] = {}
-
+var current_category: int = 0:
+	set(value):
+		current_category = value
+		print("current_category: ", current_category)
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
 
@@ -29,6 +29,7 @@ func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
 	_display_current()
+	categories = inventory.size()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -123,9 +124,10 @@ func _switch_page(dir: Vector2) -> void:
 		return
 	match dir:
 		Vector2.LEFT:
-			current_category = int((current_category - 1 + categories) % categories)
+			current_category = abs(current_category - 1) % categories
 		Vector2.RIGHT:
-			current_category = int((current_category + 1) % categories)
+			current_category = abs(current_category + 1) % categories
+			
 	_display_current()
 
 
