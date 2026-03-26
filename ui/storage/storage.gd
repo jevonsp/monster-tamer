@@ -1,29 +1,29 @@
 extends Control
+
+enum State { DEFAULT, MOVING }
+
 const PARTY_SLOT_COUNT := 6
 const TOTAL_STORAGE_SLOTS := 300
 const STORAGE_PAGE_COUNT := 10
 const STORAGE_SLOTS_PER_PAGE := int(TOTAL_STORAGE_SLOTS / float(STORAGE_PAGE_COUNT))
-enum State {DEFAULT, MOVING}
+
 var state: State = State.DEFAULT
 var processing: bool = false
 var party_ref: Array[Monster]
 var storage_ref: Dictionary
 var last_selected_monster: Button = null
 var last_selected_option: Button = null
-var moving_context: Dictionary = {}
+var moving_context: Dictionary = { }
 var page_index: int = 0
 
 #region Node References
 @onready var grid_container: GridContainer = $MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer
 @onready var party_container: HBoxContainer = $MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party
 @onready var options_container: VBoxContainer = $MarginContainer/VBoxContainer/HBoxContainer/Control/Options
-#endregion
-
 #region Helper Nodes
 @onready var update_handler: Node = $UpdateHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var input_handler: Node = $InputHandler
-#endregion
 
 
 func _ready() -> void:
@@ -36,34 +36,6 @@ func _ready() -> void:
 		visibility_focus_handler._focus_default_monster()
 
 
-func _bind_buttons() -> void:
-	for b: Button in grid_container.get_children():
-		b.focus_entered.connect(visibility_focus_handler._set_monster_focus.bind(b))
-		b.pressed.connect(input_handler._on_monster_pressed.bind(b))
-	for b: Button in party_container.get_children():
-		b.focus_entered.connect(visibility_focus_handler._set_monster_focus.bind(b))
-		b.pressed.connect(input_handler._on_monster_pressed.bind(b))
-	for b: Button in options_container.get_children():
-		b.focus_entered.connect(visibility_focus_handler._set_option_focus.bind(b))
-		b.pressed.connect(input_handler._on_option_pressed.bind(b))
-	
-	
-func _connect_signals() -> void:
-	Global.send_player_party_and_storage.connect(_on_send_player_party_and_storage)
-	Global.request_open_storage.connect(_on_request_open_storage)
-	
-	
-func _on_request_open_storage() -> void:
-	update_handler.display_monsters()
-	visibility_focus_handler._toggle_visible()
-
-
-func _on_send_player_party_and_storage(party: Array[Monster], storage: Dictionary) -> void:
-	party_ref = party.duplicate(true)
-	storage_ref = storage.duplicate(true)
-	update_handler.display_monsters()
-
-
 func guard_clause_deposit() -> bool:
 	if party_ref.size() <= 1:
 		var ta: Array[String] = ["You can't deposit your last monster!"]
@@ -71,16 +43,6 @@ func guard_clause_deposit() -> bool:
 		await Global.text_box_complete
 		return false
 	return true
-
-
-func _button_index(button: Button) -> int:
-	if button.name.begins_with("Button"):
-		return button.name.trim_prefix("Button").to_int()
-	return button.name.to_int()
-
-
-func _storage_index(button: Button) -> int:
-	return _button_index(button) + (page_index * STORAGE_SLOTS_PER_PAGE)
 
 
 func start_move() -> void:
@@ -101,7 +63,7 @@ func start_move() -> void:
 
 
 func cancel_move() -> void:
-	moving_context = {}
+	moving_context = { }
 	state = State.DEFAULT
 
 
@@ -120,9 +82,9 @@ func complete_move() -> void:
 			var to_storage_idx = _storage_index(last_selected_monster)
 			Global.request_move_party_to_storage.emit(moving_context["index"], to_storage_idx)
 	state = State.DEFAULT
-	moving_context = {}
-	
-	
+	moving_context = { }
+
+
 func deposit() -> void:
 	if not await guard_clause_deposit():
 		return
@@ -130,8 +92,8 @@ func deposit() -> void:
 		return
 	Global.storage_deposit_monster.emit(last_selected_monster.actor)
 	visibility_focus_handler._toggle_options_visible()
-	
-	
+
+
 func withdraw() -> void:
 	if last_selected_monster.is_in_group("party"):
 		return
@@ -142,17 +104,17 @@ func withdraw() -> void:
 func release() -> void:
 	var ta: Array[String]
 	var monster = last_selected_monster.actor
-	
+
 	if not await can_release(monster):
 		visibility_focus_handler._focus_default_option()
 		return
-	
+
 	ta = ["Do you really want to release %s? This is irreversible." % monster.name]
 	Global.send_text_box.emit(null, ta, false, true, false)
-	
+
 	var answer = await Global.answer_given
 	await Global.text_box_complete
-	
+
 	if answer:
 		ta = ["Are you absolutely sure?? YES to relase. NO to back out."]
 		Global.send_text_box.emit(null, ta, false, true, false)
@@ -170,5 +132,44 @@ func can_release(monster: Monster) -> bool:
 		Global.send_text_box.emit(null, ta, true, false, false)
 		await Global.text_box_complete
 		return false
-		
+
 	return true
+#endregion
+
+
+func _bind_buttons() -> void:
+	for b: Button in grid_container.get_children():
+		b.focus_entered.connect(visibility_focus_handler._set_monster_focus.bind(b))
+		b.pressed.connect(input_handler._on_monster_pressed.bind(b))
+	for b: Button in party_container.get_children():
+		b.focus_entered.connect(visibility_focus_handler._set_monster_focus.bind(b))
+		b.pressed.connect(input_handler._on_monster_pressed.bind(b))
+	for b: Button in options_container.get_children():
+		b.focus_entered.connect(visibility_focus_handler._set_option_focus.bind(b))
+		b.pressed.connect(input_handler._on_option_pressed.bind(b))
+
+
+func _connect_signals() -> void:
+	Global.send_player_party_and_storage.connect(_on_send_player_party_and_storage)
+	Global.request_open_storage.connect(_on_request_open_storage)
+
+
+func _on_request_open_storage() -> void:
+	update_handler.display_monsters()
+	visibility_focus_handler._toggle_visible()
+
+
+func _on_send_player_party_and_storage(party: Array[Monster], storage: Dictionary) -> void:
+	party_ref = party.duplicate(true)
+	storage_ref = storage.duplicate(true)
+	update_handler.display_monsters()
+
+
+func _button_index(button: Button) -> int:
+	if button.name.begins_with("Button"):
+		return button.name.trim_prefix("Button").to_int()
+	return button.name.to_int()
+
+
+func _storage_index(button: Button) -> int:
+	return _button_index(button) + (page_index * STORAGE_SLOTS_PER_PAGE)

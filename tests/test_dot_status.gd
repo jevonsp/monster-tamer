@@ -49,11 +49,11 @@ func _on_send_hitpoints_change(_target: Monster, _hp: int) -> void:
 
 
 func _on_send_text_box(
-	_object: Node,
-	text: Array[String],
-	_auto_complete: bool,
-	_is_question: bool,
-	_toggles_player: bool
+		_object: Node,
+		text: Array[String],
+		_auto_complete: bool,
+		_is_question: bool,
+		_toggles_player: bool,
 ) -> void:
 	shown.append(text.duplicate())
 	Global.text_box_complete.emit()

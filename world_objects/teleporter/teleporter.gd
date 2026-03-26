@@ -1,8 +1,11 @@
-extends Node2D
 class_name Teleporter
-enum TransitionType {IRIS}
+extends Node2D
+
+enum TransitionType { IRIS }
+
 @export var transition_type: TransitionType = TransitionType.IRIS
 @export var teleporter_point: TeleporterPoint
+
 @onready var iris_color_rect: ColorRect = $CanvasLayer/IrisColorRect
 
 
@@ -16,8 +19,8 @@ func _teleport_sequence_iris(body: CharacterBody2D) -> void:
 	_teleport_player(body)
 	await _iris_open()
 	iris_color_rect.visible = false
-	
-	
+
+
 func _teleport_player(body: CharacterBody2D) -> void:
 	body.global_position = teleporter_point.global_position
 
@@ -34,7 +37,9 @@ func _tween_iris(from: float, to: float, duration: float) -> void:
 	var tween := create_tween()
 	tween.tween_method(
 		func(v: float) -> void: iris_color_rect.material.set_shader_parameter("iris_size", v),
-		from, to, duration
+		from,
+		to,
+		duration,
 	)
 	await tween.finished
 
@@ -42,13 +47,13 @@ func _tween_iris(from: float, to: float, duration: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is not Player:
 		return
-		
+
 	await Global.step_completed
-	
+
 	Global.toggle_player.emit()
-	
+
 	match transition_type:
 		TransitionType.IRIS:
 			await _teleport_sequence_iris(body)
-			
+
 	Global.toggle_player.emit()

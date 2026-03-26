@@ -3,7 +3,7 @@ extends Resource
 
 enum StatusSlot {
 	MAIN,
-	SEPARATE
+	SEPARATE,
 }
 
 @export var status_id: String = ""
@@ -29,18 +29,18 @@ func on_remove(_instance: StatusInstance, _owner: Monster, _context: BattleConte
 
 
 func modify_effective_stat(
-	_instance: StatusInstance,
-	_owner: Monster,
-	_stat: Monster.Stat,
-	value: float
+		_instance: StatusInstance,
+		_owner: Monster,
+		_stat: Monster.Stat,
+		value: float,
 ) -> float:
 	return value
 
 
 func can_attempt_action(
-	_instance: StatusInstance,
-	_owner: Monster,
-	_context: BattleContext
+		_instance: StatusInstance,
+		_owner: Monster,
+		_context: BattleContext,
 ) -> bool:
 	return true
 
@@ -56,19 +56,19 @@ func get_identifier() -> String:
 
 
 func has_action_override(
-	_instance: StatusInstance,
-	_owner: Monster,
-	_context: BattleContext,
-	_chosen_action
+		_instance: StatusInstance,
+		_owner: Monster,
+		_context: BattleContext,
+		_chosen_action,
 ) -> bool:
 	return false
 
 
 func execute_action_override(
-	_instance: StatusInstance,
-	_owner: Monster,
-	_target: Monster,
-	_context: BattleContext,
-	_chosen_action
+		_instance: StatusInstance,
+		_owner: Monster,
+		_target: Monster,
+		_context: BattleContext,
+		_chosen_action,
 ) -> void:
 	pass

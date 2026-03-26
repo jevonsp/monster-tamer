@@ -1,11 +1,14 @@
 extends Node
-@onready var battle: Control = $".."
+
 var run_count: int = 0
 
+@onready var battle: Control = $".."
+
+
 func execute_turn_queue(
-	handler: Node,
-	turn_queue: Array[Dictionary],
-	post_action_resolver: Node
+		handler: Node,
+		turn_queue: Array[Dictionary],
+		post_action_resolver: Node,
 ) -> bool:
 	_sort_turn_queue(turn_queue)
 
@@ -55,7 +58,7 @@ func execute_turn_queue(
 			target = _resolve_move_target(actor, target, entry.action)
 		if entry.action is Run:
 			run_count += 1
-			
+
 		await entry.action.execute(actor, target, battle_context)
 
 		if await post_action_resolver.handle_post_action(target, handler):
@@ -80,10 +83,11 @@ func execute_turn_queue(
 
 
 func _sort_turn_queue(turn_queue: Array[Dictionary]) -> void:
-	turn_queue.sort_custom(func(a, b):
-		if a.action.priority != b.action.priority:
-			return a.action.priority > b.action.priority
-		return a.actor.get_effective_speed() > b.actor.get_effective_speed()
+	turn_queue.sort_custom(
+		func(a, b):
+			if a.action.priority != b.action.priority:
+				return a.action.priority > b.action.priority
+			return a.actor.get_effective_speed() > b.actor.get_effective_speed()
 	)
 
 

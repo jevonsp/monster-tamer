@@ -3,6 +3,15 @@ extends Node
 @onready var summary: Control = $".."
 @onready var party: Control = $"../../Party"
 
+
+func highlight_move_swap() -> void:
+	_set_move_panel_focus_style(summary.RED_STYLE)
+
+
+func clear_move_swap_highlight() -> void:
+	_set_move_panel_focus_style(summary.DEFAULT_STYLE)
+
+
 func _toggle_visible(monster: Monster = null) -> void:
 	_set_visible(not summary.visible, monster)
 
@@ -40,14 +49,6 @@ func _unfocus_moves() -> void:
 		summary.last_focused_move_button = null
 	summary.moving_index_one = -1
 	summary.is_move_focused = false
-	_set_move_panel_focus_style(summary.DEFAULT_STYLE)
-
-
-func highlight_move_swap() -> void:
-	_set_move_panel_focus_style(summary.RED_STYLE)
-
-
-func clear_move_swap_highlight() -> void:
 	_set_move_panel_focus_style(summary.DEFAULT_STYLE)
 
 

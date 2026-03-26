@@ -1,9 +1,9 @@
 extends Node
 
 @onready var party_container: HBoxContainer = \
-		$"../MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party"
+$"../MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party"
 @onready var grid_container: GridContainer = \
-		$"../MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer"
+$"../MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer"
 @onready var parent: Control = $".."
 
 

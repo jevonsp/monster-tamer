@@ -1,9 +1,12 @@
 extends Button
+
 var move: Move = null
+
 @onready var bp_label: Label = $MarginContainer/VBoxContainer/HBoxContainer/BPLabel
 @onready var name_label: Label = $MarginContainer/VBoxContainer/HBoxContainer/NameLabel
 @onready var pp_label: Label = $MarginContainer/VBoxContainer/HBoxContainer/PPLabel
 @onready var description_label: Label = $MarginContainer/VBoxContainer/DescriptionLabel
+
 
 func setup() -> void:
 	if move != null:

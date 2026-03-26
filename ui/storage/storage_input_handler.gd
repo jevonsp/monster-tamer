@@ -1,11 +1,10 @@
 extends Node
 
 @onready var storage: Control = $".."
-
 #region Helper Nodes
 @onready var visibility_focus_handler: Node = $"../Visibility&FocusHandler"
 @onready var update_handler: Node = $"../UpdateHandler"
-#endregion
+
 
 func _input(event: InputEvent) -> void:
 	if not storage.processing:
@@ -17,6 +16,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("right") and storage.last_selected_monster.is_in_group("right_side"):
 		move_page(Vector2.RIGHT)
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not storage.processing:
 		return
@@ -27,6 +27,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		storage.State.MOVING:
 			if event.is_action_pressed("no"):
 				storage.cancel_move()
+
+
+func move_page(dir: Vector2) -> void:
+	match dir:
+		Vector2.LEFT:
+			storage.page_index = posmod(storage.page_index - 1, storage.STORAGE_PAGE_COUNT)
+		Vector2.RIGHT:
+			storage.page_index = (storage.page_index + 1) % storage.STORAGE_PAGE_COUNT
+	update_handler.display_monsters()
+#endregion
+
 
 func _on_monster_pressed(b: Button) -> void:
 	match storage.state:
@@ -49,12 +60,3 @@ func _on_option_pressed(b: Button) -> void:
 			storage.deposit()
 		"Release":
 			storage.release()
-
-
-func move_page(dir: Vector2) -> void:
-	match dir:
-		Vector2.LEFT:
-			storage.page_index = posmod(storage.page_index - 1, storage.STORAGE_PAGE_COUNT)
-		Vector2.RIGHT:
-			storage.page_index = (storage.page_index + 1) % storage.STORAGE_PAGE_COUNT
-	update_handler.display_monsters()

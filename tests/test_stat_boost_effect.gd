@@ -2,6 +2,7 @@ extends GutTest
 
 var stat_animation_calls: int = 0
 
+
 func before_each() -> void:
 	stat_animation_calls = 0
 	if not Global.send_text_box.is_connected(_on_send_text_box):
@@ -64,19 +65,19 @@ func test_stat_boost_effect_blocks_when_stage_would_exceed_cap() -> void:
 
 
 func _on_send_text_box(
-	_object: Node,
-	_text: Array[String],
-	_auto_complete: bool,
-	_is_question: bool,
-	_toggles_player: bool
+		_object: Node,
+		_text: Array[String],
+		_auto_complete: bool,
+		_is_question: bool,
+		_toggles_player: bool,
 ) -> void:
 	Global.text_box_complete.emit()
 
 
 func _on_send_stat_change_animation(
-	_monster: Monster,
-	_stat: Monster.Stat,
-	_amount: int
+		_monster: Monster,
+		_stat: Monster.Stat,
+		_amount: int,
 ) -> void:
 	stat_animation_calls += 1
 	Global.stat_change_animation_complete.emit()

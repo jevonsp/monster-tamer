@@ -1,9 +1,12 @@
 extends Control
 
-const STORE_PANEL = preload("uid://b301kh78bm7js")
-@export var inventory: Dictionary[Item.Type, InventoryPage] = {}
 enum Focused { CATEGORY, ITEM, OPTION }
 enum Transaction { BUYING, SELLING }
+
+const STORE_PANEL = preload("uid://b301kh78bm7js")
+
+@export var inventory: Dictionary[Item.Type, InventoryPage] = { }
+
 var focus_state: Focused = Focused.CATEGORY:
 	set(value):
 		focus_state = value
@@ -12,17 +15,16 @@ var transaction_state: Transaction = Transaction.BUYING:
 	set(value):
 		transaction_state = value
 		print(Transaction.keys()[transaction_state])
-
 var categories: int = 1
 var current_category: int = 0:
 	set(value):
 		current_category = value
 		print("current_category: ", current_category)
-@onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
-@onready var options_box: VBoxContainer = $Options
-
 var last_focused_item_button: Button = null
 var last_focused_option_button: Button = null
+
+@onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
+@onready var options_box: VBoxContainer = $Options
 
 
 func _ready() -> void:
@@ -40,6 +42,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			_item_focused_input(event)
 		Focused.OPTION:
 			_option_focused_input(event)
+
+
+func buy() -> void:
+	pass
+
+
+func sell() -> void:
+	pass
 
 
 func _category_focused_input(event: InputEvent) -> void:
@@ -127,7 +137,7 @@ func _switch_page(dir: Vector2) -> void:
 			current_category = abs(current_category - 1) % categories
 		Vector2.RIGHT:
 			current_category = abs(current_category + 1) % categories
-			
+
 	_display_current()
 
 
@@ -200,14 +210,6 @@ func _reset() -> void:
 	_clear_page()
 	if options_box.visible:
 		_toggle_options_visible()
-
-
-func buy() -> void:
-	pass
-
-
-func sell() -> void:
-	pass
 
 
 func _on_item_pressed() -> void:

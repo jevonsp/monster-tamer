@@ -1,5 +1,7 @@
 extends Button
+
 var actor: Monster = null
+
 @onready var name_label: Label = $MarginContainer/VBoxContainer/NameLabel
 @onready var texture_rect: TextureRect = $MarginContainer/VBoxContainer/TextureRect
 @onready var level_label: Label = $MarginContainer/VBoxContainer/LevelLabel

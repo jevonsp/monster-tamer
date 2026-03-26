@@ -5,7 +5,7 @@ var data: StatusData
 var remaining_turns: int
 var owner: Monster
 var blocks_action_this_turn: bool = false
-var runtime_data: Dictionary = {}
+var runtime_data: Dictionary = { }
 
 
 func _init(p_data: StatusData = null, p_owner: Monster = null, duration: int = -1) -> void:

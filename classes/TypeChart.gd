@@ -7,13 +7,12 @@ enum Type {
 	WATER,
 	GRASS,
 	AIR,
-	EARTH
+	EARTH,
 }
 
 const NOT_VERY: float = 0.5
 const NORMAL: float = 1.0
 const SUPER_EFFECTIVE: float = 2.0
-
 # TYPE_CHART_GENERATED_BEGIN
 const TYPE_CHART: Dictionary = {
 	Type.NONE: {
@@ -65,11 +64,12 @@ const TYPE_CHART: Dictionary = {
 		Type.EARTH: NOT_VERY,
 	},
 }
-# TYPE_CHART_GENERATED_END
 
+
+# TYPE_CHART_GENERATED_END
 static func get_attacking_type_efficacy(attacking_type: Type, defender: Monster) -> float:
 	var primary_type: Type = defender.primary_type
-	var secondary_type: Type 
+	var secondary_type: Type
 	var primary_efficacy = TYPE_CHART[attacking_type][primary_type]
 	var secondary_efficacy: float = 1.0
 	if defender.secondary_type != null:

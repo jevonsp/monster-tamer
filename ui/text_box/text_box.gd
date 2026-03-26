@@ -1,5 +1,7 @@
 extends Panel
+
 @export var in_battle_text_box: bool = false
+
 var processing: bool = false
 var text_array: Array[String] = []
 var is_auto_complete: bool = false
@@ -9,6 +11,7 @@ var text_index: int = -1
 var obj_ref: Node = null
 var trigger_on_close: bool = false
 var deferred_trigger_ref: Node = null
+
 @onready var text_box: Panel = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
 @onready var no_button: Button = $HBoxContainer/No
@@ -57,8 +60,12 @@ func _focus_question_button() -> void:
 
 
 func _load_text(
-	obj: Node, ta: Array[String], auto_complete: bool, question: bool, toggle: bool
-		) -> void:
+		obj: Node,
+		ta: Array[String],
+		auto_complete: bool,
+		question: bool,
+		toggle: bool,
+) -> void:
 	if not in_battle_text_box and Player.in_battle:
 		return
 	if in_battle_text_box and not Player.in_battle:

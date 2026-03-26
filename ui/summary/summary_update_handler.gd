@@ -2,6 +2,7 @@ extends Node
 
 @onready var summary: Control = $".."
 
+
 func clear_monster() -> void:
 	for label in summary.labels:
 		label.text = ""

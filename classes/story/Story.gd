@@ -1,4 +1,5 @@
-class_name Story extends Resource
+class_name Story
+extends Resource
 
 enum Flag {
 	NONE,

@@ -31,31 +31,6 @@ func sync_tile_positions() -> void:
 	eventual_target_pos = global_position
 
 
-func _get_walk_speed() -> float:
-	return 4.0
-
-
-func _set_blend_positions(dir: Vector2) -> void:
-	animation_tree.set("parameters/Turn/blend_position", dir)
-	animation_tree.set("parameters/Idle/blend_position", dir)
-	animation_tree.set("parameters/Walk/blend_position", dir)
-
-
-func _begin_turn(new_facing_direction: Vector2) -> void:
-	_set_blend_positions(new_facing_direction)
-	facing_direction = new_facing_direction
-	ray_cast_2d.target_position = new_facing_direction * TILE_SIZE
-	current_state = MoveState.TURNING
-	anim_state.travel("Turn")
-
-
-func _finish_turn() -> void:
-	animation_tree.set("parameters/Idle/blend_position", facing_direction)
-	current_state = MoveState.IDLE
-	anim_state.travel("Idle")
-	finished_turn.emit()
-
-
 func start_turning(new_facing_direction: Vector2) -> void:
 	if new_facing_direction == facing_direction:
 		return
@@ -63,10 +38,6 @@ func start_turning(new_facing_direction: Vector2) -> void:
 	_begin_turn(new_facing_direction)
 	await animation_tree.animation_finished
 	_finish_turn()
-
-
-func _on_walk_step_completed() -> void:
-	pass
 
 
 func try_start_move(dir: Vector2) -> bool:
@@ -107,19 +78,6 @@ func finish_move_to_idle(last_move_dir: Vector2 = Vector2.ZERO) -> void:
 	animation_tree.set("parameters/Idle/blend_position", facing_direction)
 	current_state = MoveState.IDLE
 	anim_state.travel("Idle")
-
-
-func _is_facing(dir: Vector2) -> bool:
-	return facing_direction == dir
-
-
-func _get_step_direction_to(target_pos: Vector2) -> Vector2:
-	var dir_vec = (target_pos - global_position).normalized()
-	if abs(dir_vec.x) > abs(dir_vec.y):
-		return Vector2(sign(dir_vec.x), 0)
-	if abs(dir_vec.y) > 0.0:
-		return Vector2(0, sign(dir_vec.y))
-	return Vector2.ZERO
 
 
 func walk_list_tiles(tiles: Array[Vector2]) -> void:
@@ -176,3 +134,45 @@ func animate_move(delta: float) -> void:
 	if not check_able_to_move(dir_vec):
 		finish_move_to_idle((tile_target_pos - tile_start_pos).normalized())
 		finished_walk_segment.emit()
+
+
+func _get_walk_speed() -> float:
+	return 4.0
+
+
+func _set_blend_positions(dir: Vector2) -> void:
+	animation_tree.set("parameters/Turn/blend_position", dir)
+	animation_tree.set("parameters/Idle/blend_position", dir)
+	animation_tree.set("parameters/Walk/blend_position", dir)
+
+
+func _begin_turn(new_facing_direction: Vector2) -> void:
+	_set_blend_positions(new_facing_direction)
+	facing_direction = new_facing_direction
+	ray_cast_2d.target_position = new_facing_direction * TILE_SIZE
+	current_state = MoveState.TURNING
+	anim_state.travel("Turn")
+
+
+func _finish_turn() -> void:
+	animation_tree.set("parameters/Idle/blend_position", facing_direction)
+	current_state = MoveState.IDLE
+	anim_state.travel("Idle")
+	finished_turn.emit()
+
+
+func _on_walk_step_completed() -> void:
+	pass
+
+
+func _is_facing(dir: Vector2) -> bool:
+	return facing_direction == dir
+
+
+func _get_step_direction_to(target_pos: Vector2) -> Vector2:
+	var dir_vec = (target_pos - global_position).normalized()
+	if abs(dir_vec.x) > abs(dir_vec.y):
+		return Vector2(sign(dir_vec.x), 0)
+	if abs(dir_vec.y) > 0.0:
+		return Vector2(0, sign(dir_vec.y))
+	return Vector2.ZERO

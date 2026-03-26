@@ -1,9 +1,11 @@
-extends StaticBody2D
 class_name StaticObject
+extends StaticBody2D
+
 @export_multiline var text: Array[String] = []
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
 @export var components: Array[Node]
+
 
 func interact(body: CharacterBody2D) -> void:
 	if not body.is_in_group("player"):

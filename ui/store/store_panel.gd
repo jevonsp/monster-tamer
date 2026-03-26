@@ -1,11 +1,14 @@
 extends Button
+
 var item: Item = null
+
 @onready var texture_rect: TextureRect = $MarginContainer/HBoxContainer/TextureRect
 @onready var name_label: Label = $MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/NameLabel
 @onready var price_label: Label = \
-		$MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer/PriceLabel
+$MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer/PriceLabel
 @onready var quantity_label: Label = $MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer/QuantityLabel
 @onready var description_label: Label = $MarginContainer/HBoxContainer/Control/HBoxContainer/DescriptionLabel
+
 
 func _ready() -> void:
 	var path: NodePath = get_path()
@@ -40,7 +43,7 @@ func _display_price(item_displaying: Item) -> void:
 		price_label.text = "$: %s" % [item_displaying.price]
 	else:
 		price_label.text = "$: ?"
-	
+
 
 func _display_quantity(amount: int) -> void:
 	if amount >= 0:

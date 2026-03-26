@@ -1,14 +1,18 @@
 extends Control
+
+var saved_game: SavedGame
+
 @onready var box_container: BoxContainer = $BoxContainer
 @onready var continue_button: Button = $BoxContainer/Continue
 @onready var new_game_button: Button = $BoxContainer/NewGame
 @onready var erase_save_button: Button = $BoxContainer/EraseSave
-var saved_game: SavedGame
+
+
 func _ready() -> void:
 	_prepare_buttons()
 	_bind_buttons()
-	
-	
+
+
 func _prepare_buttons() -> void:
 	var buttons = box_container.get_children()
 	for b: Button in buttons:
@@ -19,14 +23,14 @@ func _prepare_buttons() -> void:
 		_toggle_button(continue_button, true)
 		continue_button.grab_focus()
 		_toggle_button(erase_save_button, true)
-	
-	
+
+
 func _bind_buttons() -> void:
 	var buttons = box_container.get_children()
 	for b: Button in buttons:
 		b.pressed.connect(_on_button_pressed.bind(b))
-		
-		
+
+
 func _on_button_pressed(button: Button) -> void:
 	match button.name:
 		"Continue":
@@ -35,8 +39,8 @@ func _on_button_pressed(button: Button) -> void:
 			_new_game()
 		"EraseSave":
 			_erase_save()
-			
-			
+
+
 func _toggle_button(button: Button, is_enabled: bool) -> void:
 	button.disabled = not is_enabled
 	if is_enabled:
@@ -61,8 +65,8 @@ func _new_game() -> void:
 func _erase_save() -> void:
 	SaverLoader.erase_saved_game()
 	_prepare_buttons()
-	
-	
+
+
 func _close_title_screen() -> void:
 	get_parent().remove_child(self)
 	queue_free()

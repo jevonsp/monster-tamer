@@ -2,6 +2,7 @@ extends Node
 
 @onready var summary: Control = $".."
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not summary.processing:
 		return

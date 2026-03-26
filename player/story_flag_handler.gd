@@ -12,6 +12,7 @@ extends Node
 	Story.Flag.BADGE_EIGHT: false,
 }
 
+
 func _ready() -> void:
 	Global.story_flag_triggered.connect(_on_story_flag_triggered)
 

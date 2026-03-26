@@ -1,33 +1,34 @@
-extends ItemEffect
 class_name TeachEffect
+extends ItemEffect
 
 @export var move: Move
+
 
 func use(target: Monster) -> void:
 	if move == null:
 		return
-		
+
 	var ta: Array[String]
-	
+
 	if move in target.moves:
 		ta = ["%s already knows %s."]
 		Global.send_text_box.emit(null, ta, false, false, false)
 		await Global.text_box_complete
 		return
-		
+
 	if not target.monster_data.can_learn_move(move):
 		ta = ["%s can't learn %s."]
 		Global.send_text_box.emit(null, ta, false, false, false)
 		await Global.text_box_complete
 		return
-		
+
 	ta = ["Teach %s to %s?"]
 	Global.send_text_box.emit(null, ta, false, true, false)
 	var answer: bool = await Global.answer_given
 	await Global.text_box_complete
-	
+
 	if not answer:
 		return
-		
+
 	Global.request_summary_move_learning.emit(target, move)
 	await Global.move_learning_finished

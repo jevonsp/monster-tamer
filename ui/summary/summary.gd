@@ -1,6 +1,8 @@
 extends Control
+
 const DEFAULT_STYLE: StyleBoxFlat = preload("res://ui/summary/new_style_box_flat_default.tres")
 const RED_STYLE: StyleBoxFlat = preload("res://ui/summary/new_style_box_flat_red.tres")
+
 var processing: bool = false
 var is_move_focused: bool = false
 var is_learning_move: bool = false
@@ -12,6 +14,7 @@ var index: int = -1
 var in_battle: bool = false
 var last_focused_move_button: Button = null
 var moving_index_one: int = -1
+
 @onready var interfaces: CanvasLayer = $".."
 @onready var overworld_text_box: Control = $"../OverworldTextBox"
 @onready var move_learning_controller: Node = $MoveLearningController
@@ -36,8 +39,6 @@ var moving_index_one: int = -1
 @onready var summary_move_panel_1: Button = $Content/Main/Moves/SummaryMovePanel1
 @onready var summary_move_panel_2: Button = $Content/Main/Moves/SummaryMovePanel2
 @onready var summary_move_panel_3: Button = $Content/Main/Moves/SummaryMovePanel3
-#endregion
-
 @onready var labels: Array[Label] = [
 	gender_label,
 	name_label,
@@ -50,7 +51,6 @@ var moving_index_one: int = -1
 	stat_label_4,
 	stat_label_5,
 ]
-
 @onready var move_panels: Array[Button] = [
 	summary_move_panel_0,
 	summary_move_panel_1,
@@ -58,53 +58,13 @@ var moving_index_one: int = -1
 	summary_move_panel_3,
 ]
 
+
 func _ready() -> void:
 	update_handler.clear_monster()
 	_connect_signals()
 	_bind_buttons()
 	if visible:
 		processing = true
-
-
-func _connect_signals() -> void:
-	Global.send_player_party.connect(_set_player_party)
-	Global.on_menu_closed.connect(_clear_player_party)
-	Global.request_open_summary.connect(visibility_focus_handler._toggle_visible)
-	Global.battle_started.connect(_on_battle_started)
-	Global.battle_ended.connect(_on_battle_ended)
-	Global.request_summary_learn_move.connect(_on_request_summary_learn_move)
-	Global.request_summary_move_learning.connect(_resolve_move_learning)
-
-
-func _bind_buttons() -> void:
-	for b: Button in move_panels:
-		b.focus_entered.connect(visibility_focus_handler._set_move_focus.bind(b))
-
-
-func _set_party_index(i: int) -> void:
-	index = i
-
-
-func _on_battle_started() -> void:
-	in_battle = true
-	
-	
-func _on_battle_ended() -> void:
-	in_battle = false
-
-
-func _set_player_party(p: Array[Monster]) -> void:
-	# WARNING This BORROWS the party from the player
-	party = p
-	if index >= 0 and index < party.size():
-		update_handler.display_monster(party[index])
-	else:
-		update_handler.clear_monster()
-
-
-func _clear_player_party() -> void:
-	party = []
-	index = -1
 
 
 func show_monster(monster: Monster) -> void:
@@ -139,6 +99,60 @@ func finish_moving_move() -> void:
 	visibility_focus_handler.clear_move_swap_highlight()
 
 
+func ask_remove_move() -> void:
+	await move_learning_controller.ask_remove_move(self)
+
+
+func handle_cancel_learning() -> bool:
+	return await move_learning_controller.handle_cancel_learning(self)
+
+
+func clean_up_learning_move() -> void:
+	move_learning_controller.clean_up_learning_move(self)
+#endregion
+
+
+func _connect_signals() -> void:
+	Global.send_player_party.connect(_set_player_party)
+	Global.on_menu_closed.connect(_clear_player_party)
+	Global.request_open_summary.connect(visibility_focus_handler._toggle_visible)
+	Global.battle_started.connect(_on_battle_started)
+	Global.battle_ended.connect(_on_battle_ended)
+	Global.request_summary_learn_move.connect(_on_request_summary_learn_move)
+	Global.request_summary_move_learning.connect(_resolve_move_learning)
+
+
+func _bind_buttons() -> void:
+	for b: Button in move_panels:
+		b.focus_entered.connect(visibility_focus_handler._set_move_focus.bind(b))
+
+
+func _set_party_index(i: int) -> void:
+	index = i
+
+
+func _on_battle_started() -> void:
+	in_battle = true
+
+
+func _on_battle_ended() -> void:
+	in_battle = false
+
+
+func _set_player_party(p: Array[Monster]) -> void:
+	# WARNING This BORROWS the party from the player
+	party = p
+	if index >= 0 and index < party.size():
+		update_handler.display_monster(party[index])
+	else:
+		update_handler.clear_monster()
+
+
+func _clear_player_party() -> void:
+	party = []
+	index = -1
+
+
 func _on_request_summary_learn_move(move: Move) -> void:
 	is_learning_move = true
 	move_learning = move
@@ -148,17 +162,5 @@ func _resolve_move_learning(monster: Monster, move: Move) -> void:
 	await move_learning_controller.resolve_move_learning(self, monster, move)
 
 
-func ask_remove_move() -> void:
-	await move_learning_controller.ask_remove_move(self)
-
-
-func handle_cancel_learning() -> bool:
-	return await move_learning_controller.handle_cancel_learning(self)
-
-
 func _set_move_learning_processing(value: bool, reason: String) -> void:
 	move_learning_controller.set_move_learning_processing(self, value, reason)
-
-
-func clean_up_learning_move() -> void:
-	move_learning_controller.clean_up_learning_move(self)
