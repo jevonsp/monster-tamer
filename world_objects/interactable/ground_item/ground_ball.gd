@@ -45,7 +45,6 @@ func interact(body: CharacterBody2D) -> void:
 			Global.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
 			await Global.text_box_complete
 	if not is_question:
-		await Global.text_box_complete
 		trigger()
 		return
 

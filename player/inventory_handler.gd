@@ -3,10 +3,21 @@ extends Node
 var inventory: Dictionary[Item.Type, InventoryPage] = {}
 
 func _ready() -> void:
+	_connect_signals()
+	_construct_inventory()
+
+
+func _connect_signals() -> void:
 	Global.use_item_on.connect(_on_use_item_on)
 	Global.give_item_to.connect(_on_give_item_to)
 	Global.item_used.connect(remove)
 	Global.send_item_to_inventory.connect(add)
+
+
+func _construct_inventory() -> void:
+	inventory[Item.Type.USE] = InventoryPage.new()
+	inventory[Item.Type.HELD] = InventoryPage.new()
+	inventory[Item.Type.KEY] = InventoryPage.new()
 
 
 func add(item: Item, amount: int = 1) -> void:
