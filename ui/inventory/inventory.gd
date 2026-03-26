@@ -6,6 +6,9 @@ var mode: Mode = Mode.BROWSE
 var is_trainer_battle: bool = false
 var last_selected_option: Button = null
 var last_selected_item_button: Button = null
+@export var inventory: Dictionary[Item.Type, InventoryPage] = {}
+var categories: int = 1
+var current_category: int = 0
 @onready var interfaces: CanvasLayer = $".."
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
@@ -24,6 +27,15 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
+	if mode == Mode.BROWSE and not options_box.visible:
+		if event.is_action_pressed("left"):
+			_switch_page(Vector2.LEFT)
+			get_viewport().set_input_as_handled()
+			return
+		if event.is_action_pressed("right"):
+			_switch_page(Vector2.RIGHT)
+			get_viewport().set_input_as_handled()
+			return
 	if event.is_action_pressed("menu"):
 		if interfaces.ui_context == Global.AccessFrom.BATTLE:
 			_toggle_visible()
@@ -73,21 +85,52 @@ func _connect_signals() -> void:
 	Global.battle_ended.connect(func(): is_trainer_battle = false)
 
 
-func _on_inventory_change(inventory: Dictionary[Item, int]) -> void:
-	clear_inventory_display()
-	for entry in inventory.keys():
-		_create_item(inventory[entry], entry)
+func _on_inventory_change(new_inventory: Dictionary[Item.Type, InventoryPage]) -> void:
+	_update_inventory(new_inventory)
+	_display_current()
 
 
-func clear_inventory_display() -> void:
+func _update_inventory(new_inventory: Dictionary[Item.Type, InventoryPage]) -> void:
+	inventory = new_inventory
+	categories = max(inventory.size(), 1)
+	if current_category >= categories:
+		current_category = 0
+
+
+func _display_current() -> void:
+	_clear_page()
+	if inventory.is_empty():
+		return
+	if not inventory.has(current_category):
+		return
+	var current_page: InventoryPage = inventory[current_category]
+	for item in current_page.page:
+		var quantity: int = current_page.page[item]
+		_create_item(item, quantity)
+
+
+func _clear_page() -> void:
 	for child in v_box_container.get_children():
 		child.queue_free()
+	last_selected_item_button = null
 
 
-func _create_item(amount: int, item: Item) -> void:
+func _switch_page(dir: Vector2) -> void:
+	if inventory.is_empty():
+		return
+	match dir:
+		Vector2.LEFT:
+			current_category = int((current_category - 1 + categories) % categories)
+		Vector2.RIGHT:
+			current_category = int((current_category + 1) % categories)
+	_display_current()
+	_focus_default()
+
+
+func _create_item(item: Item, quantity: int) -> void:
 	var inventory_panel: Button = INVENTORY_PANEL.instantiate()
 	v_box_container.add_child(inventory_panel)
-	inventory_panel.display(amount, item)
+	inventory_panel.display(quantity, item)
 	inventory_panel.pressed.connect(_on_inventory_panel_pressed.bind(inventory_panel))
 
 
