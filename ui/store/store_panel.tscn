@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://cq60mqy70b8je"]
+[gd_scene format=3 uid="uid://b301kh78bm7js"]
 
-[ext_resource type="Script" uid="uid://cpcd6jfij0cjn" path="res://ui/inventory/inventory_panel.gd" id="1_shgow"]
-[ext_resource type="Texture2D" uid="uid://b3uqijcjsxeo1" path="res://world_objects/interactable/static_object/sign.png" id="2_2054l"]
+[ext_resource type="Texture2D" uid="uid://b3uqijcjsxeo1" path="res://world_objects/interactable/static_object/sign.png" id="1_qaq52"]
+[ext_resource type="Script" uid="uid://boycqbw3dpbty" path="res://ui/store/store_panel.gd" id="1_vl66u"]
 
-[node name="InventoryPanel" type="Button" unique_id=444482965]
+[node name="StorePanel" type="Button" unique_id=444482965]
 custom_minimum_size = Vector2(704, 115)
 anchors_preset = 8
 anchor_left = 0.5
@@ -16,7 +16,7 @@ offset_right = 352.0
 offset_bottom = 57.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_shgow")
+script = ExtResource("1_vl66u")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1363669815]
 layout_mode = 1
@@ -35,7 +35,7 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=2118056143]
 layout_mode = 2
-texture = ExtResource("2_2054l")
+texture = ExtResource("1_qaq52")
 expand_mode = 3
 
 [node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=1450736426]
@@ -53,15 +53,28 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Control/HBoxContainer" unique_id=1963961689]
 layout_mode = 2
 
-[node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer" unique_id=333948485]
+[node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer" unique_id=436583795]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 32
 text = "ITEM NAME"
 
-[node name="QuantityLabel" type="Label" parent="MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer" unique_id=1609490178]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer" unique_id=345932388]
+layout_mode = 2
+
+[node name="PriceLabel" type="Label" parent="MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=148486334]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "$:100"
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=302251302]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="QuantityLabel" type="Label" parent="MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=474837017]
+layout_mode = 2
+size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 32
 text = "X99"
 

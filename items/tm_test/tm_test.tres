@@ -12,7 +12,7 @@ metadata/_custom_type_script = "uid://db6bn0eu48o2i"
 [resource]
 script = ExtResource("1_3sfvg")
 name = "TM Test"
-is_multi_use = true
 description = "An Item to test teaching moves"
+is_multi_use = true
 use_effect = SubResource("Resource_2tgv8")
 metadata/_custom_type_script = "uid://c3s5668st8huq"

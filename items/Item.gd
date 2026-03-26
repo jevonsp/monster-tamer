@@ -1,9 +1,14 @@
 class_name Item
 extends Resource
 
+enum Type { USE, HELD, KEY }
+
 @export var name: String = ""
-@export var is_multi_use: bool = false
+@export var item_type: Type = Type.USE
 @export_multiline var description: String = ""
+@export var is_multi_use: bool = false
+@export_range(0, 999_999_999, 50) var price: int = 100
+
 @export_range(-5, 5) var priority: int = 0
 
 @export var use_effect: ItemEffect

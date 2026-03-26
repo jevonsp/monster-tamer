@@ -1,6 +1,6 @@
 class_name NPCStoreComponent extends NPCComponent
 
-@export var inventory: Dictionary[Item, int] = {}
+@export var inventory: Array[InventoryPage] = []
 
 func trigger(obj: Node) -> void:
 	if obj.is_in_group("player"):
@@ -8,6 +8,9 @@ func trigger(obj: Node) -> void:
 		
 		
 func _open_store() -> void:
+	if inventory.size() <= 1:
+		printerr("%s has no inventory to display" % self)
+		return
 	Global.request_open_store.emit(self)
 
 

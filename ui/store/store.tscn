@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dyraldrxu7umn"]
+
+[ext_resource type="Script" uid="uid://b2o65v4wu71tk" path="res://ui/store/store.gd" id="1_ma4uk"]
+[ext_resource type="Script" uid="uid://bgyhnnjr7fx2q" path="res://classes/InventoryPage.gd" id="2_7dac8"]
+[ext_resource type="Script" uid="uid://c3s5668st8huq" path="res://items/Item.gd" id="3_ma41c"]
+[ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="4_a3op8"]
+[ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="5_sep80"]
+
+[sub_resource type="Resource" id="Resource_q17of"]
+script = ExtResource("2_7dac8")
+page = Dictionary[ExtResource("3_ma41c"), int]({
+ExtResource("4_a3op8"): -1,
+ExtResource("5_sep80"): 1
+})
+metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
+
+[node name="Store" type="Control" unique_id=1010499898]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ma4uk")
+inventory = Array[ExtResource("2_7dac8")]([SubResource("Resource_q17of")])
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1663767245]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 276.0
+offset_right = -276.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer" unique_id=437495533]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer" unique_id=773227740]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Options" type="VBoxContainer" parent="." unique_id=1098450245]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -110.0
+offset_right = 274.0
+offset_bottom = 110.0
+grow_vertical = 2
+
+[node name="Buy" type="Button" parent="Options" unique_id=1177134101]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
+
+[node name="MarginContainer" type="MarginContainer" parent="Options/Buy" unique_id=1067281481]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Options/Buy/MarginContainer" unique_id=505129046]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "BUY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sell" type="Button" parent="Options" unique_id=80924893]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Options/Sell" unique_id=1615718006]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Options/Sell/MarginContainer" unique_id=342420082]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "SELL"
+horizontal_alignment = 1
+vertical_alignment = 1
