@@ -16,7 +16,7 @@ var transaction_state: Transaction = Transaction.BUYING:
 
 var categories: int = 1
 var current_category: int = 0
-@export var inventory: Array[InventoryPage] = []
+@export var inventory: Dictionary[Item.Type, InventoryPage] = {}
 
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
@@ -28,7 +28,6 @@ var last_focused_option_button: Button = null
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
-	categories = max(inventory.size(), 1)
 	_display_current()
 
 

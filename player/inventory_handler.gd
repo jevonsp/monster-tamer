@@ -1,6 +1,6 @@
 extends Node
 
-var inventory: Dictionary[Item, int] = {}
+var inventory: Dictionary[Item.Type, InventoryPage] = {}
 
 func _ready() -> void:
 	Global.use_item_on.connect(_on_use_item_on)
@@ -10,19 +10,19 @@ func _ready() -> void:
 
 
 func add(item: Item, amount: int = 1) -> void:
-	if inventory.has(item):
-		inventory[item] += amount
+	if inventory[item.item_type].page.has(item):
+		inventory[item.item_type].page[item] += amount
 	else:
-		inventory[item] = amount
+		inventory[item.item_type].page[item] = amount
 	send_player_inventory()
 	
 	
 func remove(item: Item, amount: int = 1) -> void:
-	if inventory.has(item):
-		inventory[item] -= amount
-		if inventory[item] == 0:
-			inventory.erase(item)
-		send_player_inventory()
+	if inventory[item.item_type].page.has(item):
+		inventory[item.item_type].page[item] -= amount
+		if inventory[item.item_type].page[item] == 0:
+			inventory[item.item_type].page.erase(item)
+	send_player_inventory()
 
 
 func send_player_inventory() -> void:

@@ -1,6 +1,6 @@
 class_name NPCStoreComponent extends NPCComponent
 
-@export var inventory: Array[InventoryPage] = []
+@export var inventory: Dictionary[Item.Type, InventoryPage] = {}
 
 func trigger(obj: Node) -> void:
 	if obj.is_in_group("player"):
