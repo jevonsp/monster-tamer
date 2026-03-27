@@ -132,3 +132,10 @@ theme_override_font_sizes/font_size = 64
 text = "SELL"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CategoryLabel" type="Label" parent="." unique_id=699350485]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "Category: "

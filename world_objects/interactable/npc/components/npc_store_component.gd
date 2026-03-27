@@ -28,4 +28,5 @@ func _open_store() -> void:
 	if inventory.size() <= 1:
 		printerr("%s has no inventory to display" % self)
 		return
+	Global.toggle_player.emit()
 	Global.request_open_store.emit(self)

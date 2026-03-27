@@ -7,6 +7,7 @@ const STORE_PANEL = preload("uid://b301kh78bm7js")
 
 @export var inventory: Dictionary[Item.Type, InventoryPage] = { }
 
+var processing: bool = false
 var focus_state: Focused = Focused.CATEGORY:
 	set(value):
 		focus_state = value
@@ -25,6 +26,7 @@ var last_focused_option_button: Button = null
 
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
+@onready var category_label: Label = $CategoryLabel
 
 
 func _ready() -> void:
@@ -35,6 +37,8 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not processing:
+		return
 	match focus_state:
 		Focused.CATEGORY:
 			_category_focused_input(event)
@@ -106,6 +110,11 @@ func _display_current() -> void:
 	for item in current_page.page:
 		var quantity = current_page.page[item]
 		_create_item(item, quantity)
+	_display_item_category()
+
+
+func _display_item_category() -> void:
+	category_label.text = "Category: %s" % Item.Type.keys()[current_category].to_lower().capitalize()
 
 
 func _display_page(page: InventoryPage) -> void:
@@ -165,6 +174,9 @@ func _grab_option_focus() -> void:
 
 func _toggle_visible() -> void:
 	visible = not visible
+	processing = visible
+	if not visible:
+		Global.toggle_player.emit()
 
 
 func _toggle_options_visible() -> void:

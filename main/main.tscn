@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage/storage.tscn" id="9_jofbb"]
 [ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="9_n53tw"]
 [ext_resource type="PackedScene" uid="uid://jmc7gqpbmo2n" path="res://world_objects/interactable/npc/components/npc_respawn_component.tscn" id="10_0i4oc"]
+[ext_resource type="PackedScene" uid="uid://dyraldrxu7umn" path="res://ui/store/store.tscn" id="10_ue0mw"]
 [ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu/menu.tscn" id="11_bsumw"]
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
@@ -27,8 +28,10 @@
 [ext_resource type="PackedScene" uid="uid://dqpocp0lr7l2e" path="res://world_objects/interactable/static_object/storage_component.tscn" id="21_vapsy"]
 [ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="23_qs5eo"]
 [ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm_test/tm_test.tres" id="24_frbr6"]
+[ext_resource type="Script" uid="uid://bgyhnnjr7fx2q" path="res://classes/InventoryPage.gd" id="26_amlcg"]
 [ext_resource type="PackedScene" uid="uid://lhi4amumrkry" path="res://world_objects/teleporter/teleporter.tscn" id="26_d00gp"]
 [ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="27_d8vpj"]
+[ext_resource type="Script" uid="uid://c3s5668st8huq" path="res://items/Item.gd" id="27_ue0mw"]
 [ext_resource type="PackedScene" uid="uid://dttmg54drld8c" path="res://world_objects/interactable/surf_object/surf_object.tscn" id="30_o8j3b"]
 [ext_resource type="PackedScene" uid="uid://cdhi7023ab4xs" path="res://world_objects/interactable/npc/components/npc_trade_component.tscn" id="31_wpkmi"]
 [ext_resource type="PackedScene" uid="uid://bxrnm7g5cssx4" path="res://world_objects/interactable/npc/shop_keeper/shop_keeper.tscn" id="32_o0l78"]
@@ -60,6 +63,28 @@ size = Vector2(16, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_576ah"]
 size = Vector2(16, 16)
 
+[sub_resource type="Resource" id="Resource_vqjab"]
+script = ExtResource("26_amlcg")
+page = Dictionary[ExtResource("27_ue0mw"), int]({
+ExtResource("17_s758e"): -1,
+ExtResource("20_re7it"): -1
+})
+metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
+
+[sub_resource type="Resource" id="Resource_h3axc"]
+script = ExtResource("26_amlcg")
+page = Dictionary[ExtResource("27_ue0mw"), int]({
+ExtResource("23_qs5eo"): 1
+})
+metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
+
+[sub_resource type="Resource" id="Resource_d7rgo"]
+script = ExtResource("26_amlcg")
+page = Dictionary[ExtResource("27_ue0mw"), int]({
+ExtResource("24_frbr6"): 1
+})
+metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
+
 [node name="Main" type="Node2D" unique_id=89812463]
 y_sort_enabled = true
 script = ExtResource("1_xwkvk")
@@ -89,6 +114,9 @@ visible = false
 visible = false
 focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
+
+[node name="Store" parent="Interfaces" unique_id=1010499898 instance=ExtResource("10_ue0mw")]
+visible = false
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
@@ -168,6 +196,11 @@ position = Vector2(8, 24)
 shape = SubResource("RectangleShape2D_576ah")
 
 [node name="NPCStoreComponent" parent="NPCs/ShopKeeper" unique_id=221203702 instance=ExtResource("33_576ah")]
+inventory = Dictionary[int, ExtResource("26_amlcg")]({
+0: SubResource("Resource_vqjab"),
+1: SubResource("Resource_h3axc"),
+2: SubResource("Resource_d7rgo")
+})
 
 [node name="Trader" parent="NPCs" unique_id=1405960500 instance=ExtResource("8_67ri8")]
 position = Vector2(64, 32)
