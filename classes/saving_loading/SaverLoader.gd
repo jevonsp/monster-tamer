@@ -1,4 +1,7 @@
 extends Node
+## Path Info
+## https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html
+## ~/.local/share/godot/app_userdata/
 
 const MAIN = preload("res://main/main.tscn")
 
@@ -59,6 +62,7 @@ func save_player(saved_game: SavedGame, player: Player) -> SavedGame:
 	saved_game.player_party = player.party_handler.party
 	saved_game.player_storage = player.party_handler.storage
 	saved_game.player_inventory = player.inventory_handler.inventory
+	saved_game.player_money = player.inventory_handler.money
 	saved_game.story_flags = player.story_flag_handler.story_flags
 
 	return saved_game
@@ -69,8 +73,5 @@ func load_player(saved_game: SavedGame, player: Player):
 	player.party_handler.party = saved_game.player_party
 	player.party_handler.storage = saved_game.player_storage
 	player.inventory_handler.inventory = saved_game.player_inventory
+	player.inventory_handler.money = saved_game.player_money
 	player.story_flag_handler.story_flags = saved_game.story_flags
-""" Path Info
-https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html
-~/.local/share/godot/app_userdata/
-"""

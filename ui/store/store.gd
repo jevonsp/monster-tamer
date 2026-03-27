@@ -8,19 +8,10 @@ const STORE_PANEL = preload("uid://b301kh78bm7js")
 @export var inventory: Dictionary[Item.Type, InventoryPage] = { }
 
 var processing: bool = false
-var focus_state: Focused = Focused.CATEGORY:
-	set(value):
-		focus_state = value
-		print(Focused.keys()[focus_state])
-var transaction_state: Transaction = Transaction.BUYING:
-	set(value):
-		transaction_state = value
-		print(Transaction.keys()[transaction_state])
+var focus_state: Focused = Focused.CATEGORY
+var transaction_state: Transaction = Transaction.BUYING
 var categories: int = 1
-var current_category: int = 0:
-	set(value):
-		current_category = value
-		print("current_category: ", current_category)
+var current_category: int = 0
 var last_focused_item_button: Button = null
 var last_focused_option_button: Button = null
 
@@ -46,14 +37,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_item_focused_input(event)
 		Focused.OPTION:
 			_option_focused_input(event)
-
-
-func buy() -> void:
-	pass
-
-
-func sell() -> void:
-	pass
 
 
 func _category_focused_input(event: InputEvent) -> void:
@@ -233,11 +216,56 @@ func _on_button_pressed(button: Button) -> void:
 	match button.name:
 		"Buy":
 			if transaction_state == Transaction.BUYING:
-				buy()
+				await _buy()
 			else:
 				_set_transaction_state(Transaction.BUYING)
 		"Sell":
 			if transaction_state == Transaction.SELLING:
-				sell()
+				await _sell()
 			else:
 				_set_transaction_state(Transaction.SELLING)
+
+
+func _buy() -> void:
+	var ta: Array[String]
+	var item = last_focused_item_button.item
+	if _can_player_can_afford(item):
+		var amount: int = 1
+		if _check_enough_stock(item, amount):
+			_pay_for_item(item)
+			_reduce_stock(item, amount)
+		else:
+			ta = ["We don't have enough in stock, sorry!"]
+			Global.send_text_box.emit(null, ta, true, false, false)
+			await Global.text_box_complete
+	else:
+		ta = ["You don't have enough money for that."]
+		Global.send_text_box.emit(null, ta, true, false, false)
+		await Global.text_box_complete
+
+	_grab_item_focus()
+
+
+func _sell() -> void:
+	printerr("SELLING NOT ADDED YET")
+
+
+func _can_player_can_afford(item: Item) -> bool:
+	var player: Player = get_tree().get_first_node_in_group("player")
+	return player.inventory_handler.money >= item.price
+
+
+func _check_enough_stock(item: Item, amount: int) -> bool:
+	var page: InventoryPage = inventory[current_category]
+	var quantity = page.page[item]
+	return quantity >= amount
+
+
+func _pay_for_item(item: Item) -> void:
+	var player: Player = get_tree().get_first_node_in_group("player")
+	player.inventory_handler.spend_money(item.price)
+
+
+func _reduce_stock(item: Item, amount: int) -> void:
+	var page: InventoryPage = inventory[current_category]
+	page.page[item] -= amount

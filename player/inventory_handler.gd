@@ -1,6 +1,7 @@
 extends Node
 
-var inventory: Dictionary[Item.Type, InventoryPage] = { }
+@export var inventory: Dictionary[Item.Type, InventoryPage] = { }
+@export var money: int = 0
 
 
 func _ready() -> void:
@@ -26,6 +27,11 @@ func remove(item: Item, amount: int = 1) -> void:
 
 func send_player_inventory() -> void:
 	Global.send_player_inventory.emit(inventory)
+
+
+func spend_money(amount: int) -> void:
+	money -= amount
+	Global.send_player_money.emit(money)
 
 
 func _connect_signals() -> void:

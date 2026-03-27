@@ -112,6 +112,7 @@ visible = false
 
 [node name="OverworldTextBox" parent="Interfaces" unique_id=2060252590 instance=ExtResource("9_n53tw")]
 visible = false
+z_index = 5
 focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 
