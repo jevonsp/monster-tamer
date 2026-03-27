@@ -10,6 +10,9 @@ const STORE_PANEL = preload("uid://b301kh78bm7js")
 var processing: bool = false
 var focus_state: Focused = Focused.OPTION
 var transaction_state: Transaction = Transaction.CHOOSING
+var npc_inventory: Dictionary[Item.Type, InventoryPage] = { }
+var player_inventory: Dictionary[Item.Type, InventoryPage] = { }
+var player_ref: Player = null
 var categories: int = 1
 var current_category: int = 0
 var last_focused_item_button: Button = null
@@ -102,19 +105,27 @@ func _bind_buttons() -> void:
 func _display_store(store_component: NPCStoreComponent) -> void:
 	_toggle_visible()
 	_update_inventory(store_component)
+	_set_transaction_state(Transaction.CHOOSING)
 
 
 func _update_inventory(store_component: NPCStoreComponent) -> void:
-	inventory = store_component.inventory
-	categories = max(inventory.size(), 1)
-	if current_category >= categories:
-		current_category = 0
+	npc_inventory = store_component.inventory
+	player_ref = get_tree().get_first_node_in_group("player")
+	if player_ref:
+		player_inventory = player_ref.inventory_handler.inventory
+	_set_active_inventory_for_transaction()
 
 
 func _display_current() -> void:
 	_clear_page()
 	if inventory.is_empty():
 		return
+	if not inventory.has(current_category):
+		var valid_keys: Array = inventory.keys()
+		valid_keys.sort()
+		if valid_keys.is_empty():
+			return
+		current_category = valid_keys[0]
 	var current_page: InventoryPage = inventory[current_category]
 	for item in current_page.page:
 		var quantity = current_page.page[item]
@@ -177,7 +188,13 @@ func _on_quantity_pressed(button: Button) -> void:
 				"Ten":
 					_buy(10)
 		Transaction.SELLING:
-			pass
+			match button.name:
+				"One":
+					_sell(1)
+				"Five":
+					_sell(5)
+				"Ten":
+					_sell(10)
 
 	_hide_quantity()
 	_set_focus_state(Focused.ITEM)
@@ -192,11 +209,21 @@ func _clear_page() -> void:
 func _switch_page(dir: Vector2) -> void:
 	if inventory.is_empty():
 		return
+	var valid_keys: Array = inventory.keys()
+	valid_keys.sort()
+	if valid_keys.is_empty():
+		return
+	if not valid_keys.has(current_category):
+		current_category = valid_keys[0]
+		_display_current()
+		return
+	var current_index: int = valid_keys.find(current_category)
 	match dir:
 		Vector2.LEFT:
-			current_category = (current_category - 1 + categories) % categories
+			current_index = (current_index - 1 + valid_keys.size()) % valid_keys.size()
 		Vector2.RIGHT:
-			current_category = (current_category + 1) % categories
+			current_index = (current_index + 1) % valid_keys.size()
+	current_category = valid_keys[current_index]
 
 	_display_current()
 
@@ -322,11 +349,36 @@ func _drop_focus_for_state(state: Focused) -> void:
 func _set_transaction_state(new_state: Transaction) -> void:
 	if new_state != transaction_state:
 		transaction_state = new_state
+	_set_active_inventory_for_transaction()
 	match transaction_state:
 		Transaction.BUYING:
 			_display_current()
 		Transaction.SELLING:
+			_display_current()
+		Transaction.CHOOSING:
 			pass
+
+
+func _set_active_inventory_for_transaction() -> void:
+	match transaction_state:
+		Transaction.BUYING:
+			inventory = npc_inventory
+		Transaction.SELLING:
+			inventory = player_inventory
+		Transaction.CHOOSING:
+			inventory = npc_inventory
+	_sync_category_bounds()
+
+
+func _sync_category_bounds() -> void:
+	categories = max(inventory.size(), 1)
+	if inventory.is_empty():
+		current_category = 0
+		return
+	if not inventory.has(current_category):
+		var valid_keys: Array = inventory.keys()
+		valid_keys.sort()
+		current_category = valid_keys[0]
 
 
 func _exit_store() -> void:
@@ -336,9 +388,13 @@ func _exit_store() -> void:
 
 func _reset() -> void:
 	focus_state = Focused.CATEGORY
+	transaction_state = Transaction.CHOOSING
 	categories = 1
 	current_category = 0
 	inventory = { }
+	npc_inventory = { }
+	player_inventory = { }
+	player_ref = null
 	_clear_page()
 	_show_options()
 	_hide_items()
@@ -364,26 +420,75 @@ func _buy(amount: int) -> void:
 	_grab_item_focus()
 
 
-func _sell() -> void:
-	printerr("SELLING NOT ADDED YET")
+func _sell(amount: int) -> void:
+	if not player_ref:
+		return
+	if not last_focused_item_button:
+		return
+	var item: Item = last_focused_item_button.item
+	if not _check_enough_stock(item, amount):
+		var ta: Array[String] = ["You don't have that many to sell."]
+		Global.send_text_box.emit(null, ta, true, false, false)
+		await Global.text_box_complete
+		return
+
+	player_ref.inventory_handler.remove(item, amount)
+	_credit_player_for_sale(item, amount)
+	_increase_npc_stock(item, amount)
+	_display_current()
+	_set_focus_state(Focused.ITEM)
+
+
+func _credit_player_for_sale(item: Item, amount: int) -> void:
+	var sell_value: int = maxi(1, int(item.price / 2.0))
+	var total_value: int = sell_value * amount
+	if player_ref.inventory_handler.has_method("add_money"):
+		player_ref.inventory_handler.add_money(total_value)
+		return
+	var current_money: Variant = player_ref.inventory_handler.get("money")
+	if typeof(current_money) == TYPE_INT:
+		player_ref.inventory_handler.set("money", current_money + total_value)
+		Global.send_player_money.emit(current_money + total_value)
+
+
+func _increase_npc_stock(item: Item, amount: int) -> void:
+	if not npc_inventory.has(item.item_type):
+		npc_inventory[item.item_type] = InventoryPage.new()
+	var page: InventoryPage = npc_inventory[item.item_type]
+	if page.page.has(item):
+		page.page[item] += amount
+	else:
+		page.page[item] = amount
 
 
 func _can_player_can_afford(item: Item) -> bool:
-	var player: Player = get_tree().get_first_node_in_group("player")
-	return player.inventory_handler.money >= item.price
+	if not player_ref:
+		return false
+	return player_ref.inventory_handler.money >= item.price
 
 
 func _check_enough_stock(item: Item, amount: int) -> bool:
+	if not inventory.has(current_category):
+		return false
 	var page: InventoryPage = inventory[current_category]
+	if not page.page.has(item):
+		return false
 	var quantity = page.page[item]
 	return quantity >= amount
 
 
 func _pay_for_item(item: Item) -> void:
-	var player: Player = get_tree().get_first_node_in_group("player")
-	player.inventory_handler.spend_money(item.price)
+	if not player_ref:
+		return
+	player_ref.inventory_handler.spend_money(item.price)
 
 
 func _reduce_stock(item: Item, amount: int) -> void:
+	if not inventory.has(current_category):
+		return
 	var page: InventoryPage = inventory[current_category]
+	if not page.page.has(item):
+		return
 	page.page[item] -= amount
+	if page.page[item] <= 0:
+		page.page.erase(item)
