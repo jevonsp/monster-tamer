@@ -122,7 +122,7 @@ visible = false
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(64, 48)
+position = Vector2(64, 80)
 available_travel_methods = {
 1: true,
 2: false
@@ -188,7 +188,7 @@ position = Vector2(96, 48)
 [node name="NPCs" type="Node" parent="." unique_id=20466025]
 
 [node name="ShopKeeper" parent="NPCs" unique_id=1375001283 instance=ExtResource("32_o0l78")]
-position = Vector2(128, 32)
+position = Vector2(80, 64)
 dialogue = Array[String](["Hello, what would you like to buy today?"])
 is_question = true
 

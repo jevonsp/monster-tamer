@@ -68,12 +68,12 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer" unique_id=773227740]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 
 [node name="Options" type="VBoxContainer" parent="." unique_id=1098450245]
-visible = false
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -133,7 +133,93 @@ text = "SELL"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Quantity" type="VBoxContainer" parent="." unique_id=1931719391]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 25.0
+offset_top = -110.0
+offset_right = 274.0
+offset_bottom = 110.0
+grow_vertical = 2
+
+[node name="One" type="Button" parent="Quantity" unique_id=958765916]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
+
+[node name="MarginContainer" type="MarginContainer" parent="Quantity/One" unique_id=2138407205]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Quantity/One/MarginContainer" unique_id=830624796]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Five" type="Button" parent="Quantity" unique_id=174461232]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Quantity/Five" unique_id=278307891]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Quantity/Five/MarginContainer" unique_id=681481561]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ten" type="Button" parent="Quantity" unique_id=1391809329]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Quantity/Ten" unique_id=1903800219]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Quantity/Ten/MarginContainer" unique_id=416145708]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CategoryLabel" type="Label" parent="." unique_id=699350485]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
