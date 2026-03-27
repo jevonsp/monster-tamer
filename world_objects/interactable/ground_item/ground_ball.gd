@@ -14,17 +14,14 @@ enum Type { ITEM, MONSTER }
 			visible = false
 			collision_shape_2d.disabled = true
 
+var story_component: StoryComponent
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 
 func _ready() -> void:
-	setup()
-
-
-func setup() -> void:
-	if item.ground_texture != null:
-		sprite_2d.texture = item.ground_texture
+	_setup()
 
 
 func interact(body: CharacterBody2D) -> void:
@@ -59,6 +56,8 @@ func trigger() -> void:
 		Type.MONSTER:
 			var monster = monster_data.set_up(monster_level)
 			player.party_handler.add(monster)
+	if story_component:
+		story_component.trigger()
 	obtain()
 
 
@@ -80,3 +79,31 @@ func on_load_game(saved_data_array: Array[SavedData]) -> void:
 		if data.node_path == get_path():
 			if data.is_obtained:
 				obtain()
+
+
+func _setup() -> void:
+	_setup_sprite()
+	_set_components()
+
+
+func _setup_sprite() -> void:
+	match type:
+		Type.ITEM:
+			if item.ground_texture != null:
+				sprite_2d.texture = item.ground_texture
+		Type.MONSTER:
+			match monster_data.species.to_lower():
+				"pyro badger":
+					sprite_2d.frame = 0
+				"pistol shrimp":
+					sprite_2d.frame = 1
+				"fox mcleaf":
+					sprite_2d.frame = 2
+				_:
+					pass
+
+
+func _set_components() -> void:
+	for child in get_children():
+		if child is StoryComponent:
+			story_component = child

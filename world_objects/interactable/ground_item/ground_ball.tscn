@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eferr"]
 size = Vector2(16, 16)
 
-[node name="GroundItem" type="StaticBody2D" unique_id=425176937 groups=["interactable", "save_object"]]
+[node name="GroundBall" type="StaticBody2D" unique_id=425176937 groups=["interactable", "save_object"]]
 collision_layer = 8
 script = ExtResource("2_mxhni")
 

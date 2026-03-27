@@ -5,6 +5,7 @@ signal finished_turn
 signal finished_walk_segment
 
 enum MoveState { IDLE, TURNING, MOVING, JUMPING }
+enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
 
 const TILE_SIZE: float = 16.0
 
@@ -84,6 +85,15 @@ func walk_list_tiles(tiles: Array[Vector2]) -> void:
 	for tile in tiles:
 		await walk_to_tile(tile)
 		await finished_walk_segment
+
+
+func walk_list_dirs(dirs: Array[Vector2]) -> void:
+	var cursor := global_position
+	var tiles: Array[Vector2] = []
+	for dir in dirs:
+		cursor += dir * TILE_SIZE
+		tiles.append(cursor)
+	await walk_list_tiles(tiles)
 
 
 func walk_to_tile(pos: Vector2) -> void:
@@ -176,3 +186,31 @@ func _get_step_direction_to(target_pos: Vector2) -> Vector2:
 	if abs(dir_vec.y) > 0.0:
 		return Vector2(0, sign(dir_vec.y))
 	return Vector2.ZERO
+
+
+func _vector_from_dir(dir: Direction) -> Vector2:
+	match dir:
+		Direction.UP:
+			return Vector2.UP
+		Direction.DOWN:
+			return Vector2.DOWN
+		Direction.LEFT:
+			return Vector2.LEFT
+		Direction.RIGHT:
+			return Vector2.RIGHT
+		_:
+			return Vector2.ZERO
+
+
+func _direction_from_vector(vector: Vector2) -> Direction:
+	match vector:
+		Vector2.UP:
+			return Direction.UP
+		Vector2.DOWN:
+			return Direction.DOWN
+		Vector2.LEFT:
+			return Direction.LEFT
+		Vector2.RIGHT:
+			return Direction.RIGHT
+		_:
+			return Direction.NONE

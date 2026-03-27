@@ -2,8 +2,6 @@
 class_name NPC
 extends TileMover
 
-enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
-
 @export var npc_name: String = "NPC"
 @export var direction: Direction = Direction.DOWN:
 	set(value):
@@ -33,6 +31,7 @@ func _ready() -> void:
 		return
 	_set_components()
 	_connect_signals()
+	_update_direction_visual()
 
 
 func _physics_process(delta: float) -> void:
@@ -42,9 +41,9 @@ func _physics_process(delta: float) -> void:
 
 
 func interact(body: CharacterBody2D) -> void:
-	var new_facing_direction = (body.global_position - global_position).normalized()
-	if new_facing_direction != facing_vec:
-		start_turning(new_facing_direction)
+	var toward_player: Vector2 = _get_step_direction_to(body.global_position)
+	if toward_player != Vector2.ZERO and toward_player != facing_vec:
+		start_turning(toward_player)
 	await _say_dialogue()
 
 
@@ -103,34 +102,6 @@ func _update_direction_visual() -> void:
 		anim_state.travel("Idle")
 	else:
 		anim_state.travel("Idle")
-
-
-func _vector_from_dir(dir: Direction) -> Vector2:
-	match dir:
-		Direction.UP:
-			return Vector2.UP
-		Direction.DOWN:
-			return Vector2.DOWN
-		Direction.LEFT:
-			return Vector2.LEFT
-		Direction.RIGHT:
-			return Vector2.RIGHT
-		_:
-			return Vector2.ZERO
-
-
-func _direction_from_vector(vector: Vector2) -> Direction:
-	match vector:
-		Vector2.UP:
-			return Direction.UP
-		Vector2.DOWN:
-			return Direction.DOWN
-		Vector2.LEFT:
-			return Direction.LEFT
-		Vector2.RIGHT:
-			return Direction.RIGHT
-		_:
-			return Direction.NONE
 
 
 func _get_walk_speed() -> float:

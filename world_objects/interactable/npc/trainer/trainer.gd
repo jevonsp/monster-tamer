@@ -31,9 +31,9 @@ func _ready() -> void:
 
 
 func interact(body: CharacterBody2D) -> void:
-	var new_facing_direction = (body.global_position - global_position).normalized()
-	if new_facing_direction != facing_vec:
-		start_turning(new_facing_direction)
+	var toward_player: Vector2 = _get_step_direction_to(body.global_position)
+	if toward_player != Vector2.ZERO and toward_player != facing_vec:
+		start_turning(toward_player)
 	if not is_defeated:
 		await animate_exclamation()
 		await _say_dialogue(dialogue)

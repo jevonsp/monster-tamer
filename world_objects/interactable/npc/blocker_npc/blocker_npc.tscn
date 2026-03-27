@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dfcyvpb7eplen"]
+
+[ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="1_x35b0"]
+[ext_resource type="Script" uid="uid://qiv334f0c7j2" path="res://world_objects/interactable/npc/blocker_npc/blocker_npc.gd" id="2_o7npj"]
+
+[node name="BlockerNPC" unique_id=431393256 instance=ExtResource("1_x35b0")]
+script = ExtResource("2_o7npj")
+story_trigger = 0
+response_type = 0
+post_trigger_dialogue = Array[String]([])
+is_complete = null
+dialogue = Array[String]([])

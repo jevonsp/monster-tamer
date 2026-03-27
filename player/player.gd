@@ -167,6 +167,13 @@ func walk_list_tiles(tiles: Array[Vector2]) -> void:
 	_finish_commanded_movement()
 
 
+func walk_list_dirs(dirs: Array[Vector2]) -> void:
+	_clear_manual_input_buffer()
+	command_active = true
+	await super.walk_list_dirs(dirs)
+	_finish_commanded_movement()
+
+
 func walk_to_tile(pos: Vector2) -> void:
 	_clear_manual_input_buffer()
 	command_active = true

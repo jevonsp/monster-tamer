@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://du5fddffkfd7n"]
+
+[ext_resource type="Script" uid="uid://dyw05rlweieo6" path="res://world_objects/story_zone/story_zone.gd" id="1_wg3jf"]
+
+[node name="StoryZone" type="Area2D" unique_id=1333130300]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_wg3jf")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
