@@ -426,15 +426,20 @@ func _sell(amount: int) -> void:
 	if not last_focused_item_button:
 		return
 	var item: Item = last_focused_item_button.item
+	var ta: Array[String]
+	if item.item_type == Item.Type.KEY:
+		ta = ["You can't sell me that!"]
+		Global.send_text_box.emit(null, ta, true, false, false)
+		await Global.text_box_complete
+		return
 	if not _check_enough_stock(item, amount):
-		var ta: Array[String] = ["You don't have that many to sell."]
+		ta = ["You don't have that many to sell."]
 		Global.send_text_box.emit(null, ta, true, false, false)
 		await Global.text_box_complete
 		return
 
 	player_ref.inventory_handler.remove(item, amount)
 	_credit_player_for_sale(item, amount)
-	_increase_npc_stock(item, amount)
 	_display_current()
 	_set_focus_state(Focused.ITEM)
 
