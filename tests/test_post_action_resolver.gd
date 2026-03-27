@@ -49,12 +49,21 @@ func before_each() -> void:
 	_resolver.name = "PostActionResolver"
 	_battle.add_child(_resolver)
 	_handler = FakeHandler.new()
-	add_child(_battle)
+	add_child_autoqfree(_battle)
+	autofree(_handler)
+	if not Global.send_text_box.is_connected(_on_send_text_box):
+		Global.send_text_box.connect(_on_send_text_box)
+	if not Global.send_monster_death_experience.is_connected(_on_send_monster_death_experience):
+		Global.send_monster_death_experience.connect(_on_send_monster_death_experience)
 
 
 func after_each() -> void:
+	if Global.send_text_box.is_connected(_on_send_text_box):
+		Global.send_text_box.disconnect(_on_send_text_box)
+	if Global.send_monster_death_experience.is_connected(_on_send_monster_death_experience):
+		Global.send_monster_death_experience.disconnect(_on_send_monster_death_experience)
 	if is_instance_valid(_battle):
-		_battle.queue_free()
+		_battle.free()
 	_battle = null
 	_resolver = null
 	_handler = null
@@ -124,3 +133,25 @@ func _make_monster(monster_name: String, is_player: bool) -> Monster:
 	monster.current_hitpoints = 30
 	monster.create_stat_multis()
 	return monster
+
+
+func _on_send_text_box(
+	_object,
+	_text: Array[String],
+	_auto_complete: bool,
+	_is_question: bool,
+	_toggles_player: bool
+) -> void:
+	call_deferred("_emit_text_box_complete")
+
+
+func _on_send_monster_death_experience(_amount: int) -> void:
+	call_deferred("_emit_player_done_giving_exp")
+
+
+func _emit_text_box_complete() -> void:
+	Global.text_box_complete.emit()
+
+
+func _emit_player_done_giving_exp() -> void:
+	Global.player_done_giving_exp.emit()

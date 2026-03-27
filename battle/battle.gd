@@ -177,15 +177,15 @@ func _clear_actors() -> void:
 
 func _reset_stats() -> void:
 	for monster: Monster in enemy_party:
-		for entry in monster.stat_stages_and_multis.stat_stages:
-			entry = 0
-		for entry in monster.stat_stages_and_multis.stat_multipliers:
-			entry = 1.0
+		for stat in monster.stat_stages_and_multis.stat_stages.keys():
+			monster.stat_stages_and_multis.stat_stages[stat] = 0
+		for stat in monster.stat_stages_and_multis.stat_multipliers.keys():
+			monster.stat_stages_and_multis.stat_multipliers[stat] = 1.0
 	for monster: Monster in player_party:
-		for entry in monster.stat_stages_and_multis.stat_stages:
-			entry = 0
-		for entry in monster.stat_stages_and_multis.stat_multipliers:
-			entry = 1.0
+		for stat in monster.stat_stages_and_multis.stat_stages.keys():
+			monster.stat_stages_and_multis.stat_stages[stat] = 0
+		for stat in monster.stat_stages_and_multis.stat_multipliers.keys():
+			monster.stat_stages_and_multis.stat_multipliers[stat] = 1.0
 
 
 func _clear_parties() -> void:

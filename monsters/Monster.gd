@@ -174,6 +174,7 @@ func boost_stat(stat: Stat, amount: int) -> BoostApplyResult:
 	if amount > 0 and (entry + amount > 6 or entry + amount < -6):
 		return BoostApplyResult.BLOCKED
 	entry += clamp(amount, -6, 6)
+	stat_stages_and_multis.stat_stages[stat] = entry
 	return BoostApplyResult.APPLIED
 
 

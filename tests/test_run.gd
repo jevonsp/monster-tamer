@@ -37,9 +37,11 @@ class FakeHandler:
 	var is_escaped: bool = false
 
 var shown: Array[String] = []
+var _cleanup_nodes: Array[Node] = []
 
 func before_each() -> void:
 	shown.clear()
+	_cleanup_nodes.clear()
 	if not Global.send_text_box.is_connected(_on_send_text_box):
 		Global.send_text_box.connect(_on_send_text_box)
 
@@ -47,6 +49,10 @@ func before_each() -> void:
 func after_each() -> void:
 	if Global.send_text_box.is_connected(_on_send_text_box):
 		Global.send_text_box.disconnect(_on_send_text_box)
+	for node in _cleanup_nodes:
+		if is_instance_valid(node):
+			node.free()
+	_cleanup_nodes.clear()
 
 func test_run_fails_when_escape_odds_are_zero() -> void:
 	var action := Run.new()
@@ -54,6 +60,8 @@ func test_run_fails_when_escape_odds_are_zero() -> void:
 	var target := _make_monster("Fast", 100)
 	var battle := FakeBattle.new()
 	var handler := FakeHandler.new()
+	_cleanup_nodes.append(battle)
+	_cleanup_nodes.append(handler)
 	var context := BattleContext.new(handler, battle)
 	battle.turn_executor.run_count = 0
 
@@ -69,6 +77,8 @@ func test_run_succeeds_when_escape_odds_are_well_above_roll_cap() -> void:
 	var target := _make_monster("Slow", 1)
 	var battle := FakeBattle.new()
 	var handler := FakeHandler.new()
+	_cleanup_nodes.append(battle)
+	_cleanup_nodes.append(handler)
 	var context := BattleContext.new(handler, battle)
 	battle.turn_executor.run_count = 10
 
@@ -95,11 +105,15 @@ func _make_monster(monster_name: String, spd: int) -> Monster:
 
 
 func _on_send_text_box(
-	_object: Node,
+	_object,
 	text: Array[String],
 	_auto_complete: bool,
 	_is_question: bool,
 	_toggles_player: bool
 ) -> void:
 	shown.append_array(text)
+	call_deferred("_emit_text_box_complete")
+
+
+func _emit_text_box_complete() -> void:
 	Global.text_box_complete.emit()

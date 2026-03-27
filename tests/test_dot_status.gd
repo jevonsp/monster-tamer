@@ -1,10 +1,12 @@
 extends GutTest
 
 var shown: Array[Array] = []
+var _context_nodes: Array[Node] = []
 
 
 func before_each() -> void:
 	shown.clear()
+	_context_nodes.clear()
 	if not Global.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
 		Global.send_hitpoints_change.connect(_on_send_hitpoints_change)
 	if not Global.send_text_box.is_connected(_on_send_text_box):
@@ -16,6 +18,10 @@ func after_each() -> void:
 		Global.send_hitpoints_change.disconnect(_on_send_hitpoints_change)
 	if Global.send_text_box.is_connected(_on_send_text_box):
 		Global.send_text_box.disconnect(_on_send_text_box)
+	for node in _context_nodes:
+		if is_instance_valid(node):
+			node.free()
+	_context_nodes.clear()
 
 
 func test_dot_status_uses_percent_damage_with_minimum_one() -> void:
@@ -45,22 +51,34 @@ func test_dot_status_uses_flat_damage_when_enabled() -> void:
 
 
 func _on_send_hitpoints_change(_target: Monster, _hp: int) -> void:
-	Global.hitpoints_animation_complete.emit()
+	call_deferred("_emit_hitpoints_animation_complete")
 
 
 func _on_send_text_box(
-		_object: Node,
+		_object,
 		text: Array[String],
 		_auto_complete: bool,
 		_is_question: bool,
 		_toggles_player: bool,
 ) -> void:
 	shown.append(text.duplicate())
+	call_deferred("_emit_text_box_complete")
+
+
+func _emit_hitpoints_animation_complete() -> void:
+	Global.hitpoints_animation_complete.emit()
+
+
+func _emit_text_box_complete() -> void:
 	Global.text_box_complete.emit()
 
 
 func _make_context() -> BattleContext:
-	return BattleContext.new(Node.new(), Control.new())
+	var handler := Node.new()
+	var battle := Control.new()
+	_context_nodes.append(handler)
+	_context_nodes.append(battle)
+	return BattleContext.new(handler, battle)
 
 
 func _make_monster(max_hp: int, current_hp: int) -> Monster:

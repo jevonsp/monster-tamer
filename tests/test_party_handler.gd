@@ -11,6 +11,8 @@ func before_each() -> void:
 
 
 func after_each() -> void:
+	if is_instance_valid(party_handler):
+		party_handler.free()
 	party_handler = null
 
 

@@ -1,9 +1,11 @@
 extends GutTest
 
 var shown_text: Array[Array] = []
+var _context_nodes: Array[Node] = []
 
 func before_each() -> void:
 	shown_text.clear()
+	_context_nodes.clear()
 	if not Global.send_text_box.is_connected(_on_send_text_box):
 		Global.send_text_box.connect(_on_send_text_box)
 
@@ -11,6 +13,10 @@ func before_each() -> void:
 func after_each() -> void:
 	if Global.send_text_box.is_connected(_on_send_text_box):
 		Global.send_text_box.disconnect(_on_send_text_box)
+	for node in _context_nodes:
+		if is_instance_valid(node):
+			node.free()
+	_context_nodes.clear()
 
 
 func test_apply_status_effect_applies_when_chance_is_one() -> void:
@@ -26,7 +32,7 @@ func test_apply_status_effect_applies_when_chance_is_one() -> void:
 	await effect.apply(_make_monster("Actor"), target, context)
 
 	assert_true(target.has_status_id("unit_status"))
-	assert_eq(shown_text.size(), 1)
+	assert_true(shown_text.any(func(lines): return lines == ["Target was afflicted with UnitStatus"]))
 
 
 func test_apply_status_effect_does_not_apply_when_chance_is_zero() -> void:
@@ -69,18 +75,26 @@ func test_apply_status_effect_respects_slot_conflicts() -> void:
 
 
 func _on_send_text_box(
-	_object: Node,
+	_object,
 	text: Array[String],
 	_auto_complete: bool,
 	_is_question: bool,
 	_toggles_player: bool
 ) -> void:
 	shown_text.append(text.duplicate())
+	call_deferred("_emit_text_box_complete")
+
+
+func _emit_text_box_complete() -> void:
 	Global.text_box_complete.emit()
 
 
 func _make_context() -> BattleContext:
-	return BattleContext.new(Node.new(), Control.new())
+	var handler := Node.new()
+	var battle := Control.new()
+	_context_nodes.append(handler)
+	_context_nodes.append(battle)
+	return BattleContext.new(handler, battle)
 
 
 func _make_monster(monster_name: String) -> Monster:

@@ -12,6 +12,9 @@ func before_each() -> void:
 
 
 func after_each() -> void:
+	_disconnect_heal_signal()
+	if is_instance_valid(inventory_handler):
+		inventory_handler.free()
 	inventory_handler = null
 
 
@@ -67,16 +70,24 @@ func _disconnect_heal_signal() -> void:
 
 
 func _on_send_hitpoints_change(_target: Monster, _hp: int) -> void:
-	Global.hitpoints_animation_complete.emit()
+	call_deferred("_emit_hitpoints_animation_complete")
 
 
 func _on_send_text_box(
-	_object: Node,
+	_object,
 	_text: Array[String],
 	_auto_complete: bool,
 	_is_question: bool,
 	_toggles_player: bool
 ) -> void:
+	call_deferred("_emit_text_box_complete")
+
+
+func _emit_hitpoints_animation_complete() -> void:
+	Global.hitpoints_animation_complete.emit()
+
+
+func _emit_text_box_complete() -> void:
 	Global.text_box_complete.emit()
 
 

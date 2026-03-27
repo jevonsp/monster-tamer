@@ -11,18 +11,28 @@ var shown_text: Array[Array] = []
 var hitpoint_updates: Array[int] = []
 var shaken_targets: Array[Monster] = []
 var context: BattleContext
+var _context_nodes: Array[Node] = []
 
 
 func before_each() -> void:
 	shown_text.clear()
 	hitpoint_updates.clear()
 	shaken_targets.clear()
-	context = BattleContext.new(Node.new(), Control.new())
+	_context_nodes.clear()
+	var handler := Node.new()
+	var battle := Control.new()
+	_context_nodes.append(handler)
+	_context_nodes.append(battle)
+	context = BattleContext.new(handler, battle)
 	_connect_global_test_hooks()
 
 
 func after_each() -> void:
 	_disconnect_global_test_hooks()
+	for node in _context_nodes:
+		if is_instance_valid(node):
+			node.free()
+	_context_nodes.clear()
 	context = null
 
 
@@ -150,12 +160,12 @@ func test_confusion_is_separate_refreshes_and_can_self_hit() -> void:
 
 	await monster.execute_action_override(monster, context, move)
 
-	assert_eq(monster.current_hitpoints, 95)
+	assert_eq(monster.current_hitpoints, 94)
 	assert_eq(shaken_targets.size(), 1)
 	assert_eq(shaken_targets[0], monster)
 	assert_eq(shown_text[0], ["TestMon is confused!"])
 	assert_eq(shown_text[1], ["TestMon hurt itself in its confusion!"])
-	assert_eq(shown_text[2], ["It dealt 5 damage."])
+	assert_eq(shown_text[2], ["It dealt 6 damage."])
 	assert_false(monster.has_action_override(context, move))
 
 
@@ -176,7 +186,7 @@ func _make_monster() -> Monster:
 	var monster := Monster.new()
 	monster.name = "TestMon"
 	monster.level = 10
-	monster.type = TypeChart.Type.NONE
+	monster.primary_type = TypeChart.Type.NONE
 	monster.speed = 40
 	monster.attack = 30
 	monster.defense = 30
@@ -207,18 +217,26 @@ func _disconnect_global_test_hooks() -> void:
 
 
 func _on_send_text_box(
-	_object: Node,
-	text: Array[String],
-	_auto_complete: bool,
-	_is_question: bool,
-	_toggles_player: bool
+		_object,
+		text: Array[String],
+		_auto_complete: bool,
+		_is_question: bool,
+		_toggles_player: bool,
 ) -> void:
 	shown_text.append(text.duplicate())
-	Global.text_box_complete.emit()
+	call_deferred("_emit_text_box_complete")
 
 
 func _on_send_hitpoints_change(_target: Monster, new_hp: int) -> void:
 	hitpoint_updates.append(new_hp)
+	call_deferred("_emit_hitpoints_animation_complete")
+
+
+func _emit_text_box_complete() -> void:
+	Global.text_box_complete.emit()
+
+
+func _emit_hitpoints_animation_complete() -> void:
 	Global.hitpoints_animation_complete.emit()
 
 

@@ -51,12 +51,16 @@ func test_teach_effect_stops_when_target_cannot_learn_move() -> void:
 
 
 func _on_send_text_box(
-	_object: Node,
+	_object,
 	_text: Array[String],
 	_auto_complete: bool,
 	_is_question: bool,
 	_toggles_player: bool
 ) -> void:
+	call_deferred("_emit_text_box_complete")
+
+
+func _emit_text_box_complete() -> void:
 	Global.text_box_complete.emit()
 
 

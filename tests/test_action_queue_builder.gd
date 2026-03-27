@@ -13,10 +13,12 @@ class FakeBattle:
 
 func test_add_action_to_queue_returns_false_for_null() -> void:
 	var builder = ActionQueueBuilderScript.new()
+	var battle := FakeBattle.new()
 	var queue: Array[Dictionary] = []
 
-	assert_false(builder.add_action_to_queue(null, null, FakeBattle.new(), queue))
+	assert_false(builder.add_action_to_queue(null, null, battle, queue))
 	assert_eq(queue.size(), 0)
+	battle.free()
 
 
 func test_add_action_to_queue_uses_self_targeting_move_target() -> void:
@@ -34,6 +36,7 @@ func test_add_action_to_queue_uses_self_targeting_move_target() -> void:
 
 	assert_eq(queue.size(), 1)
 	assert_eq(queue[0]["target"], actor)
+	battle.free()
 
 
 func test_healing_item_targets_actor_and_catch_item_targets_enemy() -> void:
@@ -55,6 +58,7 @@ func test_healing_item_targets_actor_and_catch_item_targets_enemy() -> void:
 
 	assert_eq(queue[0]["target"], actor)
 	assert_eq(queue[1]["target"], enemy)
+	battle.free()
 
 
 func test_enemy_move_selection_prefers_effective_non_redundant_move() -> void:
@@ -82,7 +86,8 @@ func test_enemy_move_selection_prefers_effective_non_redundant_move() -> void:
 	enemy.moves = [bad_move, good_move]
 
 	var selected: Move = builder._get_enemy_move_from_battle(battle)
-	assert_eq(selected, bad_move)
+	assert_eq(selected, good_move)
+	battle.free()
 
 
 func test_enemy_stat_boost_over_cap_is_penalized() -> void:
@@ -107,6 +112,7 @@ func test_enemy_stat_boost_over_cap_is_penalized() -> void:
 	enemy.moves = [boost_move, neutral_move]
 	var selected: Move = builder._get_enemy_move_from_battle(battle)
 	assert_eq(selected, neutral_move)
+	battle.free()
 
 
 func _make_monster(monster_name: String) -> Monster:

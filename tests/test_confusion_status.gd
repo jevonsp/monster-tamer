@@ -1,10 +1,12 @@
 extends GutTest
 
 var hit_reactions: int = 0
+var _context_nodes: Array[Node] = []
 
 
 func before_each() -> void:
 	hit_reactions = 0
+	_context_nodes.clear()
 	if not Global.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
 		Global.send_hitpoints_change.connect(_on_send_hitpoints_change)
 	if not Global.send_sprite_shake.is_connected(_on_send_sprite_shake):
@@ -20,6 +22,10 @@ func after_each() -> void:
 		Global.send_sprite_shake.disconnect(_on_send_sprite_shake)
 	if Global.send_text_box.is_connected(_on_send_text_box):
 		Global.send_text_box.disconnect(_on_send_text_box)
+	for node in _context_nodes:
+		if is_instance_valid(node):
+			node.free()
+	_context_nodes.clear()
 
 
 func test_confusion_sets_override_flag_when_self_hit_occurs() -> void:
@@ -50,6 +56,10 @@ func test_confusion_execute_override_deals_self_damage_and_clears_flag() -> void
 
 
 func _on_send_hitpoints_change(_target: Monster, _hp: int) -> void:
+	call_deferred("_emit_hitpoints_animation_complete")
+
+
+func _emit_hitpoints_animation_complete() -> void:
 	Global.hitpoints_animation_complete.emit()
 
 
@@ -58,17 +68,25 @@ func _on_send_sprite_shake(_target: Monster) -> void:
 
 
 func _on_send_text_box(
-	_object: Node,
+	_object,
 	_text: Array[String],
 	_auto_complete: bool,
 	_is_question: bool,
 	_toggles_player: bool
 ) -> void:
+	call_deferred("_emit_text_box_complete")
+
+
+func _emit_text_box_complete() -> void:
 	Global.text_box_complete.emit()
 
 
 func _make_context() -> BattleContext:
-	return BattleContext.new(Node.new(), Control.new())
+	var handler := Node.new()
+	var battle := Control.new()
+	_context_nodes.append(handler)
+	_context_nodes.append(battle)
+	return BattleContext.new(handler, battle)
 
 
 func _make_monster() -> Monster:
