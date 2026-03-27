@@ -12,13 +12,13 @@ func clear_move_swap_highlight() -> void:
 	_set_move_panel_focus_style(summary.DEFAULT_STYLE)
 
 
-func _toggle_visible(monster: Monster = null) -> void:
-	_set_visible(not summary.visible, monster)
+func toggle_visible(monster: Monster = null) -> void:
+	set_visible(not summary.visible, monster)
 
 
-func _set_visible(value: bool, monster: Monster = null) -> void:
+func set_visible(value: bool, monster: Monster = null) -> void:
 	if value and summary.interfaces.ui_context == Global.AccessFrom.PARTY and party.visible:
-		party.visibility_focus_handler._set_visible(false)
+		party.visibility_focus_handler.set_visible(false)
 		Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 
 	summary.visible = value
@@ -31,11 +31,11 @@ func _set_visible(value: bool, monster: Monster = null) -> void:
 		_reset_summary_state()
 
 
-func _set_move_focus(button: Button) -> void:
+func set_move_focus(button: Button) -> void:
 	summary.last_focused_move_button = button
 
 
-func _focus_default_move() -> void:
+func focus_default_move() -> void:
 	summary.is_move_focused = true
 	if summary.last_focused_move_button:
 		summary.last_focused_move_button.grab_focus()
@@ -43,7 +43,7 @@ func _focus_default_move() -> void:
 	summary.move_panels[0].grab_focus()
 
 
-func _unfocus_moves() -> void:
+func unfocus_moves() -> void:
 	if summary.last_focused_move_button:
 		summary.last_focused_move_button.release_focus()
 		summary.last_focused_move_button = null

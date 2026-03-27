@@ -3,16 +3,16 @@ extends Node
 @onready var party: Control = $".."
 
 
-func _toggle_visible() -> void:
-	_set_visible(not party.visible)
+func toggle_visible() -> void:
+	set_visible(not party.visible)
 
 
-func _set_visible(value: bool) -> void:
+func set_visible(value: bool) -> void:
 	party.visible = value
 	party.processing = value
 
 	if party.visible:
-		_focus_default_monster()
+		focus_default_monster()
 		for panel in party.panels:
 			party.panels[panel].player_exp_bar.active = true
 	else:
@@ -22,27 +22,27 @@ func _set_visible(value: bool) -> void:
 			party.panels[panel].player_exp_bar.active = false
 
 	if party.visible and party.options_box.visible:
-		_focus_default_option()
+		focus_default_option()
 
 
-func _toggle_options_visible() -> void:
+func toggle_options_visible() -> void:
 	party.options_box.visible = not party.options_box.visible
 
 	if party.options_box.visible:
-		_focus_default_option()
+		focus_default_option()
 	else:
-		_focus_default_monster()
+		focus_default_monster()
 
 
-func _set_monster_focus(button: Button) -> void:
+func set_monster_focus(button: Button) -> void:
 	party.last_selected_monster = button
 
 
-func _set_option_focus(button: Button) -> void:
+func set_option_focus(button: Button) -> void:
 	party.last_selected_option = button
 
 
-func _focus_default_monster() -> void:
+func focus_default_monster() -> void:
 	if party.last_selected_monster and party.last_selected_monster.actor != null:
 		party.last_selected_monster.grab_focus()
 		return
@@ -54,7 +54,7 @@ func _focus_default_monster() -> void:
 	party.panels[keys[0]].grab_focus()
 
 
-func _focus_default_option() -> void:
+func focus_default_option() -> void:
 	if party.last_selected_option and party.last_selected_option.is_inside_tree():
 		party.last_selected_option.grab_focus()
 		return

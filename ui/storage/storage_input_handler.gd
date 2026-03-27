@@ -10,7 +10,7 @@ func _input(event: InputEvent) -> void:
 	if not storage.processing:
 		return
 	if event.is_action_pressed("no") and storage.options_container.visible:
-		visibility_focus_handler._toggle_options_visible()
+		visibility_focus_handler.toggle_options_visible()
 	if event.is_action_pressed("left") and storage.last_selected_monster.is_in_group("left_side"):
 		move_page(Vector2.LEFT)
 	if event.is_action_pressed("right") and storage.last_selected_monster.is_in_group("right_side"):
@@ -23,7 +23,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	match storage.state:
 		storage.State.DEFAULT:
 			if event.is_action_pressed("no"):
-				visibility_focus_handler._toggle_visible()
+				visibility_focus_handler.toggle_visible()
 		storage.State.MOVING:
 			if event.is_action_pressed("no"):
 				storage.cancel_move()
@@ -44,7 +44,7 @@ func _on_monster_pressed(b: Button) -> void:
 		storage.State.DEFAULT:
 			if b.is_in_group("party") and b.name.to_int() >= storage.party_ref.size():
 				return
-			visibility_focus_handler._toggle_options_visible()
+			visibility_focus_handler.toggle_options_visible()
 		storage.State.MOVING:
 			storage.complete_move()
 
@@ -53,7 +53,7 @@ func _on_option_pressed(b: Button) -> void:
 	match b.name:
 		"Move":
 			storage.start_move()
-			visibility_focus_handler._toggle_options_visible()
+			visibility_focus_handler.toggle_options_visible()
 		"Withdraw":
 			storage.withdraw()
 		"Deposit":

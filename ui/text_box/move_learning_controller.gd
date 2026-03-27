@@ -23,11 +23,11 @@ func resolve_move_learning(summary: Control, monster: Monster, move: Move) -> vo
 	summary.is_learning_move = true
 	Global.request_summary_learn_move.emit(move)
 	if not summary.visible:
-		summary.visibility_focus_handler._set_visible(true, monster)
+		summary.visibility_focus_handler.set_visible(true, monster)
 	else:
 		summary.show_monster(monster)
 	summary.processing = true
-	summary.visibility_focus_handler._focus_default_move()
+	summary.visibility_focus_handler.focus_default_move()
 
 
 func ask_remove_move(summary: Control) -> void:
@@ -46,7 +46,7 @@ func ask_remove_move(summary: Control) -> void:
 	await Global.text_box_complete
 	if not answer:
 		set_move_learning_processing(summary, true, "confirm_replace_move declined")
-		summary.visibility_focus_handler._focus_default_move()
+		summary.visibility_focus_handler.focus_default_move()
 		return
 
 	var replacing_index = summary.move_panels.find(summary.last_focused_move_button)
@@ -56,7 +56,7 @@ func ask_remove_move(summary: Control) -> void:
 
 	summary.learning_monster.learn_move(summary.move_learning, replacing_index)
 	summary.update_handler.display_monster(summary.learning_monster)
-	summary.visibility_focus_handler._unfocus_moves()
+	summary.visibility_focus_handler.unfocus_moves()
 	summary.is_learning_move = false
 	await announce_move_learned(summary.learning_monster, summary.move_learning)
 	clean_up_learning_move(summary)
@@ -71,7 +71,7 @@ func handle_cancel_learning(summary: Control) -> bool:
 	await Global.text_box_complete
 	if not answer:
 		set_move_learning_processing(summary, true, "confirm_stop_learning declined")
-		summary.visibility_focus_handler._focus_default_move()
+		summary.visibility_focus_handler.focus_default_move()
 		return false
 
 	await show_did_not_learn(summary.learning_monster, summary.move_learning)
@@ -87,7 +87,7 @@ func clean_up_learning_move(summary: Control) -> void:
 	summary.is_moving_move = false
 	summary.move_learning = null
 	Global.move_learning_finished.emit()
-	summary.visibility_focus_handler._toggle_visible()
+	summary.visibility_focus_handler.toggle_visible()
 	Global.player_party_requested.emit()
 
 

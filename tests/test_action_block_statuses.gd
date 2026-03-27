@@ -8,6 +8,7 @@ func test_random_action_block_status_blocks_when_chance_is_one() -> void:
 	var o := _make_monster("Owner")
 	var instance := StatusInstance.new(status, o, 2)
 
+	@warning_ignore("redundant_await")
 	await status.on_turn_start(instance, o, null)
 
 	assert_false(status.can_attempt_action(instance, o, null))
@@ -20,6 +21,7 @@ func test_forced_action_block_status_expires_when_remove_chance_is_one() -> void
 	var o := _make_monster("Owner")
 	var instance := StatusInstance.new(status, o, 2)
 
+	@warning_ignore("redundant_await")
 	await status.on_turn_start(instance, o, null)
 
 	assert_true(instance.is_expired())

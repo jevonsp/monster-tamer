@@ -11,7 +11,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("menu"):
 		if not party.is_forced_switch:
-			visibility_focus_handler._toggle_visible()
+			visibility_focus_handler.toggle_visible()
 			Global.on_party_closed.emit()
 			Global.toggle_player.emit()
 			get_viewport().set_input_as_handled()
@@ -23,23 +23,23 @@ func _unhandled_input(event: InputEvent) -> void:
 func _handle_no_input() -> void:
 	match party.interfaces.ui_context:
 		Global.AccessFrom.INVENTORY:
-			visibility_focus_handler._toggle_visible()
+			visibility_focus_handler.toggle_visible()
 			Global.on_party_closed.emit()
 			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 			Global.request_open_inventory.emit()
 			return
 		Global.AccessFrom.BATTLE:
 			if not party.is_forced_switch:
-				visibility_focus_handler._toggle_visible()
+				visibility_focus_handler.toggle_visible()
 				Global.on_party_closed.emit()
 			return
 
 	if not party.options_box.visible:
-		visibility_focus_handler._toggle_visible()
+		visibility_focus_handler.toggle_visible()
 		Global.on_party_closed.emit()
 		Global.request_open_menu.emit()
 	else:
-		visibility_focus_handler._toggle_options_visible()
+		visibility_focus_handler.toggle_options_visible()
 
 	get_viewport().set_input_as_handled()
 
@@ -53,7 +53,7 @@ func _on_monster_pressed(button: Button) -> void:
 			match party.state:
 				party.State.DEFAULT:
 					party.moving_source_index = num
-					visibility_focus_handler._toggle_options_visible()
+					visibility_focus_handler.toggle_options_visible()
 				party.State.MOVING:
 					party.stop_moving(num)
 		Global.AccessFrom.INVENTORY:
@@ -69,7 +69,7 @@ func _handle_battle_press(button: Button, num: int) -> void:
 			await Global.text_box_complete
 			return
 		Global.request_switch_creation.emit(num)
-		visibility_focus_handler._toggle_visible()
+		visibility_focus_handler.toggle_visible()
 	else:
 		if not button.actor.is_able_to_fight:
 			Global.send_text_box.emit(null, ["That monster is not able to fight!"], true, false, false)
@@ -77,7 +77,7 @@ func _handle_battle_press(button: Button, num: int) -> void:
 			return
 		Global.send_selected_force_switch.emit(button.actor)
 		party.is_forced_switch = false
-		visibility_focus_handler._toggle_visible()
+		visibility_focus_handler.toggle_visible()
 
 
 func _on_option_pressed(button: Button) -> void:

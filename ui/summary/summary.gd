@@ -115,7 +115,7 @@ func clean_up_learning_move() -> void:
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_set_player_party)
 	Global.on_menu_closed.connect(_clear_player_party)
-	Global.request_open_summary.connect(visibility_focus_handler._toggle_visible)
+	Global.request_open_summary.connect(visibility_focus_handler.toggle_visible)
 	Global.battle_started.connect(_on_battle_started)
 	Global.battle_ended.connect(_on_battle_ended)
 	Global.request_summary_learn_move.connect(_on_request_summary_learn_move)
@@ -124,7 +124,7 @@ func _connect_signals() -> void:
 
 func _bind_buttons() -> void:
 	for b: Button in move_panels:
-		b.focus_entered.connect(visibility_focus_handler._set_move_focus.bind(b))
+		b.focus_entered.connect(visibility_focus_handler.set_move_focus.bind(b))
 
 
 func _set_party_index(i: int) -> void:

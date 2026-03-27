@@ -40,7 +40,7 @@ func _ready() -> void:
 		options_box.visible = false
 	if visible:
 		processing = true
-		visibility_focus_handler._focus_default_monster()
+		visibility_focus_handler.focus_default_monster()
 
 
 func start_moving() -> void:
@@ -48,7 +48,7 @@ func start_moving() -> void:
 		moving_source_index = int(last_selected_monster.name.trim_prefix("Panel"))
 
 	state = State.MOVING
-	visibility_focus_handler._toggle_options_visible()
+	visibility_focus_handler.toggle_options_visible()
 
 
 func stop_moving(destination_index: int) -> void:
@@ -62,8 +62,8 @@ func stop_moving(destination_index: int) -> void:
 
 
 func use() -> void:
-	visibility_focus_handler._toggle_options_visible()
-	visibility_focus_handler._toggle_visible()
+	visibility_focus_handler.toggle_options_visible()
+	visibility_focus_handler.toggle_visible()
 	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 	Global.set_inventory_use.emit(true)
 	Global.request_open_inventory.emit()
@@ -79,13 +79,13 @@ func use() -> void:
 	await Global.item_finished_using
 	if not visible:
 		Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
-		visibility_focus_handler._set_visible(true)
+		visibility_focus_handler.set_visible(true)
 	_set_item_use_processing(true, "party use finished")
 
 
 func give() -> void:
-	visibility_focus_handler._toggle_options_visible()
-	visibility_focus_handler._toggle_visible()
+	visibility_focus_handler.toggle_options_visible()
+	visibility_focus_handler.toggle_visible()
 	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 	Global.set_inventory_give.emit(true)
 	Global.request_open_inventory.emit()
@@ -112,7 +112,7 @@ func take() -> void:
 		ta = ["%s isn't holding anything." % monster.name]
 		Global.send_text_box.emit(null, ta, true, false, false)
 		await Global.text_box_complete
-		visibility_focus_handler._focus_default_option()
+		visibility_focus_handler.focus_default_option()
 		return
 
 	ta = ["Do you want to take %s from %s" % [item.name, monster.name]]
@@ -126,29 +126,29 @@ func take() -> void:
 		Global.send_text_box.emit(null, ta, true, false, false)
 		await Global.text_box_complete
 
-	visibility_focus_handler._focus_default_option()
+	visibility_focus_handler.focus_default_option()
 
 
 func open_summary() -> void:
 	Global.request_open_summary.emit(last_selected_monster.actor)
-	visibility_focus_handler._set_visible(false)
+	visibility_focus_handler.set_visible(false)
 	Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
 
 
 func _connect_signals() -> void:
 	Global.send_player_party.connect(_on_party_change)
-	Global.request_open_party.connect(visibility_focus_handler._toggle_visible)
+	Global.request_open_party.connect(visibility_focus_handler.toggle_visible)
 	Global.request_forced_switch.connect(_on_request_forced_switch)
 
 
 func _bind_buttons() -> void:
 	for panel in panels:
 		panels[panel].pressed.connect(input_handler._on_monster_pressed.bind(panels[panel]))
-		panels[panel].focus_entered.connect(visibility_focus_handler._set_monster_focus.bind(panels[panel]))
+		panels[panel].focus_entered.connect(visibility_focus_handler.set_monster_focus.bind(panels[panel]))
 
 	for button in option_buttons:
 		option_buttons[button].pressed.connect(input_handler._on_option_pressed.bind(option_buttons[button]))
-		option_buttons[button].focus_entered.connect(visibility_focus_handler._set_option_focus.bind(option_buttons[button]))
+		option_buttons[button].focus_entered.connect(visibility_focus_handler.set_option_focus.bind(option_buttons[button]))
 
 
 func _on_party_change(party: Array[Monster]) -> void:
@@ -167,7 +167,7 @@ func _on_party_change(party: Array[Monster]) -> void:
 
 func _on_request_forced_switch() -> void:
 	is_forced_switch = true
-	visibility_focus_handler._toggle_visible()
+	visibility_focus_handler.toggle_visible()
 
 
 func _give_item_to_monster(item: Item, monster: Monster) -> void:
