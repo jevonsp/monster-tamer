@@ -25,7 +25,8 @@ func trigger(obj: Node) -> void:
 		return
 
 	party.erase(monster_in_party)
-	obj.party_handler.add(monster_to_give)
+	var received: Monster = monster_to_give.set_up(monster_in_party.level)
+	obj.party_handler.add(received)
 
 	ta = ["Bye %s! I'll take good care of %s." % [monster_to_give.species, monster_to_take.species]]
 	Global.send_text_box.emit(null, ta, false, false, true)
