@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bnuc18rhqu7vf"]
 
 [ext_resource type="Script" uid="uid://btl3vpkfaaxt1" path="res://ui/storage/storage_button.gd" id="1_jtyxo"]
-[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="1_r5kvc"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="1_r5kvc"]
 
 [node name="StorageButton" type="Button" unique_id=1939630010]
 custom_minimum_size = Vector2(100, 0)

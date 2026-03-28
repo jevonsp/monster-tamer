@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 
 Global="*uid://ceb6usvu15r15"
 SaverLoader="*uid://du1mlwngfelbr"
+EvolutionHandler="*uid://bvot1xns8ml0w"
 
 [display]
 

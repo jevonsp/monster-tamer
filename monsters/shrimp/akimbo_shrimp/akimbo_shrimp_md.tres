@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://b0531qwrotpbx"]
+
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="1_nxcmh"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_yrhah"]
+[ext_resource type="Texture2D" uid="uid://c2lngs0oh8574" path="res://monsters/shrimp/akimbo_shrimp/akimbo_shrimp.png" id="3_yrhah"]
+
+[resource]
+script = ExtResource("2_yrhah")
+species = "Akimbo Shrimp"
+texture = ExtResource("3_yrhah")
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

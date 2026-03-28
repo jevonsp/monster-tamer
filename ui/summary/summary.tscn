@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://c7mywkergbubx" path="res://ui/summary/summary_visibility_focus_handler.gd" id="3_7gq2p"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_e1nmq"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_3k2wb"]
-[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="5_pfpua"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="5_pfpua"]
 [ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party/party_texture_rect.gd" id="6_fycbb"]
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="8_3k2wb"]
 [ext_resource type="Script" uid="uid://bv67eukttwrd0" path="res://ui/summary/summary_update_handler.gd" id="9_xxm6n"]

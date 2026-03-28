@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bbdhbxa071x5y"]
 
-[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/pistol_shrimp/pistol_shrimp_remake.png" id="1_kk64x"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="1_kk64x"]
 [ext_resource type="Script" uid="uid://bf6no5e165r8d" path="res://battle/texture_rect.gd" id="2_h6ej7"]
 
 [node name="TextureRect" type="TextureRect" unique_id=2099373258]
