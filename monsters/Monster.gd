@@ -27,6 +27,7 @@ const EXPERIENCE_PER_LEVEL: int = 50
 @export var name: String = ""
 @export var primary_type: Variant = null
 @export var secondary_type: Variant = null
+@export var gender: MonsterData.Gender
 @export var nature: String = ""
 @export var level: int = 1
 @export var experience: int = 0
@@ -58,6 +59,7 @@ func set_monster_data(monster_data_resource: MonsterData) -> void:
 	if monster_data.secondary_type != TypeChart.Type.NONE:
 		secondary_type = monster_data.secondary_type
 	name = monster_data.species
+	gender = monster_data.intepret_gender()
 	nature = NatureChart.get_random_nature()
 
 

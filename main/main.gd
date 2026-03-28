@@ -8,6 +8,8 @@ const GAME_HEIGHT := 720
 
 
 func _ready() -> void:
+	print(Time.get_time_dict_from_system())
+
 	get_window().grab_focus()
 	get_window().size = Vector2i(GAME_WIDTH, GAME_HEIGHT)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

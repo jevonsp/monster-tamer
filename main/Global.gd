@@ -1,24 +1,15 @@
 extends Node
 
-const DEFAULT_DELAY: float = 1.0
-
-enum AccessFrom { NONE, MENU, BATTLE, PARTY, INVENTORY, STORE }
-
 @warning_ignore_start("unused_signal")
-
 #region PLAYER
 signal toggle_player
 signal toggle_in_battle
 signal step_completed(position: Vector2)
 signal send_respawn_player
 signal battle_started
-#endregion
-
 #region WILD/TRAINER
 signal wild_battle_requested(mon_data: MonsterData, level: int)
 signal trainer_battle_requested(trainer: Trainer)
-#endregion
-
 #region PARTY
 signal capture_monster(monster: Monster)
 signal send_player_party(party: Array[Monster])
@@ -31,14 +22,10 @@ signal add_switch_to_turn_queue(switch: Switch)
 signal switch_monster_to_first(monster: Monster)
 signal battle_switch_complete
 signal out_of_battle_switch(index_one: int, index_two: int)
-#endregion
-
 #region SUMMARY
 signal request_switch_moves(monster: Monster, index_one: int, index_two: int)
 signal request_summary_learn_move(move: Move)
 signal request_summary_move_learning(monster: Monster, move: Move)
-#endregion
-
 #region INVENTORY
 signal send_player_inventory(inventory: Dictionary[Item.Type, InventoryPage])
 signal send_player_money(amount: int)
@@ -47,31 +34,27 @@ signal player_inventory_requested
 signal use_item_on(item: Item, monster: Monster)
 signal give_item_to(item: Item, monster: Monster)
 signal item_used(item: Item)
-#endregion
-
 #region GENERAL UI
 signal switch_ui_context(new_context: AccessFrom)
 signal send_text_box(
-	object: Node, text: Array[String], auto_complete: bool, is_question: bool, toggles_player: bool
+		object: Node,
+		text: Array[String],
+		auto_complete: bool,
+		is_question: bool,
+		toggles_player: bool,
 )
 signal answer_given(answer: bool)
 signal text_box_complete
-#endregion
-
 #region OVERWORLD
 signal request_open_menu
 signal on_menu_closed
 signal story_flag_triggered(flag: Story.Flag, value: bool)
-#endregion
-
 #region PARTY UI
 signal request_open_party
 signal on_party_closed
 signal monster_selected(monster: Monster)
 signal item_finished_using
 signal request_switch_creation(index: int)
-#endregion
-
 #region INVENTORY UI
 signal request_open_inventory
 signal on_inventory_closed
@@ -79,24 +62,16 @@ signal item_selected(item: Item)
 signal add_item_to_turn_queue(item: Item)
 signal set_inventory_use(value: bool)
 signal set_inventory_give(value: bool)
-#endregion
-
 #region SUMMARY UI
 signal request_open_summary(monster: Monster)
 signal on_summary_closed
 signal move_learning_finished
-#endregion
-
 #region STORAGE UI
 signal request_open_storage
 signal storage_deposit_monster(monster: Monster)
 signal storage_withdraw_monster(monster: Monster)
-#endregion
-
 #region STORE UI
 signal request_open_store(store_component: NPCStoreComponent)
-#endregion
-
 #region BATTLE
 signal battle_ended
 signal send_move_animation(scene: PackedScene)
@@ -130,6 +105,9 @@ signal request_forced_switch
 signal send_selected_force_switch(target: Monster)
 signal send_stat_change_animation(monster: Monster, stat: Monster.Stat, amount: int)
 signal stat_change_animation_complete
-#endregion
 
+enum AccessFrom { NONE, MENU, BATTLE, PARTY, INVENTORY, STORE }
+
+const DEFAULT_DELAY: float = 1.0
+#endregion
 @warning_ignore_restore("unused_signal")
