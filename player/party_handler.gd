@@ -45,6 +45,8 @@ func add(monster: Monster):
 	if not _add_to_party(monster):
 		_add_to_storage(monster)
 
+	send_player_party_and_storage()
+
 
 func fully_heal_and_revive_party() -> void:
 	for monster in party:
@@ -68,6 +70,18 @@ func remove_monster(monster: Monster) -> void:
 			storage[idx] = null
 
 	send_player_party_and_storage()
+
+
+func evolve_monster(monster: Monster, entry: Entry) -> void:
+	if monster not in party:
+		return
+
+	var idx = party.find(monster)
+	var new_monster = EvolutionHandler.evolve_monster(monster, entry)
+
+	party[idx] = new_monster
+
+	send_player_party()
 
 
 func _add_to_party(monster: Monster) -> bool:
