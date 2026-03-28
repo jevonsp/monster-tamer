@@ -20,14 +20,14 @@ func _ready() -> void:
 
 
 func interact(body: CharacterBody2D) -> void:
-	if not is_complete:
+	if not is_complete and not post_trigger_dialogue:
 		super.interact(body)
-	else:
-		var toward_player: Vector2 = _get_step_direction_to(body.global_position)
-		if toward_player != Vector2.ZERO and toward_player != facing_vec:
-			start_turning(toward_player)
+		return
+	var toward_player: Vector2 = _get_step_direction_to(body.global_position)
+	if toward_player != Vector2.ZERO and toward_player != facing_vec:
+		start_turning(toward_player)
 
-		await _say_dialogue(post_trigger_dialogue)
+	await _say_dialogue(post_trigger_dialogue)
 
 
 func _connect_signals() -> void:
