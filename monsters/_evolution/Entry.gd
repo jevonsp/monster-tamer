@@ -35,8 +35,8 @@ static func check_entry_level_up(monster: Monster, entry: Entry) -> bool:
 			if monster.gender == entry.required_gender:
 				return monster.level >= entry.required_level
 		Requirement.TIME_OF_DAY:
-			var current_time = TimeKeeper.interpret_current_time()
-			if current_time in entry.allowed_times_of_day:
+			var time_of_day = TimeKeeper.time_of_day
+			if time_of_day in entry.allowed_times_of_day:
 				return monster.level >= entry.required_level
 
 	return false

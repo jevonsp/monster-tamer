@@ -55,7 +55,7 @@ func fully_heal_and_revive_party() -> void:
 
 
 func remove_monster(monster: Monster) -> void:
-	if not party.has(monster) or not storage.has(monster):
+	if not party.has(monster) and storage.find_key(monster) == null:
 		return
 
 	var ta: Array[String] = ["Goodbye %s, I'll miss you!" % [monster.name]]
@@ -64,10 +64,9 @@ func remove_monster(monster: Monster) -> void:
 
 	if party.has(monster):
 		party.erase(monster)
-	if storage.has(monster):
-		var idx = storage.find_key(monster)
-		if idx:
-			storage[idx] = null
+	var storage_idx: Variant = storage.find_key(monster)
+	if storage_idx != null:
+		storage[storage_idx] = null
 
 	send_player_party_and_storage()
 

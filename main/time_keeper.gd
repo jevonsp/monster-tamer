@@ -7,6 +7,8 @@ static var time_of_day: TimeOfDay = TimeOfDay.DAY:
 	set(value):
 		time_of_day = value
 		Global.period_of_day_changed.emit()
+	get:
+		return interpret_current_time()
 static var hour_minute: Vector2i = Vector2i.ZERO:
 	set(value):
 		hour_minute = value

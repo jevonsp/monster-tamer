@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://jmc7gqpbmo2n" path="res://world_objects/interactable/npc/components/npc_respawn_component.tscn" id="10_0i4oc"]
 [ext_resource type="PackedScene" uid="uid://dyraldrxu7umn" path="res://ui/store/store.tscn" id="10_ue0mw"]
 [ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu/menu.tscn" id="11_bsumw"]
+[ext_resource type="PackedScene" uid="uid://lvhleaepcgub" path="res://ui/evolution_screen/evolution_screen.tscn" id="12_cgvj2"]
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_ball.tscn" id="15_5xyti"]
@@ -128,6 +129,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 visible = false
 
 [node name="TimeKeeper" parent="Interfaces" unique_id=1711809460 instance=ExtResource("41_phifs")]
+
+[node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_cgvj2")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
 position = Vector2(16, 144)
