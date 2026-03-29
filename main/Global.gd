@@ -45,6 +45,8 @@ signal send_text_box(
 )
 signal answer_given(answer: bool)
 signal text_box_complete
+signal period_of_day_changed
+signal time_changed
 #region OVERWORLD
 signal request_open_menu
 signal on_menu_closed

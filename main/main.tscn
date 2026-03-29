@@ -40,6 +40,7 @@
 [ext_resource type="PackedScene" uid="uid://dfcyvpb7eplen" path="res://world_objects/interactable/npc/blocker_npc/blocker_npc.tscn" id="36_yjufm"]
 [ext_resource type="PackedScene" uid="uid://du5fddffkfd7n" path="res://world_objects/story_zone/story_zone.tscn" id="37_h3axc"]
 [ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="38_d7rgo"]
+[ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
 content_margin_left = 0.0
@@ -126,7 +127,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 [node name="Store" parent="Interfaces" unique_id=1010499898 instance=ExtResource("10_ue0mw")]
 visible = false
 
-[node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
+[node name="TimeKeeper" parent="Interfaces" unique_id=1711809460 instance=ExtResource("41_phifs")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
 position = Vector2(16, 144)
@@ -134,6 +135,8 @@ available_travel_methods = {
 1: true,
 2: false
 }
+
+[node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
 position = Vector2(32, 32)
