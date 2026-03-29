@@ -11,7 +11,7 @@ var enemy_actor
 func _ready() -> void:
 	Global.send_sprite_shake.connect(_play_sprite_shake)
 	Global.send_monster_fainted.connect(_play_monster_faint)
-	Global.send_monster_switch_out.connect(_play_monster_switch_out)
+	Global.send_monster_switch_out.connect(play_monster_switch_out)
 	Global.send_monster_switch_in.connect(_play_monster_switch_in)
 	Global.send_capture_animation.connect(_animate_capture)
 	Global.send_escape_animation.connect(_animate_escape)
@@ -52,7 +52,7 @@ func _play_monster_faint(target: Monster) -> void:
 		play("enemy_faint")
 
 
-func _play_monster_switch_out(target: Monster) -> void:
+func play_monster_switch_out(target: Monster) -> void:
 	if is_playing():
 		stop()
 	if target == player_actor:

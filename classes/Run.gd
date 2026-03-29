@@ -17,7 +17,7 @@ func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> 
 	if is_escape:
 		text_array[0] = "%s managed to escape." % actor.name
 		await battle_context.show_text(text_array)
-		await battle_context.battle.visibility_focus_handler.animation_player._play_monster_switch_out(actor)
+		await battle_context.battle.visibility_focus_handler.animation_player.play_monster_switch_out(actor)
 	else:
 		text_array[0] = "Oh no! %s couldnt escape!" % actor.name
 		await battle_context.show_text(text_array)

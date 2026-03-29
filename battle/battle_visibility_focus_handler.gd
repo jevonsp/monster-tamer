@@ -16,16 +16,16 @@ var _last_selected_by_state: Dictionary = {
 @onready var turn_executor: Node = $"../TurnExecutor"
 
 
-func _connect_signals() -> void:
-	Global.on_inventory_closed.connect(_focus_default)
-	Global.on_party_closed.connect(_focus_default)
+func connect_signals() -> void:
+	Global.on_inventory_closed.connect(focus_default)
+	Global.on_party_closed.connect(focus_default)
 
 
-func _change_vis_state(new_state: VisibilityState) -> void:
+func change_vis_state(new_state: VisibilityState) -> void:
 	vis_state = new_state
 	battle.option_buttons_grid.visible = new_state == VisibilityState.OPTIONS
 	battle.move_buttons_grid.visible = new_state == VisibilityState.MOVES
-	_focus_default()
+	focus_default()
 
 
 func _set_option_focus(button: Button) -> void:
@@ -36,7 +36,7 @@ func _set_move_focus(button: Button) -> void:
 	_last_selected_by_state[VisibilityState.MOVES] = button
 
 
-func _focus_default() -> void:
+func focus_default() -> void:
 	var grid: Control = (
 		battle.option_buttons_grid
 		if vis_state == VisibilityState.OPTIONS
@@ -64,37 +64,37 @@ func _drop_focus() -> void:
 		focused.release_focus()
 
 
-func _manage_focus() -> void:
+func manage_focus() -> void:
 	if battle.processing:
-		_focus_default()
+		focus_default()
 	else:
 		_drop_focus()
 
 
-func _on_option_pressed(button: Button) -> void:
+func on_option_pressed(button: Button) -> void:
 	_set_option_focus(button)
 
 	match button.name:
 		"Party":
 			Global.request_open_party.emit()
 		"Fight":
-			_change_vis_state(VisibilityState.MOVES)
+			change_vis_state(VisibilityState.MOVES)
 		"Run":
-			battle.battle_handler._attempt_run()
+			battle.battle_handler.attempt_run()
 		"Item":
 			Global.request_open_inventory.emit()
 
 
-func _on_move_pressed(button: Button) -> void:
+func on_move_pressed(button: Button) -> void:
 	_set_move_focus(button)
 	if not battle.processing or battle.battle_handler.executing_turn:
 		return
 	var num := int(button.name.trim_prefix("Button"))
 	var move: Move = battle.player_actor.moves[num]
-	battle.battle_handler._execute_player_turn(move)
+	battle.battle_handler.execute_player_turn(move)
 
 
-func _display_current_monsters() -> void:
+func display_current_monsters() -> void:
 	"""Main entry point for displaying new monsters"""
 	_update_labels()
 	_update_textures()
@@ -140,7 +140,7 @@ func _update_bars() -> void:
 	battle.player_display["exp_bar"].actor = battle.player_actor
 
 
-func _clear_actor_references() -> void:
+func clear_actor_references() -> void:
 	battle.player_labels["level"].actor = null
 	animation_player.player_actor = null
 	animation_player.enemy_actor = null
@@ -149,7 +149,7 @@ func _clear_actor_references() -> void:
 	battle.player_display["exp_bar"].actor = null
 
 
-func _clear_textures() -> void:
+func clear_textures() -> void:
 	battle.player_display["texture"].texture = null
 	battle.enemy_display["texture"].texture = null
 	animation_player.play("RESET")

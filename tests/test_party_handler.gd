@@ -31,11 +31,11 @@ func test_deposit_and_withdraw_update_party_and_storage() -> void:
 	var mon := _make_monster("StorageMon")
 	party_handler.add(mon)
 
-	party_handler._deposit_monster(mon)
+	party_handler.deposit_monster(mon)
 	assert_false(party_handler.party.has(mon))
 	assert_ne(party_handler.storage.find_key(mon), null)
 
-	party_handler._withdraw_monster(mon)
+	party_handler.withdraw_monster(mon)
 	assert_true(party_handler.party.has(mon))
 	assert_eq(party_handler.storage.find_key(mon), null)
 
@@ -49,7 +49,7 @@ func test_switch_moves_returns_early_on_invalid_indexes() -> void:
 	mon.moves = [move_a, move_b]
 	party_handler.add(mon)
 
-	party_handler._on_switch_moves(mon, -1, 1)
+	party_handler.on_switch_moves(mon, -1, 1)
 
 	assert_eq(mon.moves[0], move_a)
 	assert_eq(mon.moves[1], move_b)

@@ -39,7 +39,7 @@ func move_page(dir: Vector2) -> void:
 #endregion
 
 
-func _on_monster_pressed(b: Button) -> void:
+func on_monster_pressed(b: Button) -> void:
 	match storage.state:
 		storage.State.DEFAULT:
 			if b.is_in_group("party") and b.name.to_int() >= storage.party_ref.size():
@@ -49,7 +49,7 @@ func _on_monster_pressed(b: Button) -> void:
 			storage.complete_move()
 
 
-func _on_option_pressed(b: Button) -> void:
+func on_option_pressed(b: Button) -> void:
 	match b.name:
 		"Move":
 			storage.start_move()

@@ -6,7 +6,7 @@ extends Node
 
 func _ready() -> void:
 	_connect_signals()
-	_construct_inventory()
+	construct_inventory()
 
 
 func add(item: Item, amount: int = 1) -> void:
@@ -35,24 +35,24 @@ func spend_money(amount: int) -> void:
 
 
 func _connect_signals() -> void:
-	Global.use_item_on.connect(_on_use_item_on)
-	Global.give_item_to.connect(_on_give_item_to)
+	Global.use_item_on.connect(on_use_item_on)
+	Global.give_item_to.connect(on_give_item_to)
 	Global.item_used.connect(remove)
 	Global.send_item_to_inventory.connect(add)
 
 
-func _construct_inventory() -> void:
+func construct_inventory() -> void:
 	inventory[Item.Type.USE] = InventoryPage.new()
 	inventory[Item.Type.HELD] = InventoryPage.new()
 	inventory[Item.Type.KEY] = InventoryPage.new()
 
 
-func _on_use_item_on(item: Item, monster: Monster) -> void:
+func on_use_item_on(item: Item, monster: Monster) -> void:
 	await item.use(monster)
 	if not item.is_multi_use:
 		remove(item)
 	Global.item_finished_using.emit()
 
 
-func _on_give_item_to(item: Item, _monster: Monster) -> void:
+func on_give_item_to(item: Item, _monster: Monster) -> void:
 	remove(item)

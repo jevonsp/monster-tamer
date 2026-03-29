@@ -16,11 +16,11 @@ func bind_signals() -> void:
 	Global.request_switch_creation.connect(_on_request_switch_creation)
 	Global.switch_monster_to_first.connect(_on_switch_monster_to_first)
 	Global.out_of_battle_switch.connect(_on_out_of_battle_switch)
-	Global.storage_deposit_monster.connect(_deposit_monster)
-	Global.storage_withdraw_monster.connect(_withdraw_monster)
+	Global.storage_deposit_monster.connect(deposit_monster)
+	Global.storage_withdraw_monster.connect(withdraw_monster)
 	Global.request_move_party_to_storage.connect(_move_party_to_storage)
 	Global.request_move_storage_to_party.connect(_move_storage_to_party)
-	Global.request_switch_moves.connect(_on_switch_moves)
+	Global.request_switch_moves.connect(on_switch_moves)
 
 
 func create_storage() -> void:
@@ -102,7 +102,7 @@ func _add_to_storage(monster: Monster, index: int = -1) -> void:
 		storage[index] = monster
 
 
-func _deposit_monster(monster: Monster) -> void:
+func deposit_monster(monster: Monster) -> void:
 	"""Only use on monsters in party"""
 	var idx = party.find(monster)
 	if idx < 0:
@@ -112,7 +112,7 @@ func _deposit_monster(monster: Monster) -> void:
 	send_player_party_and_storage()
 
 
-func _withdraw_monster(monster: Monster) -> void:
+func withdraw_monster(monster: Monster) -> void:
 	"""Only use on monsters in storage"""
 	var val = storage.find_key(monster)
 	if val == null:
@@ -134,7 +134,7 @@ func _move_party_to_storage(from_index: int, to_index: int) -> void:
 
 func _move_storage_to_party(from_index: int, to_index: int) -> void:
 	if to_index >= party.size():
-		_withdraw_monster(storage[from_index])
+		withdraw_monster(storage[from_index])
 	else:
 		var temp = party[to_index]
 		party[to_index] = storage[from_index]
@@ -180,7 +180,7 @@ func _on_out_of_battle_switch(index_one: int, index_two: int) -> void:
 	send_player_party()
 
 
-func _on_switch_moves(monster: Monster, index_one: int, index_two: int) -> void:
+func on_switch_moves(monster: Monster, index_one: int, index_two: int) -> void:
 	if index_one == -1 or index_two == -1:
 		return
 	var temp = monster.moves[index_one]

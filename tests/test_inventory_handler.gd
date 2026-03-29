@@ -8,7 +8,7 @@ var inventory_handler: Node
 
 func before_each() -> void:
 	inventory_handler = InventoryHandlerScript.new()
-	inventory_handler._construct_inventory()
+	inventory_handler.construct_inventory()
 
 
 func after_each() -> void:
@@ -49,7 +49,7 @@ func test_on_use_item_on_consumes_non_multi_use_item() -> void:
 	inventory_handler.add(item, 1)
 	_connect_heal_signal()
 
-	await inventory_handler._on_use_item_on(item, monster)
+	await inventory_handler.on_use_item_on(item, monster)
 
 	assert_false(inventory_handler.inventory[Item.Type.USE].page.has(item))
 	_disconnect_heal_signal()

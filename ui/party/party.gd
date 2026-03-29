@@ -143,11 +143,11 @@ func _connect_signals() -> void:
 
 func _bind_buttons() -> void:
 	for panel in panels:
-		panels[panel].pressed.connect(input_handler._on_monster_pressed.bind(panels[panel]))
+		panels[panel].pressed.connect(input_handler.on_monster_pressed.bind(panels[panel]))
 		panels[panel].focus_entered.connect(visibility_focus_handler.set_monster_focus.bind(panels[panel]))
 
 	for button in option_buttons:
-		option_buttons[button].pressed.connect(input_handler._on_option_pressed.bind(option_buttons[button]))
+		option_buttons[button].pressed.connect(input_handler.on_option_pressed.bind(option_buttons[button]))
 		option_buttons[button].focus_entered.connect(visibility_focus_handler.set_option_focus.bind(option_buttons[button]))
 
 

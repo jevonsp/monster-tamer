@@ -51,7 +51,7 @@ func queue_enemy_action(battle: Control, turn_queue: Array[Dictionary]) -> void:
 		add_action_to_queue(enemy_move, battle.enemy_actor, battle, turn_queue)
 	else:
 		var enemy = battle.enemy_actor
-		var enemy_move = _get_enemy_move_from_battle(battle)
+		var enemy_move = get_enemy_move_from_battle(battle)
 		add_action_to_queue(enemy_move, enemy, battle, turn_queue)
 
 
@@ -68,7 +68,7 @@ func _get_target(actor: Monster, action, battle: Control) -> Monster:
 	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
 
 
-func _get_enemy_move_from_battle(battle: Control) -> Move:
+func get_enemy_move_from_battle(battle: Control) -> Move:
 	var enemy: Monster = battle.enemy_actor
 	var available_moves: Dictionary[Move, int] = { }
 	for i in enemy.moves.size():

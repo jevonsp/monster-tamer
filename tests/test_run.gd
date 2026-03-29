@@ -5,7 +5,7 @@ class FakeAnimationPlayer:
 	extends Node
 	var switch_out_calls: int = 0
 
-	func _play_monster_switch_out(_actor: Monster) -> void:
+	func play_monster_switch_out(_actor: Monster) -> void:
 		switch_out_calls += 1
 
 

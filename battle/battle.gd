@@ -57,7 +57,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			visibility_focus_handler.VisibilityState.OPTIONS:
 				run_button.grab_focus()
 			visibility_focus_handler.VisibilityState.MOVES:
-				visibility_focus_handler._change_vis_state(visibility_focus_handler.VisibilityState.OPTIONS)
+				visibility_focus_handler.change_vis_state(visibility_focus_handler.VisibilityState.OPTIONS)
 
 
 func end_battle() -> void:
@@ -84,14 +84,14 @@ func switch_actors(old: Monster, new: Monster) -> void:
 			player_actor.was_active_in_battle = true
 	elif old == enemy_actor:
 		enemy_actor = new
-	visibility_focus_handler._display_current_monsters()
+	visibility_focus_handler.display_current_monsters()
 
 
 func _toggle_visible() -> void:
 	visible = !visible
 	processing = !processing
 	if visible:
-		visibility_focus_handler._focus_default()
+		visibility_focus_handler.focus_default()
 		player_display["exp_bar"].active = true
 	else:
 		player_display["exp_bar"].active = false
@@ -107,14 +107,14 @@ func _connect_signals() -> void:
 	Global.wild_battle_requested.connect(_start_wild_battle)
 	Global.switch_battle_actors.connect(switch_actors)
 	Global.trainer_battle_requested.connect(_start_trainer_battle)
-	visibility_focus_handler._connect_signals()
+	visibility_focus_handler.connect_signals()
 
 
 func _bind_buttons() -> void:
 	for button in get_tree().get_nodes_in_group("option_buttons"):
-		button.pressed.connect(visibility_focus_handler._on_option_pressed.bind(button))
+		button.pressed.connect(visibility_focus_handler.on_option_pressed.bind(button))
 	for button in get_tree().get_nodes_in_group("move_buttons"):
-		button.pressed.connect(visibility_focus_handler._on_move_pressed.bind(button))
+		button.pressed.connect(visibility_focus_handler.on_move_pressed.bind(button))
 
 
 func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
@@ -144,7 +144,7 @@ func _start_trainer_battle(trainer: Trainer) -> void:
 
 
 func _switch_to_battle() -> void:
-	visibility_focus_handler._display_current_monsters()
+	visibility_focus_handler.display_current_monsters()
 	_toggle_player()
 	_toggle_visible()
 	visibility_focus_handler.animation_player.play("both_switch_in")
@@ -198,8 +198,8 @@ func _clear_all() -> void:
 	_reset_stats()
 	_clear_actors()
 	_clear_parties()
-	visibility_focus_handler._clear_actor_references()
-	visibility_focus_handler._clear_textures()
+	visibility_focus_handler.clear_actor_references()
+	visibility_focus_handler.clear_textures()
 	battle_handler.turn_queue.clear()
 	is_wild_battle = true
 	battle_handler.executing_turn = false

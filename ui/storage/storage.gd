@@ -140,13 +140,13 @@ func can_release(monster: Monster) -> bool:
 func _bind_buttons() -> void:
 	for b: Button in grid_container.get_children():
 		b.focus_entered.connect(visibility_focus_handler.set_monster_focus.bind(b))
-		b.pressed.connect(input_handler._on_monster_pressed.bind(b))
+		b.pressed.connect(input_handler.on_monster_pressed.bind(b))
 	for b: Button in party_container.get_children():
 		b.focus_entered.connect(visibility_focus_handler.set_monster_focus.bind(b))
-		b.pressed.connect(input_handler._on_monster_pressed.bind(b))
+		b.pressed.connect(input_handler.on_monster_pressed.bind(b))
 	for b: Button in options_container.get_children():
 		b.focus_entered.connect(visibility_focus_handler.set_option_focus.bind(b))
-		b.pressed.connect(input_handler._on_option_pressed.bind(b))
+		b.pressed.connect(input_handler.on_option_pressed.bind(b))
 
 
 func _connect_signals() -> void:

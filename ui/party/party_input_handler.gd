@@ -44,7 +44,7 @@ func _handle_no_input() -> void:
 	get_viewport().set_input_as_handled()
 
 
-func _on_monster_pressed(button: Button) -> void:
+func on_monster_pressed(button: Button) -> void:
 	party.last_selected_monster = button
 	var num := int(button.name.trim_prefix("Panel"))
 
@@ -80,7 +80,7 @@ func _handle_battle_press(button: Button, num: int) -> void:
 		visibility_focus_handler.toggle_visible()
 
 
-func _on_option_pressed(button: Button) -> void:
+func on_option_pressed(button: Button) -> void:
 	party.last_selected_option = button
 
 	match button.name:

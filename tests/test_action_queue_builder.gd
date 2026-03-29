@@ -85,7 +85,7 @@ func test_enemy_move_selection_prefers_effective_non_redundant_move() -> void:
 	await player.add_status(status_data)
 	enemy.moves = [bad_move, good_move]
 
-	var selected: Move = builder._get_enemy_move_from_battle(battle)
+	var selected: Move = builder.get_enemy_move_from_battle(battle)
 	assert_eq(selected, good_move)
 	battle.free()
 
@@ -110,7 +110,7 @@ func test_enemy_stat_boost_over_cap_is_penalized() -> void:
 	neutral_move.type = TypeChart.Type.NONE
 
 	enemy.moves = [boost_move, neutral_move]
-	var selected: Move = builder._get_enemy_move_from_battle(battle)
+	var selected: Move = builder.get_enemy_move_from_battle(battle)
 	assert_eq(selected, neutral_move)
 	battle.free()
 
