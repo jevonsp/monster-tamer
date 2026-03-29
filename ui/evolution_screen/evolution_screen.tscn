@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://lvhleaepcgub"]
 
 [ext_resource type="Script" uid="uid://cbihl5weax6vk" path="res://ui/evolution_screen/evolution_screen.gd" id="1_xu87h"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="2_bjk86"]
 
 [node name="EvolutionScreen" type="Control" unique_id=1601790307]
 layout_mode = 3
@@ -10,3 +11,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xu87h")
+
+[node name="OldTextureRect" type="TextureRect" parent="." unique_id=1167067003]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bjk86")
+
+[node name="NewTextureRect" type="TextureRect" parent="." unique_id=212097506]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bjk86")

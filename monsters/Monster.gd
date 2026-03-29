@@ -59,7 +59,7 @@ func set_monster_data(monster_data_resource: MonsterData) -> void:
 	if monster_data.secondary_type != TypeChart.Type.NONE:
 		secondary_type = monster_data.secondary_type
 	name = monster_data.species
-	gender = monster_data.intepret_gender()
+	gender = monster_data.interpret_gender()
 	nature = NatureChart.get_random_nature()
 
 
