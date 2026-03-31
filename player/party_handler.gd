@@ -71,15 +71,32 @@ func remove_monster(monster: Monster) -> void:
 	send_player_party_and_storage()
 
 
-func evolve_monster(monster: Monster, entry: Entry) -> void:
-	if monster not in party:
-		return
-
+func deposit_monster(monster: Monster) -> void:
+	"""Only use on monsters in party"""
 	var idx = party.find(monster)
-	var new_monster = EvolutionHandler.evolve_monster(monster, entry)
+	if idx < 0:
+		return
+	party.erase(monster)
+	_add_to_storage(monster)
+	send_player_party_and_storage()
 
-	party[idx] = new_monster
 
+func withdraw_monster(monster: Monster) -> void:
+	"""Only use on monsters in storage"""
+	var val = storage.find_key(monster)
+	if val == null:
+		return
+	storage[val] = null
+	_add_to_party(monster)
+	send_player_party_and_storage()
+
+
+func on_switch_moves(monster: Monster, index_one: int, index_two: int) -> void:
+	if index_one == -1 or index_two == -1:
+		return
+	var temp = monster.moves[index_one]
+	monster.moves[index_one] = monster.moves[index_two]
+	monster.moves[index_two] = temp
 	send_player_party()
 
 
@@ -100,26 +117,6 @@ func _add_to_storage(monster: Monster, index: int = -1) -> void:
 				break
 	else:
 		storage[index] = monster
-
-
-func deposit_monster(monster: Monster) -> void:
-	"""Only use on monsters in party"""
-	var idx = party.find(monster)
-	if idx < 0:
-		return
-	party.erase(monster)
-	_add_to_storage(monster)
-	send_player_party_and_storage()
-
-
-func withdraw_monster(monster: Monster) -> void:
-	"""Only use on monsters in storage"""
-	var val = storage.find_key(monster)
-	if val == null:
-		return
-	storage[val] = null
-	_add_to_party(monster)
-	send_player_party_and_storage()
 
 
 func _move_party_to_storage(from_index: int, to_index: int) -> void:
@@ -177,13 +174,4 @@ func _on_out_of_battle_switch(index_one: int, index_two: int) -> void:
 	party[index_one] = party[index_two]
 	party[index_two] = temp
 
-	send_player_party()
-
-
-func on_switch_moves(monster: Monster, index_one: int, index_two: int) -> void:
-	if index_one == -1 or index_two == -1:
-		return
-	var temp = monster.moves[index_one]
-	monster.moves[index_one] = monster.moves[index_two]
-	monster.moves[index_two] = temp
 	send_player_party()

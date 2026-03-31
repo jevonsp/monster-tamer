@@ -57,7 +57,7 @@ corner_detail = 5
 
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
-monster = ExtResource("19_d00gp")
+monster = ExtResource("19_n53tw")
 chance = 1.0
 level_low = 1
 level_high = 1
@@ -128,9 +128,12 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 [node name="Store" parent="Interfaces" unique_id=1010499898 instance=ExtResource("10_ue0mw")]
 visible = false
 
-[node name="TimeKeeper" parent="Interfaces" unique_id=1711809460 instance=ExtResource("41_phifs")]
-
 [node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_cgvj2")]
+visible = false
+
+[node name="Trackers" type="Node" parent="." unique_id=1613058454]
+
+[node name="TimeKeeper" parent="Trackers" unique_id=1711809460 instance=ExtResource("41_phifs")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
 position = Vector2(16, 144)
@@ -142,7 +145,7 @@ available_travel_methods = {
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
-position = Vector2(32, 32)
+position = Vector2(16, 112)
 collision_layer = 4
 collision_mask = 2
 overall_chance = 1.0

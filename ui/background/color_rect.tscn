@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bj2vxn7tdgrya"]
+
+[node name="ColorRect" type="ColorRect" unique_id=2070515593]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

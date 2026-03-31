@@ -3,7 +3,6 @@ extends Resource
 
 @export var name: String = ""
 @export var type: TypeChart.Type
-@export var base_power: int = 3
 @export_range(0, 100, 5) var accuracy: int = 100
 @export_range(-5, 5) var priority: int = 0
 @export var animation: PackedScene

@@ -8,7 +8,7 @@
 [sub_resource type="Resource" id="Resource_rp5cf"]
 script = ExtResource("3_v4u6o")
 type = 2
-base_power = 20
+base_power = 35
 damage_type = 1
 metadata/_custom_type_script = "uid://g1i3kodg4e2d"
 

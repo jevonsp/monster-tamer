@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="3_inosj"]
 [ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="4_o2fwo"]
 [ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party/party_texture_rect.gd" id="5_s6yn0"]
+[ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/color_rect.tscn" id="11_o14qd"]
 
 [node name="Party" type="Control" unique_id=265451228]
 layout_mode = 3
@@ -616,3 +617,7 @@ theme_override_font_sizes/font_size = 64
 text = "TAKE"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("11_o14qd")]
+layout_mode = 0
+anchors_preset = 0

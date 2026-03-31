@@ -48,7 +48,8 @@ static func check_entry_item_use(monster: Monster, item: Item, entry: Entry) -> 
 
 	match entry.requirement_type:
 		Requirement.LEVEL:
-			return monster.level >= entry.required_level
+			if item == entry.required_item:
+				return monster.level >= entry.required_level
 		Requirement.USE_ITEM:
 			if item == entry.required_item:
 				return true

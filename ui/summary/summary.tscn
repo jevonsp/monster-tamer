@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="8_3k2wb"]
 [ext_resource type="Script" uid="uid://bv67eukttwrd0" path="res://ui/summary/summary_update_handler.gd" id="9_xxm6n"]
 [ext_resource type="Script" uid="uid://b0p5k5iongl3k" path="res://ui/summary/summary_input_handler.gd" id="10_njb72"]
+[ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/color_rect.tscn" id="13_gv55x"]
 
 [node name="Summary" type="Control" unique_id=239759928]
 layout_mode = 3
@@ -55,16 +56,19 @@ layout_mode = 2
 
 [node name="GenderLabel" type="Label" parent="Content/Main/HBoxContainer0" unique_id=1081210295]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "M"
 
 [node name="NameLabel" parent="Content/Main/HBoxContainer0" unique_id=287393468 instance=ExtResource("1_25wx7")]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 horizontal_alignment = 1
 
 [node name="PlayerLevelLabel" parent="Content/Main/HBoxContainer0" unique_id=2042695058 instance=ExtResource("2_3muql")]
 layout_mode = 2
 size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 horizontal_alignment = 2
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="Content/Main" unique_id=282849657]
@@ -213,3 +217,7 @@ layout_mode = 2
 
 [node name="SummaryMovePanel3" parent="Content/Main/Moves" unique_id=2119701110 instance=ExtResource("8_3k2wb")]
 layout_mode = 2
+
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("13_gv55x")]
+layout_mode = 0
+anchors_preset = 0

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drjlut2xdgcjc"]
 
 [ext_resource type="Script" uid="uid://dg1xhohpddu4d" path="res://ui/menu/menu.gd" id="1_bwjgb"]
+[ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/color_rect.tscn" id="2_77h3e"]
 
 [node name="Menu" type="Control" unique_id=1738143517]
 layout_mode = 3
@@ -150,3 +151,7 @@ theme_override_font_sizes/font_size = 64
 text = "Text"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("2_77h3e")]
+layout_mode = 0
+anchors_preset = 0

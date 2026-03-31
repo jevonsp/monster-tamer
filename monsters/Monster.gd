@@ -55,12 +55,16 @@ var statuses: Array[StatusInstance] = []
 
 func set_monster_data(monster_data_resource: MonsterData) -> void:
 	monster_data = monster_data_resource
-	primary_type = monster_data.primary_type
-	if monster_data.secondary_type != TypeChart.Type.NONE:
-		secondary_type = monster_data.secondary_type
+	set_type()
 	name = monster_data.species
 	gender = monster_data.interpret_gender()
 	nature = NatureChart.get_random_nature()
+
+
+func set_type() -> void:
+	primary_type = monster_data.primary_type
+	if monster_data.secondary_type != TypeChart.Type.NONE:
+		secondary_type = monster_data.secondary_type
 
 
 func set_level(new_level: int) -> void:
@@ -79,6 +83,13 @@ func set_monster_moves() -> void:
 			moves_to_gain.pop_back()
 			moves_to_gain.push_front(move)
 	moves = moves_to_gain
+
+
+func set_monster_name(has_nickname: bool, nick_name: Variant = null) -> void:
+	if has_nickname:
+		name = nick_name
+	else:
+		name = monster_data.species
 
 
 func set_stats() -> void:
@@ -354,6 +365,16 @@ func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 	if in_battle:
 		Global.request_battle_level_up_resolution.emit(self, amount)
 		await Global.battle_level_up_resolution_complete
+	else:
+		if check_should_gain_moves():
+			var move_to_learn: Move = get_move_to_learn()
+			if move_to_learn != null:
+				Global.request_summary_move_learning.emit(self, move_to_learn)
+				await Global.move_learning_finished
+	var entry = EvolutionHandler.check_monster_evolve(self, Entry.Trigger.LEVEL_UP)
+	if entry:
+		EvolutionHandler.request_evolve(self, entry)
+		await EvolutionHandler.evolution_process_finished
 
 
 func check_should_gain_moves() -> bool:

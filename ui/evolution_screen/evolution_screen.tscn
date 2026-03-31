@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cbihl5weax6vk" path="res://ui/evolution_screen/evolution_screen.gd" id="1_xu87h"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="2_bjk86"]
+[ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/color_rect.tscn" id="3_bjk86"]
 
 [node name="EvolutionScreen" type="Control" unique_id=1601790307]
 layout_mode = 3
@@ -43,3 +44,7 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_bjk86")
+
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("3_bjk86")]
+layout_mode = 0
+anchors_preset = 0

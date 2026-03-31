@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bnuc18rhqu7vf" path="res://ui/storage/storage_button.tscn" id="3_o6mah"]
 [ext_resource type="Script" uid="uid://bnir4gws1aoh4" path="res://ui/storage/storage_update_handler.gd" id="4_jsr3y"]
 [ext_resource type="Script" uid="uid://bl2ajfxg0i8xv" path="res://ui/storage/storage_input_handler.gd" id="4_ttbmr"]
+[ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/color_rect.tscn" id="7_f33s0"]
 
 [node name="Storage" type="Control" unique_id=1376996790]
 layout_mode = 3
@@ -314,3 +315,7 @@ layout_mode = 2
 
 [node name="Button29" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=759769885 groups=["right_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
+
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("7_f33s0")]
+layout_mode = 0
+anchors_preset = 0

@@ -19,6 +19,7 @@ var _last_selected_by_state: Dictionary = {
 func connect_signals() -> void:
 	Global.on_inventory_closed.connect(focus_default)
 	Global.on_party_closed.connect(focus_default)
+	Global.request_display_monsters.connect(display_current_monsters)
 
 
 func change_vis_state(new_state: VisibilityState) -> void:
@@ -26,14 +27,6 @@ func change_vis_state(new_state: VisibilityState) -> void:
 	battle.option_buttons_grid.visible = new_state == VisibilityState.OPTIONS
 	battle.move_buttons_grid.visible = new_state == VisibilityState.MOVES
 	focus_default()
-
-
-func _set_option_focus(button: Button) -> void:
-	_last_selected_by_state[VisibilityState.OPTIONS] = button
-
-
-func _set_move_focus(button: Button) -> void:
-	_last_selected_by_state[VisibilityState.MOVES] = button
 
 
 func focus_default() -> void:
@@ -56,12 +49,6 @@ func focus_default() -> void:
 	if first_button:
 		_last_selected_by_state[vis_state] = first_button
 		first_button.grab_focus()
-
-
-func _drop_focus() -> void:
-	var focused: Control = get_viewport().gui_get_focus_owner()
-	if focused:
-		focused.release_focus()
 
 
 func manage_focus() -> void:
@@ -102,6 +89,35 @@ func display_current_monsters() -> void:
 	_update_moves()
 
 
+func clear_actor_references() -> void:
+	battle.player_labels["level"].actor = null
+	animation_player.player_actor = null
+	animation_player.enemy_actor = null
+	battle.player_display["hp_bar"].actor = null
+	battle.enemy_display["hp_bar"].actor = null
+	battle.player_display["exp_bar"].actor = null
+
+
+func clear_textures() -> void:
+	battle.player_display["texture"].texture = null
+	battle.enemy_display["texture"].texture = null
+	animation_player.play("RESET")
+
+
+func _set_option_focus(button: Button) -> void:
+	_last_selected_by_state[VisibilityState.OPTIONS] = button
+
+
+func _set_move_focus(button: Button) -> void:
+	_last_selected_by_state[VisibilityState.MOVES] = button
+
+
+func _drop_focus() -> void:
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	if focused:
+		focused.release_focus()
+
+
 func _update_labels() -> void:
 	battle.player_labels["level"].text = "Lvl. %s" % battle.player_actor.level
 	battle.player_labels["name"].text = battle.player_actor.name
@@ -138,21 +154,6 @@ func _update_bars() -> void:
 	battle.player_display["exp_bar"].max_value = max_exp
 	battle.player_display["exp_bar"].value = battle.player_actor.experience
 	battle.player_display["exp_bar"].actor = battle.player_actor
-
-
-func clear_actor_references() -> void:
-	battle.player_labels["level"].actor = null
-	animation_player.player_actor = null
-	animation_player.enemy_actor = null
-	battle.player_display["hp_bar"].actor = null
-	battle.enemy_display["hp_bar"].actor = null
-	battle.player_display["exp_bar"].actor = null
-
-
-func clear_textures() -> void:
-	battle.player_display["texture"].texture = null
-	battle.enemy_display["texture"].texture = null
-	animation_player.play("RESET")
 
 
 func _update_moves() -> void:

@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
 [ext_resource type="Script" uid="uid://b4f1ougodrdyi" path="res://battle/battle_visibility_focus_handler.gd" id="5_rgsk0"]
 [ext_resource type="Script" uid="uid://cde8yn8umva7i" path="res://battle/turn_executor.gd" id="6_dxsh4"]
+[ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/color_rect.tscn" id="7_a56dj"]
 [ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
 [ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="10_rgsk0"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
@@ -373,6 +374,10 @@ script = ExtResource("5_a56dj")
 [node name="TurnExecutor" type="Node" parent="." unique_id=1144879331]
 script = ExtResource("6_dxsh4")
 
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("7_a56dj")]
+layout_mode = 0
+anchors_preset = 0
+
 [node name="Content" type="Control" parent="." unique_id=2083652698]
 layout_mode = 1
 anchors_preset = 15
@@ -574,6 +579,7 @@ offset_left = 32.0
 offset_top = 54.0
 offset_right = 416.0
 offset_bottom = 99.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Lvl.99"
 horizontal_alignment = 1
@@ -586,6 +592,7 @@ offset_left = 32.0
 offset_top = 103.0
 offset_right = 416.0
 offset_bottom = 148.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Name"
 horizontal_alignment = 1
@@ -624,6 +631,7 @@ offset_left = 864.0
 offset_top = 54.0
 offset_right = 1248.0
 offset_bottom = 99.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Lvl.99"
 horizontal_alignment = 1
@@ -635,6 +643,7 @@ offset_left = 864.0
 offset_top = 103.0
 offset_right = 1248.0
 offset_bottom = 148.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Name"
 horizontal_alignment = 1
