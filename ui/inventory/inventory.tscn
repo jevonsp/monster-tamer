@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bdu1o6lykdp4n"]
 
 [ext_resource type="Script" uid="uid://by733glh2208p" path="res://ui/inventory/inventory.gd" id="1_70ao8"]
+[ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="2_s83yu"]
 
 [node name="Inventory" type="Control" unique_id=713585617]
 layout_mode = 3
@@ -104,5 +105,9 @@ vertical_alignment = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Category: "
+
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("2_s83yu")]
+layout_mode = 1

@@ -76,6 +76,15 @@ func use(item: Item) -> void:
 		Global.request_open_party.emit()
 		var monster: Monster = await Global.monster_selected
 		Global.request_open_party.emit()
+
+		var entry = EvolutionHandler.check_monster_evolve(monster, Entry.Trigger.ITEM_USE, item)
+		if entry:
+			EvolutionHandler.request_evolve(monster, entry)
+			await EvolutionHandler.evolution_process_finished
+			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+			Global.request_open_inventory.emit()
+			return
+
 		Global.use_item_on.emit(item, monster)
 		await Global.item_finished_using
 		Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)

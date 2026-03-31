@@ -3,11 +3,12 @@ class_name BlockerNPC
 extends NPC
 
 enum Response { NONE, DISAPPEAR, MOVE, BESPOKE }
+enum State { INCOMPLETE, COMPLETE }
 
+@export var state: State = State.INCOMPLETE
 @export var story_trigger: Story.Flag = Story.Flag.NONE
 @export var response_type: Response = Response.NONE
 @export_multiline var post_trigger_dialogue: Array[String] = []
-@export var is_complete: bool = false
 @export_subgroup("Move")
 @export var dir_path: Array[Direction] = []
 @export var end_facing: Direction = Direction.NONE
@@ -20,14 +21,40 @@ func _ready() -> void:
 
 
 func interact(body: CharacterBody2D) -> void:
-	if not is_complete and not post_trigger_dialogue:
-		super.interact(body)
-		return
-	var toward_player: Vector2 = _get_step_direction_to(body.global_position)
-	if toward_player != Vector2.ZERO and toward_player != facing_vec:
-		start_turning(toward_player)
+	match state:
+		State.INCOMPLETE:
+			super.interact(body)
+		State.COMPLETE:
+			var toward_player: Vector2 = _get_step_direction_to(body.global_position)
+			if toward_player != Vector2.ZERO and toward_player != facing_vec:
+				start_turning(toward_player)
 
-	await _say_dialogue(post_trigger_dialogue)
+			await _say_dialogue(post_trigger_dialogue)
+
+
+func on_save_game(saved_data_array: Array[SavedData]) -> void:
+	var new_saved_data = SavedData.new()
+
+	new_saved_data.node_path = get_path()
+	new_saved_data.state = state
+	new_saved_data.position = position
+	new_saved_data.facing_dir = _direction_from_vector(facing_vec)
+
+	saved_data_array.append(new_saved_data)
+
+
+func on_load_game(saved_data_array: Array[SavedData]) -> void:
+	if not is_node_ready():
+		await ready
+
+	for data: SavedData in saved_data_array:
+		if data.node_path == get_path():
+			state = data.state as State
+			if state == State.COMPLETE:
+				position = data.position
+				direction = data.facing_dir as Direction
+				_update_direction_visual()
+				_handle_completion()
 
 
 func _connect_signals() -> void:
@@ -43,7 +70,7 @@ func _on_story_flag_triggered(flag: Story.Flag, _value: bool) -> void:
 		Response.NONE:
 			return
 		Response.DISAPPEAR:
-			is_complete = true
+			state = State.COMPLETE
 		Response.MOVE:
 			if dir_path:
 				var vec_path: Array[Vector2] = []
@@ -55,13 +82,13 @@ func _on_story_flag_triggered(flag: Story.Flag, _value: bool) -> void:
 				await start_turning(end_vec)
 		Response.BESPOKE:
 			pass
-	is_complete = true
+	state = State.COMPLETE
 	_handle_completion()
 	Global.toggle_player.emit()
 
 
 func _handle_completion() -> void:
-	if not is_complete:
+	if state == State.INCOMPLETE:
 		return
 	match response_type:
 		Response.DISAPPEAR:

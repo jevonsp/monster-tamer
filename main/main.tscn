@@ -99,6 +99,7 @@ y_sort_enabled = true
 script = ExtResource("1_xwkvk")
 
 [node name="Interfaces" type="CanvasLayer" parent="." unique_id=248139648]
+layer = 5
 script = ExtResource("2_piupu")
 
 [node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("11_bsumw")]
@@ -119,17 +120,17 @@ visible = false
 [node name="Storage" parent="Interfaces" unique_id=1376996790 instance=ExtResource("9_jofbb")]
 visible = false
 
-[node name="OverworldTextBox" parent="Interfaces" unique_id=2060252590 instance=ExtResource("9_n53tw")]
-visible = false
-z_index = 5
-focus_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
-
 [node name="Store" parent="Interfaces" unique_id=1010499898 instance=ExtResource("10_ue0mw")]
 visible = false
 
 [node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_cgvj2")]
 visible = false
+
+[node name="OverworldTextBox" parent="Interfaces" unique_id=2060252590 instance=ExtResource("9_n53tw")]
+visible = false
+z_index = 5
+focus_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 
 [node name="Trackers" type="Node" parent="." unique_id=1613058454]
 
@@ -253,12 +254,11 @@ starting_tile = Vector2(112, 48)
 npc_name = "Test Trainer"
 dialogue = Array[String](["How strong are you? Lets find out!"])
 
-[node name="BlockerNPC" parent="NPCs" unique_id=866325758 instance=ExtResource("36_yjufm")]
+[node name="BlockerNPC" parent="NPCs" unique_id=866325758 groups=["save_object"] instance=ExtResource("36_yjufm")]
 position = Vector2(16, 128)
 story_trigger = 1
 response_type = 2
 post_trigger_dialogue = Array[String](["Okay, you can go now! Be safe!"])
-is_complete = false
 dir_path = Array[int]([1, 4])
 end_facing = 3
 dialogue = Array[String](["I can't let you pass until you pick up that monster! It's dangerous out there."])

@@ -5,8 +5,10 @@
 
 [node name="BlockerNPC" unique_id=431393256 instance=ExtResource("1_x35b0")]
 script = ExtResource("2_o7npj")
+state = 0
 story_trigger = 0
 response_type = 0
 post_trigger_dialogue = Array[String]([])
-is_complete = null
+dir_path = Array[int]([])
+end_facing = 0
 dialogue = Array[String]([])

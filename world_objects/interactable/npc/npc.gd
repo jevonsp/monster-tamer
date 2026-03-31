@@ -97,6 +97,9 @@ func _update_direction_visual() -> void:
 	var dir_vec = _vector_from_dir(direction)
 	facing_direction = dir_vec
 
+	ray_cast_2d.target_position = facing_direction * TILE_SIZE
+	ray_cast_2d.force_raycast_update()
+
 	if animation_tree:
 		animation_tree.set("parameters/Idle/blend_position", dir_vec)
 		anim_state.travel("Idle")
