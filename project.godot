@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 [autoload]
 
 Global="*uid://ceb6usvu15r15"
+Battle="*uid://bewqrfxiukwvb"
+Inventory="*uid://bje1mpuf8hwn7"
+Ui="*uid://bff20rbrygtl1"
+Party="*uid://cg1eo25180r5y"
 SaverLoader="*uid://du1mlwngfelbr"
 EvolutionHandler="*uid://bvot1xns8ml0w"
 
