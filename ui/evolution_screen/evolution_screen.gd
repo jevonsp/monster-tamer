@@ -9,6 +9,7 @@ var processing: bool = false
 var is_animating: bool = false
 var ta: Array[String] = []
 var old_species_name: String
+var new_species_name: String
 var _cancelled: bool = false
 var _active_tween: Tween
 
@@ -23,10 +24,20 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if not processing:
 		return
+	if event.is_action_pressed("yes"):
+		if not is_animating:
+			return
+		_finish_evolution(new_species_name)
 	if event.is_action_pressed("no"):
 		if not is_animating:
 			return
-		_cancel_evolution()
+		_cancel_evolution(old_species_name)
+
+
+func clean_up() -> void:
+	old_species_name = ""
+	new_species_name = ""
+	_cancelled = false
 
 
 func _connect_signals() -> void:
@@ -34,11 +45,11 @@ func _connect_signals() -> void:
 
 
 func _start_evolution_process(monster: Monster, entry: Entry) -> void:
-	ta = ["What...? Your %s is evolving!" % [monster.name]]
+	old_species_name = monster.monster_data.species
+	new_species_name = entry.finish_monster.species
+	ta = ["What...? Your %s is evolving!" % [old_species_name]]
 	Global.send_text_box.emit(null, ta, false, false, false)
 	await Global.text_box_complete
-
-	old_species_name = monster.monster_data.species
 
 	_cancelled = false
 	_set_up_screen(monster, entry)
@@ -46,18 +57,25 @@ func _start_evolution_process(monster: Monster, entry: Entry) -> void:
 	await _animate_evolution()
 
 	if not _cancelled:
-		EvolutionHandler.evolution_result.emit(EvolutionHandler.Result.COMPLETE)
-
-		ta = ["Congratulations~\nYour %s evolved into a %s!" % [old_species_name, monster.monster_data.species]]
-
-		Global.send_text_box.emit(null, ta, false, false, false)
-		await Global.text_box_complete
-
-		EvolutionHandler.finish_evolve()
-		_toggle_visible()
+		await _finish_evolution(new_species_name)
 
 
-func _cancel_evolution() -> void:
+func _finish_evolution(n: String) -> void:
+	EvolutionHandler.evolution_result.emit(EvolutionHandler.Result.COMPLETE)
+
+	processing = false
+	ta = ["Congratulations~\nYour %s evolved into a %s!" % [old_species_name, n]]
+
+	Global.send_text_box.emit(null, ta, false, false, false)
+	await Global.text_box_complete
+
+	visible = false
+	EvolutionHandler.finish_evolve()
+
+	clean_up()
+
+
+func _cancel_evolution(n: String) -> void:
 	_cancelled = true
 	EvolutionHandler.evolution_result.emit(EvolutionHandler.Result.CANCEL)
 	if _active_tween != null and is_instance_valid(_active_tween):
@@ -68,13 +86,16 @@ func _cancel_evolution() -> void:
 	old_texture_rect.modulate = Color.WHITE
 	new_texture_rect.modulate = Color.TRANSPARENT
 
-	ta = ["Your %s did not evolve." % [old_species_name]]
+	processing = false
+	ta = ["Your %s did not evolve." % [n]]
 
 	Global.send_text_box.emit(null, ta, false, false, false)
 	await Global.text_box_complete
 
+	visible = false
 	EvolutionHandler.finish_evolve()
-	_toggle_visible()
+
+	clean_up()
 
 
 func _toggle_visible() -> void:
