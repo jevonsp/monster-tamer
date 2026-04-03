@@ -522,6 +522,10 @@ z_index = 2
 collision_layer = 2
 script = ExtResource("1_rkbax")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=849513623]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_oul6g")
+
 [node name="PartyHandler" type="Node" parent="." unique_id=746245453]
 script = ExtResource("2_yw30f")
 
@@ -541,10 +545,6 @@ vframes = 3
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1371160252]
 offset = Vector2(8, 8)
 zoom = Vector2(4, 4)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=849513623]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_oul6g")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=822626189]
 libraries/ = SubResource("AnimationLibrary_boad6")

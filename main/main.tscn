@@ -143,7 +143,7 @@ visible = false
 [node name="TimeKeeper" parent="Trackers" unique_id=1711809460 instance=ExtResource("41_phifs")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(48, 112)
+position = Vector2(32, 64)
 available_travel_methods = {
 1: true,
 2: false

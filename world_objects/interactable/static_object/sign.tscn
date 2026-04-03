@@ -10,10 +10,10 @@ size = Vector2(16, 16)
 collision_layer = 8
 script = ExtResource("1_eferr")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1075121401]
-position = Vector2(8, 8)
-texture = ExtResource("1_e1i4d")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=351896430]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_eferr")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1075121401]
+position = Vector2(8, 8)
+texture = ExtResource("1_e1i4d")
