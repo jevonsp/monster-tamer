@@ -44,7 +44,10 @@ func interact(body: CharacterBody2D) -> void:
 	var toward_player: Vector2 = _get_step_direction_to(body.global_position)
 	if toward_player != Vector2.ZERO and toward_player != facing_vec:
 		start_turning(toward_player)
-	await _say_dialogue()
+	if not dialogue.is_empty():
+		await _say_dialogue()
+	else:
+		await trigger()
 
 
 func trigger() -> void:

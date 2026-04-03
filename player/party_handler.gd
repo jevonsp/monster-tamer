@@ -9,20 +9,6 @@ var storage: Dictionary[int, Monster] = { }
 @onready var player: CharacterBody2D = $".."
 
 
-func bind_signals() -> void:
-	Party.capture_monster.connect(add)
-	Party.player_party_requested.connect(send_player_party)
-	Battle.send_monster_death_experience.connect(_grant_party_experience)
-	Ui.request_switch_creation.connect(_on_request_switch_creation)
-	Battle.switch_monster_to_first.connect(_on_switch_monster_to_first)
-	Party.out_of_battle_switch.connect(_on_out_of_battle_switch)
-	Party.storage_deposit_monster.connect(deposit_monster)
-	Party.storage_withdraw_monster.connect(withdraw_monster)
-	Party.request_move_party_to_storage.connect(_move_party_to_storage)
-	Party.request_move_storage_to_party.connect(_move_storage_to_party)
-	Party.request_switch_moves.connect(on_switch_moves)
-
-
 func create_storage() -> void:
 	for i in range(STORAGE_SIZE):
 		storage[i] = null
@@ -98,6 +84,20 @@ func on_switch_moves(monster: Monster, index_one: int, index_two: int) -> void:
 	monster.moves[index_one] = monster.moves[index_two]
 	monster.moves[index_two] = temp
 	send_player_party()
+
+
+func _connect_signals() -> void:
+	Party.capture_monster.connect(add)
+	Party.player_party_requested.connect(send_player_party)
+	Battle.send_monster_death_experience.connect(_grant_party_experience)
+	Ui.request_switch_creation.connect(_on_request_switch_creation)
+	Battle.switch_monster_to_first.connect(_on_switch_monster_to_first)
+	Party.out_of_battle_switch.connect(_on_out_of_battle_switch)
+	Party.storage_deposit_monster.connect(deposit_monster)
+	Party.storage_withdraw_monster.connect(withdraw_monster)
+	Party.request_move_party_to_storage.connect(_move_party_to_storage)
+	Party.request_move_storage_to_party.connect(_move_storage_to_party)
+	Party.request_switch_moves.connect(on_switch_moves)
 
 
 func _add_to_party(monster: Monster) -> bool:

@@ -42,6 +42,7 @@
 [ext_resource type="PackedScene" uid="uid://dfcyvpb7eplen" path="res://world_objects/interactable/npc/blocker_npc/blocker_npc.tscn" id="36_yjufm"]
 [ext_resource type="PackedScene" uid="uid://du5fddffkfd7n" path="res://world_objects/story_zone/story_zone.tscn" id="37_h3axc"]
 [ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="38_d7rgo"]
+[ext_resource type="PackedScene" uid="uid://ri8fiydpkbfo" path="res://world_objects/interactable/npc/components/npc_item_check_component.tscn" id="41_4pcu1"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
@@ -142,7 +143,7 @@ visible = false
 [node name="TimeKeeper" parent="Trackers" unique_id=1711809460 instance=ExtResource("41_phifs")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(16, 144)
+position = Vector2(48, 112)
 available_travel_methods = {
 1: true,
 2: false
@@ -164,7 +165,7 @@ shape = SubResource("RectangleShape2D_3wy1v")
 [node name="GroundBalls" type="Node" parent="." unique_id=367338342]
 
 [node name="Potion" parent="GroundBalls" unique_id=726795139 instance=ExtResource("15_5xyti")]
-position = Vector2(32, 80)
+position = Vector2(48, 96)
 item = ExtResource("17_s758e")
 
 [node name="BaseBall" parent="GroundBalls" unique_id=425176937 instance=ExtResource("15_5xyti")]
@@ -176,7 +177,7 @@ position = Vector2(48, 80)
 item = ExtResource("23_qs5eo")
 
 [node name="TMTest" parent="GroundBalls" unique_id=615830621 instance=ExtResource("15_5xyti")]
-position = Vector2(48, 96)
+position = Vector2(32, 80)
 item = ExtResource("24_frbr6")
 
 [node name="GroundBall" parent="GroundBalls" unique_id=1353459326 instance=ExtResource("15_5xyti")]
@@ -267,6 +268,15 @@ post_trigger_dialogue = Array[String](["Okay, you can go now! Be safe!"])
 dir_path = Array[int]([1, 4])
 end_facing = 3
 dialogue = Array[String](["I can't let you pass until you pick up that monster! It's dangerous out there."])
+
+[node name="NPCItemWant" parent="NPCs" unique_id=325363495 instance=ExtResource("8_67ri8")]
+position = Vector2(64, 112)
+dialogue = Array[String]([])
+
+[node name="NPCItemCheckComponent" parent="NPCs/NPCItemWant" unique_id=808141758 instance=ExtResource("41_4pcu1")]
+item_wanted = ExtResource("17_s758e")
+result_type = 1
+item_to_give = ExtResource("20_re7it")
 
 [node name="Doors" type="Node" parent="." unique_id=1022210673]
 

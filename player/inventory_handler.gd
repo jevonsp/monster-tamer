@@ -5,7 +5,6 @@ extends Node
 
 
 func _ready() -> void:
-	_connect_signals()
 	construct_inventory()
 
 
@@ -34,13 +33,6 @@ func spend_money(amount: int) -> void:
 	Inventory.send_player_money.emit(money)
 
 
-func _connect_signals() -> void:
-	Inventory.use_item_on.connect(on_use_item_on)
-	Inventory.give_item_to.connect(on_give_item_to)
-	Inventory.item_used.connect(remove)
-	Inventory.send_item_to_inventory.connect(add)
-
-
 func construct_inventory() -> void:
 	inventory[Item.Type.USE] = InventoryPage.new()
 	inventory[Item.Type.HELD] = InventoryPage.new()
@@ -56,3 +48,10 @@ func on_use_item_on(item: Item, monster: Monster) -> void:
 
 func on_give_item_to(item: Item, _monster: Monster) -> void:
 	remove(item)
+
+
+func _connect_signals() -> void:
+	Inventory.use_item_on.connect(on_use_item_on)
+	Inventory.give_item_to.connect(on_give_item_to)
+	Inventory.item_used.connect(remove)
+	Inventory.send_item_to_inventory.connect(add)

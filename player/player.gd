@@ -29,7 +29,7 @@ var respawn_point: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	super()
 	add_to_group("player")
-	_bind_signals()
+	_connect_signals()
 	set_respawn_point()
 	party_handler.create_storage()
 
@@ -229,13 +229,13 @@ func stop_surfing() -> void:
 	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.NOT_PASSABLE)
 
 
-func _bind_signals() -> void:
+func _connect_signals() -> void:
 	Global.toggle_player.connect(toggle_processing)
 	Battle.toggle_in_battle.connect(toggle_in_battle)
 	Global.send_respawn_player.connect(_respawn)
 	Ui.on_menu_closed.connect(_on_menu_closed)
-	party_handler.bind_signals()
-
+	party_handler._connect_signals()
+	inventory_handler._connect_signals()
 
 func _clear_manual_input_buffer() -> void:
 	held_keys.clear()

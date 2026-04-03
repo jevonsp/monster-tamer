@@ -6,5 +6,8 @@ extends Node
 
 
 func trigger() -> void:
-	assert(story_flag != Story.Flag.NONE)
+	if story_flag == Story.Flag.NONE:
+		printerr("NO FLAG ASSIGNED TO %s at %s" % self, get_path())
+		return
+
 	Global.story_flag_triggered.emit(story_flag, value)

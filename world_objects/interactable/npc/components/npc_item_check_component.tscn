@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ri8fiydpkbfo"]
+
+[ext_resource type="Script" uid="uid://dtqhd24nh81b0" path="res://world_objects/interactable/npc/components/npc_item_check_component.gd" id="1_im4jd"]
+
+[node name="NPCItemCheckComponent" type="Node" unique_id=808141758]
+script = ExtResource("1_im4jd")
