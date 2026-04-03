@@ -34,16 +34,16 @@ func handle_post_action(target: Monster, handler: Node) -> bool:
 
 func resolve_level_up(monster: Monster, _amount: int) -> void:
 	var text_array: Array[String] = ["%s leveled up to %s." % [monster.name, monster.level]]
-	Global.send_text_box.emit(null, text_array, false, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, text_array, false, false, false)
+	await Ui.text_box_complete
 
 	if monster.check_should_gain_moves():
 		var move_to_learn: Move = monster.get_move_to_learn()
 		if move_to_learn != null:
-			Global.request_summary_move_learning.emit(monster, move_to_learn)
-			await Global.move_learning_finished
+			Party.request_summary_move_learning.emit(monster, move_to_learn)
+			await Ui.move_learning_finished
 
-	Global.battle_level_up_resolution_complete.emit()
+	Battle.battle_level_up_resolution_complete.emit()
 
 
 func _resolve_faint_aftermath(target: Monster) -> void:
@@ -51,15 +51,15 @@ func _resolve_faint_aftermath(target: Monster) -> void:
 		return
 
 	var text_array: Array[String] = ["%s fainted!" % [target.name]]
-	Global.send_text_box.emit(null, text_array, true, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, text_array, true, false, false)
+	await Ui.text_box_complete
 
 	if target.is_player_monster:
 		return
 
 	var exp_amount = Monster.EXPERIENCE_PER_LEVEL * target.level
-	Global.send_monster_death_experience.emit(exp_amount)
-	await Global.player_done_giving_exp
+	Battle.send_monster_death_experience.emit(exp_amount)
+	await Battle.player_done_giving_exp
 
 
 func _check_player_actor_able_to_fight() -> bool:
@@ -94,15 +94,15 @@ func _win() -> void:
 
 	var default: Array[String] = ["You won!"]
 	var text: Array[String] = battle.enemy_trainer.losing_dialogue if battle.enemy_trainer else default
-	Global.send_text_box.emit(null, text, false, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, text, false, false, false)
+	await Ui.text_box_complete
 	battle.end_battle()
 
 
 func _lose() -> void:
 	var text: Array[String] = ["You lost!"]
-	Global.send_text_box.emit(null, text, false, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, text, false, false, false)
+	await Ui.text_box_complete
 	battle.end_battle()
 	Global.send_respawn_player.emit()
 

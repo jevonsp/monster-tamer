@@ -2,13 +2,13 @@ extends GutTest
 
 
 func before_each() -> void:
-	if not Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.connect(_on_send_text_box)
+	if not Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.connect(_on_send_text_box)
 
 
 func after_each() -> void:
-	if Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.disconnect(_on_send_text_box)
+	if Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.disconnect(_on_send_text_box)
 
 
 func test_teach_effect_returns_when_move_is_null() -> void:
@@ -61,7 +61,7 @@ func _on_send_text_box(
 
 
 func _emit_text_box_complete() -> void:
-	Global.text_box_complete.emit()
+	Ui.text_box_complete.emit()
 
 
 func _make_monster() -> Monster:

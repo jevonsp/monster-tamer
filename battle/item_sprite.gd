@@ -12,7 +12,7 @@ func _ready() -> void:
 	if visible:
 		visible = false
 
-	Global.send_item_throw_animation.connect(_on_item_throw_animation_recieved)
+	Battle.send_item_throw_animation.connect(_on_item_throw_animation_recieved)
 
 
 func reset_ball() -> void:
@@ -34,4 +34,4 @@ func _animate_throw_item() -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(path_follow_2d, "progress_ratio", 1.0, 0.5)
 	await tween.finished
-	Global.item_animation_complete.emit()
+	Battle.item_animation_complete.emit()

@@ -29,4 +29,4 @@ func _open_store() -> void:
 		printerr("%s has no inventory to display" % self)
 		return
 	Global.toggle_player.emit()
-	Global.request_open_store.emit(self)
+	Ui.request_open_store.emit(self)

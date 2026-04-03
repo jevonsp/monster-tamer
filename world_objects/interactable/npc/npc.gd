@@ -82,8 +82,8 @@ func _say_dialogue(d: Array[String] = [], autocomplete = null, question = null) 
 	var dia = d if not d.is_empty() else dialogue
 	var ac = autocomplete if autocomplete != null else is_autocomplete
 	var iq = question if question != null else is_question
-	Global.send_text_box.emit(self, dia, ac, iq, true)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(self, dia, ac, iq, true)
+	await Ui.text_box_complete
 
 
 func _update_direction_visual() -> void:

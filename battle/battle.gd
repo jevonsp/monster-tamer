@@ -64,7 +64,7 @@ func end_battle() -> void:
 	_clear_all()
 	_toggle_visible()
 	_toggle_player()
-	Global.battle_ended.emit()
+	Battle.battle_ended.emit()
 
 
 func set_player_actor(monster: Monster) -> void:
@@ -99,14 +99,14 @@ func _toggle_visible() -> void:
 
 func _toggle_player() -> void:
 	Global.toggle_player.emit()
-	Global.toggle_in_battle.emit()
+	Battle.toggle_in_battle.emit()
 
 
 func _connect_signals() -> void:
-	Global.send_player_party.connect(_set_player_party)
-	Global.wild_battle_requested.connect(_start_wild_battle)
-	Global.switch_battle_actors.connect(switch_actors)
-	Global.trainer_battle_requested.connect(_start_trainer_battle)
+	Party.send_player_party.connect(_set_player_party)
+	Battle.wild_battle_requested.connect(_start_wild_battle)
+	Battle.switch_battle_actors.connect(switch_actors)
+	Battle.trainer_battle_requested.connect(_start_trainer_battle)
 	visibility_focus_handler.connect_signals()
 
 
@@ -119,7 +119,7 @@ func _bind_buttons() -> void:
 
 func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	processing = false
-	Global.switch_ui_context.emit(Global.AccessFrom.BATTLE)
+	Ui.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	_clear_actors()
 
 	var monster: Monster = monster_data.set_up(level)
@@ -131,7 +131,7 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 
 
 func _start_trainer_battle(trainer: Trainer) -> void:
-	Global.switch_ui_context.emit(Global.AccessFrom.BATTLE)
+	Ui.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	_clear_actors()
 	is_wild_battle = false
 

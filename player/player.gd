@@ -231,9 +231,9 @@ func stop_surfing() -> void:
 
 func _bind_signals() -> void:
 	Global.toggle_player.connect(toggle_processing)
-	Global.toggle_in_battle.connect(toggle_in_battle)
+	Battle.toggle_in_battle.connect(toggle_in_battle)
 	Global.send_respawn_player.connect(_respawn)
-	Global.on_menu_closed.connect(_on_menu_closed)
+	Ui.on_menu_closed.connect(_on_menu_closed)
 	party_handler.bind_signals()
 
 
@@ -273,7 +273,7 @@ func _open_menu() -> void:
 	if move_progress != 0.0:
 		await Global.step_completed
 	toggle_processing()
-	Global.request_open_menu.emit()
+	Ui.request_open_menu.emit()
 
 
 func _on_menu_closed() -> void:

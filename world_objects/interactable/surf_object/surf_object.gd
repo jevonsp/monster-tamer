@@ -16,13 +16,13 @@ func interact(body: Player) -> void:
 	var ta: Array[String]
 	if body.available_travel_methods[Player.TravelState.SURFING] != true:
 		ta = ["If you had a Monster strong enough, you could surf here!"]
-		Global.send_text_box.emit(null, ta, false, false, true)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, false, false, true)
+		await Ui.text_box_complete
 		return
 
 	ta = ["Would you like to surf?"]
-	Global.send_text_box.emit(self, ta, false, true, false)
-	var answer = await Global.answer_given
+	Ui.send_text_box.emit(self, ta, false, true, false)
+	var answer = await Ui.answer_given
 	Global.toggle_player.emit()
 	if answer:
 		print("yes")

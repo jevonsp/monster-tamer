@@ -26,19 +26,19 @@ func remove(item: Item, amount: int = 1) -> void:
 
 
 func send_player_inventory() -> void:
-	Global.send_player_inventory.emit(inventory)
+	Inventory.send_player_inventory.emit(inventory)
 
 
 func spend_money(amount: int) -> void:
 	money -= amount
-	Global.send_player_money.emit(money)
+	Inventory.send_player_money.emit(money)
 
 
 func _connect_signals() -> void:
-	Global.use_item_on.connect(on_use_item_on)
-	Global.give_item_to.connect(on_give_item_to)
-	Global.item_used.connect(remove)
-	Global.send_item_to_inventory.connect(add)
+	Inventory.use_item_on.connect(on_use_item_on)
+	Inventory.give_item_to.connect(on_give_item_to)
+	Inventory.item_used.connect(remove)
+	Inventory.send_item_to_inventory.connect(add)
 
 
 func construct_inventory() -> void:
@@ -51,7 +51,7 @@ func on_use_item_on(item: Item, monster: Monster) -> void:
 	await item.use(monster)
 	if not item.is_multi_use:
 		remove(item)
-	Global.item_finished_using.emit()
+	Ui.item_finished_using.emit()
 
 
 func on_give_item_to(item: Item, _monster: Monster) -> void:

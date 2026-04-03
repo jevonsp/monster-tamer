@@ -10,17 +10,17 @@ var storage: Dictionary[int, Monster] = { }
 
 
 func bind_signals() -> void:
-	Global.capture_monster.connect(add)
-	Global.player_party_requested.connect(send_player_party)
-	Global.send_monster_death_experience.connect(_grant_party_experience)
-	Global.request_switch_creation.connect(_on_request_switch_creation)
-	Global.switch_monster_to_first.connect(_on_switch_monster_to_first)
-	Global.out_of_battle_switch.connect(_on_out_of_battle_switch)
-	Global.storage_deposit_monster.connect(deposit_monster)
-	Global.storage_withdraw_monster.connect(withdraw_monster)
-	Global.request_move_party_to_storage.connect(_move_party_to_storage)
-	Global.request_move_storage_to_party.connect(_move_storage_to_party)
-	Global.request_switch_moves.connect(on_switch_moves)
+	Party.capture_monster.connect(add)
+	Party.player_party_requested.connect(send_player_party)
+	Battle.send_monster_death_experience.connect(_grant_party_experience)
+	Ui.request_switch_creation.connect(_on_request_switch_creation)
+	Battle.switch_monster_to_first.connect(_on_switch_monster_to_first)
+	Party.out_of_battle_switch.connect(_on_out_of_battle_switch)
+	Party.storage_deposit_monster.connect(deposit_monster)
+	Party.storage_withdraw_monster.connect(withdraw_monster)
+	Party.request_move_party_to_storage.connect(_move_party_to_storage)
+	Party.request_move_storage_to_party.connect(_move_storage_to_party)
+	Party.request_switch_moves.connect(on_switch_moves)
 
 
 func create_storage() -> void:
@@ -29,15 +29,15 @@ func create_storage() -> void:
 
 
 func send_player_party() -> void:
-	Global.send_player_party.emit(party)
+	Party.send_player_party.emit(party)
 
 
 func send_player_storage() -> void:
-	Global.send_player_storage.emit(storage)
+	Party.send_player_storage.emit(storage)
 
 
 func send_player_party_and_storage() -> void:
-	Global.send_player_party_and_storage.emit(party, storage)
+	Party.send_player_party_and_storage.emit(party, storage)
 
 
 func add(monster: Monster):
@@ -59,8 +59,8 @@ func remove_monster(monster: Monster) -> void:
 		return
 
 	var ta: Array[String] = ["Goodbye %s, I'll miss you!" % [monster.name]]
-	Global.send_text_box.emit(null, ta, true, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, ta, true, false, false)
+	await Ui.text_box_complete
 
 	if party.has(monster):
 		party.erase(monster)
@@ -145,19 +145,19 @@ func _grant_party_experience(amount: int) -> void:
 		if monster.was_active_in_battle:
 			getting_exp.append(monster)
 	if getting_exp.is_empty():
-		Global.player_done_giving_exp.emit()
+		Battle.player_done_giving_exp.emit()
 		return
 	var share := int(amount / float(getting_exp.size()))
 	for monster in getting_exp:
 		await monster.gain_exp(share, player.in_battle)
-	Global.player_done_giving_exp.emit()
+	Battle.player_done_giving_exp.emit()
 
 
 func _on_request_switch_creation(index: int) -> void:
 	var switch = Switch.new()
 	switch.actor = party[0]
 	switch.target = party[index]
-	Global.add_switch_to_turn_queue.emit(switch)
+	Battle.add_switch_to_turn_queue.emit(switch)
 
 
 func _on_switch_monster_to_first(monster: Monster) -> void:

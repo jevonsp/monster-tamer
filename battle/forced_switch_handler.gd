@@ -4,8 +4,8 @@ extends Node
 
 
 func force_player_send_new_monster(handler: Node) -> void:
-	Global.request_forced_switch.emit()
-	var target = await Global.send_selected_force_switch
+	Battle.request_forced_switch.emit()
+	var target = await Battle.send_selected_force_switch
 
 	var switch = Switch.new()
 	switch.actor = battle.player_actor

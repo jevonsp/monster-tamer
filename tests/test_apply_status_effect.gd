@@ -6,13 +6,13 @@ var _context_nodes: Array[Node] = []
 func before_each() -> void:
 	shown_text.clear()
 	_context_nodes.clear()
-	if not Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.connect(_on_send_text_box)
+	if not Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.connect(_on_send_text_box)
 
 
 func after_each() -> void:
-	if Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.disconnect(_on_send_text_box)
+	if Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.disconnect(_on_send_text_box)
 	for node in _context_nodes:
 		if is_instance_valid(node):
 			node.free()
@@ -86,7 +86,7 @@ func _on_send_text_box(
 
 
 func _emit_text_box_complete() -> void:
-	Global.text_box_complete.emit()
+	Ui.text_box_complete.emit()
 
 
 func _make_context() -> BattleContext:

@@ -80,7 +80,7 @@ func evolve_monster_in_place(monster: Monster, entry: Entry) -> void:
 	var player: Player = get_tree().get_first_node_in_group("player") as Player
 	if player:
 		player.party_handler.send_player_party()
-	Global.request_display_monsters.emit()
+	Battle.request_display_monsters.emit()
 
 
 func request_evolve(monster: Monster, entry: Entry) -> void:

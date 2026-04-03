@@ -93,7 +93,7 @@ func finish_moving_move() -> void:
 	var idx = move_panels.find(last_focused_move_button)
 	if idx != -1:
 		var moving_index_two = idx
-		Global.request_switch_moves.emit(party[index], moving_index_one, moving_index_two)
+		Party.request_switch_moves.emit(party[index], moving_index_one, moving_index_two)
 	moving_index_one = -1
 	is_moving_move = false
 	visibility_focus_handler.clear_move_swap_highlight()
@@ -113,13 +113,13 @@ func clean_up_learning_move() -> void:
 
 
 func _connect_signals() -> void:
-	Global.send_player_party.connect(_set_player_party)
-	Global.on_menu_closed.connect(_clear_player_party)
-	Global.request_open_summary.connect(visibility_focus_handler.toggle_visible)
-	Global.battle_started.connect(_on_battle_started)
-	Global.battle_ended.connect(_on_battle_ended)
-	Global.request_summary_learn_move.connect(_on_request_summary_learn_move)
-	Global.request_summary_move_learning.connect(_resolve_move_learning)
+	Party.send_player_party.connect(_set_player_party)
+	Ui.on_menu_closed.connect(_clear_player_party)
+	Ui.request_open_summary.connect(visibility_focus_handler.toggle_visible)
+	Battle.battle_started.connect(_on_battle_started)
+	Battle.battle_ended.connect(_on_battle_ended)
+	Party.request_summary_learn_move.connect(_on_request_summary_learn_move)
+	Party.request_summary_move_learning.connect(_resolve_move_learning)
 
 
 func _bind_buttons() -> void:

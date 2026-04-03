@@ -18,7 +18,7 @@ enum Requirement {
 @export_range(1, 100, 1) var required_level: int = 16
 @export var required_item: Item = null
 @export var required_gender: MonsterData.Gender = MonsterData.Gender.GENDERLESS
-@export var allowed_times_of_day: Array[TimeKeeper.TimeOfDay] = []
+@export var allowed_times_of_day: Array[TimeKeeper.Period] = []
 
 
 static func check_entry_level_up(monster: Monster, entry: Entry) -> bool:
@@ -35,8 +35,7 @@ static func check_entry_level_up(monster: Monster, entry: Entry) -> bool:
 			if monster.gender == entry.required_gender:
 				return monster.level >= entry.required_level
 		Requirement.TIME_OF_DAY:
-			var time_of_day = TimeKeeper.time_of_day
-			if time_of_day in entry.allowed_times_of_day:
+			if TimeKeeper.period in entry.allowed_times_of_day:
 				return monster.level >= entry.required_level
 
 	return false

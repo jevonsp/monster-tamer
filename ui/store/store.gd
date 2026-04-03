@@ -87,7 +87,7 @@ func _is_action_triggered(event: InputEvent, action: StringName) -> bool:
 
 
 func _connect_signals() -> void:
-	Global.request_open_store.connect(_display_store)
+	Ui.request_open_store.connect(_display_store)
 
 
 func _bind_buttons() -> void:
@@ -410,12 +410,12 @@ func _buy(amount: int) -> void:
 			_reduce_stock(item, amount)
 		else:
 			ta = ["We don't have enough in stock, sorry!"]
-			Global.send_text_box.emit(null, ta, true, false, false)
-			await Global.text_box_complete
+			Ui.send_text_box.emit(null, ta, true, false, false)
+			await Ui.text_box_complete
 	else:
 		ta = ["You don't have enough money for that."]
-		Global.send_text_box.emit(null, ta, true, false, false)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
 
 	_grab_item_focus()
 
@@ -429,13 +429,13 @@ func _sell(amount: int) -> void:
 	var ta: Array[String]
 	if item.item_type == Item.Type.KEY:
 		ta = ["You can't sell me that!"]
-		Global.send_text_box.emit(null, ta, true, false, false)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
 		return
 	if not _check_enough_stock(item, amount):
 		ta = ["You don't have that many to sell."]
-		Global.send_text_box.emit(null, ta, true, false, false)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
 		return
 
 	player_ref.inventory_handler.remove(item, amount)
@@ -453,7 +453,7 @@ func _credit_player_for_sale(item: Item, amount: int) -> void:
 	var current_money: Variant = player_ref.inventory_handler.get("money")
 	if typeof(current_money) == TYPE_INT:
 		player_ref.inventory_handler.set("money", current_money + total_value)
-		Global.send_player_money.emit(current_money + total_value)
+		Inventory.send_player_money.emit(current_money + total_value)
 
 
 func _increase_npc_stock(item: Item, amount: int) -> void:

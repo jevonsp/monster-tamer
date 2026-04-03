@@ -12,7 +12,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		if not party.is_forced_switch:
 			visibility_focus_handler.toggle_visible()
-			Global.on_party_closed.emit()
+			Ui.on_party_closed.emit()
 			Global.toggle_player.emit()
 			get_viewport().set_input_as_handled()
 
@@ -24,20 +24,20 @@ func _handle_no_input() -> void:
 	match party.interfaces.ui_context:
 		Global.AccessFrom.INVENTORY:
 			visibility_focus_handler.toggle_visible()
-			Global.on_party_closed.emit()
-			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
-			Global.request_open_inventory.emit()
+			Ui.on_party_closed.emit()
+			Ui.switch_ui_context.emit(Global.AccessFrom.PARTY)
+			Ui.request_open_inventory.emit()
 			return
 		Global.AccessFrom.BATTLE:
 			if not party.is_forced_switch:
 				visibility_focus_handler.toggle_visible()
-				Global.on_party_closed.emit()
+				Ui.on_party_closed.emit()
 			return
 
 	if not party.options_box.visible:
 		visibility_focus_handler.toggle_visible()
-		Global.on_party_closed.emit()
-		Global.request_open_menu.emit()
+		Ui.on_party_closed.emit()
+		Ui.request_open_menu.emit()
 	else:
 		visibility_focus_handler.toggle_options_visible()
 
@@ -57,7 +57,7 @@ func on_monster_pressed(button: Button) -> void:
 				party.State.MOVING:
 					party.stop_moving(num)
 		Global.AccessFrom.INVENTORY:
-			Global.monster_selected.emit(button.actor)
+			Ui.monster_selected.emit(button.actor)
 		Global.AccessFrom.BATTLE:
 			await _handle_battle_press(button, num)
 
@@ -65,17 +65,17 @@ func on_monster_pressed(button: Button) -> void:
 func _handle_battle_press(button: Button, num: int) -> void:
 	if not party.is_forced_switch:
 		if num == 0:
-			Global.send_text_box.emit(null, ["That monster is already fighting!"], true, false, false)
-			await Global.text_box_complete
+			Ui.send_text_box.emit(null, ["That monster is already fighting!"], true, false, false)
+			await Ui.text_box_complete
 			return
-		Global.request_switch_creation.emit(num)
+		Ui.request_switch_creation.emit(num)
 		visibility_focus_handler.toggle_visible()
 	else:
 		if not button.actor.is_able_to_fight:
-			Global.send_text_box.emit(null, ["That monster is not able to fight!"], true, false, false)
-			await Global.text_box_complete
+			Ui.send_text_box.emit(null, ["That monster is not able to fight!"], true, false, false)
+			await Ui.text_box_complete
 			return
-		Global.send_selected_force_switch.emit(button.actor)
+		Battle.send_selected_force_switch.emit(button.actor)
 		party.is_forced_switch = false
 		visibility_focus_handler.toggle_visible()
 

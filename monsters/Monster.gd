@@ -148,8 +148,8 @@ func get_stat_stage_multi(stat: Stat) -> float:
 
 func take_damage(amount: int) -> void:
 	current_hitpoints = max(0, current_hitpoints - amount)
-	Global.send_hitpoints_change.emit(self, current_hitpoints)
-	await Global.hitpoints_animation_complete
+	Battle.send_hitpoints_change.emit(self, current_hitpoints)
+	await Battle.hitpoints_animation_complete
 
 
 func check_faint() -> void:
@@ -313,20 +313,20 @@ func faint() -> void:
 	if is_fainted:
 		return
 	is_fainted = true
-	Global.send_monster_fainted.emit(self)
+	Battle.send_monster_fainted.emit(self)
 
 
 func heal(amount: int, revives: bool = false) -> void:
 	current_hitpoints = min(current_hitpoints + amount, max_hitpoints)
-	Global.send_hitpoints_change.emit(self, current_hitpoints)
-	await Global.hitpoints_animation_complete
+	Battle.send_hitpoints_change.emit(self, current_hitpoints)
+	await Battle.hitpoints_animation_complete
 	if revives:
 		is_fainted = false
 
 
 func fully_heal_and_revive() -> void:
 	current_hitpoints = max_hitpoints
-	Global.send_hitpoints_change.emit(self, current_hitpoints)
+	Battle.send_hitpoints_change.emit(self, current_hitpoints)
 	is_fainted = false
 
 
@@ -339,9 +339,9 @@ func gain_exp(amount: int, in_battle: bool = false) -> void:
 		var exp_to_gain: int = min(remaining_exp, exp_left)
 		remaining_exp -= exp_to_gain
 		experience += exp_to_gain
-		Global.monster_gained_experience.emit(self, exp_to_gain)
+		Battle.monster_gained_experience.emit(self, exp_to_gain)
 		if in_battle:
-			await Global.experience_animation_complete
+			await Battle.experience_animation_complete
 		if experience >= get_next_level_exp():
 			await gain_level(1, in_battle)
 
@@ -361,16 +361,16 @@ func get_next_level_exp() -> int:
 func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 	level += amount
 	set_stats()
-	Global.monster_gained_level.emit(self, amount)
+	Battle.monster_gained_level.emit(self, amount)
 	if in_battle:
-		Global.request_battle_level_up_resolution.emit(self, amount)
-		await Global.battle_level_up_resolution_complete
+		Battle.request_battle_level_up_resolution.emit(self, amount)
+		await Battle.battle_level_up_resolution_complete
 	else:
 		if check_should_gain_moves():
 			var move_to_learn: Move = get_move_to_learn()
 			if move_to_learn != null:
-				Global.request_summary_move_learning.emit(self, move_to_learn)
-				await Global.move_learning_finished
+				Party.request_summary_move_learning.emit(self, move_to_learn)
+				await Ui.move_learning_finished
 	var entry = EvolutionHandler.check_monster_evolve(self, Entry.Trigger.LEVEL_UP)
 	if entry:
 		EvolutionHandler.request_evolve(self, entry)
@@ -458,10 +458,10 @@ func hold_item(item: Item) -> bool:
 func swap_items(item: Item) -> void:
 	var temp: Item = held_item
 	held_item = item
-	Global.send_item_to_inventory.emit(temp)
+	Inventory.send_item_to_inventory.emit(temp)
 
 
 func take_item() -> void:
 	var temp = held_item
 	held_item = null
-	Global.send_item_to_inventory.emit(temp)
+	Inventory.send_item_to_inventory.emit(temp)

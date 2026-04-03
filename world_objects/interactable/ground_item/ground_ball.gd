@@ -32,17 +32,17 @@ func interact(body: CharacterBody2D) -> void:
 	var obj_name = item.name if type == Type.ITEM else monster_data.species
 
 	if not text.is_empty():
-		Global.send_text_box.emit(self, text, is_autocomplete, is_question, true)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(self, text, is_autocomplete, is_question, true)
+		await Ui.text_box_complete
 	else:
 		if not is_question:
 			var formatted: Array[String] = ["You found a %s!" % [obj_name]]
-			Global.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
-			await Global.text_box_complete
+			Ui.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
+			await Ui.text_box_complete
 		else:
 			var formatted: Array[String] = ["Take the %s?" % [obj_name]]
-			Global.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
-			await Global.text_box_complete
+			Ui.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
+			await Ui.text_box_complete
 	if not is_question:
 		trigger()
 		return

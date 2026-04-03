@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu/menu.tscn" id="11_bsumw"]
 [ext_resource type="PackedScene" uid="uid://lvhleaepcgub" path="res://ui/evolution_screen/evolution_screen.tscn" id="12_cgvj2"]
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="12_fwcvl"]
+[ext_resource type="PackedScene" uid="uid://q21m3s4lx1nn" path="res://ui/info_hud/info_hud.tscn" id="12_t1yuj"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_ball.tscn" id="15_5xyti"]
 [ext_resource type="PackedScene" uid="uid://ch4kvp8k6tpxs" path="res://world_objects/interactable/npc/trainer/trainer.tscn" id="16_n3o0a"]
@@ -113,6 +114,7 @@ visible = false
 
 [node name="Inventory" parent="Interfaces" unique_id=713585617 instance=ExtResource("5_4hmqs")]
 visible = false
+inventory = null
 
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
 visible = false
@@ -131,6 +133,9 @@ visible = false
 z_index = 5
 focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
+
+[node name="InfoHUD" parent="Interfaces" unique_id=1085189325 instance=ExtResource("12_t1yuj")]
+visible = false
 
 [node name="Trackers" type="Node" parent="." unique_id=1613058454]
 

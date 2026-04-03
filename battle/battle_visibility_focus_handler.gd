@@ -17,9 +17,9 @@ var _last_selected_by_state: Dictionary = {
 
 
 func connect_signals() -> void:
-	Global.on_inventory_closed.connect(focus_default)
-	Global.on_party_closed.connect(focus_default)
-	Global.request_display_monsters.connect(display_current_monsters)
+	Ui.on_inventory_closed.connect(focus_default)
+	Ui.on_party_closed.connect(focus_default)
+	Battle.request_display_monsters.connect(display_current_monsters)
 
 
 func change_vis_state(new_state: VisibilityState) -> void:
@@ -63,13 +63,13 @@ func on_option_pressed(button: Button) -> void:
 
 	match button.name:
 		"Party":
-			Global.request_open_party.emit()
+			Ui.request_open_party.emit()
 		"Fight":
 			change_vis_state(VisibilityState.MOVES)
 		"Run":
 			battle.battle_handler.attempt_run()
 		"Item":
-			Global.request_open_inventory.emit()
+			Ui.request_open_inventory.emit()
 
 
 func on_move_pressed(button: Button) -> void:

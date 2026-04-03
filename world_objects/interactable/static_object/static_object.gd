@@ -13,7 +13,7 @@ func interact(body: CharacterBody2D) -> void:
 		return
 	if not text.is_empty():
 		var tp = true # Toggles Player
-		Global.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
+		Ui.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
 
 
 func trigger() -> void:

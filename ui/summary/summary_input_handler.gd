@@ -18,14 +18,14 @@ func _unhandled_input(event: InputEvent) -> void:
 func _handle_default_input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		summary.visibility_focus_handler.set_visible(false)
-		Global.on_summary_closed.emit()
+		Ui.on_summary_closed.emit()
 		if not summary.in_battle:
 			Global.toggle_player.emit()
 	elif event.is_action_pressed("no"):
 		summary.visibility_focus_handler.set_visible(false)
-		Global.on_summary_closed.emit()
+		Ui.on_summary_closed.emit()
 		if not summary.in_battle:
-			Global.request_open_party.emit()
+			Ui.request_open_party.emit()
 	elif event.is_action_pressed("right"):
 		summary.cycle_monster(1)
 	elif event.is_action_pressed("left"):

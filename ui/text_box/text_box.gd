@@ -20,7 +20,7 @@ var deferred_trigger_ref: Node = null
 
 func _ready() -> void:
 	main_label.text = ""
-	Global.send_text_box.connect(_load_text)
+	Ui.send_text_box.connect(_load_text)
 	_toggle_questions_visible()
 	if not in_battle_text_box and visible:
 		_toggle_visible()
@@ -31,7 +31,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if is_question and yes_button.visible:
 		if event.is_action_pressed("ui_cancel"):
-			Global.answer_given.emit(false)
+			Ui.answer_given.emit(false)
 			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("yes") or event.is_action_pressed("no"):
@@ -118,7 +118,7 @@ func _advance_text() -> void:
 
 func _await_question() -> bool:
 	_toggle_questions_visible()
-	var answer = await Global.answer_given
+	var answer = await Ui.answer_given
 	if answer:
 		return true
 	return false
@@ -148,7 +148,7 @@ func _text_finished() -> void:
 
 
 func _emit_text_box_complete() -> void:
-	Global.text_box_complete.emit()
+	Ui.text_box_complete.emit()
 
 
 func _clean_up() -> void:
@@ -176,8 +176,8 @@ func _clean_up() -> void:
 
 
 func _on_no_pressed() -> void:
-	Global.answer_given.emit(false)
+	Ui.answer_given.emit(false)
 
 
 func _on_yes_pressed() -> void:
-	Global.answer_given.emit(true)
+	Ui.answer_given.emit(true)

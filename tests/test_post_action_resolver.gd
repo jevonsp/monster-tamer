@@ -51,17 +51,17 @@ func before_each() -> void:
 	_handler = FakeHandler.new()
 	add_child_autoqfree(_battle)
 	autofree(_handler)
-	if not Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.connect(_on_send_text_box)
-	if not Global.send_monster_death_experience.is_connected(_on_send_monster_death_experience):
-		Global.send_monster_death_experience.connect(_on_send_monster_death_experience)
+	if not Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.connect(_on_send_text_box)
+	if not Battle.send_monster_death_experience.is_connected(_on_send_monster_death_experience):
+		Battle.send_monster_death_experience.connect(_on_send_monster_death_experience)
 
 
 func after_each() -> void:
-	if Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.disconnect(_on_send_text_box)
-	if Global.send_monster_death_experience.is_connected(_on_send_monster_death_experience):
-		Global.send_monster_death_experience.disconnect(_on_send_monster_death_experience)
+	if Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.disconnect(_on_send_text_box)
+	if Battle.send_monster_death_experience.is_connected(_on_send_monster_death_experience):
+		Battle.send_monster_death_experience.disconnect(_on_send_monster_death_experience)
 	if is_instance_valid(_battle):
 		_battle.free()
 	_battle = null
@@ -150,8 +150,8 @@ func _on_send_monster_death_experience(_amount: int) -> void:
 
 
 func _emit_text_box_complete() -> void:
-	Global.text_box_complete.emit()
+	Ui.text_box_complete.emit()
 
 
 func _emit_player_done_giving_exp() -> void:
-	Global.player_done_giving_exp.emit()
+	Battle.player_done_giving_exp.emit()

@@ -39,8 +39,8 @@ func _ready() -> void:
 func guard_clause_deposit() -> bool:
 	if party_ref.size() <= 1:
 		var ta: Array[String] = ["You can't deposit your last monster!"]
-		Global.send_text_box.emit(null, ta, true, false, false)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
 		return false
 	return true
 
@@ -75,12 +75,12 @@ func complete_move() -> void:
 			if not last_selected_monster.is_in_group("party"):
 				return
 			var to_party_idx = _button_index(last_selected_monster)
-			Global.request_move_storage_to_party.emit(moving_context["index"], to_party_idx)
+			Party.request_move_storage_to_party.emit(moving_context["index"], to_party_idx)
 		"party":
 			if not last_selected_monster.is_in_group("storage"):
 				return
 			var to_storage_idx = _storage_index(last_selected_monster)
-			Global.request_move_party_to_storage.emit(moving_context["index"], to_storage_idx)
+			Party.request_move_party_to_storage.emit(moving_context["index"], to_storage_idx)
 	state = State.DEFAULT
 	moving_context = { }
 
@@ -90,14 +90,14 @@ func deposit() -> void:
 		return
 	if last_selected_monster.is_in_group("storage"):
 		return
-	Global.storage_deposit_monster.emit(last_selected_monster.actor)
+	Party.storage_deposit_monster.emit(last_selected_monster.actor)
 	visibility_focus_handler.toggle_options_visible()
 
 
 func withdraw() -> void:
 	if last_selected_monster.is_in_group("party"):
 		return
-	Global.storage_withdraw_monster.emit(last_selected_monster.actor)
+	Party.storage_withdraw_monster.emit(last_selected_monster.actor)
 	visibility_focus_handler.toggle_options_visible()
 
 
@@ -110,16 +110,16 @@ func release() -> void:
 		return
 
 	ta = ["Do you really want to release %s? This is irreversible." % monster.name]
-	Global.send_text_box.emit(null, ta, false, true, false)
+	Ui.send_text_box.emit(null, ta, false, true, false)
 
-	var answer = await Global.answer_given
-	await Global.text_box_complete
+	var answer = await Ui.answer_given
+	await Ui.text_box_complete
 
 	if answer:
 		ta = ["Are you absolutely sure?? YES to relase. NO to back out."]
-		Global.send_text_box.emit(null, ta, false, true, false)
-		answer = await Global.answer_given
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, false, true, false)
+		answer = await Ui.answer_given
+		await Ui.text_box_complete
 		if answer:
 			var player = get_tree().get_first_node_in_group("player")
 			await player.party_handler.remove(monster)
@@ -129,8 +129,8 @@ func can_release(monster: Monster) -> bool:
 	var player = get_tree().get_first_node_in_group("player")
 	if player.party_handler.party.size() == 1 and player.party_handler.party.has(monster):
 		var ta: Array[String] = ["You cant release your last monster!"]
-		Global.send_text_box.emit(null, ta, true, false, false)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
 		return false
 
 	return true
@@ -150,8 +150,8 @@ func _bind_buttons() -> void:
 
 
 func _connect_signals() -> void:
-	Global.send_player_party_and_storage.connect(_on_send_player_party_and_storage)
-	Global.request_open_storage.connect(_on_request_open_storage)
+	Party.send_player_party_and_storage.connect(_on_send_player_party_and_storage)
+	Ui.request_open_storage.connect(_on_request_open_storage)
 
 
 func _on_request_open_storage() -> void:

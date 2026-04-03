@@ -12,9 +12,9 @@ var is_escaped: bool = false
 
 
 func _ready() -> void:
-	Global.add_item_to_turn_queue.connect(execute_player_turn)
-	Global.add_switch_to_turn_queue.connect(execute_player_turn)
-	Global.request_battle_level_up_resolution.connect(_on_request_battle_level_up_resolution)
+	Battle.add_item_to_turn_queue.connect(execute_player_turn)
+	Battle.add_switch_to_turn_queue.connect(execute_player_turn)
+	Battle.request_battle_level_up_resolution.connect(_on_request_battle_level_up_resolution)
 
 
 func execute_player_turn(action) -> void:

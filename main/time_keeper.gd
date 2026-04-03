@@ -1,11 +1,11 @@
 class_name TimeKeeper
 extends Node
 
-enum TimeOfDay { NIGHT, DAWN, DAY, DUSK }
+enum Period { NIGHT, DAWN, DAY, DUSK }
 
-static var time_of_day: TimeOfDay = TimeOfDay.DAY:
+static var period: Period = Period.DAY:
 	set(value):
-		time_of_day = value
+		period = value
 		Global.period_of_day_changed.emit()
 	get:
 		return interpret_current_time()
@@ -15,18 +15,18 @@ static var hour_minute: Vector2i = Vector2i.ZERO:
 		Global.time_changed.emit()
 
 
-static func interpret_current_time() -> TimeOfDay:
+static func interpret_current_time() -> Period:
 	match hour_minute.x:
 		22, 23, 0, 1, 2, 3:
-			return TimeOfDay.NIGHT
+			return Period.NIGHT
 		4, 5, 6, 7, 8, 9:
-			return TimeOfDay.DAWN
+			return Period.DAWN
 		10, 11, 12, 13, 14, 15:
-			return TimeOfDay.DAY
+			return Period.DAY
 		16, 17, 18, 19, 20, 21:
-			return TimeOfDay.DUSK
+			return Period.DUSK
 		_:
-			return TimeOfDay.DAY
+			return Period.DAY
 
 
 func _ready() -> void:
@@ -37,8 +37,8 @@ func _ready() -> void:
 func _set_time():
 	hour_minute.x = Time.get_time_dict_from_system().hour
 	hour_minute.y = Time.get_time_dict_from_system().minute
-	time_of_day = interpret_current_time()
-	print("set time %s %s %s" % [TimeOfDay.keys()[time_of_day], hour_minute.x, hour_minute.y])
+	period = interpret_current_time()
+	Global.time_changed.emit()
 
 
 func _start_minute_sync() -> void:

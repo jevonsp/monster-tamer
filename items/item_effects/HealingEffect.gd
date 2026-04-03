@@ -20,11 +20,11 @@ func execute(_actor: Monster, target: Monster, battle_context: BattleContext) ->
 func use(target: Monster) -> void:
 	if target.current_hitpoints == target.max_hitpoints and not revives:
 		var fail_text: Array[String] = ["%s is already full health!" % [target.name]]
-		Global.send_text_box.emit(null, fail_text, true, false, false)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, fail_text, true, false, false)
+		await Ui.text_box_complete
 		return
 	target.heal(base_healing, revives)
-	await Global.hitpoints_animation_complete
+	await Battle.hitpoints_animation_complete
 	var success_text: Array[String] = ["%s gained %s hitpoints." % [target.name, base_healing]]
-	Global.send_text_box.emit(null, success_text, true, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, success_text, true, false, false)
+	await Ui.text_box_complete

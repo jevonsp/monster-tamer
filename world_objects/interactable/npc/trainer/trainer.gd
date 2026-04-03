@@ -37,7 +37,7 @@ func interact(body: CharacterBody2D) -> void:
 	if not is_defeated:
 		await animate_exclamation()
 		await _say_dialogue(dialogue)
-		Global.player_party_requested.emit()
+		Party.player_party_requested.emit()
 		_send_trainer_battle()
 	else:
 		await _say_dialogue(losing_dialogue)
@@ -95,7 +95,7 @@ func _check_vision_collision(pos: Vector2) -> void:
 	if not is_defeated:
 		for i in range(len(tiles_in_sight)):
 			if pos == tiles_in_sight[i]:
-				Global.player_party_requested.emit()
+				Party.player_party_requested.emit()
 				Global.toggle_player.emit()
 				await animate_exclamation()
 				if i > 0:
@@ -105,5 +105,5 @@ func _check_vision_collision(pos: Vector2) -> void:
 
 
 func _send_trainer_battle() -> void:
-	Global.trainer_battle_requested.emit(self)
-	Global.battle_started.emit()
+	Battle.trainer_battle_requested.emit(self)
+	Battle.battle_started.emit()

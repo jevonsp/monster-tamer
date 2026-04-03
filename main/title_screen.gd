@@ -9,6 +9,11 @@ var saved_game: SavedGame
 
 
 func _ready() -> void:
+	get_window().grab_focus()
+	get_window().size = Vector2i(Global.GAME_WIDTH, Global.GAME_HEIGHT)
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 	_prepare_buttons()
 	_bind_buttons()
 
@@ -43,6 +48,7 @@ func _on_button_pressed(button: Button) -> void:
 
 func _toggle_button(button: Button, is_enabled: bool) -> void:
 	button.disabled = not is_enabled
+	button.focus_mode = Control.FOCUS_ALL if is_enabled else Control.FOCUS_NONE
 	if is_enabled:
 		button.modulate = Color.WHITE
 	else:

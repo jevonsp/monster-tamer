@@ -9,7 +9,7 @@ var should_save_game: bool = false
 
 func _ready() -> void:
 	_bind_buttons()
-	Global.request_open_menu.connect(_toggle_visible)
+	Ui.request_open_menu.connect(_toggle_visible)
 	if visible:
 		_toggle_visible()
 
@@ -20,11 +20,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		_toggle_visible()
 		get_viewport().set_input_as_handled()
-		Global.on_menu_closed.emit()
+		Ui.on_menu_closed.emit()
 	if event.is_action_pressed("no"):
 		_toggle_visible()
 		get_viewport().set_input_as_handled()
-		Global.on_menu_closed.emit()
+		Ui.on_menu_closed.emit()
 
 
 func trigger() -> void:
@@ -41,12 +41,12 @@ func _on_menu_pressed(button: Button) -> void:
 	match button.name:
 		"Party":
 			_toggle_visible()
-			Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
-			Global.request_open_party.emit()
+			Ui.switch_ui_context.emit(Global.AccessFrom.PARTY)
+			Ui.request_open_party.emit()
 		"Items":
 			_toggle_visible()
-			Global.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
-			Global.request_open_inventory.emit()
+			Ui.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
+			Ui.request_open_inventory.emit()
 		"Save":
 			await _start_save_process()
 			_focus_default()
@@ -63,10 +63,10 @@ func _toggle_visible() -> void:
 	processing = not processing
 	if visible:
 		_focus_default()
-		Global.switch_ui_context.emit(Global.AccessFrom.MENU)
+		Ui.switch_ui_context.emit(Global.AccessFrom.MENU)
 	else:
 		last_focused_button = null
-		Global.switch_ui_context.emit(Global.AccessFrom.NONE)
+		Ui.switch_ui_context.emit(Global.AccessFrom.NONE)
 
 
 func _focus_default() -> void:
@@ -80,8 +80,8 @@ func _focus_default() -> void:
 
 func _start_save_process() -> void:
 	var text_array: Array[String] = ["Would you like to save the game?"]
-	Global.send_text_box.emit(self, text_array, false, true, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(self, text_array, false, true, false)
+	await Ui.text_box_complete
 	if should_save_game:
 		_finish_save_process()
 	should_save_game = false

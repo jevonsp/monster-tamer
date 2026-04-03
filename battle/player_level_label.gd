@@ -5,7 +5,7 @@ var label_level
 
 
 func _ready() -> void:
-	Global.monster_gained_level.connect(_on_monster_gained_level)
+	Battle.monster_gained_level.connect(_on_monster_gained_level)
 
 
 func update():

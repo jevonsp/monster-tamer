@@ -19,7 +19,7 @@ func toggle_visible(monster: Monster = null) -> void:
 func set_visible(value: bool, monster: Monster = null) -> void:
 	if value and summary.interfaces.ui_context == Global.AccessFrom.PARTY and party.visible:
 		party.visibility_focus_handler.set_visible(false)
-		Global.switch_ui_context.emit(Global.AccessFrom.PARTY)
+		Ui.switch_ui_context.emit(Global.AccessFrom.PARTY)
 
 	summary.visible = value
 	summary.processing = value

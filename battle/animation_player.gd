@@ -9,14 +9,14 @@ var enemy_actor
 
 
 func _ready() -> void:
-	Global.send_sprite_shake.connect(_play_sprite_shake)
-	Global.send_monster_fainted.connect(_play_monster_faint)
-	Global.send_monster_switch_out.connect(play_monster_switch_out)
-	Global.send_monster_switch_in.connect(_play_monster_switch_in)
-	Global.send_capture_animation.connect(_animate_capture)
-	Global.send_escape_animation.connect(_animate_escape)
-	Global.send_item_wiggle.connect(_animate_ball_shake)
-	Global.send_stat_change_animation.connect(_animate_stat_change)
+	Battle.send_sprite_shake.connect(_play_sprite_shake)
+	Battle.send_monster_fainted.connect(_play_monster_faint)
+	Battle.send_monster_switch_out.connect(play_monster_switch_out)
+	Battle.send_monster_switch_in.connect(_play_monster_switch_in)
+	Battle.send_capture_animation.connect(_animate_capture)
+	Battle.send_escape_animation.connect(_animate_escape)
+	Battle.send_item_wiggle.connect(_animate_ball_shake)
+	Battle.send_stat_change_animation.connect(_animate_stat_change)
 
 
 func reset_textures() -> void:
@@ -31,7 +31,7 @@ func reset_position() -> void:
 func clear_image() -> void:
 	reset_textures()
 	reset_position()
-	Global.monster_fainted_animation_complete.emit()
+	Battle.monster_fainted_animation_complete.emit()
 
 
 func _play_sprite_shake(target: Monster) -> void:
@@ -63,7 +63,7 @@ func play_monster_switch_out(target: Monster) -> void:
 		enemy_actor = null
 
 	await animation_finished
-	Global.monster_switch_out_animation_complete.emit()
+	Battle.monster_switch_out_animation_complete.emit()
 
 
 func _play_monster_switch_in(target: Monster) -> void:
@@ -75,7 +75,7 @@ func _play_monster_switch_in(target: Monster) -> void:
 		play("enemy_switch_in")
 
 	await animation_finished
-	Global.monster_switch_in_animation_complete.emit()
+	Battle.monster_switch_in_animation_complete.emit()
 
 
 func _animate_ball_shake(times: int) -> void:
@@ -97,21 +97,21 @@ func _animate_ball_shake(times: int) -> void:
 	if is_playing():
 		await animation_finished
 
-	Global.wiggle_animation_complete.emit()
+	Battle.wiggle_animation_complete.emit()
 
 
 func _animate_capture() -> void:
 	await get_tree().process_frame
 	enemy_texture_rect.visible = false
-	Global.capture_or_escape_animation_complete.emit()
+	Battle.capture_or_escape_animation_complete.emit()
 
 
 func _animate_escape() -> void:
 	await get_tree().process_frame
 	item_sprite.reset_ball()
-	Global.capture_or_escape_animation_complete.emit()
+	Battle.capture_or_escape_animation_complete.emit()
 
 
 func _animate_stat_change() -> void:
 	await get_tree().process_frame
-	Global.stat_change_animation_complete.emit()
+	Battle.stat_change_animation_complete.emit()

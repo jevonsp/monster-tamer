@@ -20,8 +20,8 @@ func trigger(obj: Node) -> void:
 
 	if monster_in_party == null:
 		ta = ["You dont have the %s I'm looking for. Come back when you have it!" % [monster_to_take.species]]
-		Global.send_text_box.emit(null, ta, false, false, true)
-		await Global.text_box_complete
+		Ui.send_text_box.emit(null, ta, false, false, true)
+		await Ui.text_box_complete
 		return
 
 	party.erase(monster_in_party)
@@ -29,5 +29,5 @@ func trigger(obj: Node) -> void:
 	obj.party_handler.add(received)
 
 	ta = ["Bye %s! I'll take good care of %s." % [monster_to_give.species, monster_to_take.species]]
-	Global.send_text_box.emit(null, ta, false, false, true)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, ta, false, false, true)
+	await Ui.text_box_complete

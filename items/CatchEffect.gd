@@ -17,7 +17,7 @@ func execute(item: Item, actor: Monster, target: Monster, battle_context: Battle
 
 	if result["success"] == true:
 		target.is_captured = true
-		Global.capture_monster.emit(target)
+		Party.capture_monster.emit(target)
 		post_text.append("The enemy %s was captured!" % target.name)
 	else:
 		match times:

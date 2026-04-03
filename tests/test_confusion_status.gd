@@ -7,21 +7,21 @@ var _context_nodes: Array[Node] = []
 func before_each() -> void:
 	hit_reactions = 0
 	_context_nodes.clear()
-	if not Global.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
-		Global.send_hitpoints_change.connect(_on_send_hitpoints_change)
-	if not Global.send_sprite_shake.is_connected(_on_send_sprite_shake):
-		Global.send_sprite_shake.connect(_on_send_sprite_shake)
-	if not Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.connect(_on_send_text_box)
+	if not Battle.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
+		Battle.send_hitpoints_change.connect(_on_send_hitpoints_change)
+	if not Battle.send_sprite_shake.is_connected(_on_send_sprite_shake):
+		Battle.send_sprite_shake.connect(_on_send_sprite_shake)
+	if not Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.connect(_on_send_text_box)
 
 
 func after_each() -> void:
-	if Global.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
-		Global.send_hitpoints_change.disconnect(_on_send_hitpoints_change)
-	if Global.send_sprite_shake.is_connected(_on_send_sprite_shake):
-		Global.send_sprite_shake.disconnect(_on_send_sprite_shake)
-	if Global.send_text_box.is_connected(_on_send_text_box):
-		Global.send_text_box.disconnect(_on_send_text_box)
+	if Battle.send_hitpoints_change.is_connected(_on_send_hitpoints_change):
+		Battle.send_hitpoints_change.disconnect(_on_send_hitpoints_change)
+	if Battle.send_sprite_shake.is_connected(_on_send_sprite_shake):
+		Battle.send_sprite_shake.disconnect(_on_send_sprite_shake)
+	if Ui.send_text_box.is_connected(_on_send_text_box):
+		Ui.send_text_box.disconnect(_on_send_text_box)
 	for node in _context_nodes:
 		if is_instance_valid(node):
 			node.free()
@@ -60,7 +60,7 @@ func _on_send_hitpoints_change(_target: Monster, _hp: int) -> void:
 
 
 func _emit_hitpoints_animation_complete() -> void:
-	Global.hitpoints_animation_complete.emit()
+	Battle.hitpoints_animation_complete.emit()
 
 
 func _on_send_sprite_shake(_target: Monster) -> void:
@@ -78,7 +78,7 @@ func _on_send_text_box(
 
 
 func _emit_text_box_complete() -> void:
-	Global.text_box_complete.emit()
+	Ui.text_box_complete.emit()
 
 
 func _make_context() -> BattleContext:

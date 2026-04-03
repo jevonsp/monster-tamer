@@ -21,7 +21,7 @@ func resolve_move_learning(summary: Control, monster: Monster, move: Move) -> vo
 		decided = true
 
 	summary.is_learning_move = true
-	Global.request_summary_learn_move.emit(move)
+	Party.request_summary_learn_move.emit(move)
 	if not summary.visible:
 		summary.visibility_focus_handler.set_visible(true, monster)
 	else:
@@ -43,7 +43,7 @@ func ask_remove_move(summary: Control) -> void:
 
 	set_move_learning_processing(summary, false, "confirm_replace_move prompt")
 	var answer: bool = await confirm_replace_move(move_removing, summary.move_learning)
-	await Global.text_box_complete
+	await Ui.text_box_complete
 	if not answer:
 		set_move_learning_processing(summary, true, "confirm_replace_move declined")
 		summary.visibility_focus_handler.focus_default_move()
@@ -68,7 +68,7 @@ func handle_cancel_learning(summary: Control) -> bool:
 
 	set_move_learning_processing(summary, false, "confirm_stop_learning prompt")
 	var answer: bool = await confirm_stop_learning(summary.learning_monster, summary.move_learning)
-	await Global.text_box_complete
+	await Ui.text_box_complete
 	if not answer:
 		set_move_learning_processing(summary, true, "confirm_stop_learning declined")
 		summary.visibility_focus_handler.focus_default_move()
@@ -86,54 +86,54 @@ func set_move_learning_processing(summary: Control, value: bool, _reason: String
 func clean_up_learning_move(summary: Control) -> void:
 	summary.is_moving_move = false
 	summary.move_learning = null
-	Global.move_learning_finished.emit()
+	Ui.move_learning_finished.emit()
 	summary.visibility_focus_handler.toggle_visible()
-	Global.player_party_requested.emit()
+	Party.player_party_requested.emit()
 
 
 func ask_delete_existing_move(monster: Monster, move: Move) -> bool:
 	var text: Array[String] = [
 		"%s is trying to learn %s, but already knows four moves. Delete one?" % [monster.name, move.name],
 	]
-	Global.send_text_box.emit(null, text, false, true, false)
-	return await Global.answer_given
+	Ui.send_text_box.emit(null, text, false, true, false)
+	return await Ui.answer_given
 
 
 func confirm_replace_move(old_move: Move, new_move: Move) -> bool:
 	var text: Array[String] = [
 		"Are you sure you want to remove %s for %s?" % [old_move.name, new_move.name],
 	]
-	Global.send_text_box.emit(null, text, false, true, false)
-	return await Global.answer_given
+	Ui.send_text_box.emit(null, text, false, true, false)
+	return await Ui.answer_given
 
 
 func confirm_stop_learning(monster: Monster, move: Move) -> bool:
 	var text: Array[String] = [
 		"Are you sure you want %s to stop learning %s" % [monster.name, move.name],
 	]
-	Global.send_text_box.emit(null, text, false, true, false)
-	return await Global.answer_given
+	Ui.send_text_box.emit(null, text, false, true, false)
+	return await Ui.answer_given
 
 
 func show_did_not_learn(monster: Monster, move: Move) -> void:
 	var ta: Array[String] = ["%s did not learn %s" % [monster.name, move.name]]
-	Global.send_text_box.emit(
+	Ui.send_text_box.emit(
 		null,
 		ta,
 		true,
 		false,
 		false,
 	)
-	await Global.text_box_complete
+	await Ui.text_box_complete
 
 
 func announce_move_learned(monster: Monster, move: Move) -> void:
 	var ta: Array[String] = ["%s learned %s." % [monster.name, move.name]]
-	Global.send_text_box.emit(
+	Ui.send_text_box.emit(
 		null,
 		ta,
 		true,
 		false,
 		false,
 	)
-	await Global.text_box_complete
+	await Ui.text_box_complete

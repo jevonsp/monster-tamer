@@ -4,7 +4,7 @@ var actor = null
 
 
 func _ready() -> void:
-	Global.send_hitpoints_change.connect(_on_send_hitpoints_change)
+	Battle.send_hitpoints_change.connect(_on_send_hitpoints_change)
 
 
 func update():
@@ -26,4 +26,4 @@ func _on_send_hitpoints_change(target: Monster, new_hp: int) -> void:
 
 	await tween.finished
 
-	Global.hitpoints_animation_complete.emit()
+	Battle.hitpoints_animation_complete.emit()

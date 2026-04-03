@@ -17,7 +17,7 @@ func set_visible(value: bool) -> void:
 			party.panels[panel].player_exp_bar.active = true
 	else:
 		if party.interfaces.ui_context != Global.AccessFrom.BATTLE:
-			Global.switch_ui_context.emit(Global.AccessFrom.NONE)
+			Ui.switch_ui_context.emit(Global.AccessFrom.NONE)
 		for panel in party.panels:
 			party.panels[panel].player_exp_bar.active = false
 

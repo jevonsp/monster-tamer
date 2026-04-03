@@ -48,8 +48,8 @@ func _start_evolution_process(monster: Monster, entry: Entry) -> void:
 	old_species_name = monster.monster_data.species
 	new_species_name = entry.finish_monster.species
 	ta = ["What...? Your %s is evolving!" % [old_species_name]]
-	Global.send_text_box.emit(null, ta, false, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, ta, false, false, false)
+	await Ui.text_box_complete
 
 	_cancelled = false
 	_set_up_screen(monster, entry)
@@ -66,8 +66,8 @@ func _finish_evolution(n: String) -> void:
 	processing = false
 	ta = ["Congratulations~\nYour %s evolved into a %s!" % [old_species_name, n]]
 
-	Global.send_text_box.emit(null, ta, false, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, ta, false, false, false)
+	await Ui.text_box_complete
 
 	visible = false
 	EvolutionHandler.finish_evolve()
@@ -89,8 +89,8 @@ func _cancel_evolution(n: String) -> void:
 	processing = false
 	ta = ["Your %s did not evolve." % [n]]
 
-	Global.send_text_box.emit(null, ta, false, false, false)
-	await Global.text_box_complete
+	Ui.send_text_box.emit(null, ta, false, false, false)
+	await Ui.text_box_complete
 
 	visible = false
 	EvolutionHandler.finish_evolve()

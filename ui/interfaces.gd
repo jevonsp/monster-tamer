@@ -7,7 +7,7 @@ func _ready() -> void:
 	
 	
 func _connect_signals() -> void:
-	Global.switch_ui_context.connect(_on_switch_ui_context)
+	Ui.switch_ui_context.connect(_on_switch_ui_context)
 
 
 func _on_switch_ui_context(new_context: Global.AccessFrom) -> void:
