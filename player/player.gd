@@ -1,7 +1,6 @@
 class_name Player
 extends TileMover
 
-#region Movement Vars
 enum TravelState { DEFAULT, SURFING, BIKING }
 
 static var in_battle: bool = false
@@ -68,7 +67,6 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-#region Movement and Interaction
 func update_held_keys(delta: float) -> void:
 	var directions = ["up", "down", "right", "left"]
 
@@ -201,17 +199,11 @@ func clear_inputs() -> void:
 	anim_state.travel("Idle")
 
 
-func toggle_processing() -> void:
-	clear_inputs()
-	processing = !processing
-
-
 func toggle_in_battle() -> void:
 	in_battle = not in_battle
 	if not in_battle:
 		for monster in party_handler.party:
 			monster.was_active_in_battle = false
-#endregion
 
 
 func set_respawn_point() -> void:
@@ -230,10 +222,8 @@ func stop_surfing() -> void:
 
 
 func _connect_signals() -> void:
-	Global.toggle_player.connect(toggle_processing)
 	Battle.toggle_in_battle.connect(toggle_in_battle)
 	Global.send_respawn_player.connect(_respawn)
-	Ui.on_menu_closed.connect(_on_menu_closed)
 	party_handler._connect_signals()
 	inventory_handler._connect_signals()
 
@@ -272,12 +262,7 @@ func _open_menu() -> void:
 	inventory_handler.send_player_inventory()
 	if move_progress != 0.0:
 		await Global.step_completed
-	toggle_processing()
 	Ui.request_open_menu.emit()
-
-
-func _on_menu_closed() -> void:
-	toggle_processing()
 
 
 func _get_next_tile_coords(dir: Vector2) -> Vector2i:
@@ -291,4 +276,3 @@ func _is_tile_water(tile: Vector2i) -> bool:
 
 func _get_walk_speed() -> float:
 	return 5.0
-#endregion

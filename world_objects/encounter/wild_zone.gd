@@ -21,13 +21,10 @@ func choose_encounter() -> void:
 	for e in encounter_table:
 		total_chance += e.chance
 
-	# We multiply by total chance. * 1 = 100%, * .5 = 50% etc
-	# This makes the roll never go over.
 	var roll = randf() * total_chance
 	var cumulative_chance := 0.0
 
 	for e in encounter_table:
-		# Adding the chance each iteration ends up avoids errors
 		cumulative_chance += e.chance
 		if roll <= cumulative_chance:
 			var level = randi_range(e.level_low, e.level_high)

@@ -1,7 +1,6 @@
 extends Node
 
 @onready var party: Control = $".."
-#region Helper Nodes
 @onready var visibility_focus_handler: Node = $"../Visibility&FocusHandler"
 
 
@@ -13,7 +12,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not party.is_forced_switch:
 			visibility_focus_handler.toggle_visible()
 			Ui.on_party_closed.emit()
-			Global.toggle_player.emit()
+			if not Player.in_battle:
+				Ui.on_menu_closed.emit()
 			get_viewport().set_input_as_handled()
 
 	if event.is_action_pressed("no"):
@@ -96,4 +96,3 @@ func on_option_pressed(button: Button) -> void:
 			party.take()
 
 	get_viewport().set_input_as_handled()
-#endregion

@@ -22,3 +22,5 @@ func update_actor(a: Monster) -> void:
 		node.update()
 	if actor == null:
 		focus_mode = Control.FOCUS_NONE
+	else:
+		focus_mode = Control.FOCUS_ALL

@@ -11,7 +11,6 @@ extends NPC
 @export_subgroup("Dialogue")
 @export_multiline var winning_dialogue: Array[String] = []
 @export_multiline var losing_dialogue: Array[String] = []
-#region Variables
 @export_subgroup("Variables")
 @export var starting_tile: Vector2 = Vector2.ZERO
 @export var initial_direction: Direction = Direction.NONE
@@ -71,7 +70,6 @@ func defeat() -> void:
 		Global.step_completed.disconnect(_check_vision_collision)
 	if story_component:
 		story_component.trigger()
-#endregion
 
 
 func _connect_signals() -> void:

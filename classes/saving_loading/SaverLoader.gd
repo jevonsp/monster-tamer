@@ -1,7 +1,4 @@
 extends Node
-## Path Info
-## https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html
-## ~/.local/share/godot/app_userdata/
 
 const MAIN = preload("res://main/main.tscn")
 

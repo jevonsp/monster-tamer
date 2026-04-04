@@ -21,7 +21,6 @@ var moving_index_one: int = -1
 @onready var update_handler: Node = $UpdateHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var input_handler: Node = $InputHandler
-#region Onready Vars
 @onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
 @onready var name_label: Label = $Content/Main/HBoxContainer0/NameLabel
 @onready var level_label: Label = $Content/Main/HBoxContainer0/PlayerLevelLabel
@@ -109,7 +108,6 @@ func handle_cancel_learning() -> bool:
 
 func clean_up_learning_move() -> void:
 	move_learning_controller.clean_up_learning_move(self)
-#endregion
 
 
 func _connect_signals() -> void:

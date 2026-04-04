@@ -2,7 +2,6 @@ class_name Entry
 extends Resource
 
 enum Trigger { LEVEL_UP, ITEM_USE, TRADE }
-# LOCATION, KNOWS_MOVE, STAT_DISTRIBUTION
 enum Requirement {
 	NONE,
 	LEVEL,

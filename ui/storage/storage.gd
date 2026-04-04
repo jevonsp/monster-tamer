@@ -16,11 +16,9 @@ var last_selected_option: Button = null
 var moving_context: Dictionary = { }
 var page_index: int = 0
 
-#region Node References
 @onready var grid_container: GridContainer = $MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer
 @onready var party_container: HBoxContainer = $MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/Party
 @onready var options_container: VBoxContainer = $MarginContainer/VBoxContainer/HBoxContainer/Control/Options
-#region Helper Nodes
 @onready var update_handler: Node = $UpdateHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var input_handler: Node = $InputHandler
@@ -134,7 +132,6 @@ func can_release(monster: Monster) -> bool:
 		return false
 
 	return true
-#endregion
 
 
 func _bind_buttons() -> void:

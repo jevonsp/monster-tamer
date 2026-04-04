@@ -23,7 +23,6 @@ func interact(body: Player) -> void:
 	ta = ["Would you like to surf?"]
 	Ui.send_text_box.emit(self, ta, false, true, false)
 	var answer = await Ui.answer_given
-	Global.toggle_player.emit()
 	if answer:
 		print("yes")
 		await body.start_surfing()

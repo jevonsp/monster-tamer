@@ -10,7 +10,6 @@ var last_selected_monster: Button = null
 var last_selected_option: Button = null
 var moving_source_index: int = -1
 
-#region Node References
 @onready var interfaces: CanvasLayer = $".."
 @onready var options_box: VBoxContainer = $MarginContainer/Control/Options
 @onready var panels: Dictionary = {
@@ -28,7 +27,6 @@ var moving_source_index: int = -1
 	give = $MarginContainer/Control/Options/Give,
 	take = $MarginContainer/Control/Options/Take,
 }
-#region Helper Nodes
 @onready var input_handler: Node = $InputHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 
@@ -210,4 +208,3 @@ func _confirm_item_swap(monster: Monster) -> bool:
 
 func _set_item_use_processing(value: bool, _reason: String) -> void:
 	processing = value and visible
-#endregion

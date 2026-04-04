@@ -13,17 +13,17 @@ func _ready() -> void:
 		_toggle_visible()
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not processing:
 		return
-	if event.is_action_pressed("menu"):
-		_toggle_visible()
+	if event.is_action_pressed("menu") or event.is_action_pressed("no"):
+		_close_menu()
 		get_viewport().set_input_as_handled()
-		Ui.on_menu_closed.emit()
-	if event.is_action_pressed("no"):
-		_toggle_visible()
-		get_viewport().set_input_as_handled()
-		Ui.on_menu_closed.emit()
+
+
+func _close_menu() -> void:
+	_toggle_visible()
+	Ui.on_menu_closed.emit()
 
 
 func _bind_buttons() -> void:
@@ -55,7 +55,7 @@ func _on_focus_entered(button: Button) -> void:
 
 func _toggle_visible() -> void:
 	visible = not visible
-	processing = not processing
+	processing = visible
 	if visible:
 		_focus_default()
 		Ui.switch_ui_context.emit(Global.AccessFrom.MENU)

@@ -5,11 +5,9 @@ extends Node
 
 func toggle_visible() -> void:
 	storage.visible = not storage.visible
-	storage.processing = not storage.processing
+	storage.processing = storage.visible
 	if storage.visible:
 		focus_default_monster()
-	else:
-		Global.toggle_player.emit()
 
 
 func toggle_options_visible() -> void:

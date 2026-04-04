@@ -9,7 +9,6 @@ var enemy_trainer: Trainer = null
 var enemy_party: Array[Monster] = []
 
 @onready var interfaces: CanvasLayer = $".."
-#region NODE REFERENCES
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
 @onready var run_button: Button = $Content/OptionButtons/Run
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
@@ -89,7 +88,7 @@ func switch_actors(old: Monster, new: Monster) -> void:
 
 func _toggle_visible() -> void:
 	visible = !visible
-	processing = !processing
+	processing = visible
 	if visible:
 		visibility_focus_handler.focus_default()
 		player_display["exp_bar"].active = true
@@ -98,7 +97,6 @@ func _toggle_visible() -> void:
 
 
 func _toggle_player() -> void:
-	Global.toggle_player.emit()
 	Battle.toggle_in_battle.emit()
 
 
@@ -145,8 +143,8 @@ func _start_trainer_battle(trainer: Trainer) -> void:
 
 func _switch_to_battle() -> void:
 	visibility_focus_handler.display_current_monsters()
-	_toggle_player()
 	_toggle_visible()
+	_toggle_player()
 	visibility_focus_handler.animation_player.play("both_switch_in")
 	await visibility_focus_handler.animation_player.animation_finished
 	processing = true

@@ -36,18 +36,6 @@
 [ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="38_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0, 0, 0, 0.72156864)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
 monster = ExtResource("19_n53tw")
@@ -81,7 +69,6 @@ visible = false
 
 [node name="Inventory" parent="Interfaces" unique_id=713585617 instance=ExtResource("5_4hmqs")]
 visible = false
-inventory = null
 
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
 visible = false
@@ -99,7 +86,6 @@ visible = false
 visible = false
 z_index = 5
 focus_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
 
 [node name="InfoHUD" parent="Interfaces" unique_id=1085189325 instance=ExtResource("12_t1yuj")]
 visible = false

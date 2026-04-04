@@ -50,10 +50,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 	await Global.step_completed
 
-	Global.toggle_player.emit()
+	var interfaces = get_tree().get_first_node_in_group("interfaces")
+	if interfaces and interfaces.has_method("begin_field_suppress"):
+		interfaces.begin_field_suppress()
 
 	match transition_type:
 		TransitionType.IRIS:
 			await _teleport_sequence_iris(body)
 
-	Global.toggle_player.emit()
+	if interfaces and interfaces.has_method("end_field_suppress"):
+		interfaces.end_field_suppress()

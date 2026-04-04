@@ -1,7 +1,6 @@
 extends Node
 
 @onready var storage: Control = $".."
-#region Helper Nodes
 @onready var visibility_focus_handler: Node = $"../Visibility&FocusHandler"
 @onready var update_handler: Node = $"../UpdateHandler"
 
@@ -36,7 +35,6 @@ func move_page(dir: Vector2) -> void:
 		Vector2.RIGHT:
 			storage.page_index = (storage.page_index + 1) % storage.STORAGE_PAGE_COUNT
 	update_handler.display_monsters()
-#endregion
 
 
 func on_monster_pressed(b: Button) -> void:

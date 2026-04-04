@@ -191,9 +191,8 @@ func _exit_inventory() -> void:
 		return
 	_toggle_visible()
 	Ui.on_inventory_closed.emit()
-	Global.toggle_player.emit()
-	if interfaces.ui_context == Global.AccessFrom.MENU:
-		Ui.request_open_menu.emit()
+	if not Player.in_battle:
+		Ui.on_menu_closed.emit()
 	interfaces.ui_context = Global.AccessFrom.NONE
 
 
@@ -347,7 +346,7 @@ func _on_option_pressed(button: Button) -> void:
 
 func _toggle_visible() -> void:
 	visible = not visible
-	processing = not processing
+	processing = visible
 	_set_focus_state(Focused.CATEGORY)
 	last_selected_item_button = null
 	if not visible:

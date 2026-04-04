@@ -269,8 +269,6 @@ func _toggle_visible() -> void:
 	processing = visible
 	if visible:
 		_set_focus_state(Focused.OPTION)
-	else:
-		Global.toggle_player.emit()
 
 
 func _show_options() -> void:

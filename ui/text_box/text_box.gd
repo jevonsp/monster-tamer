@@ -6,7 +6,6 @@ var processing: bool = false
 var text_array: Array[String] = []
 var is_auto_complete: bool = false
 var is_question: bool = false
-var toggles_player: bool = false
 var text_index: int = -1
 
 @onready var text_box: Panel = $"."
@@ -61,21 +60,17 @@ func _load_text(
 		ta: Array[String],
 		auto_complete: bool,
 		question: bool,
-		toggle: bool,
+		_toggle: bool,
 ) -> void:
 	if not in_battle_text_box and Player.in_battle:
 		return
 	if in_battle_text_box and not Player.in_battle:
 		return
-	var player = get_tree().get_first_node_in_group("player")
-	if player.processing:
-		Global.toggle_player.emit()
 	if not visible:
 		_toggle_visible()
 	is_question = question
 	text_array = ta
 	is_auto_complete = auto_complete
-	toggles_player = toggle
 	if not is_auto_complete:
 		processing = true
 	text_index = 0
@@ -138,9 +133,6 @@ func _clean_up() -> void:
 	text_index = 0
 	is_question = false
 	is_auto_complete = false
-	if toggles_player:
-		Global.toggle_player.emit()
-	toggles_player = false
 
 
 func _on_no_pressed() -> void:

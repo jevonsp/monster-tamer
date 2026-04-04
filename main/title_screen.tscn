@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://coyl3epbkw5dr" path="res://main/title_screen.gd" id="1_e5l7q"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_c311y"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="3_88bax"]
 
 [node name="TitleScreen" type="Control" unique_id=1206539597]
 layout_mode = 3
@@ -38,7 +39,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_88bax")
+theme_override_font_sizes/font_size = 128
 text = "Continue"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -53,7 +55,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_88bax")
+theme_override_font_sizes/font_size = 128
 text = "New Game"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -68,7 +71,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_88bax")
+theme_override_font_sizes/font_size = 128
 text = "Erase Save"
 horizontal_alignment = 1
 vertical_alignment = 1
