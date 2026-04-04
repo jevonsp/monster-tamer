@@ -14,6 +14,13 @@ func interact(body: CharacterBody2D) -> void:
 	if not text.is_empty():
 		var tp = true # Toggles Player
 		Ui.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
+		if is_question:
+			var answer: bool = await Ui.answer_given
+			await Ui.text_box_complete
+			if answer:
+				trigger()
+		else:
+			await Ui.text_box_complete
 
 
 func trigger() -> void:

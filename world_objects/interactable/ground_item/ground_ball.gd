@@ -33,7 +33,13 @@ func interact(body: CharacterBody2D) -> void:
 
 	if not text.is_empty():
 		Ui.send_text_box.emit(self, text, is_autocomplete, is_question, true)
-		await Ui.text_box_complete
+		if is_question:
+			var answer: bool = await Ui.answer_given
+			await Ui.text_box_complete
+			if answer:
+				trigger()
+		else:
+			await Ui.text_box_complete
 	else:
 		if not is_question:
 			var formatted: Array[String] = ["You found a %s!" % [obj_name]]
@@ -42,7 +48,11 @@ func interact(body: CharacterBody2D) -> void:
 		else:
 			var formatted: Array[String] = ["Take the %s?" % [obj_name]]
 			Ui.send_text_box.emit(self, formatted, is_autocomplete, is_question, true)
+			var answer: bool = await Ui.answer_given
 			await Ui.text_box_complete
+			if answer:
+				trigger()
+			return
 	if not is_question:
 		trigger()
 		return

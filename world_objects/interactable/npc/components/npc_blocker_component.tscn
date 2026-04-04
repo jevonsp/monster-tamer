@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://mi8cat437hfy"]
+
+[ext_resource type="Script" uid="uid://c7nq2b8k4pm0w" path="res://world_objects/interactable/npc/components/npc_blocker_component.gd" id="1_xqhoa"]
+
+[node name="NPCBlockerComponent" type="Node" unique_id=1835716855]
+script = ExtResource("1_xqhoa")

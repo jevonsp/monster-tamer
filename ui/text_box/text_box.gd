@@ -8,9 +8,6 @@ var is_auto_complete: bool = false
 var is_question: bool = false
 var toggles_player: bool = false
 var text_index: int = -1
-var obj_ref: Node = null
-var trigger_on_close: bool = false
-var deferred_trigger_ref: Node = null
 
 @onready var text_box: Panel = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
@@ -60,7 +57,7 @@ func _focus_question_button() -> void:
 
 
 func _load_text(
-		obj: Node,
+		_obj: Node,
 		ta: Array[String],
 		auto_complete: bool,
 		question: bool,
@@ -75,7 +72,6 @@ func _load_text(
 		Global.toggle_player.emit()
 	if not visible:
 		_toggle_visible()
-	obj_ref = obj
 	is_question = question
 	text_array = ta
 	is_auto_complete = auto_complete
@@ -111,39 +107,17 @@ func _advance_text() -> void:
 			_text_finished()
 			return
 		else:
-			if await _await_question():
-				trigger_on_close = true
+			await _await_question()
 	_text_finished()
 
 
-func _await_question() -> bool:
+func _await_question() -> void:
 	_toggle_questions_visible()
-	var answer = await Ui.answer_given
-	if answer:
-		return true
-	return false
-
-
-func _trigger() -> void:
-	if obj_ref == null:
-		return
-	if obj_ref.has_method("trigger"):
-		obj_ref.trigger()
-
-
-func _trigger_ref(target: Node) -> void:
-	if target == null:
-		return
-	if target.has_method("trigger"):
-		target.trigger()
+	await Ui.answer_given
 
 
 func _text_finished() -> void:
-	var should_trigger := trigger_on_close
-	var trigger_target := deferred_trigger_ref if deferred_trigger_ref != null else obj_ref
 	_clean_up()
-	if should_trigger:
-		call_deferred("_trigger_ref", trigger_target)
 	call_deferred("_emit_text_box_complete")
 
 
@@ -167,12 +141,6 @@ func _clean_up() -> void:
 	if toggles_player:
 		Global.toggle_player.emit()
 	toggles_player = false
-	if trigger_on_close:
-		deferred_trigger_ref = obj_ref
-	else:
-		deferred_trigger_ref = null
-	obj_ref = null
-	trigger_on_close = false
 
 
 func _on_no_pressed() -> void:

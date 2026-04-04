@@ -4,9 +4,10 @@ extends NPCComponent
 @export var inventory: Dictionary[Item.Type, InventoryPage] = { }
 
 
-func trigger(obj: Node) -> void:
+func trigger(obj: Node) -> NPCComponent.Result:
 	if obj.is_in_group("player"):
 		_open_store()
+	return NPCComponent.Result.CONTINUE
 
 
 func on_save_game(saved_data_array: Array[SavedData]) -> void:

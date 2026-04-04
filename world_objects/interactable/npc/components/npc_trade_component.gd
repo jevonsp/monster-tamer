@@ -5,9 +5,9 @@ extends NPCComponent
 @export var monster_to_give: MonsterData
 
 
-func trigger(obj: Node) -> void:
+func trigger(obj: Node) -> NPCComponent.Result:
 	if monster_to_take == null or monster_to_give == null:
-		return
+		return NPCComponent.Result.CONTINUE
 
 	var party: Array[Monster] = obj.party_handler.party
 	var ta: Array[String]
@@ -22,7 +22,7 @@ func trigger(obj: Node) -> void:
 		ta = ["You dont have the %s I'm looking for. Come back when you have it!" % [monster_to_take.species]]
 		Ui.send_text_box.emit(null, ta, false, false, true)
 		await Ui.text_box_complete
-		return
+		return NPCComponent.Result.CONTINUE
 
 	party.erase(monster_in_party)
 	var received: Monster = monster_to_give.set_up(monster_in_party.level)
@@ -31,3 +31,4 @@ func trigger(obj: Node) -> void:
 	ta = ["Bye %s! I'll take good care of %s." % [monster_to_give.species, monster_to_take.species]]
 	Ui.send_text_box.emit(null, ta, false, false, true)
 	await Ui.text_box_complete
+	return NPCComponent.Result.CONTINUE

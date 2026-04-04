@@ -20,10 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://q21m3s4lx1nn" path="res://ui/info_hud/info_hud.tscn" id="12_t1yuj"]
 [ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_ball.tscn" id="15_5xyti"]
-[ext_resource type="PackedScene" uid="uid://ch4kvp8k6tpxs" path="res://world_objects/interactable/npc/trainer/trainer.tscn" id="16_n3o0a"]
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="17_s758e"]
-[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="18_n53tw"]
-[ext_resource type="Resource" uid="uid://dnpr3t8vm34dc" path="res://monsters/fox_mcleaf/fox_mcleaf_md.tres" id="19_d00gp"]
 [ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger_md.tres" id="19_n53tw"]
 [ext_resource type="PackedScene" uid="uid://b5a6d0pcrx4rd" path="res://world_objects/interactable/static_object/storage.tscn" id="20_q0sk7"]
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="20_re7it"]
@@ -31,18 +28,13 @@
 [ext_resource type="PackedScene" uid="uid://dqpocp0lr7l2e" path="res://world_objects/interactable/static_object/storage_component.tscn" id="21_vapsy"]
 [ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="23_qs5eo"]
 [ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm_test/tm_test.tres" id="24_frbr6"]
-[ext_resource type="Script" uid="uid://bgyhnnjr7fx2q" path="res://classes/InventoryPage.gd" id="26_amlcg"]
 [ext_resource type="PackedScene" uid="uid://lhi4amumrkry" path="res://world_objects/teleporter/teleporter.tscn" id="26_d00gp"]
 [ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="27_d8vpj"]
-[ext_resource type="Script" uid="uid://c3s5668st8huq" path="res://items/Item.gd" id="27_ue0mw"]
 [ext_resource type="PackedScene" uid="uid://dttmg54drld8c" path="res://world_objects/interactable/surf_object/surf_object.tscn" id="30_o8j3b"]
-[ext_resource type="PackedScene" uid="uid://cdhi7023ab4xs" path="res://world_objects/interactable/npc/components/npc_trade_component.tscn" id="31_wpkmi"]
-[ext_resource type="PackedScene" uid="uid://bxrnm7g5cssx4" path="res://world_objects/interactable/npc/shop_keeper/shop_keeper.tscn" id="32_o0l78"]
-[ext_resource type="PackedScene" uid="uid://dwx7fw8ds8jy6" path="res://world_objects/interactable/npc/components/npc_store_component.tscn" id="33_576ah"]
-[ext_resource type="PackedScene" uid="uid://dfcyvpb7eplen" path="res://world_objects/interactable/npc/blocker_npc/blocker_npc.tscn" id="36_yjufm"]
+[ext_resource type="PackedScene" uid="uid://dly7utkoyqfkh" path="res://world_objects/interactable/npc/components/npc_heal_component.tscn" id="32_amlcg"]
+[ext_resource type="PackedScene" uid="uid://mi8cat437hfy" path="res://world_objects/interactable/npc/components/npc_blocker_component.tscn" id="33_ue0mw"]
 [ext_resource type="PackedScene" uid="uid://du5fddffkfd7n" path="res://world_objects/story_zone/story_zone.tscn" id="37_h3axc"]
 [ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="38_d7rgo"]
-[ext_resource type="PackedScene" uid="uid://ri8fiydpkbfo" path="res://world_objects/interactable/npc/components/npc_item_check_component.tscn" id="41_4pcu1"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
@@ -67,31 +59,6 @@ metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3wy1v"]
 size = Vector2(16, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_576ah"]
-size = Vector2(16, 16)
-
-[sub_resource type="Resource" id="Resource_vqjab"]
-script = ExtResource("26_amlcg")
-page = Dictionary[ExtResource("27_ue0mw"), int]({
-ExtResource("17_s758e"): -1,
-ExtResource("20_re7it"): -1
-})
-metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
-
-[sub_resource type="Resource" id="Resource_h3axc"]
-script = ExtResource("26_amlcg")
-page = Dictionary[ExtResource("27_ue0mw"), int]({
-ExtResource("23_qs5eo"): 1
-})
-metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
-
-[sub_resource type="Resource" id="Resource_d7rgo"]
-script = ExtResource("26_amlcg")
-page = Dictionary[ExtResource("27_ue0mw"), int]({
-ExtResource("24_frbr6"): 1
-})
-metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yjufm"]
 size = Vector2(15, 15)
@@ -142,14 +109,14 @@ visible = false
 
 [node name="TimeKeeper" parent="Trackers" unique_id=1711809460 instance=ExtResource("41_phifs")]
 
+[node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
+
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(32, 64)
+position = Vector2(16, 144)
 available_travel_methods = {
 1: true,
 2: false
 }
-
-[node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="WildZone" parent="." unique_id=304061207 instance=ExtResource("4_c651c")]
 position = Vector2(16, 112)
@@ -167,6 +134,7 @@ shape = SubResource("RectangleShape2D_3wy1v")
 [node name="Potion" parent="GroundBalls" unique_id=726795139 instance=ExtResource("15_5xyti")]
 position = Vector2(48, 96)
 item = ExtResource("17_s758e")
+is_question = true
 
 [node name="BaseBall" parent="GroundBalls" unique_id=425176937 instance=ExtResource("15_5xyti")]
 position = Vector2(32, 96)
@@ -217,66 +185,29 @@ position = Vector2(96, 48)
 
 [node name="NPCs" type="Node" parent="." unique_id=20466025]
 
-[node name="ShopKeeper" parent="NPCs" unique_id=1375001283 instance=ExtResource("32_o0l78")]
-position = Vector2(16, 48)
-dialogue = Array[String](["Hello, what would you like to buy today?"])
+[node name="Healer(NPC)" parent="NPCs" unique_id=431393256 node_paths=PackedStringArray("after_components") instance=ExtResource("8_67ri8")]
+position = Vector2(16, 32)
+npc_name = "Healer"
+dialogue = Array[String](["Would you like to heal your monsters?"])
 is_question = true
+after_components = [NodePath("NPCRespawnComponent"), NodePath("NPCHealComponent")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/ShopKeeper" unique_id=1313706516]
-position = Vector2(8, 24)
-shape = SubResource("RectangleShape2D_576ah")
+[node name="NPCHealComponent" parent="NPCs/Healer(NPC)" unique_id=1491352628 instance=ExtResource("32_amlcg")]
 
-[node name="NPCStoreComponent" parent="NPCs/ShopKeeper" unique_id=221203702 instance=ExtResource("33_576ah")]
-inventory = Dictionary[int, ExtResource("26_amlcg")]({
-0: SubResource("Resource_vqjab"),
-1: SubResource("Resource_h3axc"),
-2: SubResource("Resource_d7rgo")
-})
+[node name="NPCRespawnComponent" parent="NPCs/Healer(NPC)" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
 
-[node name="Trader" parent="NPCs" unique_id=1405960500 instance=ExtResource("8_67ri8")]
-position = Vector2(64, 32)
-dialogue = Array[String](["Do you want to trade Monsters?"])
-is_question = true
-
-[node name="NPCTradeComponent" parent="NPCs/Trader" unique_id=414229462 instance=ExtResource("31_wpkmi")]
-monster_to_take = ExtResource("19_n53tw")
-monster_to_give = ExtResource("19_d00gp")
-
-[node name="NPC" parent="NPCs" unique_id=431393256 instance=ExtResource("8_67ri8")]
-position = Vector2(16, 16)
-dialogue = Array[String](["Would you like to heal your monsters and set your respawn point?"])
-is_question = true
-
-[node name="NPCRespawnComponent" parent="NPCs/NPC" unique_id=1019413968 instance=ExtResource("10_0i4oc")]
-is_healing = true
-
-[node name="Trainer" parent="NPCs" unique_id=1980082865 instance=ExtResource("16_n3o0a")]
-position = Vector2(112, 48)
-party = Array[ExtResource("18_n53tw")]([ExtResource("19_n53tw"), ExtResource("19_d00gp")])
-party_levels = Array[int]([1, 1])
-winning_dialogue = Array[String](["You're not strong enough yet."])
-losing_dialogue = Array[String](["I wasn't... strong enough."])
-starting_tile = Vector2(112, 48)
-npc_name = "Test Trainer"
-dialogue = Array[String](["How strong are you? Lets find out!"])
-
-[node name="BlockerNPC" parent="NPCs" unique_id=866325758 groups=["save_object"] instance=ExtResource("36_yjufm")]
+[node name="NPC" parent="NPCs" unique_id=2004071503 node_paths=PackedStringArray("after_components") instance=ExtResource("8_67ri8")]
 position = Vector2(16, 128)
+dialogue = Array[String](["Sorry! Its dangerous out there."])
+after_components = [NodePath("NPCBlockerComponent")]
+
+[node name="NPCBlockerComponent" parent="NPCs/NPC" unique_id=1835716855 instance=ExtResource("33_ue0mw")]
 story_trigger = 1
-response_type = 2
-post_trigger_dialogue = Array[String](["Okay, you can go now! Be safe!"])
+item_wanted = ExtResource("17_s758e")
+item_to_give = ExtResource("20_re7it")
+post_trigger_dialogue = Array[String](["You'll be safe with a monster now!"])
 dir_path = Array[int]([1, 4])
 end_facing = 3
-dialogue = Array[String](["I can't let you pass until you pick up that monster! It's dangerous out there."])
-
-[node name="NPCItemWant" parent="NPCs" unique_id=325363495 instance=ExtResource("8_67ri8")]
-position = Vector2(64, 112)
-dialogue = Array[String]([])
-
-[node name="NPCItemCheckComponent" parent="NPCs/NPCItemWant" unique_id=808141758 instance=ExtResource("41_4pcu1")]
-item_wanted = ExtResource("17_s758e")
-result_type = 1
-item_to_give = ExtResource("20_re7it")
 
 [node name="Doors" type="Node" parent="." unique_id=1022210673]
 

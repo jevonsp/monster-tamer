@@ -2,7 +2,6 @@ extends Control
 
 var processing: bool = false
 var last_focused_button: Button = null
-var should_save_game: bool = false
 
 @onready var interfaces: CanvasLayer = $".."
 
@@ -25,10 +24,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		_toggle_visible()
 		get_viewport().set_input_as_handled()
 		Ui.on_menu_closed.emit()
-
-
-func trigger() -> void:
-	should_save_game = true
 
 
 func _bind_buttons() -> void:
@@ -81,10 +76,10 @@ func _focus_default() -> void:
 func _start_save_process() -> void:
 	var text_array: Array[String] = ["Would you like to save the game?"]
 	Ui.send_text_box.emit(self, text_array, false, true, false)
+	var should_save: bool = await Ui.answer_given
 	await Ui.text_box_complete
-	if should_save_game:
+	if should_save:
 		_finish_save_process()
-	should_save_game = false
 
 
 func _finish_save_process() -> void:
