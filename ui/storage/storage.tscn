@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bnuc18rhqu7vf" path="res://ui/storage/storage_button.tscn" id="3_o6mah"]
 [ext_resource type="Script" uid="uid://bnir4gws1aoh4" path="res://ui/storage/storage_update_handler.gd" id="4_jsr3y"]
 [ext_resource type="Script" uid="uid://bl2ajfxg0i8xv" path="res://ui/storage/storage_input_handler.gd" id="4_ttbmr"]
+[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="6_eqaco"]
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="6_sp6mj"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="7_f33s0"]
 
 [node name="Storage" type="Control" unique_id=1376996790]
@@ -16,6 +18,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3akcg")
+
+[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("7_f33s0")]
+layout_mode = 1
 
 [node name="UpdateHandler" type="Node" parent="." unique_id=1012723756]
 script = ExtResource("4_jsr3y")
@@ -49,11 +54,10 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InfoPanel" type="Panel" parent="MarginContainer/VBoxContainer/HBoxContainer/Control" unique_id=743695036]
-custom_minimum_size = Vector2(0, 354)
+[node name="InfoPanel" parent="MarginContainer/VBoxContainer/HBoxContainer/Control" unique_id=134393662 instance=ExtResource("6_eqaco")]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel" unique_id=128432016]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel" unique_id=947344393]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,19 +65,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=1480978489]
+[node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=1458488328]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Name"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=593111207]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=4957605]
 custom_minimum_size = Vector2(64, 128)
 layout_mode = 2
 texture = ExtResource("2_iann6")
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=1584347044]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/InfoPanel/VBoxContainer" unique_id=1111669889]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Lvl. 99"
@@ -83,13 +87,10 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(0, 354)
 layout_mode = 2
 
-[node name="Move" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=534265602]
+[node name="Move" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1279246463 instance=ExtResource("6_sp6mj")]
 layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_top = NodePath(".")
-focus_neighbor_right = NodePath(".")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Move" unique_id=1515487250]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Move" unique_id=1156980790]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,19 +102,17 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Move/MarginContainer" unique_id=966383068]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Move/MarginContainer" unique_id=1624668837]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Withdraw" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1803873963]
+[node name="Withdraw" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=871234540 instance=ExtResource("6_sp6mj")]
 layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_right = NodePath(".")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Withdraw" unique_id=413172487]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Withdraw" unique_id=1209808061]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,19 +124,17 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Withdraw/MarginContainer" unique_id=444249686]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Withdraw/MarginContainer" unique_id=1689897177]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Withdraw"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Deposit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1040836209]
+[node name="Deposit" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1261369344 instance=ExtResource("6_sp6mj")]
 layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_right = NodePath(".")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Deposit" unique_id=1552411954]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Deposit" unique_id=1464618288]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -149,19 +146,17 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Deposit/MarginContainer" unique_id=1233926767]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Deposit/MarginContainer" unique_id=511534095]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Deposit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Release" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=1799173775]
+[node name="Release" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options" unique_id=146148535 instance=ExtResource("6_sp6mj")]
 layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_right = NodePath(".")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Release" unique_id=1407221081]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Release" unique_id=685356178]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -173,7 +168,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Release/MarginContainer" unique_id=673533270]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Control/Options/Release/MarginContainer" unique_id=1503528916]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Release"
@@ -315,6 +310,3 @@ layout_mode = 2
 
 [node name="Button29" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer1/VBoxContainer/GridContainer" unique_id=759769885 groups=["right_side", "storage"] instance=ExtResource("3_o6mah")]
 layout_mode = 2
-
-[node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("7_f33s0")]
-layout_mode = 1

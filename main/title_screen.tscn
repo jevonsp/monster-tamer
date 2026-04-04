@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bwmithvrs81lb"]
 
 [ext_resource type="Script" uid="uid://coyl3epbkw5dr" path="res://main/title_screen.gd" id="1_e5l7q"]
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_c311y"]
 
 [node name="TitleScreen" type="Control" unique_id=1206539597]
 layout_mode = 3
@@ -27,11 +28,10 @@ grow_vertical = 2
 alignment = 1
 vertical = true
 
-[node name="Continue" type="Button" parent="BoxContainer" unique_id=1871493092]
+[node name="Continue" parent="BoxContainer" unique_id=1279246463 instance=ExtResource("2_c311y")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="BoxContainer/Continue" unique_id=938587220]
+[node name="Label" type="Label" parent="BoxContainer/Continue" unique_id=15179519]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,11 +43,10 @@ text = "Continue"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NewGame" type="Button" parent="BoxContainer" unique_id=263335561]
+[node name="NewGame" parent="BoxContainer" unique_id=1900587453 instance=ExtResource("2_c311y")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="BoxContainer/NewGame" unique_id=1970304169]
+[node name="Label" type="Label" parent="BoxContainer/NewGame" unique_id=157552406]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,11 +58,10 @@ text = "New Game"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EraseSave" type="Button" parent="BoxContainer" unique_id=730752493]
+[node name="EraseSave" parent="BoxContainer" unique_id=1819718167 instance=ExtResource("2_c311y")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="BoxContainer/EraseSave" unique_id=1585338537]
+[node name="Label" type="Label" parent="BoxContainer/EraseSave" unique_id=1989451043]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

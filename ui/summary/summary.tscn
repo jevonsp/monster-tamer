@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="8_3k2wb"]
 [ext_resource type="Script" uid="uid://bv67eukttwrd0" path="res://ui/summary/summary_update_handler.gd" id="9_xxm6n"]
 [ext_resource type="Script" uid="uid://b0p5k5iongl3k" path="res://ui/summary/summary_input_handler.gd" id="10_njb72"]
+[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="12_acnal"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="13_gv55x"]
 
 [node name="Summary" type="Control" unique_id=239759928]
@@ -107,11 +108,10 @@ script = ExtResource("6_fycbb")
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Panel0" type="Panel" parent="Content/Main/HBoxContainer2/HBoxContainer" unique_id=363181361]
+[node name="Panel0" parent="Content/Main/HBoxContainer2/HBoxContainer" unique_id=134393662 instance=ExtResource("12_acnal")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel0" unique_id=1292917071]
+[node name="MarginContainer" type="MarginContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel0" unique_id=1057980837]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,7 +123,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="DescriptionLabel" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer" unique_id=1473992908]
+[node name="DescriptionLabel" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer" unique_id=1667286883]
 custom_minimum_size = Vector2(492, 288)
 layout_mode = 2
 size_flags_vertical = 1
@@ -133,11 +133,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Panel1" type="Panel" parent="Content/Main/HBoxContainer2/HBoxContainer" unique_id=440081514]
+[node name="Panel1" parent="Content/Main/HBoxContainer2/HBoxContainer" unique_id=1392043155 instance=ExtResource("12_acnal")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1" unique_id=1154589341]
+[node name="MarginContainer" type="MarginContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1" unique_id=1461343074]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -149,11 +148,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Stats" type="GridContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer" unique_id=1266676530]
+[node name="Stats" type="GridContainer" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer" unique_id=2002696536]
 layout_mode = 2
 columns = 2
 
-[node name="StatLabel0" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=2131597148]
+[node name="StatLabel0" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1893307943]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -161,7 +160,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel1" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=417725230]
+[node name="StatLabel1" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1245533745]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -169,7 +168,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel2" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=971899235]
+[node name="StatLabel2" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=2025727910]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -177,7 +176,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel3" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=909823420]
+[node name="StatLabel3" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=602393509]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -185,7 +184,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel4" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1647408342]
+[node name="StatLabel4" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1159293150]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -193,7 +192,7 @@ theme_override_font_sizes/font_size = 32
 text = "Stat: ###"
 horizontal_alignment = 1
 
-[node name="StatLabel5" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1046798238]
+[node name="StatLabel5" type="Label" parent="Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats" unique_id=1977709787]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6

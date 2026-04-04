@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="5_sep80"]
 [ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="6_q17of"]
 [ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm_test/tm_test.tres" id="7_rgtmx"]
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_a3op8"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="8_ma41c"]
 
 [sub_resource type="Resource" id="Resource_snh7x"]
@@ -85,13 +86,10 @@ offset_right = 274.0
 offset_bottom = 110.0
 grow_vertical = 2
 
-[node name="Buy" type="Button" parent="Options" unique_id=1177134101]
-custom_minimum_size = Vector2(0, 110)
+[node name="Buy" parent="Options" unique_id=1279246463 instance=ExtResource("8_a3op8")]
 layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_right = NodePath(".")
 
-[node name="MarginContainer" type="MarginContainer" parent="Options/Buy" unique_id=1067281481]
+[node name="MarginContainer" type="MarginContainer" parent="Options/Buy" unique_id=752131529]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,19 +101,17 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="Options/Buy/MarginContainer" unique_id=505129046]
+[node name="Label" type="Label" parent="Options/Buy/MarginContainer" unique_id=296780579]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "BUY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Sell" type="Button" parent="Options" unique_id=80924893]
-custom_minimum_size = Vector2(0, 110)
+[node name="Sell" parent="Options" unique_id=2066844143 instance=ExtResource("8_a3op8")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Options/Sell" unique_id=1615718006]
+[node name="MarginContainer" type="MarginContainer" parent="Options/Sell" unique_id=2108581600]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -127,7 +123,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="Label" type="Label" parent="Options/Sell/MarginContainer" unique_id=342420082]
+[node name="Label" type="Label" parent="Options/Sell/MarginContainer" unique_id=1748878174]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "SELL"

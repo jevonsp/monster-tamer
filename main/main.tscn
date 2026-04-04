@@ -111,7 +111,7 @@ visible = false
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
-position = Vector2(32, 64)
+position = Vector2(16, 144)
 available_travel_methods = {
 1: true,
 2: false
@@ -148,7 +148,7 @@ position = Vector2(32, 80)
 item = ExtResource("24_frbr6")
 
 [node name="GroundBall" parent="GroundBalls" unique_id=1353459326 instance=ExtResource("15_5xyti")]
-position = Vector2(48, 64)
+position = Vector2(32, 144)
 type = 1
 monster_data = ExtResource("21_d7rgo")
 
@@ -194,6 +194,7 @@ is_question = true
 
 [node name="Blocker(NPC)" parent="NPCs" unique_id=2004071503 instance=ExtResource("8_67ri8")]
 position = Vector2(16, 128)
+direction = 3
 dialogue = Array[String](["Sorry! Its dangerous out there."])
 
 [node name="NPCBlockerComponent" parent="NPCs/Blocker(NPC)" unique_id=1835716855 instance=ExtResource("33_ue0mw")]

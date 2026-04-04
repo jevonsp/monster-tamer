@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://drjlut2xdgcjc"]
 
 [ext_resource type="Script" uid="uid://dg1xhohpddu4d" path="res://ui/menu/menu.gd" id="1_bwjgb"]
-[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button_panel.tscn" id="2_77h3e"]
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_77h3e"]
 
 [node name="Menu" type="Control" unique_id=1738143517]
 layout_mode = 3
@@ -25,9 +25,9 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 2.0
+offset_left = 4.0
 offset_top = -186.0
-offset_right = 402.0
+offset_right = 404.0
 offset_bottom = 186.0
 grow_vertical = 2
 
@@ -88,59 +88,5 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 64
 text = "Options"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Dex" type="Button" parent="Content/VBoxContainer" unique_id=177775750 groups=["menu_buttons"]]
-visible = false
-custom_minimum_size = Vector2(400, 90)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Content/VBoxContainer/Dex" unique_id=385224049]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "Dex"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button5" type="Button" parent="Content/VBoxContainer" unique_id=1316392684 groups=["menu_buttons"]]
-visible = false
-custom_minimum_size = Vector2(400, 90)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Content/VBoxContainer/Button5" unique_id=80699654]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "Text"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button6" type="Button" parent="Content/VBoxContainer" unique_id=801834317 groups=["menu_buttons"]]
-visible = false
-custom_minimum_size = Vector2(400, 90)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Content/VBoxContainer/Button6" unique_id=659217298]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 64
-text = "Text"
 horizontal_alignment = 1
 vertical_alignment = 1

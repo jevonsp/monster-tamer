@@ -1,7 +1,12 @@
 [gd_scene format=3 uid="uid://bnuc18rhqu7vf"]
 
+[ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_e8c4v"]
 [ext_resource type="Script" uid="uid://btl3vpkfaaxt1" path="res://ui/storage/storage_button.gd" id="1_jtyxo"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="1_r5kvc"]
+[ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="2_negh5"]
+[ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="3_rhu4p"]
+[ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="4_thabk"]
+[ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="5_37pwb"]
 
 [node name="StorageButton" type="Button" unique_id=1939630010]
 custom_minimum_size = Vector2(100, 0)
@@ -9,6 +14,11 @@ offset_right = 164.0
 offset_bottom = 140.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("1_e8c4v")
+theme_override_styles/pressed = ExtResource("2_negh5")
+theme_override_styles/hover = ExtResource("3_rhu4p")
+theme_override_styles/disabled = ExtResource("4_thabk")
+theme_override_styles/focus = ExtResource("5_37pwb")
 script = ExtResource("1_jtyxo")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=787895033]

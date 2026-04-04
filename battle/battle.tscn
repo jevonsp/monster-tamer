@@ -12,23 +12,13 @@
 [ext_resource type="Script" uid="uid://b4f1ougodrdyi" path="res://battle/battle_visibility_focus_handler.gd" id="5_rgsk0"]
 [ext_resource type="Script" uid="uid://cde8yn8umva7i" path="res://battle/turn_executor.gd" id="6_dxsh4"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="7_a56dj"]
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_phvbk"]
 [ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
 [ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="10_rgsk0"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 [ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
+[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="13_sf8fp"]
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="14_tkkqt"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avecd"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0, 0, 0, 0.72156864)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -397,12 +387,10 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Fight" type="Button" parent="Content/OptionButtons" unique_id=984732887 groups=["option_buttons"]]
+[node name="Fight" parent="Content/OptionButtons" unique_id=1279246463 instance=ExtResource("8_phvbk")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Fight" unique_id=2046674151]
+[node name="Label" type="Label" parent="Content/OptionButtons/Fight" unique_id=271261842]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -417,13 +405,10 @@ text = "Fight"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Party" type="Button" parent="Content/OptionButtons" unique_id=381117065 groups=["option_buttons"]]
+[node name="Party" parent="Content/OptionButtons" unique_id=1110597983 instance=ExtResource("8_phvbk")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_neighbor_right = NodePath(".")
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Party" unique_id=827280725]
+[node name="Label" type="Label" parent="Content/OptionButtons/Party" unique_id=1921784770]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -438,12 +423,10 @@ text = "Party"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Item" type="Button" parent="Content/OptionButtons" unique_id=1959242337 groups=["option_buttons"]]
+[node name="Item" parent="Content/OptionButtons" unique_id=1119364462 instance=ExtResource("8_phvbk")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Item" unique_id=1049757330]
+[node name="Label" type="Label" parent="Content/OptionButtons/Item" unique_id=1043083614]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -458,13 +441,10 @@ text = "Item"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Run" type="Button" parent="Content/OptionButtons" unique_id=128311388 groups=["option_buttons"]]
+[node name="Run" parent="Content/OptionButtons" unique_id=77549642 instance=ExtResource("8_phvbk")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_neighbor_right = NodePath(".")
 
-[node name="Label" type="Label" parent="Content/OptionButtons/Run" unique_id=1276720000]
+[node name="Label" type="Label" parent="Content/OptionButtons/Run" unique_id=1181260107]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -669,27 +649,15 @@ offset_bottom = 439.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="BattleTextBox" type="Panel" parent="Content" unique_id=2060252590]
-z_index = 6
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -624.0
-offset_top = -192.0
-offset_right = -16.0
-offset_bottom = -16.0
-grow_horizontal = 0
-grow_vertical = 0
-focus_neighbor_left = NodePath(".")
-focus_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avecd")
+[node name="BattleTextBox" parent="Content" unique_id=134393662 instance=ExtResource("13_sf8fp")]
+layout_mode = 0
+offset_left = 656.0
+offset_top = 528.0
+offset_right = 1264.0
+offset_bottom = 704.0
 script = ExtResource("9_t8p1f")
-in_battle_text_box = true
 
-[node name="MarginContainer" type="MarginContainer" parent="Content/BattleTextBox" unique_id=131261441]
+[node name="MarginContainer" type="MarginContainer" parent="Content/BattleTextBox" unique_id=284528365]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -701,7 +669,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 4
 
-[node name="MainLabel" type="Label" parent="Content/BattleTextBox/MarginContainer" unique_id=2096299235]
+[node name="MainLabel" type="Label" parent="Content/BattleTextBox/MarginContainer" unique_id=1874026099]
 custom_minimum_size = Vector2(0, 176)
 layout_mode = 2
 size_flags_vertical = 1
@@ -710,7 +678,7 @@ theme_override_font_sizes/font_size = 64
 text = "TEXT TEXT TEXT"
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Content/BattleTextBox" unique_id=1486501230]
+[node name="HBoxContainer" type="HBoxContainer" parent="Content/BattleTextBox" unique_id=1154976454]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -720,13 +688,10 @@ offset_top = -80.0
 offset_bottom = -5.0
 grow_horizontal = 0
 
-[node name="No" type="Button" parent="Content/BattleTextBox/HBoxContainer" unique_id=752553216]
+[node name="No" parent="Content/BattleTextBox/HBoxContainer" unique_id=764388069 instance=ExtResource("8_phvbk")]
 layout_mode = 2
-size_flags_horizontal = 3
-focus_neighbor_bottom = NodePath(".")
-theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
 
-[node name="Label" type="Label" parent="Content/BattleTextBox/HBoxContainer/No" unique_id=833450066]
+[node name="Label" type="Label" parent="Content/BattleTextBox/HBoxContainer/No" unique_id=543402195]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -742,13 +707,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Yes" type="Button" parent="Content/BattleTextBox/HBoxContainer" unique_id=1187289545]
+[node name="Yes" parent="Content/BattleTextBox/HBoxContainer" unique_id=1498511913 instance=ExtResource("8_phvbk")]
 layout_mode = 2
-size_flags_horizontal = 3
-focus_neighbor_bottom = NodePath(".")
-theme_override_styles/normal = SubResource("StyleBoxFlat_avecd")
 
-[node name="Label" type="Label" parent="Content/BattleTextBox/HBoxContainer/Yes" unique_id=903643917]
+[node name="Label" type="Label" parent="Content/BattleTextBox/HBoxContainer/Yes" unique_id=1834191363]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
