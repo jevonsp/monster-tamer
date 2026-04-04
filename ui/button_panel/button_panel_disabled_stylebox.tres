@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://baj851txs0iuf"]
+
+[ext_resource type="Texture2D" uid="uid://dg00aob4luhw7" path="res://ui/button_panel/button_panel_disabled.png" id="1_1sguk"]
+
+[resource]
+texture = ExtResource("1_1sguk")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0

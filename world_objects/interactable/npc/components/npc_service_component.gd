@@ -16,6 +16,11 @@ enum State { INCOMPLETE, COMPLETE }
 @export var offers_trade: bool = false
 @export var monster_to_take: MonsterData
 @export var monster_to_give: MonsterData
+@export_group("Trade (item swap)")
+@export var offers_item_trade: bool = false
+## If unset, the NPC only gives [member item_to_give] (no inventory check).
+@export var item_to_take: Item
+@export var item_to_give: Item
 @export_group("Post-complete")
 @export_multiline var post_complete_dialogue: Array[String] = []
 
@@ -51,10 +56,10 @@ func run_post_complete_interact(body: CharacterBody2D) -> void:
 		await npc.start_turning(toward_player)
 	if post_complete_dialogue.is_empty():
 		return
-	if offers_trade:
-		await npc._say_dialogue(_format_post_complete_lines(), false, false)
+	if offers_trade or offers_item_trade:
+		await npc._say_dialogue(_format_post_complete_lines(), true, false)
 	else:
-		await npc._say_dialogue(post_complete_dialogue, false, false)
+		await npc._say_dialogue(post_complete_dialogue, true, false)
 
 
 func on_save_game(saved_data_array: Array[SavedData]) -> void:
@@ -72,17 +77,71 @@ func on_load_game(saved_data_array: Array[SavedData]) -> void:
 			state = data.state as State
 
 
-## Same idea as [method NPCBlockerComponent.try_item_interact]: runs before dialogue; returns true if handled.
 func try_trade_interact(body: CharacterBody2D) -> bool:
-	if not offers_trade:
-		return false
 	if state == State.COMPLETE:
-		return false
-	if monster_to_take == null or monster_to_give == null:
 		return false
 	if body is not Player:
 		return false
 	var player := body as Player
+	if offers_item_trade:
+		if item_to_give == null:
+			return false
+		return await _try_item_trade_interact(player)
+	if offers_trade:
+		if monster_to_take == null or monster_to_give == null:
+			return false
+		return await _try_monster_trade_interact(player)
+	return false
+
+
+func _try_item_trade_interact(player: Player) -> bool:
+	if item_to_take == null:
+		var give_only: Array[String] = ["Please take this %s!" % item_to_give.name]
+		Ui.send_text_box.emit(null, give_only, true, false, false)
+		await Ui.text_box_complete
+		player.inventory_handler.add(item_to_give)
+		state = State.COMPLETE
+		Global.toggle_player.emit()
+		return true
+	var inventory := player.inventory_handler.inventory as Dictionary[Item.Type, InventoryPage]
+	var found: Item = null
+	for inv_page: InventoryPage in inventory.values():
+		for item: Item in inv_page.page:
+			if item == item_to_take:
+				found = item
+				break
+		if found:
+			break
+	if found == null:
+		var fail: Array[String] = ["You don't have the %s I need." % item_to_take.name]
+		Ui.send_text_box.emit(null, fail, true, false, false)
+		await Ui.text_box_complete
+		Global.toggle_player.emit()
+		return true
+	var intro: Array[String] = ["Perfect! You have the %s I wanted." % item_to_take.name]
+	Ui.send_text_box.emit(null, intro, true, false, false)
+	await Ui.text_box_complete
+	var ask: Array[String] = ["Trade it for my %s?" % item_to_give.name]
+	Ui.send_text_box.emit(null, ask, false, true, false)
+	var answer: bool = await Ui.answer_given
+	await Ui.text_box_complete
+	if answer:
+		player.inventory_handler.remove(item_to_take)
+		player.inventory_handler.add(item_to_give)
+		var bye: Array[String] = ["Pleasure doing business!"]
+		Ui.send_text_box.emit(null, bye, true, false, false)
+		await Ui.text_box_complete
+		state = State.COMPLETE
+		Global.toggle_player.emit()
+		return true
+	var reject: Array[String] = ["Maybe another time."]
+	Ui.send_text_box.emit(null, reject, true, false, false)
+	await Ui.text_box_complete
+	Global.toggle_player.emit()
+	return true
+
+
+func _try_monster_trade_interact(player: Player) -> bool:
 	var party: Array[Monster] = player.party_handler.party
 	var monster_in_party: Monster = null
 	for monster: Monster in party:
@@ -98,7 +157,7 @@ func try_trade_interact(body: CharacterBody2D) -> bool:
 		Global.toggle_player.emit()
 		return true
 	var intro: Array[String] = ["Perfect! You have a %s I'm looking for." % monster_to_take.species]
-	Ui.send_text_box.emit(null, intro, false, false, false)
+	Ui.send_text_box.emit(null, intro, true, false, false)
 	await Ui.text_box_complete
 	var ask: Array[String] = ["Would you like to trade it for my %s?" % monster_to_give.species]
 	Ui.send_text_box.emit(null, ask, false, true, false)
@@ -111,7 +170,7 @@ func try_trade_interact(body: CharacterBody2D) -> bool:
 		var bye: Array[String] = [
 			"Bye %s! I'll take good care of %s." % [monster_to_give.species, monster_to_take.species],
 		]
-		Ui.send_text_box.emit(null, bye, false, false, false)
+		Ui.send_text_box.emit(null, bye, true, false, false)
 		await Ui.text_box_complete
 		state = State.COMPLETE
 		Global.toggle_player.emit()
@@ -125,12 +184,24 @@ func try_trade_interact(body: CharacterBody2D) -> bool:
 
 func _format_post_complete_lines() -> Array[String]:
 	var take_name := ""
-	if monster_to_take:
-		take_name = monster_to_take.species
 	var give_name := ""
-	if monster_to_give:
-		give_name = monster_to_give.species
+	if offers_item_trade:
+		if item_to_take:
+			take_name = item_to_take.name
+		if item_to_give:
+			give_name = item_to_give.name
+	else:
+		if monster_to_take:
+			take_name = monster_to_take.species
+		if monster_to_give:
+			give_name = monster_to_give.species
 	var out: Array[String] = []
 	for line in post_complete_dialogue:
-		out.append(line.format({ "take": take_name, "give": give_name }))
+		out.append(
+			line.format({
+				"take": take_name,
+				"give": give_name,
+				"item": take_name if take_name != "" else give_name,
+			})
+		)
 	return out

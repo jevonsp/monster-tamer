@@ -186,8 +186,8 @@ position = Vector2(96, 48)
 
 [node name="Healer(NPC)" parent="NPCs" unique_id=431393256 instance=ExtResource("8_67ri8")]
 position = Vector2(16, 32)
-dialogue = Array[String](["Would you like to heal your monsters?"])
 npc_name = "Healer"
+dialogue = Array[String](["Would you like to heal your monsters?"])
 is_question = true
 
 [node name="NPCServiceComponent" parent="NPCs/Healer(NPC)" unique_id=1491352628 instance=ExtResource("32_amlcg")]
@@ -217,10 +217,11 @@ item_outcome = 1
 item_to_give = ExtResource("20_re7it")
 post_trigger_dialogue = Array[String](["Thanks for that {item}!"])
 
-[node name="Trader(NPC)" parent="NPCs" unique_id=725337391 instance=ExtResource("8_67ri8")]
+[node name="Trader(NPC)" parent="NPCs" unique_id=725337391 node_paths=PackedStringArray("after_components") instance=ExtResource("8_67ri8")]
 position = Vector2(64, 48)
 dialogue = Array[String]([])
 is_question = true
+after_components = [NodePath("NPCServiceComponent")]
 
 [node name="NPCServiceComponent" parent="NPCs/Trader(NPC)" unique_id=1745320726 instance=ExtResource("32_amlcg")]
 offers_respawn = false

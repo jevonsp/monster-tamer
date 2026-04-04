@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drjlut2xdgcjc"]
 
 [ext_resource type="Script" uid="uid://dg1xhohpddu4d" path="res://ui/menu/menu.gd" id="1_bwjgb"]
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button_panel.tscn" id="2_77h3e"]
 
 [node name="Menu" type="Control" unique_id=1738143517]
 layout_mode = 3
@@ -24,17 +25,16 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = 2.0
 offset_top = -186.0
-offset_right = 400.0
+offset_right = 402.0
 offset_bottom = 186.0
 grow_vertical = 2
 
-[node name="Party" type="Button" parent="Content/VBoxContainer" unique_id=363559486 groups=["menu_buttons"]]
-custom_minimum_size = Vector2(400, 90)
+[node name="Party" parent="Content/VBoxContainer" unique_id=1279246463 groups=["menu_buttons"] instance=ExtResource("2_77h3e")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/VBoxContainer/Party" unique_id=2006180109]
+[node name="Label" type="Label" parent="Content/VBoxContainer/Party" unique_id=1270127170]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,12 +46,10 @@ text = "Party"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Items" type="Button" parent="Content/VBoxContainer" unique_id=1476376703 groups=["menu_buttons"]]
-custom_minimum_size = Vector2(400, 90)
+[node name="Items" parent="Content/VBoxContainer" unique_id=1926280678 groups=["menu_buttons"] instance=ExtResource("2_77h3e")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/VBoxContainer/Items" unique_id=1511281967]
+[node name="Label" type="Label" parent="Content/VBoxContainer/Items" unique_id=1810126143]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,12 +61,10 @@ text = "Items"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Save" type="Button" parent="Content/VBoxContainer" unique_id=1959962458 groups=["menu_buttons"]]
-custom_minimum_size = Vector2(400, 90)
+[node name="Save" parent="Content/VBoxContainer" unique_id=867313188 groups=["menu_buttons"] instance=ExtResource("2_77h3e")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/VBoxContainer/Save" unique_id=558563285]
+[node name="Label" type="Label" parent="Content/VBoxContainer/Save" unique_id=498361644]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,12 +76,10 @@ text = "Save"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Options" type="Button" parent="Content/VBoxContainer" unique_id=1451161354 groups=["menu_buttons"]]
-custom_minimum_size = Vector2(400, 90)
+[node name="Options" parent="Content/VBoxContainer" unique_id=677998507 groups=["menu_buttons"] instance=ExtResource("2_77h3e")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/VBoxContainer/Options" unique_id=198938699]
+[node name="Label" type="Label" parent="Content/VBoxContainer/Options" unique_id=181687276]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -97,13 +91,13 @@ text = "Options"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button4" type="Button" parent="Content/VBoxContainer" unique_id=1924829199 groups=["menu_buttons"]]
+[node name="Dex" type="Button" parent="Content/VBoxContainer" unique_id=177775750 groups=["menu_buttons"]]
 visible = false
 custom_minimum_size = Vector2(400, 90)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Content/VBoxContainer/Button4" unique_id=385224049]
+[node name="Label" type="Label" parent="Content/VBoxContainer/Dex" unique_id=385224049]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -111,11 +105,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 64
-text = "Text"
+text = "Dex"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button5" type="Button" parent="Content/VBoxContainer" unique_id=366315366 groups=["menu_buttons"]]
+[node name="Button5" type="Button" parent="Content/VBoxContainer" unique_id=1316392684 groups=["menu_buttons"]]
 visible = false
 custom_minimum_size = Vector2(400, 90)
 layout_mode = 2
@@ -133,7 +127,7 @@ text = "Text"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button6" type="Button" parent="Content/VBoxContainer" unique_id=427988509 groups=["menu_buttons"]]
+[node name="Button6" type="Button" parent="Content/VBoxContainer" unique_id=801834317 groups=["menu_buttons"]]
 visible = false
 custom_minimum_size = Vector2(400, 90)
 layout_mode = 2
