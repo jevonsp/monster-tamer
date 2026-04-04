@@ -47,11 +47,17 @@ func interact(body: CharacterBody2D) -> void:
 	await _turn_to_body(body)
 	var blocker := _find_blocker_component()
 	if blocker and blocker.state == NPCBlockerComponent.State.INCOMPLETE:
-		if blocker.mode == NPCBlockerComponent.BlockerMode.ITEM:
+		if blocker.mode == NPCBlockerComponent.Mode.ITEM:
 			if await blocker.try_item_interact(body):
 				return
 	if blocker and blocker.state == NPCBlockerComponent.State.COMPLETE:
 		await blocker.run_post_complete_interact(body)
+		return
+	var service := _find_service_component()
+	if service and service.state == NPCServiceComponent.State.COMPLETE:
+		await service.run_post_complete_interact(body)
+		return
+	if service and await service.try_trade_interact(body):
 		return
 
 	await _invoke_components_phase(before_components)
@@ -82,6 +88,14 @@ func trigger() -> void:
 		story_component.trigger()
 
 
+func animate_exclamation() -> void:
+	exclamation_point.visible = true
+	exclamation_point.play()
+	await exclamation_point.animation_finished
+	await get_tree().create_timer(0.1).timeout
+	exclamation_point.visible = false
+
+
 func _invoke_components_phase(list: Array[NPCComponent]) -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	for c: NPCComponent in list:
@@ -99,14 +113,6 @@ func _invoke_components_phase(list: Array[NPCComponent]) -> void:
 						list[idx + 1].is_active = false
 				NPCComponent.Result.TERMINATE:
 					return
-
-
-func animate_exclamation() -> void:
-	exclamation_point.visible = true
-	exclamation_point.play()
-	await exclamation_point.animation_finished
-	await get_tree().create_timer(0.1).timeout
-	exclamation_point.visible = false
 
 
 func _turn_to_body(body) -> void:
@@ -171,4 +177,11 @@ func _find_blocker_component() -> NPCBlockerComponent:
 	for c: NPCComponent in npc_components:
 		if c is NPCBlockerComponent:
 			return c as NPCBlockerComponent
+	return null
+
+
+func _find_service_component() -> NPCServiceComponent:
+	for c: NPCComponent in npc_components:
+		if c is NPCServiceComponent:
+			return c as NPCServiceComponent
 	return null
