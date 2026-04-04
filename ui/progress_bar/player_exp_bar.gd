@@ -1,4 +1,4 @@
-extends ProgressBar
+extends TextureProgressBar
 
 var actor = null
 var active: bool = false

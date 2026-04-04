@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://3rbidck70x4b" path="res://ui/text_box/move_learning_controller.gd" id="2_3k2wb"]
 [ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="2_3muql"]
 [ext_resource type="Script" uid="uid://c7mywkergbubx" path="res://ui/summary/summary_visibility_focus_handler.gd" id="3_7gq2p"]
-[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_e1nmq"]
-[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_3k2wb"]
+[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="3_e1nmq"]
+[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="4_3k2wb"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="5_pfpua"]
 [ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party/party_texture_rect.gd" id="6_fycbb"]
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="8_3k2wb"]
@@ -79,17 +79,15 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Spacer" type="Control" parent="Content/Main/HBoxContainer1/VBoxContainer" unique_id=996017712]
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="HPBar" parent="Content/Main/HBoxContainer1/VBoxContainer" unique_id=1881680306 instance=ExtResource("3_e1nmq")]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 6
 
 [node name="PlayerEXPBar" parent="Content/Main/HBoxContainer1/VBoxContainer" unique_id=2114861553 instance=ExtResource("4_3k2wb")]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 6
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Content/Main" unique_id=825966220]
 layout_mode = 2

@@ -1,7 +1,7 @@
 extends Control
 
-const DEFAULT_STYLE: StyleBoxFlat = preload("res://ui/summary/new_style_box_flat_default.tres")
-const RED_STYLE: StyleBoxFlat = preload("res://ui/summary/new_style_box_flat_red.tres")
+const BUTTON_PANEL_FOCUS_DEFAULT_STYLEBOX = preload("uid://ben02j7eumnqj")
+const BUTTON_PANEL_FOCUS_MOVING_STYLEBOX = preload("uid://bg03qkarc7wjb")
 
 var processing: bool = false
 var is_move_focused: bool = false
@@ -25,8 +25,8 @@ var moving_index_one: int = -1
 @onready var gender_label: Label = $Content/Main/HBoxContainer0/GenderLabel
 @onready var name_label: Label = $Content/Main/HBoxContainer0/NameLabel
 @onready var level_label: Label = $Content/Main/HBoxContainer0/PlayerLevelLabel
-@onready var hp_bar: ProgressBar = $Content/Main/HBoxContainer1/VBoxContainer/HPBar
-@onready var exp_bar: ProgressBar = $Content/Main/HBoxContainer1/VBoxContainer/PlayerEXPBar
+@onready var hp_bar: TextureProgressBar = $Content/Main/HBoxContainer1/VBoxContainer/HPBar
+@onready var exp_bar: TextureProgressBar = $Content/Main/HBoxContainer1/VBoxContainer/PlayerEXPBar
 @onready var portrait: TextureRect = $Content/Main/HBoxContainer2/Portrait
 @onready var description_label: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel0/MarginContainer/DescriptionLabel
 @onready var stat_label_0: Label = $Content/Main/HBoxContainer2/HBoxContainer/Panel1/MarginContainer/Stats/StatLabel0

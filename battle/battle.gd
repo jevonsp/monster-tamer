@@ -15,8 +15,8 @@ var enemy_party: Array[Monster] = []
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player_labels: Dictionary = {
-	level = $Content/PlayerLevelLabel,
-	name = $Content/PlayerNameLabel,
+	level = $Content/Panel/VBoxContainer/PlayerLevelLabel,
+	name = $Content/Panel/VBoxContainer/PlayerNameLabel,
 }
 @onready var player_display: Dictionary = {
 	texture = $Content/PlayerTextureRect,
@@ -24,8 +24,8 @@ var enemy_party: Array[Monster] = []
 	exp_bar = $Content/PlayerEXPBar,
 }
 @onready var enemy_labels: Dictionary = {
-	level = $Content/EnemyLevelLabel,
-	name = $Content/EnemyNameLabel,
+	level = $Content/Panel2/VBoxContainer/EnemyLevelLabel,
+	name = $Content/Panel2/VBoxContainer/EnemyNameLabel,
 }
 @onready var enemy_display: Dictionary = {
 	texture = $Content/EnemyTextureRect,

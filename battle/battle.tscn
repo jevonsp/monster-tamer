@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://b5jkgp3idbiag" path="res://battle/battle.gd" id="1_tiqy5"]
 [ext_resource type="Script" uid="uid://te2pxu06ls6w" path="res://battle/player_level_label.gd" id="2_7fucf"]
 [ext_resource type="PackedScene" uid="uid://bbdhbxa071x5y" path="res://battle/texture_rect.tscn" id="2_l1kiu"]
-[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://battle/hp_bar.tscn" id="3_qubjc"]
+[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="3_qubjc"]
 [ext_resource type="Script" uid="uid://blgot5be2ccke" path="res://battle/battle_handler.gd" id="3_vlrs1"]
-[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://battle/player_exp_bar.tscn" id="4_l1kiu"]
+[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="4_l1kiu"]
 [ext_resource type="Script" uid="uid://cpwm0ssch74ye" path="res://battle/post_action_resolver.gd" id="4_tkkqt"]
 [ext_resource type="Script" uid="uid://ci1ypgtqkcqin" path="res://battle/forced_switch_handler.gd" id="5_a56dj"]
 [ext_resource type="Script" uid="uid://j3rccy2xlud6" path="res://battle/animation_container.gd" id="5_l1kiu"]
@@ -13,8 +13,8 @@
 [ext_resource type="Script" uid="uid://cde8yn8umva7i" path="res://battle/turn_executor.gd" id="6_dxsh4"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="7_a56dj"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_phvbk"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="9_phvbk"]
 [ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
-[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="10_rgsk0"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 [ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="13_sf8fp"]
@@ -400,7 +400,8 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Fight"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -418,7 +419,8 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Party"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -436,7 +438,8 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Item"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -454,7 +457,8 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Run"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -552,27 +556,37 @@ text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerLevelLabel" type="Label" parent="Content" unique_id=991289335]
+[node name="Panel" parent="Content" unique_id=134393662 instance=ExtResource("13_sf8fp")]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 54.0
-offset_right = 416.0
-offset_bottom = 99.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
+offset_left = 80.0
+offset_right = 384.0
+offset_bottom = 144.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/Panel" unique_id=1556672689]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerLevelLabel" type="Label" parent="Content/Panel/VBoxContainer" unique_id=991289335]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_7fucf")
 
-[node name="PlayerNameLabel" type="Label" parent="Content" unique_id=1127918032]
-layout_mode = 0
-offset_left = 32.0
-offset_top = 103.0
-offset_right = 416.0
-offset_bottom = 148.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
+[node name="PlayerNameLabel" type="Label" parent="Content/Panel/VBoxContainer" unique_id=1127918032]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -604,26 +618,36 @@ offset_top = 441.0
 offset_right = 416.0
 offset_bottom = 468.0
 
-[node name="EnemyLevelLabel" type="Label" parent="Content" unique_id=1141364250]
+[node name="Panel2" parent="Content" unique_id=1322883269 instance=ExtResource("13_sf8fp")]
 layout_mode = 0
-offset_left = 864.0
-offset_top = 54.0
-offset_right = 1248.0
-offset_bottom = 99.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
+offset_left = 896.0
+offset_right = 1200.0
+offset_bottom = 144.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/Panel2" unique_id=938017519]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnemyLevelLabel" type="Label" parent="Content/Panel2/VBoxContainer" unique_id=1141364250]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyNameLabel" type="Label" parent="Content" unique_id=294592335]
-layout_mode = 0
-offset_left = 864.0
-offset_top = 103.0
-offset_right = 1248.0
-offset_bottom = 148.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
+[node name="EnemyNameLabel" type="Label" parent="Content/Panel2/VBoxContainer" unique_id=294592335]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_phvbk")
+theme_override_font_sizes/font_size = 64
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -649,7 +673,7 @@ offset_bottom = 439.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="BattleTextBox" parent="Content" unique_id=134393662 instance=ExtResource("13_sf8fp")]
+[node name="BattleTextBox" parent="Content" unique_id=1976802115 instance=ExtResource("13_sf8fp")]
 layout_mode = 0
 offset_left = 656.0
 offset_top = 528.0
@@ -673,7 +697,7 @@ theme_override_constants/margin_bottom = 4
 custom_minimum_size = Vector2(0, 176)
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("10_rgsk0")
+theme_override_fonts/font = ExtResource("9_phvbk")
 theme_override_font_sizes/font_size = 64
 text = "TEXT TEXT TEXT"
 autowrap_mode = 3
@@ -700,7 +724,7 @@ offset_top = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("10_rgsk0")
+theme_override_fonts/font = ExtResource("9_phvbk")
 theme_override_font_sizes/font_size = 64
 text = "NO"
 horizontal_alignment = 1
@@ -719,7 +743,7 @@ offset_top = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("10_rgsk0")
+theme_override_fonts/font = ExtResource("9_phvbk")
 theme_override_font_sizes/font_size = 64
 text = "YES"
 horizontal_alignment = 1

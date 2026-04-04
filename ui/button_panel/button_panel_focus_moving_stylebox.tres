@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://bg03qkarc7wjb"]
+
+[ext_resource type="Texture2D" uid="uid://cef7xopykok4i" path="res://ui/button_panel/button_panel_focused_moving.png" id="1_2kxls"]
+
+[resource]
+texture = ExtResource("1_2kxls")

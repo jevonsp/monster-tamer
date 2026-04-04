@@ -5,11 +5,11 @@ extends Node
 
 
 func highlight_move_swap() -> void:
-	_set_move_panel_focus_style(summary.RED_STYLE)
+	_set_move_panel_focus_style(summary.BUTTON_PANEL_FOCUS_MOVING_STYLEBOX)
 
 
 func clear_move_swap_highlight() -> void:
-	_set_move_panel_focus_style(summary.DEFAULT_STYLE)
+	_set_move_panel_focus_style(summary.BUTTON_PANEL_FOCUS_DEFAULT_STYLEBOX)
 
 
 func toggle_visible(monster: Monster = null) -> void:
