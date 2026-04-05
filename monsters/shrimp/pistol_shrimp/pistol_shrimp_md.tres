@@ -4,11 +4,27 @@
 [ext_resource type="Resource" uid="uid://c87emu6ybl5ua" path="res://moves/puddle_slap/puddle_slap.tres" id="2_6co7i"]
 [ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="3_droyv"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="3_nmn5g"]
+[ext_resource type="Resource" uid="uid://c2jgw5h4b066" path="res://moves/slap/slap.tres" id="4_asqbg"]
 
 [resource]
 script = ExtResource("3_droyv")
 species = "Pistol Shrimp"
+description = null
 primary_type = 2
+secondary_type = null
 texture = ExtResource("3_nmn5g")
-starting_moves = Array[ExtResource("1_5ruug")]([ExtResource("2_6co7i")])
+starting_moves = Array[ExtResource("1_5ruug")]([ExtResource("4_asqbg")])
+level_up_moves = Dictionary[int, ExtResource("1_5ruug")]({
+2: ExtResource("2_6co7i")
+})
+learn_set = null
+base_hitpoints = null
+base_attack = null
+base_special_attack = null
+base_defense = null
+base_special_defense = null
+base_speed = null
+catch_rate = null
+male_ratio = null
+female_ratio = null
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

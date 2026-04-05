@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://c2jgw5h4b066"]
+
+[ext_resource type="Script" uid="uid://c3d1u67cjiyob" path="res://moves/MoveEffect.gd" id="1_gn2lv"]
+[ext_resource type="PackedScene" uid="uid://cwv2t80b031dj" path="res://moves/slap/slap.tscn" id="1_p274s"]
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="2_6d12p"]
+[ext_resource type="Script" uid="uid://g1i3kodg4e2d" path="res://moves/DamageEffect.gd" id="3_cbew6"]
+
+[sub_resource type="Resource" id="Resource_iajrr"]
+script = ExtResource("3_cbew6")
+base_power = 25
+metadata/_custom_type_script = "uid://g1i3kodg4e2d"
+
+[resource]
+script = ExtResource("2_6d12p")
+name = "Slap"
+animation = ExtResource("1_p274s")
+description = "A basic slap."
+effects = Array[ExtResource("1_gn2lv")]([SubResource("Resource_iajrr")])
+metadata/_custom_type_script = "uid://cawunai26wo8m"

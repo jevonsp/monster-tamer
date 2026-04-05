@@ -53,6 +53,11 @@ var is_able_to_fight: bool:
 		return not is_fainted and not is_captured
 var statuses: Array[StatusInstance] = []
 
+enum LevelUpMoveResult {
+	AUTO_LEARNED,
+	NEEDS_SWAP,
+}
+
 
 func set_monster_data(monster_data_resource: MonsterData) -> void:
 	monster_data = monster_data_resource
@@ -373,8 +378,11 @@ func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 		if check_should_gain_moves():
 			var move_to_learn: Move = get_move_to_learn()
 			if move_to_learn != null:
-				Party.request_summary_move_learning.emit(self, move_to_learn)
-				await Ui.move_learning_finished
+				if learn_level_up_move(move_to_learn) == LevelUpMoveResult.NEEDS_SWAP:
+					Party.request_summary_move_learning.emit(self, move_to_learn)
+					await Ui.move_learning_finished
+				else:
+					await MoveLearningController.show_move_learned_message(self, move_to_learn)
 	var entry = EvolutionHandler.check_monster_evolve(self, Entry.Trigger.LEVEL_UP)
 	if entry:
 		EvolutionHandler.request_evolve(self, entry)
@@ -401,6 +409,14 @@ func learn_move(move: Move, index: int) -> void:
 		move_pp.erase(move)
 	moves[index] = move
 	set_pp(move)
+
+
+func learn_level_up_move(move: Move) -> LevelUpMoveResult:
+	var index := get_learn_index()
+	if index >= 0:
+		learn_move(move, index)
+		return LevelUpMoveResult.AUTO_LEARNED
+	return LevelUpMoveResult.NEEDS_SWAP
 
 
 func set_pp(move: Move) -> void:
@@ -455,10 +471,6 @@ func attempt_catch(item: Item, _actor: Monster) -> Dictionary:
 		"times": times,
 		"success": success,
 	}
-
-	print("Attempt catch results:")
-	print("times: ", result["times"])
-	print("success: ", result["success"])
 
 	return result
 

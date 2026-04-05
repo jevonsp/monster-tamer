@@ -10,7 +10,7 @@
 [sub_resource type="Resource" id="Resource_yi8ul"]
 script = ExtResource("4_xmyvy")
 finish_monster = ExtResource("5_epm4x")
-required_level = 2
+required_level = 3
 metadata/_custom_type_script = "uid://jbbbybygit5i"
 
 [sub_resource type="Resource" id="Resource_xmyvy"]

@@ -10,9 +10,12 @@ var move: Move = null
 
 func setup() -> void:
 	if move != null:
-		bp_label.text = "BP: %s" % [move.base_power]
+		bp_label.text = "BP: -"
+		for effect in move.effects:
+			if effect is DamageEffect:
+				bp_label.text = "BP: %s" % effect.base_power
 		name_label.text = move.name
-		pp_label.text = "PP: XX"
+		pp_label.text = "PP: %s" % move.base_pp
 		description_label.text = move.description
 
 

@@ -40,8 +40,11 @@ func resolve_level_up(monster: Monster, _amount: int) -> void:
 	if monster.check_should_gain_moves():
 		var move_to_learn: Move = monster.get_move_to_learn()
 		if move_to_learn != null:
-			Party.request_summary_move_learning.emit(monster, move_to_learn)
-			await Ui.move_learning_finished
+			if monster.learn_level_up_move(move_to_learn) == Monster.LevelUpMoveResult.NEEDS_SWAP:
+				Party.request_summary_move_learning.emit(monster, move_to_learn)
+				await Ui.move_learning_finished
+			else:
+				await MoveLearningController.show_move_learned_message(monster, move_to_learn)
 
 	Battle.battle_level_up_resolution_complete.emit()
 

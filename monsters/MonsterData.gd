@@ -30,6 +30,8 @@ func set_up(level: int) -> Monster:
 	monster.set_monster_data(self)
 	monster.set_level(level)
 	monster.set_monster_moves()
+	create_learn_set()
+	print(learn_set)
 	monster.set_stats()
 	monster.create_stat_multis()
 	monster.current_hitpoints = monster.max_hitpoints
@@ -52,3 +54,10 @@ func interpret_gender() -> Gender:
 		_:
 			var roll: int = randi_range(0, male_ratio + female_ratio - 1)
 			return Gender.MALE if roll < male_ratio else Gender.FEMALE
+
+
+func create_learn_set() -> void:
+	for move in starting_moves:
+		learn_set.append(move)
+	for level in level_up_moves:
+		learn_set.append(level_up_moves[level])

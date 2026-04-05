@@ -49,7 +49,7 @@ func unfocus_moves() -> void:
 		summary.last_focused_move_button = null
 	summary.moving_index_one = -1
 	summary.is_move_focused = false
-	_set_move_panel_focus_style(summary.DEFAULT_STYLE)
+	_set_move_panel_focus_style(summary.BUTTON_PANEL_FOCUS_DEFAULT_STYLEBOX)
 
 
 func _reset_summary_state() -> void:
@@ -64,6 +64,6 @@ func _reset_summary_state() -> void:
 	clear_move_swap_highlight()
 
 
-func _set_move_panel_focus_style(style: StyleBoxFlat) -> void:
+func _set_move_panel_focus_style(style: StyleBoxTexture) -> void:
 	for button in summary.move_panels:
 		button.add_theme_stylebox_override("focus", style)

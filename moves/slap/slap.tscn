@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cwv2t80b031dj"]
+
+[ext_resource type="PackedScene" uid="uid://daj6627d2a7nv" path="res://moves/move_animation_template.tscn" id="1_jqy3a"]
+
+[node name="Slap" unique_id=1974965689 instance=ExtResource("1_jqy3a")]
