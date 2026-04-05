@@ -8,7 +8,7 @@ extends StatusData
 
 func on_turn_end(_instance: StatusInstance, owner_monster: Monster, context: BattleContext) -> void:
 	var ta: Array[String] = ["%s was hurt by it's %s." % [owner_monster.name, status_name]]
-	await context.show_text(ta)
+	await context.show_text(ta, false)
 	if is_flat_damage:
 		await owner_monster.take_damage(flat_damage_per_turn)
 	else:

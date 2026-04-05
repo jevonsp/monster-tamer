@@ -10,6 +10,11 @@ func execute_turn_queue(
 		turn_queue: Array[Dictionary],
 		post_action_resolver: Node,
 ) -> bool:
+	# Clear lingering battle text at the start of each turn.
+	var text_box := battle.get_node_or_null("Content/BattleTextBox")
+	if text_box and text_box.has_method("clear_text"):
+		text_box.clear_text()
+
 	_sort_turn_queue(turn_queue)
 
 	var battle_context := BattleContext.new(handler, battle)
