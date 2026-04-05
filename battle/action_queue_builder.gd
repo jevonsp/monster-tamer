@@ -39,33 +39,24 @@ func add_action_to_queue(
 
 
 func queue_enemy_action(battle: Control, turn_queue: Array[Dictionary]) -> void:
+	var enemy: Monster = battle.enemy_actor
 	if battle.is_wild_battle:
 		var available_moves: Array[Move] = []
-		for move in battle.enemy_actor.moves:
-			if move != null:
+		for move in enemy.moves:
+			if move != null and enemy.has_pp(move):
 				available_moves.append(move)
 		if available_moves.is_empty():
 			return
 
 		var enemy_move = available_moves.pick_random()
-		add_action_to_queue(enemy_move, battle.enemy_actor, battle, turn_queue)
-	else:
-		var enemy = battle.enemy_actor
-		var enemy_move = get_enemy_move_from_battle(battle)
+		enemy.decrement_pp(enemy_move)
+
 		add_action_to_queue(enemy_move, enemy, battle, turn_queue)
+	else:
+		var enemy_move = get_enemy_move_from_battle(battle)
+		enemy.decrement_pp(enemy_move)
 
-
-func _get_target(actor: Monster, action, battle: Control) -> Monster:
-	if action is Move and action.is_self_targeting:
-		return actor
-
-	if action is Item:
-		if action.use_effect is HealingEffect:
-			return actor
-		if action.catch_effect:
-			return battle.enemy_actor
-
-	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
+		add_action_to_queue(enemy_move, enemy, battle, turn_queue)
 
 
 func get_enemy_move_from_battle(battle: Control) -> Move:
@@ -81,6 +72,19 @@ func get_enemy_move_from_battle(battle: Control) -> Move:
 		_check_stat_boost_component(battle, move, available_moves)
 
 	return _get_best_move(available_moves)
+
+
+func _get_target(actor: Monster, action, battle: Control) -> Monster:
+	if action is Move and action.is_self_targeting:
+		return actor
+
+	if action is Item:
+		if action.use_effect is HealingEffect:
+			return actor
+		if action.catch_effect:
+			return battle.enemy_actor
+
+	return battle.enemy_actor if actor == battle.player_actor else battle.player_actor
 
 
 func _get_component(move: Move, component_type) -> MoveEffect:

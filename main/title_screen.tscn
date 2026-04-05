@@ -31,6 +31,7 @@ vertical = true
 
 [node name="Continue" parent="BoxContainer" unique_id=1279246463 instance=ExtResource("2_c311y")]
 layout_mode = 2
+mouse_behavior_recursive = 1
 
 [node name="Label" type="Label" parent="BoxContainer/Continue" unique_id=15179519]
 layout_mode = 1
@@ -47,6 +48,7 @@ vertical_alignment = 1
 
 [node name="NewGame" parent="BoxContainer" unique_id=1900587453 instance=ExtResource("2_c311y")]
 layout_mode = 2
+mouse_behavior_recursive = 1
 
 [node name="Label" type="Label" parent="BoxContainer/NewGame" unique_id=157552406]
 layout_mode = 1
@@ -63,6 +65,7 @@ vertical_alignment = 1
 
 [node name="EraseSave" parent="BoxContainer" unique_id=1819718167 instance=ExtResource("2_c311y")]
 layout_mode = 2
+mouse_behavior_recursive = 1
 
 [node name="Label" type="Label" parent="BoxContainer/EraseSave" unique_id=1989451043]
 layout_mode = 1

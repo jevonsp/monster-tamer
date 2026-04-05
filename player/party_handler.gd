@@ -37,6 +37,7 @@ func add(monster: Monster):
 func fully_heal_and_revive_party() -> void:
 	for monster in party:
 		monster.fully_heal_and_revive()
+		monster.restore_pp()
 	send_player_party()
 
 

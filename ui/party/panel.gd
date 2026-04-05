@@ -19,7 +19,11 @@ func update_actor(a: Monster) -> void:
 	]:
 		actor = a
 		node.actor = a
-		node.update()
+		if node.has_method("set_actor"):
+			node.set_actor(a)
+			continue
+		if node.has_method("update"):
+			node.update()
 	if actor == null:
 		focus_mode = Control.FOCUS_NONE
 	else:

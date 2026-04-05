@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://boxcel2kld2tg"]
+
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="1_7mc48"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="2_31oxs"]
+
+[node name="MoveButtons" type="GridContainer" unique_id=1958324966]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -304.0
+offset_top = -88.0
+offset_right = 304.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="Button0" parent="." unique_id=1279246463 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Button0" unique_id=2023867143]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_31oxs")
+theme_override_font_sizes/font_size = 64
+text = "MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button1" parent="." unique_id=1055736591 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Button1" unique_id=972828077]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_31oxs")
+theme_override_font_sizes/font_size = 64
+text = "MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button2" parent="." unique_id=896745332 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Button2" unique_id=512841803]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_31oxs")
+theme_override_font_sizes/font_size = 64
+text = "MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button3" parent="." unique_id=533115985 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Button3" unique_id=349498019]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_31oxs")
+theme_override_font_sizes/font_size = 64
+text = "MOVE"
+horizontal_alignment = 1
+vertical_alignment = 1

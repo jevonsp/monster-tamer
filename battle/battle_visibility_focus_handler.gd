@@ -2,10 +2,7 @@ extends Node
 
 enum VisibilityState { OPTIONS, MOVES }
 
-var vis_state: VisibilityState = VisibilityState.OPTIONS:
-	set(value):
-		vis_state = value
-		print(VisibilityState.keys()[value])
+var vis_state: VisibilityState = VisibilityState.OPTIONS
 var _last_selected_by_state: Dictionary = {
 	VisibilityState.OPTIONS: null,
 	VisibilityState.MOVES: null,
@@ -78,6 +75,18 @@ func on_move_pressed(button: Button) -> void:
 		return
 	var num := int(button.name.trim_prefix("Button"))
 	var move: Move = battle.player_actor.moves[num]
+	if not move:
+		return
+
+	var player_actor: Monster = battle.player_actor
+	if not player_actor.has_pp(move):
+		var ta: Array[String] = \
+		["Your %s cant use %s, they're out of PP!" % [player_actor.name, move.name]]
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
+		return
+
+	player_actor.decrement_pp(move)
 	battle.battle_handler.execute_player_turn(move)
 
 
@@ -93,8 +102,8 @@ func clear_actor_references() -> void:
 	battle.player_labels["level"].actor = null
 	animation_player.player_actor = null
 	animation_player.enemy_actor = null
-	battle.player_display["hp_bar"].actor = null
-	battle.enemy_display["hp_bar"].actor = null
+	battle.player_display["hp_bar"].set_actor(null)
+	battle.enemy_display["hp_bar"].set_actor(null)
 	battle.player_display["exp_bar"].actor = null
 
 
@@ -139,13 +148,8 @@ func _update_textures() -> void:
 
 func _update_bars() -> void:
 	"""Call only on new player_actor"""
-	battle.player_display["hp_bar"].max_value = battle.player_actor.max_hitpoints
-	battle.player_display["hp_bar"].value = battle.player_actor.current_hitpoints
-	battle.player_display["hp_bar"].actor = battle.player_actor
-
-	battle.enemy_display["hp_bar"].max_value = battle.enemy_actor.max_hitpoints
-	battle.enemy_display["hp_bar"].value = battle.enemy_actor.current_hitpoints
-	battle.enemy_display["hp_bar"].actor = battle.enemy_actor
+	battle.player_display["hp_bar"].set_actor(battle.player_actor)
+	battle.enemy_display["hp_bar"].set_actor(battle.enemy_actor)
 
 	var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (battle.player_actor.level - 1)
 	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * battle.player_actor.level

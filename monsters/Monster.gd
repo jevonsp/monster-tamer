@@ -39,6 +39,7 @@ const EXPERIENCE_PER_LEVEL: int = 50
 @export var special_defense: int = 1
 @export var speed: int = 1
 @export var moves: Array[Move] = []
+@export var move_pp: Dictionary[Move, int] = { }
 @export var is_player_monster: bool = false
 @export var is_fainted: bool = false
 @export var is_captured: bool = false
@@ -83,6 +84,9 @@ func set_monster_moves() -> void:
 			moves_to_gain.pop_back()
 			moves_to_gain.push_front(move)
 	moves = moves_to_gain
+	for move in moves:
+		if move:
+			set_pp(move)
 
 
 func set_monster_name(has_nickname: bool, nick_name: Variant = null) -> void:
@@ -393,7 +397,33 @@ func get_learn_index() -> int:
 
 
 func learn_move(move: Move, index: int) -> void:
+	if moves[index] != null:
+		move_pp.erase(move)
 	moves[index] = move
+	set_pp(move)
+
+
+func set_pp(move: Move) -> void:
+	move_pp[move] = move.base_pp
+
+
+func has_pp(move: Move) -> bool:
+	if move == null:
+		return false
+	if not move_pp.has(move):
+		return false
+	return move_pp[move] > 0
+
+
+func decrement_pp(move: Move, amount: int = 1) -> void:
+	if move == null or not move_pp.has(move):
+		return
+	move_pp[move] -= amount
+
+
+func restore_pp() -> void:
+	for move: Move in move_pp.keys():
+		move_pp[move] = move.base_pp
 
 
 func attempt_catch(item: Item, _actor: Monster) -> Dictionary:

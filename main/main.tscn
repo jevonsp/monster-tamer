@@ -61,6 +61,8 @@ script = ExtResource("2_piupu")
 [node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("11_bsumw")]
 visible = false
 
+[node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
+
 [node name="Party" parent="Interfaces" unique_id=265451228 instance=ExtResource("12_fwcvl")]
 visible = false
 
@@ -68,9 +70,6 @@ visible = false
 visible = false
 
 [node name="Inventory" parent="Interfaces" unique_id=713585617 instance=ExtResource("5_4hmqs")]
-visible = false
-
-[node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
 visible = false
 
 [node name="Storage" parent="Interfaces" unique_id=1376996790 instance=ExtResource("9_jofbb")]

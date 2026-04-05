@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_phvbk"]
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="9_phvbk"]
 [ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
+[ext_resource type="PackedScene" uid="uid://boxcel2kld2tg" path="res://battle/move_buttons.tscn" id="10_sf8fp"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 [ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="13_sf8fp"]
@@ -375,6 +376,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="MoveButtons" parent="Content" unique_id=1958324966 instance=ExtResource("10_sf8fp")]
+visible = false
+z_index = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -192.0
+offset_right = 624.0
+offset_bottom = -16.0
+grow_horizontal = 1
+grow_vertical = 0
+
 [node name="OptionButtons" type="GridContainer" parent="Content" unique_id=543327414]
 layout_mode = 1
 anchors_preset = 2
@@ -387,7 +404,7 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Fight" parent="Content/OptionButtons" unique_id=1279246463 instance=ExtResource("8_phvbk")]
+[node name="Fight" parent="Content/OptionButtons" unique_id=1279246463 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Fight" unique_id=271261842]
@@ -406,7 +423,7 @@ text = "Fight"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Party" parent="Content/OptionButtons" unique_id=1110597983 instance=ExtResource("8_phvbk")]
+[node name="Party" parent="Content/OptionButtons" unique_id=1110597983 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Party" unique_id=1921784770]
@@ -425,7 +442,7 @@ text = "Party"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Item" parent="Content/OptionButtons" unique_id=1119364462 instance=ExtResource("8_phvbk")]
+[node name="Item" parent="Content/OptionButtons" unique_id=1119364462 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Item" unique_id=1043083614]
@@ -444,7 +461,7 @@ text = "Item"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Run" parent="Content/OptionButtons" unique_id=77549642 instance=ExtResource("8_phvbk")]
+[node name="Run" parent="Content/OptionButtons" unique_id=77549642 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Run" unique_id=1181260107]
@@ -463,102 +480,10 @@ text = "Run"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveButtons" type="GridContainer" parent="Content" unique_id=1494816550]
-visible = false
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -192.0
-offset_right = 624.0
-offset_bottom = -16.0
-grow_vertical = 0
-columns = 2
-
-[node name="Button0" type="Button" parent="Content/MoveButtons" unique_id=758091456 groups=["move_buttons"]]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Content/MoveButtons/Button0" unique_id=1536510534]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "-"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button1" type="Button" parent="Content/MoveButtons" unique_id=473783525 groups=["move_buttons"]]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Content/MoveButtons/Button1" unique_id=938543823]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "-"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button2" type="Button" parent="Content/MoveButtons" unique_id=1567848708 groups=["move_buttons"]]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Content/MoveButtons/Button2" unique_id=2027993403]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "-"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button3" type="Button" parent="Content/MoveButtons" unique_id=805030582 groups=["move_buttons"]]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="Content/MoveButtons/Button3" unique_id=2095495132]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "-"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Panel" parent="Content" unique_id=134393662 instance=ExtResource("13_sf8fp")]
 layout_mode = 0
 offset_left = 80.0
+offset_top = 16.0
 offset_right = 384.0
 offset_bottom = 144.0
 
@@ -569,6 +494,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="PlayerLevelLabel" type="Label" parent="Content/Panel/VBoxContainer" unique_id=991289335]
 layout_mode = 2
@@ -621,6 +547,7 @@ offset_bottom = 468.0
 [node name="Panel2" parent="Content" unique_id=1322883269 instance=ExtResource("13_sf8fp")]
 layout_mode = 0
 offset_left = 896.0
+offset_top = 16.0
 offset_right = 1200.0
 offset_bottom = 144.0
 
@@ -631,6 +558,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="EnemyLevelLabel" type="Label" parent="Content/Panel2/VBoxContainer" unique_id=1141364250]
 layout_mode = 2
@@ -680,6 +608,7 @@ offset_top = 528.0
 offset_right = 1264.0
 offset_bottom = 704.0
 script = ExtResource("9_t8p1f")
+in_battle_text_box = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Content/BattleTextBox" unique_id=284528365]
 layout_mode = 1
