@@ -41,18 +41,21 @@ func start_turning(new_facing_direction: Vector2) -> void:
 	_finish_turn()
 
 
-func try_start_move(dir: Vector2) -> bool:
+func is_direction_blocked(dir: Vector2) -> bool:
 	ray_cast_2d.target_position = dir * TILE_SIZE
 	ray_cast_2d.force_raycast_update()
+	return ray_cast_2d.is_colliding()
 
-	if ray_cast_2d.is_colliding():
+
+func try_start_move(dir: Vector2) -> bool:
+	if is_direction_blocked(dir):
 		return false
 
 	tile_start_pos = position
 	tile_target_pos = position + (dir * TILE_SIZE)
 	move_progress = 0.0
 	current_state = MoveState.MOVING
-	animation_tree.set("parameters/Walk/blend_position", dir)
+	animation_tree.set("parameters/Walk/blend_position", _blend_for_cardinal_direction(dir))
 	anim_state.travel("Walk")
 	return true
 
@@ -76,7 +79,7 @@ func advance_move(delta: float) -> bool:
 func finish_move_to_idle(last_move_dir: Vector2 = Vector2.ZERO) -> void:
 	if last_move_dir != Vector2.ZERO:
 		facing_direction = last_move_dir
-	animation_tree.set("parameters/Idle/blend_position", facing_direction)
+	animation_tree.set("parameters/Idle/blend_position", _get_idle_blend_position())
 	current_state = MoveState.IDLE
 	anim_state.travel("Idle")
 
@@ -150,10 +153,19 @@ func _get_walk_speed() -> float:
 	return 4.0
 
 
+func _blend_for_cardinal_direction(dir: Vector2) -> Vector2:
+	return dir
+
+
+func _get_idle_blend_position() -> Vector2:
+	return facing_direction
+
+
 func _set_blend_positions(dir: Vector2) -> void:
-	animation_tree.set("parameters/Turn/blend_position", dir)
-	animation_tree.set("parameters/Idle/blend_position", dir)
-	animation_tree.set("parameters/Walk/blend_position", dir)
+	var blend := _blend_for_cardinal_direction(dir)
+	animation_tree.set("parameters/Turn/blend_position", blend)
+	animation_tree.set("parameters/Idle/blend_position", blend)
+	animation_tree.set("parameters/Walk/blend_position", blend)
 
 
 func _begin_turn(new_facing_direction: Vector2) -> void:
@@ -165,7 +177,7 @@ func _begin_turn(new_facing_direction: Vector2) -> void:
 
 
 func _finish_turn() -> void:
-	animation_tree.set("parameters/Idle/blend_position", facing_direction)
+	animation_tree.set("parameters/Idle/blend_position", _get_idle_blend_position())
 	current_state = MoveState.IDLE
 	anim_state.travel("Idle")
 	finished_turn.emit()

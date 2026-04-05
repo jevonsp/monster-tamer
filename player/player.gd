@@ -1,7 +1,7 @@
 class_name Player
 extends TileMover
 
-enum TravelState { DEFAULT, SURFING, BIKING }
+enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
 
 static var in_battle: bool = false
 const  TURN_DURATION := 0.1
@@ -12,6 +12,7 @@ const  TURN_DURATION := 0.1
 }
 
 var travel_state = TravelState.DEFAULT
+
 var held_keys: Array = []
 var key_hold_times: Dictionary = { }
 var turn_timer: float = 0.0
@@ -196,6 +197,7 @@ func clear_inputs() -> void:
 	eventual_target_pos = global_position
 	current_state = MoveState.IDLE
 	move_progress = 0.0
+	animation_tree.set("parameters/Idle/blend_position", _get_idle_blend_position())
 	anim_state.travel("Idle")
 
 
@@ -276,3 +278,21 @@ func _is_tile_water(tile: Vector2i) -> bool:
 
 func _get_walk_speed() -> float:
 	return 5.0
+
+
+func _blend_for_cardinal_direction(dir: Vector2) -> Vector2:
+	if travel_state != TravelState.CLIMBING:
+		return dir
+	if dir.y != 0:
+		return Vector2.UP
+	return dir
+
+
+func _get_idle_blend_position() -> Vector2:
+	if travel_state != TravelState.CLIMBING:
+		return facing_direction
+	if facing_direction.x != 0:
+		return facing_direction
+	if is_direction_blocked(Vector2.DOWN):
+		return Vector2.DOWN
+	return Vector2.UP

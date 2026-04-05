@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://hokvqkpxisi5" path="res://player/story_flag_handler.gd" id="4_qjkh3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oul6g"]
-size = Vector2(16, 16)
+size = Vector2(15, 15)
 
 [sub_resource type="Animation" id="Animation_rkbax"]
 resource_name = "IdleDown"
