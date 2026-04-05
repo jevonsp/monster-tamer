@@ -1,4 +1,6 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 
 func test_calculate_damage_applies_stab_and_type_efficacy() -> void:
@@ -6,10 +8,8 @@ func test_calculate_damage_applies_stab_and_type_efficacy() -> void:
 	effect.type = TypeChart.Type.FIRE
 	effect.base_power = 50
 	effect.damage_type = DamageEffect.DamageType.PHYSICAL
-	var actor := _make_monster("Attacker")
-	actor.primary_type = TypeChart.Type.FIRE
-	var target := _make_monster("Target")
-	target.primary_type = TypeChart.Type.GRASS
+	var actor := TH.make_monster("Attacker", 20, TypeChart.Type.FIRE, null, 40, 30, 40, 30, 20, 120)
+	var target := TH.make_monster("Target", 20, TypeChart.Type.GRASS, null, 40, 30, 40, 30, 20, 120)
 
 	var damage: int = effect.calculate_damage(actor, target)
 
@@ -20,8 +20,8 @@ func test_calculate_damage_applies_held_item_flat_and_percentage_modifiers() -> 
 	var effect := DamageEffect.new()
 	effect.type = TypeChart.Type.NONE
 	effect.base_power = 40
-	var actor := _make_monster("Attacker")
-	var target := _make_monster("Target")
+	var actor := TH.make_monster("Attacker", 20, TypeChart.Type.NONE, null, 40, 30, 40, 30, 20, 120)
+	var target := TH.make_monster("Target", 20, TypeChart.Type.NONE, null, 40, 30, 40, 30, 20, 120)
 
 	var attacker_item := Item.new()
 	var attacker_held := HeldEffect.new()
@@ -47,24 +47,7 @@ func test_calculate_damage_applies_held_item_flat_and_percentage_modifiers() -> 
 
 func test_calculate_critical_is_true_at_max_critical_stage() -> void:
 	var effect := DamageEffect.new()
-	var actor := _make_monster("Critter")
+	var actor := TH.make_monster("Critter", 20, TypeChart.Type.NONE, null, 40, 30, 40, 30, 20, 120)
 	actor.stat_stages_and_multis.stat_stages[Monster.Stat.CRITICAL] = 4
 
 	assert_true(effect.calculate_critical(actor))
-
-
-func _make_monster(monster_name: String) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.level = 20
-	monster.primary_type = TypeChart.Type.NONE
-	monster.secondary_type = null
-	monster.attack = 40
-	monster.defense = 30
-	monster.special_attack = 40
-	monster.special_defense = 30
-	monster.speed = 20
-	monster.max_hitpoints = 120
-	monster.current_hitpoints = 120
-	monster.create_stat_multis()
-	return monster

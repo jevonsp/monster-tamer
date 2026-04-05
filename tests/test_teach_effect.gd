@@ -1,4 +1,6 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 
 func before_each() -> void:
@@ -9,11 +11,12 @@ func before_each() -> void:
 func after_each() -> void:
 	if Ui.send_text_box.is_connected(_on_send_text_box):
 		Ui.send_text_box.disconnect(_on_send_text_box)
+	super.after_each()
 
 
 func test_teach_effect_returns_when_move_is_null() -> void:
 	var effect := TeachEffect.new()
-	var monster := _make_monster()
+	var monster := TH.make_monster("TeachMon", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 50)
 	effect.move = null
 
 	await effect.use(monster)
@@ -26,7 +29,7 @@ func test_teach_effect_stops_when_move_already_known() -> void:
 	var move := Move.new()
 	move.name = "Tackle"
 	effect.move = move
-	var monster := _make_monster()
+	var monster := TH.make_monster("TeachMon", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 50)
 	monster.moves = [move]
 
 	await effect.use(monster)
@@ -40,7 +43,7 @@ func test_teach_effect_stops_when_target_cannot_learn_move() -> void:
 	var move := Move.new()
 	move.name = "Flame"
 	effect.move = move
-	var monster := _make_monster()
+	var monster := TH.make_monster("TeachMon", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 50)
 	var data := MonsterData.new()
 	data.learn_set = []
 	monster.monster_data = data
@@ -62,18 +65,3 @@ func _on_send_text_box(
 
 func _emit_text_box_complete() -> void:
 	Ui.text_box_complete.emit()
-
-
-func _make_monster() -> Monster:
-	var monster := Monster.new()
-	monster.name = "TeachMon"
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 10
-	monster.defense = 10
-	monster.special_attack = 10
-	monster.special_defense = 10
-	monster.speed = 10
-	monster.max_hitpoints = 50
-	monster.current_hitpoints = 50
-	monster.create_stat_multis()
-	return monster

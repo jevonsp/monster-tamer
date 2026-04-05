@@ -1,4 +1,6 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 
 class TrackingStatus:
@@ -41,7 +43,7 @@ func test_composite_invokes_child_hooks_in_order() -> void:
 	second.id = "second"
 	var composite := CompositeStatusData.new()
 	composite.child_statuses = [first, second]
-	var instance := StatusInstance.new(composite, _make_monster(), 3)
+	var instance := StatusInstance.new(composite, TH.make_monster(), 3)
 
 	await composite.on_turn_start(instance, instance.owner, null)
 	await composite.on_turn_end(instance, instance.owner, null)
@@ -70,14 +72,7 @@ func test_composite_can_attempt_action_short_circuits_false() -> void:
 	second.block_text = ["Blocked"]
 	var composite := CompositeStatusData.new()
 	composite.child_statuses = [first, second]
-	var instance := StatusInstance.new(composite, _make_monster(), 2)
+	var instance := StatusInstance.new(composite, TH.make_monster(), 2)
 
 	assert_false(composite.can_attempt_action(instance, instance.owner, null))
 	assert_eq(composite.get_action_block_text(instance, instance.owner), ["Blocked"])
-
-
-func _make_monster() -> Monster:
-	var monster := Monster.new()
-	monster.primary_type = TypeChart.Type.NONE
-	monster.create_stat_multis()
-	return monster
