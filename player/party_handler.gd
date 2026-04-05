@@ -41,13 +41,24 @@ func fully_heal_and_revive_party() -> void:
 	send_player_party()
 
 
-func remove_monster(monster: Monster) -> void:
+func can_deposit_from_party() -> bool:
+	return party.size() > 1
+
+
+func can_release_monster(monster: Monster) -> bool:
+	if party.size() == 1 and party.has(monster):
+		return false
+	return true
+
+
+func remove_monster(monster: Monster, with_farewell: bool = true) -> void:
 	if not party.has(monster) and storage.find_key(monster) == null:
 		return
 
-	var ta: Array[String] = ["Goodbye %s, I'll miss you!" % [monster.name]]
-	Ui.send_text_box.emit(null, ta, true, false, false)
-	await Ui.text_box_complete
+	if with_farewell:
+		var ta: Array[String] = ["Goodbye %s, I'll miss you!" % [monster.name]]
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
 
 	if party.has(monster):
 		party.erase(monster)

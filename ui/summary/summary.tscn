@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://cju8x0fsbax2m" path="res://ui/party/name_label.tscn" id="1_25wx7"]
 [ext_resource type="Script" uid="uid://1cyiewtnenc2" path="res://ui/summary/summary.gd" id="1_e1nmq"]
-[ext_resource type="Script" uid="uid://3rbidck70x4b" path="res://ui/text_box/move_learning_controller.gd" id="2_3k2wb"]
 [ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="2_3muql"]
 [ext_resource type="Script" uid="uid://c7mywkergbubx" path="res://ui/summary/summary_visibility_focus_handler.gd" id="3_7gq2p"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="3_e1nmq"]
@@ -28,9 +27,6 @@ script = ExtResource("1_e1nmq")
 
 [node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("13_gv55x")]
 layout_mode = 1
-
-[node name="MoveLearningController" type="Node" parent="." unique_id=2036052759]
-script = ExtResource("2_3k2wb")
 
 [node name="InputHandler" type="Node" parent="." unique_id=2100411751]
 script = ExtResource("10_njb72")

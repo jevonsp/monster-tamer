@@ -1,8 +1,6 @@
-class_name MoveLearningController
 extends Node
 
-
-static func show_move_learned_message(monster: Monster, move: Move) -> void:
+func show_move_learned_message(monster: Monster, move: Move) -> void:
 	var ta: Array[String] = ["%s learned %s." % [monster.name, move.name]]
 	Ui.send_text_box.emit(
 		null,
@@ -141,4 +139,6 @@ func show_did_not_learn(monster: Monster, move: Move) -> void:
 
 
 func announce_move_learned(monster: Monster, move: Move) -> void:
-	await MoveLearningController.show_move_learned_message(monster, move)
+	var ta: Array[String] = ["%s learned %s." % [monster.name, move.name]]
+	Ui.send_text_box.emit(null, ta, false, false, false)
+	await Ui.text_box_complete

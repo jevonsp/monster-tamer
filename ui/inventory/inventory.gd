@@ -64,7 +64,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func use(item: Item) -> void:
-	if not _can_use_outside_battle(item):
+	if not ItemInteraction.can_use_outside_battle(item):
 		await show_cant_use_text()
 		_toggle_options_visible()
 		return
@@ -77,22 +77,13 @@ func use(item: Item) -> void:
 		var monster: Monster = await Ui.monster_selected
 		Ui.request_open_party.emit()
 
-		var entry = EvolutionHandler.check_monster_evolve(monster, Entry.Trigger.ITEM_USE, item)
-		if entry:
-			EvolutionHandler.request_evolve(monster, entry)
-			await EvolutionHandler.evolution_process_finished
-			Ui.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
-			Ui.request_open_inventory.emit()
-			return
-
-		Inventory.use_item_on.emit(item, monster)
-		await Ui.item_finished_using
+		await ItemInteraction.use_item_on_monster_after_party_pick(item, monster)
 		Ui.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 		Ui.request_open_inventory.emit()
 
 
 func give(item: Item) -> void:
-	if not _can_give_to_monster(item):
+	if not ItemInteraction.can_give_to_monster(item):
 		await show_cant_hold_text()
 		_toggle_options_visible()
 		return
@@ -103,7 +94,7 @@ func give(item: Item) -> void:
 		_set_mode_give_target(true)
 		Ui.request_open_party.emit()
 		var monster: Monster = await Ui.monster_selected
-		await _give_item_to_monster(item, monster)
+		await ItemInteraction.give_item_to_monster(item, monster, self)
 		Ui.request_open_party.emit()
 		Ui.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 		Ui.request_open_inventory.emit()
@@ -269,18 +260,6 @@ func _set_item_focus(inventory_panel: Button) -> void:
 	last_selected_item_button = inventory_panel
 
 
-func _can_use_outside_battle(item: Item) -> bool:
-	return item.use_effect != null
-
-
-func _can_give_to_monster(item: Item) -> bool:
-	if item.catch_effect != null:
-		return false
-	if item.use_effect != null:
-		return false
-	return item.held_effect != null
-
-
 func _set_mode_use_target(value: bool) -> void:
 	mode = Mode.PICK_USE_TARGET if value else Mode.BROWSING
 
@@ -299,17 +278,17 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 		Global.AccessFrom.PARTY:
 			match mode:
 				Mode.PICK_GIVE_TARGET:
-					if not _can_give_to_monster(item):
+					if not ItemInteraction.can_give_to_monster(item):
 						await show_cant_hold_text()
 						return
 					Ui.item_selected.emit(item)
 					return
 				Mode.PICK_USE_TARGET:
-					if not _can_use_outside_battle(item):
+					if not ItemInteraction.can_use_outside_battle(item):
 						await show_cant_use_text()
 						return
 				_:
-					if not _can_use_outside_battle(item):
+					if not ItemInteraction.can_use_outside_battle(item):
 						await show_cant_use_text()
 						return
 			_toggle_visible()
@@ -318,11 +297,12 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 			Ui.switch_ui_context.emit(Global.AccessFrom.PARTY)
 			Ui.request_open_party.emit()
 		Global.AccessFrom.BATTLE:
-			if item.use_effect == null and item.catch_effect == null:
+			var reason := ItemInteraction.battle_item_blocked_reason(item, is_trainer_battle)
+			if reason == "cant_use":
 				await show_cant_use_in_battle_text()
 				last_selected_item_button.grab_focus()
 				return
-			if is_trainer_battle and item.catch_effect:
+			if reason == "trainer_catch":
 				await show_cant_use_in_trainer_battle_text()
 				last_selected_item_button.grab_focus()
 				return
@@ -385,35 +365,3 @@ func _focus_option_default() -> void:
 		last_selected_option.grab_focus()
 	else:
 		option_buttons.use.grab_focus()
-
-
-func _give_item_to_monster(item: Item, monster: Monster) -> void:
-	if monster == null:
-		return
-
-	if monster.hold_item(item):
-		Inventory.give_item_to.emit(item, monster)
-		await _show_item_given_text(item, monster)
-		return
-
-	if not await _confirm_item_swap(monster):
-		return
-
-	monster.swap_items(item)
-	Inventory.give_item_to.emit(item, monster)
-	await _show_item_given_text(item, monster)
-
-
-func _show_item_given_text(item: Item, monster: Monster) -> void:
-	var ta: Array[String] = ["Gave %s to %s to hold." % [item.name, monster.name]]
-	Ui.send_text_box.emit(self, ta, false, false, false)
-	await Ui.text_box_complete
-
-
-func _confirm_item_swap(monster: Monster) -> bool:
-	var held_item_name: String = monster.held_item.name if monster.held_item != null else "that item"
-	var ta: Array[String] = ["%s is already holding %s. Swap items?" % [monster.name, held_item_name]]
-	Ui.send_text_box.emit(self, ta, false, true, false)
-	var should_swap: bool = await Ui.answer_given
-	await Ui.text_box_complete
-	return should_swap

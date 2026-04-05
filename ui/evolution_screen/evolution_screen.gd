@@ -2,9 +2,6 @@ extends Control
 
 signal crossfade_segment_completed
 
-const PISTOL_SHRIMP_MD = preload("uid://cdor45ba2o0aa")
-const AKIMBO_SHRIMP_MD = preload("uid://b0531qwrotpbx")
-
 var processing: bool = false
 var is_animating: bool = false
 var ta: Array[String] = []

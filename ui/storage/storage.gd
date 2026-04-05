@@ -35,7 +35,8 @@ func _ready() -> void:
 
 
 func guard_clause_deposit() -> bool:
-	if party_ref.size() <= 1:
+	var player = get_tree().get_first_node_in_group("player")
+	if player and not player.party_handler.can_deposit_from_party():
 		var ta: Array[String] = ["You can't deposit your last monster!"]
 		Ui.send_text_box.emit(null, ta, true, false, false)
 		await Ui.text_box_complete
@@ -120,12 +121,12 @@ func release() -> void:
 		await Ui.text_box_complete
 		if answer:
 			var player = get_tree().get_first_node_in_group("player")
-			await player.party_handler.remove(monster)
+			await player.party_handler.remove_monster(monster, false)
 
 
 func can_release(monster: Monster) -> bool:
 	var player = get_tree().get_first_node_in_group("player")
-	if player.party_handler.party.size() == 1 and player.party_handler.party.has(monster):
+	if not player.party_handler.can_release_monster(monster):
 		var ta: Array[String] = ["You cant release your last monster!"]
 		Ui.send_text_box.emit(null, ta, true, false, false)
 		await Ui.text_box_complete

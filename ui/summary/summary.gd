@@ -17,7 +17,6 @@ var moving_index_one: int = -1
 
 @onready var interfaces: CanvasLayer = $".."
 @onready var overworld_text_box: Control = $"../OverworldTextBox"
-@onready var move_learning_controller: Node = $MoveLearningController
 @onready var update_handler: Node = $UpdateHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var input_handler: Node = $InputHandler
@@ -99,15 +98,15 @@ func finish_moving_move() -> void:
 
 
 func ask_remove_move() -> void:
-	await move_learning_controller.ask_remove_move(self)
+	await MoveLearningService.ask_remove_move(self)
 
 
 func handle_cancel_learning() -> bool:
-	return await move_learning_controller.handle_cancel_learning(self)
+	return await MoveLearningService.handle_cancel_learning(self)
 
 
 func clean_up_learning_move() -> void:
-	move_learning_controller.clean_up_learning_move(self)
+	MoveLearningService.clean_up_learning_move(self)
 
 
 func _connect_signals() -> void:
@@ -157,8 +156,8 @@ func _on_request_summary_learn_move(move: Move) -> void:
 
 
 func _resolve_move_learning(monster: Monster, move: Move) -> void:
-	await move_learning_controller.resolve_move_learning(self, monster, move)
+	await MoveLearningService.resolve_move_learning(self, monster, move)
 
 
 func _set_move_learning_processing(value: bool, reason: String) -> void:
-	move_learning_controller.set_move_learning_processing(self, value, reason)
+	MoveLearningService.set_move_learning_processing(self, value, reason)

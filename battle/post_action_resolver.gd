@@ -44,7 +44,7 @@ func resolve_level_up(monster: Monster, _amount: int) -> void:
 				Party.request_summary_move_learning.emit(monster, move_to_learn)
 				await Ui.move_learning_finished
 			else:
-				await MoveLearningController.show_move_learned_message(monster, move_to_learn)
+				await MoveLearningService.show_move_learned_message(monster, move_to_learn)
 
 	Battle.battle_level_up_resolution_complete.emit()
 

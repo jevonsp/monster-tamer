@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="13_sf8fp"]
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="14_tkkqt"]
+[ext_resource type="Script" path="res://battle/battle_session.gd" id="15_bsess"]
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -349,6 +350,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tiqy5")
+
+[node name="BattleSession" type="Node" parent="."]
+script = ExtResource("15_bsess")
 
 [node name="BattleHandler" type="Node" parent="." unique_id=330754811]
 script = ExtResource("3_vlrs1")

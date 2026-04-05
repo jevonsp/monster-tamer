@@ -382,7 +382,7 @@ func gain_level(amount: int = 1, in_battle: bool = false) -> void:
 					Party.request_summary_move_learning.emit(self, move_to_learn)
 					await Ui.move_learning_finished
 				else:
-					await MoveLearningController.show_move_learned_message(self, move_to_learn)
+					await MoveLearningService.show_move_learned_message(self, move_to_learn)
 	var entry = EvolutionHandler.check_monster_evolve(self, Entry.Trigger.LEVEL_UP)
 	if entry:
 		EvolutionHandler.request_evolve(self, entry)
