@@ -67,18 +67,6 @@ func _load_text(
 	var interfaces := get_tree().get_root().find_child("Interfaces", true, false)
 	var in_battle_ui: bool = \
 	interfaces != null and interfaces.ui_context == Global.AccessFrom.BATTLE
-	print_debug(
-		"[TextBox] load_text path=%s battle_box=%s ignore=%s ui_battle=%s visible=%s size=%s auto=%s question=%s" % [
-			get_path(),
-			in_battle_text_box,
-			ignore_player_battle_state,
-			in_battle_ui,
-			visible,
-			ta.size(),
-			auto_complete,
-			question,
-		],
-	)
 	if not in_battle_text_box and in_battle_ui:
 		# Never let non-battle boxes render battle messages.
 		main_label.text = ""
@@ -100,7 +88,6 @@ func _load_text(
 
 
 func _display_text() -> void:
-	print_debug("[TextBox] display_text idx=%s/%s text=%s" % [text_index, text_array.size(), text_array[text_index]])
 	call_deferred("_focus_text_box")
 	main_label.text = text_array[text_index]
 	if is_question:
@@ -113,20 +100,16 @@ func _display_text() -> void:
 
 func _focus_text_box() -> void:
 	if visible and not is_question:
-		print_debug("[TextBox] grab_focus")
 		text_box.grab_focus()
 
 
 func _advance_text() -> void:
-	print_debug("[TextBox] advance before idx=%s size=%s" % [text_index, text_array.size()])
 	text_index += 1
 	if text_index >= text_array.size():
 		if not is_question:
-			print_debug("[TextBox] finished non-question")
 			_text_finished()
 			return
 		else:
-			print_debug("[TextBox] awaiting question")
 			await _await_question()
 	_text_finished()
 
@@ -137,19 +120,16 @@ func _await_question() -> void:
 
 
 func _text_finished() -> void:
-	print_debug("[TextBox] text_finished processing=%s" % processing)
 	_clean_up()
 	call_deferred("_emit_text_box_complete")
 
 
 func _emit_text_box_complete() -> void:
-	print_debug("[TextBox] emit text_box_complete main_label now='%s'" % main_label.text)
 	main_label.text = ""
 	Ui.text_box_complete.emit()
 
 
 func _clean_up() -> void:
-	print_debug("[TextBox] clean_up start visible=%s in_battle=%s processing=%s" % [visible, in_battle_text_box, processing])
 	if yes_button.visible:
 		_toggle_questions_visible()
 	if not in_battle_text_box:
@@ -162,7 +142,6 @@ func _clean_up() -> void:
 	text_index = 0
 	is_question = false
 	is_auto_complete = false
-	print_debug("[TextBox] clean_up end main_label='%s' visible=%s processing=%s" % [main_label.text, visible, processing])
 
 
 func clear_text() -> void:
