@@ -141,3 +141,12 @@ func _on_no_pressed() -> void:
 
 func _on_yes_pressed() -> void:
 	Ui.answer_given.emit(true)
+
+
+func _move_to_evolution_spot() -> void:
+	if not in_battle_text_box:
+		return
+
+
+func _move_back() -> void:
+	pass

@@ -15,6 +15,7 @@ var _active_tween: Tween
 
 @onready var old_texture_rect: TextureRect = $OldTextureRect
 @onready var new_texture_rect: TextureRect = $NewTextureRect
+@onready var evolution_text_box: Panel = $EvolutionTextBox
 
 
 func _ready() -> void:
@@ -66,7 +67,7 @@ func _finish_evolution(n: String) -> void:
 	processing = false
 	ta = ["Congratulations~\nYour %s evolved into a %s!" % [old_species_name, n]]
 
-	Ui.send_text_box.emit(null, ta, false, false, false)
+	Ui.send_text_box.emit(null, ta, false, false, false, true)
 	await Ui.text_box_complete
 
 	visible = false

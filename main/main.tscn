@@ -63,22 +63,22 @@ visible = false
 
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
 
+[node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_cgvj2")]
+visible = false
+
 [node name="Party" parent="Interfaces" unique_id=265451228 instance=ExtResource("12_fwcvl")]
 visible = false
 
-[node name="Summary" parent="Interfaces" unique_id=239759928 instance=ExtResource("3_na0o7")]
+[node name="Inventory" parent="Interfaces" unique_id=713585617 instance=ExtResource("5_4hmqs")]
 visible = false
 
-[node name="Inventory" parent="Interfaces" unique_id=713585617 instance=ExtResource("5_4hmqs")]
+[node name="Summary" parent="Interfaces" unique_id=239759928 instance=ExtResource("3_na0o7")]
 visible = false
 
 [node name="Storage" parent="Interfaces" unique_id=1376996790 instance=ExtResource("9_jofbb")]
 visible = false
 
 [node name="Store" parent="Interfaces" unique_id=1010499898 instance=ExtResource("10_ue0mw")]
-visible = false
-
-[node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_cgvj2")]
 visible = false
 
 [node name="OverworldTextBox" parent="Interfaces" unique_id=2060252590 instance=ExtResource("9_n53tw")]

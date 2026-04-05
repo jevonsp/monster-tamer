@@ -378,7 +378,6 @@ grow_vertical = 2
 
 [node name="MoveButtons" parent="Content" unique_id=1958324966 instance=ExtResource("10_sf8fp")]
 visible = false
-z_index = 1
 layout_mode = 1
 anchors_preset = 2
 anchor_left = 0.0
