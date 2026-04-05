@@ -4,6 +4,7 @@ extends Resource
 @export var name: String = ""
 @export var type: TypeChart.Type
 @export_range(0, 100, 5) var accuracy: int = 100
+@export var base_pp: int = 20
 @export_range(-5, 5) var priority: int = 0
 @export var animation: PackedScene
 @export var is_self_targeting: bool = false
