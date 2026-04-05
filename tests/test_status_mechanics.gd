@@ -1,5 +1,6 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
 
+const TH := preload("res://tests/monster_factory.gd")
 const BURN_STATUS = preload("res://statuses/burn.tres")
 const CONFUSION_STATUS = preload("res://statuses/confusion.tres")
 const FROZEN_STATUS = preload("res://statuses/frozen.tres")
@@ -34,6 +35,10 @@ func after_each() -> void:
 			node.free()
 	_context_nodes.clear()
 	context = null
+	shaken_targets.clear()
+	hitpoint_updates.clear()
+	shown_text.clear()
+	super.after_each()
 
 
 func test_burn_is_main_status_and_applies_attack_drop_and_dot() -> void:
@@ -183,19 +188,18 @@ func test_duplicate_main_status_is_rejected_without_refreshing_duration() -> voi
 
 
 func _make_monster() -> Monster:
-	var monster := Monster.new()
-	monster.name = "TestMon"
-	monster.level = 10
-	monster.primary_type = TypeChart.Type.NONE
-	monster.speed = 40
-	monster.attack = 30
-	monster.defense = 30
-	monster.special_attack = 30
-	monster.special_defense = 30
-	monster.max_hitpoints = 100
-	monster.current_hitpoints = 100
-	monster.create_stat_multis()
-	return monster
+	return TH.make_monster(
+		"TestMon",
+		10,
+		TypeChart.Type.NONE,
+		null,
+		30,
+		30,
+		30,
+		30,
+		40,
+		100,
+	)
 
 
 func _connect_global_test_hooks() -> void:

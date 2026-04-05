@@ -1,9 +1,10 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 
 func test_get_effective_stat_applies_stage_multiplier_and_status_modifier() -> void:
-	var monster := _make_monster()
-	monster.speed = 40
+	var monster := TH.make_monster("CoreMon", 1, TypeChart.Type.NONE, null, 20, 20, 20, 20, 40, 80)
 	monster.stat_stages_and_multis.stat_stages[Monster.Stat.SPEED] = 1
 	var status := StatModifierStatus.new()
 	status.stat = Monster.Stat.SPEED
@@ -16,7 +17,7 @@ func test_get_effective_stat_applies_stage_multiplier_and_status_modifier() -> v
 
 
 func test_main_status_conflicts_and_separate_status_refreshes() -> void:
-	var monster := _make_monster()
+	var monster := TH.make_monster()
 	var burn := StatusData.new()
 	burn.status_id = "burn"
 	burn.status_name = "Burn"
@@ -38,7 +39,7 @@ func test_main_status_conflicts_and_separate_status_refreshes() -> void:
 
 
 func test_gain_exp_crosses_level_threshold() -> void:
-	var monster := _make_monster()
+	var monster := TH.make_monster()
 	monster.level = 1
 	monster.experience = 0
 	monster.monster_data = MonsterData.new()
@@ -47,18 +48,3 @@ func test_gain_exp_crosses_level_threshold() -> void:
 
 	assert_eq(monster.level, 2)
 	assert_eq(monster.experience, 60)
-
-
-func _make_monster() -> Monster:
-	var monster := Monster.new()
-	monster.name = "CoreMon"
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 20
-	monster.defense = 20
-	monster.special_attack = 20
-	monster.special_defense = 20
-	monster.speed = 20
-	monster.max_hitpoints = 80
-	monster.current_hitpoints = 80
-	monster.create_stat_multis()
-	return monster

@@ -1,6 +1,7 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
 
-const PartyHandlerScript = preload("res://player/party_handler.gd")
+const PartyHandlerScript := preload("res://player/party_handler.gd")
+const TH := preload("res://tests/monster_factory.gd")
 
 var party_handler: Node
 
@@ -14,12 +15,13 @@ func after_each() -> void:
 	if is_instance_valid(party_handler):
 		party_handler.free()
 	party_handler = null
+	super.after_each()
 
 
 func test_add_places_overflow_monsters_in_storage() -> void:
 	for i in range(6):
-		party_handler.add(_make_monster("Party%s" % i))
-	var overflow := _make_monster("Overflow")
+		party_handler.add(TH.make_monster("Party%s" % i, 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30))
+	var overflow := TH.make_monster("Overflow", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 
 	party_handler.add(overflow)
 
@@ -28,7 +30,7 @@ func test_add_places_overflow_monsters_in_storage() -> void:
 
 
 func test_deposit_and_withdraw_update_party_and_storage() -> void:
-	var mon := _make_monster("StorageMon")
+	var mon := TH.make_monster("StorageMon", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 	party_handler.add(mon)
 
 	party_handler.deposit_monster(mon)
@@ -41,7 +43,7 @@ func test_deposit_and_withdraw_update_party_and_storage() -> void:
 
 
 func test_switch_moves_returns_early_on_invalid_indexes() -> void:
-	var mon := _make_monster("Mover")
+	var mon := TH.make_monster("Mover", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 	var move_a := Move.new()
 	move_a.name = "A"
 	var move_b := Move.new()
@@ -53,18 +55,3 @@ func test_switch_moves_returns_early_on_invalid_indexes() -> void:
 
 	assert_eq(mon.moves[0], move_a)
 	assert_eq(mon.moves[1], move_b)
-
-
-func _make_monster(monster_name: String) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 10
-	monster.defense = 10
-	monster.special_attack = 10
-	monster.special_defense = 10
-	monster.speed = 10
-	monster.max_hitpoints = 30
-	monster.current_hitpoints = 30
-	monster.create_stat_multis()
-	return monster

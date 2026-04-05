@@ -400,21 +400,14 @@ func _reset() -> void:
 
 
 func _buy(amount: int) -> void:
-	var ta: Array[String]
 	var item = last_focused_item_button.item
-	if _can_player_can_afford(item):
-		if _check_enough_stock(item, amount):
-			_pay_for_item(item)
-			_reduce_stock(item, amount)
-		else:
-			ta = ["We don't have enough in stock, sorry!"]
-			Ui.send_text_box.emit(null, ta, true, false, false)
-			await Ui.text_box_complete
-	else:
-		ta = ["You don't have enough money for that."]
-		Ui.send_text_box.emit(null, ta, true, false, false)
-		await Ui.text_box_complete
-
+	var r: Dictionary = StoreService.try_buy(player_ref, current_category, item, amount, inventory)
+	if r.ok:
+		_grab_item_focus()
+		return
+	var ta: Array[String] = [r.message]
+	Ui.send_text_box.emit(null, ta, true, false, false)
+	await Ui.text_box_complete
 	_grab_item_focus()
 
 
@@ -424,74 +417,11 @@ func _sell(amount: int) -> void:
 	if not last_focused_item_button:
 		return
 	var item: Item = last_focused_item_button.item
-	var ta: Array[String]
-	if item.item_type == Item.Type.KEY:
-		ta = ["You can't sell me that!"]
-		Ui.send_text_box.emit(null, ta, true, false, false)
-		await Ui.text_box_complete
+	var r: Dictionary = StoreService.try_sell(player_ref, player_inventory, current_category, item, amount)
+	if r.ok:
+		_display_current()
+		_set_focus_state(Focused.ITEM)
 		return
-	if not _check_enough_stock(item, amount):
-		ta = ["You don't have that many to sell."]
-		Ui.send_text_box.emit(null, ta, true, false, false)
-		await Ui.text_box_complete
-		return
-
-	player_ref.inventory_handler.remove(item, amount)
-	_credit_player_for_sale(item, amount)
-	_display_current()
-	_set_focus_state(Focused.ITEM)
-
-
-func _credit_player_for_sale(item: Item, amount: int) -> void:
-	var sell_value: int = maxi(1, int(item.price / 2.0))
-	var total_value: int = sell_value * amount
-	if player_ref.inventory_handler.has_method("add_money"):
-		player_ref.inventory_handler.add_money(total_value)
-		return
-	var current_money: Variant = player_ref.inventory_handler.get("money")
-	if typeof(current_money) == TYPE_INT:
-		player_ref.inventory_handler.set("money", current_money + total_value)
-		Inventory.send_player_money.emit(current_money + total_value)
-
-
-func _increase_npc_stock(item: Item, amount: int) -> void:
-	if not npc_inventory.has(item.item_type):
-		npc_inventory[item.item_type] = InventoryPage.new()
-	var page: InventoryPage = npc_inventory[item.item_type]
-	if page.page.has(item):
-		page.page[item] += amount
-	else:
-		page.page[item] = amount
-
-
-func _can_player_can_afford(item: Item) -> bool:
-	if not player_ref:
-		return false
-	return player_ref.inventory_handler.money >= item.price
-
-
-func _check_enough_stock(item: Item, amount: int) -> bool:
-	if not inventory.has(current_category):
-		return false
-	var page: InventoryPage = inventory[current_category]
-	if not page.page.has(item):
-		return false
-	var quantity = page.page[item]
-	return quantity >= amount
-
-
-func _pay_for_item(item: Item) -> void:
-	if not player_ref:
-		return
-	player_ref.inventory_handler.spend_money(item.price)
-
-
-func _reduce_stock(item: Item, amount: int) -> void:
-	if not inventory.has(current_category):
-		return
-	var page: InventoryPage = inventory[current_category]
-	if not page.page.has(item):
-		return
-	page.page[item] -= amount
-	if page.page[item] <= 0:
-		page.page.erase(item)
+	var ta: Array[String] = [r.message]
+	Ui.send_text_box.emit(null, ta, true, false, false)
+	await Ui.text_box_complete

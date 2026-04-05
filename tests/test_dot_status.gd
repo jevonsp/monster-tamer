@@ -1,4 +1,6 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 var shown: Array[Array] = []
 var _context_nodes: Array[Node] = []
@@ -18,10 +20,9 @@ func after_each() -> void:
 		Battle.send_hitpoints_change.disconnect(_on_send_hitpoints_change)
 	if Ui.send_text_box.is_connected(_on_send_text_box):
 		Ui.send_text_box.disconnect(_on_send_text_box)
-	for node in _context_nodes:
-		if is_instance_valid(node):
-			node.free()
+	TH.free_if_valid(_context_nodes)
 	_context_nodes.clear()
+	super.after_each()
 
 
 func test_dot_status_uses_percent_damage_with_minimum_one() -> void:
@@ -29,8 +30,10 @@ func test_dot_status_uses_percent_damage_with_minimum_one() -> void:
 	status.status_name = "Poison"
 	status.is_flat_damage = false
 	status.percent_damage_per_turn = 1 / 8.0
-	var target := _make_monster(5, 5)
-	var context := _make_context()
+	var target := TH.make_monster("DotMon", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 5, 5)
+	var ctx_pack := TH.make_battle_context()
+	var context: BattleContext = ctx_pack[0]
+	_context_nodes.append_array(ctx_pack[1])
 
 	await status.on_turn_end(StatusInstance.new(status, target, 3), target, context)
 
@@ -43,9 +46,12 @@ func test_dot_status_uses_flat_damage_when_enabled() -> void:
 	status.status_name = "Burn"
 	status.is_flat_damage = true
 	status.flat_damage_per_turn = 3
-	var target := _make_monster(20, 20)
+	var target := TH.make_monster("DotMon", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 20, 20)
+	var ctx_pack := TH.make_battle_context()
+	var context: BattleContext = ctx_pack[0]
+	_context_nodes.append_array(ctx_pack[1])
 
-	await status.on_turn_end(StatusInstance.new(status, target, 3), target, _make_context())
+	await status.on_turn_end(StatusInstance.new(status, target, 3), target, context)
 
 	assert_eq(target.current_hitpoints, 17)
 
@@ -71,26 +77,3 @@ func _emit_hitpoints_animation_complete() -> void:
 
 func _emit_text_box_complete() -> void:
 	Ui.text_box_complete.emit()
-
-
-func _make_context() -> BattleContext:
-	var handler := Node.new()
-	var battle := Control.new()
-	_context_nodes.append(handler)
-	_context_nodes.append(battle)
-	return BattleContext.new(handler, battle)
-
-
-func _make_monster(max_hp: int, current_hp: int) -> Monster:
-	var monster := Monster.new()
-	monster.name = "DotMon"
-	monster.primary_type = TypeChart.Type.NONE
-	monster.max_hitpoints = max_hp
-	monster.current_hitpoints = current_hp
-	monster.attack = 10
-	monster.defense = 10
-	monster.special_attack = 10
-	monster.special_defense = 10
-	monster.speed = 10
-	monster.create_stat_multis()
-	return monster

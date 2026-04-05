@@ -1,7 +1,7 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
 
-const InventoryHandlerScript = preload("res://player/inventory_handler.gd")
-
+const InventoryHandlerScript := preload("res://player/inventory_handler.gd")
+const TH := preload("res://tests/monster_factory.gd")
 
 var inventory_handler: Node
 
@@ -16,6 +16,7 @@ func after_each() -> void:
 	if is_instance_valid(inventory_handler):
 		inventory_handler.free()
 	inventory_handler = null
+	super.after_each()
 
 
 func test_add_and_remove_updates_item_stack_counts() -> void:
@@ -44,7 +45,7 @@ func test_on_use_item_on_consumes_non_multi_use_item() -> void:
 	item.item_type = Item.Type.USE
 	item.is_multi_use = false
 	item.use_effect = HealingEffect.new()
-	var monster := _make_monster()
+	var monster := TH.make_monster("PartyMon", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 50)
 	monster.current_hitpoints = 10
 	inventory_handler.add(item, 1)
 	_connect_heal_signal()
@@ -89,18 +90,3 @@ func _emit_hitpoints_animation_complete() -> void:
 
 func _emit_text_box_complete() -> void:
 	Ui.text_box_complete.emit()
-
-
-func _make_monster() -> Monster:
-	var monster := Monster.new()
-	monster.name = "PartyMon"
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 10
-	monster.defense = 10
-	monster.special_attack = 10
-	monster.special_defense = 10
-	monster.speed = 10
-	monster.max_hitpoints = 50
-	monster.current_hitpoints = 50
-	monster.create_stat_multis()
-	return monster

@@ -1,11 +1,13 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 
 func test_random_action_block_status_blocks_when_chance_is_one() -> void:
 	var status := RandomActionBlockStatus.new()
 	status.block_chance = 1.0
 	status.action_block_message = "%s cant move!"
-	var o := _make_monster("Owner")
+	var o := TH.make_monster("Owner", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 	var instance := StatusInstance.new(status, o, 2)
 
 	@warning_ignore("redundant_await")
@@ -18,7 +20,7 @@ func test_random_action_block_status_blocks_when_chance_is_one() -> void:
 func test_forced_action_block_status_expires_when_remove_chance_is_one() -> void:
 	var status := ForcedActionBlockStatus.new()
 	status.remove_chance = 1.0
-	var o := _make_monster("Owner")
+	var o := TH.make_monster("Owner", 1, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 	var instance := StatusInstance.new(status, o, 2)
 
 	@warning_ignore("redundant_await")
@@ -26,11 +28,3 @@ func test_forced_action_block_status_expires_when_remove_chance_is_one() -> void
 
 	assert_true(instance.is_expired())
 	assert_true(status.can_attempt_action(instance, o, null))
-
-
-func _make_monster(monster_name: String) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.primary_type = TypeChart.Type.NONE
-	monster.create_stat_multis()
-	return monster

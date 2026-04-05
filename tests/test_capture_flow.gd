@@ -1,7 +1,8 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
 
-const PostActionResolverScript = preload("res://battle/post_action_resolver.gd")
-const TurnExecutorScript = preload("res://battle/turn_executor.gd")
+const PostActionResolverScript := preload("res://battle/post_action_resolver.gd")
+const TurnExecutorScript := preload("res://battle/turn_executor.gd")
+const TH := preload("res://tests/monster_factory.gd")
 
 var battle: FakeBattle
 var turn_executor: Node
@@ -37,11 +38,12 @@ func after_each() -> void:
 	turn_executor = null
 	post_action_resolver = null
 	handler = null
+	super.after_each()
 
 
 func test_successful_capture_ends_battle_before_turn_reset_flow() -> void:
-	var player := _make_monster("PlayerMon", true)
-	var enemy := _make_monster("WildMon", false)
+	var player := TH.make_monster("PlayerMon", 5, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 20, -1, true)
+	var enemy := TH.make_monster("WildMon", 5, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 20)
 	battle.player_actor = player
 	battle.enemy_actor = enemy
 	battle.player_party = [player]
@@ -68,23 +70,6 @@ func test_successful_capture_ends_battle_before_turn_reset_flow() -> void:
 	assert_true(enemy.is_captured)
 
 
-func _make_monster(monster_name: String, is_player: bool) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.is_player_monster = is_player
-	monster.level = 5
-	monster.primary_type = TypeChart.Type.NONE
-	monster.speed = 10
-	monster.attack = 10
-	monster.defense = 10
-	monster.special_attack = 10
-	monster.special_defense = 10
-	monster.max_hitpoints = 20
-	monster.current_hitpoints = 20
-	monster.create_stat_multis()
-	return monster
-
-
 class FakeBattle:
 	extends Control
 
@@ -94,7 +79,6 @@ class FakeBattle:
 	var enemy_party: Array[Monster] = []
 	var enemy_trainer: Trainer = null
 	var ended: bool = false
-
 
 	func end_battle() -> void:
 		ended = true
@@ -110,7 +94,6 @@ class CaptureAction:
 	extends RefCounted
 
 	var priority: int = 0
-
 
 	func execute(_actor: Monster, target: Monster, _battle_context: BattleContext) -> void:
 		target.is_captured = true

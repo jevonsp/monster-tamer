@@ -1,6 +1,7 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
 
-const ActionQueueBuilderScript = preload("res://battle/action_queue_builder.gd")
+const ActionQueueBuilderScript := preload("res://battle/action_queue_builder.gd")
+const TH := preload("res://tests/monster_factory.gd")
 
 
 class FakeBattle:
@@ -24,8 +25,8 @@ func test_add_action_to_queue_returns_false_for_null() -> void:
 func test_add_action_to_queue_uses_self_targeting_move_target() -> void:
 	var builder = ActionQueueBuilderScript.new()
 	var battle := FakeBattle.new()
-	var actor := _make_monster("Actor")
-	var enemy := _make_monster("Enemy")
+	var actor := TH.make_monster("Actor", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 100)
+	var enemy := TH.make_monster("Enemy", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 100)
 	var move := Move.new()
 	move.is_self_targeting = true
 	battle.player_actor = actor
@@ -42,8 +43,8 @@ func test_add_action_to_queue_uses_self_targeting_move_target() -> void:
 func test_healing_item_targets_actor_and_catch_item_targets_enemy() -> void:
 	var builder = ActionQueueBuilderScript.new()
 	var battle := FakeBattle.new()
-	var actor := _make_monster("Actor")
-	var enemy := _make_monster("Enemy")
+	var actor := TH.make_monster("Actor", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 100)
+	var enemy := TH.make_monster("Enemy", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 100)
 	battle.player_actor = actor
 	battle.enemy_actor = enemy
 
@@ -64,9 +65,8 @@ func test_healing_item_targets_actor_and_catch_item_targets_enemy() -> void:
 func test_enemy_move_selection_prefers_effective_non_redundant_move() -> void:
 	var builder = ActionQueueBuilderScript.new()
 	var battle := FakeBattle.new()
-	var player := _make_monster("Player")
-	player.primary_type = TypeChart.Type.GRASS
-	var enemy := _make_monster("Enemy")
+	var player := TH.make_monster("Player", 10, TypeChart.Type.GRASS, null, 20, 20, 20, 20, 20, 100)
+	var enemy := TH.make_monster("Enemy", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 100)
 	battle.player_actor = player
 	battle.enemy_actor = enemy
 
@@ -93,8 +93,8 @@ func test_enemy_move_selection_prefers_effective_non_redundant_move() -> void:
 func test_enemy_stat_boost_over_cap_is_penalized() -> void:
 	var builder = ActionQueueBuilderScript.new()
 	var battle := FakeBattle.new()
-	var player := _make_monster("Player")
-	var enemy := _make_monster("Enemy")
+	var player := TH.make_monster("Player", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 100)
+	var enemy := TH.make_monster("Enemy", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 100)
 	battle.player_actor = player
 	battle.enemy_actor = enemy
 
@@ -113,19 +113,3 @@ func test_enemy_stat_boost_over_cap_is_penalized() -> void:
 	var selected: Move = builder.get_enemy_move_from_battle(battle)
 	assert_eq(selected, neutral_move)
 	battle.free()
-
-
-func _make_monster(monster_name: String) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.level = 10
-	monster.primary_type = TypeChart.Type.NONE
-	monster.speed = 20
-	monster.attack = 20
-	monster.defense = 20
-	monster.special_attack = 20
-	monster.special_defense = 20
-	monster.max_hitpoints = 100
-	monster.current_hitpoints = 100
-	monster.create_stat_multis()
-	return monster

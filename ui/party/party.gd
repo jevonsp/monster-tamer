@@ -67,7 +67,7 @@ func use() -> void:
 	Ui.request_open_inventory.emit()
 
 	var item = await Ui.item_selected
-	if item.use_effect == null:
+	if not ItemInteraction.can_use_outside_battle(item):
 		Ui.send_text_box.emit(self, ["That item isn't usable!"], true, false, false)
 		await Ui.text_box_complete
 		return
@@ -89,13 +89,13 @@ func give() -> void:
 	Ui.request_open_inventory.emit()
 
 	var item: Item = await Ui.item_selected
-	if item.held_effect == null:
+	if not ItemInteraction.can_give_to_monster(item):
 		var ta: Array[String] = ["That item isn't holdable!"]
 		Ui.send_text_box.emit(self, ta, true, false, false)
 		await Ui.text_box_complete
 		return
 
-	await _give_item_to_monster(item, last_selected_monster.actor)
+	await ItemInteraction.give_item_to_monster(item, last_selected_monster.actor, self)
 	Ui.request_open_inventory.emit()
 	Ui.switch_ui_context.emit(Global.AccessFrom.PARTY)
 	Ui.request_open_party.emit()
@@ -166,44 +166,6 @@ func _on_party_change(party: Array[Monster]) -> void:
 func _on_request_forced_switch() -> void:
 	is_forced_switch = true
 	visibility_focus_handler.toggle_visible()
-
-
-func _give_item_to_monster(item: Item, monster: Monster) -> void:
-	if monster == null:
-		return
-
-	if monster.hold_item(item):
-		Inventory.give_item_to.emit(item, monster)
-		await _show_item_given_text(item, monster)
-		return
-
-	if not await _confirm_item_swap(monster):
-		return
-
-	monster.swap_items(item)
-	Inventory.give_item_to.emit(item, monster)
-	await _show_item_given_text(item, monster)
-
-
-func _show_item_given_text(item: Item, monster: Monster) -> void:
-	var ta: Array[String] = ["Gave %s to %s to hold." % [item.name, monster.name]]
-	Ui.send_text_box.emit(self, ta, false, false, false)
-	await Ui.text_box_complete
-
-
-func _confirm_item_swap(monster: Monster) -> bool:
-	var held_item_name: String = monster.held_item.name if monster.held_item != null else "that item"
-	var ta: Array[String] = ["%s is already holding %s. Swap items?" % [monster.name, held_item_name]]
-	Ui.send_text_box.emit(
-		self,
-		ta,
-		false,
-		true,
-		false,
-	)
-	var should_swap: bool = await Ui.answer_given
-	await Ui.text_box_complete
-	return should_swap
 
 
 func _set_item_use_processing(value: bool, _reason: String) -> void:

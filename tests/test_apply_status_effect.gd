@@ -1,7 +1,10 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 var shown_text: Array[Array] = []
 var _context_nodes: Array[Node] = []
+
 
 func before_each() -> void:
 	shown_text.clear()
@@ -13,10 +16,9 @@ func before_each() -> void:
 func after_each() -> void:
 	if Ui.send_text_box.is_connected(_on_send_text_box):
 		Ui.send_text_box.disconnect(_on_send_text_box)
-	for node in _context_nodes:
-		if is_instance_valid(node):
-			node.free()
+	TH.free_if_valid(_context_nodes)
 	_context_nodes.clear()
+	super.after_each()
 
 
 func test_apply_status_effect_applies_when_chance_is_one() -> void:
@@ -26,10 +28,12 @@ func test_apply_status_effect_applies_when_chance_is_one() -> void:
 	status.status_name = "UnitStatus"
 	effect.status_data = status
 	effect.application_chance = 1.0
-	var target := _make_monster("Target")
-	var context := _make_context()
+	var target := TH.make_monster("Target", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 80)
+	var ctx_pack := TH.make_battle_context()
+	var context: BattleContext = ctx_pack[0]
+	_context_nodes.append_array(ctx_pack[1])
 
-	await effect.apply(_make_monster("Actor"), target, context)
+	await effect.apply(TH.make_monster("Actor", 10), target, context)
 
 	assert_true(target.has_status_id("unit_status"))
 	assert_true(shown_text.any(func(lines): return lines == ["Target was afflicted with UnitStatus"]))
@@ -42,10 +46,12 @@ func test_apply_status_effect_does_not_apply_when_chance_is_zero() -> void:
 	status.status_name = "NeverStatus"
 	effect.status_data = status
 	effect.application_chance = 0.0
-	var target := _make_monster("Target")
-	var context := _make_context()
+	var target := TH.make_monster("Target", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 80)
+	var ctx_pack := TH.make_battle_context()
+	var context: BattleContext = ctx_pack[0]
+	_context_nodes.append_array(ctx_pack[1])
 
-	await effect.apply(_make_monster("Actor"), target, context)
+	await effect.apply(TH.make_monster("Actor", 10), target, context)
 
 	assert_false(target.has_status_id("never_status"))
 	assert_eq(shown_text.size(), 0)
@@ -61,13 +67,15 @@ func test_apply_status_effect_respects_slot_conflicts() -> void:
 	status_two.status_id = "main_two"
 	status_two.status_name = "MainTwo"
 	status_two.status_slot = StatusData.StatusSlot.MAIN
-	var target := _make_monster("Target")
-	var context := _make_context()
+	var target := TH.make_monster("Target", 10, TypeChart.Type.NONE, null, 20, 20, 20, 20, 20, 80)
+	var ctx_pack := TH.make_battle_context()
+	var context: BattleContext = ctx_pack[0]
+	_context_nodes.append_array(ctx_pack[1])
 	await target.add_status(status_one)
 
 	effect.status_data = status_two
 	effect.application_chance = 1.0
-	await effect.apply(_make_monster("Actor"), target, context)
+	await effect.apply(TH.make_monster("Actor", 10), target, context)
 
 	assert_true(target.has_status_id("main_one"))
 	assert_false(target.has_status_id("main_two"))
@@ -87,27 +95,3 @@ func _on_send_text_box(
 
 func _emit_text_box_complete() -> void:
 	Ui.text_box_complete.emit()
-
-
-func _make_context() -> BattleContext:
-	var handler := Node.new()
-	var battle := Control.new()
-	_context_nodes.append(handler)
-	_context_nodes.append(battle)
-	return BattleContext.new(handler, battle)
-
-
-func _make_monster(monster_name: String) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.level = 10
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 20
-	monster.defense = 20
-	monster.special_attack = 20
-	monster.special_defense = 20
-	monster.speed = 20
-	monster.max_hitpoints = 80
-	monster.current_hitpoints = 80
-	monster.create_stat_multis()
-	return monster

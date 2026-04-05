@@ -1,4 +1,6 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 var hit_reactions: int = 0
 var _context_nodes: Array[Node] = []
@@ -22,16 +24,15 @@ func after_each() -> void:
 		Battle.send_sprite_shake.disconnect(_on_send_sprite_shake)
 	if Ui.send_text_box.is_connected(_on_send_text_box):
 		Ui.send_text_box.disconnect(_on_send_text_box)
-	for node in _context_nodes:
-		if is_instance_valid(node):
-			node.free()
+	TH.free_if_valid(_context_nodes)
 	_context_nodes.clear()
+	super.after_each()
 
 
 func test_confusion_sets_override_flag_when_self_hit_occurs() -> void:
 	var status := ConfusionStatus.new()
 	status.self_hit_chance = 1.0
-	var instance := StatusInstance.new(status, _make_monster(), 3)
+	var instance := StatusInstance.new(status, TH.make_monster("Confused", 15, TypeChart.Type.NONE, null, 35, 30, 20, 20, 20, 90), 3)
 	var move := Move.new()
 
 	status.on_turn_start(instance, instance.owner, null)
@@ -43,9 +44,11 @@ func test_confusion_execute_override_deals_self_damage_and_clears_flag() -> void
 	var status := ConfusionStatus.new()
 	status.self_hit_chance = 1.0
 	status.self_hit_power = 30
-	var acting_monster := _make_monster()
+	var acting_monster := TH.make_monster("Confused", 15, TypeChart.Type.NONE, null, 35, 30, 20, 20, 20, 90)
 	var instance := StatusInstance.new(status, acting_monster, 3)
-	var context := _make_context()
+	var ctx_pack := TH.make_battle_context()
+	var context: BattleContext = ctx_pack[0]
+	_context_nodes.append_array(ctx_pack[1])
 	instance.runtime_data["confusion_self_hit"] = true
 
 	await status.execute_action_override(instance, acting_monster, acting_monster, context, Move.new())
@@ -79,27 +82,3 @@ func _on_send_text_box(
 
 func _emit_text_box_complete() -> void:
 	Ui.text_box_complete.emit()
-
-
-func _make_context() -> BattleContext:
-	var handler := Node.new()
-	var battle := Control.new()
-	_context_nodes.append(handler)
-	_context_nodes.append(battle)
-	return BattleContext.new(handler, battle)
-
-
-func _make_monster() -> Monster:
-	var monster := Monster.new()
-	monster.name = "Confused"
-	monster.level = 15
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 35
-	monster.defense = 30
-	monster.special_attack = 20
-	monster.special_defense = 20
-	monster.speed = 20
-	monster.max_hitpoints = 90
-	monster.current_hitpoints = 90
-	monster.create_stat_multis()
-	return monster

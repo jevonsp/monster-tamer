@@ -1,4 +1,6 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
+
+const TH := preload("res://tests/monster_factory.gd")
 
 
 class FakeAnimationPlayer:
@@ -36,8 +38,10 @@ class FakeHandler:
 	extends Node
 	var is_escaped: bool = false
 
+
 var shown: Array[String] = []
 var _cleanup_nodes: Array[Node] = []
+
 
 func before_each() -> void:
 	shown.clear()
@@ -53,11 +57,13 @@ func after_each() -> void:
 		if is_instance_valid(node):
 			node.free()
 	_cleanup_nodes.clear()
+	super.after_each()
+
 
 func test_run_fails_when_escape_odds_are_zero() -> void:
 	var action := Run.new()
-	var actor := _make_monster("Slow", 0)
-	var target := _make_monster("Fast", 100)
+	var actor := TH.make_monster("Slow", 5, TypeChart.Type.NONE, null, 10, 10, 10, 10, 0, 20)
+	var target := TH.make_monster("Fast", 5, TypeChart.Type.NONE, null, 10, 10, 10, 10, 100, 20)
 	var battle := FakeBattle.new()
 	var handler := FakeHandler.new()
 	_cleanup_nodes.append(battle)
@@ -73,8 +79,8 @@ func test_run_fails_when_escape_odds_are_zero() -> void:
 
 func test_run_succeeds_when_escape_odds_are_well_above_roll_cap() -> void:
 	var action := Run.new()
-	var actor := _make_monster("Fast", 300)
-	var target := _make_monster("Slow", 1)
+	var actor := TH.make_monster("Fast", 5, TypeChart.Type.NONE, null, 10, 10, 10, 10, 300, 20)
+	var target := TH.make_monster("Slow", 5, TypeChart.Type.NONE, null, 10, 10, 10, 10, 1, 20)
 	var battle := FakeBattle.new()
 	var handler := FakeHandler.new()
 	_cleanup_nodes.append(battle)
@@ -86,22 +92,6 @@ func test_run_succeeds_when_escape_odds_are_well_above_roll_cap() -> void:
 
 	assert_true(handler.is_escaped)
 	assert_eq(battle.visibility_focus_handler.animation_player.switch_out_calls, 1)
-
-
-func _make_monster(monster_name: String, spd: int) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.level = 5
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 10
-	monster.defense = 10
-	monster.special_attack = 10
-	monster.special_defense = 10
-	monster.speed = spd
-	monster.max_hitpoints = 20
-	monster.current_hitpoints = 20
-	monster.create_stat_multis()
-	return monster
 
 
 func _on_send_text_box(

@@ -1,14 +1,9 @@
 extends Control
 
 var processing: bool = false
-var player_actor: Monster
-var enemy_actor: Monster
-var player_party: Array[Monster] = []
-var is_wild_battle: bool = true
-var enemy_trainer: Trainer = null
-var enemy_party: Array[Monster] = []
 
 @onready var interfaces: CanvasLayer = $".."
+@onready var session = $BattleSession
 @onready var option_buttons_grid: GridContainer = $Content/OptionButtons
 @onready var run_button: Button = $Content/OptionButtons/Run
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
@@ -41,6 +36,46 @@ var enemy_party: Array[Monster] = []
 @onready var turn_executor: Node = $TurnExecutor
 
 
+var player_actor: Monster:
+	get:
+		return session.player_actor
+	set(value):
+		session.set_player_actor(value)
+
+
+var enemy_actor: Monster:
+	get:
+		return session.enemy_actor
+	set(value):
+		session.set_enemy_actor(value)
+
+
+var player_party: Array[Monster]:
+	get:
+		return session.player_party
+	set(value):
+		session.set_player_party(value)
+
+
+var is_wild_battle: bool:
+	get:
+		return session.is_wild_battle
+	set(value):
+		session.is_wild_battle = value
+
+
+var enemy_trainer: Trainer:
+	get:
+		return session.enemy_trainer
+	set(value):
+		session.enemy_trainer = value
+
+
+var enemy_party: Array[Monster]:
+	get:
+		return session.enemy_party
+
+
 func _ready() -> void:
 	_connect_signals()
 	_bind_buttons()
@@ -67,22 +102,15 @@ func end_battle() -> void:
 
 
 func set_player_actor(monster: Monster) -> void:
-	player_actor = monster
-	if player_actor:
-		player_actor.was_active_in_battle = true
+	session.set_player_actor(monster)
 
 
 func set_enemy_actor(monster: Monster) -> void:
-	enemy_actor = monster
+	session.set_enemy_actor(monster)
 
 
 func switch_actors(old: Monster, new: Monster) -> void:
-	if old == player_actor:
-		player_actor = new
-		if player_actor:
-			player_actor.was_active_in_battle = true
-	elif old == enemy_actor:
-		enemy_actor = new
+	session.switch_actors(old, new)
 	visibility_focus_handler.display_current_monsters()
 
 
@@ -118,26 +146,13 @@ func _bind_buttons() -> void:
 func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	processing = false
 	Ui.switch_ui_context.emit(Global.AccessFrom.BATTLE)
-	_clear_actors()
-
-	var monster: Monster = monster_data.set_up(level)
-	enemy_party = [monster]
-	set_enemy_actor(enemy_party[0])
-	set_player_actor(player_party[0])
-
+	session.start_wild_battle(monster_data, level)
 	await _switch_to_battle()
 
 
 func _start_trainer_battle(trainer: Trainer) -> void:
 	Ui.switch_ui_context.emit(Global.AccessFrom.BATTLE)
-	_clear_actors()
-	is_wild_battle = false
-
-	enemy_trainer = trainer
-	_set_enemy_party(trainer.party, trainer.party_levels)
-	set_enemy_actor(enemy_party[0])
-	set_player_actor(player_party[0])
-
+	session.start_trainer_battle(trainer)
 	await _switch_to_battle()
 
 
@@ -151,55 +166,14 @@ func _switch_to_battle() -> void:
 
 
 func _set_player_party(party: Array[Monster]) -> void:
-	player_party = party
-
-
-func _set_enemy_party(party: Array[MonsterData], levels: Array[int]) -> void:
-	for i in range(len(party)):
-		var monster: Monster = party[i].set_up(levels[i])
-		enemy_party.append(monster)
-
-
-func _check_player_actor_fainted() -> bool:
-	return player_actor.is_fainted
-
-
-func _check_enemy_actor_fainted() -> bool:
-	return enemy_actor.is_fainted
-
-
-func _clear_actors() -> void:
-	player_actor = null
-	enemy_actor = null
-
-
-func _reset_stats() -> void:
-	for monster: Monster in enemy_party:
-		for stat in monster.stat_stages_and_multis.stat_stages.keys():
-			monster.stat_stages_and_multis.stat_stages[stat] = 0
-		for stat in monster.stat_stages_and_multis.stat_multipliers.keys():
-			monster.stat_stages_and_multis.stat_multipliers[stat] = 1.0
-	for monster: Monster in player_party:
-		for stat in monster.stat_stages_and_multis.stat_stages.keys():
-			monster.stat_stages_and_multis.stat_stages[stat] = 0
-		for stat in monster.stat_stages_and_multis.stat_multipliers.keys():
-			monster.stat_stages_and_multis.stat_multipliers[stat] = 1.0
-
-
-func _clear_parties() -> void:
-	enemy_trainer = null
-	player_party = []
-	enemy_party = []
+	session.set_player_party(party)
 
 
 func _clear_all() -> void:
-	_reset_stats()
-	_clear_actors()
-	_clear_parties()
+	session.clear_all_battle_state()
 	visibility_focus_handler.clear_actor_references()
 	visibility_focus_handler.clear_textures()
 	battle_handler.turn_queue.clear()
-	is_wild_battle = true
 	battle_handler.executing_turn = false
 	turn_executor.run_count = 0
 	processing = false

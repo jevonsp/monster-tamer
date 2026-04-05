@@ -1,6 +1,7 @@
-extends GutTest
+extends "res://tests/monster_tamer_test.gd"
 
-const PostActionResolverScript = preload("res://battle/post_action_resolver.gd")
+const PostActionResolverScript := preload("res://battle/post_action_resolver.gd")
+const TH := preload("res://tests/monster_factory.gd")
 
 
 class FakeForcedSwitchHandler:
@@ -68,11 +69,12 @@ func after_each() -> void:
 	_resolver = null
 	_handler = null
 	_forced_switch = null
+	super.after_each()
 
 
 func test_escape_ends_battle_immediately() -> void:
 	_handler.is_escaped = true
-	var target := _make_monster("Enemy", false)
+	var target := TH.make_monster("Enemy", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 
 	var ended: bool = await _resolver.handle_post_action(target, _handler)
 
@@ -81,8 +83,8 @@ func test_escape_ends_battle_immediately() -> void:
 
 
 func test_capture_ends_battle() -> void:
-	_battle.player_actor = _make_monster("Player", true)
-	_battle.enemy_actor = _make_monster("Enemy", false)
+	_battle.player_actor = TH.make_monster("Player", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30, -1, true)
+	_battle.enemy_actor = TH.make_monster("Enemy", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 	_battle.enemy_actor.is_captured = true
 
 	var ended: bool = await _resolver.handle_post_action(_battle.enemy_actor, _handler)
@@ -92,10 +94,10 @@ func test_capture_ends_battle() -> void:
 
 
 func test_enemy_forced_switch_when_enemy_fainted_but_party_has_backup() -> void:
-	_battle.player_actor = _make_monster("Player", true)
-	_battle.enemy_actor = _make_monster("Enemy", false)
+	_battle.player_actor = TH.make_monster("Player", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30, -1, true)
+	_battle.enemy_actor = TH.make_monster("Enemy", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 	_battle.enemy_actor.is_fainted = true
-	var backup := _make_monster("Backup", false)
+	var backup := TH.make_monster("Backup", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
 	_battle.enemy_party = [_battle.enemy_actor, backup]
 
 	var ended: bool = await _resolver.handle_post_action(_battle.enemy_actor, _handler)
@@ -106,33 +108,16 @@ func test_enemy_forced_switch_when_enemy_fainted_but_party_has_backup() -> void:
 
 
 func test_player_forced_switch_when_player_fainted_but_party_has_backup() -> void:
-	_battle.player_actor = _make_monster("Player", true)
+	_battle.player_actor = TH.make_monster("Player", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30, -1, true)
 	_battle.player_actor.is_fainted = true
-	_battle.enemy_actor = _make_monster("Enemy", false)
-	_battle.player_party = [_battle.player_actor, _make_monster("Backup", true)]
+	_battle.enemy_actor = TH.make_monster("Enemy", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30)
+	_battle.player_party = [_battle.player_actor, TH.make_monster("Backup", 8, TypeChart.Type.NONE, null, 10, 10, 10, 10, 10, 30, -1, true)]
 
 	var ended: bool = await _resolver.handle_post_action(_battle.player_actor, _handler)
 
 	assert_false(ended)
 	assert_false(_battle.ended)
 	assert_true(_forced_switch.player_switch_called)
-
-
-func _make_monster(monster_name: String, is_player: bool) -> Monster:
-	var monster := Monster.new()
-	monster.name = monster_name
-	monster.is_player_monster = is_player
-	monster.level = 8
-	monster.primary_type = TypeChart.Type.NONE
-	monster.attack = 10
-	monster.defense = 10
-	monster.special_attack = 10
-	monster.special_defense = 10
-	monster.speed = 10
-	monster.max_hitpoints = 30
-	monster.current_hitpoints = 30
-	monster.create_stat_multis()
-	return monster
 
 
 func _on_send_text_box(
