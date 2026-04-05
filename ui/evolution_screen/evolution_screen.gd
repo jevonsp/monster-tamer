@@ -67,7 +67,7 @@ func _finish_evolution(n: String) -> void:
 	processing = false
 	ta = ["Congratulations~\nYour %s evolved into a %s!" % [old_species_name, n]]
 
-	Ui.send_text_box.emit(null, ta, false, false, false, true)
+	Ui.send_text_box.emit(null, ta, false, false, false)
 	await Ui.text_box_complete
 
 	visible = false

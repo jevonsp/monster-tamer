@@ -1,6 +1,7 @@
 extends Panel
 
 @export var in_battle_text_box: bool = false
+@export var ignore_player_battle_state: bool = false
 
 var processing: bool = false
 var text_array: Array[String] = []
@@ -20,6 +21,7 @@ func _ready() -> void:
 	_toggle_questions_visible()
 	if not in_battle_text_box and visible:
 		_toggle_visible()
+	text_box.set_focus_mode(Control.FOCUS_ALL)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -62,10 +64,11 @@ func _load_text(
 		question: bool,
 		_toggle: bool,
 ) -> void:
-	if not in_battle_text_box and Player.in_battle:
-		return
-	if in_battle_text_box and not Player.in_battle:
-		return
+	if not ignore_player_battle_state:
+		if not in_battle_text_box and Player.in_battle:
+			return
+		if in_battle_text_box and not Player.in_battle:
+			return
 	if not visible:
 		_toggle_visible()
 	is_question = question
@@ -141,12 +144,3 @@ func _on_no_pressed() -> void:
 
 func _on_yes_pressed() -> void:
 	Ui.answer_given.emit(true)
-
-
-func _move_to_evolution_spot() -> void:
-	if not in_battle_text_box:
-		return
-
-
-func _move_back() -> void:
-	pass

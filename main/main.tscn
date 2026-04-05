@@ -62,6 +62,7 @@ script = ExtResource("2_piupu")
 visible = false
 
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
+visible = false
 
 [node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_cgvj2")]
 visible = false
@@ -113,7 +114,8 @@ encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_fwcvl")])
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3wy1v")
 
-[node name="GroundBalls" type="Node" parent="." unique_id=367338342]
+[node name="GroundBalls" type="Node2D" parent="." unique_id=847412086]
+y_sort_enabled = true
 
 [node name="Potion" parent="GroundBalls" unique_id=726795139 instance=ExtResource("15_5xyti")]
 position = Vector2(48, 96)
@@ -167,7 +169,8 @@ position = Vector2(80, 48)
 [node name="SurfObject3" parent="SurfObjects" unique_id=1718967099 instance=ExtResource("30_o8j3b")]
 position = Vector2(96, 48)
 
-[node name="NPCs" type="Node" parent="." unique_id=20466025]
+[node name="NPCs" type="Node2D" parent="." unique_id=353480011]
+y_sort_enabled = true
 
 [node name="Healer(NPC)" parent="NPCs" unique_id=431393256 instance=ExtResource("8_67ri8")]
 position = Vector2(16, 32)
@@ -219,7 +222,8 @@ post_complete_dialogue = Array[String](["Thanks for your {take}! I'm taking good
 
 I hope you're taking care of my {give}!"])
 
-[node name="Doors" type="Node" parent="." unique_id=1022210673]
+[node name="Doors" type="Node2D" parent="." unique_id=1535442115]
+y_sort_enabled = true
 
 [node name="Teleporter0" parent="Doors" unique_id=643132918 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
 position = Vector2(80, 16)

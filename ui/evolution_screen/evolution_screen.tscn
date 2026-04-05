@@ -67,7 +67,7 @@ offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("5_y2t4w")
-in_battle_text_box = true
+ignore_player_battle_state = true
 
 [node name="MarginContainer" type="MarginContainer" parent="EvolutionTextBox" unique_id=2107096033]
 layout_mode = 1
