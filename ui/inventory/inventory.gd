@@ -17,6 +17,7 @@ var last_selected_option: Button = null
 var last_selected_item_button: Button = null
 var categories: int = 1
 var current_category: int = 0
+var _category_types: Array[Item.Type] = []
 
 @onready var interfaces: CanvasLayer = $".."
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
@@ -208,18 +209,21 @@ func _on_inventory_change(new_inventory: Dictionary[Item.Type, InventoryPage]) -
 
 func _update_inventory(new_inventory: Dictionary[Item.Type, InventoryPage]) -> void:
 	inventory = new_inventory
-	categories = max(inventory.size(), 1)
+	_category_types.clear()
+	for k in inventory.keys():
+		_category_types.append(k)
+	_category_types.sort()
+	categories = max(_category_types.size(), 1)
 	if current_category >= categories:
 		current_category = 0
 
 
 func _display_current() -> void:
 	_clear_page()
-	if inventory.is_empty():
+	if inventory.is_empty() or _category_types.is_empty():
 		return
-	if not inventory.has(current_category):
-		return
-	var current_page: InventoryPage = inventory[current_category]
+	var item_type: Item.Type = _category_types[current_category]
+	var current_page: InventoryPage = inventory[item_type]
 	for item in current_page.page:
 		var quantity: int = current_page.page[item]
 		_create_item(item, quantity)
@@ -246,7 +250,17 @@ func _switch_page(dir: Vector2) -> void:
 
 
 func _display_item_category() -> void:
-	category_label.text = "Category: %s" % Item.Type.keys()[current_category].to_lower().capitalize()
+	if _category_types.is_empty():
+		return
+	var item_type: Item.Type = _category_types[current_category]
+	category_label.text = "Category: %s" % _item_type_display_name(item_type)
+
+
+func _item_type_display_name(t: Item.Type) -> String:
+	for key in Item.Type.keys():
+		if Item.Type[key] == t:
+			return String(key).to_lower().capitalize()
+	return ""
 
 
 func _create_item(item: Item, quantity: int) -> void:

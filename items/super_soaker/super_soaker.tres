@@ -12,7 +12,7 @@ metadata/_custom_type_script = "uid://dkmo3si3ujfsx"
 [resource]
 script = ExtResource("1_6egtq")
 name = "Super Soaker"
-item_type = 1
+item_type = 2
 description = "Boosts water type moves by 10%."
 held_effect = SubResource("Resource_kbf03")
 metadata/_custom_type_script = "uid://c3s5668st8huq"

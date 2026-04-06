@@ -1,7 +1,7 @@
 class_name Item
 extends Resource
 
-enum Type { USE, HELD, KEY }
+enum Type { USE, BALL, HELD, KEY }
 
 @export var name: String = ""
 @export var item_type: Type = Type.USE

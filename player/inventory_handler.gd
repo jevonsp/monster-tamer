@@ -35,6 +35,7 @@ func spend_money(amount: int) -> void:
 
 func construct_inventory() -> void:
 	inventory[Item.Type.USE] = InventoryPage.new()
+	inventory[Item.Type.BALL] = InventoryPage.new()
 	inventory[Item.Type.HELD] = InventoryPage.new()
 	inventory[Item.Type.KEY] = InventoryPage.new()
 

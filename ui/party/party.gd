@@ -42,6 +42,9 @@ func _ready() -> void:
 
 
 func start_moving() -> void:
+	if party_ref.size() == 1:
+		visibility_focus_handler.toggle_options_visible()
+		return
 	if last_selected_monster:
 		moving_source_index = int(last_selected_monster.name.trim_prefix("Panel"))
 

@@ -134,7 +134,14 @@ func _display_current() -> void:
 
 
 func _display_item_category() -> void:
-	category_label.text = "Category: %s" % Item.Type.keys()[current_category].to_lower().capitalize()
+	category_label.text = "Category: %s" % _item_type_display_name(current_category as Item.Type)
+
+
+func _item_type_display_name(t: Item.Type) -> String:
+	for key in Item.Type.keys():
+		if Item.Type[key] == t:
+			return String(key).to_lower().capitalize()
+	return ""
 
 
 func _display_page(page: InventoryPage) -> void:

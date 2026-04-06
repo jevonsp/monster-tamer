@@ -10,6 +10,7 @@ metadata/_custom_type_script = "uid://bbhoakte3v5lq"
 [resource]
 script = ExtResource("1_6jgfq")
 name = "Ball"
+item_type = 1
 description = "For catching low level monsters."
 catch_effect = SubResource("Resource_am3ku")
 metadata/_custom_type_script = "uid://c3s5668st8huq"
