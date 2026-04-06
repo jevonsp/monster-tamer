@@ -11,12 +11,16 @@ var _last_selected_by_state: Dictionary = {
 @onready var battle: Control = $".."
 @onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 @onready var turn_executor: Node = $"../TurnExecutor"
+@onready var move_info_helper_panel: Panel = $"../Content/MoveInfoHelperPanel"
 
 
 func connect_signals() -> void:
 	Ui.on_inventory_closed.connect(focus_default)
 	Ui.on_party_closed.connect(focus_default)
 	Battle.request_display_monsters.connect(display_current_monsters)
+	for child in battle.move_buttons_grid.get_children():
+		if child is Button:
+			child.focus_entered.connect(_on_move_focus_entered.bind(child))
 
 
 func change_vis_state(new_state: VisibilityState) -> void:
@@ -24,6 +28,11 @@ func change_vis_state(new_state: VisibilityState) -> void:
 	battle.option_buttons_grid.visible = new_state == VisibilityState.OPTIONS
 	battle.move_buttons_grid.visible = new_state == VisibilityState.MOVES
 	focus_default()
+	match vis_state:
+		VisibilityState.OPTIONS:
+			move_info_helper_panel.toggle_visible(false)
+		VisibilityState.MOVES:
+			move_info_helper_panel.toggle_visible(true)
 
 
 func focus_default() -> void:
@@ -119,6 +128,17 @@ func _set_option_focus(button: Button) -> void:
 
 func _set_move_focus(button: Button) -> void:
 	_last_selected_by_state[VisibilityState.MOVES] = button
+
+
+func _on_move_focus_entered(button: Button) -> void:
+	if not battle.player_actor:
+		return
+
+	var move = battle.player_actor.moves[int(button.name)]
+	var player_actor = battle.player_actor
+	var enemy_actor = battle.enemy_actor
+
+	Ui.send_move_helper_panel_info.emit(move, player_actor, enemy_actor)
 
 
 func _drop_focus() -> void:

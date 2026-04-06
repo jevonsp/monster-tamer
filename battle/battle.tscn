@@ -17,10 +17,13 @@
 [ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
 [ext_resource type="PackedScene" uid="uid://boxcel2kld2tg" path="res://battle/move_buttons.tscn" id="10_sf8fp"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
+[ext_resource type="Script" uid="uid://1edou8innd53" path="res://ui/button_panel/move_info_helper_panel.gd" id="11_ju8jl"]
 [ext_resource type="Script" uid="uid://celq3cxxijvl3" path="res://battle/item_sprite.gd" id="12_t8p1f"]
+[ext_resource type="Texture2D" uid="uid://b4aiwusy8adko" path="res://battle/_assets/plus.png" id="12_xmbur"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="13_sf8fp"]
+[ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://battle/_assets/up_arrow.png" id="13_xmbur"]
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="14_tkkqt"]
-[ext_resource type="Script" path="res://battle/battle_session.gd" id="15_bsess"]
+[ext_resource type="Script" uid="uid://dr4al47mbytk4" path="res://battle/battle_session.gd" id="15_bsess"]
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -351,7 +354,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tiqy5")
 
-[node name="BattleSession" type="Node" parent="."]
+[node name="BattleSession" type="Node" parent="." unique_id=1610676125]
 script = ExtResource("15_bsess")
 
 [node name="BattleHandler" type="Node" parent="." unique_id=330754811]
@@ -390,10 +393,46 @@ anchor_right = 0.0
 anchor_bottom = 1.0
 offset_left = 16.0
 offset_top = -192.0
-offset_right = 624.0
+offset_right = 640.0
 offset_bottom = -16.0
 grow_horizontal = 1
 grow_vertical = 0
+
+[node name="MoveInfoHelperPanel" parent="Content" unique_id=1744171946 instance=ExtResource("13_sf8fp")]
+visible = false
+layout_mode = 0
+offset_left = 448.0
+offset_top = 459.0
+offset_right = 640.0
+offset_bottom = 523.0
+script = ExtResource("11_ju8jl")
+
+[node name="MarginContainer" type="MarginContainer" parent="Content/MoveInfoHelperPanel" unique_id=532069745]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Content/MoveInfoHelperPanel/MarginContainer" unique_id=360938652]
+layout_mode = 2
+theme_override_constants/separation = 35
+alignment = 1
+
+[node name="STABMarker" type="TextureRect" parent="Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer" unique_id=197489357]
+layout_mode = 2
+texture = ExtResource("12_xmbur")
+expand_mode = 3
+
+[node name="EfficacyMarker" type="TextureRect" parent="Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer" unique_id=683685716]
+layout_mode = 2
+texture = ExtResource("13_xmbur")
+expand_mode = 3
 
 [node name="OptionButtons" type="GridContainer" parent="Content" unique_id=543327414]
 layout_mode = 1
@@ -402,13 +441,14 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
 offset_top = -192.0
-offset_right = 624.0
+offset_right = 640.0
 offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
 [node name="Fight" parent="Content/OptionButtons" unique_id=1279246463 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Fight" unique_id=271261842]
 layout_mode = 1
@@ -428,6 +468,7 @@ vertical_alignment = 1
 
 [node name="Party" parent="Content/OptionButtons" unique_id=1110597983 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
+focus_neighbor_right = NodePath(".")
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Party" unique_id=1921784770]
 layout_mode = 1
@@ -447,6 +488,7 @@ vertical_alignment = 1
 
 [node name="Item" parent="Content/OptionButtons" unique_id=1119364462 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Item" unique_id=1043083614]
 layout_mode = 1
@@ -466,6 +508,7 @@ vertical_alignment = 1
 
 [node name="Run" parent="Content/OptionButtons" unique_id=77549642 groups=["option_buttons"] instance=ExtResource("8_phvbk")]
 layout_mode = 2
+focus_neighbor_right = NodePath(".")
 
 [node name="Label" type="Label" parent="Content/OptionButtons/Run" unique_id=1181260107]
 layout_mode = 1

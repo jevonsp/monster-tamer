@@ -76,3 +76,12 @@ static func get_attacking_type_efficacy(attacking_type: Type, defender: Monster)
 		secondary_type = defender.secondary_type
 		secondary_efficacy = TYPE_CHART[attacking_type][secondary_type]
 	return primary_efficacy * secondary_efficacy
+
+
+static func get_stab_bonus(attacking_type: Type, attacker: Monster) -> float:
+	var stab_bonus := 1.5 if (attacker.primary_type == attacking_type or attacker.secondary_type == attacking_type) else 1.0
+
+	if attacking_type == Type.NONE and attacker.primary_type == Type.NONE:
+		stab_bonus = 1.0
+
+	return stab_bonus

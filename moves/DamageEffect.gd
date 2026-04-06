@@ -41,13 +41,13 @@ func apply(
 
 func calculate_damage(actor: Monster, target: Monster) -> int:
 	var efficacy := TypeChart.get_attacking_type_efficacy(type, target)
+	var stab_bonus := TypeChart.get_stab_bonus(type, actor)
+
 	var stats := _get_damage_stats(actor, target)
 	var attacking_stat: float = stats[0]
 	var defending_stat: float = stats[1]
 	var attacking_multi: float = stats[2]
 	var defending_multi: float = stats[3]
-
-	var stab_bonus := 1.5 if (actor.primary_type == type or actor.secondary_type == type) else 1.0
 	var multi := efficacy * attacking_multi * defending_multi * stab_bonus
 
 	var level_factor := ((2.0 * actor.level) / 5.0) + 2.0

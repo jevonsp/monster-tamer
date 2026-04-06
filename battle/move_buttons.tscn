@@ -19,6 +19,7 @@ columns = 2
 
 [node name="Button0" parent="." unique_id=1279246463 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
 
 [node name="Label" type="Label" parent="Button0" unique_id=2023867143]
 layout_mode = 1
@@ -35,6 +36,7 @@ vertical_alignment = 1
 
 [node name="Button1" parent="." unique_id=1055736591 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
 layout_mode = 2
+focus_neighbor_right = NodePath(".")
 
 [node name="Label" type="Label" parent="Button1" unique_id=972828077]
 layout_mode = 1
@@ -51,6 +53,7 @@ vertical_alignment = 1
 
 [node name="Button2" parent="." unique_id=896745332 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
 
 [node name="Label" type="Label" parent="Button2" unique_id=512841803]
 layout_mode = 1
@@ -67,6 +70,7 @@ vertical_alignment = 1
 
 [node name="Button3" parent="." unique_id=533115985 groups=["move_buttons"] instance=ExtResource("1_7mc48")]
 layout_mode = 2
+focus_neighbor_right = NodePath(".")
 
 [node name="Label" type="Label" parent="Button3" unique_id=349498019]
 layout_mode = 1
