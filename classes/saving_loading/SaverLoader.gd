@@ -54,6 +54,12 @@ func erase_saved_game() -> bool:
 	return false
 
 
+func save_game_exists() -> bool:
+	if ResourceLoader.exists("user://savegame.tres"):
+		return true
+	return false
+
+
 func save_player(saved_game: SavedGame, player: Player) -> SavedGame:
 	saved_game.player_position = player.global_position
 	saved_game.player_party = player.party_handler.party

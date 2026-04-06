@@ -2,6 +2,7 @@ extends Panel
 
 @export var in_battle_text_box: bool = false
 @export var ignore_player_battle_state: bool = false
+@export var skip_if_parent_control_invisible: bool = false
 
 var processing: bool = false
 var text_array: Array[String] = []
@@ -37,6 +38,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
+func clear_text() -> void:
+	if yes_button.visible:
+		_toggle_questions_visible()
+	main_label.text = ""
+	text_array = []
+	text_index = 0
+	is_question = false
+	is_auto_complete = false
+	processing = false
+
+
 func _toggle_visible() -> void:
 	visible = not visible
 
@@ -64,11 +76,14 @@ func _load_text(
 		question: bool,
 		_toggle: bool,
 ) -> void:
+	if skip_if_parent_control_invisible:
+		var par: Node = get_parent()
+		if par is Control and not (par as Control).visible:
+			return
 	var interfaces := get_tree().get_root().find_child("Interfaces", true, false)
 	var in_battle_ui: bool = \
 	interfaces != null and interfaces.ui_context == Global.AccessFrom.BATTLE
 	if not in_battle_text_box and in_battle_ui:
-		# Never let non-battle boxes render battle messages.
 		main_label.text = ""
 		processing = false
 		return
@@ -125,7 +140,6 @@ func _text_finished() -> void:
 
 
 func _emit_text_box_complete() -> void:
-	main_label.text = ""
 	Ui.text_box_complete.emit()
 
 
@@ -142,18 +156,6 @@ func _clean_up() -> void:
 	text_index = 0
 	is_question = false
 	is_auto_complete = false
-
-
-func clear_text() -> void:
-	# Reset contents without toggling visibility (useful when a new battle turn begins).
-	if yes_button.visible:
-		_toggle_questions_visible()
-	main_label.text = ""
-	text_array = []
-	text_index = 0
-	is_question = false
-	is_auto_complete = false
-	processing = false
 
 
 func _on_no_pressed() -> void:

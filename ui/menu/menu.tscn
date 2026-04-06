@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dg1xhohpddu4d" path="res://ui/menu/menu.gd" id="1_bwjgb"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_77h3e"]
 [ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="3_w0ybq"]
+[ext_resource type="PackedScene" uid="uid://cbge51jklxgm2" path="res://ui/menu/save_info_panel.tscn" id="4_trkij"]
 
 [node name="Menu" type="Control" unique_id=1738143517]
 layout_mode = 3
@@ -103,3 +104,10 @@ theme_override_font_sizes/font_size = 128
 text = "OPTIONS"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="SaveInfoPanel" parent="Content" unique_id=1598156565 instance=ExtResource("4_trkij")]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 16.0
+offset_right = 1248.0
+offset_bottom = 320.0

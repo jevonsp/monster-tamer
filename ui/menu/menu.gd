@@ -4,6 +4,7 @@ var processing: bool = false
 var last_focused_button: Button = null
 
 @onready var interfaces: CanvasLayer = $".."
+@onready var save_info_panel: Panel = $Content/SaveInfoPanel
 
 
 func _ready() -> void:
@@ -51,6 +52,11 @@ func _on_menu_pressed(button: Button) -> void:
 
 func _on_focus_entered(button: Button) -> void:
 	last_focused_button = button
+	match last_focused_button.name.to_lower():
+		"save":
+			_toggle_save_info_panel_visible(true)
+		_:
+			_toggle_save_info_panel_visible(false)
 
 
 func _toggle_visible() -> void:
@@ -64,6 +70,12 @@ func _toggle_visible() -> void:
 		Ui.switch_ui_context.emit(Global.AccessFrom.NONE)
 
 
+func _toggle_save_info_panel_visible(value: bool) -> void:
+	save_info_panel.visible = value
+	if save_info_panel.visible:
+		save_info_panel.display_info()
+
+
 func _focus_default() -> void:
 	if last_focused_button:
 		last_focused_button.grab_focus()
@@ -75,12 +87,24 @@ func _focus_default() -> void:
 
 func _start_save_process() -> void:
 	var text_array: Array[String] = ["Would you like to save the game?"]
-	Ui.send_text_box.emit(self, text_array, false, true, false)
+	Ui.send_text_box.emit(null, text_array, false, true, false)
 	var should_save: bool = await Ui.answer_given
 	await Ui.text_box_complete
+
 	if should_save:
-		_finish_save_process()
+		await _finish_save_process()
+		return
+
+	_toggle_visible()
 
 
 func _finish_save_process() -> void:
 	SaverLoader.save_game()
+
+	Ui.update_save_info.emit()
+
+	var text_array: Array[String] = ["The game has been saved."]
+	Ui.send_text_box.emit(null, text_array, true, false, false)
+	await Ui.text_box_complete
+
+	_toggle_visible()

@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cbge51jklxgm2"]
+
+[ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_wwdjx"]
+[ext_resource type="Script" uid="uid://beu7ichwm2foe" path="res://ui/menu/save_info_panel.gd" id="2_wwdjx"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="3_uvce7"]
+
+[node name="SaveInfoPanel" type="Panel" unique_id=1598156565]
+offset_right = 816.0
+offset_bottom = 304.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("1_wwdjx")
+script = ExtResource("2_wwdjx")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=426340181]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -132.0
+offset_top = -84.5
+offset_right = 132.0
+offset_bottom = 84.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="BoxContainer" type="BoxContainer" parent="MarginContainer" unique_id=701978159]
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+vertical = true
+
+[node name="NameLabel" type="Label" parent="MarginContainer/BoxContainer" unique_id=721719059]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uvce7")
+theme_override_font_sizes/font_size = 64
+text = "NAME: Jevon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayTimeLabel" type="Label" parent="MarginContainer/BoxContainer" unique_id=1558467454]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uvce7")
+theme_override_font_sizes/font_size = 64
+text = "PLAY TIME: XX:XX"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LastSavedLabel" type="Label" parent="MarginContainer/BoxContainer" unique_id=542358266]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_uvce7")
+theme_override_font_sizes/font_size = 64
+text = "LAST SAVED: XX:XX ago"
+horizontal_alignment = 1
+vertical_alignment = 1

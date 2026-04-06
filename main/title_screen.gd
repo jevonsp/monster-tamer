@@ -1,7 +1,5 @@
 extends Control
 
-var saved_game: SavedGame
-
 @onready var box_container: BoxContainer = $BoxContainer
 @onready var continue_button: Button = $BoxContainer/Continue
 @onready var new_game_button: Button = $BoxContainer/NewGame
@@ -24,7 +22,7 @@ func _prepare_buttons() -> void:
 		_toggle_button(b, false)
 	_toggle_button(new_game_button, true)
 	new_game_button.grab_focus()
-	if ResourceLoader.exists("user://savegame.tres"):
+	if SaverLoader.save_game_exists():
 		_toggle_button(continue_button, true)
 		continue_button.grab_focus()
 		_toggle_button(erase_save_button, true)

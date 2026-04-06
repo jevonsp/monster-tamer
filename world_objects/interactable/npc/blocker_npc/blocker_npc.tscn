@@ -6,5 +6,5 @@
 [node name="BlockerNPC" unique_id=431393256 instance=ExtResource("1_x35b0")]
 dialogue = Array[String]([])
 
-[node name="NPCBlockerComponent" type="Node" parent="." unique_id=1491352628]
+[node name="NPCBlockerComponent" type="Node" parent="." index="7" unique_id=1491352628]
 script = ExtResource("2_blocker")

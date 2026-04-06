@@ -1,9 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://dg5q7r8nxkp2c"]
+[gd_scene format=3 uid="uid://dg5q7r8nxkp2c"]
 
 [ext_resource type="Script" uid="uid://bte5tgtc4tbfx" path="res://addons/gdscript-linter/dock.gd" id="1_dock"]
-[ext_resource type="Texture2D" uid="uid://dhb7gprc0gupq" path="res://addons/gdscript-linter/icons/settings.svg" id="2_settings"]
+[ext_resource type="Texture2D" uid="uid://dmm0pkexcdpld" path="res://addons/gdscript-linter/icons/settings.svg" id="2_settings"]
 
-[node name="CodeQualityDock" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y4cd3"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.145, 0.169, 0.204, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sn6d4"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.11, 0.13, 0.16, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f1gkt"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0.18, 0.21, 0.25, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugmbb"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0)
+
+[node name="CodeQualityDock" type="Control" unique_id=64325210]
+clip_contents = true
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 3
 anchors_preset = 15
@@ -11,38 +52,40 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-clip_contents = true
 script = ExtResource("1_dock")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1880690157]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopSpacer" type="Control" parent="VBox"]
+[node name="TopSpacer" type="Control" parent="VBox" unique_id=1107628830]
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
 
-[node name="Toolbar" type="HBoxContainer" parent="VBox"]
+[node name="Toolbar" type="HBoxContainer" parent="VBox" unique_id=872157401]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="LeftSpacer" type="Control" parent="VBox/Toolbar"]
+[node name="LeftSpacer" type="Control" parent="VBox/Toolbar" unique_id=1327548530]
 custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 
-[node name="ScanButton" type="Button" parent="VBox/Toolbar"]
+[node name="ScanButton" type="Button" parent="VBox/Toolbar" unique_id=76239862]
 custom_minimum_size = Vector2(90, 28)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_y4cd3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sn6d4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f1gkt")
 text = "Scan"
 
-[node name="Spacer1" type="Control" parent="VBox/Toolbar"]
+[node name="Spacer1" type="Control" parent="VBox/Toolbar" unique_id=1111947618]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
-[node name="SeverityFilter" type="OptionButton" parent="VBox/Toolbar"]
+[node name="SeverityFilter" type="OptionButton" parent="VBox/Toolbar" unique_id=963430786]
 custom_minimum_size = Vector2(110, 28)
 layout_mode = 2
 tooltip_text = "Filter by severity level"
@@ -57,16 +100,16 @@ popup/item_2/id = 2
 popup/item_3/text = "Info"
 popup/item_3/id = 3
 
-[node name="Spacer2" type="Control" parent="VBox/Toolbar"]
+[node name="Spacer2" type="Control" parent="VBox/Toolbar" unique_id=1320152563]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
-[node name="TypeFilter" type="OptionButton" parent="VBox/Toolbar"]
+[node name="TypeFilter" type="OptionButton" parent="VBox/Toolbar" unique_id=2119510209]
 custom_minimum_size = Vector2(110, 28)
 layout_mode = 2
 tooltip_text = "Filter by issue type"
 selected = 0
-item_count = 22
+item_count = 25
 popup/item_0/text = "All Types"
 popup/item_0/id = 0
 popup/item_1/text = "File Length"
@@ -111,61 +154,75 @@ popup/item_20/text = "Unused Variable"
 popup/item_20/id = 20
 popup/item_21/text = "Unused Parameter"
 popup/item_21/id = 21
+popup/item_22/text = "ASCII Violation"
+popup/item_22/id = 22
+popup/item_23/text = "Strict Limit"
+popup/item_23/id = 23
+popup/item_24/text = "Sealed Violation"
+popup/item_24/id = 24
 
-[node name="Spacer3" type="Control" parent="VBox/Toolbar"]
+[node name="Spacer3" type="Control" parent="VBox/Toolbar" unique_id=268594387]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
-[node name="FileFilter" type="LineEdit" parent="VBox/Toolbar"]
+[node name="FileFilter" type="LineEdit" parent="VBox/Toolbar" unique_id=2021336211]
 custom_minimum_size = Vector2(0, 29)
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Filter issues by filename"
 placeholder_text = "Filter by filename..."
 
-[node name="Spacer4" type="Control" parent="VBox/Toolbar"]
+[node name="Spacer4" type="Control" parent="VBox/Toolbar" unique_id=575161088]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
-[node name="ExportButton" type="Button" parent="VBox/Toolbar"]
-custom_minimum_size = Vector2(0, 28)
+[node name="ExportButton" type="Button" parent="VBox/Toolbar" unique_id=769861534]
 visible = false
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_y4cd3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sn6d4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f1gkt")
 disabled = true
 text = "Export JSON"
 
-[node name="HTMLExportButton" type="Button" parent="VBox/Toolbar"]
+[node name="HTMLExportButton" type="Button" parent="VBox/Toolbar" unique_id=1560278088]
 custom_minimum_size = Vector2(90, 28)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_y4cd3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sn6d4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f1gkt")
+disabled = true
 text = "Export HTML"
 
-[node name="SettingsButton" type="Button" parent="VBox/Toolbar"]
+[node name="SettingsButton" type="Button" parent="VBox/Toolbar" unique_id=1473342249]
+modulate = Color(0.7, 0.7, 0.7, 1)
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-modulate = Color(0.7, 0.7, 0.7, 1)
 tooltip_text = "Settings"
 icon = ExtResource("2_settings")
 flat = true
 
-[node name="RightSpacer" type="Control" parent="VBox/Toolbar"]
+[node name="RightSpacer" type="Control" parent="VBox/Toolbar" unique_id=347023248]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
-[node name="SettingsPanel" type="PanelContainer" parent="VBox"]
+[node name="SettingsPanel" type="PanelContainer" parent="VBox" unique_id=145547379]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBox"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBox" unique_id=1242765769]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="ResultsLabel" type="RichTextLabel" parent="VBox/ScrollContainer"]
+[node name="ResultsLabel" type="RichTextLabel" parent="VBox/ScrollContainer" unique_id=1309133948]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_ugmbb")
 bbcode_enabled = true
 text = "[center][color=#888888]Click Scan to analyze codebase[/color][/center]"
-selection_enabled = false
+meta_underlined = false
