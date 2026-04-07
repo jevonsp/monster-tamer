@@ -1,0 +1,418 @@
+[gd_scene format=3 uid="uid://c7ish7puudh7h"]
+
+[ext_resource type="PackedScene" uid="uid://fihrpqcisy3a" path="res://ui/text_entry/text_entry_button.tscn" id="1_6kpko"]
+[ext_resource type="Script" uid="uid://dppsqsbbhuu2q" path="res://ui/text_entry/text_entry.gd" id="1_sw7l2"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="3_1ob22"]
+[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="4_tek33"]
+
+[node name="TextEntry" type="Control" unique_id=1175498139]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sw7l2")
+
+[node name="Capitals" type="GridContainer" parent="." unique_id=1313300851]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 307.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 10
+
+[node name="TextEntryButton0" parent="Capitals" unique_id=619806716 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "Q"
+
+[node name="TextEntryButton1" parent="Capitals" unique_id=372774721 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "W"
+
+[node name="TextEntryButton2" parent="Capitals" unique_id=561956293 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "E"
+
+[node name="TextEntryButton3" parent="Capitals" unique_id=1328929472 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "R"
+
+[node name="TextEntryButton4" parent="Capitals" unique_id=1452265754 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "T"
+
+[node name="TextEntryButton5" parent="Capitals" unique_id=1340445966 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "Y"
+
+[node name="TextEntryButton6" parent="Capitals" unique_id=1517152485 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "U"
+
+[node name="TextEntryButton7" parent="Capitals" unique_id=1233728751 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "I"
+
+[node name="TextEntryButton8" parent="Capitals" unique_id=2078121132 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "O"
+
+[node name="TextEntryButton9" parent="Capitals" unique_id=377329018 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "P"
+
+[node name="TextEntryButton10" parent="Capitals" unique_id=2004784185 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "shf"
+is_special = true
+action = 2
+
+[node name="TextEntryButton11" parent="Capitals" unique_id=1708351851 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "A"
+
+[node name="TextEntryButton12" parent="Capitals" unique_id=1105431731 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "S"
+
+[node name="TextEntryButton13" parent="Capitals" unique_id=1651396039 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "D"
+
+[node name="TextEntryButton14" parent="Capitals" unique_id=111932232 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "F"
+
+[node name="TextEntryButton15" parent="Capitals" unique_id=512289859 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "G"
+
+[node name="TextEntryButton16" parent="Capitals" unique_id=245360656 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "H"
+
+[node name="TextEntryButton17" parent="Capitals" unique_id=501065161 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "J"
+
+[node name="TextEntryButton18" parent="Capitals" unique_id=388662753 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "K"
+
+[node name="TextEntryButton19" parent="Capitals" unique_id=452444299 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "L"
+
+[node name="TextEntryButton20" parent="Capitals" unique_id=265501573 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "cnl"
+is_special = true
+action = 3
+
+[node name="TextEntryButton21" parent="Capitals" unique_id=700760026 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "Z"
+
+[node name="TextEntryButton22" parent="Capitals" unique_id=895033283 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "X"
+
+[node name="TextEntryButton23" parent="Capitals" unique_id=1631822591 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "C"
+
+[node name="TextEntryButton24" parent="Capitals" unique_id=1760211300 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "V"
+
+[node name="TextEntryButton25" parent="Capitals" unique_id=912009225 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "B"
+
+[node name="TextEntryButton26" parent="Capitals" unique_id=1141458375 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "N"
+
+[node name="TextEntryButton27" parent="Capitals" unique_id=718283415 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "M"
+
+[node name="TextEntryButton28" parent="Capitals" unique_id=1939165551 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "del"
+is_special = true
+action = 1
+
+[node name="TextEntryButton29" parent="Capitals" unique_id=1461566554 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "ent"
+is_special = true
+action = 4
+
+[node name="Lowercase" type="GridContainer" parent="." unique_id=1967046288]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 307.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 10
+
+[node name="TextEntryButton0" parent="Lowercase" unique_id=1080203219 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "q"
+
+[node name="TextEntryButton1" parent="Lowercase" unique_id=1502959308 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "w"
+
+[node name="TextEntryButton2" parent="Lowercase" unique_id=1816443374 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "e"
+
+[node name="TextEntryButton3" parent="Lowercase" unique_id=541721164 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "r"
+
+[node name="TextEntryButton4" parent="Lowercase" unique_id=1729593790 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "t"
+
+[node name="TextEntryButton5" parent="Lowercase" unique_id=684910289 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "y"
+
+[node name="TextEntryButton6" parent="Lowercase" unique_id=598104090 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "u"
+
+[node name="TextEntryButton7" parent="Lowercase" unique_id=1606919264 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "i"
+
+[node name="TextEntryButton8" parent="Lowercase" unique_id=37418643 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "o"
+
+[node name="TextEntryButton9" parent="Lowercase" unique_id=1543938306 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "p"
+
+[node name="TextEntryButton10" parent="Lowercase" unique_id=970856605 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "shf"
+is_special = true
+action = 2
+
+[node name="TextEntryButton11" parent="Lowercase" unique_id=11450656 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "a"
+
+[node name="TextEntryButton12" parent="Lowercase" unique_id=1216622828 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "s"
+
+[node name="TextEntryButton13" parent="Lowercase" unique_id=1850841756 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "d"
+
+[node name="TextEntryButton14" parent="Lowercase" unique_id=509922163 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "f"
+
+[node name="TextEntryButton15" parent="Lowercase" unique_id=501619598 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "g"
+
+[node name="TextEntryButton16" parent="Lowercase" unique_id=1856219434 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "h"
+
+[node name="TextEntryButton17" parent="Lowercase" unique_id=120278512 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "j"
+
+[node name="TextEntryButton18" parent="Lowercase" unique_id=1357811877 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "k"
+
+[node name="TextEntryButton19" parent="Lowercase" unique_id=1010954306 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "l"
+
+[node name="TextEntryButton20" parent="Lowercase" unique_id=568235540 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "cnl"
+is_special = true
+action = 3
+
+[node name="TextEntryButton21" parent="Lowercase" unique_id=274788705 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "z"
+
+[node name="TextEntryButton22" parent="Lowercase" unique_id=1185744123 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "x"
+
+[node name="TextEntryButton23" parent="Lowercase" unique_id=563325192 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "c"
+
+[node name="TextEntryButton24" parent="Lowercase" unique_id=1704758509 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "v"
+
+[node name="TextEntryButton25" parent="Lowercase" unique_id=1310740661 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "b"
+
+[node name="TextEntryButton26" parent="Lowercase" unique_id=864019245 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "n"
+
+[node name="TextEntryButton27" parent="Lowercase" unique_id=1871987945 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "m"
+
+[node name="TextEntryButton28" parent="Lowercase" unique_id=1595332875 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "del"
+is_special = true
+action = 1
+
+[node name="TextEntryButton29" parent="Lowercase" unique_id=597793655 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "ent"
+is_special = true
+action = 4
+
+[node name="Special" type="GridContainer" parent="." unique_id=2056864519]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 173.0
+offset_bottom = -419.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 10
+
+[node name="TextEntryButton0" parent="Special" unique_id=1199508003 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "!"
+
+[node name="TextEntryButton1" parent="Special" unique_id=161298335 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "@"
+
+[node name="TextEntryButton2" parent="Special" unique_id=123194161 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "#"
+
+[node name="TextEntryButton3" parent="Special" unique_id=1046027267 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "$"
+
+[node name="TextEntryButton4" parent="Special" unique_id=2100728104 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "%"
+
+[node name="TextEntryButton5" parent="Special" unique_id=460073355 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "^"
+
+[node name="TextEntryButton6" parent="Special" unique_id=115199113 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "&"
+
+[node name="TextEntryButton7" parent="Special" unique_id=1396370600 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "*"
+
+[node name="TextEntryButton8" parent="Special" unique_id=1550953662 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "("
+
+[node name="TextEntryButton9" parent="Special" unique_id=742205192 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = ")"
+
+[node name="Numbers" type="GridContainer" parent="." unique_id=123048491]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 173.0
+offset_bottom = -419.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 10
+
+[node name="TextEntryButton0" parent="Numbers" unique_id=1308750856 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "1"
+
+[node name="TextEntryButton1" parent="Numbers" unique_id=1081798802 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "2"
+
+[node name="TextEntryButton2" parent="Numbers" unique_id=2064802677 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "3"
+
+[node name="TextEntryButton3" parent="Numbers" unique_id=1001859075 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "4"
+
+[node name="TextEntryButton4" parent="Numbers" unique_id=1524368502 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "5"
+
+[node name="TextEntryButton5" parent="Numbers" unique_id=1492864903 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "6"
+
+[node name="TextEntryButton6" parent="Numbers" unique_id=1715846883 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "7"
+
+[node name="TextEntryButton7" parent="Numbers" unique_id=1406380862 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "8"
+
+[node name="TextEntryButton8" parent="Numbers" unique_id=732380112 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "9"
+
+[node name="TextEntryButton9" parent="Numbers" unique_id=1950819309 instance=ExtResource("1_6kpko")]
+layout_mode = 2
+character = "0"
+
+[node name="Panel" parent="." unique_id=134393662 instance=ExtResource("4_tek33")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 10.0
+offset_right = 1280.0
+offset_bottom = 170.0
+
+[node name="Label" type="Label" parent="Panel" unique_id=1263579552]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -29.5
+offset_right = -16.0
+offset_bottom = 13.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_1ob22")
+theme_override_font_sizes/font_size = 256

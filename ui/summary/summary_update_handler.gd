@@ -21,7 +21,7 @@ func display_monster(monster: Monster) -> void:
 	if monster == null:
 		return
 
-	summary.gender_label.text = "TBD"
+	summary.gender_label.text = MonsterData.Gender.keys()[monster.gender].to_lower().capitalize()
 	summary.name_label.text = monster.name
 	summary.level_label.text = "Lvl. %s" % [monster.level]
 
@@ -38,14 +38,14 @@ func display_monster(monster: Monster) -> void:
 	summary.exp_bar.actor = monster
 
 	summary.portrait.texture = monster.monster_data.texture
-	summary.description_label.text = "TBD"
+	summary.description_label.text = monster.monster_data.description
 
-	summary.stat_label_0.text = "TBD: "
-	summary.stat_label_1.text = "TBD: "
-	summary.stat_label_2.text = "TBD: "
-	summary.stat_label_3.text = "TBD: "
-	summary.stat_label_4.text = "TBD: "
-	summary.stat_label_5.text = "TBD: "
+	summary.stat_label_0.text = "HP: %s" % [monster.max_hitpoints]
+	summary.stat_label_1.text = "Atk: %s" % [monster.attack]
+	summary.stat_label_2.text = "Def: %s" % [monster.defense]
+	summary.stat_label_3.text = "SpA: %s" % [monster.special_attack]
+	summary.stat_label_4.text = "SpD: %s" % [monster.special_defense]
+	summary.stat_label_5.text = "Spe: %s" % [monster.speed]
 
 	var panel_index := 0
 	for move in monster.moves:
