@@ -33,11 +33,11 @@
 [ext_resource type="PackedScene" uid="uid://dttmg54drld8c" path="res://world_objects/interactable/surf_object/surf_object.tscn" id="30_o8j3b"]
 [ext_resource type="PackedScene" uid="uid://e0q6pt3xt1a" path="res://world_objects/interactable/npc/components/npc_service_component.tscn" id="32_amlcg"]
 [ext_resource type="PackedScene" uid="uid://mi8cat437hfy" path="res://world_objects/interactable/npc/components/npc_blocker_component.tscn" id="33_ue0mw"]
-[ext_resource type="PackedScene" uid="uid://bgfglsoh8a78d" path="res://world_objects/interactable/npc/components/npc_text_entry_component.tscn" id="42_txtent")]
 [ext_resource type="PackedScene" uid="uid://sy3x2x1amgx4" path="res://world_objects/ladder_zone/ladder_zone.tscn" id="36_ue0mw"]
 [ext_resource type="PackedScene" uid="uid://du5fddffkfd7n" path="res://world_objects/story_zone/story_zone.tscn" id="37_h3axc"]
 [ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="38_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
+[ext_resource type="PackedScene" uid="uid://bgfglsoh8a78d" path="res://world_objects/interactable/npc/components/npc_text_entry_component.tscn" id="42_txtent"]
 
 [sub_resource type="Resource" id="Resource_fwcvl"]
 script = ExtResource("5_kfbq2")
@@ -143,12 +143,12 @@ item = ExtResource("23_qs5eo")
 position = Vector2(32, 80)
 item = ExtResource("24_frbr6")
 
-[node name="GroundBall" parent="GroundBalls" unique_id=1353459326 instance=ExtResource("15_5xyti")]
+[node name="Monster" parent="GroundBalls" unique_id=1353459326 instance=ExtResource("15_5xyti")]
 position = Vector2(32, 144)
 type = 1
 monster_data = ExtResource("21_d7rgo")
 
-[node name="StoryComponent" parent="GroundBalls/GroundBall" unique_id=710906627 instance=ExtResource("38_d7rgo")]
+[node name="StoryComponent" parent="GroundBalls/Monster" unique_id=710906627 instance=ExtResource("38_d7rgo")]
 story_flag = 1
 
 [node name="Sign" parent="." unique_id=1974786927 instance=ExtResource("14_73k8k")]
@@ -231,11 +231,11 @@ post_complete_dialogue = Array[String](["Thanks for your {take}! I'm taking good
 
 I hope you're taking care of my {give}!"])
 
-[node name="TextEntryNPC" parent="NPCs" unique_id=2849150602 node_paths=PackedStringArray("before_components") instance=ExtResource("8_67ri8")]
+[node name="TextEntryNPC" parent="NPCs" unique_id=-1445816694 node_paths=PackedStringArray("before_components") instance=ExtResource("8_67ri8")]
 position = Vector2(96, 32)
 npc_name = "Registrar"
-before_components = [NodePath("NPCTextEntryComponent")]
 dialogue = Array[String](["Good to meet you!"])
+before_components = [NodePath("NPCTextEntryComponent")]
 
 [node name="NPCTextEntryComponent" parent="NPCs/TextEntryNPC" unique_id=1928834410 instance=ExtResource("42_txtent")]
 prompt_lines = Array[String](["What's your name?"])

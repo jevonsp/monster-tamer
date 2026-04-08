@@ -66,6 +66,7 @@ func trigger() -> void:
 		Type.MONSTER:
 			var monster = monster_data.set_up(monster_level)
 			player.party_handler.add(monster)
+			await _give_name(monster)
 	if story_component:
 		story_component.trigger()
 	obtain()
@@ -117,3 +118,18 @@ func _set_components() -> void:
 	for child in get_children():
 		if child is StoryComponent:
 			story_component = child
+
+
+func _give_name(monster: Monster) -> void:
+	var ta: Array[String] = ["Would you like to name your new %s?" % monster.monster_data.species]
+	Ui.send_text_box.emit(null, ta, false, true, false)
+	var answer: bool = await Ui.answer_given
+	await Ui.text_box_complete
+	if not answer:
+		return
+	var outcome: Dictionary = await Ui.await_text_entry_outcome(false, 0)
+	if outcome.get("failed", false) or outcome.get("cancelled", false):
+		return
+	var entered: String = outcome.get("text", "") as String
+	if not entered.is_empty():
+		monster.set_monster_name(true, entered)
