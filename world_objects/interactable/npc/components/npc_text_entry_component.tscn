@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bgfglsoh8a78d"]
+
+[ext_resource type="Script" uid="uid://dga21im4r6sm4" path="res://world_objects/interactable/npc/components/npc_text_entry_component.gd" id="1_5m2u8"]
+
+[node name="NPCTextEntryComponent" type="Node" unique_id=1599633481]
+script = ExtResource("1_5m2u8")

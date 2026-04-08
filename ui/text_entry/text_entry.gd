@@ -5,6 +5,10 @@ const _SHIFT_LABEL := "shf"
 const _CAPS_LOCK_LABEL := "cap"
 
 var processing: bool = false
+## When true, Enter confirms even if the buffer is empty (gameplay sets this before opening).
+var allow_empty_submit: bool = false
+## Maximum characters; 0 means unlimited.
+var max_input_length: int = 0
 var string: String = "":
 	set(value):
 		var prev_len: int = string.length()
@@ -34,6 +38,7 @@ var last_focused_index: int = -1
 
 
 func _ready() -> void:
+	add_to_group("text_entry_root")
 	processing = visible
 	_connect_signals()
 	_toggle_capitals(true)
@@ -142,6 +147,19 @@ func _counterpart_control_for_last_focus() -> Control:
 	return null
 
 
+func reset_for_prompt() -> void:
+	if visible:
+		_close_and_reset()
+	else:
+		string = ""
+	allow_empty_submit = false
+	max_input_length = 0
+	capitals.visible = false
+	lowercase.visible = true
+	special.visible = false
+	numbers.visible = true
+
+
 func _toggle_visible() -> void:
 	capitals.visible = false
 	lowercase.visible = true
@@ -151,6 +169,7 @@ func _toggle_visible() -> void:
 	visible = not visible
 	processing = visible
 	if visible:
+		string = ""
 		_refresh_shift_button_labels()
 		_setup_wrapped_focus_neighbors()
 		call_deferred("_ensure_text_entry_focus")
@@ -182,6 +201,8 @@ func _on_focus_entered(button: Button, grid_container: GridContainer) -> void:
 
 
 func _add_character(chr: String) -> void:
+	if max_input_length > 0 and string.length() >= max_input_length:
+		return
 	string += chr
 
 
@@ -311,19 +332,8 @@ func _apply_wrapped_neighbors_to_grid(grid: GridContainer) -> void:
 
 
 func _cancel() -> void:
-	processing = false
 	Ui.text_cancel_pressed.emit()
-	var cancel_not_implemented := true
-
-	if cancel_not_implemented:
-		print("cancel_not_implemented: ", cancel_not_implemented)
-		return
-
-	var answer = await Ui.text_cancel_response
-	if answer:
-		_toggle_visible()
-	else:
-		processing = true
+	_close_and_reset()
 
 
 func _enter() -> void:
@@ -337,9 +347,22 @@ func _enter() -> void:
 			enter_lowercase.grab_focus()
 			return
 
-	if string.length() > 0:
-		Ui.text_enter_pressed.emit(string)
-		print("string: ", string)
+	if string.length() > 0 or allow_empty_submit:
+		var submitted: String = string
+		Ui.text_enter_pressed.emit(submitted)
+		_close_and_reset()
+
+
+func _close_and_reset() -> void:
+	allow_empty_submit = false
+	max_input_length = 0
+	string = ""
+	visible = false
+	processing = false
+	capitals.visible = false
+	lowercase.visible = true
+	special.visible = false
+	numbers.visible = true
 
 
 func _delete() -> void:

@@ -11,6 +11,7 @@ var ui_context: Global.AccessFrom = Global.AccessFrom.NONE
 @onready var store: Control = $Store
 @onready var evolution_screen: Control = $EvolutionScreen
 @onready var overworld_text_box: Control = $OverworldTextBox
+@onready var text_entry: Control = $TextEntry
 @onready var player: Player = $"../Player"
 
 var _blocking_ui: Array[Control] = []
@@ -31,6 +32,7 @@ func _ready() -> void:
 		store,
 		evolution_screen,
 		overworld_text_box,
+		text_entry,
 	]
 	for c in _blocking_ui:
 		c.visibility_changed.connect(_on_blocking_ui_visibility_changed)
