@@ -45,7 +45,7 @@ theme_override_font_sizes/font_size = 64
 text = "TEXT TEXT TEXT"
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1486501230]
+[node name="YesNoButtons" type="HBoxContainer" parent="." unique_id=1486501230]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -55,7 +55,7 @@ offset_top = -98.0
 offset_bottom = -5.0
 grow_horizontal = 0
 
-[node name="No" type="Button" parent="HBoxContainer" unique_id=752553216]
+[node name="No" type="Button" parent="YesNoButtons" unique_id=752553216]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("4_856fh")
@@ -66,7 +66,7 @@ theme_override_styles/hover = ExtResource("5_856fh")
 theme_override_styles/disabled = ExtResource("6_dqg1w")
 theme_override_styles/focus = ExtResource("7_ujl8y")
 
-[node name="Label" type="Label" parent="HBoxContainer/No" unique_id=833450066]
+[node name="Label" type="Label" parent="YesNoButtons/No" unique_id=833450066]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -82,7 +82,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Yes" type="Button" parent="HBoxContainer" unique_id=1187289545]
+[node name="Yes" type="Button" parent="YesNoButtons" unique_id=1187289545]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("4_856fh")
@@ -93,7 +93,7 @@ theme_override_styles/hover = ExtResource("5_856fh")
 theme_override_styles/disabled = ExtResource("6_dqg1w")
 theme_override_styles/focus = ExtResource("7_ujl8y")
 
-[node name="Label" type="Label" parent="HBoxContainer/Yes" unique_id=903643917]
+[node name="Label" type="Label" parent="YesNoButtons/Yes" unique_id=903643917]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -109,5 +109,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[connection signal="pressed" from="HBoxContainer/No" to="." method="_on_no_pressed"]
-[connection signal="pressed" from="HBoxContainer/Yes" to="." method="_on_yes_pressed"]
+[node name="Choices" type="HBoxContainer" parent="." unique_id=1140864336]
+layout_mode = 0
+offset_top = -104.0
+offset_right = 688.0
+offset_bottom = -8.0
+alignment = 2
+
+[connection signal="pressed" from="YesNoButtons/No" to="." method="_on_no_pressed"]
+[connection signal="pressed" from="YesNoButtons/Yes" to="." method="_on_yes_pressed"]

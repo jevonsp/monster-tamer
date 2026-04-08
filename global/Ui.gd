@@ -33,8 +33,11 @@ signal send_move_helper_panel_info(move: Move, player_actor: Monster, enemy_acto
 signal update_save_info
 signal request_text_entry
 signal text_enter_pressed(chosen_string: String)
+signal text_cancel_info(can_cancel: bool, message: String)
 signal text_cancel_pressed
 signal text_cancel_response(answer: bool)
+signal send_choices(question: Array[String], choices: Array[String])
+signal choice_given(choice: String)
 
 
 @warning_ignore_restore("unused_signal")

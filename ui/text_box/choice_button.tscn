@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://d2u80jaxwyvt7"]
+
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="1_5m7kq"]
+[ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="2_po0f0"]
+[ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="3_1ekbu"]
+[ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="4_udgp5"]
+[ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="5_8vr8k"]
+[ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="6_1iwox"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="7_57ejh"]
+[ext_resource type="Script" uid="uid://natr8vomqncv" path="res://ui/text_box/choice_button.gd" id="7_evk0p"]
+
+[node name="ChoiceButton" type="Button" unique_id=377426292]
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_5m7kq")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_po0f0")
+theme_override_styles/pressed = ExtResource("3_1ekbu")
+theme_override_styles/hover = ExtResource("4_udgp5")
+theme_override_styles/disabled = ExtResource("5_8vr8k")
+theme_override_styles/focus = ExtResource("6_1iwox")
+script = ExtResource("7_evk0p")
+
+[node name="Label" type="Label" parent="." unique_id=2017307720]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("7_57ejh")
+theme_override_font_sizes/font_size = 64
+text = "YES"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

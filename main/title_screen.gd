@@ -1,5 +1,7 @@
 extends Control
 
+const INTRO_SEQUENCE = preload("uid://b5hcw5xmokpiu")
+
 @onready var box_container: BoxContainer = $BoxContainer
 @onready var continue_button: Button = $BoxContainer/Continue
 @onready var new_game_button: Button = $BoxContainer/NewGame
@@ -61,8 +63,12 @@ func _continue() -> void:
 
 
 func _new_game() -> void:
-	SaverLoader.load_level(SaverLoader.MAIN)
+	var main: Node2D = SaverLoader.load_level(SaverLoader.MAIN)
 	SaverLoader.toggle_visible()
+	Global.toggle_player.emit()
+	var intro: Control = INTRO_SEQUENCE.instantiate()
+	main.interfaces.add_child(intro)
+	intro.play_intro_sequence()
 	_close_title_screen()
 
 

@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var test_map: TileMapLayer = $TestMap
 @onready var player: CharacterBody2D = $Player
+@onready var interfaces: CanvasLayer = $Interfaces
 
 
 func _ready() -> void:

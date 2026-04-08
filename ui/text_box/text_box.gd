@@ -1,5 +1,7 @@
 extends Panel
 
+const CHOICE_BUTTON = preload("uid://d2u80jaxwyvt7")
+
 @export var in_battle_text_box: bool = false
 @export var ignore_player_battle_state: bool = false
 @export var skip_if_parent_control_invisible: bool = false
@@ -12,13 +14,15 @@ var text_index: int = -1
 
 @onready var text_box: Panel = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
-@onready var no_button: Button = $HBoxContainer/No
-@onready var yes_button: Button = $HBoxContainer/Yes
+@onready var no_button: Button = $YesNoButtons/No
+@onready var yes_button: Button = $YesNoButtons/Yes
+@onready var choices_buttons: HBoxContainer = $Choices
+@onready var yes_no_buttons: HBoxContainer = $YesNoButtons
 
 
 func _ready() -> void:
+	_connect_signals()
 	main_label.text = ""
-	Ui.send_text_box.connect(_load_text)
 	_toggle_questions_visible()
 	if not in_battle_text_box and visible:
 		_toggle_visible()
@@ -47,6 +51,11 @@ func clear_text() -> void:
 	is_question = false
 	is_auto_complete = false
 	processing = false
+
+
+func _connect_signals() -> void:
+	Ui.send_text_box.connect(_load_text)
+	Ui.send_choices.connect(_present_choices)
 
 
 func _toggle_visible() -> void:
@@ -115,6 +124,8 @@ func _display_text() -> void:
 
 func _focus_text_box() -> void:
 	if visible and not is_question:
+		if choices_buttons.visible and choices_buttons.get_child_count() > 0:
+			return
 		text_box.grab_focus()
 
 
@@ -170,3 +181,37 @@ func _on_yes_pressed() -> void:
 		Ui.answer_given.emit(true)
 	else:
 		_advance_text()
+
+
+func _present_choices(question: Array[String], choices: Array[String]) -> void:
+	for c in choices_buttons.get_children():
+		choices_buttons.remove_child(c)
+		c.queue_free()
+	yes_no_buttons.visible = false
+	_create_choices(choices)
+	_load_text(null, question, false, false, false)
+	choices_buttons.visible = true
+	if choices_buttons.get_child_count() > 0:
+		var last: Control = choices_buttons.get_child(choices_buttons.get_child_count() - 1) as Control
+		last.call_deferred("grab_focus")
+	var after_choice := func(_choice: String) -> void:
+		choices_buttons.visible = false
+		yes_no_buttons.visible = true
+		for child in choices_buttons.get_children():
+			child.queue_free()
+		_text_finished()
+	Ui.choice_given.connect(after_choice, CONNECT_ONE_SHOT)
+
+
+func _create_choices(choices: Array[String]) -> void:
+	for i in choices.size():
+		var new_choice: Button = CHOICE_BUTTON.instantiate()
+		choices_buttons.add_child(new_choice)
+		new_choice.label.text = choices[i]
+		new_choice.pressed.connect(_on_choice_pressed.bind(new_choice))
+		new_choice.focus_neighbor_bottom = get_path()
+
+
+func _on_choice_pressed(button: Button) -> void:
+	var choice = button.label.text
+	Ui.choice_given.emit(choice)

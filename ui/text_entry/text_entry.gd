@@ -4,11 +4,13 @@ const _SHIFT_BUTTON_NAME := "TextEntryButton10"
 const _SHIFT_LABEL := "shf"
 const _CAPS_LOCK_LABEL := "cap"
 
+var can_cancel: bool = true
+var cancel_message: String = "Enter a name!"
 var processing: bool = false
 ## When true, Enter confirms even if the buffer is empty (gameplay sets this before opening).
 var allow_empty_submit: bool = false
 ## Maximum characters; 0 means unlimited.
-var max_input_length: int = 0
+var max_input_length: int = 13
 var string: String = "":
 	set(value):
 		var prev_len: int = string.length()
@@ -61,9 +63,22 @@ func _input(event: InputEvent) -> void:
 		call_deferred("_ensure_text_entry_focus")
 
 
+func reset_for_prompt() -> void:
+	if visible:
+		_close_and_reset()
+	else:
+		string = ""
+	allow_empty_submit = false
+	max_input_length = 0
+	capitals.visible = false
+	lowercase.visible = true
+	special.visible = false
+	numbers.visible = true
+
+
 func _connect_signals() -> void:
 	Ui.request_text_entry.connect(_toggle_visible)
-
+	Ui.text_cancel_info.connect(_set_text_cancel_info)
 	var buttons = get_tree().get_nodes_in_group("text_entry_buttons")
 	for button: Button in buttons:
 		button.button_clicked.connect(_on_button_clicked)
@@ -145,19 +160,6 @@ func _counterpart_control_for_last_focus() -> Control:
 		idx = clampi(idx, 0, target.get_child_count() - 1)
 		return target.get_child(idx) as Control
 	return null
-
-
-func reset_for_prompt() -> void:
-	if visible:
-		_close_and_reset()
-	else:
-		string = ""
-	allow_empty_submit = false
-	max_input_length = 0
-	capitals.visible = false
-	lowercase.visible = true
-	special.visible = false
-	numbers.visible = true
 
 
 func _toggle_visible() -> void:
@@ -332,8 +334,13 @@ func _apply_wrapped_neighbors_to_grid(grid: GridContainer) -> void:
 
 
 func _cancel() -> void:
-	Ui.text_cancel_pressed.emit()
-	_close_and_reset()
+	if can_cancel:
+		Ui.text_cancel_pressed.emit()
+		_close_and_reset()
+	else:
+		var ta: Array[String] = [cancel_message]
+		Ui.send_text_box.emit(null, ta, true, false, false)
+		await Ui.text_box_complete
 
 
 func _enter() -> void:
@@ -363,6 +370,8 @@ func _close_and_reset() -> void:
 	lowercase.visible = true
 	special.visible = false
 	numbers.visible = true
+	can_cancel = true
+	cancel_message = "Enter a name!"
 
 
 func _delete() -> void:
@@ -378,3 +387,8 @@ func _delete() -> void:
 		else:
 			cancel_lowercase.grab_focus()
 			return
+
+
+func _set_text_cancel_info(value: bool, message: String) -> void:
+	can_cancel = value
+	cancel_message = message

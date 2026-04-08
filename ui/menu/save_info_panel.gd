@@ -8,7 +8,17 @@ var minutes_since_last_save: int = 0
 
 
 func display_info() -> void:
+	display_name_label()
+	display_play_time_label()
 	display_last_saved_label()
+
+
+func display_name_label() -> void:
+	pass
+
+
+func display_play_time_label() -> void:
+	pass
 
 
 func display_last_saved_label() -> void:

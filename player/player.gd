@@ -4,6 +4,12 @@ extends TileMover
 enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
 
 static var in_battle: bool = false
+
+static var party
+static var inventory
+static var story_flag
+static var player_info
+
 const  TURN_DURATION := 0.1
 
 @export var available_travel_methods: Dictionary = {
@@ -24,6 +30,7 @@ var respawn_point: Vector2 = Vector2.ZERO
 @onready var party_handler: Node = $PartyHandler
 @onready var inventory_handler: Node = $InventoryHandler
 @onready var story_flag_handler: Node = $StoryFlagHandler
+@onready var player_info_handler: Node = $PlayerInfoHandler
 
 
 func _ready() -> void:
@@ -31,6 +38,7 @@ func _ready() -> void:
 	add_to_group("player")
 	_connect_signals()
 	set_respawn_point()
+	_set_static_refs()
 	party_handler.create_storage()
 
 
@@ -66,6 +74,13 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu"):
 		_open_menu()
 		get_viewport().set_input_as_handled()
+	
+	
+func _set_static_refs() -> void:
+	party = party_handler
+	inventory = inventory_handler
+	story_flag = story_flag_handler
+	player_info = player_info_handler
 
 
 func update_held_keys(delta: float) -> void:

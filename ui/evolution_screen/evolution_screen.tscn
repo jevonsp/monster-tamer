@@ -91,7 +91,7 @@ theme_override_font_sizes/font_size = 64
 text = "TEXT TEXT TEXT"
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EvolutionTextBox" unique_id=1812975347]
+[node name="YesNoButtons" type="HBoxContainer" parent="EvolutionTextBox" unique_id=1812975347]
 visible = false
 layout_mode = 1
 anchors_preset = 1
@@ -102,10 +102,10 @@ offset_top = -80.0
 offset_bottom = -5.0
 grow_horizontal = 0
 
-[node name="No" parent="EvolutionTextBox/HBoxContainer" unique_id=1279246463 instance=ExtResource("7_y2t4w")]
+[node name="No" parent="EvolutionTextBox/YesNoButtons" unique_id=1279246463 instance=ExtResource("7_y2t4w")]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="EvolutionTextBox/HBoxContainer/No" unique_id=134156606]
+[node name="Label" type="Label" parent="EvolutionTextBox/YesNoButtons/No" unique_id=134156606]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -121,10 +121,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Yes" parent="EvolutionTextBox/HBoxContainer" unique_id=300249547 instance=ExtResource("7_y2t4w")]
+[node name="Yes" parent="EvolutionTextBox/YesNoButtons" unique_id=300249547 instance=ExtResource("7_y2t4w")]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="EvolutionTextBox/HBoxContainer/Yes" unique_id=1276162027]
+[node name="Label" type="Label" parent="EvolutionTextBox/YesNoButtons/Yes" unique_id=1276162027]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -139,3 +139,9 @@ text = "YES"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="Choices" type="HBoxContainer" parent="EvolutionTextBox" unique_id=165685040]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

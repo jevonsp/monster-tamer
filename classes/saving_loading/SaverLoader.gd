@@ -7,11 +7,12 @@ var loaded_scene: Node2D
 @onready var game_root = $"."
 
 
-func load_level(scene: PackedScene) -> void:
+func load_level(scene: PackedScene) -> Node2D:
 	var new_scene = scene.instantiate()
 	set_loaded_level(new_scene)
 	toggle_visible()
 	game_root.add_child(new_scene)
+	return new_scene
 
 
 func set_loaded_level(node: Node) -> void:
@@ -67,6 +68,7 @@ func save_player(saved_game: SavedGame, player: Player) -> SavedGame:
 	saved_game.player_inventory = player.inventory_handler.inventory
 	saved_game.player_money = player.inventory_handler.money
 	saved_game.story_flags = player.story_flag_handler.story_flags
+	saved_game.player_info = player.player_info_handler.player_info
 
 	return saved_game
 
@@ -78,3 +80,5 @@ func load_player(saved_game: SavedGame, player: Player):
 	player.inventory_handler.inventory = saved_game.player_inventory
 	player.inventory_handler.money = saved_game.player_money
 	player.story_flag_handler.story_flags = saved_game.story_flags
+	player.player_info_handler.player_info = saved_game.player_info
+	player.player_info_handler.update_info()

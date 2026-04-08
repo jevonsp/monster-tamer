@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c2p5hrggrr333" path="res://player/party_handler.gd" id="2_yw30f"]
 [ext_resource type="Script" uid="uid://b6d3li8e862ak" path="res://player/inventory_handler.gd" id="3_qjkh3"]
 [ext_resource type="Script" uid="uid://hokvqkpxisi5" path="res://player/story_flag_handler.gd" id="4_qjkh3"]
+[ext_resource type="Script" uid="uid://b01kh5yxdsqth" path="res://player/player_info_handler.gd" id="5_g6k8r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oul6g"]
 size = Vector2(15, 15)
@@ -534,6 +535,9 @@ script = ExtResource("3_qjkh3")
 
 [node name="StoryFlagHandler" type="Node" parent="." unique_id=1608287682]
 script = ExtResource("4_qjkh3")
+
+[node name="PlayerInfoHandler" type="Node" parent="." unique_id=2107273905]
+script = ExtResource("5_g6k8r")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1210260323]
 position = Vector2(8, 8)
