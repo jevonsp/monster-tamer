@@ -31,4 +31,8 @@ signal request_open_store(store_component: NPCStoreComponent)
 signal grab_default_battle_focus
 signal send_move_helper_panel_info(move: Move, player_actor: Monster, enemy_actor: Monster)
 signal update_save_info
+signal request_text_entry
+signal text_enter_pressed(chosen_string: String)
+signal text_cancel_pressed
+signal text_cancel_response(answer: bool)
 @warning_ignore_restore("unused_signal")
