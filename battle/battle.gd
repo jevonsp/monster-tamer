@@ -1,6 +1,34 @@
 extends Control
 
 var processing: bool = false
+var player_actor: Monster:
+	get:
+		return session.player_actor
+	set(value):
+		session.set_player_actor(value)
+var enemy_actor: Monster:
+	get:
+		return session.enemy_actor
+	set(value):
+		session.set_enemy_actor(value)
+var player_party: Array[Monster]:
+	get:
+		return session.player_party
+	set(value):
+		session.set_player_party(value)
+var is_wild_battle: bool:
+	get:
+		return session.is_wild_battle
+	set(value):
+		session.is_wild_battle = value
+var enemy_trainer: Trainer:
+	get:
+		return session.enemy_trainer
+	set(value):
+		session.enemy_trainer = value
+var enemy_party: Array[Monster]:
+	get:
+		return session.enemy_party
 
 @onready var interfaces: CanvasLayer = $".."
 @onready var session = $BattleSession
@@ -34,46 +62,6 @@ var processing: bool = false
 @onready var battle_handler: Node = $BattleHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var turn_executor: Node = $TurnExecutor
-
-
-var player_actor: Monster:
-	get:
-		return session.player_actor
-	set(value):
-		session.set_player_actor(value)
-
-
-var enemy_actor: Monster:
-	get:
-		return session.enemy_actor
-	set(value):
-		session.set_enemy_actor(value)
-
-
-var player_party: Array[Monster]:
-	get:
-		return session.player_party
-	set(value):
-		session.set_player_party(value)
-
-
-var is_wild_battle: bool:
-	get:
-		return session.is_wild_battle
-	set(value):
-		session.is_wild_battle = value
-
-
-var enemy_trainer: Trainer:
-	get:
-		return session.enemy_trainer
-	set(value):
-		session.enemy_trainer = value
-
-
-var enemy_party: Array[Monster]:
-	get:
-		return session.enemy_party
 
 
 func _ready() -> void:
@@ -161,6 +149,8 @@ func _switch_to_battle() -> void:
 	_toggle_visible()
 	_toggle_player()
 	visibility_focus_handler.animation_player.play("both_switch_in")
+	var ta: Array[String] = ["Get em, %s!" % player_actor.name]
+	Ui.send_text_box.emit(null, ta, true, false, false)
 	await visibility_focus_handler.animation_player.animation_finished
 	processing = true
 

@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="7_a56dj"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_phvbk"]
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="9_phvbk"]
-[ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="9_t8p1f"]
 [ext_resource type="PackedScene" uid="uid://boxcel2kld2tg" path="res://battle/move_buttons.tscn" id="10_sf8fp"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 [ext_resource type="Script" uid="uid://1edou8innd53" path="res://ui/button_panel/move_info_helper_panel.gd" id="11_ju8jl"]
@@ -24,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://battle/_assets/up_arrow.png" id="13_xmbur"]
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="14_tkkqt"]
 [ext_resource type="Script" uid="uid://dr4al47mbytk4" path="res://battle/battle_session.gd" id="15_bsess"]
+[ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="20_xmbur"]
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -647,89 +647,13 @@ offset_bottom = 439.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="BattleTextBox" parent="Content" unique_id=1976802115 instance=ExtResource("13_sf8fp")]
-layout_mode = 0
-offset_left = 656.0
-offset_top = 528.0
-offset_right = 1264.0
-offset_bottom = 704.0
-script = ExtResource("9_t8p1f")
+[node name="BattleTextBox" parent="Content" unique_id=2060252590 instance=ExtResource("20_xmbur")]
+layout_mode = 1
+offset_left = -624.0
+offset_top = -192.0
+offset_right = -20.0
+offset_bottom = -15.0
 in_battle_text_box = true
-
-[node name="MarginContainer" type="MarginContainer" parent="Content/BattleTextBox" unique_id=284528365]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="MainLabel" type="Label" parent="Content/BattleTextBox/MarginContainer" unique_id=1874026099]
-custom_minimum_size = Vector2(0, 176)
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("9_phvbk")
-theme_override_font_sizes/font_size = 64
-text = "TEXT TEXT TEXT"
-autowrap_mode = 3
-
-[node name="YesNoButtons" type="HBoxContainer" parent="Content/BattleTextBox" unique_id=1154976454]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -311.0
-offset_top = -80.0
-offset_bottom = -5.0
-grow_horizontal = 0
-
-[node name="No" parent="Content/BattleTextBox/YesNoButtons" unique_id=764388069 instance=ExtResource("8_phvbk")]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Content/BattleTextBox/YesNoButtons/No" unique_id=543402195]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("9_phvbk")
-theme_override_font_sizes/font_size = 64
-text = "NO"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="Yes" parent="Content/BattleTextBox/YesNoButtons" unique_id=1498511913 instance=ExtResource("8_phvbk")]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Content/BattleTextBox/YesNoButtons/Yes" unique_id=1834191363]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("9_phvbk")
-theme_override_font_sizes/font_size = 64
-text = "YES"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="Choices" type="HBoxContainer" parent="Content/BattleTextBox" unique_id=19214251]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="AnimationContainer" type="Node2D" parent="." unique_id=1888418741]
 script = ExtResource("5_l1kiu")

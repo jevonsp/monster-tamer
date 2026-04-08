@@ -26,6 +26,7 @@ var _phase: Phase = Phase.LINES
 func _ready() -> void:
 	_connect_signals()
 	main_label.text = ""
+	choices_buttons.visible = false
 	_toggle_questions_visible()
 	if not in_battle_text_box and visible:
 		_toggle_visible()
@@ -57,6 +58,8 @@ func clear_text() -> void:
 	is_auto_complete = false
 	processing = false
 	_phase = Phase.LINES
+	yes_no_buttons.visible = true
+	_clear_choice_ui()
 
 
 func _connect_signals() -> void:
@@ -84,6 +87,20 @@ func _focus_question_button() -> void:
 		yes_button.grab_focus()
 
 
+func _get_interfaces_in_battle_ui() -> bool:
+	var interfaces := get_tree().get_root().find_child("Interfaces", true, false)
+	return interfaces != null and interfaces.ui_context == Global.AccessFrom.BATTLE
+
+
+func _dialogue_context_allows_this_box() -> bool:
+	var in_battle_ui: bool = _get_interfaces_in_battle_ui()
+	if not in_battle_text_box and in_battle_ui:
+		return false
+	if not ignore_player_battle_state and in_battle_text_box and not in_battle_ui:
+		return false
+	return true
+
+
 func _load_text(
 		_obj: Node,
 		ta: Array[String],
@@ -95,14 +112,10 @@ func _load_text(
 		var par: Node = get_parent()
 		if par is Control and not (par as Control).visible:
 			return
-	var interfaces := get_tree().get_root().find_child("Interfaces", true, false)
-	var in_battle_ui: bool = \
-	interfaces != null and interfaces.ui_context == Global.AccessFrom.BATTLE
-	if not in_battle_text_box and in_battle_ui:
-		main_label.text = ""
-		processing = false
-		return
-	if not ignore_player_battle_state and in_battle_text_box and not in_battle_ui:
+	if not _dialogue_context_allows_this_box():
+		if not in_battle_text_box and _get_interfaces_in_battle_ui():
+			main_label.text = ""
+			processing = false
 		return
 	if not visible:
 		_toggle_visible()
@@ -163,6 +176,8 @@ func _emit_text_box_complete() -> void:
 
 
 func _clean_up() -> void:
+	_clear_choice_ui()
+	yes_no_buttons.visible = true
 	if yes_button.visible:
 		_toggle_questions_visible()
 	if not in_battle_text_box:
@@ -176,6 +191,19 @@ func _clean_up() -> void:
 	is_question = false
 	is_auto_complete = false
 	_phase = Phase.LINES
+
+
+func _clear_choice_ui() -> void:
+	choices_buttons.visible = false
+	for child in choices_buttons.get_children():
+		choices_buttons.remove_child(child)
+		child.queue_free()
+
+
+func _reset_choice_row_for_inactive_instance() -> void:
+	_phase = Phase.LINES
+	_clear_choice_ui()
+	yes_no_buttons.visible = true
 
 
 func _on_no_pressed() -> void:
@@ -197,9 +225,10 @@ func _on_yes_pressed() -> void:
 
 
 func _present_choices(question: Array[String], choices: Array[String]) -> void:
-	for c in choices_buttons.get_children():
-		choices_buttons.remove_child(c)
-		c.queue_free()
+	if not _dialogue_context_allows_this_box():
+		_reset_choice_row_for_inactive_instance()
+		return
+	_clear_choice_ui()
 	_phase = Phase.CHOICE_PICK
 	yes_no_buttons.visible = false
 	_create_choices(choices)
@@ -227,9 +256,6 @@ func _on_choice_pressed(button: Button) -> void:
 
 func _finish_choice_presentation() -> void:
 	_phase = Phase.LINES
-	choices_buttons.visible = false
 	yes_no_buttons.visible = true
-	for child in choices_buttons.get_children():
-		child.queue_free()
 	_clean_up()
 	Ui.text_box_complete.emit()
