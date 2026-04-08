@@ -1,11 +1,21 @@
 extends Control
 
+signal model_choice(choice: Info.Model)
+
+@onready var model_buttons: HBoxContainer = $ModelButtons
+@onready var a_model_button: Button = $ModelButtons/AModel
+@onready var b_model_button: Button = $ModelButtons/BModel
+
 
 func _ready() -> void:
-	pass
+	_connect_signals()
 
 
 func play_intro_sequence() -> void:
+	var interfaces := get_parent()
+	if interfaces.has_method("begin_field_suppress"):
+		interfaces.begin_field_suppress()
+
 	var ta: Array[String] = ["Hello! Whats your name?"]
 	Ui.send_text_box.emit(null, ta, false, false, false)
 	await Ui.text_box_complete
@@ -19,13 +29,12 @@ func play_intro_sequence() -> void:
 	Player.player_info.player_name = entered_name
 
 	ta = ["So you're called %s" % entered_name]
-	Ui.send_text_box.emit(null, ta, true, false, false)
+	Ui.send_text_box.emit(null, ta, false, false, false)
 	await Ui.text_box_complete
 
 	ta = ["And are you a boy, girl, or something else?"]
 	var choices: Array[String] = ["Enby", "Girl", "Boy"]
-	Ui.send_choices.emit(ta, choices)
-	var entered_gender = await Ui.choice_given
+	var entered_gender: String = await Ui.await_choice(ta, choices)
 	var response: String = ""
 	match entered_gender:
 		"Enby":
@@ -39,5 +48,26 @@ func play_intro_sequence() -> void:
 			response = "a boy!"
 
 	ta = ["I'll address you as %s" % response]
+	Ui.send_text_box.emit(null, ta, false, false, false)
+	await Ui.text_box_complete
+
+	ta = ["What do you look like?"]
 	Ui.send_text_box.emit(null, ta, true, false, false)
 	await Ui.text_box_complete
+
+	await get_tree().process_frame
+	model_buttons.visible = true
+	a_model_button.call_deferred("grab_focus")
+
+	var choice = await model_choice
+	Player.player_info.player_model = choice
+
+	model_buttons.visible = false
+	if interfaces.has_method("end_field_suppress"):
+		interfaces.end_field_suppress()
+	visible = false
+
+
+func _connect_signals() -> void:
+	a_model_button.pressed.connect(func(): model_choice.emit(Info.Model.A))
+	b_model_button.pressed.connect(func(): model_choice.emit(Info.Model.B))

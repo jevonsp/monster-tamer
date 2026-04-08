@@ -41,6 +41,20 @@ signal choice_given(choice: String)
 
 
 @warning_ignore_restore("unused_signal")
+
+
+func await_choice(question: Array[String], choices: Array[String]) -> String:
+	var wait_state: Dictionary = { "done": false, "choice": "" }
+	var _on_pick := func(choice: String) -> void:
+		wait_state["choice"] = choice
+		wait_state["done"] = true
+	choice_given.connect(_on_pick, CONNECT_ONE_SHOT)
+	send_choices.emit(question, choices)
+	while not wait_state["done"]:
+		await get_tree().process_frame
+	return wait_state["choice"] as String
+
+
 func await_text_entry_outcome(
 		allow_empty_submit: bool = false,
 		max_input_length: int = 0,

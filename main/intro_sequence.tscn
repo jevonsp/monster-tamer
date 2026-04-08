@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b5hcw5xmokpiu"]
 
 [ext_resource type="Script" uid="uid://cx7kajuhekh3y" path="res://main/intro_sequence.gd" id="1_xxhso"]
+[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="2_rse4a"]
 
 [node name="IntroSequence" type="Control" unique_id=973191004]
 layout_mode = 3
@@ -10,3 +11,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xxhso")
+
+[node name="ModelButtons" type="HBoxContainer" parent="." unique_id=341695352]
+visible = false
+layout_mode = 0
+offset_left = 384.0
+offset_top = 128.0
+offset_right = 896.0
+offset_bottom = 384.0
+
+[node name="AModel" type="Button" parent="ModelButtons" unique_id=499030054]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="Sprite2D" parent="ModelButtons/AModel" unique_id=1392248310]
+position = Vector2(128, 128)
+scale = Vector2(4, 4)
+texture = ExtResource("2_rse4a")
+hframes = 3
+vframes = 3
+
+[node name="BModel" type="Button" parent="ModelButtons" unique_id=1637000882]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="Sprite2D" parent="ModelButtons/BModel" unique_id=31687558]
+position = Vector2(126, 128)
+scale = Vector2(4, 4)
+texture = ExtResource("2_rse4a")
+hframes = 3
+vframes = 3

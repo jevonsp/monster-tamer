@@ -1,5 +1,7 @@
 extends Panel
 
+enum Phase { LINES, CHOICE_PICK }
+
 const CHOICE_BUTTON = preload("uid://d2u80jaxwyvt7")
 
 @export var in_battle_text_box: bool = false
@@ -11,6 +13,7 @@ var text_array: Array[String] = []
 var is_auto_complete: bool = false
 var is_question: bool = false
 var text_index: int = -1
+var _phase: Phase = Phase.LINES
 
 @onready var text_box: Panel = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
@@ -32,6 +35,8 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing:
 		return
+	if _phase == Phase.CHOICE_PICK:
+		return
 	if is_question and yes_button.visible:
 		if event.is_action_pressed("ui_cancel"):
 			Ui.answer_given.emit(false)
@@ -51,6 +56,7 @@ func clear_text() -> void:
 	is_question = false
 	is_auto_complete = false
 	processing = false
+	_phase = Phase.LINES
 
 
 func _connect_signals() -> void:
@@ -130,6 +136,8 @@ func _focus_text_box() -> void:
 
 
 func _advance_text() -> void:
+	if _phase == Phase.CHOICE_PICK:
+		return
 	text_index += 1
 	if text_index >= text_array.size():
 		if not is_question:
@@ -167,9 +175,12 @@ func _clean_up() -> void:
 	text_index = 0
 	is_question = false
 	is_auto_complete = false
+	_phase = Phase.LINES
 
 
 func _on_no_pressed() -> void:
+	if _phase == Phase.CHOICE_PICK:
+		return
 	if is_question:
 		Ui.answer_given.emit(false)
 	else:
@@ -177,6 +188,8 @@ func _on_no_pressed() -> void:
 
 
 func _on_yes_pressed() -> void:
+	if _phase == Phase.CHOICE_PICK:
+		return
 	if is_question:
 		Ui.answer_given.emit(true)
 	else:
@@ -187,6 +200,7 @@ func _present_choices(question: Array[String], choices: Array[String]) -> void:
 	for c in choices_buttons.get_children():
 		choices_buttons.remove_child(c)
 		c.queue_free()
+	_phase = Phase.CHOICE_PICK
 	yes_no_buttons.visible = false
 	_create_choices(choices)
 	_load_text(null, question, false, false, false)
@@ -194,13 +208,6 @@ func _present_choices(question: Array[String], choices: Array[String]) -> void:
 	if choices_buttons.get_child_count() > 0:
 		var last: Control = choices_buttons.get_child(choices_buttons.get_child_count() - 1) as Control
 		last.call_deferred("grab_focus")
-	var after_choice := func(_choice: String) -> void:
-		choices_buttons.visible = false
-		yes_no_buttons.visible = true
-		for child in choices_buttons.get_children():
-			child.queue_free()
-		_text_finished()
-	Ui.choice_given.connect(after_choice, CONNECT_ONE_SHOT)
 
 
 func _create_choices(choices: Array[String]) -> void:
@@ -215,3 +222,14 @@ func _create_choices(choices: Array[String]) -> void:
 func _on_choice_pressed(button: Button) -> void:
 	var choice = button.label.text
 	Ui.choice_given.emit(choice)
+	_finish_choice_presentation()
+
+
+func _finish_choice_presentation() -> void:
+	_phase = Phase.LINES
+	choices_buttons.visible = false
+	yes_no_buttons.visible = true
+	for child in choices_buttons.get_children():
+		child.queue_free()
+	_clean_up()
+	Ui.text_box_complete.emit()
