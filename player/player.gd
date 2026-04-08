@@ -31,6 +31,7 @@ var respawn_point: Vector2 = Vector2.ZERO
 @onready var inventory_handler: Node = $InventoryHandler
 @onready var story_flag_handler: Node = $StoryFlagHandler
 @onready var player_info_handler: Node = $PlayerInfoHandler
+@onready var sprite_2d: Sprite2D = $Sprite2D
 
 
 func _ready() -> void:
@@ -81,6 +82,7 @@ func _set_static_refs() -> void:
 	inventory = inventory_handler
 	story_flag = story_flag_handler
 	player_info = player_info_handler
+	player_info.player = self
 
 
 func update_held_keys(delta: float) -> void:

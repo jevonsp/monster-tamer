@@ -4,6 +4,7 @@ extends Node
 enum Gender { NONE, MALE, FEMALE, NB }
 enum Model { A, B }
 
+const PLAYER_SPRITE_SHEET = preload("uid://dmemkc7d8fav6")
 const _PLAYER_FIELDS: Array[StringName] = [
 	&"player_name",
 	&"player_gender",
@@ -23,6 +24,13 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	set(value):
 		player_model = value
 		player_info["player_model"] = player_model
+		match player_model:
+			Model.A:
+				player.sprite_2d.texture = PLAYER_SPRITE_SHEET
+			Model.B:
+				pass
+
+var player: Player
 
 
 func update_info() -> void:
