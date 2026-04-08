@@ -1,12 +1,14 @@
 extends Panel
 
+class_name GameTextBox
+
+enum LayoutMode { FIELD, BATTLE, EVOLUTION }
+
 enum Phase { LINES, CHOICE_PICK }
 
 const CHOICE_BUTTON = preload("uid://d2u80jaxwyvt7")
-
-@export var in_battle_text_box: bool = false
-@export var ignore_player_battle_state: bool = false
-@export var skip_if_parent_control_invisible: bool = false
+const FONT_MAIN_FIELD := preload("res://3p_assets/m3x6.ttf")
+const FONT_MAIN_EVOLUTION := preload("res://3p_assets/m5x7.ttf")
 
 var processing: bool = false
 var text_array: Array[String] = []
@@ -14,6 +16,8 @@ var is_auto_complete: bool = false
 var is_question: bool = false
 var text_index: int = -1
 var _phase: Phase = Phase.LINES
+var _layout_mode: LayoutMode = LayoutMode.FIELD
+var _hide_after_close: bool = true
 
 @onready var text_box: Panel = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
@@ -23,14 +27,83 @@ var _phase: Phase = Phase.LINES
 @onready var yes_no_buttons: HBoxContainer = $YesNoButtons
 
 
+func _enter_tree() -> void:
+	add_to_group("game_text_box")
+
+
 func _ready() -> void:
-	_connect_signals()
 	main_label.text = ""
 	choices_buttons.visible = false
 	_toggle_questions_visible()
-	if not in_battle_text_box and visible:
+	if visible:
 		_toggle_visible()
 	text_box.set_focus_mode(Control.FOCUS_ALL)
+
+
+func bind_ui_signals() -> void:
+	if not Ui.send_text_box.is_connected(_load_text):
+		Ui.send_text_box.connect(_load_text)
+	if not Ui.send_choices.is_connected(_present_choices):
+		Ui.send_choices.connect(_present_choices)
+
+
+func apply_layout_for_mode(mode: LayoutMode) -> void:
+	_layout_mode = mode
+	match mode:
+		LayoutMode.FIELD:
+			_hide_after_close = true
+			anchor_left = 1.0
+			anchor_top = 1.0
+			anchor_right = 1.0
+			anchor_bottom = 1.0
+			offset_left = -688.0
+			offset_top = -296.0
+			offset_right = -4.0
+			offset_bottom = -5.0
+			grow_horizontal = Control.GROW_DIRECTION_BEGIN
+			grow_vertical = Control.GROW_DIRECTION_BEGIN
+			yes_no_buttons.anchor_left = 1.0
+			yes_no_buttons.anchor_right = 1.0
+			yes_no_buttons.offset_left = -311.0
+			yes_no_buttons.offset_top = -98.0
+			yes_no_buttons.offset_bottom = -5.0
+			main_label.add_theme_font_override("font", FONT_MAIN_FIELD)
+		LayoutMode.BATTLE:
+			_hide_after_close = false
+			anchor_left = 1.0
+			anchor_top = 1.0
+			anchor_right = 1.0
+			anchor_bottom = 1.0
+			offset_left = -624.0
+			offset_top = -192.0
+			offset_right = -20.0
+			offset_bottom = -15.0
+			grow_horizontal = Control.GROW_DIRECTION_BEGIN
+			grow_vertical = Control.GROW_DIRECTION_BEGIN
+			yes_no_buttons.anchor_left = 1.0
+			yes_no_buttons.anchor_right = 1.0
+			yes_no_buttons.offset_left = -311.0
+			yes_no_buttons.offset_top = -98.0
+			yes_no_buttons.offset_bottom = -5.0
+			main_label.add_theme_font_override("font", FONT_MAIN_FIELD)
+		LayoutMode.EVOLUTION:
+			_hide_after_close = true
+			anchor_left = 0.5
+			anchor_top = 1.0
+			anchor_right = 0.5
+			anchor_bottom = 1.0
+			offset_left = -304.0
+			offset_top = -183.0
+			offset_right = 304.0
+			offset_bottom = -7.0
+			grow_horizontal = Control.GROW_DIRECTION_BOTH
+			grow_vertical = Control.GROW_DIRECTION_BEGIN
+			yes_no_buttons.anchor_left = 1.0
+			yes_no_buttons.anchor_right = 1.0
+			yes_no_buttons.offset_left = -311.0
+			yes_no_buttons.offset_top = -80.0
+			yes_no_buttons.offset_bottom = -5.0
+			main_label.add_theme_font_override("font", FONT_MAIN_EVOLUTION)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -62,11 +135,6 @@ func clear_text() -> void:
 	_clear_choice_ui()
 
 
-func _connect_signals() -> void:
-	Ui.send_text_box.connect(_load_text)
-	Ui.send_choices.connect(_present_choices)
-
-
 func _toggle_visible() -> void:
 	visible = not visible
 
@@ -87,20 +155,6 @@ func _focus_question_button() -> void:
 		yes_button.grab_focus()
 
 
-func _get_interfaces_in_battle_ui() -> bool:
-	var interfaces := get_tree().get_root().find_child("Interfaces", true, false)
-	return interfaces != null and interfaces.ui_context == Global.AccessFrom.BATTLE
-
-
-func _dialogue_context_allows_this_box() -> bool:
-	var in_battle_ui: bool = _get_interfaces_in_battle_ui()
-	if not in_battle_text_box and in_battle_ui:
-		return false
-	if not ignore_player_battle_state and in_battle_text_box and not in_battle_ui:
-		return false
-	return true
-
-
 func _load_text(
 		_obj: Node,
 		ta: Array[String],
@@ -108,15 +162,6 @@ func _load_text(
 		question: bool,
 		_toggle: bool,
 ) -> void:
-	if skip_if_parent_control_invisible:
-		var par: Node = get_parent()
-		if par is Control and not (par as Control).visible:
-			return
-	if not _dialogue_context_allows_this_box():
-		if not in_battle_text_box and _get_interfaces_in_battle_ui():
-			main_label.text = ""
-			processing = false
-		return
 	if not visible:
 		_toggle_visible()
 	is_question = question
@@ -180,8 +225,9 @@ func _clean_up() -> void:
 	yes_no_buttons.visible = true
 	if yes_button.visible:
 		_toggle_questions_visible()
-	if not in_battle_text_box:
-		_toggle_visible()
+	if _hide_after_close:
+		if visible:
+			_toggle_visible()
 	if text_box.has_focus():
 		text_box.release_focus()
 	main_label.text = ""
@@ -198,12 +244,6 @@ func _clear_choice_ui() -> void:
 	for child in choices_buttons.get_children():
 		choices_buttons.remove_child(child)
 		child.queue_free()
-
-
-func _reset_choice_row_for_inactive_instance() -> void:
-	_phase = Phase.LINES
-	_clear_choice_ui()
-	yes_no_buttons.visible = true
 
 
 func _on_no_pressed() -> void:
@@ -225,9 +265,6 @@ func _on_yes_pressed() -> void:
 
 
 func _present_choices(question: Array[String], choices: Array[String]) -> void:
-	if not _dialogue_context_allows_this_box():
-		_reset_choice_row_for_inactive_instance()
-		return
 	_clear_choice_ui()
 	_phase = Phase.CHOICE_PICK
 	yes_no_buttons.visible = false
@@ -249,8 +286,8 @@ func _create_choices(choices: Array[String]) -> void:
 
 
 func _on_choice_pressed(button: Button) -> void:
-	var choice = button.label.text
-	Ui.choice_given.emit(choice)
+	var c = button.label.text
+	Ui.choice_given.emit(c)
 	_finish_choice_presentation()
 
 

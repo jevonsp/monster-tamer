@@ -12,7 +12,6 @@ var _active_tween: Tween
 
 @onready var old_texture_rect: TextureRect = $OldTextureRect
 @onready var new_texture_rect: TextureRect = $NewTextureRect
-@onready var evolution_text_box: Panel = $EvolutionTextBox
 
 
 func _ready() -> void:
