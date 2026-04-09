@@ -4,9 +4,9 @@ extends Area2D
 enum State { NOT_PASSABLE, PASSABLE }
 
 @export var state: State = State.NOT_PASSABLE
-
-var cant_interact_text: String = ""
-var question_interact_text: String = ""
+@export_subgroup("Text")
+@export_multiline var cant_interact_text: String = ""
+@export_multiline var question_interact_text: String = ""
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
@@ -15,7 +15,7 @@ func _ready() -> void:
 	pass
 
 
-func interact(body: Player) -> void:
+func interact(_body: Player) -> void:
 	print("implement interaction")
 
 

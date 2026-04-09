@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://cc3o42tg3cca0"]
+
+[ext_resource type="Script" uid="uid://c3d1u67cjiyob" path="res://moves/MoveEffect.gd" id="1_u1n0p"]
+[ext_resource type="Script" uid="uid://g1i3kodg4e2d" path="res://moves/DamageEffect.gd" id="2_e3tki"]
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="2_ra75n"]
+
+[sub_resource type="Resource" id="Resource_uabhe"]
+script = ExtResource("2_e3tki")
+type = 2
+base_power = 60
+damage_type = 1
+metadata/_custom_type_script = "uid://g1i3kodg4e2d"
+
+[resource]
+script = ExtResource("2_ra75n")
+name = "Surf"
+accuracy = 90
+base_pp = 10
+effects = Array[ExtResource("1_u1n0p")]([SubResource("Resource_uabhe")])
+metadata/_custom_type_script = "uid://cawunai26wo8m"

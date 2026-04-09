@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ameij"]
 size = Vector2(15, 15)
 
-[node name="BlockerObject" type="Area2D" unique_id=750354463 groups=["interactable", "save_object", "surf_object"]]
+[node name="BlockerObject" type="Area2D" unique_id=750354463 groups=["interactable", "save_object"]]
 collision_layer = 8
 script = ExtResource("1_pigwl")
 

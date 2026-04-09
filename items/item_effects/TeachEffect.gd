@@ -11,18 +11,18 @@ func use(target: Monster) -> void:
 	var ta: Array[String]
 
 	if move in target.moves:
-		ta = ["%s already knows %s."]
+		ta = ["%s already knows %s." % [target.name, move.name]]
 		Ui.send_text_box.emit(null, ta, false, false, false)
 		await Ui.text_box_complete
 		return
 
 	if not target.monster_data.can_learn_move(move):
-		ta = ["%s can't learn %s."]
+		ta = ["%s can't learn %s." % [target.name, move.name]]
 		Ui.send_text_box.emit(null, ta, false, false, false)
 		await Ui.text_box_complete
 		return
 
-	ta = ["Teach %s to %s?"]
+	ta = ["Teach %s to %s?" % [move.name, target.name]]
 	Ui.send_text_box.emit(null, ta, false, true, false)
 	var answer: bool = await Ui.answer_given
 	await Ui.text_box_complete

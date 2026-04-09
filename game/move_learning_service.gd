@@ -98,7 +98,7 @@ func clean_up_learning_move(summary: Control) -> void:
 	summary.is_moving_move = false
 	summary.move_learning = null
 	Ui.move_learning_finished.emit()
-	summary.visibility_focus_handler.toggle_visible()
+	summary.visibility_focus_handler.set_visible(false)
 	Party.player_party_requested.emit()
 
 

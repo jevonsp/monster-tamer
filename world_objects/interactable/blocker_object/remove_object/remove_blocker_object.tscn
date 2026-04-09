@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://x3mrkjdyspv6"]
+
+[ext_resource type="PackedScene" uid="uid://c700k3sdd866j" path="res://world_objects/interactable/blocker_object/blocker_object.tscn" id="1_ummtg"]
+[ext_resource type="Script" uid="uid://cwud7ct16bagj" path="res://world_objects/interactable/blocker_object/remove_object/remove_blocker_object.gd" id="2_uv6hm"]
+
+[node name="RemoveBlockerObject" unique_id=750354463 instance=ExtResource("1_ummtg")]
+script = ExtResource("2_uv6hm")

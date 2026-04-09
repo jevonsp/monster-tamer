@@ -1,19 +1,28 @@
 extends Node
 
 const CLIMBING_SHOES = preload("uid://du7xft6yrfja1")
+const SURF = preload("uid://cc3o42tg3cca0")
 
 @onready var player: Player = $".."
 
 
 func start_surfing() -> void:
 	player.travel_state = Player.TravelState.SURFING
-	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.PASSABLE)
+	get_tree().call_group("surf_object", "toggle_mode", TravelBlockerObject.State.PASSABLE)
 	await player.walk_one_tile(player.facing_direction)
 
 
 func stop_surfing() -> void:
 	player.travel_state = Player.TravelState.DEFAULT
-	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.NOT_PASSABLE)
+	get_tree().call_group("surf_object", "toggle_mode", TravelBlockerObject.State.NOT_PASSABLE)
+
+
+func start_climbing() -> void:
+	printerr("IMPLEMENT CLIMBING")
+
+
+func stop_climbing() -> void:
+	printerr("IMPLEMENT CLIMBING")
 
 
 func get_available_travel_methods() -> Array[Player.TravelState]:
@@ -31,7 +40,8 @@ func get_available_travel_methods() -> Array[Player.TravelState]:
 func can_surf() -> bool:
 	for monster: Monster in Player.party.party:
 		for move in monster.moves:
-			pass
+			if move == SURF:
+				return true
 	return false
 
 

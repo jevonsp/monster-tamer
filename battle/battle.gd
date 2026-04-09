@@ -172,10 +172,8 @@ func _set_player_party(party: Array[Monster]) -> void:
 
 
 func _release_held_input_actions() -> void:
-	for action: StringName in InputMap.get_actions():
-		if Input.is_action_pressed(action):
-			Input.action_release(action)
-	Input.flush_buffered_events()
+	var player: Player = get_tree().get_first_node_in_group("player")
+	player.clear_inputs()
 
 
 func _clear_all() -> void:

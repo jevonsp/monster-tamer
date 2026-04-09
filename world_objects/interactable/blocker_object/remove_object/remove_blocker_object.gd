@@ -1,0 +1,2 @@
+class_name RemoveBlockerObject
+extends BlockerObject
