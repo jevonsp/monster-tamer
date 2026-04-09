@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://bqj8smashfldmv1"]
+
+[ext_resource type="Script" uid="uid://c3d1u67cjiyob" path="res://moves/MoveEffect.gd" id="1_mef"]
+[ext_resource type="Script" uid="uid://cawunai26wo8m" path="res://moves/Move.gd" id="2_mv"]
+
+[resource]
+script = ExtResource("2_mv")
+name = "Rock Smash"
+type = 0
+description = "Breaks cracked boulders in the field."
+effects = Array[ExtResource("1_mef")]([])
+metadata/_custom_type_script = "uid://cawunai26wo8m"
