@@ -2,7 +2,6 @@ class_name Player
 extends TileMover
 
 enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
-enum SpriteState { DEFAULT, GRASS }
 
 static var in_battle: bool = false
 
@@ -19,7 +18,6 @@ const  TURN_DURATION := 0.1
 }
 
 var travel_state: TravelState = TravelState.DEFAULT
-var sprite_state: SpriteState = SpriteState.DEFAULT
 
 var held_keys: Array = []
 var key_hold_times: Dictionary = { }
@@ -314,11 +312,3 @@ func _get_idle_blend_position() -> Vector2:
 	if is_direction_blocked(Vector2.DOWN):
 		return Vector2.DOWN
 	return Vector2.UP
-
-
-func enter_grass() -> void:
-	sprite_state = SpriteState.GRASS
-	
-	
-func exit_grass() -> void:
-	sprite_state = SpriteState.DEFAULT
