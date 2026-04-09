@@ -5,3 +5,4 @@
 
 [node name="ActionBlockerObject" unique_id=750354463 instance=ExtResource("1_ok5j2")]
 script = ExtResource("2_7vwsh")
+requirement = 0

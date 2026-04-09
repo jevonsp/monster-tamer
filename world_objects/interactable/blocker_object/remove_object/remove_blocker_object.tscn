@@ -5,3 +5,5 @@
 
 [node name="RemoveBlockerObject" unique_id=750354463 instance=ExtResource("1_ummtg")]
 script = ExtResource("2_uv6hm")
+permanence = 0
+removal_type = 0

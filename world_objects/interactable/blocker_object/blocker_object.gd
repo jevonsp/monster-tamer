@@ -24,8 +24,6 @@ func toggle_mode(new_state: State) -> void:
 		return
 	state = new_state
 
-	print("state: ", State.keys()[state])
-
 	match state:
 		State.NOT_PASSABLE:
 			collision_shape_2d.disabled = false

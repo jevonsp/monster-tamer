@@ -5,5 +5,4 @@
 
 [node name="TravelBlockerObject" unique_id=750354463 instance=ExtResource("1_p2lgi")]
 script = ExtResource("2_4bgtq")
-travel_requirment = 0
 requirement = 1

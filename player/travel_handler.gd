@@ -37,6 +37,10 @@ func get_available_travel_methods() -> Array[Player.TravelState]:
 	return travel_methods
 
 
+func get_available_removal_methods() -> Array[RemoveBlockerObject.RemovalType]:
+	return [RemoveBlockerObject.RemovalType.CUT, RemoveBlockerObject.RemovalType.SMASH]
+
+
 func can_surf() -> bool:
 	for monster: Monster in Player.party.party:
 		for move in monster.moves:

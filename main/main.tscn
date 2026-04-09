@@ -38,6 +38,7 @@
 [ext_resource type="PackedScene" uid="uid://bgm0u2s71302j" path="res://world_objects/encounter/grass/wild_zone.tscn" id="37_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="38_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://qr21fc3gx6hm" path="res://world_objects/interactable/blocker_object/travel_blocker_object/climb_object/climb_object.tscn" id="40_yjufm"]
+[ext_resource type="PackedScene" uid="uid://ccos473fioo0" path="res://world_objects/interactable/blocker_object/remove_object/cuttable_tree_object/tree_blocker_object.tscn" id="41_cgvj2"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 [ext_resource type="PackedScene" uid="uid://bgfglsoh8a78d" path="res://world_objects/interactable/npc/components/npc_text_entry_component.tscn" id="42_txtent"]
 
@@ -266,3 +267,9 @@ position = Vector2(16, 112)
 
 [node name="ClimbObject" parent="ClimbObjects" unique_id=788620845 instance=ExtResource("40_yjufm")]
 position = Vector2(80, 64)
+
+[node name="RemoveBlockerObjects" type="Node" parent="." unique_id=1524785203]
+
+[node name="TreeBlockerObject" parent="RemoveBlockerObjects" unique_id=1420145464 instance=ExtResource("41_cgvj2")]
+position = Vector2(144, 16)
+removal_type = 1
