@@ -2,6 +2,7 @@ class_name Player
 extends TileMover
 
 enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
+enum SpriteState { DEFAULT, GRASS }
 
 static var in_battle: bool = false
 
@@ -17,7 +18,8 @@ const  TURN_DURATION := 0.1
 	TravelState.BIKING: false,
 }
 
-var travel_state = TravelState.DEFAULT
+var travel_state: TravelState = TravelState.DEFAULT
+var sprite_state: SpriteState = SpriteState.DEFAULT
 
 var held_keys: Array = []
 var key_hold_times: Dictionary = { }
@@ -32,7 +34,6 @@ var respawn_point: Vector2 = Vector2.ZERO
 @onready var story_flag_handler: Node = $StoryFlagHandler
 @onready var player_info_handler: Node = $PlayerInfoHandler
 @onready var sprite_2d: Sprite2D = $Sprite2D
-
 
 func _ready() -> void:
 	super()
@@ -313,3 +314,11 @@ func _get_idle_blend_position() -> Vector2:
 	if is_direction_blocked(Vector2.DOWN):
 		return Vector2.DOWN
 	return Vector2.UP
+
+
+func enter_grass() -> void:
+	sprite_state = SpriteState.GRASS
+	
+	
+func exit_grass() -> void:
+	sprite_state = SpriteState.DEFAULT

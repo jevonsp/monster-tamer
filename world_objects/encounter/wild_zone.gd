@@ -31,3 +31,7 @@ func choose_encounter() -> void:
 			Battle.wild_battle_requested.emit(e.monster, level)
 			Battle.battle_started.emit()
 			return
+
+
+func _on_body_exited(body: Node2D) -> void:
+	pass

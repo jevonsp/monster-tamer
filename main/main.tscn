@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_ball.tscn" id="15_5xyti"]
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="17_s758e"]
 [ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger_md.tres" id="19_n53tw"]
+[ext_resource type="PackedScene" uid="uid://gkxr8ot677xm" path="res://world_objects/encounter/grass/grass.tscn" id="20_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://b5a6d0pcrx4rd" path="res://world_objects/interactable/static_object/storage.tscn" id="20_q0sk7"]
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="20_re7it"]
 [ext_resource type="Resource" uid="uid://cdor45ba2o0aa" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_md.tres" id="21_d7rgo"]
@@ -92,7 +93,6 @@ visible = false
 layer = 6
 
 [node name="GameTextBox" parent="Interfaces/DialogueCanvas" unique_id=2060252590 instance=ExtResource("9_n53tw")]
-visible = false
 focus_mode = 2
 
 [node name="InfoHUD" parent="Interfaces" unique_id=1085189325 instance=ExtResource("12_t1yuj")]
@@ -118,12 +118,13 @@ available_travel_methods = {
 position = Vector2(16, 112)
 collision_layer = 4
 collision_mask = 2
-overall_chance = 1.0
 encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_fwcvl")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WildZone" unique_id=472468069]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3wy1v")
+
+[node name="Grass" parent="WildZone" unique_id=1681823401 instance=ExtResource("20_d7rgo")]
 
 [node name="GroundBalls" type="Node2D" parent="." unique_id=847412086]
 y_sort_enabled = true
