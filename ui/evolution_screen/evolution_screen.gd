@@ -21,10 +21,9 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if not processing:
 		return
-	if event.is_action_pressed("yes"):
-		if not is_animating:
-			return
-		_finish_evolution(new_species_name)
+	if event.is_action_pressed("yes") and is_animating:
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("no"):
 		if not is_animating:
 			return

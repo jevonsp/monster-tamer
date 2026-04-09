@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c700k3sdd866j"]
+
+[ext_resource type="Script" uid="uid://bv16d5ilx1v2w" path="res://world_objects/interactable/blocker_object/blocker_object.gd" id="1_pigwl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ameij"]
+size = Vector2(15, 15)
+
+[node name="BlockerObject" type="Area2D" unique_id=750354463 groups=["interactable", "save_object", "surf_object"]]
+collision_layer = 8
+script = ExtResource("1_pigwl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2099023752]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_ameij")

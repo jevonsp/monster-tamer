@@ -9,6 +9,7 @@ static var party
 static var inventory
 static var story_flag
 static var player_info
+static var travel
 
 const  TURN_DURATION := 0.1
 
@@ -31,6 +32,7 @@ var respawn_point: Vector2 = Vector2.ZERO
 @onready var inventory_handler: Node = $InventoryHandler
 @onready var story_flag_handler: Node = $StoryFlagHandler
 @onready var player_info_handler: Node = $PlayerInfoHandler
+@onready var travel_handler: Node = $TravelHandler
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
 func _ready() -> void:
@@ -82,6 +84,8 @@ func _set_static_refs() -> void:
 	story_flag = story_flag_handler
 	player_info = player_info_handler
 	player_info.player = self
+	travel = travel_handler
+	
 
 
 func update_held_keys(delta: float) -> void:
@@ -156,7 +160,7 @@ func start_turning(new_facing_direction: Vector2) -> void:
 func can_move_in(input_dir: Vector2) -> bool:
 	var tile = _get_next_tile_coords(input_dir)
 	if travel_state == TravelState.SURFING and not _is_tile_water(tile):
-		stop_surfing()
+		travel_handler.stop_surfing()
 
 	return try_start_move(input_dir)
 
@@ -228,22 +232,12 @@ func set_respawn_point() -> void:
 	respawn_point = global_position
 
 
-func start_surfing() -> void:
-	travel_state = TravelState.SURFING
-	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.PASSABLE)
-	await walk_one_tile(facing_direction)
-
-
-func stop_surfing() -> void:
-	travel_state = TravelState.DEFAULT
-	get_tree().call_group("surf_object", "toggle_mode", SurfObject.State.NOT_PASSABLE)
-
-
 func _connect_signals() -> void:
 	Battle.toggle_in_battle.connect(toggle_in_battle)
 	Global.send_respawn_player.connect(_respawn)
 	party_handler._connect_signals()
 	inventory_handler._connect_signals()
+
 
 func _clear_manual_input_buffer() -> void:
 	held_keys.clear()

@@ -1,9 +1,12 @@
-class_name SurfObject
+class_name BlockerObject
 extends Area2D
 
 enum State { NOT_PASSABLE, PASSABLE }
 
 @export var state: State = State.NOT_PASSABLE
+
+var cant_interact_text: String = ""
+var question_interact_text: String = ""
 
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
@@ -13,19 +16,7 @@ func _ready() -> void:
 
 
 func interact(body: Player) -> void:
-	var ta: Array[String]
-	if body.available_travel_methods[Player.TravelState.SURFING] != true:
-		ta = ["If you had a Monster strong enough, you could surf here!"]
-		Ui.send_text_box.emit(null, ta, false, false, true)
-		await Ui.text_box_complete
-		return
-
-	ta = ["Would you like to surf?"]
-	Ui.send_text_box.emit(self, ta, false, true, false)
-	var answer = await Ui.answer_given
-	if answer:
-		print("yes")
-		await body.travel.start_surfing()
+	print("implement interaction")
 
 
 func toggle_mode(new_state: State) -> void:

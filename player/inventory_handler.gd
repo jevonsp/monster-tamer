@@ -51,6 +51,14 @@ func on_give_item_to(item: Item, _monster: Monster) -> void:
 	remove(item)
 
 
+func has_item(item: Item) -> bool:
+	for page: InventoryPage in inventory.values():
+		for key: Item in page.page.keys():
+			if key == item:
+				return true
+	return false
+
+
 func _connect_signals() -> void:
 	Inventory.use_item_on.connect(on_use_item_on)
 	Inventory.give_item_to.connect(on_give_item_to)

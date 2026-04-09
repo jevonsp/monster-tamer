@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b6d3li8e862ak" path="res://player/inventory_handler.gd" id="3_qjkh3"]
 [ext_resource type="Script" uid="uid://hokvqkpxisi5" path="res://player/story_flag_handler.gd" id="4_qjkh3"]
 [ext_resource type="Script" uid="uid://b01kh5yxdsqth" path="res://player/player_info_handler.gd" id="5_g6k8r"]
+[ext_resource type="Script" uid="uid://csmo8u0qm54u1" path="res://player/travel_handler.gd" id="6_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://bvd7340kdr155" path="res://player/player_sprite_sheet_top.png" id="7_rgyib"]
 [ext_resource type="Texture2D" uid="uid://jin4lhaho270" path="res://player/player_sprite_sheet_bottom.png" id="8_hg6s5"]
 
@@ -1164,6 +1165,9 @@ script = ExtResource("4_qjkh3")
 
 [node name="PlayerInfoHandler" type="Node" parent="." unique_id=2107273905]
 script = ExtResource("5_g6k8r")
+
+[node name="TravelHandler" type="Node" parent="." unique_id=658528688]
+script = ExtResource("6_hg6s5")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1210260323]
 visible = false

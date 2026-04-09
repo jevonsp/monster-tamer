@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dto2snf0miliu"]
+
+[ext_resource type="PackedScene" uid="uid://c700k3sdd866j" path="res://world_objects/interactable/blocker_object/blocker_object.tscn" id="1_p2lgi"]
+[ext_resource type="Script" uid="uid://c0e8pnb2lpwhq" path="res://world_objects/interactable/blocker_object/travel_blocker_object.gd" id="2_4bgtq"]
+
+[node name="TravelBlockerObject" unique_id=750354463 instance=ExtResource("1_p2lgi")]
+script = ExtResource("2_4bgtq")
+travel_requirment = 0

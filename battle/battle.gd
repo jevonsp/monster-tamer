@@ -29,6 +29,7 @@ var enemy_trainer: Trainer:
 var enemy_party: Array[Monster]:
 	get:
 		return session.enemy_party
+var _battle_intro_text_done: bool = false
 
 @onready var interfaces: CanvasLayer = $".."
 @onready var session = $BattleSession
@@ -63,8 +64,6 @@ var enemy_party: Array[Monster]:
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var turn_executor: Node = $TurnExecutor
 
-var _battle_intro_text_done: bool = false
-
 
 func _ready() -> void:
 	_connect_signals()
@@ -85,6 +84,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func end_battle() -> void:
+	_release_held_input_actions()
 	_clear_all()
 	_toggle_visible()
 	_toggle_player()
@@ -153,7 +153,8 @@ func _switch_to_battle() -> void:
 	visibility_focus_handler.animation_player.play("both_switch_in")
 	var ta: Array[String] = ["Get em, %s!" % player_actor.name]
 	_battle_intro_text_done = false
-	Ui.text_box_complete.connect(_on_battle_intro_text_line_done, CONNECT_ONE_SHOT)
+	if not Ui.text_box_complete.is_connected(_on_battle_intro_text_line_done):
+		Ui.text_box_complete.connect(_on_battle_intro_text_line_done, CONNECT_ONE_SHOT)
 	Ui.send_text_box.emit(null, ta, true, false, false)
 	await visibility_focus_handler.animation_player.animation_finished
 	if not _battle_intro_text_done:
@@ -168,6 +169,13 @@ func _on_battle_intro_text_line_done() -> void:
 
 func _set_player_party(party: Array[Monster]) -> void:
 	session.set_player_party(party)
+
+
+func _release_held_input_actions() -> void:
+	for action: StringName in InputMap.get_actions():
+		if Input.is_action_pressed(action):
+			Input.action_release(action)
+	Input.flush_buffered_events()
 
 
 func _clear_all() -> void:

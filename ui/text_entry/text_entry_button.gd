@@ -37,8 +37,6 @@ func _set_label() -> void:
 
 func _on_pressed() -> void:
 	button_clicked.emit(self, character, is_special, action)
-	# SHIFT hides this button's grid; hidden controls cannot keep focus.
-	# Parent may hide this row (e.g. auto-lowercase after first capital); only refocus if still shown.sd
 	if action != Action.SHIFT and is_visible_in_tree():
 		grab_focus()
 

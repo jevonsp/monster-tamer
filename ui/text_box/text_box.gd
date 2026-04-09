@@ -82,7 +82,7 @@ func apply_layout_for_mode(mode: LayoutMode) -> void:
 			yes_no_buttons.offset_bottom = -5.0
 			main_label.add_theme_font_override("font", FONT_MAIN_FIELD)
 		LayoutMode.BATTLE:
-			_hide_after_close = false
+			_hide_after_close = true
 			anchor_left = 1.0
 			anchor_top = 1.0
 			anchor_right = 1.0
@@ -131,6 +131,9 @@ func clear_text() -> void:
 	_phase = Phase.LINES
 	yes_no_buttons.visible = true
 	_clear_choice_ui()
+	if has_focus():
+		release_focus()
+	visible = false
 
 
 func _toggle_visible() -> void:

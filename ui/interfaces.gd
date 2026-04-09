@@ -4,7 +4,6 @@ const TEXT_BOX_SCENE := preload("res://ui/text_box/text_box.tscn")
 
 var ui_context: Global.AccessFrom = Global.AccessFrom.NONE
 
-## Viewport canvas layers for the dialogue panel stack. Tune here when the Interfaces `layer` or other CanvasLayers change.
 @export_group("Dialogue canvas layers")
 @export var dialogue_layer_field: int = 6
 @export var dialogue_layer_battle: int = 6
