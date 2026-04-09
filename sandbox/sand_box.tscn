@@ -4,11 +4,15 @@
 [ext_resource type="PackedScene" uid="uid://8ygcbs5f8pca" path="res://player/player.tscn" id="2_yh8bq"]
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="4_m5oba"]
 [ext_resource type="PackedScene" uid="uid://gkxr8ot677xm" path="res://world_objects/encounter/grass/grass.tscn" id="4_viy5y"]
+[ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="5_viy5y"]
 
 [node name="SandBox" type="Node2D" unique_id=1833194254]
 script = ExtResource("1_viy5y")
 
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("4_m5oba")]
+
+[node name="NPC" parent="." unique_id=431393256 instance=ExtResource("5_viy5y")]
+position = Vector2(48, 16)
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("2_yh8bq")]
 position = Vector2(48, 32)
