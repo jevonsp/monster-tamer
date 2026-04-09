@@ -1,9 +1,7 @@
-extends Panel
-
 class_name GameTextBox
+extends Button
 
 enum LayoutMode { FIELD, BATTLE, EVOLUTION }
-
 enum Phase { LINES, CHOICE_PICK }
 
 const CHOICE_BUTTON = preload("uid://d2u80jaxwyvt7")
@@ -19,7 +17,7 @@ var _phase: Phase = Phase.LINES
 var _layout_mode: LayoutMode = LayoutMode.FIELD
 var _hide_after_close: bool = true
 
-@onready var text_box: Panel = $"."
+@onready var text_box: Button = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
 @onready var no_button: Button = $YesNoButtons/No
 @onready var yes_button: Button = $YesNoButtons/Yes
@@ -38,6 +36,21 @@ func _ready() -> void:
 	if visible:
 		_toggle_visible()
 	text_box.set_focus_mode(Control.FOCUS_ALL)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not processing:
+		return
+	if _phase == Phase.CHOICE_PICK:
+		return
+	if is_question and yes_button.visible:
+		if event.is_action_pressed("ui_cancel"):
+			Ui.answer_given.emit(false)
+			get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("yes") or event.is_action_pressed("no"):
+		_advance_text()
+		get_viewport().set_input_as_handled()
 
 
 func bind_ui_signals() -> void:
@@ -104,21 +117,6 @@ func apply_layout_for_mode(mode: LayoutMode) -> void:
 			yes_no_buttons.offset_top = -80.0
 			yes_no_buttons.offset_bottom = -5.0
 			main_label.add_theme_font_override("font", FONT_MAIN_EVOLUTION)
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if not processing:
-		return
-	if _phase == Phase.CHOICE_PICK:
-		return
-	if is_question and yes_button.visible:
-		if event.is_action_pressed("ui_cancel"):
-			Ui.answer_given.emit(false)
-			get_viewport().set_input_as_handled()
-		return
-	if event.is_action_pressed("yes") or event.is_action_pressed("no"):
-		_advance_text()
-		get_viewport().set_input_as_handled()
 
 
 func clear_text() -> void:

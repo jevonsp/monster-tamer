@@ -1242,6 +1242,7 @@ vframes = 3
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=566667100]
 tree_root = SubResource("AnimationNodeStateMachine_jh6rw")
+anim_player = NodePath("../AnimationPlayer")
 parameters/Idle/blend_position = Vector2(0, 1)
 parameters/Jump/blend_position = Vector2(0, 0)
 parameters/Turn/blend_position = Vector2(0.49761522, -0.28448272)

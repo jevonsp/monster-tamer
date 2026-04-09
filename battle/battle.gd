@@ -63,6 +63,8 @@ var enemy_party: Array[Monster]:
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var turn_executor: Node = $TurnExecutor
 
+var _battle_intro_text_done: bool = false
+
 
 func _ready() -> void:
 	_connect_signals()
@@ -150,9 +152,18 @@ func _switch_to_battle() -> void:
 	_toggle_player()
 	visibility_focus_handler.animation_player.play("both_switch_in")
 	var ta: Array[String] = ["Get em, %s!" % player_actor.name]
+	_battle_intro_text_done = false
+	Ui.text_box_complete.connect(_on_battle_intro_text_line_done, CONNECT_ONE_SHOT)
 	Ui.send_text_box.emit(null, ta, true, false, false)
 	await visibility_focus_handler.animation_player.animation_finished
+	if not _battle_intro_text_done:
+		await Ui.text_box_complete
 	processing = true
+	visibility_focus_handler.call_deferred("manage_focus")
+
+
+func _on_battle_intro_text_line_done() -> void:
+	_battle_intro_text_done = true
 
 
 func _set_player_party(party: Array[Monster]) -> void:

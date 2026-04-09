@@ -87,7 +87,10 @@ func finish_move_to_idle(last_move_dir: Vector2 = Vector2.ZERO) -> void:
 func walk_list_tiles(tiles: Array[Vector2]) -> void:
 	for tile in tiles:
 		await walk_to_tile(tile)
-		await finished_walk_segment
+		# walk_to_tile emits finished_walk_segment immediately when already at the tile or
+		# when the raycast says blocked; only await when a real walk step was started.
+		if current_state == MoveState.MOVING:
+			await finished_walk_segment
 
 
 func walk_list_dirs(dirs: Array[Vector2]) -> void:

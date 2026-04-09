@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://gkxr8ot677xm"]
+
+[ext_resource type="Script" uid="uid://b58edjmofnkx6" path="res://world_objects/encounter/grass/grass_tile.gd" id="1_07f57"]
+[ext_resource type="Texture2D" uid="uid://bweg53w7wbhhe" path="res://world_objects/encounter/grass/grass.png" id="1_se2q3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_se2q3"]
+size = Vector2(16, 16)
+
+[node name="GrassTile" type="Area2D" unique_id=141064951]
+z_index = 1
+collision_layer = 4
+script = ExtResource("1_07f57")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=400311385]
+position = Vector2(8, 8)
+texture = ExtResource("1_se2q3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=821798149]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_se2q3")
