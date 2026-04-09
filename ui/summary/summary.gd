@@ -16,7 +16,6 @@ var last_focused_move_button: Button = null
 var moving_index_one: int = -1
 
 @onready var interfaces: CanvasLayer = $".."
-@onready var overworld_text_box: Control = $"../OverworldTextBox"
 @onready var update_handler: Node = $UpdateHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var input_handler: Node = $InputHandler

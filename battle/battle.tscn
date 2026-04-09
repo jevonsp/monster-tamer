@@ -23,7 +23,6 @@
 [ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://battle/_assets/up_arrow.png" id="13_xmbur"]
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="14_tkkqt"]
 [ext_resource type="Script" uid="uid://dr4al47mbytk4" path="res://battle/battle_session.gd" id="15_bsess"]
-[ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="20_xmbur"]
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -646,14 +645,6 @@ offset_right = 1248.0
 offset_bottom = 439.0
 grow_horizontal = 1
 grow_vertical = 1
-
-[node name="BattleTextBox" parent="Content" unique_id=2060252590 instance=ExtResource("20_xmbur")]
-layout_mode = 1
-offset_left = -624.0
-offset_top = -192.0
-offset_right = -20.0
-offset_bottom = -15.0
-in_battle_text_box = true
 
 [node name="AnimationContainer" type="Node2D" parent="." unique_id=1888418741]
 script = ExtResource("5_l1kiu")

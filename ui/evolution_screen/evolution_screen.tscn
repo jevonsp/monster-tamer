@@ -3,10 +3,6 @@
 [ext_resource type="Script" uid="uid://cbihl5weax6vk" path="res://ui/evolution_screen/evolution_screen.gd" id="1_xu87h"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="2_bjk86"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="3_bjk86"]
-[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="4_p685e"]
-[ext_resource type="Script" uid="uid://bb60q0td5nttj" path="res://ui/text_box/text_box.gd" id="5_y2t4w"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="6_lbom2"]
-[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="7_y2t4w"]
 
 [node name="EvolutionScreen" type="Control" unique_id=1601790307]
 z_index = 2
@@ -52,96 +48,3 @@ texture = ExtResource("2_bjk86")
 
 [node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("3_bjk86")]
 layout_mode = 1
-
-[node name="EvolutionTextBox" parent="." unique_id=134393662 instance=ExtResource("4_p685e")]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -304.0
-offset_top = -183.0
-offset_right = 304.0
-offset_bottom = -7.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("5_y2t4w")
-ignore_player_battle_state = true
-skip_if_parent_control_invisible = true
-
-[node name="MarginContainer" type="MarginContainer" parent="EvolutionTextBox" unique_id=2107096033]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 4
-
-[node name="MainLabel" type="Label" parent="EvolutionTextBox/MarginContainer" unique_id=2089869041]
-custom_minimum_size = Vector2(0, 176)
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("6_lbom2")
-theme_override_font_sizes/font_size = 64
-text = "TEXT TEXT TEXT"
-autowrap_mode = 3
-
-[node name="YesNoButtons" type="HBoxContainer" parent="EvolutionTextBox" unique_id=1812975347]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -311.0
-offset_top = -80.0
-offset_bottom = -5.0
-grow_horizontal = 0
-
-[node name="No" parent="EvolutionTextBox/YesNoButtons" unique_id=1279246463 instance=ExtResource("7_y2t4w")]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="EvolutionTextBox/YesNoButtons/No" unique_id=134156606]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("6_lbom2")
-theme_override_font_sizes/font_size = 64
-text = "NO"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="Yes" parent="EvolutionTextBox/YesNoButtons" unique_id=300249547 instance=ExtResource("7_y2t4w")]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="EvolutionTextBox/YesNoButtons/Yes" unique_id=1276162027]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -6.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("6_lbom2")
-theme_override_font_sizes/font_size = 64
-text = "YES"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="Choices" type="HBoxContainer" parent="EvolutionTextBox" unique_id=165685040]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
