@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://gkxr8ot677xm"]
+
+[node name="Grass" type="Area2D" unique_id=1681823401]
+
+[node name="TopSprite" type="Sprite2D" parent="." unique_id=845053880]
+offset = Vector2(8, 8)
+
+[node name="BottomSprite" type="Sprite2D" parent="." unique_id=502088979]
+offset = Vector2(8, 8)
