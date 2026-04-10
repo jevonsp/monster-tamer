@@ -1206,7 +1206,6 @@ animations = [{
 }]
 
 [node name="NPC" type="CharacterBody2D" unique_id=431393256 groups=["interactable"]]
-z_index = 1
 collision_layer = 8
 script = ExtResource("1_nhy3c")
 dialogue = Array[String](["This is test dialogue"])
@@ -1226,7 +1225,7 @@ hframes = 3
 vframes = 3
 
 [node name="TopSprite2D" type="Sprite2D" parent="." unique_id=1688669831]
-z_index = 2
+z_index = 1
 position = Vector2(8, 8)
 texture = ExtResource("3_ihykk")
 offset = Vector2(0, -4)
