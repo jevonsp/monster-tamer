@@ -1,5 +1,5 @@
 class_name WildZone
-extends Node
+extends Node2D
 
 @export_range(0, 1.0) var overall_chance: float = .2
 @export var encounter_table: Array[EncounterEntry] = []

@@ -1,15 +1,17 @@
 extends Node2D
 
+@export var height_level: int = 1
+
 @onready var left_rail: StaticBody2D = $LeftRail
 @onready var right_rail: StaticBody2D = $RightRail
-@onready var elevated_area: Area2D = $ElevatedArea
 
 
-func _on_player_height_level_changed(height_level: int) -> void:
-	match height_level:
-		0:
-			left_rail.process_mode = Node.PROCESS_MODE_DISABLED
-			right_rail.process_mode = Node.PROCESS_MODE_DISABLED
-		1:
-			left_rail.process_mode = Node.PROCESS_MODE_INHERIT
-			right_rail.process_mode = Node.PROCESS_MODE_INHERIT
+func _ready() -> void:
+	Global.player_elevation_changed.connect(_on_player_height_level_changed)
+
+
+func _on_player_height_level_changed(player_height_level: int) -> void:
+	if player_height_level == height_level:
+		process_mode = Node.PROCESS_MODE_ALWAYS
+	else:
+		process_mode = Node.PROCESS_MODE_DISABLED

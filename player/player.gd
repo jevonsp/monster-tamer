@@ -25,7 +25,6 @@ var key_hold_times: Dictionary = { }
 var turn_timer: float = 0.0
 var command_active: bool = false
 var processing: bool = true
-var current_map: TileMapLayer = null
 var respawn_point: Vector2 = Vector2.ZERO
 
 @onready var party_handler: Node = $PartyHandler
@@ -42,6 +41,7 @@ func _ready() -> void:
 	_connect_signals()
 	set_respawn_point()
 	party_handler.create_storage()
+	facing_direction = Vector2.DOWN
 
 
 func _process(delta: float) -> void:
@@ -163,7 +163,9 @@ func start_turning(new_facing_direction: Vector2) -> void:
 
 
 func can_move_in(input_dir: Vector2) -> bool:
-	var tile = _get_next_tile_coords(input_dir)
+	var tile = get_next_tile_coords(input_dir)
+	var current_map = get_current_map()
+	
 	if travel_state == TravelState.SURFING and not TileChecker._is_tile_water(tile, current_map):
 		travel_handler.stop_surfing()
 
@@ -281,11 +283,6 @@ func _open_menu() -> void:
 	if move_progress != 0.0:
 		await Global.step_completed
 	Ui.request_open_menu.emit()
-
-
-func _get_next_tile_coords(dir: Vector2) -> Vector2i:
-	var result: Vector2i = global_position + dir * Vector2(TILE_SIZE, TILE_SIZE)
-	return current_map.local_to_map(result)
 
 
 func _get_walk_speed() -> float:

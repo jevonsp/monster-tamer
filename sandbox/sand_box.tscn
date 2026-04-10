@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://ekfcw0651kvw"]
+[gd_scene format=4 uid="uid://ekfcw0651kvw"]
 
 [ext_resource type="Script" uid="uid://dtsw4jed355h1" path="res://sandbox/sand_box.gd" id="1_viy5y"]
 [ext_resource type="Script" uid="uid://caqok8yjmcdwq" path="res://main/main.gd" id="2_wp8cm"]
@@ -16,6 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://c7ish7puudh7h" path="res://ui/text_entry/text_entry.tscn" id="14_8lu4k"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="15_8amtm"]
 [ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="16_rbotr"]
+[ext_resource type="TileSet" uid="uid://cx48xsjxhlovr" path="res://maps/16x16-tileset-rough.tres" id="17_gofbl"]
+[ext_resource type="Script" uid="uid://c8as8s7103bll" path="res://maps/tile_map.gd" id="17_ikata"]
 [ext_resource type="PackedScene" uid="uid://8ygcbs5f8pca" path="res://player/player.tscn" id="17_m3ckf"]
 [ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_ball.tscn" id="18_o850q"]
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="19_ofnac"]
@@ -42,6 +44,8 @@
 [ext_resource type="PackedScene" uid="uid://gkxr8ot677xm" path="res://world_objects/encounter/grass/grass_tile.tscn" id="40_d23dc"]
 [ext_resource type="PackedScene" uid="uid://qr21fc3gx6hm" path="res://world_objects/interactable/blocker_object/travel_blocker_object/climb_object/climb_object.tscn" id="41_fhnp5"]
 [ext_resource type="PackedScene" uid="uid://ccos473fioo0" path="res://world_objects/interactable/blocker_object/remove_object/cuttable_tree_object/tree_blocker_object.tscn" id="42_tw3rg"]
+[ext_resource type="PackedScene" uid="uid://tptu7vhmkk7k" path="res://world_objects/elevation/elevated_platform.tscn" id="43_n1wy4"]
+[ext_resource type="PackedScene" uid="uid://mlbs8pvbropm" path="res://world_objects/elevation/elevation_changer.tscn" id="44_sq4mn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqjab"]
 size = Vector2(16, 144)
@@ -106,9 +110,17 @@ visible = false
 [node name="TimeKeeper" parent="Main/Trackers" unique_id=1711809460 instance=ExtResource("15_8amtm")]
 
 [node name="TestMap" parent="Main" unique_id=322966199 instance=ExtResource("16_rbotr")]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAEAAAAAAAEAAAAAAAEAAAAAAAIAAAAAAAEAAAAAAAMAAAAAAAEAAAAAAAQAAAAAAAEAAAAAAAUAAAAAAAEAAAAAAAYAAAAAAAEAAAAAAAcAAAAAAAEAAAAAAAgAAAAAAAEAAAAAAAkAAAAAAAEAAAAAAAoAAAAAAAEAAAABAAoAAAAAAAEAAAACAAoAAAAAAAEAAAADAAoAAAAAAAEAAAAEAAoAAAAAAAEAAAAFAAoAAAAAAAEAAAAGAAoAAAAAAAEAAAAHAAoAAAAAAAEAAAAIAAoAAAAAAAEAAAAJAAoAAAAAAAEAAAAKAAoAAAAAAAEAAAALAAoAAAAAAAEAAAAMAAoAAAAAAAEAAAANAAoAAAAAAAEAAAAOAAoAAAAAAAEAAAAPAAoAAAAAAAEAAAAQAAoAAAAAAAEAAAARAAoAAAAAAAEAAAASAAoAAAAAAAEAAAATAAoAAAAAAAEAAAATAAkAAAAAAAEAAAATAAgAAAAAAAEAAAATAAcAAAAAAAEAAAATAAYAAAAAAAEAAAATAAUAAAAAAAEAAAATAAQAAAAAAAEAAAATAAMAAAAAAAEAAAATAAIAAAAAAAEAAAATAAEAAAAAAAEAAAATAAAAAAAAAAEAAAASAAAAAAAAAAEAAAARAAAAAAAAAAEAAAAQAAAAAAAAAAEAAAAPAAAAAAAAAAEAAAAOAAAAAAAAAAEAAAANAAAAAAAAAAEAAAAMAAAAAAAAAAEAAAALAAAAAAAAAAEAAAAKAAAAAAAAAAEAAAAJAAAAAAAAAAEAAAAIAAAAAAAAAAEAAAAHAAAAAAAAAAEAAAAGAAAAAAAAAAEAAAAFAAAAAAAAAAEAAAAEAAAAAAAAAAEAAAADAAAAAAAAAAEAAAACAAAAAAAAAAEAAAABAAAAAAAAAAEAAAADAAcAAAABAAAAAAADAAYAAAABAAAAAAADAAUAAAABAAAAAAADAAQAAAABAAAAAAADAAMAAAABAAAAAAADAAIAAAABAAAAAAADAAEAAAABAAAAAAACAAEAAAABAAAAAAABAAEAAAABAAAAAAABAAIAAAABAAAAAAABAAMAAAABAAAAAAABAAQAAAABAAAAAAABAAUAAAABAAAAAAABAAYAAAABAAAAAAABAAcAAAAAAAAAAAABAAgAAAABAAAAAAABAAkAAAABAAAAAAACAAkAAAABAAAAAAACAAgAAAAAAAEAAAACAAcAAAABAAAAAAACAAYAAAABAAAAAAACAAUAAAABAAAAAAACAAQAAAABAAAAAAACAAMAAAABAAAAAAACAAIAAAABAAAAAAADAAgAAAABAAAAAAADAAkAAAAAAAEAAAAEAAkAAAABAAAAAAAEAAgAAAABAAAAAAAEAAcAAAABAAAAAAAEAAYAAAABAAAAAAAEAAUAAAABAAAAAAAEAAQAAAABAAAAAAAEAAMAAAABAAAAAAAEAAIAAAABAAAAAAAEAAEAAAABAAAAAAAFAAEAAAABAAAAAAAFAAIAAAACAAAAAAAFAAMAAAACAAAAAAAFAAQAAAABAAAAAAAFAAUAAAABAAAAAAAFAAYAAAABAAAAAAAFAAcAAAABAAAAAAAFAAgAAAABAAAAAAAFAAkAAAABAAAAAAAGAAkAAAABAAAAAAAGAAgAAAABAAAAAAAGAAcAAAABAAAAAAAGAAYAAAABAAAAAAAGAAUAAAABAAAAAAAGAAQAAAABAAAAAAAGAAMAAAACAAAAAAAGAAIAAAACAAAAAAAGAAEAAAABAAAAAAAHAAEAAAABAAAAAAAHAAIAAAABAAAAAAAHAAMAAAABAAAAAAAHAAQAAAABAAAAAAAHAAUAAAABAAAAAAAHAAYAAAABAAAAAAAHAAcAAAABAAAAAAAHAAgAAAABAAAAAAAHAAkAAAABAAAAAAAIAAkAAAABAAAAAAAIAAgAAAABAAAAAAAIAAcAAAABAAAAAAAIAAYAAAABAAAAAAAIAAUAAAABAAAAAAAIAAQAAAABAAAAAAAIAAMAAAABAAAAAAAIAAIAAAABAAAAAAAIAAEAAAABAAAAAAAJAAEAAAABAAAAAAAJAAIAAAABAAAAAAAJAAMAAAABAAAAAAAJAAQAAAABAAAAAAAJAAUAAAABAAAAAAAJAAYAAAABAAAAAAAJAAcAAAABAAAAAAAJAAgAAAABAAAAAAAJAAkAAAABAAAAAAAKAAkAAAABAAAAAAAKAAgAAAABAAAAAAAKAAcAAAABAAAAAAAKAAYAAAABAAAAAAAKAAUAAAABAAAAAAAKAAQAAAABAAAAAAAKAAMAAAABAAAAAAAKAAIAAAABAAAAAAAKAAEAAAABAAAAAAALAAEAAAABAAAAAAALAAMAAAABAAAAAAALAAUAAAAAAAEAAAALAAYAAAACAAEAAAALAAcAAAABAAAAAAALAAgAAAABAAAAAAALAAkAAAABAAAAAAAMAAkAAAABAAAAAAAMAAgAAAABAAAAAAAMAAcAAAABAAAAAAAMAAYAAAABAAAAAAAMAAUAAAABAAAAAAAMAAQAAAABAAAAAAAMAAMAAAABAAAAAAAMAAIAAAABAAAAAAAMAAEAAAABAAAAAAANAAEAAAABAAAAAAANAAIAAAABAAAAAAANAAMAAAABAAAAAAANAAQAAAABAAAAAAANAAUAAAABAAAAAAANAAYAAAABAAAAAAANAAcAAAABAAAAAAANAAgAAAABAAAAAAANAAkAAAABAAAAAAAOAAkAAAABAAAAAAAOAAgAAAABAAAAAAAOAAcAAAABAAAAAAAOAAYAAAABAAAAAAAOAAUAAAABAAAAAAAOAAQAAAABAAAAAAAOAAMAAAABAAAAAAAOAAIAAAABAAAAAAAOAAEAAAABAAAAAAAPAAEAAAABAAAAAAAPAAIAAAABAAAAAAAPAAMAAAABAAAAAAAPAAQAAAABAAAAAAAPAAUAAAABAAAAAAAPAAYAAAABAAAAAAAPAAcAAAABAAAAAAAPAAgAAAABAAAAAAAPAAkAAAABAAAAAAAQAAkAAAABAAAAAAAQAAgAAAABAAAAAAAQAAcAAAABAAAAAAAQAAYAAAABAAAAAAAQAAUAAAABAAAAAAAQAAQAAAABAAAAAAAQAAMAAAABAAAAAAAQAAIAAAABAAAAAAAQAAEAAAABAAAAAAARAAEAAAABAAAAAAARAAIAAAABAAAAAAARAAMAAAABAAAAAAARAAQAAAABAAAAAAARAAUAAAABAAAAAAARAAYAAAABAAAAAAARAAcAAAABAAAAAAARAAgAAAABAAAAAAARAAkAAAABAAAAAAASAAkAAAABAAAAAAASAAgAAAABAAAAAAASAAcAAAABAAAAAAASAAYAAAABAAAAAAASAAUAAAABAAAAAAASAAQAAAABAAAAAAASAAMAAAABAAAAAAASAAIAAAABAAAAAAASAAEAAAABAAAAAAAWAAAAAAAAAAEAAAAWAAEAAAAAAAEAAAAWAAIAAAAAAAEAAAAWAAMAAAAAAAEAAAAWAAQAAAAAAAEAAAAWAAUAAAAAAAEAAAAWAAYAAAAAAAEAAAAWAAcAAAAAAAEAAAAWAAgAAAAAAAEAAAAWAAkAAAAAAAEAAAAWAAoAAAAAAAEAAAAXAAAAAAABAAAAAAAXAAEAAAABAAAAAAAYAAEAAAABAAAAAAAYAAIAAAABAAAAAAAYAAMAAAABAAAAAAAYAAQAAAABAAAAAAAZAAQAAAABAAAAAAAaAAQAAAABAAAAAAAaAAUAAAABAAAAAAAaAAYAAAABAAAAAAAaAAcAAAABAAAAAAAbAAcAAAABAAAAAAAcAAcAAAABAAAAAAAXAAIAAAAAAAEAAAAXAAMAAAAAAAEAAAAXAAQAAAAAAAEAAAAXAAUAAAAAAAEAAAAYAAUAAAAAAAEAAAAZAAUAAAAAAAEAAAAZAAYAAAAAAAEAAAAZAAcAAAAAAAEAAAAZAAgAAAAAAAEAAAAaAAgAAAAAAAEAAAAbAAgAAAAAAAEAAAAcAAgAAAAAAAEAAAAYAAAAAAAAAAEAAAAZAAAAAAAAAAEAAAAZAAEAAAAAAAEAAAAZAAIAAAAAAAEAAAAZAAMAAAAAAAEAAAAaAAMAAAAAAAEAAAAbAAMAAAAAAAEAAAAbAAQAAAAAAAEAAAAbAAUAAAAAAAEAAAAbAAYAAAAAAAEAAAAcAAYAAAAAAAEAAAAdAAcAAAABAAAAAAAdAAYAAAABAAAAAAAdAAUAAAABAAAAAAAcAAUAAAABAAAAAAAcAAQAAAABAAAAAAAcAAMAAAABAAAAAAAcAAIAAAABAAAAAAAaAAIAAAABAAAAAAAbAAIAAAABAAAAAAAaAAAAAAAAAAEAAAAaAAEAAAAAAAEAAAAbAAEAAAAAAAEAAAAcAAEAAAAAAAEAAAAdAAEAAAAAAAEAAAAdAAIAAAAAAAEAAAAdAAMAAAAAAAEAAAAdAAQAAAAAAAEAAAAeAAQAAAAAAAEAAAAeAAUAAAAAAAEAAAAeAAYAAAAAAAEAAAAdAAgAAAAAAAEAAAAeAAgAAAAAAAEAAAAfAAgAAAAAAAEAAAAgAAgAAAAAAAEAAAAeAAcAAAABAAAAAAAfAAcAAAABAAAAAAAgAAcAAAABAAAAAAALAAIAAAAAAAEAAAALAAQAAAABAAAAAAA=")
+
+[node name="ElevatedMap" type="TileMapLayer" parent="Main" unique_id=310543678]
+z_index = 2
+tile_map_data = PackedByteArray("AAALAAQAAAAAAAIAAAALAAMAAAAAAAIAAAALAAEAAAACAAEAADALAAIAAAAAAAIAAAALAAUAAAAAAAIAAAA=")
+tile_set = ExtResource("17_gofbl")
+script = ExtResource("17_ikata")
+is_elevated = true
 
 [node name="Player" parent="Main" unique_id=930582059 instance=ExtResource("17_m3ckf")]
-position = Vector2(144, 32)
+position = Vector2(144, 48)
 available_travel_methods = {
 1: true,
 2: false
@@ -178,15 +190,12 @@ y_sort_enabled = true
 
 [node name="Healer(NPC)" parent="Main/NPCs" unique_id=431393256 instance=ExtResource("30_1gchq")]
 position = Vector2(16, 32)
-npc_name = "Healer"
-dialogue = Array[String](["Would you like to heal your monsters?"])
 is_question = true
 
 [node name="NPCServiceComponent" parent="Main/NPCs/Healer(NPC)" unique_id=1491352628 instance=ExtResource("31_oglk4")]
 
 [node name="TutorialBlocker(NPC)" parent="Main/NPCs" unique_id=2004071503 node_paths=PackedStringArray("after_components") instance=ExtResource("30_1gchq")]
 position = Vector2(16, 128)
-dialogue = Array[String](["Sorry! Its dangerous out there."])
 after_components = [NodePath("NPCBlockerComponent")]
 
 [node name="NPCBlockerComponent" parent="Main/NPCs/TutorialBlocker(NPC)" unique_id=1835716855 instance=ExtResource("32_fp6yi")]
@@ -199,7 +208,6 @@ end_facing = 3
 
 [node name="Blocker(NPC)2" parent="Main/NPCs" unique_id=1248251108 instance=ExtResource("30_1gchq")]
 position = Vector2(64, 112)
-dialogue = Array[String]([])
 is_question = true
 
 [node name="NPCBlockerComponent" parent="Main/NPCs/Blocker(NPC)2" unique_id=1084270088 instance=ExtResource("32_fp6yi")]
@@ -211,7 +219,6 @@ post_trigger_dialogue = Array[String](["Thanks for that {item}!"])
 
 [node name="Trader(NPC)" parent="Main/NPCs" unique_id=725337391 node_paths=PackedStringArray("after_components") instance=ExtResource("30_1gchq")]
 position = Vector2(64, 48)
-dialogue = Array[String]([])
 is_question = true
 after_components = [NodePath("NPCServiceComponent")]
 
@@ -227,8 +234,6 @@ I hope you're taking care of my {give}!"])
 
 [node name="TextEntryNPC" parent="Main/NPCs" unique_id=-1445816694 node_paths=PackedStringArray("before_components") instance=ExtResource("30_1gchq")]
 position = Vector2(112, 32)
-npc_name = "Registrar"
-dialogue = Array[String](["Good to meet you!"])
 before_components = [NodePath("NPCTextEntryComponent")]
 
 [node name="NPCTextEntryComponent" parent="Main/NPCs/TextEntryNPC" unique_id=1928834410 instance=ExtResource("34_vqm8p")]
@@ -262,19 +267,33 @@ position = Vector2(8, 72)
 shape = SubResource("RectangleShape2D_vqjab")
 
 [node name="WildZone" parent="Main" unique_id=1776017676 instance=ExtResource("38_4m8j0")]
-overall_chance = 1.0
+overall_chance = 0.0
 encounter_table = Array[ExtResource("39_fjojn")]([SubResource("Resource_yjufm")])
 
 [node name="GrassTile" parent="Main/WildZone" unique_id=141064951 instance=ExtResource("40_d23dc")]
 position = Vector2(16, 112)
 
-[node name="ClimbObjects" type="Node" parent="Main" unique_id=571254049]
-
-[node name="ClimbObject" parent="Main/ClimbObjects" unique_id=788620845 instance=ExtResource("41_fhnp5")]
+[node name="ClimbObject" parent="Main" unique_id=788620845 instance=ExtResource("41_fhnp5")]
 position = Vector2(80, 64)
 
-[node name="RemoveBlockerObjects" type="Node" parent="Main" unique_id=1524785203]
-
-[node name="TreeBlockerObject" parent="Main/RemoveBlockerObjects" unique_id=1420145464 instance=ExtResource("42_tw3rg")]
+[node name="TreeBlockerObject" parent="Main" unique_id=1420145464 instance=ExtResource("42_tw3rg")]
 position = Vector2(144, 16)
 removal_animation_blink_segments = 6
+
+[node name="ElevatedPlatform" parent="Main" unique_id=383548129 instance=ExtResource("43_n1wy4")]
+position = Vector2(160, 64)
+
+[node name="ElevatedPlatform2" parent="Main" unique_id=422314383 instance=ExtResource("43_n1wy4")]
+position = Vector2(160, 48)
+
+[node name="ElevatedPlatform3" parent="Main" unique_id=1054179953 instance=ExtResource("43_n1wy4")]
+position = Vector2(160, 32)
+
+[node name="ElevatedPlatform4" parent="Main" unique_id=1971325643 instance=ExtResource("43_n1wy4")]
+position = Vector2(160, 80)
+
+[node name="ElevationChanger" parent="Main" unique_id=1203446261 instance=ExtResource("44_sq4mn")]
+position = Vector2(176, 96)
+
+[node name="ElevationChanger2" parent="Main" unique_id=70580423 instance=ExtResource("44_sq4mn")]
+position = Vector2(176, 16)

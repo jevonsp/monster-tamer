@@ -258,7 +258,7 @@ position = Vector2(8, 72)
 shape = SubResource("RectangleShape2D_vqjab")
 
 [node name="WildZone" parent="." unique_id=1776017676 instance=ExtResource("37_d7rgo")]
-overall_chance = 1.0
+overall_chance = 0.0
 encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_yjufm")])
 
 [node name="GrassTile" parent="WildZone" unique_id=141064951 instance=ExtResource("4_c651c")]

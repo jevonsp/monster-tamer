@@ -1,21 +1,19 @@
-[gd_resource type="TileSet" format=3 uid="uid://blovkc01lckro"]
+[gd_resource type="TileSet" format=3 uid="uid://cx48xsjxhlovr"]
 
-[ext_resource type="Texture2D" uid="uid://crlicdm0mvmw0" path="res://maps/16x16-tileset-rough.png" id="1_u0fcq"]
+[ext_resource type="Texture2D" uid="uid://crlicdm0mvmw0" path="res://maps/16x16-tileset-rough.png" id="1_slwxu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b71ab"]
-texture = ExtResource("1_u0fcq")
+texture = ExtResource("1_slwxu")
 0:0/0 = 0
 1:0/0 = 0
 0:1/0 = 0
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:1/0 = 0
 2:0/0 = 0
-0:2/0 = 0
-0:2/0/custom_data_1 = true
 2:1/0 = 0
 2:1/0/custom_data_1 = true
-1:2/0 = 0
-1:2/0/custom_data_2 = true
+0:2/0 = 0
+0:2/0/custom_data_1 = true
 
 [resource]
 physics_layer_0/collision_layer = 1
@@ -23,6 +21,4 @@ custom_data_layer_0/name = "is_water"
 custom_data_layer_0/type = 1
 custom_data_layer_1/name = "is_elevated"
 custom_data_layer_1/type = 1
-custom_data_layer_2/name = "under_bridge_deck"
-custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_b71ab")

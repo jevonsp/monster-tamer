@@ -15,10 +15,16 @@ var tile_start_pos: Vector2 = Vector2.ZERO
 var tile_target_pos: Vector2 = Vector2.ZERO
 var move_progress: float = 0.0
 var eventual_target_pos: Vector2 = Vector2.ZERO
+var height_level: int = 0:
+	set(value):
+		height_level = value
+		manage_height()
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var anim_state: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
+@onready var top_sprite_2d: Sprite2D = $TopSprite2D
+@onready var bottom_sprite_2d: Sprite2D = $BottomSprite2D
 
 
 func _ready() -> void:
@@ -150,6 +156,35 @@ func animate_move(delta: float) -> void:
 	if not check_able_to_move(dir_vec):
 		finish_move_to_idle((tile_target_pos - tile_start_pos).normalized())
 		finished_walk_segment.emit()
+
+
+func get_current_map() -> TileMapLayer:
+	var current_map = Global.base_map if height_level == 0 else Global.elevated_map
+	return current_map
+
+
+func get_tile_coords() -> Vector2i:
+	var current_map = get_current_map()
+	var cell = current_map.local_to_map(global_position)
+	return cell
+
+
+func get_next_tile_coords(dir: Vector2) -> Vector2i:
+	var result: Vector2i = global_position + dir * Vector2(TILE_SIZE, TILE_SIZE)
+	var current_map = get_current_map()
+	var cell = current_map.local_to_map(result)
+	return cell
+
+
+func manage_height() -> void:
+	if height_level == 0:
+		ray_cast_2d.set_collision_mask_value(1, true)
+		ray_cast_2d.set_collision_mask_value(4, true)
+		z_index = 0
+	if height_level == 1:
+		z_index = 2
+		ray_cast_2d.set_collision_mask_value(8, true)
+		ray_cast_2d.set_collision_mask_value(11, true)
 
 
 func _get_walk_speed() -> float:

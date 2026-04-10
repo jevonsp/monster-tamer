@@ -11,8 +11,6 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-	set_references()
-
 
 func _process(_delta: float) -> void:
 	if Input.is_key_pressed(KEY_Q):
@@ -22,7 +20,3 @@ func _process(_delta: float) -> void:
 func _input(event):
 	if event is InputEventMouse:
 		get_viewport().set_input_as_handled()
-
-
-func set_references() -> void:
-	player.current_map = test_map

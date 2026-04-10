@@ -30,3 +30,15 @@ func choose_encounter() -> void:
 			Battle.wild_battle_requested.emit(e.monster, level)
 			Battle.battle_started.emit()
 			return
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is Player:
+		body.bottom_sprite_2d.visible = false
+		body.top_sprite_2d.z_index = 1
+
+
+func _on_body_exited(body: Node2D) -> void:
+	if body is Player:
+		body.bottom_sprite_2d.visible = true
+		body.top_sprite_2d.z_index = 0
