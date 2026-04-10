@@ -1,5 +1,6 @@
 extends Node
 
+# gdlint:ignore-file:god-class-signals
 @warning_ignore_start("unused_signal")
 signal switch_ui_context(new_context: Global.AccessFrom)
 signal send_text_box(
@@ -41,8 +42,6 @@ signal choice_given(choice: String)
 
 
 @warning_ignore_restore("unused_signal")
-
-
 func await_choice(question: Array[String], choices: Array[String]) -> String:
 	var wait_state: Dictionary = { "done": false, "choice": "" }
 	var _on_pick := func(choice: String) -> void:

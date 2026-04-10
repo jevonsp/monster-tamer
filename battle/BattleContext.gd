@@ -1,6 +1,7 @@
 class_name BattleContext
 extends RefCounted
 
+# gdlint:god-class-functions
 var handler: Node
 var battle: Control
 

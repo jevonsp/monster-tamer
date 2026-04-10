@@ -1,5 +1,6 @@
 extends Node
 
+# gdlint:ignore-file:god-class-signals
 @warning_ignore_start("unused_signal")
 signal toggle_in_battle
 signal battle_started

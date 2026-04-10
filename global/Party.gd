@@ -1,5 +1,6 @@
 extends Node
 
+# gdlint:ignore-file:god-class-signals
 @warning_ignore_start("unused_signal")
 signal capture_monster(monster: Monster)
 signal send_player_party(party: Array[Monster])
