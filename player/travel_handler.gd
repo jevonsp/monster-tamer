@@ -30,22 +30,25 @@ func stop_climbing() -> void:
 func get_available_travel_methods() -> Array[Player.TravelState]:
 	var travel_methods: Array[Player.TravelState] = [Player.TravelState.DEFAULT]
 
-	if can_surf():
+	if _party_has_move(SURF):
 		travel_methods.append(Player.TravelState.SURFING)
 
-	if can_climb():
+	if _party_has_item(CLIMBING_SHOES):
 		travel_methods.append(Player.TravelState.CLIMBING)
 
 	return travel_methods
 
 
 func get_available_removal_methods() -> Array[RemoveBlockerObject.RemovalType]:
-	var out: Array[RemoveBlockerObject.RemovalType] = []
+	var removal_methods: Array[RemoveBlockerObject.RemovalType] = []
+
 	if _party_has_move(CUT):
-		out.append(RemoveBlockerObject.RemovalType.CUT)
+		removal_methods.append(RemoveBlockerObject.RemovalType.CUT)
+
 	if _party_has_move(ROCK_SMASH):
-		out.append(RemoveBlockerObject.RemovalType.SMASH)
-	return out
+		removal_methods.append(RemoveBlockerObject.RemovalType.SMASH)
+
+	return [RemoveBlockerObject.RemovalType.CUT, RemoveBlockerObject.RemovalType.SMASH]
 
 
 func _party_has_move(move_res: Move) -> bool:
@@ -56,15 +59,7 @@ func _party_has_move(move_res: Move) -> bool:
 	return false
 
 
-func can_surf() -> bool:
-	for monster: Monster in Player.party.party:
-		for move in monster.moves:
-			if move == SURF:
-				return true
-	return false
-
-
-func can_climb() -> bool:
-	if Player.inventory.has_item(CLIMBING_SHOES):
+func _party_has_item(item: Item) -> bool:
+	if Player.inventory.has_item(item):
 		return true
 	return false

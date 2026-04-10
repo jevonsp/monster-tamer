@@ -7,3 +7,6 @@
 script = ExtResource("2_uv6hm")
 permanence = 0
 removal_type = 0
+removal_animation_blink_segments = 8
+removal_animation_start_duration = 0.1
+removal_animation_speedup = 0.55
