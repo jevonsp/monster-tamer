@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://battle/_assets/up_arrow.png" id="13_xmbur"]
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="14_tkkqt"]
 [ext_resource type="Script" uid="uid://dr4al47mbytk4" path="res://battle/battle_session.gd" id="15_bsess"]
+[ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="20_xmbur"]
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -433,6 +434,14 @@ layout_mode = 2
 texture = ExtResource("13_xmbur")
 expand_mode = 3
 
+[node name="MoveDescriptionPanel" parent="Content" unique_id=253956150 instance=ExtResource("20_xmbur")]
+layout_mode = 0
+offset_left = 656.0
+offset_top = 528.0
+offset_right = 1270.0
+offset_bottom = 704.0
+focus_mode = 0
+
 [node name="OptionButtons" type="GridContainer" parent="Content" unique_id=543327414]
 layout_mode = 1
 anchors_preset = 2
@@ -525,14 +534,14 @@ text = "Run"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Panel" parent="Content" unique_id=134393662 instance=ExtResource("13_sf8fp")]
+[node name="PlayerPanel" parent="Content" unique_id=647968432 instance=ExtResource("13_sf8fp")]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 16.0
 offset_right = 384.0
 offset_bottom = 144.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Content/Panel" unique_id=1556672689]
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/PlayerPanel" unique_id=1556672689]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -541,7 +550,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="PlayerLevelLabel" type="Label" parent="Content/Panel/VBoxContainer" unique_id=991289335]
+[node name="PlayerLevelLabel" type="Label" parent="Content/PlayerPanel/VBoxContainer" unique_id=991289335]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -552,7 +561,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("2_7fucf")
 
-[node name="PlayerNameLabel" type="Label" parent="Content/Panel/VBoxContainer" unique_id=1127918032]
+[node name="PlayerNameLabel" type="Label" parent="Content/PlayerPanel/VBoxContainer" unique_id=1127918032]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -589,14 +598,14 @@ offset_top = 441.0
 offset_right = 416.0
 offset_bottom = 468.0
 
-[node name="Panel2" parent="Content" unique_id=1322883269 instance=ExtResource("13_sf8fp")]
+[node name="EnemyPanel" parent="Content" unique_id=1322883269 instance=ExtResource("13_sf8fp")]
 layout_mode = 0
 offset_left = 896.0
 offset_top = 16.0
 offset_right = 1200.0
 offset_bottom = 144.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Content/Panel2" unique_id=938017519]
+[node name="VBoxContainer" type="VBoxContainer" parent="Content/EnemyPanel" unique_id=938017519]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -605,7 +614,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="EnemyLevelLabel" type="Label" parent="Content/Panel2/VBoxContainer" unique_id=1141364250]
+[node name="EnemyLevelLabel" type="Label" parent="Content/EnemyPanel/VBoxContainer" unique_id=1141364250]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -615,7 +624,7 @@ text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyNameLabel" type="Label" parent="Content/Panel2/VBoxContainer" unique_id=294592335]
+[node name="EnemyNameLabel" type="Label" parent="Content/EnemyPanel/VBoxContainer" unique_id=294592335]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)

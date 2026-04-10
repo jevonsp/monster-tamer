@@ -164,7 +164,7 @@ func start_turning(new_facing_direction: Vector2) -> void:
 
 func can_move_in(input_dir: Vector2) -> bool:
 	var tile = _get_next_tile_coords(input_dir)
-	if travel_state == TravelState.SURFING and not _is_tile_water(tile):
+	if travel_state == TravelState.SURFING and not TileChecker._is_tile_water(tile, current_map):
 		travel_handler.stop_surfing()
 
 	return try_start_move(input_dir)
@@ -240,7 +240,6 @@ func set_respawn_point() -> void:
 func _connect_signals() -> void:
 	Battle.toggle_in_battle.connect(toggle_in_battle)
 	Global.send_respawn_player.connect(_respawn)
-	Global.toggle_player.connect(func(): processing = not processing)
 	party_handler._connect_signals()
 	inventory_handler._connect_signals()
 	player_info_handler._connect_signals()
@@ -287,10 +286,6 @@ func _open_menu() -> void:
 func _get_next_tile_coords(dir: Vector2) -> Vector2i:
 	var result: Vector2i = global_position + dir * Vector2(TILE_SIZE, TILE_SIZE)
 	return current_map.local_to_map(result)
-
-
-func _is_tile_water(tile: Vector2i) -> bool:
-	return current_map.get_cell_atlas_coords(tile) == Vector2i(2, 0)
 
 
 func _get_walk_speed() -> float:

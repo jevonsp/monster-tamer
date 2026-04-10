@@ -38,8 +38,8 @@ var _battle_intro_text_done: bool = false
 @onready var move_buttons_grid: GridContainer = $Content/MoveButtons
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player_labels: Dictionary = {
-	level = $Content/Panel/VBoxContainer/PlayerLevelLabel,
-	name = $Content/Panel/VBoxContainer/PlayerNameLabel,
+	level = $Content/PlayerPanel/VBoxContainer/PlayerLevelLabel,
+	name = $Content/PlayerPanel/VBoxContainer/PlayerNameLabel,
 }
 @onready var player_display: Dictionary = {
 	texture = $Content/PlayerTextureRect,
@@ -47,8 +47,8 @@ var _battle_intro_text_done: bool = false
 	exp_bar = $Content/PlayerEXPBar,
 }
 @onready var enemy_labels: Dictionary = {
-	level = $Content/Panel2/VBoxContainer/EnemyLevelLabel,
-	name = $Content/Panel2/VBoxContainer/EnemyNameLabel,
+	level = $Content/EnemyPanel/VBoxContainer/EnemyLevelLabel,
+	name = $Content/EnemyPanel/VBoxContainer/EnemyNameLabel,
 }
 @onready var enemy_display: Dictionary = {
 	texture = $Content/EnemyTextureRect,
@@ -147,6 +147,8 @@ func _start_trainer_battle(trainer: Trainer) -> void:
 
 
 func _switch_to_battle() -> void:
+	if interfaces.has_method("end_field_suppress"):
+		interfaces.end_field_suppress()
 	visibility_focus_handler.display_current_monsters()
 	_toggle_visible()
 	_toggle_player()

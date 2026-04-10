@@ -89,8 +89,8 @@ func apply_layout_for_mode(mode: LayoutMode) -> void:
 			anchor_bottom = 1.0
 			offset_left = -624.0
 			offset_top = -192.0
-			offset_right = -20.0
-			offset_bottom = -15.0
+			offset_right = -10.0
+			offset_bottom = -16.0
 			grow_horizontal = Control.GROW_DIRECTION_BEGIN
 			grow_vertical = Control.GROW_DIRECTION_BEGIN
 			yes_no_buttons.anchor_left = 1.0

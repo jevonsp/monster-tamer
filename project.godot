@@ -27,6 +27,7 @@ ItemInteraction="*res://game/item_interaction.gd"
 StoreService="*res://game/store_service.gd"
 MoveLearningService="*res://game/move_learning_service.gd"
 FieldCapability="*res://game/field_capability.gd"
+TileChecker="*uid://dh1ixbfe55bx8"
 
 [display]
 

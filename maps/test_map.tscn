@@ -14,6 +14,8 @@ texture = ExtResource("1_6slyc")
 
 [sub_resource type="TileSet" id="TileSet_pwco0"]
 physics_layer_0/collision_layer = 1
+custom_data_layer_0/name = "is_water"
+custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_b71ab")
 
 [node name="TestMap" type="TileMapLayer" unique_id=322966199]

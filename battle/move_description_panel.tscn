@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cf7itccq63me3"]
+
+[ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_oe66n"]
+[ext_resource type="Script" uid="uid://btq05ktrhy7w" path="res://battle/move_description_panel.gd" id="2_whtqg"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="3_4eio3"]
+
+[node name="MoveDescriptionPanel" type="Panel" unique_id=1383721063]
+offset_right = 608.0
+offset_bottom = 176.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("1_oe66n")
+script = ExtResource("2_whtqg")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1285171235]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="MainLabel" type="Label" parent="MarginContainer" unique_id=1564533826]
+custom_minimum_size = Vector2(0, 176)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("3_4eio3")
+theme_override_font_sizes/font_size = 64
+autowrap_mode = 3

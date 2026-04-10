@@ -89,6 +89,7 @@ visible = false
 layer = 6
 
 [node name="GameTextBox" parent="Interfaces/DialogueCanvas" unique_id=2060252590 instance=ExtResource("9_n53tw")]
+visible = false
 
 [node name="InfoHUD" parent="Interfaces" unique_id=1085189325 instance=ExtResource("12_t1yuj")]
 visible = false

@@ -1,5 +1,8 @@
 extends Node
 
+signal send_move_helper_panel_info(move: Move, player_actor: Monster, enemy_actor: Monster)
+signal send_move_description_info(move: Move, move_pp: Dictionary[Move, int])
+
 enum VisibilityState { OPTIONS, MOVES }
 
 const BUTTON_PANEL_FOCUS_DEFAULT_STYLEBOX = preload("uid://ben02j7eumnqj")
@@ -15,6 +18,7 @@ var moving_index_one: int = -1
 @onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 @onready var turn_executor: Node = $"../TurnExecutor"
 @onready var move_info_helper_panel: Panel = $"../Content/MoveInfoHelperPanel"
+@onready var move_description_panel: Button = $"../Content/MoveDescriptionPanel"
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -36,6 +40,7 @@ func connect_signals() -> void:
 	for child in battle.move_buttons_grid.get_children():
 		if child is Button:
 			child.focus_entered.connect(_on_move_focus_entered.bind(child))
+	send_move_description_info.connect(move_description_panel._display_move)
 
 
 func change_vis_state(new_state: VisibilityState) -> void:
@@ -219,10 +224,13 @@ func _on_move_focus_entered(button: Button) -> void:
 	if idx < 0 or idx >= battle.player_actor.moves.size():
 		return
 	var move = battle.player_actor.moves[idx]
-	var player_actor = battle.player_actor
-	var enemy_actor = battle.enemy_actor
+	var player_actor: Monster = battle.player_actor
+	var enemy_actor: Monster = battle.enemy_actor
 
-	Ui.send_move_helper_panel_info.emit(move, player_actor, enemy_actor)
+	if player_actor:
+		send_move_description_info.emit(move, player_actor.move_pp)
+	if player_actor and enemy_actor:
+		send_move_helper_panel_info.emit(move, player_actor, enemy_actor)
 
 
 func _drop_focus() -> void:

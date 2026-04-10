@@ -30,7 +30,6 @@ signal move_learning_finished
 signal request_open_storage
 signal request_open_store(store_component: NPCStoreComponent)
 signal grab_default_battle_focus
-signal send_move_helper_panel_info(move: Move, player_actor: Monster, enemy_actor: Monster)
 signal update_save_info
 signal request_text_entry
 signal text_enter_pressed(chosen_string: String)

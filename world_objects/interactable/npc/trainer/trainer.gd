@@ -94,7 +94,9 @@ func _check_vision_collision(pos: Vector2) -> void:
 		for i in range(len(tiles_in_sight)):
 			if pos == tiles_in_sight[i]:
 				Party.player_party_requested.emit()
-				Global.toggle_player.emit()
+				var interfaces := get_tree().get_first_node_in_group("interfaces")
+				if interfaces and interfaces.has_method("begin_field_suppress"):
+					interfaces.begin_field_suppress()
 				await animate_exclamation()
 				if i > 0:
 					await walk_list_tiles([tiles_in_sight[i - 1]])
