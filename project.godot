@@ -27,7 +27,6 @@ ItemInteraction="*res://game/item_interaction.gd"
 StoreService="*res://game/store_service.gd"
 MoveLearningService="*res://game/move_learning_service.gd"
 FieldCapability="*res://game/field_capability.gd"
-FieldMaps="*res://game/field_maps.gd"
 TileChecker="*uid://dh1ixbfe55bx8"
 
 [display]
@@ -143,8 +142,6 @@ option={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Zones"
 2d_physics/layer_4="Interactables"
-2d_physics/layer_8="Elevated"
-2d_physics/layer_9="Elevated Interactables"
 
 [physics]
 

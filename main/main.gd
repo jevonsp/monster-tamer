@@ -6,11 +6,12 @@ extends Node2D
 
 
 func _ready() -> void:
-	FieldMaps.register(test_map, null)
 	get_window().grab_focus()
 	get_window().size = Vector2i(Global.GAME_WIDTH, Global.GAME_HEIGHT)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+	set_references()
 
 
 func _process(_delta: float) -> void:
@@ -21,3 +22,7 @@ func _process(_delta: float) -> void:
 func _input(event):
 	if event is InputEventMouse:
 		get_viewport().set_input_as_handled()
+
+
+func set_references() -> void:
+	player.current_map = test_map
