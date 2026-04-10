@@ -44,7 +44,6 @@ func _on_monster_gained_experience(monster: Monster, amount: int) -> void:
 		else:
 			tween_bar(amount)
 	elif active:
-		# Unblock EXP grants for non-displayed monsters in battle.
 		Battle.experience_animation_complete.emit()
 
 

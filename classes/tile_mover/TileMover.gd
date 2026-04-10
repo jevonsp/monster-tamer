@@ -1,6 +1,8 @@
 class_name TileMover
 extends CharacterBody2D
 
+const _PHYSICS_MASKS := preload("res://classes/physics_layer_masks.gd")
+
 signal finished_turn
 signal finished_walk_segment
 
@@ -30,6 +32,7 @@ var height_level: int = 0:
 func _ready() -> void:
 	sync_tile_positions()
 	eventual_target_pos = global_position
+	manage_height()
 
 
 func sync_tile_positions() -> void:
@@ -93,8 +96,6 @@ func finish_move_to_idle(last_move_dir: Vector2 = Vector2.ZERO) -> void:
 func walk_list_tiles(tiles: Array[Vector2]) -> void:
 	for tile in tiles:
 		await walk_to_tile(tile)
-		# walk_to_tile emits finished_walk_segment immediately when already at the tile or
-		# when the raycast says blocked; only await when a real walk step was started.
 		if current_state == MoveState.MOVING:
 			await finished_walk_segment
 
@@ -177,14 +178,14 @@ func get_next_tile_coords(dir: Vector2) -> Vector2i:
 
 
 func manage_height() -> void:
+	if ray_cast_2d == null:
+		return
 	if height_level == 0:
-		ray_cast_2d.set_collision_mask_value(1, true)
-		ray_cast_2d.set_collision_mask_value(4, true)
 		z_index = 0
-	if height_level == 1:
+		ray_cast_2d.collision_mask = _PHYSICS_MASKS.RAY_MOVEMENT_GROUND
+	else:
 		z_index = 2
-		ray_cast_2d.set_collision_mask_value(8, true)
-		ray_cast_2d.set_collision_mask_value(11, true)
+		ray_cast_2d.collision_mask = _PHYSICS_MASKS.RAY_MOVEMENT_ELEVATED
 
 
 func _get_walk_speed() -> float:

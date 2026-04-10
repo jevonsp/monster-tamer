@@ -1,7 +1,5 @@
 class_name BattleSession
 extends Node
-## Battle combatant state and setup (no Control).
-
 
 var player_actor: Monster
 var enemy_actor: Monster

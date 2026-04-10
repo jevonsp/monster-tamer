@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="1_x35b0"]
 [ext_resource type="Script" uid="uid://c7nq2b8k4pm0w" path="res://world_objects/interactable/npc/components/npc_blocker_component.gd" id="2_blocker"]
 
-[node name="BlockerNPC" unique_id=431393256 instance=ExtResource("1_x35b0")]
+[node name="BlockerNPC" instance=ExtResource("1_x35b0")]
 dialogue = Array[String]([])
 
-[node name="NPCBlockerComponent" type="Node" parent="." index="7" unique_id=1491352628]
+[node name="NPCBlockerComponent" type="Node" parent="."]
 script = ExtResource("2_blocker")

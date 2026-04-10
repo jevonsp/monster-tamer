@@ -18,7 +18,6 @@ enum State { INCOMPLETE, COMPLETE }
 @export var monster_to_give: MonsterData
 @export_group("Trade (item swap)")
 @export var offers_item_trade: bool = false
-## If unset, the NPC only gives [member item_to_give] (no inventory check).
 @export var item_to_take: Item
 @export var item_to_give: Item
 @export_group("Post-complete")

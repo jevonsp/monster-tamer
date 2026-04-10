@@ -7,9 +7,7 @@ const _CAPS_LOCK_LABEL := "cap"
 var can_cancel: bool = true
 var cancel_message: String = "Enter a name!"
 var processing: bool = false
-## When true, Enter confirms even if the buffer is empty (gameplay sets this before opening).
 var allow_empty_submit: bool = false
-## Maximum characters; 0 means unlimited.
 var max_input_length: int = 13
 var string: String = "":
 	set(value):
@@ -287,14 +285,12 @@ func _link_letter_grid_with_top_strip() -> void:
 	if letter == null or top == null:
 		return
 	var cols: int = mini(mini(letter.columns, top.columns), 10)
-	# Letter grid is 3×10: row0 = 0–9, row2 = 20–29.
 	for col in range(cols):
 		var letter_top: Control = letter.get_child(col) as Control
 		var letter_bot: Control = letter.get_child(20 + col) as Control
 		var strip_btn: Control = top.get_child(col) as Control
 		if letter_top == null or letter_bot == null or strip_btn == null:
 			continue
-		# Top strip sits above the letter block: strip <-> letter row 0, and vertical wrap with letter row 2.
 		letter_top.set_focus_neighbor(SIDE_TOP, letter_top.get_path_to(strip_btn))
 		strip_btn.set_focus_neighbor(SIDE_BOTTOM, strip_btn.get_path_to(letter_top))
 		letter_bot.set_focus_neighbor(SIDE_BOTTOM, letter_bot.get_path_to(strip_btn))

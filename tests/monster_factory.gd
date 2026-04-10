@@ -1,8 +1,3 @@
-## Shared factories for GUT tests (not a GutTest script — keep filename without `test_` prefix).
-##
-## Leak tracking: Monster and StatusInstance form reference cycles (statuses[] <-> owner).
-## RefCounted is freed by refcount only, so cycles survive until exit ("resources still in use").
-## cleanup_round() breaks those cycles for monsters created via make_monster().
 class_name MonsterFactory
 extends RefCounted
 
@@ -42,7 +37,6 @@ static func make_monster(
 	return m
 
 
-## Clears owner links and embedded refs so [Monster] instances from [method make_monster] can drop to refcount 0.
 static func release_monster_for_test(m: Monster) -> void:
 	if m == null:
 		return
@@ -56,7 +50,6 @@ static func release_monster_for_test(m: Monster) -> void:
 	m.stat_stages_and_multis = null
 
 
-## Call from [method GutTest.after_each] (see [code]monster_tamer_test.gd[/code]) after other teardown.
 static func cleanup_round() -> void:
 	for m in _created:
 		if m != null and is_instance_valid(m):
@@ -64,7 +57,6 @@ static func cleanup_round() -> void:
 	_created.clear()
 
 
-## Returns [BattleContext, nodes_to_free: Array[Node]]
 static func make_battle_context() -> Array:
 	var handler := Node.new()
 	var battle := Control.new()
