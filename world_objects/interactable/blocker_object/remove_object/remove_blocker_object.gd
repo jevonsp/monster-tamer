@@ -13,13 +13,9 @@ enum RemovalType { NONE, CUT, SMASH }
 var _active_removal_tween: Tween
 
 
-func _ready() -> void:
-	toggle_mode(state)
-
-
-func interact(body: Player) -> void:
+func interact(_body: Player) -> void:
 	var ta: Array[String]
-	if removal_type not in body.travel.get_available_removal_methods():
+	if removal_type not in FieldCapability.get_available_removal_methods():
 		ta = [cant_interact_text]
 		Ui.send_text_box.emit(null, ta, false, false, true)
 		await Ui.text_box_complete
@@ -43,21 +39,16 @@ func interact(body: Player) -> void:
 			toggle_mode(State.PASSABLE)
 
 
-func toggle_mode(new_state: State) -> void:
-	state = new_state
+func _apply_state_to_collision() -> void:
+	if _active_removal_tween != null and is_instance_valid(_active_removal_tween):
+		_active_removal_tween.kill()
+		_active_removal_tween = null
+	modulate = Color.WHITE
 	match state:
 		State.NOT_PASSABLE:
-			if _active_removal_tween != null and is_instance_valid(_active_removal_tween):
-				_active_removal_tween.kill()
-				_active_removal_tween = null
-			modulate = Color.WHITE
 			collision_shape_2d.disabled = false
 			visible = true
 		State.PASSABLE:
-			if _active_removal_tween != null and is_instance_valid(_active_removal_tween):
-				_active_removal_tween.kill()
-				_active_removal_tween = null
-			modulate = Color.WHITE
 			collision_shape_2d.disabled = true
 			visible = false
 

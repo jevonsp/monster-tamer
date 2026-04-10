@@ -1,3 +1,4 @@
+class_name StoryFlagHandler
 extends Node
 
 @export var story_flags: Dictionary[Story.Flag, bool] = {

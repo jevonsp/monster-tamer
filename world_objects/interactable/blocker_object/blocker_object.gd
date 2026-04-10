@@ -12,7 +12,7 @@ enum State { NOT_PASSABLE, PASSABLE }
 
 
 func _ready() -> void:
-	pass
+	_apply_state_to_collision()
 
 
 func interact(_body: Player) -> void:
@@ -23,7 +23,10 @@ func toggle_mode(new_state: State) -> void:
 	if new_state == state:
 		return
 	state = new_state
+	_apply_state_to_collision()
 
+
+func _apply_state_to_collision() -> void:
 	match state:
 		State.NOT_PASSABLE:
 			collision_shape_2d.disabled = false
@@ -44,3 +47,4 @@ func on_load_game(saved_data_array: Array[SavedData]) -> void:
 	for data: SavedData in saved_data_array:
 		if data.node_path == get_path():
 			state = data.state as State
+			_apply_state_to_collision()

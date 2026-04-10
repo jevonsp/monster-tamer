@@ -1,3 +1,4 @@
+class_name PartyHandler
 extends Node
 
 const MAX_PARTY_SIZE := 6

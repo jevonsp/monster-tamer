@@ -5,11 +5,11 @@ enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
 
 static var in_battle: bool = false
 
-static var party
-static var inventory
-static var story_flag
-static var player_info
-static var travel
+static var party: PartyHandler
+static var inventory: InventoryHandler
+static var story_flag: StoryFlagHandler
+static var travel: TravelHandler
+static var player_info: Info
 
 const  TURN_DURATION := 0.1
 
