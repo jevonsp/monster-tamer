@@ -6,6 +6,7 @@ const INTRO_SEQUENCE = preload("uid://b5hcw5xmokpiu")
 @onready var continue_button: Button = $BoxContainer/Continue
 @onready var new_game_button: Button = $BoxContainer/NewGame
 @onready var erase_save_button: Button = $BoxContainer/EraseSave
+@onready var game_text_box: GameTextBox = $DialogueCanvas/GameTextBox
 
 
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _ready() -> void:
 
 	_prepare_buttons()
 	_bind_buttons()
+	_connect_signals()
 
 
 func _prepare_buttons() -> void:
@@ -36,14 +38,22 @@ func _bind_buttons() -> void:
 		b.pressed.connect(_on_button_pressed.bind(b))
 
 
+func _connect_signals() -> void:
+	game_text_box.bind_ui_signals()
+
+
 func _on_button_pressed(button: Button) -> void:
 	match button.name:
 		"Continue":
 			_continue()
 		"NewGame":
-			_new_game()
+			if not SaverLoader.save_game_exists():
+				_new_game()
+			else:
+				await _delete_save_process()
 		"EraseSave":
-			_erase_save()
+			if SaverLoader.save_game_exists():
+				await _delete_save_process()
 
 
 func _toggle_button(button: Button, is_enabled: bool) -> void:
@@ -70,6 +80,20 @@ func _new_game() -> void:
 	main.interfaces.add_child(intro)
 	intro.play_intro_sequence()
 	_close_title_screen()
+
+
+func _delete_save_process() -> void:
+	var ta: Array[String] = ["Are you sure you want to delete your saved game?"]
+	Ui.send_text_box.emit(null, ta, false, true, false)
+	var answer = await Ui.answer_given
+	if answer:
+		ta = ["Are you really sure?"]
+		Ui.send_text_box.emit(null, ta, false, true, false)
+		game_text_box.no_button.call_deferred("grab_focus")
+		answer = await Ui.answer_given
+		if answer:
+			_erase_save()
+	erase_save_button.grab_focus()
 
 
 func _erase_save() -> void:

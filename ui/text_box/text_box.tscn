@@ -21,6 +21,7 @@ offset_right = -4.0
 offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_neighbor_top = NodePath(".")
 theme_override_styles/normal = ExtResource("1_axbkh")
 theme_override_styles/pressed = ExtResource("4_au0nu")
 theme_override_styles/hover = ExtResource("5_856fh")
@@ -62,6 +63,7 @@ grow_horizontal = 0
 [node name="No" type="Button" parent="YesNoButtons" unique_id=752553216]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_bottom = NodePath(".")
 theme_override_fonts/font = ExtResource("4_856fh")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("1_axbkh")
@@ -89,6 +91,7 @@ autowrap_mode = 3
 [node name="Yes" type="Button" parent="YesNoButtons" unique_id=1187289545]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_bottom = NodePath(".")
 theme_override_fonts/font = ExtResource("4_856fh")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("1_axbkh")

@@ -191,7 +191,8 @@ func _focus_text_box() -> void:
 	if visible and not is_question:
 		if choices_buttons.visible and choices_buttons.get_child_count() > 0:
 			return
-		text_box.grab_focus()
+		if is_inside_tree():
+			text_box.grab_focus()
 
 
 func _advance_text() -> void:
