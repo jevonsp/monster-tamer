@@ -26,7 +26,7 @@ func play_intro_sequence() -> void:
 		pass
 
 	var entered_name: String = outcome.get("text", "") as String
-	Player.player_info.player_name = entered_name
+	Player.info.player_name = entered_name
 
 	ta = ["So you're called %s" % entered_name]
 	Ui.send_text_box.emit(null, ta, false, false, false)
@@ -38,13 +38,13 @@ func play_intro_sequence() -> void:
 	var response: String = ""
 	match entered_gender:
 		"Enby":
-			Player.player_info.player_gender = Info.Gender.NB
+			Player.info.player_gender = Info.Gender.NB
 			response = "a cool person!"
 		"Girl":
-			Player.player_info.player_gender = Info.Gender.FEMALE
+			Player.info.player_gender = Info.Gender.FEMALE
 			response = "a girl!"
 		"Boy":
-			Player.player_info.player_gender = Info.Gender.MALE
+			Player.info.player_gender = Info.Gender.MALE
 			response = "a boy!"
 
 	ta = ["I'll address you as %s" % response]
@@ -60,7 +60,7 @@ func play_intro_sequence() -> void:
 	a_model_button.call_deferred("grab_focus")
 
 	var choice = await model_choice
-	Player.player_info.player_model = choice
+	Player.info.player_model = choice
 
 	model_buttons.visible = false
 	if interfaces.has_method("end_field_suppress"):

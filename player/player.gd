@@ -7,9 +7,9 @@ static var in_battle: bool = false
 
 static var party: PartyHandler
 static var inventory: InventoryHandler
-static var story_flag: StoryFlagHandler
+static var story_flags: StoryFlagHandler
 static var travel: TravelHandler
-static var player_info: Info
+static var info: Info
 
 const  TURN_DURATION := 0.1
 
@@ -38,9 +38,9 @@ var respawn_point: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	super()
 	add_to_group("player")
+	_set_static_refs()
 	_connect_signals()
 	set_respawn_point()
-	_set_static_refs()
 	party_handler.create_storage()
 
 
@@ -68,7 +68,13 @@ func _physics_process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if not processing or command_active:
+	if command_active:
+		if event.is_action_pressed("menu"):
+			get_viewport().set_input_as_handled()
+		return
+	if not processing:
+		if event.is_action_pressed("menu"):
+			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed("yes"):
 		_attempt_interaction()
@@ -81,11 +87,10 @@ func _input(event: InputEvent) -> void:
 func _set_static_refs() -> void:
 	party = party_handler
 	inventory = inventory_handler
-	story_flag = story_flag_handler
-	player_info = player_info_handler
-	player_info.player = self
+	story_flags = story_flag_handler
+	info = player_info_handler
+	info.player = self
 	travel = travel_handler
-	
 
 
 func update_held_keys(delta: float) -> void:
@@ -235,8 +240,10 @@ func set_respawn_point() -> void:
 func _connect_signals() -> void:
 	Battle.toggle_in_battle.connect(toggle_in_battle)
 	Global.send_respawn_player.connect(_respawn)
+	Global.toggle_player.connect(func(): processing = not processing)
 	party_handler._connect_signals()
 	inventory_handler._connect_signals()
+	player_info_handler._connect_signals()
 
 
 func _clear_manual_input_buffer() -> void:

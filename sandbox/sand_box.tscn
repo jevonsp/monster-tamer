@@ -12,7 +12,7 @@ script = ExtResource("1_viy5y")
 [node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("4_m5oba")]
 
 [node name="NPC" parent="." unique_id=431393256 instance=ExtResource("5_viy5y")]
-position = Vector2(32, 16)
+position = Vector2(64, 16)
 
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("2_yh8bq")]
 position = Vector2(32, 32)

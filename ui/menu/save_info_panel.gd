@@ -7,25 +7,34 @@ var minutes_since_last_save: int = 0
 @onready var last_saved_label: Label = $MarginContainer/BoxContainer/LastSavedLabel
 
 
-func display_info() -> void:
-	display_name_label()
-	display_play_time_label()
-	display_last_saved_label()
+func _ready() -> void:
+	_connect_signals()
 
 
-func display_name_label() -> void:
-	pass
+func update_info() -> void:
+	update_name_label()
+	update_play_time_label()
+	update_last_saved_label()
 
 
-func display_play_time_label() -> void:
-	pass
+func update_name_label() -> void:
+	if Player.info and Player.info.player_name:
+		name_label.text = "NAME: %s" % Player.info.player_name
 
 
-func display_last_saved_label() -> void:
+func update_play_time_label() -> void:
+	if Player.info and Player.info.player_name:
+		play_time_label.text = "PLAY TIME: %s" % _parse_minutes(Player.info.play_time)
+
+
+func update_last_saved_label() -> void:
 	if not SaverLoader.save_game_exists():
 		last_saved_label.text = "LAST SAVED: NEVER"
 	else:
-		last_saved_label.text = "LAST SAVED: %s" % [_parse_minutes()]
+		if minutes_since_last_save <= 1:
+			last_saved_label.text = "LAST SAVED: JUST NOW"
+		else:
+			last_saved_label.text = "LAST SAVED: %s AGO" % [_parse_minutes(minutes_since_last_save)]
 
 
 func _connect_signals() -> void:
@@ -35,16 +44,18 @@ func _connect_signals() -> void:
 
 func _on_game_saved() -> void:
 	minutes_since_last_save = 0
+	update_info()
 
 
 func _on_time_changed() -> void:
 	if SaverLoader.save_game_exists():
 		minutes_since_last_save += 1
+	update_info()
 
 
-func _parse_minutes() -> String:
+func _parse_minutes(num_minutes: int) -> String:
 	@warning_ignore("integer_division")
-	var hours = minutes_since_last_save / 60
-	var minutes = minutes_since_last_save % 60
+	var hours = num_minutes / 60
+	var minutes = num_minutes % 60
 
-	return "%s:%s" % [hours, minutes]
+	return "%02d:%02d" % [hours, minutes]

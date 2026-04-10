@@ -273,5 +273,3 @@ position = Vector2(80, 64)
 [node name="TreeBlockerObject" parent="RemoveBlockerObjects" unique_id=1420145464 instance=ExtResource("41_cgvj2")]
 position = Vector2(144, 16)
 removal_animation_blink_segments = 6
-removal_animation_start_duration = 0.1
-removal_animation_speedup = 0.55

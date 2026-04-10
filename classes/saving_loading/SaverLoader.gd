@@ -56,29 +56,27 @@ func erase_saved_game() -> bool:
 
 
 func save_game_exists() -> bool:
-	if ResourceLoader.exists("user://savegame.tres"):
-		return true
-	return false
+	return FileAccess.file_exists("user://savegame.tres")
 
 
 func save_player(saved_game: SavedGame, player: Player) -> SavedGame:
 	saved_game.player_position = player.global_position
-	saved_game.player_party = player.party_handler.party
-	saved_game.player_storage = player.party_handler.storage
-	saved_game.player_inventory = player.inventory_handler.inventory
-	saved_game.player_money = player.inventory_handler.money
-	saved_game.story_flags = player.story_flag_handler.story_flags
-	saved_game.player_info = player.player_info_handler.player_info
+	saved_game.player_party = player.party.party
+	saved_game.player_storage = player.party.storage
+	saved_game.player_inventory = player.inventory.inventory
+	saved_game.player_money = player.inventory.money
+	saved_game.story_flags = player.story_flags.story_flags
+	saved_game.player_info = player.info.player_info
 
 	return saved_game
 
 
 func load_player(saved_game: SavedGame, player: Player):
 	player.global_position = saved_game.player_position
-	player.party_handler.party = saved_game.player_party
-	player.party_handler.storage = saved_game.player_storage
-	player.inventory_handler.inventory = saved_game.player_inventory
-	player.inventory_handler.money = saved_game.player_money
-	player.story_flag_handler.story_flags = saved_game.story_flags
-	player.player_info_handler.player_info = saved_game.player_info
-	player.player_info_handler.update_info()
+	player.party.party = saved_game.player_party
+	player.party.storage = saved_game.player_storage
+	player.inventory.inventory = saved_game.player_inventory
+	player.inventory.money = saved_game.player_money
+	player.story_flags.story_flags = saved_game.story_flags
+	player.info.player_info = saved_game.player_info
+	player.info.update_info()

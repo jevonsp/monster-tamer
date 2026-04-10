@@ -12,7 +12,6 @@ static var period: Period = Period.DAY:
 static var hour_minute: Vector2i = Vector2i.ZERO:
 	set(value):
 		hour_minute = value
-		Global.time_changed.emit()
 
 
 static func interpret_current_time() -> Period:
@@ -34,9 +33,9 @@ func _ready() -> void:
 	_start_minute_sync()
 
 
-func _set_time():
-	hour_minute.x = Time.get_time_dict_from_system().hour
-	hour_minute.y = Time.get_time_dict_from_system().minute
+func _set_time() -> void:
+	var td := Time.get_time_dict_from_system()
+	hour_minute = Vector2i(td.hour, td.minute)
 	period = interpret_current_time()
 	Global.time_changed.emit()
 

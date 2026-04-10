@@ -73,7 +73,7 @@ func _toggle_visible() -> void:
 func _toggle_save_info_panel_visible(value: bool) -> void:
 	save_info_panel.visible = value
 	if save_info_panel.visible:
-		save_info_panel.display_info()
+		save_info_panel.update_info()
 
 
 func _focus_default() -> void:

@@ -44,6 +44,15 @@ func _physics_process(delta: float) -> void:
 
 
 func interact(body: CharacterBody2D) -> void:
+	var interfaces := get_tree().get_first_node_in_group("interfaces")
+	if interfaces and interfaces.has_method("begin_field_suppress"):
+		interfaces.begin_field_suppress()
+	await _interact_impl(body)
+	if interfaces and interfaces.has_method("end_field_suppress"):
+		interfaces.end_field_suppress()
+
+
+func _interact_impl(body: CharacterBody2D) -> void:
 	await _turn_to_body(body)
 	var blocker := _find_blocker_component()
 	if blocker and blocker.state == NPCBlockerComponent.State.INCOMPLETE:
