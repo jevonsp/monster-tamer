@@ -5,6 +5,7 @@ var last_focused_button: Button = null
 
 @onready var interfaces: CanvasLayer = $".."
 @onready var save_info_panel: Panel = $Content/SaveInfoPanel
+@onready var options_panel: Panel = $Content/OptionsPanel
 
 
 func _ready() -> void:
@@ -55,6 +56,10 @@ func _on_focus_entered(button: Button) -> void:
 	match last_focused_button.name.to_lower():
 		"save":
 			_toggle_save_info_panel_visible(true)
+			_toggle_options_info_panel_visible(false)
+		"options":
+			_toggle_save_info_panel_visible(false)
+			_toggle_options_info_panel_visible(true)
 		_:
 			_toggle_save_info_panel_visible(false)
 
@@ -74,6 +79,10 @@ func _toggle_save_info_panel_visible(value: bool) -> void:
 	save_info_panel.visible = value
 	if save_info_panel.visible:
 		save_info_panel.update_info()
+
+
+func _toggle_options_info_panel_visible(value: bool) -> void:
+	options_panel.visible = value
 
 
 func _focus_default() -> void:

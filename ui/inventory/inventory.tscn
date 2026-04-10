@@ -1,7 +1,13 @@
 [gd_scene format=3 uid="uid://bdu1o6lykdp4n"]
 
 [ext_resource type="Script" uid="uid://by733glh2208p" path="res://ui/inventory/inventory.gd" id="1_70ao8"]
+[ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="2_138qw"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="2_s83yu"]
+[ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="3_8dyvk"]
+[ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="4_galwr"]
+[ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="5_fowqc"]
+[ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="6_v2fgi"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="7_8dyvk"]
 
 [node name="Inventory" type="Control" unique_id=713585617]
 layout_mode = 3
@@ -57,12 +63,19 @@ custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_right = NodePath(".")
+theme_override_styles/normal = ExtResource("2_138qw")
+theme_override_styles/pressed = ExtResource("3_8dyvk")
+theme_override_styles/hover = ExtResource("4_galwr")
+theme_override_styles/disabled = ExtResource("5_fowqc")
+theme_override_styles/focus = ExtResource("6_v2fgi")
 
 [node name="MarginContainer" type="MarginContainer" parent="Options/Use" unique_id=571840334]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -5.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8
@@ -72,7 +85,8 @@ theme_override_constants/margin_bottom = 4
 
 [node name="Label" type="Label" parent="Options/Use/MarginContainer" unique_id=1602931760]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("7_8dyvk")
+theme_override_font_sizes/font_size = 128
 text = "USE"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -81,12 +95,19 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("2_138qw")
+theme_override_styles/pressed = ExtResource("3_8dyvk")
+theme_override_styles/hover = ExtResource("4_galwr")
+theme_override_styles/disabled = ExtResource("5_fowqc")
+theme_override_styles/focus = ExtResource("6_v2fgi")
 
 [node name="MarginContainer" type="MarginContainer" parent="Options/Give" unique_id=427174175]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -5.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8
@@ -96,7 +117,8 @@ theme_override_constants/margin_bottom = 4
 
 [node name="Label" type="Label" parent="Options/Give/MarginContainer" unique_id=416794648]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("7_8dyvk")
+theme_override_font_sizes/font_size = 128
 text = "GIVE"
 horizontal_alignment = 1
 vertical_alignment = 1
