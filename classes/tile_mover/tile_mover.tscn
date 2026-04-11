@@ -1232,6 +1232,7 @@ hit_from_inside = true
 collide_with_areas = true
 
 [node name="Shadow" type="AnimatedSprite2D" parent="." unique_id=270332497]
+visible = false
 position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_uhhpt")
 frame = 4

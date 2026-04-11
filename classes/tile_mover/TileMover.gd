@@ -1,8 +1,6 @@
 class_name TileMover
 extends CharacterBody2D
 
-const _PHYSICS_MASKS := preload("res://classes/physics_layer_masks.gd")
-
 signal finished_turn
 signal finished_walk_segment
 
@@ -10,6 +8,9 @@ enum MoveState { IDLE, TURNING, MOVING, JUMPING }
 enum Direction { NONE, UP, DOWN, LEFT, RIGHT }
 
 const TILE_SIZE: float = 16.0
+const LEDGE_JUMP_DURATION := 0.3
+const LEDGE_SPRITE_ARC_PX := 8.0
+const _PHYSICS_MASKS := preload("res://classes/physics_layer_masks.gd")
 
 var current_state: MoveState = MoveState.IDLE
 var facing_direction: Vector2 = Vector2.ZERO
@@ -27,6 +28,7 @@ var height_level: int = 0:
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 @onready var top_sprite_2d: Sprite2D = $TopSprite2D
 @onready var bottom_sprite_2d: Sprite2D = $BottomSprite2D
+@onready var shadow_sprite: AnimatedSprite2D = $Shadow
 
 
 func _ready() -> void:
@@ -57,16 +59,18 @@ func is_direction_blocked(dir: Vector2) -> bool:
 
 
 func try_start_move(dir: Vector2) -> bool:
-	if is_direction_blocked(dir):
-		return false
-
-	tile_start_pos = position
-	tile_target_pos = position + (dir * TILE_SIZE)
-	move_progress = 0.0
-	current_state = MoveState.MOVING
-	animation_tree.set("parameters/Walk/blend_position", _blend_for_cardinal_direction(dir))
-	anim_state.travel("Walk")
-	return true
+	if not is_direction_blocked(dir):
+		tile_start_pos = position
+		tile_target_pos = position + (dir * TILE_SIZE)
+		move_progress = 0.0
+		current_state = MoveState.MOVING
+		animation_tree.set("parameters/Walk/blend_position", _blend_for_cardinal_direction(dir))
+		anim_state.travel("Walk")
+		return true
+	if _should_ledge_jump(dir):
+		_run_ledge_jump_async()
+		return true
+	return false
 
 
 func check_able_to_move(dir: Vector2) -> bool:
@@ -96,7 +100,7 @@ func finish_move_to_idle(last_move_dir: Vector2 = Vector2.ZERO) -> void:
 func walk_list_tiles(tiles: Array[Vector2]) -> void:
 	for tile in tiles:
 		await walk_to_tile(tile)
-		if current_state == MoveState.MOVING:
+		if current_state == MoveState.MOVING or current_state == MoveState.JUMPING:
 			await finished_walk_segment
 
 
@@ -120,9 +124,7 @@ func walk_to_tile(pos: Vector2) -> void:
 	if not _is_facing(dir_vec):
 		await start_turning(dir_vec)
 
-	if check_able_to_move(dir_vec):
-		current_state = MoveState.MOVING
-	else:
+	if not check_able_to_move(dir_vec):
 		finished_walk_segment.emit()
 
 
@@ -186,6 +188,100 @@ func manage_height() -> void:
 	else:
 		z_index = 2
 		ray_cast_2d.collision_mask = _PHYSICS_MASKS.RAY_MOVEMENT_ELEVATED
+
+
+func _should_ledge_jump(dir: Vector2) -> bool:
+	ray_cast_2d.target_position = dir * TILE_SIZE * 0.5
+	ray_cast_2d.force_raycast_update()
+	if not ray_cast_2d.is_colliding():
+		return false
+	var collider := ray_cast_2d.get_collider()
+	if collider == null or not collider.is_in_group("ledge"):
+		return false
+	var allowed_raw = collider.get("allowed_direction")
+	var allowed_dir: Direction
+	if allowed_raw is Direction:
+		allowed_dir = allowed_raw
+	elif typeof(allowed_raw) == TYPE_INT:
+		allowed_dir = allowed_raw as Direction
+	else:
+		return false
+	if allowed_dir == Direction.NONE:
+		return false
+	var allowed_vec := _vector_from_dir(allowed_dir)
+	if allowed_vec == Vector2.ZERO:
+		return false
+	return facing_direction.dot(allowed_vec) < 0.0
+
+
+func _run_ledge_jump_async() -> void:
+	_set_movement_locked(true)
+	current_state = MoveState.JUMPING
+	var hop := facing_direction * TILE_SIZE * 2.0
+	var blend := _blend_for_cardinal_direction(facing_direction)
+	animation_tree.set("parameters/Jump/blend_position", blend)
+	anim_state.travel("Jump")
+	shadow_sprite.visible = true
+	shadow_sprite.play()
+
+	var tree := get_tree()
+	if tree == null:
+		push_warning("ledge jump: get_tree() null, aborting")
+		current_state = MoveState.IDLE
+		_set_movement_locked(false)
+		return
+
+	var top_base := top_sprite_2d.position
+	var bot_base := bottom_sprite_2d.position
+	var arc := Vector2(0, -LEDGE_SPRITE_ARC_PX)
+	var half_dur := LEDGE_JUMP_DURATION * 0.5
+	var land_pos := position + hop
+
+	var pos_tween := create_tween()
+	pos_tween.tween_property(self, "position", land_pos, LEDGE_JUMP_DURATION)
+
+	var up_tween := create_tween()
+	up_tween.set_parallel(true)
+	up_tween.tween_property(top_sprite_2d, "position", top_base + arc, half_dur)
+	up_tween.tween_property(bottom_sprite_2d, "position", bot_base + arc, half_dur)
+
+	await tree.create_timer(half_dur, true).timeout
+
+	var down_tween := create_tween()
+	down_tween.set_parallel(true)
+	down_tween.tween_property(top_sprite_2d, "position", top_base, half_dur)
+	down_tween.tween_property(bottom_sprite_2d, "position", bot_base, half_dur)
+
+	await tree.create_timer(half_dur, true).timeout
+
+	position = land_pos
+	top_sprite_2d.position = top_base
+	bottom_sprite_2d.position = bot_base
+
+	shadow_sprite.stop()
+	shadow_sprite.visible = false
+	tile_start_pos = position
+	tile_target_pos = position
+	_on_walk_step_completed()
+	_ledge_jump_finalize()
+	_set_movement_locked(false)
+
+
+func _ledge_jump_finalize() -> void:
+	if _should_continue_path_after_ledge():
+		var dir_vec = _get_step_direction_to(eventual_target_pos)
+		if try_start_move(dir_vec):
+			return
+	finish_move_to_idle()
+	finished_walk_segment.emit()
+
+
+func _should_continue_path_after_ledge() -> bool:
+	return not global_position.is_equal_approx(eventual_target_pos)
+
+
+func _set_movement_locked(_locked: bool) -> void:
+	pass
 
 
 func _get_walk_speed() -> float:

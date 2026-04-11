@@ -41,6 +41,8 @@ func _physics_process(delta: float) -> void:
 	match current_state:
 		MoveState.MOVING:
 			animate_move(delta)
+		MoveState.JUMPING:
+			pass
 
 
 func interact(body: CharacterBody2D) -> void:

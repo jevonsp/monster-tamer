@@ -26,6 +26,7 @@ var turn_timer: float = 0.0
 var command_active: bool = false
 var processing: bool = true
 var respawn_point: Vector2 = Vector2.ZERO
+var _ledge_movement_lock_depth: int = 0
 
 @onready var party_handler: Node = $PartyHandler
 @onready var inventory_handler: Node = $InventoryHandler
@@ -51,7 +52,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not processing:
+	if not processing or is_ledge_movement_locked():
 		return
 
 	match current_state:
@@ -65,6 +66,8 @@ func _physics_process(delta: float) -> void:
 				animate_move(delta)
 			else:
 				process_walking_state(delta)
+		MoveState.JUMPING:
+			pass
 
 
 func _input(event: InputEvent) -> void:
@@ -75,6 +78,8 @@ func _input(event: InputEvent) -> void:
 	if not processing:
 		if event.is_action_pressed("menu"):
 			get_viewport().set_input_as_handled()
+		return
+	if is_ledge_movement_locked():
 		return
 	if event.is_action_pressed("yes"):
 		_attempt_interaction()
@@ -256,6 +261,21 @@ func _finish_commanded_movement(clear_target := true) -> void:
 	command_active = false
 	if clear_target:
 		eventual_target_pos = global_position
+
+
+func is_ledge_movement_locked() -> bool:
+	return _ledge_movement_lock_depth > 0
+
+
+func _set_movement_locked(locked: bool) -> void:
+	if locked:
+		_ledge_movement_lock_depth += 1
+	else:
+		_ledge_movement_lock_depth = maxi(0, _ledge_movement_lock_depth - 1)
+
+
+func _should_continue_path_after_ledge() -> bool:
+	return command_active and super._should_continue_path_after_ledge()
 
 
 func _on_walk_step_completed() -> void:
