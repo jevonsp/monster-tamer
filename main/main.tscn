@@ -41,6 +41,7 @@
 [ext_resource type="PackedScene" uid="uid://ccos473fioo0" path="res://world_objects/interactable/blocker_object/remove_object/cuttable_tree_object/tree_blocker_object.tscn" id="41_cgvj2"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 [ext_resource type="PackedScene" uid="uid://bgfglsoh8a78d" path="res://world_objects/interactable/npc/components/npc_text_entry_component.tscn" id="42_txtent"]
+[ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqjab"]
 size = Vector2(16, 144)
@@ -62,7 +63,12 @@ layer = 5
 script = ExtResource("2_piupu")
 
 [node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("11_bsumw")]
-visible = false
+
+[node name="OptionsPanel" parent="Interfaces" unique_id=1091762526 instance=ExtResource("43_opts")]
+offset_left = 432.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
 
 [node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
 visible = false

@@ -10,6 +10,7 @@ var ui_context: Global.AccessFrom = Global.AccessFrom.NONE
 @export var dialogue_layer_evolution: int = 6
 
 @onready var menu: Control = $Menu
+@onready var options_panel: Control = $OptionsPanel
 @onready var party: Control = $Party
 @onready var summary: Control = $Summary
 @onready var inventory: Control = $Inventory
@@ -35,6 +36,7 @@ func _ready() -> void:
 	add_to_group("interfaces")
 	_blocking_ui = [
 		menu,
+		options_panel,
 		party,
 		summary,
 		inventory,

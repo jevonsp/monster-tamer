@@ -1,10 +1,16 @@
 class_name InputRemapper
-extends Node
-
-enum Layout { SONY_XBOX, NINTENDO }
+extends Object
 
 
-static func change_to_sony_xbox() -> void:
+static func apply(scheme: Options.ControlScheme) -> void:
+	match scheme:
+		Options.ControlScheme.XBOX_SONY:
+			_apply_sony_xbox()
+		Options.ControlScheme.NINTENDO:
+			_apply_nintendo()
+
+
+static func _apply_sony_xbox() -> void:
 	var old_yes = InputEventJoypadButton.new()
 	var new_yes = InputEventJoypadButton.new()
 
@@ -24,7 +30,7 @@ static func change_to_sony_xbox() -> void:
 	InputMap.action_add_event("no", new_no)
 
 
-static func change_to_nintendo() -> void:
+static func _apply_nintendo() -> void:
 	var old_yes = InputEventJoypadButton.new()
 	var new_yes = InputEventJoypadButton.new()
 

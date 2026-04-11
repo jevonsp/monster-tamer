@@ -5,11 +5,13 @@ var last_focused_button: Button = null
 
 @onready var interfaces: CanvasLayer = $".."
 @onready var save_info_panel: Panel = $Content/SaveInfoPanel
-@onready var options_panel: Panel = $Content/OptionsPanel
+@onready var options_panel: Panel = $"../OptionsPanel"
 
 
 func _ready() -> void:
 	_bind_buttons()
+	var into_opts := NodePath("../../../../OptionsPanel/MarginContainer/HBoxContainer/Buttons/OptionButton0")
+	$Content/VBoxContainer/Options.focus_neighbor_right = into_opts
 	Ui.request_open_menu.connect(_toggle_visible)
 	if visible:
 		_toggle_visible()
@@ -48,7 +50,9 @@ func _on_menu_pressed(button: Button) -> void:
 			await _start_save_process()
 			_focus_default()
 		"Options":
-			print_debug("Options not yet implemented")
+			_toggle_save_info_panel_visible(false)
+			options_panel.visible = true
+			options_panel.grab_entry_focus()
 
 
 func _on_focus_entered(button: Button) -> void:
@@ -56,6 +60,7 @@ func _on_focus_entered(button: Button) -> void:
 	match last_focused_button.name.to_lower():
 		"save":
 			_toggle_save_info_panel_visible(true)
+			_toggle_options_info_panel_visible(false)
 		_:
 			_toggle_save_info_panel_visible(false)
 
@@ -68,6 +73,7 @@ func _toggle_visible() -> void:
 		Ui.switch_ui_context.emit(Global.AccessFrom.MENU)
 	else:
 		last_focused_button = null
+		_toggle_options_info_panel_visible(false)
 		Ui.switch_ui_context.emit(Global.AccessFrom.NONE)
 
 

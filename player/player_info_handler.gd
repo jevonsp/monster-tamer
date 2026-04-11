@@ -35,15 +35,11 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	set(value):
 		play_time = value
 		player_info["play_time"] = play_time
-@export var input_layout: InputRemapper.Layout = InputRemapper.Layout.SONY_XBOX:
+@export var input_layout: Options.ControlScheme = Options.ControlScheme.XBOX_SONY:
 	set(value):
 		input_layout = value
 		player_info["input_layout"] = input_layout
-		match input_layout:
-			InputRemapper.Layout.SONY_XBOX:
-				InputRemapper.change_to_sony_xbox()
-			InputRemapper.Layout.NINTENDO:
-				InputRemapper.change_to_nintendo()
+		InputRemapper.apply(input_layout)
 
 var player: Player
 

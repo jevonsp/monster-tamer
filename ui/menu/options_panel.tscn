@@ -9,10 +9,11 @@
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="6_k00sx"]
 
 [node name="OptionsPanel" type="Panel" unique_id=1091762526]
-offset_left = 432.0
-offset_top = 16.0
-offset_right = 1248.0
-offset_bottom = 704.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1_g7ako")
@@ -46,7 +47,27 @@ theme_override_styles/pressed = ExtResource("2_sw1e7")
 theme_override_styles/hover = ExtResource("3_wkhu1")
 theme_override_styles/disabled = ExtResource("4_ogluf")
 theme_override_styles/focus = ExtResource("5_j6b6m")
-toggle_mode = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Buttons/OptionButton0" unique_id=507412530]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Buttons/OptionButton0/MarginContainer" unique_id=1308653054]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+text = "LABEL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="OptionButton1" type="Button" parent="MarginContainer/HBoxContainer/Buttons" unique_id=90633916]
 layout_mode = 2
@@ -57,7 +78,27 @@ theme_override_styles/pressed = ExtResource("2_sw1e7")
 theme_override_styles/hover = ExtResource("3_wkhu1")
 theme_override_styles/disabled = ExtResource("4_ogluf")
 theme_override_styles/focus = ExtResource("5_j6b6m")
-toggle_mode = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Buttons/OptionButton1" unique_id=1767733303]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Buttons/OptionButton1/MarginContainer" unique_id=1758362077]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+text = "LABEL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="OptionButton2" type="Button" parent="MarginContainer/HBoxContainer/Buttons" unique_id=1001867191]
 layout_mode = 2
@@ -68,7 +109,27 @@ theme_override_styles/pressed = ExtResource("2_sw1e7")
 theme_override_styles/hover = ExtResource("3_wkhu1")
 theme_override_styles/disabled = ExtResource("4_ogluf")
 theme_override_styles/focus = ExtResource("5_j6b6m")
-toggle_mode = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Buttons/OptionButton2" unique_id=448206445]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Buttons/OptionButton2/MarginContainer" unique_id=825586036]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+text = "LABEL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="OptionButton3" type="Button" parent="MarginContainer/HBoxContainer/Buttons" unique_id=134883137]
 layout_mode = 2
@@ -79,7 +140,27 @@ theme_override_styles/pressed = ExtResource("2_sw1e7")
 theme_override_styles/hover = ExtResource("3_wkhu1")
 theme_override_styles/disabled = ExtResource("4_ogluf")
 theme_override_styles/focus = ExtResource("5_j6b6m")
-toggle_mode = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Buttons/OptionButton3" unique_id=126227620]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Buttons/OptionButton3/MarginContainer" unique_id=732905021]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+text = "LABEL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Settings" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1585866638]
 layout_mode = 2
