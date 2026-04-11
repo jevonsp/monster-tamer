@@ -84,6 +84,9 @@ parameters/Idle/blend_position = Vector2(0, 1)
 parameters/Turn/blend_position = Vector2(0.49761522, -0.28448272)
 parameters/Walk/blend_position = Vector2(-0.0031796694, 1.0086207)
 
+[node name="RayCast2D" parent="." index="6" unique_id=1471625521]
+collision_mask = 25
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="7" unique_id=951286003]
 
 [node name="ExclamationPoint" type="AnimatedSprite2D" parent="." index="8" unique_id=1462335516]

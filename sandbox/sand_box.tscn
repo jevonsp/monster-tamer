@@ -47,6 +47,7 @@
 [ext_resource type="PackedScene" uid="uid://tptu7vhmkk7k" path="res://world_objects/elevation/elevated_platform.tscn" id="43_n1wy4"]
 [ext_resource type="PackedScene" uid="uid://mlbs8pvbropm" path="res://world_objects/elevation/elevation_changer.tscn" id="44_sq4mn"]
 [ext_resource type="PackedScene" uid="uid://cbp20436hwty7" path="res://world_objects/ledge/ledge_area.tscn" id="47_q1pqy"]
+[ext_resource type="PackedScene" uid="uid://c6gs2xa6ar1mj" path="res://world_objects/elevation/bridge_entry.tscn" id="48_jqxom"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqjab"]
 size = Vector2(16, 144)
@@ -302,3 +303,6 @@ position = Vector2(176, 16)
 [node name="LedgeArea" parent="Main" unique_id=4054135 instance=ExtResource("47_q1pqy")]
 position = Vector2(240, 96)
 allowed_direction = 1
+
+[node name="BridgeEntry" parent="Main" unique_id=1331720516 instance=ExtResource("48_jqxom")]
+position = Vector2(176, 144)

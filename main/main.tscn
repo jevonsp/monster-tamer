@@ -63,8 +63,10 @@ layer = 5
 script = ExtResource("2_piupu")
 
 [node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("11_bsumw")]
+visible = false
 
 [node name="OptionsPanel" parent="Interfaces" unique_id=1091762526 instance=ExtResource("43_opts")]
+visible = false
 offset_left = 432.0
 offset_top = 16.0
 offset_right = -16.0
