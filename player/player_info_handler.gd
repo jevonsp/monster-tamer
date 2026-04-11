@@ -10,6 +10,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	&"player_gender",
 	&"player_model",
 	&"play_time",
+	&"input_layout",
 ]
 
 @export var player_info: Dictionary = { }
@@ -29,11 +30,20 @@ const _PLAYER_FIELDS: Array[StringName] = [
 			Model.A:
 				player.sprite_2d.texture = PLAYER_SPRITE_SHEET
 			Model.B:
-				pass
+				printerr("MODEL B NOT IMPLEMENTED")
 @export var play_time: int = 0:
 	set(value):
 		play_time = value
 		player_info["play_time"] = play_time
+@export var input_layout: InputRemapper.Layout = InputRemapper.Layout.SONY_XBOX:
+	set(value):
+		input_layout = value
+		player_info["input_layout"] = input_layout
+		match input_layout:
+			InputRemapper.Layout.SONY_XBOX:
+				InputRemapper.change_to_sony_xbox()
+			InputRemapper.Layout.NINTENDO:
+				InputRemapper.change_to_nintendo()
 
 var player: Player
 

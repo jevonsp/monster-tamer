@@ -56,10 +56,6 @@ func _on_focus_entered(button: Button) -> void:
 	match last_focused_button.name.to_lower():
 		"save":
 			_toggle_save_info_panel_visible(true)
-			_toggle_options_info_panel_visible(false)
-		"options":
-			_toggle_save_info_panel_visible(false)
-			_toggle_options_info_panel_visible(true)
 		_:
 			_toggle_save_info_panel_visible(false)
 

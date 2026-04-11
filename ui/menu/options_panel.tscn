@@ -1,6 +1,18 @@
 [gd_scene format=3 uid="uid://dshb0hignus5c"]
 
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_g7ako"]
+[ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="2_sw1e7"]
+[ext_resource type="Script" uid="uid://7ufkl45hs7gx" path="res://ui/menu/options_panel.gd" id="2_wkhu1"]
+[ext_resource type="Script" uid="uid://bynadlydv40iu" path="res://ui/menu/OptionEntry.gd" id="3_ogluf"]
+[ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="3_wkhu1"]
+[ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="4_ogluf"]
+[ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="5_j6b6m"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="6_k00sx"]
+
+[sub_resource type="Resource" id="Resource_j6b6m"]
+script = ExtResource("3_ogluf")
+entry_texts = Array[String](["CONTROLLER LAYOUT: XBOX / SONY", "CONTROLLER LAYOUT: NINTENDO"])
+metadata/_custom_type_script = "uid://bynadlydv40iu"
 
 [node name="OptionsPanel" type="Panel" unique_id=1091762526]
 offset_left = 432.0
@@ -10,3 +22,112 @@ offset_bottom = 704.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = ExtResource("1_g7ako")
+script = ExtResource("2_wkhu1")
+option_entries = Array[ExtResource("3_ogluf")]([SubResource("Resource_j6b6m")])
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1842774427]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1972783371]
+layout_mode = 2
+
+[node name="Buttons" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=967693627]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OptionButton0" type="Button" parent="MarginContainer/HBoxContainer/Buttons" unique_id=1279246463]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("1_g7ako")
+theme_override_styles/pressed = ExtResource("2_sw1e7")
+theme_override_styles/hover = ExtResource("3_wkhu1")
+theme_override_styles/disabled = ExtResource("4_ogluf")
+theme_override_styles/focus = ExtResource("5_j6b6m")
+toggle_mode = true
+
+[node name="OptionButton1" type="Button" parent="MarginContainer/HBoxContainer/Buttons" unique_id=90633916]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("1_g7ako")
+theme_override_styles/pressed = ExtResource("2_sw1e7")
+theme_override_styles/hover = ExtResource("3_wkhu1")
+theme_override_styles/disabled = ExtResource("4_ogluf")
+theme_override_styles/focus = ExtResource("5_j6b6m")
+toggle_mode = true
+
+[node name="OptionButton2" type="Button" parent="MarginContainer/HBoxContainer/Buttons" unique_id=1001867191]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("1_g7ako")
+theme_override_styles/pressed = ExtResource("2_sw1e7")
+theme_override_styles/hover = ExtResource("3_wkhu1")
+theme_override_styles/disabled = ExtResource("4_ogluf")
+theme_override_styles/focus = ExtResource("5_j6b6m")
+toggle_mode = true
+
+[node name="OptionButton3" type="Button" parent="MarginContainer/HBoxContainer/Buttons" unique_id=134883137]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = ExtResource("1_g7ako")
+theme_override_styles/pressed = ExtResource("2_sw1e7")
+theme_override_styles/hover = ExtResource("3_wkhu1")
+theme_override_styles/disabled = ExtResource("4_ogluf")
+theme_override_styles/focus = ExtResource("5_j6b6m")
+toggle_mode = true
+
+[node name="Settings" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1585866638]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label0" type="Label" parent="MarginContainer/HBoxContainer/Settings" unique_id=938521625]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label1" type="Label" parent="MarginContainer/HBoxContainer/Settings" unique_id=249262457]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Settings" unique_id=1651991068]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/Settings" unique_id=562119285]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("6_k00sx")
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
