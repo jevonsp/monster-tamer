@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c7pd38l5i20xf"]
+
+[ext_resource type="PackedScene" uid="uid://b5pynv6ya5re" path="res://maps/mini_map/point_of_interest.tscn" id="1_vpn7o"]
+[ext_resource type="Texture2D" uid="uid://n6q1vx112to" path="res://maps/mini_map/town.png" id="2_88c0j"]
+[ext_resource type="PackedScene" uid="uid://daffs68k3hs8" path="res://maps/mini_map/route.tscn" id="3_88c0j"]
+
+[node name="WorldMapTesting" type="Node2D" unique_id=916106427]
+
+[node name="PointOfInterest0" parent="." unique_id=163076541 instance=ExtResource("1_vpn7o")]
+texture = ExtResource("2_88c0j")
+type = 0
+
+[node name="PointOfInterest1" parent="." unique_id=372036638 instance=ExtResource("1_vpn7o")]
+offset_left = 48.0
+offset_right = 64.0
+
+[node name="Route" parent="." unique_id=804554734 instance=ExtResource("3_88c0j")]
+offset_left = 16.0
+offset_right = 48.0

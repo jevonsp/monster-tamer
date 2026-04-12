@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://daffs68k3hs8"]
+
+[ext_resource type="Texture2D" uid="uid://cp1t18nppfqq2" path="res://maps/mini_map/route.png" id="1_oma5c"]
+[ext_resource type="Script" uid="uid://vwxbsvqaq5jd" path="res://maps/mini_map/route.gd" id="2_6hiyc"]
+
+[node name="Route" type="NinePatchRect" unique_id=804554734]
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("1_oma5c")
+script = ExtResource("2_6hiyc")

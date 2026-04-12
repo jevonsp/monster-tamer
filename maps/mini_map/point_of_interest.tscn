@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://b5pynv6ya5re"]
+
+[ext_resource type="Script" uid="uid://d4lefnglcriyl" path="res://maps/mini_map/point_of_interest.gd" id="1_lrf52"]
+[ext_resource type="Texture2D" uid="uid://c0rf0iejkikkd" path="res://maps/mini_map/city.png" id="1_rl60r"]
+
+[node name="PointOfInterest" type="NinePatchRect" unique_id=163076541]
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("1_rl60r")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource("1_lrf52")
+type = 1
