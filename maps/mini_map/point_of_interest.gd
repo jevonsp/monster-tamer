@@ -17,16 +17,22 @@ const BIG_SIZE: Vector2 = Vector2(TILE_SIZE * 2, TILE_SIZE * 2)
 @export var type: Type = Type.TOWN:
 	set(value):
 		type = value
+		if not is_node_ready():
+			return
 		if Engine.is_editor_hint():
 			_change_texture()
 @export var orientation: Size = Size.NONE:
 	set(value):
 		orientation = value
+		if not is_node_ready():
+			return
 		if Engine.is_editor_hint():
 			_adjust_dimensions()
+			_position_head()
 
 
 func _ready() -> void:
+	super()
 	if Engine.is_editor_hint():
 		_change_texture()
 		_adjust_dimensions()
@@ -52,3 +58,7 @@ func _adjust_dimensions() -> void:
 			size = VERTICAL_SIZE
 		Size.BIG:
 			size = BIG_SIZE
+
+
+func _on_resized() -> void:
+	_position_head()

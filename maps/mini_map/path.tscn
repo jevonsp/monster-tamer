@@ -3,10 +3,14 @@
 [ext_resource type="Shader" uid="uid://u7dyd400nkud" path="res://shaders/white.gdshader" id="1_nfm3u"]
 [ext_resource type="Script" uid="uid://vwxbsvqaq5jd" path="res://maps/mini_map/path.gd" id="2_6hiyc"]
 [ext_resource type="Texture2D" uid="uid://u74f17700rl" path="res://maps/mini_map/route_horizontal.png" id="2_nfm3u"]
+[ext_resource type="Texture2D" uid="uid://iydvgm7st5m2" path="res://maps/mini_map/player_head.png" id="4_b02ir"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nfm3u"]
 shader = ExtResource("1_nfm3u")
 shader_parameter/flash_amount = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b02ir"]
+size = Vector2(16, 16)
 
 [node name="Path" type="NinePatchRect" unique_id=804554734]
 material = SubResource("ShaderMaterial_nfm3u")
@@ -18,4 +22,16 @@ patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
 script = ExtResource("2_6hiyc")
-brightest = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=726527113]
+visible = false
+position = Vector2(8, 7.102897)
+texture = ExtResource("4_b02ir")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1012150269]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1646848171]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_b02ir")
+
+[connection signal="resized" from="." to="." method="_on_resized"]

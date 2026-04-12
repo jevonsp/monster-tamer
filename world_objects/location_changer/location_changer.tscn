@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://w78w1b7rqdqe"]
+
+[ext_resource type="Script" uid="uid://dm7dvqk25aoq" path="res://world_objects/location_changer/location_changer.gd" id="1_dj18q"]
+
+[node name="LocationChanger" type="Area2D" unique_id=332970144]
+script = ExtResource("1_dj18q")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

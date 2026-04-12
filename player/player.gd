@@ -269,6 +269,7 @@ func _connect_signals() -> void:
 	party_handler._connect_signals()
 	inventory_handler._connect_signals()
 	player_info_handler._connect_signals()
+	travel._connect_signals()
 
 
 func _clear_manual_input_buffer() -> void:
