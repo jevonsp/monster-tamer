@@ -26,7 +26,8 @@ var turn_timer: float = 0.0
 var command_active: bool = false
 var processing: bool = true
 var respawn_point: Vector2 = Vector2.ZERO
-var _ledge_movement_lock_depth: int = 0
+var _movement_lock_depth: int = 0
+var _grass_overlap_depth: int = 0
 
 @onready var party_handler: Node = $PartyHandler
 @onready var inventory_handler: Node = $InventoryHandler
@@ -40,19 +41,18 @@ func _ready() -> void:
 	add_to_group("player")
 	_set_static_refs()
 	_connect_signals()
-	set_respawn_point()
+	if respawn_point == Vector2.ZERO:
+		set_respawn_point()
 	party_handler.create_storage()
 	facing_direction = Vector2.DOWN
 
 
 func _process(delta: float) -> void:
-	if not processing or command_active:
-		return
 	update_held_keys(delta)
 
 
 func _physics_process(delta: float) -> void:
-	if not processing or is_ledge_movement_locked():
+	if not processing or is_movement_locked():
 		return
 
 	match current_state:
@@ -79,7 +79,7 @@ func _input(event: InputEvent) -> void:
 		if event.is_action_pressed("menu"):
 			get_viewport().set_input_as_handled()
 		return
-	if is_ledge_movement_locked():
+	if is_movement_locked():
 		return
 	if event.is_action_pressed("yes"):
 		_attempt_interaction()
@@ -174,7 +174,20 @@ func can_move_in(input_dir: Vector2) -> bool:
 	if travel_state == TravelState.SURFING and not TileChecker._is_tile_water(tile, current_map):
 		travel_handler.stop_surfing()
 
-	return try_start_move(input_dir)
+	var started := try_start_move(input_dir)
+	if not started:
+		_bump()
+	return started
+
+
+func _bump() -> void:
+	set_ray_target_facing_tile()
+	ray_cast_2d.force_raycast_update()
+	if not ray_cast_2d.is_colliding():
+		return
+	var target := _resolve_interactable(ray_cast_2d.get_collider())
+	if target is StaticObject:
+		target.interact(self)
 
 
 func get_input_direction() -> Vector2:
@@ -257,25 +270,62 @@ func _clear_manual_input_buffer() -> void:
 	key_hold_times.clear()
 
 
+func _pump_manual_idle_if_ready() -> void:
+	if not processing:
+		print("[MOVE_LOCK] pump skipped: processing=false")
+		return
+	if command_active:
+		print("[MOVE_LOCK] pump skipped: command_active")
+		return
+	if is_movement_locked():
+		print("[MOVE_LOCK] pump skipped: still locked depth=%d" % _movement_lock_depth)
+		return
+	if current_state != MoveState.IDLE:
+		print("[MOVE_LOCK] pump skipped: state=%s" % MoveState.keys()[current_state])
+		return
+	print("[MOVE_LOCK] pump -> process_idle_state held=%s" % held_keys)
+	process_idle_state()
+
+
 func _finish_commanded_movement(clear_target := true) -> void:
 	command_active = false
 	if clear_target:
 		eventual_target_pos = global_position
+	_pump_manual_idle_if_ready()
 
 
-func is_ledge_movement_locked() -> bool:
-	return _ledge_movement_lock_depth > 0
+func is_movement_locked() -> bool:
+	return _movement_lock_depth > 0
+
+
+func grass_overlap_enter() -> void:
+	_grass_overlap_depth += 1
+	if _grass_overlap_depth == 1:
+		bottom_sprite_2d.visible = false
+		top_sprite_2d.z_index = 1
+
+
+func grass_overlap_exit() -> void:
+	_grass_overlap_depth = maxi(0, _grass_overlap_depth - 1)
+	if _grass_overlap_depth == 0:
+		bottom_sprite_2d.visible = true
+		top_sprite_2d.z_index = 0
 
 
 func _set_movement_locked(locked: bool) -> void:
 	if locked:
-		_ledge_movement_lock_depth += 1
+		_movement_lock_depth += 1
+		print("[MOVE_LOCK] +lock depth=%d proc=%s cmd=%s state=%s pos=%s" % [_movement_lock_depth, processing, command_active, MoveState.keys()[current_state], global_position])
 	else:
-		_ledge_movement_lock_depth = maxi(0, _ledge_movement_lock_depth - 1)
+		var prev := _movement_lock_depth
+		_movement_lock_depth = maxi(0, _movement_lock_depth - 1)
+		print("[MOVE_LOCK] -lock depth %d->%d proc=%s cmd=%s state=%s pos=%s" % [prev, _movement_lock_depth, processing, command_active, MoveState.keys()[current_state], global_position])
+		if _movement_lock_depth == 0:
+			_pump_manual_idle_if_ready()
 
 
-func _should_continue_path_after_ledge() -> bool:
-	return command_active and super._should_continue_path_after_ledge()
+func _should_continue_path_after_lock() -> bool:
+	return command_active and super._should_continue_path_after_lock()
 
 
 func _on_walk_step_completed() -> void:
@@ -283,12 +333,29 @@ func _on_walk_step_completed() -> void:
 
 
 func _attempt_interaction() -> void:
-	if ray_cast_2d.is_colliding():
-		if move_progress != 0.0:
-			await Global.step_completed
-		var collider = ray_cast_2d.get_collider()
-		if collider.is_in_group("interactable") and collider.has_method("interact"):
-			collider.interact(self)
+	set_ray_target_facing_tile()
+	ray_cast_2d.force_raycast_update()
+	if not ray_cast_2d.is_colliding():
+		return
+	if move_progress != 0.0:
+		await Global.step_completed
+		set_ray_target_facing_tile()
+		ray_cast_2d.force_raycast_update()
+		if not ray_cast_2d.is_colliding():
+			return
+	var collider = ray_cast_2d.get_collider()
+	var target := _resolve_interactable(collider)
+	if target:
+		target.interact(self)
+
+
+func _resolve_interactable(collider: Object) -> Node:
+	var n: Node = collider as Node
+	while n:
+		if n.is_in_group("interactable") and n.has_method("interact"):
+			return n
+		n = n.get_parent()
+	return null
 
 
 func _respawn() -> void:

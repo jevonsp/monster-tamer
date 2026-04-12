@@ -3,6 +3,7 @@ extends Resource
 
 enum Flag {
 	NONE,
+	FIRST_MONSTER,
 	TUTORIAL_FINISHED,
 	BADGE_ONE,
 	BADGE_TWO,

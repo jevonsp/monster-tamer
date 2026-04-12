@@ -11,6 +11,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	&"player_model",
 	&"play_time",
 	&"input_layout",
+	&"respawn_point",
 ]
 
 @export var player_info: Dictionary = { }
@@ -40,6 +41,11 @@ const _PLAYER_FIELDS: Array[StringName] = [
 		input_layout = value
 		player_info["input_layout"] = input_layout
 		InputRemapper.apply(input_layout)
+@export var respawn_point: Vector2 = Vector2.ZERO:
+	set(value):
+		respawn_point = value
+		player_info["respawn_point"] = respawn_point
+		player.respawn_point = respawn_point
 
 var player: Player
 

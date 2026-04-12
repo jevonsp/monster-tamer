@@ -4,6 +4,17 @@ extends EncounterZone
 var wild_zone_parent: WildZone = null
 
 
+func _ready() -> void:
+	super()
+	var tree := get_tree()
+	if tree == null:
+		return
+	await tree.physics_frame
+	for body in get_overlapping_bodies():
+		if body is Player:
+			_on_body_entered(body)
+
+
 func trigger() -> void:
 	if roll_encounter():
 		choose_encounter()
@@ -34,11 +45,9 @@ func choose_encounter() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
-		body.bottom_sprite_2d.visible = false
-		body.top_sprite_2d.z_index = 1
+		(body as Player).grass_overlap_enter()
 
 
 func _on_body_exited(body: Node2D) -> void:
 	if body is Player:
-		body.bottom_sprite_2d.visible = true
-		body.top_sprite_2d.z_index = 0
+		(body as Player).grass_overlap_exit()

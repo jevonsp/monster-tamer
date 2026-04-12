@@ -11,7 +11,7 @@ func _on_body_entered(body: Node2D) -> void:
 	var tile_mover = body as TileMover
 
 	if tile_mover.height_level < height_level:
-		tile_mover.height_level = 1
+		tile_mover.height_level = height_level
 	Global.player_elevation_changed.emit(tile_mover.height_level)
 
 

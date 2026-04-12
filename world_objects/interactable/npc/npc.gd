@@ -54,31 +54,6 @@ func interact(body: CharacterBody2D) -> void:
 		interfaces.end_field_suppress()
 
 
-func _interact_impl(body: CharacterBody2D) -> void:
-	await _turn_to_body(body)
-	var blocker := _find_blocker_component()
-	if blocker and blocker.state == NPCBlockerComponent.State.INCOMPLETE:
-		if blocker.mode == NPCBlockerComponent.Mode.ITEM:
-			if await blocker.try_item_interact(body):
-				return
-	if blocker and blocker.state == NPCBlockerComponent.State.COMPLETE:
-		await blocker.run_post_complete_interact(body)
-		return
-	var service := _find_service_component()
-	if service and service.state == NPCServiceComponent.State.COMPLETE:
-		await service.run_post_complete_interact(body)
-		return
-	if service and await service.try_trade_interact(body):
-		return
-
-	await _invoke_components_phase(before_components)
-
-	if not dialogue.is_empty():
-		await _say_dialogue()
-
-	await _invoke_components_phase(after_components)
-
-
 func trigger() -> void:
 	var player = get_tree().get_first_node_in_group("player")
 	for c: NPCComponent in npc_components:
@@ -105,6 +80,32 @@ func animate_exclamation() -> void:
 	await exclamation_point.animation_finished
 	await get_tree().create_timer(0.1).timeout
 	exclamation_point.visible = false
+
+
+func _interact_impl(body: CharacterBody2D) -> void:
+	await _turn_to_body(body)
+	var blocker := _find_blocker_component()
+	if blocker and blocker.state == NPCBlockerComponent.State.INCOMPLETE:
+		if blocker.mode == NPCBlockerComponent.Mode.ITEM:
+			if await blocker.try_item_interact(body):
+				return
+	if blocker and blocker.state == NPCBlockerComponent.State.COMPLETE:
+		await blocker.run_post_complete_interact(body)
+		await _invoke_components_phase(after_components)
+		return
+	var service := _find_service_component()
+	if service and service.state == NPCServiceComponent.State.COMPLETE:
+		await service.run_post_complete_interact(body)
+		return
+	if service and await service.try_trade_interact(body):
+		return
+
+	await _invoke_components_phase(before_components)
+
+	if not dialogue.is_empty():
+		await _say_dialogue()
+
+	await _invoke_components_phase(after_components)
 
 
 func _invoke_components_phase(list: Array[NPCComponent]) -> void:

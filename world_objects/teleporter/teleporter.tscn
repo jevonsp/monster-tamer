@@ -14,6 +14,7 @@ shader_parameter/feather = 0.02999999932944
 shader_parameter/centre = Vector2(0.5, 0.5)
 
 [node name="Teleporter" type="Node2D" unique_id=643132918]
+y_sort_enabled = true
 script = ExtResource("1_8ruom")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=570738900]
@@ -21,6 +22,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1290091936]
+z_index = 1
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_gqidb")
 

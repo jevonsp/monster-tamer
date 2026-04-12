@@ -41,6 +41,16 @@ func sync_tile_positions() -> void:
 	tile_start_pos = position
 	tile_target_pos = position
 	eventual_target_pos = global_position
+	move_progress = 0.0
+
+
+func sync_grid_after_external_move() -> void:
+	move_progress = 0.0
+	tile_start_pos = position
+	tile_target_pos = position
+	eventual_target_pos = global_position
+	if current_state != MoveState.IDLE:
+		finish_move_to_idle()
 
 
 func start_turning(new_facing_direction: Vector2) -> void:
@@ -52,10 +62,31 @@ func start_turning(new_facing_direction: Vector2) -> void:
 	_finish_turn()
 
 
+func set_ray_target_facing_tile() -> void:
+	if facing_direction != Vector2.ZERO:
+		ray_cast_2d.target_position = facing_direction * TILE_SIZE
+
+
+func _ignore_elevated_tilemap_hit_while_on_ground(collider: Object) -> bool:
+	return height_level == 0 \
+		and Global.elevated_map != null \
+		and collider == Global.elevated_map
+
+
 func is_direction_blocked(dir: Vector2) -> bool:
 	ray_cast_2d.target_position = dir * TILE_SIZE
 	ray_cast_2d.force_raycast_update()
-	return ray_cast_2d.is_colliding()
+	if not ray_cast_2d.is_colliding():
+		return false
+	return not _ignore_elevated_tilemap_hit_while_on_ground(ray_cast_2d.get_collider())
+
+
+func _ray_hits_solid_for_movement(dir: Vector2, length_scale: float) -> bool:
+	ray_cast_2d.target_position = dir * TILE_SIZE * length_scale
+	ray_cast_2d.force_raycast_update()
+	if not ray_cast_2d.is_colliding():
+		return false
+	return not _ignore_elevated_tilemap_hit_while_on_ground(ray_cast_2d.get_collider())
 
 
 func try_start_move(dir: Vector2) -> bool:
@@ -191,12 +222,12 @@ func manage_height() -> void:
 
 
 func _should_ledge_jump(dir: Vector2) -> bool:
-	ray_cast_2d.target_position = dir * TILE_SIZE * 0.5
-	ray_cast_2d.force_raycast_update()
-	if not ray_cast_2d.is_colliding():
+	if not _ray_hits_solid_for_movement(dir, 0.5):
+		set_ray_target_facing_tile()
 		return false
 	var collider := ray_cast_2d.get_collider()
 	if collider == null or not collider.is_in_group("ledge"):
+		set_ray_target_facing_tile()
 		return false
 	var allowed_raw = collider.get("allowed_direction")
 	var allowed_dir: Direction
@@ -205,13 +236,18 @@ func _should_ledge_jump(dir: Vector2) -> bool:
 	elif typeof(allowed_raw) == TYPE_INT:
 		allowed_dir = allowed_raw as Direction
 	else:
+		set_ray_target_facing_tile()
 		return false
 	if allowed_dir == Direction.NONE:
+		set_ray_target_facing_tile()
 		return false
 	var allowed_vec := _vector_from_dir(allowed_dir)
 	if allowed_vec == Vector2.ZERO:
+		set_ray_target_facing_tile()
 		return false
-	return facing_direction.dot(allowed_vec) < 0.0
+	var should_jump := facing_direction.dot(allowed_vec) < 0.0
+	set_ray_target_facing_tile()
+	return should_jump
 
 
 func _run_ledge_jump_async() -> void:
@@ -268,7 +304,7 @@ func _run_ledge_jump_async() -> void:
 
 
 func _ledge_jump_finalize() -> void:
-	if _should_continue_path_after_ledge():
+	if _should_continue_path_after_lock():
 		var dir_vec = _get_step_direction_to(eventual_target_pos)
 		if try_start_move(dir_vec):
 			return
@@ -276,7 +312,7 @@ func _ledge_jump_finalize() -> void:
 	finished_walk_segment.emit()
 
 
-func _should_continue_path_after_ledge() -> bool:
+func _should_continue_path_after_lock() -> bool:
 	return not global_position.is_equal_approx(eventual_target_pos)
 
 

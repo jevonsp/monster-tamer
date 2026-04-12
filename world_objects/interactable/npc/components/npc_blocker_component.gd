@@ -19,6 +19,7 @@ enum ItemOutcome { NONE, GIVE, STORY }
 @export var story_value: bool = true
 @export_group("Post-complete")
 @export_multiline var post_trigger_dialogue: Array[String] = []
+@export var is_autocomplete: bool = false
 @export_subgroup("Move")
 @export var dir_path: Array[TileMover.Direction] = []
 @export var end_facing: TileMover.Direction = TileMover.Direction.NONE
@@ -89,7 +90,7 @@ func run_post_complete_interact(body: CharacterBody2D) -> void:
 	if not post_trigger_dialogue.is_empty():
 		match mode:
 			Mode.STORY:
-				await npc._say_dialogue(post_trigger_dialogue)
+				await npc._say_dialogue(post_trigger_dialogue, is_autocomplete)
 			Mode.ITEM:
 				await npc._say_dialogue(_format_post_trigger_lines(), true, false)
 

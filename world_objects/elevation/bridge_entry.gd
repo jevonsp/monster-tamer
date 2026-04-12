@@ -22,8 +22,6 @@ func _ready() -> void:
 		_update_bridge_width()
 		_update_stair_width()
 		return
-	if visible:
-		visible = false
 
 
 func _update_bridge_width() -> void:

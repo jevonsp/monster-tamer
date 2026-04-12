@@ -1,7 +1,7 @@
 extends Node
 ## Saves Data at ~/.local/share/godot/app_userdata/
 
-const MAIN = preload("res://main/main.tscn")
+const MAIN = preload("res://maps/vertical_slice/vertical_slice.tscn")
 
 var loaded_scene: Node2D
 

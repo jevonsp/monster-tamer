@@ -14,15 +14,19 @@ func _ready() -> void:
 
 
 func _teleport_sequence_iris(body: CharacterBody2D) -> void:
+	(body as Player)._set_movement_locked(true)
 	iris_color_rect.visible = true
 	await _iris_close()
 	_teleport_player(body)
 	await _iris_open()
 	iris_color_rect.visible = false
+	(body as Player)._set_movement_locked(false)
 
 
 func _teleport_player(body: CharacterBody2D) -> void:
 	body.global_position = teleporter_point.global_position
+	if body is TileMover:
+		(body as TileMover).sync_grid_after_external_move()
 
 
 func _iris_open(duration: float = 1.0) -> void:

@@ -119,11 +119,13 @@ func _on_blocking_ui_visibility_changed() -> void:
 func begin_field_suppress() -> void:
 	field_suppress_depth += 1
 	refresh_field_input()
+	print("[FIELD_SUPPRESS] begin depth=%d player.processing=%s" % [field_suppress_depth, player.processing])
 
 
 func end_field_suppress() -> void:
 	field_suppress_depth = maxi(0, field_suppress_depth - 1)
 	refresh_field_input()
+	print("[FIELD_SUPPRESS] end depth=%d player.processing=%s" % [field_suppress_depth, player.processing])
 
 
 func refresh_field_input() -> void:

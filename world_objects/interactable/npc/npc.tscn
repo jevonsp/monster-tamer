@@ -68,7 +68,7 @@ animations = [{
 "speed": 60.0
 }]
 
-[node name="NPC" unique_id=2134471146 node_paths=PackedStringArray("before_components", "after_components") instance=ExtResource("1_base")]
+[node name="NPC" unique_id=2134471146 node_paths=PackedStringArray("before_components", "after_components") groups=["interactable"] instance=ExtResource("1_base")]
 collision_layer = 8
 script = ExtResource("1_nhy3c")
 npc_name = "NPC"
