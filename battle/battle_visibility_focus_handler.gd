@@ -22,11 +22,16 @@ var moving_index_one: int = -1
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("option"):
-		if not is_moving_move:
-			start_moving_move()
-		else:
-			finish_moving_move()
+	if not battle.visible or not battle.processing:
+		return
+	if not event.is_action_pressed("option"):
+		return
+	if vis_state != VisibilityState.MOVES:
+		return
+	if not is_moving_move:
+		start_moving_move()
+	else:
+		finish_moving_move()
 
 
 func connect_signals() -> void:
@@ -212,6 +217,8 @@ func _focus_default_moves() -> void:
 
 
 func _move_button_index(button: Button) -> int:
+	if button == null or not is_instance_valid(button):
+		return -1
 	return int(button.name.trim_prefix("Button"))
 
 

@@ -76,7 +76,7 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		return
 	if not processing:
-		if event.is_action_pressed("menu"):
+		if event.is_action_pressed("menu") and not _text_entry_is_using_menu():
 			get_viewport().set_input_as_handled()
 		return
 	if is_movement_locked():
@@ -89,6 +89,13 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	
 	
+func _text_entry_is_using_menu() -> bool:
+	var te: Node = get_tree().get_first_node_in_group("text_entry_root")
+	if te == null or not is_instance_valid(te):
+		return false
+	return te.visible and te.get("processing") == true
+
+
 func _set_static_refs() -> void:
 	party = party_handler
 	inventory = inventory_handler
@@ -181,11 +188,10 @@ func can_move_in(input_dir: Vector2) -> bool:
 
 
 func _bump() -> void:
-	set_ray_target_facing_tile()
-	ray_cast_2d.force_raycast_update()
-	if not ray_cast_2d.is_colliding():
+	var collider: Object = get_interaction_ray_collider()
+	if collider == null:
 		return
-	var target := _resolve_interactable(ray_cast_2d.get_collider())
+	var target := _resolve_interactable(collider)
 	if target is StaticObject:
 		target.interact(self)
 
@@ -333,17 +339,14 @@ func _on_walk_step_completed() -> void:
 
 
 func _attempt_interaction() -> void:
-	set_ray_target_facing_tile()
-	ray_cast_2d.force_raycast_update()
-	if not ray_cast_2d.is_colliding():
+	var collider: Object = get_interaction_ray_collider()
+	if collider == null:
 		return
 	if move_progress != 0.0:
 		await Global.step_completed
-		set_ray_target_facing_tile()
-		ray_cast_2d.force_raycast_update()
-		if not ray_cast_2d.is_colliding():
+		collider = get_interaction_ray_collider()
+		if collider == null:
 			return
-	var collider = ray_cast_2d.get_collider()
 	var target := _resolve_interactable(collider)
 	if target:
 		target.interact(self)

@@ -67,6 +67,17 @@ func set_ray_target_facing_tile() -> void:
 		ray_cast_2d.target_position = facing_direction * TILE_SIZE
 
 
+func get_interaction_ray_collider() -> Object:
+	if ray_cast_2d == null:
+		return null
+	set_ray_target_facing_tile()
+	ray_cast_2d.collision_mask = _PHYSICS_MASKS.CHARACTER_INTERACTABLE
+	ray_cast_2d.force_raycast_update()
+	var collider: Object = ray_cast_2d.get_collider() if ray_cast_2d.is_colliding() else null
+	manage_height()
+	return collider
+
+
 func _ignore_elevated_tilemap_hit_while_on_ground(collider: Object) -> bool:
 	return height_level == 0 \
 		and Global.elevated_map != null \

@@ -13,6 +13,7 @@ enum Type { ITEM, MONSTER }
 		if is_obtained:
 			visible = false
 			collision_shape_2d.disabled = true
+@export var linked_items: Array[GroundBall] = []
 
 var story_component: StoryComponent
 
@@ -74,6 +75,9 @@ func trigger() -> void:
 
 func obtain() -> void:
 	is_obtained = true
+	for i in linked_items:
+		if not i.is_obtained:
+			i.obtain()
 
 
 func on_save_game(saved_data_array: Array[SavedData]) -> void:
