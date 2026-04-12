@@ -8,6 +8,7 @@ signal period_of_day_changed
 signal time_changed
 signal story_flag_triggered(flag: Story.Flag, value: bool)
 signal player_elevation_changed(new_elevation: int)
+signal location_changed(new_location: Map.Location)
 
 enum AccessFrom { NONE, MENU, BATTLE, PARTY, INVENTORY, STORE }
 

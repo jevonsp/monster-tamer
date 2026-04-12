@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp1t18nppfqq2"
-path="res://.godot/imported/route.png-5149fa8b5e8fe840e3a42e6aad0e25d9.ctex"
+uid="uid://5awwq6w35adg"
+path="res://.godot/imported/route_vertical.png-dba3d39c0f5a1fd1aa115bfd3a3ee1a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://maps/mini_map/route.png"
-dest_files=["res://.godot/imported/route.png-5149fa8b5e8fe840e3a42e6aad0e25d9.ctex"]
+source_file="res://maps/mini_map/route_vertical.png"
+dest_files=["res://.godot/imported/route_vertical.png-dba3d39c0f5a1fd1aa115bfd3a3ee1a0.ctex"]
 
 [params]
 

@@ -201,18 +201,16 @@ before_components = [NodePath("NPCServiceComponent")]
 
 [node name="NPCServiceComponent" parent="NPCs/NPC" unique_id=1491352628 instance=ExtResource("25_obc7w")]
 
-[node name="ShopKeeper" parent="NPCs" unique_id=431393256 node_paths=PackedStringArray("after_components") instance=ExtResource("26_gtaca")]
+[node name="Store" parent="NPCs" unique_id=431393256 node_paths=PackedStringArray("after_components") instance=ExtResource("26_gtaca")]
 position = Vector2(272, 80)
-npc_name = "ShopKeeper"
-dialogue = Array[String](["Would you like to browse my items?"])
 is_question = true
 after_components = [NodePath("NPCStoreComponent")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NPCs/ShopKeeper" unique_id=1360950946]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="NPCs/Store" unique_id=1360950946]
 position = Vector2(8, 24)
 shape = SubResource("RectangleShape2D_hk2i1")
 
-[node name="NPCStoreComponent" parent="NPCs/ShopKeeper" unique_id=221203702 instance=ExtResource("27_iuowu")]
+[node name="NPCStoreComponent" parent="NPCs/Store" unique_id=221203702 instance=ExtResource("27_iuowu")]
 
 [node name="Items" parent="." unique_id=2094959832 instance=ExtResource("19_owtm8")]
 

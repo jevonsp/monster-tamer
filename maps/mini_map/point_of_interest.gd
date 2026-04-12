@@ -1,6 +1,6 @@
 @tool
 class_name PointOfInterest
-extends NinePatchRect
+extends MapRect
 
 enum Type { TOWN, CITY, LANDMARK }
 enum Size { NONE, HORIZONTAL, VERTICAL, BIG }

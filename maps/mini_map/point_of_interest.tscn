@@ -3,7 +3,22 @@
 [ext_resource type="Script" uid="uid://d4lefnglcriyl" path="res://maps/mini_map/point_of_interest.gd" id="1_lrf52"]
 [ext_resource type="Texture2D" uid="uid://c0rf0iejkikkd" path="res://maps/mini_map/city.png" id="1_rl60r"]
 
+[sub_resource type="Shader" id="Shader_rl60r"]
+code = "shader_type canvas_item;
+
+uniform float flash_amount : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	COLOR = mix(tex, vec4(1.0, 1.0, 1.0, tex.a), flash_amount);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i1su7"]
+shader = SubResource("Shader_rl60r")
+shader_parameter/flash_amount = 0.0
+
 [node name="PointOfInterest" type="NinePatchRect" unique_id=163076541]
+material = SubResource("ShaderMaterial_i1su7")
 offset_right = 16.0
 offset_bottom = 16.0
 texture = ExtResource("1_rl60r")
@@ -13,3 +28,4 @@ patch_margin_right = 8
 patch_margin_bottom = 8
 script = ExtResource("1_lrf52")
 type = 1
+brightest = 1.0
