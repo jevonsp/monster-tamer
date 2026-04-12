@@ -46,6 +46,9 @@ func _on_menu_pressed(button: Button) -> void:
 			_toggle_visible()
 			Ui.switch_ui_context.emit(Global.AccessFrom.INVENTORY)
 			Ui.request_open_inventory.emit()
+		"Map":
+			_toggle_visible()
+			Ui.request_open_map.emit()
 		"Save":
 			await _start_save_process()
 			_focus_default()

@@ -4,6 +4,8 @@ extends NinePatchRect
 signal cursor_entered(cursor_location: Map.Location)
 signal cursor_exited(cursor_location: Map.Location)
 
+const MINIMAP_CURSOR_PHYSICS_LAYER: int = 1 << 19
+
 const BRIGHTEST: float = 0.7
 const FLASH_DURATION: float = 0.5
 const BOBBLE_DURATION: float = 0.15
@@ -26,6 +28,7 @@ func _ready() -> void:
 		return
 	if collision_shape_2d and collision_shape_2d.shape:
 		collision_shape_2d.shape = collision_shape_2d.shape.duplicate()
+	area_2d.collision_mask = MINIMAP_CURSOR_PHYSICS_LAYER
 	_connect_signals()
 	_position_head()
 
@@ -75,7 +78,9 @@ func _calculate_center_position() -> Vector2:
 
 
 func _position_cursor() -> void:
-	cursor.position = _calculate_center_position()
+	if cursor == null:
+		return
+	cursor.global_position = get_global_transform_with_canvas() * _calculate_center_position()
 
 
 func _position_head() -> void:
@@ -124,9 +129,9 @@ func _animate_head_bobble() -> void:
 	)
 
 
-func _on_body_entered(_body: CharacterBody2D) -> void:
+func _on_body_entered(_body: Object) -> void:
 	cursor_entered.emit(location)
 
 
-func _on_body_exited(_body: CharacterBody2D) -> void:
+func _on_body_exited(_body: Object) -> void:
 	cursor_exited.emit(location)

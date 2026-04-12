@@ -90,6 +90,8 @@ func display_settings() -> void:
 			button_label_pairs[1].reg_lbl.text = settings_info["game_variant"].options_text[0]
 		Options.GameVariant.NUZLOCKE:
 			button_label_pairs[1].reg_lbl.text = settings_info["game_variant"].options_text[1]
+	if not Options.can_change_variant:
+		option_button_1.disabled = true
 
 	button_label_pairs[2].btn_lbl.text = settings_info["is_forgetful_saver"].button_text
 	if Options.is_forgetful_saver:
@@ -118,11 +120,13 @@ func _on_option_button_pressed(button: Button) -> void:
 			else:
 				InputRemapper.apply(Options.control_scheme)
 		option_button_1:
-			Options.game_variant = (
-				Options.GameVariant.NUZLOCKE
-				if Options.game_variant == Options.GameVariant.NORMAL
-				else Options.GameVariant.NORMAL
-			)
+			if Options.can_change_variant:
+				Options.game_variant = (
+					Options.GameVariant.NUZLOCKE
+					if Options.game_variant == Options.GameVariant.NORMAL
+					else Options.GameVariant.NORMAL
+				)
+				Options.can_change_variant = false
 		option_button_2:
 			Options.is_forgetful_saver = not Options.is_forgetful_saver
 		_:

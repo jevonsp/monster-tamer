@@ -279,18 +279,13 @@ func _clear_manual_input_buffer() -> void:
 
 func _pump_manual_idle_if_ready() -> void:
 	if not processing:
-		print("[MOVE_LOCK] pump skipped: processing=false")
 		return
 	if command_active:
-		print("[MOVE_LOCK] pump skipped: command_active")
 		return
 	if is_movement_locked():
-		print("[MOVE_LOCK] pump skipped: still locked depth=%d" % _movement_lock_depth)
 		return
 	if current_state != MoveState.IDLE:
-		print("[MOVE_LOCK] pump skipped: state=%s" % MoveState.keys()[current_state])
 		return
-	print("[MOVE_LOCK] pump -> process_idle_state held=%s" % held_keys)
 	process_idle_state()
 
 
@@ -322,11 +317,8 @@ func grass_overlap_exit() -> void:
 func _set_movement_locked(locked: bool) -> void:
 	if locked:
 		_movement_lock_depth += 1
-		print("[MOVE_LOCK] +lock depth=%d proc=%s cmd=%s state=%s pos=%s" % [_movement_lock_depth, processing, command_active, MoveState.keys()[current_state], global_position])
 	else:
-		var prev := _movement_lock_depth
 		_movement_lock_depth = maxi(0, _movement_lock_depth - 1)
-		print("[MOVE_LOCK] -lock depth %d->%d proc=%s cmd=%s state=%s pos=%s" % [prev, _movement_lock_depth, processing, command_active, MoveState.keys()[current_state], global_position])
 		if _movement_lock_depth == 0:
 			_pump_manual_idle_if_ready()
 

@@ -200,12 +200,11 @@ func _advance_text() -> void:
 		return
 	text_index += 1
 	if text_index >= text_array.size():
-		if not is_question:
-			_text_finished()
-			return
-		else:
+		if is_question:
 			await _await_question()
-	_text_finished()
+		_text_finished()
+		return
+	_display_text()
 
 
 func _await_question() -> void:

@@ -1,5 +1,5 @@
 class_name Map
-extends Node2D
+extends Control
 
 enum Location {
 	NONE,
@@ -12,15 +12,28 @@ enum Location {
 	_CITY,
 }
 
+var processing: bool = false
 var location_list: Array[Location] = []
 
 @onready var cursor: CharacterBody2D = $Cursor
-@onready var location_label: Label = $CanvasLayer/Panel/MarginContainer/LocationLabel
+@onready var location_label: Label = $Panel/MarginContainer/LocationLabel
 
 
 func _ready() -> void:
+	visibility_changed.connect(_sync_cursor_input_enabled)
 	_connect_signals()
 	_sync_marker_from_player()
+	call_deferred("_sync_cursor_input_enabled")
+
+
+func _input(event: InputEvent) -> void:
+	if not processing:
+		return
+	if event.is_action_pressed("no"):
+		_toggle_visible()
+		Ui.request_open_menu.emit()
+	elif event.is_action_pressed("menu"):
+		_toggle_visible()
 
 
 func _connect_signals() -> void:
@@ -29,6 +42,16 @@ func _connect_signals() -> void:
 			child.cursor = cursor
 			child.cursor_entered.connect(_on_cursor_location_entered)
 			child.cursor_exited.connect(_on_cursor_location_exited)
+	Ui.request_open_map.connect(_toggle_visible)
+
+
+func _toggle_visible() -> void:
+	visible = not visible
+	processing = visible
+
+
+func _sync_cursor_input_enabled() -> void:
+	cursor.processing = visible
 
 
 func _sync_marker_from_player() -> void:

@@ -12,6 +12,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	&"play_time",
 	&"input_layout",
 	&"respawn_point",
+	&"nuzlocke_tracker",
 ]
 
 @export var player_info: Dictionary = { }
@@ -46,6 +47,10 @@ const _PLAYER_FIELDS: Array[StringName] = [
 		respawn_point = value
 		player_info["respawn_point"] = respawn_point
 		player.respawn_point = respawn_point
+@export var nuzlocke_tracker: Dictionary = { }:
+	set(value):
+		nuzlocke_tracker = value
+		player_info["nuzlocke_tracker"] = value
 
 var player: Player
 

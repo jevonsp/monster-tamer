@@ -70,6 +70,24 @@ text = "ITEMS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Map" parent="Content/VBoxContainer" unique_id=160334252 groups=["menu_buttons"] instance=ExtResource("2_77h3e")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Content/VBoxContainer/Map" unique_id=835254051]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_w0ybq")
+theme_override_font_sizes/font_size = 128
+text = "MAP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Save" parent="Content/VBoxContainer" unique_id=867313188 groups=["menu_buttons"] instance=ExtResource("2_77h3e")]
 layout_mode = 2
 

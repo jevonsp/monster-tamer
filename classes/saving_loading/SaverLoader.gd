@@ -81,6 +81,7 @@ func load_player(saved_game: SavedGame, player: Player):
 	player.story_flags.story_flags = saved_game.story_flags
 	player.info.player_info = saved_game.player_info
 	player.info.update_info()
+	NuzlockeTracker.hydrate_from_save(player.info)
 	Options.control_scheme = player.info.input_layout
 	save_config()
 

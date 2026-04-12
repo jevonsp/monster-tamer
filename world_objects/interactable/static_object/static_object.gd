@@ -1,7 +1,7 @@
 class_name StaticObject
 extends StaticBody2D
 
-@export_multiline var text: Array[String] = []
+@export var text: Array[String] = []
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
 @export var components: Array[Node]
@@ -13,13 +13,14 @@ func interact(body: CharacterBody2D) -> void:
 		return
 	if not text.is_empty():
 		var tp = true # Toggles Player
-		Ui.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
 		if is_question:
+			Ui.send_text_box.emit(self, text, is_autocomplete, is_question, tp)
 			var answer: bool = await Ui.answer_given
 			await Ui.text_box_complete
 			if answer:
 				trigger()
 		else:
+			Ui.send_text_box.emit(self, text, is_autocomplete, false, tp)
 			await Ui.text_box_complete
 
 

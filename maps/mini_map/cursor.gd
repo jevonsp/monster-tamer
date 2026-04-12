@@ -4,10 +4,14 @@ extends CharacterBody2D
 @export var acceleration: float = 520.0
 @export var friction: float = 980.0
 
+var processing: bool = false
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 
 func _physics_process(delta: float) -> void:
+	if not processing:
+		return
 	_process_movement_keys(delta)
 
 

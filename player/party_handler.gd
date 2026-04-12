@@ -33,6 +33,7 @@ func add(monster: Monster):
 		_add_to_storage(monster)
 
 	send_player_party_and_storage()
+	NuzlockeTracker.monster_caught_on_route(Player.travel.current_location)
 
 
 func fully_heal_and_revive_party() -> void:

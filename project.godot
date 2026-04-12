@@ -146,6 +146,7 @@ option={
 2d_physics/layer_5="Ledges"
 2d_physics/layer_8="Elevated"
 2d_physics/layer_11="Elevated Interactabless"
+2d_physics/layer_20="Cursor"
 
 [physics]
 

@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func interact(_body: Player) -> void:
-	print("implement interaction")
+	pass
 
 
 func toggle_mode(new_state: State) -> void:

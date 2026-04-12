@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://c7ish7puudh7h" path="res://ui/text_entry/text_entry.tscn" id="13_atvof"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="14_gc58k"]
 [ext_resource type="PackedScene" uid="uid://8ygcbs5f8pca" path="res://player/player.tscn" id="15_7mk43"]
+[ext_resource type="PackedScene" uid="uid://c7pd38l5i20xf" path="res://maps/mini_map/world_map.tscn" id="15_hk2i1"]
 [ext_resource type="TileSet" uid="uid://cx48xsjxhlovr" path="res://maps/16x16-tileset-rough.tres" id="17_cwi30"]
 [ext_resource type="Script" uid="uid://c8as8s7103bll" path="res://maps/tile_map.gd" id="18_emyph"]
 [ext_resource type="PackedScene" uid="uid://tsa7knm15ny7" path="res://maps/y_sorted.tscn" id="19_owtm8"]
@@ -90,16 +91,19 @@ visible = false
 [node name="Store" parent="Interfaces" unique_id=1010499898 instance=ExtResource("10_qpy4i")]
 visible = false
 
-[node name="DialogueCanvas" type="CanvasLayer" parent="Interfaces" unique_id=764749366]
-layer = 6
-
-[node name="GameTextBox" parent="Interfaces/DialogueCanvas" unique_id=53505836 instance=ExtResource("11_448ly")]
-visible = false
-
 [node name="InfoHUD" parent="Interfaces" unique_id=1085189325 instance=ExtResource("12_sckfq")]
 visible = false
 
 [node name="TextEntry" parent="Interfaces" unique_id=1175498139 instance=ExtResource("13_atvof")]
+visible = false
+
+[node name="WorldMap" parent="Interfaces" unique_id=207139352 instance=ExtResource("15_hk2i1")]
+visible = false
+
+[node name="DialogueCanvas" type="CanvasLayer" parent="Interfaces" unique_id=764749366]
+layer = 6
+
+[node name="GameTextBox" parent="Interfaces/DialogueCanvas" unique_id=53505836 instance=ExtResource("11_448ly")]
 visible = false
 
 [node name="Trackers" type="Node" parent="." unique_id=931936182]
@@ -365,10 +369,15 @@ position = Vector2(416, 112)
 
 [node name="Signs" parent="." unique_id=435592715 instance=ExtResource("19_owtm8")]
 
-[node name="Sign" parent="Signs" unique_id=623383906 instance=ExtResource("35_s4dmp")]
+[node name="Sign0" parent="Signs" unique_id=623383906 instance=ExtResource("35_s4dmp")]
 position = Vector2(240, 128)
 text = Array[String](["Pick a monster to continue!"])
 is_autocomplete = true
+
+[node name="Sign1" parent="Signs" unique_id=1196278141 instance=ExtResource("35_s4dmp")]
+position = Vector2(272, 160)
+text = Array[String](["This adventure defaults to Nuzlocke mode!
+What does that mean? ", "Your monsters faint *permanently* and you can only catch one per route!", "You can turn it off, ONCE. If you do, it can never turn back on.", "Access the Options Menu by pressing \"X\" on Keyboard or \"Start\" on Controller."])
 
 [node name="Ladders" parent="." unique_id=647898233 instance=ExtResource("19_owtm8")]
 

@@ -38,6 +38,7 @@ signal text_cancel_pressed
 signal text_cancel_response(answer: bool)
 signal send_choices(question: Array[String], choices: Array[String])
 signal choice_given(choice: String)
+signal request_open_map
 
 
 @warning_ignore_restore("unused_signal")

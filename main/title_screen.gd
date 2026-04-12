@@ -76,6 +76,9 @@ func _new_game() -> void:
 	var main: Node2D = SaverLoader.load_level(SaverLoader.MAIN)
 	SaverLoader.toggle_visible()
 	Global.toggle_player.emit()
+
+	_prep_new_save()
+
 	var intro: Control = INTRO_SEQUENCE.instantiate()
 	main.interfaces.add_child(intro)
 	intro.play_intro_sequence()
@@ -97,6 +100,7 @@ func _delete_save_process() -> void:
 
 
 func _erase_save() -> void:
+	Options._reset()
 	SaverLoader.erase_saved_game()
 	_prepare_buttons()
 
@@ -104,3 +108,7 @@ func _erase_save() -> void:
 func _close_title_screen() -> void:
 	get_parent().remove_child(self)
 	queue_free()
+
+
+func _prep_new_save() -> void:
+	NuzlockeTracker.create_route_tracker()
