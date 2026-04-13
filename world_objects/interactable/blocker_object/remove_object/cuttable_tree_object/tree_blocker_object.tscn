@@ -11,4 +11,4 @@ question_interact_text = "Cut down this tree?"
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="1" unique_id=2127449956]
 texture = ExtResource("2_50gpy")
-offset = Vector2(8, 8)
+offset = Vector2(8, 4)

@@ -8,3 +8,4 @@ script = ExtResource("1_5k5ed")
 [node name="Marker2D" type="Marker2D" parent="." unique_id=477025023]
 z_index = 1
 position = Vector2(8, 8)
+gizmo_extents = 8.0
