@@ -9,6 +9,8 @@
 [ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm/tm.tres" id="7_rgtmx"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_a3op8"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="8_ma41c"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="9_sep80"]
+[ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="11_q17of"]
 
 [sub_resource type="Resource" id="Resource_snh7x"]
 script = ExtResource("2_7dac8")
@@ -33,6 +35,7 @@ ExtResource("7_rgtmx"): 1
 metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
 
 [node name="Store" type="Control" unique_id=1010499898]
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -70,7 +73,6 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer" unique_id=773227740]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
@@ -88,6 +90,7 @@ grow_vertical = 2
 
 [node name="Buy" parent="Options" unique_id=1279246463 instance=ExtResource("8_a3op8")]
 layout_mode = 2
+focus_neighbor_right = NodePath(".")
 
 [node name="MarginContainer" type="MarginContainer" parent="Options/Buy" unique_id=752131529]
 layout_mode = 1
@@ -103,13 +106,15 @@ theme_override_constants/margin_bottom = 4
 
 [node name="Label" type="Label" parent="Options/Buy/MarginContainer" unique_id=296780579]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("9_sep80")
+theme_override_font_sizes/font_size = 128
 text = "BUY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Sell" parent="Options" unique_id=2066844143 instance=ExtResource("8_a3op8")]
 layout_mode = 2
+focus_neighbor_right = NodePath(".")
 
 [node name="MarginContainer" type="MarginContainer" parent="Options/Sell" unique_id=2108581600]
 layout_mode = 1
@@ -125,7 +130,8 @@ theme_override_constants/margin_bottom = 4
 
 [node name="Label" type="Label" parent="Options/Sell/MarginContainer" unique_id=1748878174]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("9_sep80")
+theme_override_font_sizes/font_size = 128
 text = "SELL"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -225,3 +231,64 @@ text = "Category: "
 
 [node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("8_ma41c")]
 layout_mode = 1
+
+[node name="Panel" type="Panel" parent="." unique_id=610615870]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 624.0
+offset_right = 384.0
+offset_bottom = 704.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("11_q17of")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1340288587]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="CategoryLabel" type="Label" parent="Panel/MarginContainer" unique_id=324167372]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("9_sep80")
+theme_override_font_sizes/font_size = 64
+text = "Category -> USE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrencyPanel" type="Panel" parent="." unique_id=1300848492]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 624.0
+offset_right = 1264.0
+offset_bottom = 704.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("11_q17of")
+
+[node name="MarginContainer" type="MarginContainer" parent="CurrencyPanel" unique_id=307896410]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="MoneyLabel" type="Label" parent="CurrencyPanel/MarginContainer" unique_id=403052422]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_sep80")
+theme_override_font_sizes/font_size = 64
+text = "XXXX <- Money"
+horizontal_alignment = 1
+vertical_alignment = 1

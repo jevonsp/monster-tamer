@@ -26,7 +26,7 @@ func on_load_game(saved_data_array: Array[SavedData]) -> void:
 
 
 func _open_store() -> void:
-	if inventory.size() <= 1:
+	if inventory.size() < 1:
 		printerr("%s has no inventory to display" % self)
 		return
 	Ui.request_open_store.emit(self)

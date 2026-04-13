@@ -26,7 +26,8 @@ var _category_types: Array[Item.Type] = []
 	use = $Options/Use,
 	give = $Options/Give,
 }
-@onready var category_label: Label = $CategoryLabel
+@onready var category_label: Label = $Panel/MarginContainer/CategoryLabel
+@onready var money_label: Label = $CurrencyPanel/MarginContainer/MoneyLabel
 
 
 func _ready() -> void:
@@ -204,7 +205,8 @@ func _connect_signals() -> void:
 
 func _on_inventory_change(new_inventory: Dictionary[Item.Type, InventoryPage]) -> void:
 	_update_inventory(new_inventory)
-	_display_current()
+	_update_current_items()
+	_update_currency_panel()
 
 
 func _update_inventory(new_inventory: Dictionary[Item.Type, InventoryPage]) -> void:
@@ -218,7 +220,7 @@ func _update_inventory(new_inventory: Dictionary[Item.Type, InventoryPage]) -> v
 		current_category = 0
 
 
-func _display_current() -> void:
+func _update_current_items() -> void:
 	_clear_page()
 	if inventory.is_empty() or _category_types.is_empty():
 		return
@@ -228,6 +230,11 @@ func _display_current() -> void:
 		var quantity: int = current_page.page[item]
 		_create_item(item, quantity)
 	_display_item_category()
+
+
+func _update_currency_panel() -> void:
+	var money = Player.inventory.money
+	money_label.text = "%s <- Money" % [money]
 
 
 func _clear_page() -> void:
@@ -244,7 +251,7 @@ func _switch_page(dir: Vector2) -> void:
 			current_category = int((current_category - 1 + categories) % categories)
 		Vector2.RIGHT:
 			current_category = int((current_category + 1) % categories)
-	_display_current()
+	_update_current_items()
 	if focus_state == Focused.ITEM:
 		_focus_default()
 
@@ -253,7 +260,7 @@ func _display_item_category() -> void:
 	if _category_types.is_empty():
 		return
 	var item_type: Item.Type = _category_types[current_category]
-	category_label.text = "Category: %s" % _item_type_display_name(item_type)
+	category_label.text = "Category -> %s" % _item_type_display_name(item_type)
 
 
 func _item_type_display_name(t: Item.Type) -> String:

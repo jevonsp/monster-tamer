@@ -2,7 +2,7 @@ class_name InventoryHandler
 extends Node
 
 @export var inventory: Dictionary[Item.Type, InventoryPage] = { }
-@export var money: int = 0
+@export var money: int = 1000
 
 
 func _ready() -> void:

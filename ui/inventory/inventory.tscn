@@ -123,19 +123,66 @@ text = "GIVE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CategoryLabel" type="Label" parent="." unique_id=1449927529]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = -47.0
-offset_right = 157.0
-offset_bottom = -2.0
-grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-text = "Category: "
-
 [node name="ColorRect" parent="." unique_id=2070515593 instance=ExtResource("2_s83yu")]
 layout_mode = 1
+
+[node name="Panel" type="Panel" parent="." unique_id=134393662]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 624.0
+offset_right = 384.0
+offset_bottom = 704.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_138qw")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=1345483461]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="CategoryLabel" type="Label" parent="Panel/MarginContainer" unique_id=1449927529]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("7_8dyvk")
+theme_override_font_sizes/font_size = 64
+text = "Category -> USE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrencyPanel" type="Panel" parent="." unique_id=203883911]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 624.0
+offset_right = 1264.0
+offset_bottom = 704.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_138qw")
+
+[node name="MarginContainer" type="MarginContainer" parent="CurrencyPanel" unique_id=785715501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="MoneyLabel" type="Label" parent="CurrencyPanel/MarginContainer" unique_id=1429045882]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_8dyvk")
+theme_override_font_sizes/font_size = 64
+text = "XXXX <- Money"
+horizontal_alignment = 1
+vertical_alignment = 1

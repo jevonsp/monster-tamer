@@ -147,11 +147,12 @@ func _on_story_flag_triggered(flag: Story.Flag, _value: bool) -> void:
 	var npc := get_parent() as NPC
 	if npc == null:
 		return
-	Global.toggle_player.emit()
+	if response_type == Response.NONE:
+		return
+	var interfaces := get_tree().get_first_node_in_group("interfaces")
+	if interfaces and interfaces.has_method("begin_field_suppress"):
+		interfaces.begin_field_suppress()
 	match response_type:
-		Response.NONE:
-			Global.toggle_player.emit()
-			return
 		Response.DISAPPEAR:
 			state = State.COMPLETE
 		Response.MOVE:
@@ -167,7 +168,8 @@ func _on_story_flag_triggered(flag: Story.Flag, _value: bool) -> void:
 			pass
 	state = State.COMPLETE
 	_handle_completion()
-	Global.toggle_player.emit()
+	if interfaces and interfaces.has_method("end_field_suppress"):
+		interfaces.end_field_suppress()
 
 
 func _finish_after_item_or_story() -> void:

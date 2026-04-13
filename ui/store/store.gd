@@ -19,9 +19,13 @@ var last_focused_item_button: Button = null
 var last_focused_option_button: Button = null
 var last_focused_quantity_button: Button = null
 
+@onready var interfaces: CanvasLayer = $".."
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
-@onready var category_label: Label = $CategoryLabel
+@onready var category_panel: Panel = $Panel
+@onready var currency_panel: Panel = $CurrencyPanel
+@onready var category_label: Label = $Panel/MarginContainer/CategoryLabel
+@onready var money_label: Label = $CurrencyPanel/MarginContainer/MoneyLabel
 @onready var quantity_box: VBoxContainer = $Quantity
 
 
@@ -88,6 +92,7 @@ func _is_action_triggered(event: InputEvent, action: StringName) -> bool:
 
 func _connect_signals() -> void:
 	Ui.request_open_store.connect(_display_store)
+	Inventory.send_player_money.connect(_on_player_money_changed)
 
 
 func _bind_buttons() -> void:
@@ -103,9 +108,12 @@ func _bind_buttons() -> void:
 
 
 func _display_store(store_component: NPCStoreComponent) -> void:
-	_toggle_visible()
+	_open_store_ui()
 	_update_inventory(store_component)
+	_show_options()
+	_hide_items()
 	_set_transaction_state(Transaction.CHOOSING)
+	_update_currency_panel()
 
 
 func _update_inventory(store_component: NPCStoreComponent) -> void:
@@ -119,11 +127,13 @@ func _update_inventory(store_component: NPCStoreComponent) -> void:
 func _display_current() -> void:
 	_clear_page()
 	if inventory.is_empty():
+		_update_currency_panel()
 		return
 	if not inventory.has(current_category):
 		var valid_keys: Array = inventory.keys()
 		valid_keys.sort()
 		if valid_keys.is_empty():
+			_update_currency_panel()
 			return
 		current_category = valid_keys[0]
 	var current_page: InventoryPage = inventory[current_category]
@@ -131,10 +141,21 @@ func _display_current() -> void:
 		var quantity = current_page.page[item]
 		_create_item(item, quantity)
 	_display_item_category()
+	_update_currency_panel()
 
 
 func _display_item_category() -> void:
-	category_label.text = "Category: %s" % _item_type_display_name(current_category as Item.Type)
+	category_label.text = "Category -> %s" % _item_type_display_name(current_category as Item.Type)
+
+
+func _update_currency_panel() -> void:
+	var money: int = Player.inventory.money if Player.inventory else 0
+	money_label.text = "%s <- Money" % [money]
+
+
+func _on_player_money_changed(_amount: int) -> void:
+	if processing:
+		_update_currency_panel()
 
 
 func _item_type_display_name(t: Item.Type) -> String:
@@ -271,11 +292,18 @@ func _drop_category_focus() -> void:
 	pass
 
 
-func _toggle_visible() -> void:
-	visible = not visible
-	processing = visible
-	if visible:
-		_set_focus_state(Focused.OPTION)
+func _open_store_ui() -> void:
+	visible = true
+	processing = true
+	Ui.switch_ui_context.emit(Global.AccessFrom.STORE)
+	_set_focus_state(Focused.OPTION)
+
+
+func _close_store_ui() -> void:
+	visible = false
+	processing = false
+	if interfaces.ui_context == Global.AccessFrom.STORE:
+		Ui.switch_ui_context.emit(Global.AccessFrom.NONE)
 
 
 func _show_options() -> void:
@@ -288,12 +316,14 @@ func _hide_options() -> void:
 
 func _show_items() -> void:
 	v_box_container.visible = true
-	category_label.visible = true
+	category_panel.visible = true
+	currency_panel.visible = true
 
 
 func _hide_items() -> void:
 	v_box_container.visible = false
-	category_label.visible = false
+	category_panel.visible = false
+	currency_panel.visible = true
 
 
 func _show_quantity() -> void:
@@ -388,7 +418,7 @@ func _sync_category_bounds() -> void:
 
 func _exit_store() -> void:
 	_reset()
-	_toggle_visible()
+	_close_store_ui()
 
 
 func _reset() -> void:
