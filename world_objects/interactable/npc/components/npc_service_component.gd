@@ -34,6 +34,14 @@ func trigger(obj: Node) -> NPCComponent.Result:
 	if not obj.is_in_group("player"):
 		return NPCComponent.Result.CONTINUE
 	var player := obj as Player
+	if state == State.COMPLETE:
+		await run_post_complete_interact(player)
+		return NPCComponent.Result.TERMINATE
+	if offers_item_trade or offers_trade:
+		var handled: bool = await try_trade_interact(player)
+		if handled:
+			return NPCComponent.Result.TERMINATE
+		return NPCComponent.Result.CONTINUE
 	if offers_respawn and player.has_method("set_respawn_point"):
 		player.set_respawn_point()
 	if offers_heal:
@@ -95,7 +103,11 @@ func try_trade_interact(body: CharacterBody2D) -> bool:
 
 func _try_item_trade_interact(player: Player) -> bool:
 	if item_to_take == null:
-		var give_only: Array[String] = ["Please take this %s!" % item_to_give.name]
+		var give_only: Array[String] = (
+			post_complete_dialogue
+			if not post_complete_dialogue.is_empty()
+			else ["Please take this %s!" % item_to_give.name]
+		)
 		Ui.send_text_box.emit(null, give_only, true, false, false)
 		await Ui.text_box_complete
 		player.inventory_handler.add(item_to_give)

@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://dwa1ukyxs6fks" path="res://items/tm/TmItem.gd" id="1_ew0fq"]
 [ext_resource type="Texture2D" uid="uid://gejnoe377o8x" path="res://items/tm/tm_disc.png" id="1_vle08"]
 [ext_resource type="Script" uid="uid://db6bn0eu48o2i" path="res://items/item_effects/TeachEffect.gd" id="3_ga086"]
+[ext_resource type="Resource" uid="uid://bw063g71xyrx1" path="res://moves/cut/cut.tres" id="3_pdsey"]
 
 [sub_resource type="Resource" id="Resource_pdsey"]
 script = ExtResource("3_ga086")
+move = ExtResource("3_pdsey")
 metadata/_custom_type_script = "uid://db6bn0eu48o2i"
 
 [resource]

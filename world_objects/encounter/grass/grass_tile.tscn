@@ -10,7 +10,7 @@ atlas = SubResource("CompressedTexture2D_27fmc")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_se2q3"]
-size = Vector2(16, 16)
+size = Vector2(15, 15)
 
 [node name="GrassTile" type="Area2D" unique_id=141064951]
 collision_layer = 4

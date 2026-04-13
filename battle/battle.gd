@@ -85,10 +85,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func end_battle() -> void:
 	_release_held_input_actions()
+	var ended_trainer: Trainer = enemy_trainer
 	_clear_all()
 	_toggle_visible()
 	_toggle_player()
-	Battle.battle_ended.emit()
+	Battle.battle_ended.emit(ended_trainer)
 
 
 func set_player_actor(monster: Monster) -> void:

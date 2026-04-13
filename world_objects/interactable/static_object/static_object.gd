@@ -1,7 +1,7 @@
 class_name StaticObject
 extends StaticBody2D
 
-@export var text: Array[String] = []
+@export_multiline() var text: Array[String] = []
 @export var is_autocomplete: bool = false
 @export var is_question: bool = false
 @export var components: Array[Node]

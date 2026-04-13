@@ -8,6 +8,7 @@ extends NPC
 		_update_tiles_in_sight()
 @export var party: Array[MonsterData] = []
 @export var party_levels: Array[int] = []
+@export var after_battle_components: Array[NPCComponent] = []
 @export_subgroup("Dialogue")
 @export_multiline var winning_dialogue: Array[String] = []
 @export_multiline var losing_dialogue: Array[String] = []
@@ -27,6 +28,7 @@ func _ready() -> void:
 		_update_tiles_in_sight()
 		return
 	_update_tiles_in_sight()
+	_connect_signals()
 
 
 func interact(body: CharacterBody2D) -> void:
@@ -74,7 +76,10 @@ func defeat() -> void:
 
 func _connect_signals() -> void:
 	super()
-	Global.step_completed.connect(_check_vision_collision)
+	if not Global.step_completed.is_connected(_check_vision_collision):
+		Global.step_completed.connect(_check_vision_collision)
+	if not Battle.battle_ended.is_connected(_on_battle_ended):
+		Battle.battle_ended.connect(_on_battle_ended)
 
 
 func _update_tiles_in_sight() -> void:
@@ -107,3 +112,11 @@ func _check_vision_collision(pos: Vector2) -> void:
 func _send_trainer_battle() -> void:
 	Battle.trainer_battle_requested.emit(self)
 	Battle.battle_started.emit()
+
+
+func _on_battle_ended(enemy_trainer: Trainer) -> void:
+	if enemy_trainer != self:
+		return
+	if after_battle_components.is_empty():
+		return
+	await _invoke_components_phase(after_battle_components)

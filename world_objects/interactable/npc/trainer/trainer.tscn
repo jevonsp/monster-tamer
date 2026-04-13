@@ -8,9 +8,9 @@
 script = ExtResource("2_h4uv0")
 vision_range = 7
 party = Array[ExtResource("3_h4uv0")]([])
-party_levels = Array[ExtResource("3_h4uv0")]([])
-winning_dialogue = Array[ExtResource("3_h4uv0")]([])
-losing_dialogue = Array[ExtResource("3_h4uv0")]([])
+party_levels = Array[int]([])
+winning_dialogue = Array[String]([])
+losing_dialogue = Array[String]([])
 starting_tile = Vector2(0, 0)
 initial_direction = 2
 is_defeated = false

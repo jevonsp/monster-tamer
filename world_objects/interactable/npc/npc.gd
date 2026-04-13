@@ -93,12 +93,6 @@ func _interact_impl(body: CharacterBody2D) -> void:
 		await blocker.run_post_complete_interact(body)
 		await _invoke_components_phase(after_components)
 		return
-	var service := _find_service_component()
-	if service and service.state == NPCServiceComponent.State.COMPLETE:
-		await service.run_post_complete_interact(body)
-		return
-	if service and await service.try_trade_interact(body):
-		return
 
 	await _invoke_components_phase(before_components)
 
@@ -189,11 +183,4 @@ func _find_blocker_component() -> NPCBlockerComponent:
 	for c: NPCComponent in npc_components:
 		if c is NPCBlockerComponent:
 			return c as NPCBlockerComponent
-	return null
-
-
-func _find_service_component() -> NPCServiceComponent:
-	for c: NPCComponent in npc_components:
-		if c is NPCServiceComponent:
-			return c as NPCServiceComponent
 	return null
