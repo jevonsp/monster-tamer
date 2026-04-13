@@ -22,6 +22,7 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1290091936]
+visible = false
 z_index = 1
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_gqidb")

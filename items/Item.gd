@@ -40,3 +40,11 @@ func give(target: Monster) -> bool:
 		return false
 
 	return target.hold_item(self)
+
+
+func get_display_name() -> String:
+	return name
+
+
+func get_display_description() -> String:
+	return description

@@ -3,7 +3,7 @@ extends Control
 enum Focused { OPTION, CATEGORY, ITEM, QUANTITY }
 enum Transaction { CHOOSING, BUYING, SELLING }
 
-const STORE_PANEL = preload("uid://b301kh78bm7js")
+const ITEM_ROW_PANEL = preload("res://ui/item_row/item_row_panel.tscn")
 
 @export var inventory: Dictionary[Item.Type, InventoryPage] = { }
 
@@ -152,9 +152,9 @@ func _display_page(page: InventoryPage) -> void:
 
 
 func _create_item(item: Item, quantity: int) -> void:
-	var panel: Button = STORE_PANEL.instantiate()
+	var panel: Button = ITEM_ROW_PANEL.instantiate()
 	v_box_container.add_child(panel)
-	panel.display(item, quantity)
+	panel.display(item, quantity, true)
 	panel.focus_entered.connect(func(): last_focused_item_button = panel)
 	panel.pressed.connect(_on_item_pressed)
 

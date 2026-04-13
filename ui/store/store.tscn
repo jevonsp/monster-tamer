@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="4_a3op8"]
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="5_sep80"]
 [ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="6_q17of"]
-[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm_test/tm_test.tres" id="7_rgtmx"]
+[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm/tm.tres" id="7_rgtmx"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_a3op8"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="8_ma41c"]
 

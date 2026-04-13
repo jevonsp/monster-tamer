@@ -60,6 +60,8 @@ func _connect_signals() -> void:
 	area_2d.body_exited.connect(_on_body_exited)
 	if not is_node_ready():
 		return
+	if Engine.is_editor_hint():
+		return
 	Global.location_changed.connect(_on_location_changed)
 
 

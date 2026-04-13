@@ -3,7 +3,7 @@ extends Control
 enum Focused { CATEGORY, ITEM, OPTION }
 enum Mode { BROWSING, PICK_USE_TARGET, PICK_GIVE_TARGET }
 
-const INVENTORY_PANEL = preload("uid://cq60mqy70b8je")
+const ITEM_ROW_PANEL = preload("res://ui/item_row/item_row_panel.tscn")
 
 @export var inventory: Dictionary[Item.Type, InventoryPage] = { }
 
@@ -264,9 +264,9 @@ func _item_type_display_name(t: Item.Type) -> String:
 
 
 func _create_item(item: Item, quantity: int) -> void:
-	var inventory_panel: Button = INVENTORY_PANEL.instantiate()
+	var inventory_panel: Button = ITEM_ROW_PANEL.instantiate()
 	v_box_container.add_child(inventory_panel)
-	inventory_panel.display(quantity, item)
+	inventory_panel.display(item, quantity, false)
 	inventory_panel.pressed.connect(_on_inventory_panel_pressed.bind(inventory_panel))
 
 
@@ -284,7 +284,7 @@ func _set_mode_give_target(value: bool) -> void:
 
 func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 	_set_item_focus(inventory_panel)
-	var item: Item = inventory_panel.item_repr
+	var item: Item = inventory_panel.item
 	match interfaces.ui_context:
 		Global.AccessFrom.INVENTORY:
 			_set_focus_state(Focused.OPTION)
@@ -329,7 +329,7 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 func _on_option_pressed(button: Button) -> void:
 	if last_selected_item_button == null:
 		return
-	var item: Item = last_selected_item_button.item_repr
+	var item: Item = last_selected_item_button.item
 	last_selected_option = button
 	match button.name:
 		"Use":

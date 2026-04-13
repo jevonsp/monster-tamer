@@ -11,6 +11,9 @@ region = Rect2(0, 16, 16, 16)
 
 [node name="SmashableRock" unique_id=750354463 instance=ExtResource("1_d3m73")]
 
+[node name="CollisionShape2D" parent="." index="0" unique_id=2099023752]
+visible = false
+
 [node name="Sprite2D" type="Sprite2D" parent="." index="1" unique_id=1515449067]
 texture = SubResource("AtlasTexture_d3m73")
 offset = Vector2(8, 4)

@@ -28,7 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://dqpocp0lr7l2e" path="res://world_objects/interactable/static_object/storage_component.tscn" id="21_vapsy"]
 [ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="23_qs5eo"]
 [ext_resource type="Resource" uid="uid://du7xft6yrfja1" path="res://items/climbing_shoes.tres" id="24_d7rgo"]
-[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm_test/tm_test.tres" id="24_frbr6"]
+[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm/tm.tres" id="24_frbr6"]
 [ext_resource type="PackedScene" uid="uid://lhi4amumrkry" path="res://world_objects/teleporter/teleporter.tscn" id="26_d00gp"]
 [ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="27_d8vpj"]
 [ext_resource type="PackedScene" uid="uid://dpsykgdfm0gej" path="res://world_objects/interactable/blocker_object/travel_blocker_object/surf_object/surf_object.tscn" id="27_h3axc"]

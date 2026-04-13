@@ -23,7 +23,7 @@
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="19_ofnac"]
 [ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="20_yl0yr"]
 [ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="21_cm171"]
-[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm_test/tm_test.tres" id="22_m0c1s"]
+[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm/tm.tres" id="22_m0c1s"]
 [ext_resource type="Resource" uid="uid://cdor45ba2o0aa" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_md.tres" id="23_x0mcs"]
 [ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="24_6f4vm"]
 [ext_resource type="Resource" uid="uid://du7xft6yrfja1" path="res://items/climbing_shoes.tres" id="25_xvhuk"]

@@ -115,12 +115,13 @@ func update_held_keys(delta: float) -> void:
 		elif Input.is_action_pressed(dir) and dir in key_hold_times:
 			key_hold_times[dir] += delta
 			
-	if _should_suppress_up_input():
-		held_keys.erase("up")
-		key_hold_times.erase("up")
+	if _should_suppress_vertical_input():
+		for key in ["up", "down"]:
+			held_keys.erase(key)
+			key_hold_times.erase(key)
 
 
-func _should_suppress_up_input() -> bool:
+func _should_suppress_vertical_input() -> bool:
 	return travel.is_sidescrolling and travel_state != TravelState.CLIMBING
 
 

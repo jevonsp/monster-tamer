@@ -30,7 +30,7 @@ func interact(body: CharacterBody2D) -> void:
 		printerr("Static Obj %s interacted with by Body %s,\nThis should never happen.\nExiting interact()")
 		return
 
-	var obj_name = item.name if type == Type.ITEM else monster_data.species
+	var obj_name = item.get_display_name() if type == Type.ITEM else monster_data.species
 
 	if not text.is_empty():
 		Ui.send_text_box.emit(self, text, is_autocomplete, is_question, true)

@@ -6,7 +6,8 @@ var item: Item = null
 @onready var name_label: Label = $MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/NameLabel
 @onready var price_label: Label = \
 $MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer/PriceLabel
-@onready var quantity_label: Label = $MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer/QuantityLabel
+@onready var quantity_label: Label = \
+$MarginContainer/HBoxContainer/Control/HBoxContainer/VBoxContainer/HBoxContainer/QuantityLabel
 @onready var description_label: Label = $MarginContainer/HBoxContainer/Control/HBoxContainer/DescriptionLabel
 
 
@@ -15,11 +16,13 @@ func _ready() -> void:
 	focus_neighbor_left = path
 
 
-func display(item_displaying: Item, amount: int) -> void:
-	item = item_displaying
+func display(item_to_show: Item, amount: int, show_price: bool = false) -> void:
+	item = item_to_show
 	_display_texture(item)
 	_display_name(item)
-	_display_price(item)
+	price_label.visible = show_price
+	if show_price:
+		_display_price(item)
 	_display_quantity(amount)
 	_display_description(item)
 
@@ -48,7 +51,7 @@ func _display_price(item_displaying: Item) -> void:
 func _display_quantity(amount: int) -> void:
 	if amount >= 0:
 		quantity_label.text = "x %s" % [amount]
-	elif amount <= -1:
+	else:
 		quantity_label.text = "x ∞"
 
 

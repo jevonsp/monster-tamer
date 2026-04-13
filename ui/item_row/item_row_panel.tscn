@@ -1,14 +1,14 @@
-[gd_scene format=3 uid="uid://b301kh78bm7js"]
+[gd_scene format=3 uid="uid://cgmwp27j64bla"]
 
 [ext_resource type="Texture2D" uid="uid://b3uqijcjsxeo1" path="res://world_objects/interactable/static_object/sign.png" id="1_qaq52"]
-[ext_resource type="Script" uid="uid://boycqbw3dpbty" path="res://ui/store/store_panel.gd" id="1_vl66u"]
+[ext_resource type="Script" uid="uid://b3u5vk5ckp4yj" path="res://ui/item_row/item_row_panel.gd" id="1_vl66u"]
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_vyd26"]
 [ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="2_fpimg"]
 [ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="3_tpgvj"]
 [ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="4_ygvxd"]
 [ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="5_3gdsw"]
 
-[node name="StorePanel" type="Button" unique_id=444482965]
+[node name="ItemRowPanel" type="Button" unique_id=444482965]
 custom_minimum_size = Vector2(704, 115)
 anchors_preset = 8
 anchor_left = 0.5
