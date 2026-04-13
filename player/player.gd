@@ -184,7 +184,7 @@ func can_move_in(input_dir: Vector2) -> bool:
 	var tile = get_next_tile_coords(input_dir)
 	var current_map = get_current_map()
 	
-	if travel_state == TravelState.SURFING and not TileChecker._is_tile_water(tile, current_map):
+	if travel_state == TravelState.SURFING and not TileChecker.is_tile_water(tile, current_map):
 		travel_handler.stop_surfing()
 
 	var started := try_start_move(input_dir)

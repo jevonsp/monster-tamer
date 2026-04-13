@@ -31,6 +31,20 @@ var height_level: int = 0:
 @onready var shadow_sprite: AnimatedSprite2D = $Shadow
 
 
+static func logical_subtiles_per_axis(map: TileMapLayer) -> int:
+	if map == null or map.tile_set == null:
+		return 1
+	var ts: Vector2i = map.tile_set.tile_size
+	if ts.x <= 0 or ts.y <= 0 or ts.x != ts.y:
+		push_warning("TileMover: invalid or non-square tile_set.tile_size")
+		return 1
+	var step := int(TILE_SIZE)
+	if step % ts.x != 0:
+		push_warning("TileMover: TILE_SIZE not divisible by tile_set.tile_size")
+		return 1
+	return int(step / float(ts.x))
+
+
 func _ready() -> void:
 	sync_tile_positions()
 	eventual_target_pos = global_position
@@ -196,15 +210,15 @@ func get_current_map() -> TileMapLayer:
 
 func get_tile_coords() -> Vector2i:
 	var current_map = get_current_map()
-	var cell = current_map.local_to_map(global_position)
-	return cell
+	var map_cell := current_map.local_to_map(global_position)
+	return _map_cell_to_logical(current_map, map_cell)
 
 
 func get_next_tile_coords(dir: Vector2) -> Vector2i:
-	var result: Vector2i = global_position + dir * Vector2(TILE_SIZE, TILE_SIZE)
+	var world_target := global_position + dir * Vector2(TILE_SIZE, TILE_SIZE)
 	var current_map = get_current_map()
-	var cell = current_map.local_to_map(result)
-	return cell
+	var map_cell := current_map.local_to_map(world_target)
+	return _map_cell_to_logical(current_map, map_cell)
 
 
 func manage_height() -> void:
@@ -216,6 +230,11 @@ func manage_height() -> void:
 	else:
 		z_index = 2
 		ray_cast_2d.collision_mask = _PHYSICS_MASKS.RAY_MOVEMENT_ELEVATED
+
+
+func _map_cell_to_logical(map_layer: TileMapLayer, map_cell: Vector2i) -> Vector2i:
+	var s := logical_subtiles_per_axis(map_layer)
+	return Vector2i(int(map_cell.x / float(s)), int(map_cell.y / float(s)))
 
 
 func _ignore_elevated_tilemap_hit_while_on_ground(collider: Object) -> bool:

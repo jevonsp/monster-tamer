@@ -5,7 +5,6 @@ signal cursor_entered(cursor_location: Map.Location)
 signal cursor_exited(cursor_location: Map.Location)
 
 const MINIMAP_CURSOR_PHYSICS_LAYER: int = 1 << 19
-
 const BRIGHTEST: float = 0.7
 const FLASH_DURATION: float = 0.5
 const BOBBLE_DURATION: float = 0.15
@@ -57,9 +56,11 @@ func stop_flashing() -> void:
 
 
 func _connect_signals() -> void:
-	Global.location_changed.connect(_on_location_changed)
 	area_2d.body_entered.connect(_on_body_entered)
 	area_2d.body_exited.connect(_on_body_exited)
+	if not is_node_ready():
+		return
+	Global.location_changed.connect(_on_location_changed)
 
 
 func _on_location_changed(player_location: Map.Location) -> void:
