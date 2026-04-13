@@ -15,6 +15,7 @@ func _ready() -> void:
 
 func _teleport_sequence_iris(body: CharacterBody2D) -> void:
 	(body as Player)._set_movement_locked(true)
+	(body as Player).clear_inputs()
 	iris_color_rect.visible = true
 	await _iris_close()
 	_teleport_player(body)

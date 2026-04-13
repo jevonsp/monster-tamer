@@ -13,11 +13,6 @@ static var info: Info
 
 const  TURN_DURATION := 0.1
 
-@export var available_travel_methods: Dictionary = {
-	TravelState.SURFING: false,
-	TravelState.BIKING: false,
-}
-
 var travel_state: TravelState = TravelState.DEFAULT
 
 var held_keys: Array = []
@@ -26,8 +21,10 @@ var turn_timer: float = 0.0
 var command_active: bool = false
 var processing: bool = true
 var respawn_point: Vector2 = Vector2.ZERO
+
 var _movement_lock_depth: int = 0
 var _grass_overlap_depth: int = 0
+var _ladder_zone_overlap_depth: int = 0
 
 @onready var party_handler: Node = $PartyHandler
 @onready var inventory_handler: Node = $InventoryHandler
@@ -117,6 +114,15 @@ func update_held_keys(delta: float) -> void:
 			key_hold_times.erase(dir)
 		elif Input.is_action_pressed(dir) and dir in key_hold_times:
 			key_hold_times[dir] += delta
+			
+	if _should_suppress_up_input():
+		held_keys.erase("up")
+		key_hold_times.erase("up")
+
+
+func _should_suppress_up_input() -> bool:
+	return travel.is_sidescrolling and travel_state != TravelState.CLIMBING
+
 
 
 func process_idle_state() -> void:
@@ -298,6 +304,16 @@ func _finish_commanded_movement(clear_target := true) -> void:
 
 func is_movement_locked() -> bool:
 	return _movement_lock_depth > 0
+
+func notify_ladder_zone_entered() -> void:
+	_ladder_zone_overlap_depth += 1
+	travel_state = TravelState.CLIMBING
+	
+func notify_ladder_zone_exited() -> void:
+	_ladder_zone_overlap_depth = maxi(0, _ladder_zone_overlap_depth - 1)
+	if _ladder_zone_overlap_depth == 0:
+		travel_state = TravelState.DEFAULT
+
 
 
 func grass_overlap_enter() -> void:

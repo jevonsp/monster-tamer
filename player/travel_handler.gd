@@ -3,6 +3,11 @@ extends Node
 
 @export var current_location: Map.Location = Map.Location.NONE
 
+var is_sidescrolling: bool = false:
+	set(value):
+		is_sidescrolling = value
+		print("is_sidescrolling: ", is_sidescrolling)
+
 @onready var player: Player = $".."
 
 

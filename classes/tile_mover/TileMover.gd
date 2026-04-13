@@ -78,22 +78,8 @@ func get_interaction_ray_collider() -> Object:
 	return collider
 
 
-func _ignore_elevated_tilemap_hit_while_on_ground(collider: Object) -> bool:
-	return height_level == 0 \
-		and Global.elevated_map != null \
-		and collider == Global.elevated_map
-
-
 func is_direction_blocked(dir: Vector2) -> bool:
 	ray_cast_2d.target_position = dir * TILE_SIZE
-	ray_cast_2d.force_raycast_update()
-	if not ray_cast_2d.is_colliding():
-		return false
-	return not _ignore_elevated_tilemap_hit_while_on_ground(ray_cast_2d.get_collider())
-
-
-func _ray_hits_solid_for_movement(dir: Vector2, length_scale: float) -> bool:
-	ray_cast_2d.target_position = dir * TILE_SIZE * length_scale
 	ray_cast_2d.force_raycast_update()
 	if not ray_cast_2d.is_colliding():
 		return false
@@ -230,6 +216,20 @@ func manage_height() -> void:
 	else:
 		z_index = 2
 		ray_cast_2d.collision_mask = _PHYSICS_MASKS.RAY_MOVEMENT_ELEVATED
+
+
+func _ignore_elevated_tilemap_hit_while_on_ground(collider: Object) -> bool:
+	return height_level == 0 \
+	and Global.elevated_map != null \
+	and collider == Global.elevated_map
+
+
+func _ray_hits_solid_for_movement(dir: Vector2, length_scale: float) -> bool:
+	ray_cast_2d.target_position = dir * TILE_SIZE * length_scale
+	ray_cast_2d.force_raycast_update()
+	if not ray_cast_2d.is_colliding():
+		return false
+	return not _ignore_elevated_tilemap_hit_while_on_ground(ray_cast_2d.get_collider())
 
 
 func _should_ledge_jump(dir: Vector2) -> bool:

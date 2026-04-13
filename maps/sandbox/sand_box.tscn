@@ -38,7 +38,7 @@
 [ext_resource type="PackedScene" uid="uid://bgfglsoh8a78d" path="res://world_objects/interactable/npc/components/npc_text_entry_component.tscn" id="34_vqm8p"]
 [ext_resource type="PackedScene" uid="uid://lhi4amumrkry" path="res://world_objects/teleporter/teleporter.tscn" id="35_dhtxl"]
 [ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="36_mwsaj"]
-[ext_resource type="PackedScene" uid="uid://sy3x2x1amgx4" path="res://world_objects/ladder_zone/ladder_zone.tscn" id="37_5hpaf"]
+[ext_resource type="PackedScene" uid="uid://sy3x2x1amgx4" path="res://world_objects/side_scrolling/ladder_zone.tscn" id="37_5hpaf"]
 [ext_resource type="PackedScene" uid="uid://bgm0u2s71302j" path="res://world_objects/encounter/grass/wild_zone.tscn" id="38_4m8j0"]
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="39_fjojn"]
 [ext_resource type="PackedScene" uid="uid://gkxr8ot677xm" path="res://world_objects/encounter/grass/grass_tile.tscn" id="40_d23dc"]

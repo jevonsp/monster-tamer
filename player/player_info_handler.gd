@@ -13,6 +13,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	&"input_layout",
 	&"respawn_point",
 	&"nuzlocke_tracker",
+	&"is_sidescrolling",
 ]
 
 @export var player_info: Dictionary = { }
@@ -51,6 +52,11 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	set(value):
 		nuzlocke_tracker = value
 		player_info["nuzlocke_tracker"] = value
+@export var is_sidescrolling: bool = false:
+	set(value):
+		is_sidescrolling = value
+		player_info["is_sidescrolling"] = value
+		player.travel.is_sidescrolling = value
 
 var player: Player
 
