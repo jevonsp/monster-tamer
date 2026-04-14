@@ -11,10 +11,6 @@
 [node name="Player" unique_id=2086138783 instance=ExtResource("1_base")]
 collision_layer = 2
 script = ExtResource("1_rkbax")
-available_travel_methods = {
-1: false,
-2: false
-}
 
 [node name="PartyHandler" type="Node" parent="." index="7" unique_id=1509981127]
 script = ExtResource("2_yw30f")

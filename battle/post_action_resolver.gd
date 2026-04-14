@@ -99,7 +99,45 @@ func _win() -> void:
 	var text: Array[String] = battle.enemy_trainer.losing_dialogue if battle.enemy_trainer else default
 	Ui.send_text_box.emit(null, text, false, false, false)
 	await Ui.text_box_complete
+
+	await _dispense_winnings()
+
 	battle.end_battle()
+
+
+func _dispense_winnings() -> void:
+	var battle_session: BattleSession = battle.battle_session
+	if battle.is_wild_battle:
+		var money = _calculate_trainer_winnings(battle_session)
+		Player.inventory.adjust_money(money)
+
+		var ta: Array[String] = ["You got %s money for winning!" % [money]]
+		Ui.send_text_box.emit(null, ta, false, false, false)
+
+		await Ui.text_box_complete
+	else:
+		var item = _calculate_wild_winnings(battle_session)
+		if item:
+			Player.inventory.add(item)
+			var ta: Array[String] = ["Your %s managed to find a %s after the battle!" % [battle_session.player_actor.name, item.name]]
+
+			Ui.send_text_box.emit(null, ta, false, false, false)
+			await Ui.text_box_complete
+
+
+func _calculate_trainer_winnings(battle_session: BattleSession) -> int:
+	var avg_level: int = 0
+	for m: Monster in battle_session.enemy_party:
+		avg_level += m.level
+	var money = avg_level * 100
+	return money
+
+
+func _calculate_wild_winnings(_battle_session: BattleSession) -> Item:
+	var chance = randf()
+	if chance <= ItemFinding.get_chance_for_route():
+		return ItemFinding.get_item_for_route()
+	return null
 
 
 func _lose() -> void:

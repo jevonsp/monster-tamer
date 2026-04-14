@@ -20,6 +20,10 @@ enum Stat {
 	CRITICAL,
 	HITPOINTS,
 }
+enum LevelUpMoveResult {
+	AUTO_LEARNED,
+	NEEDS_SWAP,
+}
 
 const EXPERIENCE_PER_LEVEL: int = 50
 
@@ -42,6 +46,7 @@ const EXPERIENCE_PER_LEVEL: int = 50
 @export var move_pp: Dictionary[Move, int] = { }
 @export var is_player_monster: bool = false
 @export var is_fainted: bool = false
+@export var is_disabled: bool = false
 @export var is_captured: bool = false
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
@@ -52,11 +57,6 @@ var is_able_to_fight: bool:
 	get:
 		return not is_fainted and not is_captured
 var statuses: Array[StatusInstance] = []
-
-enum LevelUpMoveResult {
-	AUTO_LEARNED,
-	NEEDS_SWAP,
-}
 
 
 func set_monster_data(monster_data_resource: MonsterData) -> void:
@@ -322,6 +322,10 @@ func faint() -> void:
 	if is_fainted:
 		return
 	is_fainted = true
+
+	if Options.is_nuzlocke():
+		is_disabled = true
+
 	Battle.send_monster_fainted.emit(self)
 
 

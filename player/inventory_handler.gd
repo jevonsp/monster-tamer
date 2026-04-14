@@ -29,8 +29,8 @@ func send_player_inventory() -> void:
 	Inventory.send_player_inventory.emit(inventory)
 
 
-func spend_money(amount: int) -> void:
-	money -= amount
+func adjust_money(amount: int) -> void:
+	money += amount
 	Inventory.send_player_money.emit(money)
 
 

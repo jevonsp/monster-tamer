@@ -2,6 +2,7 @@ extends Node
 ## Saves Data at ~/.local/share/godot/app_userdata/
 
 const MAIN = preload("res://maps/vertical_slice/vertical_slice.tscn")
+const TITLE_SCREEN = preload("uid://bwmithvrs81lb")
 
 var loaded_scene: Node2D
 
@@ -116,3 +117,7 @@ func load_config() -> void:
 		Options.game_variant = clampi(int(gv), 0, Options.GameVariant.size() - 1) as Options.GameVariant
 
 	InputRemapper.apply(Options.control_scheme)
+
+
+func switch_to_title() -> void:
+	get_tree().change_scene_to_packed(TITLE_SCREEN)

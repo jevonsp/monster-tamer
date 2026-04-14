@@ -372,9 +372,24 @@ func _resolve_interactable(collider: Object) -> Node:
 
 
 func _respawn() -> void:
+	if Options.is_nuzlocke():
+		await _lose()
+		return
 	global_position = respawn_point
 	sync_tile_positions()
 	party_handler.fully_heal_and_revive_party()
+
+
+func _lose() -> void:
+	var ta: Array[String] = [
+		"You have ran out of usable Monsters while in Nuzlocke mode.",
+		"You will be returned to the title screen.",
+		"You can permanently turn off Nuzlocke mode at any time in the options menu.",
+	]
+	Ui.send_text_box.emit(null, ta, false, false, false)
+	await Ui.text_box_complete
+	
+	SaverLoader.switch_to_title()
 
 
 func _open_menu() -> void:

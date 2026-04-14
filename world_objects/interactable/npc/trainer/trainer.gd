@@ -8,6 +8,7 @@ extends NPC
 		_update_tiles_in_sight()
 @export var party: Array[MonsterData] = []
 @export var party_levels: Array[int] = []
+@export var money_multiplier: float = 1.0
 @export var after_battle_components: Array[NPCComponent] = []
 @export_subgroup("Dialogue")
 @export_multiline var winning_dialogue: Array[String] = []

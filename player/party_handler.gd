@@ -33,11 +33,12 @@ func add(monster: Monster):
 		_add_to_storage(monster)
 
 	send_player_party_and_storage()
-	NuzlockeTracker.monster_caught_on_route(Player.travel.current_location)
 
 
 func fully_heal_and_revive_party() -> void:
-	for monster in party:
+	for monster: Monster in party:
+		if Options.is_nuzlocke() and monster.is_disabled:
+			continue
 		monster.fully_heal_and_revive()
 		monster.restore_pp()
 	send_player_party()

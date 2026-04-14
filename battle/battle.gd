@@ -84,6 +84,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func end_battle() -> void:
+	if is_wild_battle:
+		NuzlockeTracker.monster_encountered_on_route(Player.travel.current_location)
 	_release_held_input_actions()
 	var ended_trainer: Trainer = enemy_trainer
 	_clear_all()

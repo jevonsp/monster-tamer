@@ -1,5 +1,6 @@
 extends Node
 
+
 func try_buy(
 		player_ref: Player,
 		current_category: int,
@@ -8,14 +9,14 @@ func try_buy(
 		shop_inventory: Dictionary,
 ) -> Dictionary:
 	if not player_ref:
-		return {"ok": false, "message": "You don't have enough money for that."}
+		return { "ok": false, "message": "You don't have enough money for that." }
 	if not _can_player_afford(player_ref, item):
-		return {"ok": false, "message": "You don't have enough money for that."}
+		return { "ok": false, "message": "You don't have enough money for that." }
 	if not _check_enough_stock(shop_inventory, current_category, item, amount):
-		return {"ok": false, "message": "We don't have enough in stock, sorry!"}
+		return { "ok": false, "message": "We don't have enough in stock, sorry!" }
 	_pay_for_item(player_ref, item)
 	_reduce_stock(shop_inventory, current_category, item, amount)
-	return {"ok": true}
+	return { "ok": true }
 
 
 func try_sell(
@@ -26,14 +27,14 @@ func try_sell(
 		amount: int,
 ) -> Dictionary:
 	if not player_ref:
-		return {"ok": false, "message": ""}
+		return { "ok": false, "message": "" }
 	if item.item_type == Item.Type.KEY:
-		return {"ok": false, "message": "You can't sell me that!"}
+		return { "ok": false, "message": "You can't sell me that!" }
 	if not _check_enough_stock(player_inventory, current_category, item, amount):
-		return {"ok": false, "message": "You don't have that many to sell."}
+		return { "ok": false, "message": "You don't have that many to sell." }
 	player_ref.inventory_handler.remove(item, amount)
 	credit_player_for_sale(player_ref, item, amount)
-	return {"ok": true}
+	return { "ok": true }
 
 
 func credit_player_for_sale(player_ref: Player, item: Item, amount: int) -> void:
@@ -77,7 +78,7 @@ func _check_enough_stock(
 
 
 func _pay_for_item(player_ref: Player, item: Item) -> void:
-	player_ref.inventory_handler.spend_money(item.price)
+	player_ref.inventory_handler.adjust_money(-item.price)
 
 
 func _reduce_stock(

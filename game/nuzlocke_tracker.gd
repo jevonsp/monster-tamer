@@ -31,7 +31,7 @@ static func hydrate_from_save(info: Info) -> void:
 	route_tracker = d
 
 
-static func monster_caught_on_route(location: Map.Location) -> void:
+static func monster_encountered_on_route(location: Map.Location) -> void:
 	route_tracker[location] = true
 
 

@@ -13,6 +13,10 @@ func _ready() -> void:
 	SaverLoader.load_config()
 
 
+func is_nuzlocke() -> bool:
+	return game_variant == GameVariant.NUZLOCKE
+
+
 func _reset() -> void:
 	control_scheme = ControlScheme.XBOX_SONY
 	game_variant = GameVariant.NUZLOCKE
