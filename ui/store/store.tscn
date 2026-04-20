@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm/tm.tres" id="7_rgtmx"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_a3op8"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="8_ma41c"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="9_sep80"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="9_sep80"]
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="11_q17of"]
 
 [sub_resource type="Resource" id="Resource_snh7x"]

@@ -1,12 +1,21 @@
+@tool
 class_name Teleporter
 extends Node2D
 
 enum TransitionType { IRIS }
 
+@export var is_door_visible: bool = true:
+	set(value):
+		is_door_visible = value
+		if not is_node_ready():
+			return
+		if Engine.is_editor_hint():
+			_toggle_door_visible(is_door_visible)
 @export var transition_type: TransitionType = TransitionType.IRIS
 @export var teleporter_point: TeleporterPoint
 
 @onready var iris_color_rect: ColorRect = $CanvasLayer/IrisColorRect
+@onready var sprite_2d: Sprite2D = $Sprite2D
 
 
 func _ready() -> void:
@@ -65,3 +74,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 	if interfaces and interfaces.has_method("end_field_suppress"):
 		interfaces.end_field_suppress()
+
+
+func _toggle_door_visible(value: bool) -> void:
+	sprite_2d.visible = value

@@ -7,7 +7,7 @@
 [ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="4_galwr"]
 [ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="5_fowqc"]
 [ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="6_v2fgi"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="7_8dyvk"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="7_8dyvk"]
 
 [node name="Inventory" type="Control" unique_id=713585617]
 layout_mode = 3

@@ -5,8 +5,8 @@ enum LayoutMode { FIELD, BATTLE, EVOLUTION }
 enum Phase { LINES, CHOICE_PICK }
 
 const CHOICE_BUTTON = preload("uid://d2u80jaxwyvt7")
-const FONT_MAIN_FIELD := preload("res://3p_assets/m3x6.ttf")
-const FONT_MAIN_EVOLUTION := preload("res://3p_assets/m5x7.ttf")
+const FONT_MAIN_FIELD := preload("res://3p_assets/fonts/m3x6.ttf")
+const FONT_MAIN_EVOLUTION := preload("res://3p_assets/fonts/m5x7.ttf")
 
 var processing: bool = false
 var text_array: Array[String] = []

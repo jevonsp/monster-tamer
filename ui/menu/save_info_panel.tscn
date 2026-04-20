@@ -2,7 +2,7 @@
 
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_wwdjx"]
 [ext_resource type="Script" uid="uid://beu7ichwm2foe" path="res://ui/menu/save_info_panel.gd" id="2_wwdjx"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="3_uvce7"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="3_uvce7"]
 
 [node name="SaveInfoPanel" type="Panel" unique_id=1598156565]
 offset_right = 816.0

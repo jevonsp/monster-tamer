@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="4_o2fwo"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="4_o14qd"]
 [ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party/party_texture_rect.gd" id="5_s6yn0"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="7_7pu1b"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="7_7pu1b"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="11_o14qd"]
 
 [node name="Party" type="Control" unique_id=265451228]

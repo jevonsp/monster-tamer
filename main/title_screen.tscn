@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://coyl3epbkw5dr" path="res://main/title_screen.gd" id="1_e5l7q"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_c311y"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="3_88bax"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="3_88bax"]
 [ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="4_do73k"]
 
 [node name="TitleScreen" type="Control" unique_id=1206539597]

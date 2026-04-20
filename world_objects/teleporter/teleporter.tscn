@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://fl60sqp3s8d3" path="res://world_objects/teleporter/teleporter.gd" id="1_8ruom"]
 [ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://world_objects/teleporter/iris_transition.gdshader" id="1_u3sw1"]
-[ext_resource type="Texture2D" uid="uid://b7a0yr4li8ta0" path="res://world_objects/teleporter/door.png" id="3_gqidb"]
+[ext_resource type="Texture2D" uid="uid://b7fltcr5k5idv" path="res://3p_assets/AxulArt/Plains.png" id="3_gqidb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gqidb"]
 size = Vector2(15, 15)
@@ -12,6 +12,10 @@ shader = ExtResource("1_u3sw1")
 shader_parameter/iris_size = 0.999999977648
 shader_parameter/feather = 0.02999999932944
 shader_parameter/centre = Vector2(0.5, 0.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_il4vv"]
+atlas = ExtResource("3_gqidb")
+region = Rect2(0, 80, 16, 16)
 
 [node name="Teleporter" type="Node2D" unique_id=643132918]
 y_sort_enabled = true
@@ -40,7 +44,8 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=488132345]
-position = Vector2(8, 8)
-texture = ExtResource("3_gqidb")
+z_index = -1
+texture = SubResource("AtlasTexture_il4vv")
+offset = Vector2(8, 8)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

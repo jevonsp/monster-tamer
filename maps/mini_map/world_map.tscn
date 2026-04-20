@@ -2,18 +2,12 @@
 
 [ext_resource type="Script" uid="uid://cdkqmtt200ynk" path="res://maps/mini_map/world_map.gd" id="1_8p8y2"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="2_c5p0o"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="3_xuags"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="3_xuags"]
 [ext_resource type="PackedScene" uid="uid://b5pynv6ya5re" path="res://maps/mini_map/point_of_interest.tscn" id="4_1t8l0"]
-[ext_resource type="Texture2D" uid="uid://sq516njue3vy" path="res://maps/mini_map/landmark.png" id="5_41l4s"]
-[ext_resource type="Texture2D" uid="uid://c0rf0iejkikkd" path="res://maps/mini_map/city.png" id="6_dvgp0"]
 [ext_resource type="PackedScene" uid="uid://daffs68k3hs8" path="res://maps/mini_map/path.tscn" id="7_6ypdw"]
-[ext_resource type="Shader" uid="uid://u7dyd400nkud" path="res://shaders/white.gdshader" id="8_rosp5"]
-[ext_resource type="Texture2D" uid="uid://5awwq6w35adg" path="res://maps/mini_map/route_vertical.png" id="9_d3u51"]
+[ext_resource type="Texture2D" uid="uid://sq516njue3vy" path="res://maps/mini_map/landmark.png" id="7_tbmb3"]
+[ext_resource type="Texture2D" uid="uid://c0rf0iejkikkd" path="res://maps/mini_map/city.png" id="8_xumcx"]
 [ext_resource type="PackedScene" uid="uid://beem8km8uvvbr" path="res://maps/mini_map/cursor.tscn" id="10_pe7t7"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mf4a1"]
-shader = ExtResource("8_rosp5")
-shader_parameter/flash_amount = 0.0
 
 [node name="WorldMapTesting" type="Control" unique_id=207139352]
 layout_mode = 3
@@ -48,89 +42,72 @@ layout_mode = 2
 size_flags_vertical = 1
 theme_override_fonts/font = ExtResource("3_xuags")
 theme_override_font_sizes/font_size = 32
-text = "LOCATION: xx"
+text = "LOCATION: UNKNOWN"
 vertical_alignment = 1
+
+[node name="Cursor" parent="." unique_id=2037848349 instance=ExtResource("10_pe7t7")]
+z_index = 1
+position = Vector2(32, 96)
+scale = Vector2(3, 3)
+max_speed = 200.0
+friction = 850.0
 
 [node name="PointOfInterest0" parent="." unique_id=163076541 instance=ExtResource("4_1t8l0")]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 64.0
-offset_right = 96.0
+offset_left = 63.999996
+offset_top = 63.999996
+offset_right = 80.0
 offset_bottom = 80.0
 scale = Vector2(3, 3)
 location = 1
 
-[node name="PointOfInterest1" parent="." unique_id=372036638 instance=ExtResource("4_1t8l0")]
+[node name="Path0" parent="." unique_id=804554734 instance=ExtResource("7_6ypdw")]
 layout_mode = 0
-offset_left = 224.0
+offset_left = 112.00001
 offset_top = 64.0
-offset_right = 256.0
+offset_right = 128.0
 offset_bottom = 80.0
 scale = Vector2(3, 3)
-texture = ExtResource("5_41l4s")
-type = 2
-orientation = 1
-location = 4
+location = 2
 
-[node name="PointOfInterest2" parent="." unique_id=1503683261 instance=ExtResource("4_1t8l0")]
+[node name="PointOfInterest1" parent="." unique_id=1783483190 instance=ExtResource("4_1t8l0")]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 160.0
-offset_right = 96.0
-offset_bottom = 176.0
+offset_left = 160.0
+offset_top = 64.0
+offset_right = 176.0
+offset_bottom = 80.0
 scale = Vector2(3, 3)
-texture = ExtResource("5_41l4s")
+texture = ExtResource("7_tbmb3")
 type = 2
 location = 3
 
-[node name="PointOfInterest3" parent="." unique_id=838128690 instance=ExtResource("4_1t8l0")]
+[node name="Path1" parent="." unique_id=727372154 instance=ExtResource("7_6ypdw")]
 layout_mode = 0
-offset_left = 176.0
-offset_top = 160.0
-offset_right = 192.0
-offset_bottom = 192.0
-scale = Vector2(3, 3)
-texture = ExtResource("6_dvgp0")
-type = 1
-orientation = 2
-location = 7
-
-[node name="Path0" parent="." unique_id=804554734 instance=ExtResource("7_6ypdw")]
-material = SubResource("ShaderMaterial_mf4a1")
-layout_mode = 0
-offset_left = 128.0
+offset_left = 208.0
 offset_top = 64.0
-offset_right = 160.0
+offset_right = 224.0
 offset_bottom = 80.0
 scale = Vector2(3, 3)
+location = 4
+
+[node name="PointOfInterest2" parent="." unique_id=2071764510 instance=ExtResource("4_1t8l0")]
+layout_mode = 0
+offset_left = 255.99998
+offset_top = 64.0
+offset_right = 272.0
+offset_bottom = 80.0
+scale = Vector2(3, 3)
+texture = ExtResource("7_tbmb3")
+type = 2
 location = 5
 
-[node name="Path1" parent="." unique_id=334888353 instance=ExtResource("7_6ypdw")]
+[node name="PointOfInterest3" parent="." unique_id=926526287 instance=ExtResource("4_1t8l0")]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 112.0
-offset_right = 96.0
-offset_bottom = 128.0
+offset_left = 304.0
+offset_top = 64.0
+offset_right = 320.0
+offset_bottom = 80.0
 scale = Vector2(3, 3)
-texture = ExtResource("9_d3u51")
-direction = 1
-location = 2
-
-[node name="Path2" parent="." unique_id=1439609173 instance=ExtResource("7_6ypdw")]
-layout_mode = 0
-offset_left = 176.0
-offset_top = 106.0
-offset_right = 192.0
-offset_bottom = 124.0
-scale = Vector2(3, 3)
-texture = ExtResource("9_d3u51")
-direction = 1
+texture = ExtResource("8_xumcx")
+type = 1
 location = 6
-
-[node name="Cursor" parent="." unique_id=2037848349 instance=ExtResource("10_pe7t7")]
-position = Vector2(112, 96)
-scale = Vector2(3, 3)
-collision_layer = 1
-collision_mask = 1
-max_speed = 200.0
-friction = 850.0

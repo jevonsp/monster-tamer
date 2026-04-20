@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="4_3k2wb"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="5_pfpua"]
 [ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party/party_texture_rect.gd" id="6_fycbb"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="6_gwyma"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="6_gwyma"]
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="8_3k2wb"]
 [ext_resource type="Script" uid="uid://bv67eukttwrd0" path="res://ui/summary/summary_update_handler.gd" id="9_xxm6n"]
 [ext_resource type="Script" uid="uid://b0p5k5iongl3k" path="res://ui/summary/summary_input_handler.gd" id="10_njb72"]

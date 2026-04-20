@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dg1xhohpddu4d" path="res://ui/menu/menu.gd" id="1_bwjgb"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_77h3e"]
-[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="3_w0ybq"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/fonts/m3x6.ttf" id="3_w0ybq"]
 [ext_resource type="PackedScene" uid="uid://cbge51jklxgm2" path="res://ui/menu/save_info_panel.tscn" id="4_trkij"]
 
 [node name="Menu" type="Control" unique_id=1738143517]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://q21m3s4lx1nn"]
 
 [ext_resource type="Script" uid="uid://dvaak3p4yfeq2" path="res://ui/info_hud/info_hud.gd" id="1_idg6k"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="2_mkx12"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="2_mkx12"]
 
 [node name="InfoHUD" type="Control" unique_id=1085189325 node_paths=PackedStringArray("time_label", "period_label")]
 layout_mode = 3

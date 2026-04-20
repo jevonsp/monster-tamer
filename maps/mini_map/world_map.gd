@@ -3,17 +3,17 @@ extends Control
 
 enum Location {
 	NONE,
-	_TOWN,
+	DEMO_TOWN,
 	ROUTE_ONE,
-	_LAKE,
-	_FOREST,
-	ROUTE_TWO,
-	_PATH,
-	_CITY,
+	DEMO_FOREST,
+	ELEVATED_PATH,
+	DEMO_CAVE,
+	DEMO_CITY,
 }
 
 var processing: bool = false
 var location_list: Array[Location] = []
+var map_rect_list: Array[MapRect] = []
 
 @onready var cursor: CharacterBody2D = $Cursor
 @onready var location_label: Label = $Panel/MarginContainer/LocationLabel
@@ -39,6 +39,7 @@ func _input(event: InputEvent) -> void:
 func _connect_signals() -> void:
 	for child in get_children():
 		if child is MapRect:
+			map_rect_list.append(child)
 			child.cursor = cursor
 			child.cursor_entered.connect(_on_cursor_location_entered)
 			child.cursor_exited.connect(_on_cursor_location_exited)
@@ -48,6 +49,13 @@ func _connect_signals() -> void:
 func _toggle_visible() -> void:
 	visible = not visible
 	processing = visible
+	if visible:
+		for map_rect in map_rect_list:
+			if map_rect.bobble_tween:
+				if map_rect.cursor == null:
+					map_rect.cursor = cursor
+				map_rect._position_cursor()
+				return
 
 
 func _sync_cursor_input_enabled() -> void:

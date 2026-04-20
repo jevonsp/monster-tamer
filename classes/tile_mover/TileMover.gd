@@ -217,8 +217,10 @@ func get_tile_coords() -> Vector2i:
 func get_next_tile_coords(dir: Vector2) -> Vector2i:
 	var world_target := global_position + dir * Vector2(TILE_SIZE, TILE_SIZE)
 	var current_map = get_current_map()
-	var map_cell := current_map.local_to_map(world_target)
-	return _map_cell_to_logical(current_map, map_cell)
+	if current_map:
+		var map_cell := current_map.local_to_map(world_target)
+		return _map_cell_to_logical(current_map, map_cell)
+	return Vector2i.ZERO
 
 
 func manage_height() -> void:

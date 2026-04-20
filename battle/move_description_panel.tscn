@@ -2,7 +2,7 @@
 
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_oe66n"]
 [ext_resource type="Script" uid="uid://btq05ktrhy7w" path="res://battle/move_description_panel.gd" id="2_whtqg"]
-[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="3_4eio3"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/fonts/m3x6.ttf" id="3_4eio3"]
 
 [node name="MoveDescriptionPanel" type="Panel" unique_id=1383721063]
 offset_right = 608.0

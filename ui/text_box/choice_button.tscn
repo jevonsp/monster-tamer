@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://d2u80jaxwyvt7"]
 
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="1_5m7kq"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="1_5m7kq"]
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="2_po0f0"]
 [ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="3_1ekbu"]
 [ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="4_udgp5"]
 [ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="5_8vr8k"]
 [ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="6_1iwox"]
-[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/m3x6.ttf" id="7_57ejh"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/fonts/m3x6.ttf" id="7_57ejh"]
 [ext_resource type="Script" uid="uid://natr8vomqncv" path="res://ui/text_box/choice_button.gd" id="7_evk0p"]
 
 [node name="ChoiceButton" type="Button" unique_id=377426292]

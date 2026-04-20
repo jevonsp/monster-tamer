@@ -6,7 +6,7 @@
 [ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="4_i8cxc"]
 [ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="5_o3j3n"]
 [ext_resource type="Script" uid="uid://c884fbbanlb0l" path="res://ui/text_entry/text_entry_button.gd" id="6_uvjl0"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="7_nn1q8"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="7_nn1q8"]
 
 [node name="TextEntryButton" type="Button" unique_id=619806716 groups=["text_entry_buttons"]]
 anchors_preset = 15

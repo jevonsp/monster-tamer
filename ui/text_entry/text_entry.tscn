@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://fihrpqcisy3a" path="res://ui/text_entry/text_entry_button.tscn" id="1_6kpko"]
 [ext_resource type="Script" uid="uid://dppsqsbbhuu2q" path="res://ui/text_entry/text_entry.gd" id="1_sw7l2"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="3_1ob22"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="3_1ob22"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="4_tek33"]
 
 [node name="TextEntry" type="Control" unique_id=1175498139]

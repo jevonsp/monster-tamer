@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://cde8yn8umva7i" path="res://battle/turn_executor.gd" id="6_dxsh4"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="7_a56dj"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_phvbk"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="9_phvbk"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="9_phvbk"]
 [ext_resource type="PackedScene" uid="uid://boxcel2kld2tg" path="res://battle/move_buttons.tscn" id="10_sf8fp"]
 [ext_resource type="Script" uid="uid://b3gf8k8cer2rc" path="res://battle/animation_player.gd" id="11_hvjow"]
 [ext_resource type="Script" uid="uid://1edou8innd53" path="res://ui/button_panel/move_info_helper_panel.gd" id="11_ju8jl"]

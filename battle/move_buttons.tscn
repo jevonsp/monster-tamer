@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://boxcel2kld2tg"]
 
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="1_7mc48"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/m5x7.ttf" id="2_31oxs"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="2_31oxs"]
 
 [node name="MoveButtons" type="GridContainer" unique_id=1958324966]
 anchors_preset = 8
