@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://6i5gcxueg00c"]
+
+[ext_resource type="Script" uid="uid://b7cjaxsshpe5s" path="res://3d_migration/cell_object/cell_object.gd" id="1_80gpr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y726p"]
+
+[node name="CellObject" type="Area3D" unique_id=1454602347 groups=["interactable"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_80gpr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=598749242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
+shape = SubResource("BoxShape3D_y726p")
+debug_color = Color(1, 0, 0, 1)

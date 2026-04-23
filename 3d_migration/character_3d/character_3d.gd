@@ -1,7 +1,6 @@
 class_name Character3D
-extends Node3D
+extends Area3D
 
-# Connect in the editor or call from your scripts; can also override the matching _on_animation_* virtuals in a subclass.
 signal turn_started(facing: Vector3i)
 signal turn_finished
 signal move_step_started(step: Vector3i, to_cell: Vector3i)
@@ -14,7 +13,9 @@ const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
 const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.3, 0.5)
 
+@export var ray_cast_3d: RayCast3D
 @export var walk_speed := 5.0
+@export var facing_grid: Vector3i = Vector3i(0, 0, 1)
 
 var anim_helper := AnimationHelper.new()
 var helper := MovementHelper.new()
@@ -27,7 +28,6 @@ var _tile_start_world: Vector3
 var _tile_target_world: Vector3
 var _move_progress: float = 0.0
 
-@onready var ray_cast_3d: RayCast3D = $RayCast3D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 

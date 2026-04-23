@@ -1,12 +1,21 @@
 class_name Player3D
 extends Character3D
 
+enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
+
 @export var pivot: Node3D
 @export var camera_3d: Camera3D
 
 var processing: bool = true
 var held_keys: Array[String] = []
 var key_hold_times: Dictionary = { }
+var travel_state: TravelState = TravelState.DEFAULT
+
+@onready var party_handler: PartyHandler = $PartyHandler
+@onready var inventory_handler: InventoryHandler = $InventoryHandler
+@onready var story_flag_handler: StoryFlagHandler = $StoryFlagHandler
+@onready var player_info_handler: Info = $PlayerInfoHandler
+@onready var travel_handler: TravelHandler = $TravelHandler
 
 
 func _ready() -> void:
@@ -17,7 +26,6 @@ func _process(delta: float) -> void:
 	if not processing or camera_3d == null:
 		return
 	_update_held_keys(delta)
-	# Recompute blend space every frame while the pivot (camera yaw) is tweening so 8-way sprites follow the view.
 	if camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting():
 		anim_helper.refresh_facing_blends(_facing_grid, self)
 	if Input.is_action_pressed("right_stick_right"):
@@ -54,7 +62,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func setup() -> void:
-	# Path is from this AnimationTree node: sibling AnimationPlayer is ../AnimationPlayer (not a child).
+	setup_helpers()
+	setup_player_context()
+
+
+func setup_helpers() -> void:
 	animation_tree.anim_player = NodePath("../AnimationPlayer")
 	animation_tree.active = true
 	animation_tree.advance(0.0)
@@ -64,10 +76,18 @@ func setup() -> void:
 		camera_3d.pivot = pivot
 		camera_3d.rotation_midpoint_reached.connect(_on_camera_rotation_finished)
 		camera_3d.rotation_finished.connect(_on_camera_rotation_finished)
+	anim_helper.call_deferred("refresh_facing_blends", _facing_grid, self)
+
+
+func setup_player_context() -> void:
 	PlayerContext3D.player = self
 	PlayerContext3D.camera_3d = camera_3d
-	anim_helper.call_deferred("refresh_facing_blends", _facing_grid, self)
 	PlayerContext3D.toggle_player.connect(_toggle_player)
+	PlayerContext3D.party_handler = party_handler
+	PlayerContext3D.inventory_handler = inventory_handler
+	PlayerContext3D.story_flag_handler = story_flag_handler
+	PlayerContext3D.travel_handler = travel_handler
+	PlayerContext3D.player_info_handler = player_info_handler
 
 
 func get_input_direction() -> Vector3i:
@@ -75,6 +95,19 @@ func get_input_direction() -> Vector3i:
 		return Vector3i.ZERO
 	var action: String = held_keys.back()
 	return _camera_relative_cardinal_for_action(action)
+
+
+func clear_inputs() -> void:
+	held_keys.clear()
+	key_hold_times.clear()
+
+
+func set_movement_locked(value: bool) -> void:
+	clear_inputs()
+	if value:
+		processing = false
+	else:
+		processing = true
 
 
 func _on_camera_rotation_finished() -> void:
@@ -174,12 +207,9 @@ func _attempt_interaction() -> void:
 	if _move_progress != 0.0:
 		return
 	var collider: Object = _get_interaction_ray_collider()
-	if collider == null:
+	if not collider:
 		return
-	var target := _resolve_interactable(collider)
-	if target:
-		processing = false
-		target.interact(self)
+	collider.interact(self)
 
 
 func _get_interaction_ray_collider() -> Object:
@@ -187,15 +217,6 @@ func _get_interaction_ray_collider() -> Object:
 		return null
 	ray_cast_3d.force_raycast_update()
 	return ray_cast_3d.get_collider() if ray_cast_3d.is_colliding() else null
-
-
-func _resolve_interactable(collider: Object) -> Node:
-	var n: Node = collider as Node
-	while n:
-		if n.is_in_group("interactable") and n.has_method("interact"):
-			return n
-		n = n.get_parent()
-	return null
 
 
 func _toggle_player(value: bool) -> void:

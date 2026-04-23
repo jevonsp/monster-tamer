@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b6lnst7vmnqro"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_4h60y"]
+[ext_resource type="Script" uid="uid://b4fn7qgwqulb2" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.gd" id="2_06uac"]
+[ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://world_objects/teleporter/iris_transition.gdshader" id="3_rwva0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rwva0"]
+size = Vector3(0.9, 0.9, 0.9)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1dmt2"]
+shader = ExtResource("3_rwva0")
+shader_parameter/iris_size = 0.999999977648
+shader_parameter/feather = 0.02999999932944
+shader_parameter/centre = Vector2(0.5, 0.5)
+
+[node name="TeleporterObject" unique_id=1454602347 instance=ExtResource("1_4h60y")]
+script = ExtResource("2_06uac")
+transition_type = 0
+
+[node name="CollisionShape3D" parent="." index="0" unique_id=598749242]
+shape = SubResource("BoxShape3D_rwva0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="1" unique_id=1999684961]
+
+[node name="IrisColorRect" type="ColorRect" parent="CanvasLayer" index="0" unique_id=265644474]
+visible = false
+material = SubResource("ShaderMaterial_1dmt2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

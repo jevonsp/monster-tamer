@@ -8,6 +8,8 @@ var camera_3d: Camera3D
 
 
 func state_machine_playback() -> AnimationNodeStateMachinePlayback:
+	if animation_tree == null:
+		return null
 	return animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
 
 
@@ -15,7 +17,6 @@ func world_dir_from_grid(dir: Vector3i) -> Vector3:
 	return Vector3(float(dir.x), 0.0, float(dir.z)).normalized()
 
 
-## Blend in camera/pivot local space: keeps Idle/Walk/Turn 8-way art aligned when the view orbits the pivot.
 func camera_relative_blend(world_dir: Vector3) -> Vector2:
 	var wd := world_dir
 	wd.y = 0.0
@@ -53,13 +54,15 @@ func blend_for_facing(facing_grid: Vector3i) -> Vector2:
 
 
 func apply_direction_blends(blend: Vector2) -> void:
+	if animation_tree == null:
+		return
 	animation_tree.set("parameters/Idle/blend_position", blend)
 	animation_tree.set("parameters/Walk/blend_position", blend)
 	animation_tree.set("parameters/Turn/blend_position", blend)
 
 
 func refresh_facing_blends(facing_grid: Vector3i, tree_owner: Node) -> void:
-	if not tree_owner.is_inside_tree() or camera_3d == null:
+	if not tree_owner.is_inside_tree() or camera_3d == null or animation_tree == null:
 		return
 	var sm := state_machine_playback()
 	if sm and sm.get_current_node() == &"Turn":

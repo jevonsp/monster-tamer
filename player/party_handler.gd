@@ -7,7 +7,7 @@ const STORAGE_SIZE := 300
 var party: Array[Monster] = []
 var storage: Dictionary[int, Monster] = { }
 
-@onready var player: CharacterBody2D = $".."
+@onready var player: Player3D = $".."
 
 
 func create_storage() -> void:

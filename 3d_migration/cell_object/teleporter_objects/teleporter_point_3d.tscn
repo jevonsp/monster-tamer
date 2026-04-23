@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://uq2lp2w1qfh5"]
+
+[ext_resource type="Script" uid="uid://dxi6srq4g3745" path="res://3d_migration/cell_object/teleporter_objects/teleporter_point_3d.gd" id="1_tftbq"]
+
+[node name="TeleporterPoint3D" type="Node3D" unique_id=428518358 node_paths=PackedStringArray("marker")]
+script = ExtResource("1_tftbq")
+marker = NodePath("Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1756425701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)

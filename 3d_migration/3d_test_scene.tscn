@@ -5,6 +5,28 @@
 [ext_resource type="Script" uid="uid://fnwa1pqx17iw" path="res://3d_migration/custom_grid_map.gd" id="2_38pum"]
 [ext_resource type="PackedScene" uid="uid://cwpa4g2nam2ht" path="res://3d_migration/character_3d/player_3d/player_3d.tscn" id="3_ypi68"]
 [ext_resource type="PackedScene" uid="uid://bjjlgwvqsjuit" path="res://3d_migration/character_3d/npc_3d/npc_3d.tscn" id="5_wqy44"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/command/command_list.gd" id="7_yn0yl"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/command/command.gd" id="8_d0qs4"]
+[ext_resource type="Script" uid="uid://bht67orrcfsor" path="res://ui/interfaces.gd" id="8_sbka8"]
+[ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/command/say_command.gd" id="9_8vtj5"]
+[ext_resource type="PackedScene" uid="uid://drjlut2xdgcjc" path="res://ui/menu/menu.tscn" id="9_p8vk2"]
+[ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="10_ytj05"]
+[ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="11_yn0yl"]
+[ext_resource type="PackedScene" uid="uid://lvhleaepcgub" path="res://ui/evolution_screen/evolution_screen.tscn" id="12_d0qs4"]
+[ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="13_8vtj5"]
+[ext_resource type="PackedScene" uid="uid://bdu1o6lykdp4n" path="res://ui/inventory/inventory.tscn" id="14_hvbc5"]
+[ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary/summary.tscn" id="15_jabl4"]
+[ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage/storage.tscn" id="16_sbu34"]
+[ext_resource type="PackedScene" uid="uid://dyraldrxu7umn" path="res://ui/store/store.tscn" id="17_eg8fr"]
+[ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="18_c6r1n"]
+[ext_resource type="PackedScene" uid="uid://q21m3s4lx1nn" path="res://ui/info_hud/info_hud.tscn" id="19_gt1xy"]
+[ext_resource type="PackedScene" uid="uid://c7ish7puudh7h" path="res://ui/text_entry/text_entry.tscn" id="20_ac4vl"]
+[ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="21_eh8r8"]
+[ext_resource type="PackedScene" uid="uid://c7pd38l5i20xf" path="res://maps/mini_map/world_map.tscn" id="21_p8vk2"]
+[ext_resource type="PackedScene" uid="uid://8fngqhn3p02d" path="res://3d_migration/cell_object/static_objects/sign.tscn" id="24_yn0yl"]
+[ext_resource type="PackedScene" uid="uid://b6lnst7vmnqro" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.tscn" id="25_8vtj5"]
+[ext_resource type="PackedScene" uid="uid://uq2lp2w1qfh5" path="res://3d_migration/cell_object/teleporter_objects/teleporter_point_3d.tscn" id="26_hvbc5"]
+[ext_resource type="PackedScene" uid="uid://b2tmuifso2osq" path="res://3d_migration/cell_object/teleporter_objects/door.tscn" id="27_hvbc5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_grid_exp"]
 sky_top_color = Color(0.2, 0.45, 0.85, 1)
@@ -24,8 +46,84 @@ ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.55
 tonemap_mode = 3
 
+[sub_resource type="Resource" id="Resource_yn0yl"]
+script = ExtResource("9_8vtj5")
+text = Array[String](["Testing NPC SayCommand"])
+is_autocomplete = true
+metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
+
+[sub_resource type="Resource" id="Resource_d0qs4"]
+script = ExtResource("7_yn0yl")
+commands = Array[ExtResource("8_d0qs4")]([SubResource("Resource_yn0yl")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_8vtj5"]
+script = ExtResource("9_8vtj5")
+text = Array[String](["This is a sign!"])
+is_autocomplete = true
+metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
+
+[sub_resource type="Resource" id="Resource_hvbc5"]
+script = ExtResource("7_yn0yl")
+commands = Array[ExtResource("8_d0qs4")]([SubResource("Resource_8vtj5")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
 [node name="3DTestScene" type="Node3D" unique_id=994996019]
 script = ExtResource("1_8os53")
+
+[node name="Interfaces" type="CanvasLayer" parent="." unique_id=1941349112]
+layer = 5
+script = ExtResource("8_sbka8")
+
+[node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("9_p8vk2")]
+visible = false
+
+[node name="OptionsPanel" parent="Interfaces" unique_id=1091762526 instance=ExtResource("10_ytj05")]
+visible = false
+offset_left = 432.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+
+[node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("11_yn0yl")]
+visible = false
+
+[node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_d0qs4")]
+visible = false
+
+[node name="Party" parent="Interfaces" unique_id=265451228 instance=ExtResource("13_8vtj5")]
+visible = false
+
+[node name="Inventory" parent="Interfaces" unique_id=713585617 instance=ExtResource("14_hvbc5")]
+visible = false
+
+[node name="Summary" parent="Interfaces" unique_id=239759928 instance=ExtResource("15_jabl4")]
+visible = false
+
+[node name="Storage" parent="Interfaces" unique_id=1376996790 instance=ExtResource("16_sbu34")]
+visible = false
+
+[node name="Store" parent="Interfaces" unique_id=1010499898 instance=ExtResource("17_eg8fr")]
+visible = false
+
+[node name="DialogueCanvas" type="CanvasLayer" parent="Interfaces" unique_id=1330761870]
+layer = 6
+
+[node name="GameTextBox" parent="Interfaces/DialogueCanvas" unique_id=53505836 instance=ExtResource("18_c6r1n")]
+visible = false
+
+[node name="InfoHUD" parent="Interfaces" unique_id=1085189325 instance=ExtResource("19_gt1xy")]
+visible = false
+
+[node name="TextEntry" parent="Interfaces" unique_id=1175498139 instance=ExtResource("20_ac4vl")]
+visible = false
+
+[node name="WorldMap" parent="Interfaces" unique_id=207139352 instance=ExtResource("21_p8vk2")]
+visible = false
+
+[node name="Trackers" type="Node" parent="." unique_id=1289659268]
+
+[node name="TimeKeeper" parent="Trackers" unique_id=1711809460 instance=ExtResource("21_eh8r8")]
 
 [node name="GridMap" type="GridMap" parent="." unique_id=43720475]
 mesh_library = ExtResource("1_5wycy")
@@ -49,3 +147,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.3, 1.5)
 
 [node name="NPC3D" parent="." unique_id=751460403 instance=ExtResource("5_wqy44")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.3, 1.5)
+command_lists = Array[ExtResource("7_yn0yl")]([SubResource("Resource_d0qs4")])
+command_index = 0
+
+[node name="Sign" parent="." unique_id=1454602347 instance=ExtResource("24_yn0yl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -2)
+command_lists = Array[ExtResource("7_yn0yl")]([SubResource("Resource_hvbc5")])
+
+[node name="TeleporterObject" parent="." unique_id=2062523038 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("25_8vtj5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, -1)
+collision_layer = 0
+teleporter_point = NodePath("../TeleporterPoint3D")
+
+[node name="TeleporterPoint3D" parent="." unique_id=428518358 instance=ExtResource("26_hvbc5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, -2)
+
+[node name="Door" parent="." unique_id=2131555010 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("27_hvbc5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 0)
+collision_layer = 0
+teleporter_point = NodePath("../TeleporterPoint3D")
+blocks_player = false

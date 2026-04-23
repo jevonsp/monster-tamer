@@ -7,6 +7,7 @@
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("2_npc3d")
+facing_grid = Vector3i(0, 0, 1)
 
 [node name="RayCast3D" parent="." index="5" unique_id=1955437500]
 collision_mask = 2

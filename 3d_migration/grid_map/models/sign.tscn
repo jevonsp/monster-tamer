@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://c587dnnagridh"]
+
+[ext_resource type="PackedScene" uid="uid://cpvg0yg0slk1o" path="res://3d_migration/grid_map/assets/Sign.gltf" id="1_js8vy"]
+
+[node name="Sign" unique_id=1332580161 instance=ExtResource("1_js8vy")]

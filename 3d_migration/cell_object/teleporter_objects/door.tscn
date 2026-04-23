@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b2tmuifso2osq"]
+
+[ext_resource type="PackedScene" uid="uid://b6lnst7vmnqro" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.tscn" id="1_l86wl"]
+[ext_resource type="Script" uid="uid://dyvhdnui8jjeu" path="res://door.gd" id="2_e5bg6"]
+[ext_resource type="PackedScene" uid="uid://8jwd7apcrsg8" path="res://3d_migration/grid_map/models/door.tscn" id="3_e5bg6"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/command/command_list.gd" id="3_kftg0"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/command/command.gd" id="4_i5m8q"]
+[ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/command/say_command.gd" id="5_vvpsb"]
+
+[sub_resource type="Resource" id="Resource_fg5ki"]
+script = ExtResource("5_vvpsb")
+text = Array[String](["Its locked..."])
+is_autocomplete = true
+metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
+
+[sub_resource type="Resource" id="Resource_1soxq"]
+script = ExtResource("3_kftg0")
+commands = Array[ExtResource("4_i5m8q")]([SubResource("Resource_fg5ki")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[node name="Door" unique_id=1454602347 instance=ExtResource("1_l86wl")]
+script = ExtResource("2_e5bg6")
+command_lists = Array[ExtResource("3_kftg0")]([SubResource("Resource_1soxq")])
+blocks_player = true
+
+[node name="Door" parent="." index="2" unique_id=2121705082 instance=ExtResource("3_e5bg6")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.5, -0.5, 0)
+
+[editable path="Door"]

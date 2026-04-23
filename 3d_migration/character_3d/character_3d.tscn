@@ -1139,10 +1139,11 @@ transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qbtjr"]
 
-[node name="Character3D" type="Area3D" unique_id=751460403]
+[node name="Character3D" type="Area3D" unique_id=751460403 node_paths=PackedStringArray("ray_cast_3d")]
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_xpncy")
+ray_cast_3d = NodePath("RayCast3D")
 
 [node name="Sprite2D" type="Sprite3D" parent="." unique_id=800473344]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)

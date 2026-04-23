@@ -8,17 +8,17 @@ var is_sidescrolling: bool = false:
 		is_sidescrolling = value
 		print("is_sidescrolling: ", is_sidescrolling)
 
-@onready var player: Player = $".."
+@onready var player: Player3D = $".."
 
 
 func start_surfing() -> void:
-	player.travel_state = Player.TravelState.SURFING
+	PlayerContext3D.player.travel_state = PlayerContext3D.player.TravelState.SURFING
 	get_tree().call_group("surf_object", "toggle_mode", TravelBlockerObject.State.PASSABLE)
 	await player.walk_one_tile(player.facing_direction)
 
 
 func stop_surfing() -> void:
-	player.travel_state = Player.TravelState.DEFAULT
+	PlayerContext3D.player.travel_state = PlayerContext3D.player.TravelState.DEFAULT
 	get_tree().call_group("surf_object", "toggle_mode", TravelBlockerObject.State.NOT_PASSABLE)
 
 

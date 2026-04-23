@@ -25,7 +25,7 @@ var _blocking_ui: Array[Control] = []
 @onready var evolution_screen: Control = $EvolutionScreen
 @onready var text_entry: Control = $TextEntry
 @onready var world_map: Map = $WorldMap
-@onready var player: Player = $"../Player"
+@onready var player_3d: Player3D = $"../Player3D"
 
 
 func _ready() -> void:
@@ -88,8 +88,8 @@ func refresh_field_input() -> void:
 	interfaces_dictionary.clear()
 	for c in _blocking_ui:
 		interfaces_dictionary[c] = c.visible
-	interfaces_dictionary[player] = not blocked
-	player.processing = not blocked
+	interfaces_dictionary[player_3d] = not blocked
+	player_3d.processing = not blocked
 
 
 func _ensure_dialogue_nodes() -> void:
