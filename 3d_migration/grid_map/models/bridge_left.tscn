@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bgc17jtvuqwnl"]
+
+[ext_resource type="PackedScene" uid="uid://bydcgbqhtvu71" path="res://3d_migration/grid_map/assets/BridgeLeft.gltf" id="1_gmmqo"]
+
+[node name="BridgeLeft" unique_id=1348931218 instance=ExtResource("1_gmmqo")]

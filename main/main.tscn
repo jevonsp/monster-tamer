@@ -3,13 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://8ygcbs5f8pca" path="res://player/player.tscn" id="1_53q0u"]
 [ext_resource type="Script" uid="uid://caqok8yjmcdwq" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="Script" uid="uid://bht67orrcfsor" path="res://ui/interfaces.gd" id="2_piupu"]
-[ext_resource type="PackedScene" uid="uid://b53xyioxfsk5v" path="res://maps/test_map.tscn" id="2_pjrb6"]
 [ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary/summary.tscn" id="3_na0o7"]
-[ext_resource type="PackedScene" uid="uid://gkxr8ot677xm" path="res://world_objects/encounter/grass/grass_tile.tscn" id="4_c651c"]
 [ext_resource type="PackedScene" uid="uid://bdu1o6lykdp4n" path="res://ui/inventory/inventory.tscn" id="5_4hmqs"]
-[ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="5_kfbq2"]
 [ext_resource type="PackedScene" uid="uid://bnqog2bk3p7mv" path="res://battle/battle.tscn" id="7_4dugh"]
-[ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="8_67ri8"]
 [ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage/storage.tscn" id="9_jofbb"]
 [ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="9_n53tw"]
 [ext_resource type="PackedScene" uid="uid://dyraldrxu7umn" path="res://ui/store/store.tscn" id="10_ue0mw"]
@@ -18,41 +14,8 @@
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://q21m3s4lx1nn" path="res://ui/info_hud/info_hud.tscn" id="12_t1yuj"]
 [ext_resource type="PackedScene" uid="uid://c7ish7puudh7h" path="res://ui/text_entry/text_entry.tscn" id="13_vqjab"]
-[ext_resource type="PackedScene" uid="uid://2cylrl5md0pt" path="res://world_objects/interactable/static_object/sign.tscn" id="14_73k8k"]
-[ext_resource type="PackedScene" uid="uid://bx454q08456b7" path="res://world_objects/interactable/ground_item/ground_ball.tscn" id="15_5xyti"]
-[ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="17_s758e"]
-[ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger_md.tres" id="19_n53tw"]
-[ext_resource type="PackedScene" uid="uid://b5a6d0pcrx4rd" path="res://world_objects/interactable/static_object/storage.tscn" id="20_q0sk7"]
-[ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="20_re7it"]
-[ext_resource type="Resource" uid="uid://cdor45ba2o0aa" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_md.tres" id="21_d7rgo"]
-[ext_resource type="PackedScene" uid="uid://dqpocp0lr7l2e" path="res://world_objects/interactable/static_object/storage_component.tscn" id="21_vapsy"]
-[ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="23_qs5eo"]
-[ext_resource type="Resource" uid="uid://du7xft6yrfja1" path="res://items/climbing_shoes.tres" id="24_d7rgo"]
-[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm/tm.tres" id="24_frbr6"]
-[ext_resource type="PackedScene" uid="uid://lhi4amumrkry" path="res://world_objects/teleporter/teleporter.tscn" id="26_d00gp"]
-[ext_resource type="PackedScene" uid="uid://bgmdhr02a5q64" path="res://world_objects/teleporter/teleporter_point.tscn" id="27_d8vpj"]
-[ext_resource type="PackedScene" uid="uid://dpsykgdfm0gej" path="res://world_objects/interactable/blocker_object/travel_blocker_object/surf_object/surf_object.tscn" id="27_h3axc"]
-[ext_resource type="PackedScene" uid="uid://e0q6pt3xt1a" path="res://world_objects/interactable/npc/components/npc_service_component.tscn" id="32_amlcg"]
-[ext_resource type="PackedScene" uid="uid://mi8cat437hfy" path="res://world_objects/interactable/npc/components/npc_blocker_component.tscn" id="33_ue0mw"]
-[ext_resource type="PackedScene" uid="uid://sy3x2x1amgx4" path="res://world_objects/side_scrolling/ladder_zone.tscn" id="36_ue0mw"]
-[ext_resource type="PackedScene" uid="uid://bgm0u2s71302j" path="res://world_objects/encounter/grass/wild_zone.tscn" id="37_d7rgo"]
-[ext_resource type="PackedScene" uid="uid://b8epbb702thmg" path="res://classes/story/story_component.tscn" id="38_d7rgo"]
-[ext_resource type="PackedScene" uid="uid://qr21fc3gx6hm" path="res://world_objects/interactable/blocker_object/travel_blocker_object/climb_object/climb_object.tscn" id="40_yjufm"]
-[ext_resource type="PackedScene" uid="uid://ccos473fioo0" path="res://world_objects/interactable/blocker_object/remove_object/cuttable_tree_object/tree_blocker_object.tscn" id="41_cgvj2"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
-[ext_resource type="PackedScene" uid="uid://bgfglsoh8a78d" path="res://world_objects/interactable/npc/components/npc_text_entry_component.tscn" id="42_txtent"]
 [ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vqjab"]
-size = Vector2(16, 144)
-
-[sub_resource type="Resource" id="Resource_yjufm"]
-script = ExtResource("5_kfbq2")
-monster = ExtResource("19_n53tw")
-chance = 1.0
-level_low = 1
-level_high = 2
-metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
 
 [node name="Main" type="Node2D" unique_id=89812463]
 y_sort_enabled = true
@@ -109,172 +72,5 @@ visible = false
 
 [node name="TimeKeeper" parent="Trackers" unique_id=1711809460 instance=ExtResource("41_phifs")]
 
-[node name="TestMap" parent="." unique_id=322966199 instance=ExtResource("2_pjrb6")]
-
 [node name="Player" parent="." unique_id=930582059 instance=ExtResource("1_53q0u")]
 position = Vector2(16, 144)
-
-[node name="GroundBalls" type="Node2D" parent="." unique_id=847412086]
-y_sort_enabled = true
-
-[node name="Potion" parent="GroundBalls" unique_id=726795139 instance=ExtResource("15_5xyti")]
-position = Vector2(48, 96)
-item = ExtResource("17_s758e")
-is_question = true
-
-[node name="BaseBall" parent="GroundBalls" unique_id=425176937 instance=ExtResource("15_5xyti")]
-position = Vector2(32, 96)
-item = ExtResource("20_re7it")
-
-[node name="SuperSoaker" parent="GroundBalls" unique_id=1761516484 instance=ExtResource("15_5xyti")]
-position = Vector2(48, 80)
-item = ExtResource("23_qs5eo")
-
-[node name="TMTest" parent="GroundBalls" unique_id=615830621 instance=ExtResource("15_5xyti")]
-position = Vector2(32, 80)
-item = ExtResource("24_frbr6")
-
-[node name="Monster" parent="GroundBalls" unique_id=1353459326 instance=ExtResource("15_5xyti")]
-position = Vector2(32, 144)
-type = 1
-monster_data = ExtResource("21_d7rgo")
-
-[node name="StoryComponent" parent="GroundBalls/Monster" unique_id=710906627 instance=ExtResource("38_d7rgo")]
-story_flag = 1
-
-[node name="GroundBall" parent="GroundBalls" unique_id=843792628 instance=ExtResource("15_5xyti")]
-position = Vector2(48, 48)
-item = ExtResource("24_d7rgo")
-
-[node name="Sign" parent="." unique_id=1974786927 instance=ExtResource("14_73k8k")]
-position = Vector2(32, 16)
-text = Array[String](["This is a sign."])
-
-[node name="Storage" parent="." unique_id=433198224 node_paths=PackedStringArray("components") instance=ExtResource("20_q0sk7")]
-position = Vector2(48, 16)
-text = Array[String](["Would you like to access the storage system?"])
-is_autocomplete = false
-is_question = true
-components = [NodePath("StorageComponent")]
-
-[node name="StorageComponent" parent="Storage" unique_id=890186058 instance=ExtResource("21_vapsy")]
-
-[node name="SurfObjects" type="Node" parent="." unique_id=519884026]
-
-[node name="SurfObject" parent="SurfObjects" unique_id=750354463 instance=ExtResource("27_h3axc")]
-position = Vector2(80, 32)
-
-[node name="SurfObject2" parent="SurfObjects" unique_id=616870629 instance=ExtResource("27_h3axc")]
-position = Vector2(96, 32)
-
-[node name="SurfObject3" parent="SurfObjects" unique_id=1805318064 instance=ExtResource("27_h3axc")]
-position = Vector2(80, 48)
-
-[node name="SurfObject4" parent="SurfObjects" unique_id=1813048759 instance=ExtResource("27_h3axc")]
-position = Vector2(96, 48)
-
-[node name="NPCs" type="Node2D" parent="." unique_id=353480011]
-y_sort_enabled = true
-
-[node name="Healer(NPC)" parent="NPCs" unique_id=431393256 instance=ExtResource("8_67ri8")]
-position = Vector2(16, 32)
-npc_name = "Healer"
-dialogue = Array[String](["Would you like to heal your monsters?"])
-is_question = true
-
-[node name="NPCServiceComponent" parent="NPCs/Healer(NPC)" unique_id=1491352628 instance=ExtResource("32_amlcg")]
-
-[node name="TutorialBlocker(NPC)" parent="NPCs" unique_id=2004071503 node_paths=PackedStringArray("after_components") instance=ExtResource("8_67ri8")]
-position = Vector2(16, 128)
-dialogue = Array[String](["Sorry! Its dangerous out there."])
-after_components = [NodePath("NPCBlockerComponent")]
-
-[node name="NPCBlockerComponent" parent="NPCs/TutorialBlocker(NPC)" unique_id=1835716855 instance=ExtResource("33_ue0mw")]
-story_trigger = 1
-response_type = 2
-story_value = false
-post_trigger_dialogue = Array[String](["You'll be safe with a monster now!"])
-dir_path = Array[int]([1, 4])
-end_facing = 3
-
-[node name="Blocker(NPC)2" parent="NPCs" unique_id=1248251108 instance=ExtResource("8_67ri8")]
-position = Vector2(64, 112)
-dialogue = Array[String]([])
-is_question = true
-
-[node name="NPCBlockerComponent" parent="NPCs/Blocker(NPC)2" unique_id=1084270088 instance=ExtResource("33_ue0mw")]
-mode = 1
-item_wanted = ExtResource("17_s758e")
-item_outcome = 1
-item_to_give = ExtResource("20_re7it")
-post_trigger_dialogue = Array[String](["Thanks for that {item}!"])
-
-[node name="Trader(NPC)" parent="NPCs" unique_id=725337391 node_paths=PackedStringArray("after_components") instance=ExtResource("8_67ri8")]
-position = Vector2(64, 48)
-dialogue = Array[String]([])
-is_question = true
-after_components = [NodePath("NPCServiceComponent")]
-
-[node name="NPCServiceComponent" parent="NPCs/Trader(NPC)" unique_id=1745320726 instance=ExtResource("32_amlcg")]
-offers_respawn = false
-offers_heal = false
-offers_trade = true
-monster_to_take = ExtResource("21_d7rgo")
-monster_to_give = ExtResource("19_n53tw")
-post_complete_dialogue = Array[String](["Thanks for your {take}! I'm taking good care of it. 
-
-I hope you're taking care of my {give}!"])
-
-[node name="TextEntryNPC" parent="NPCs" unique_id=-1445816694 node_paths=PackedStringArray("before_components") instance=ExtResource("8_67ri8")]
-position = Vector2(112, 32)
-npc_name = "Registrar"
-dialogue = Array[String](["Good to meet you!"])
-before_components = [NodePath("NPCTextEntryComponent")]
-
-[node name="NPCTextEntryComponent" parent="NPCs/TextEntryNPC" unique_id=1928834410 instance=ExtResource("42_txtent")]
-prompt_lines = Array[String](["What's your name?"])
-
-[node name="Doors" type="Node2D" parent="." unique_id=1535442115]
-y_sort_enabled = true
-
-[node name="Teleporter0" parent="Doors" unique_id=643132918 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
-position = Vector2(272, 16)
-teleporter_point = NodePath("TeleporterPoint")
-
-[node name="TeleporterPoint" parent="Doors/Teleporter0" unique_id=2086915789 instance=ExtResource("27_d8vpj")]
-position = Vector2(80, -32)
-
-[node name="Teleporter1" parent="Doors" unique_id=625626596 node_paths=PackedStringArray("teleporter_point") instance=ExtResource("26_d00gp")]
-position = Vector2(384, -16)
-teleporter_point = NodePath("TeleporterPoint")
-
-[node name="TeleporterPoint" parent="Doors/Teleporter1" unique_id=1046749787 instance=ExtResource("27_d8vpj")]
-position = Vector2(-96, 32)
-
-[node name="Ladders" type="Node2D" parent="." unique_id=1664148613]
-position = Vector2(368, -16)
-
-[node name="LadderZone" parent="Ladders" unique_id=798844388 instance=ExtResource("36_ue0mw")]
-position = Vector2(-32, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ladders/LadderZone" unique_id=650315154]
-position = Vector2(8, 72)
-shape = SubResource("RectangleShape2D_vqjab")
-
-[node name="WildZone" parent="." unique_id=1776017676 instance=ExtResource("37_d7rgo")]
-overall_chance = 0.0
-encounter_table = Array[ExtResource("5_kfbq2")]([SubResource("Resource_yjufm")])
-
-[node name="GrassTile" parent="WildZone" unique_id=141064951 instance=ExtResource("4_c651c")]
-position = Vector2(16, 112)
-
-[node name="ClimbObjects" type="Node" parent="." unique_id=571254049]
-
-[node name="ClimbObject" parent="ClimbObjects" unique_id=788620845 instance=ExtResource("40_yjufm")]
-position = Vector2(80, 64)
-
-[node name="RemoveBlockerObjects" type="Node" parent="." unique_id=1524785203]
-
-[node name="TreeBlockerObject" parent="RemoveBlockerObjects" unique_id=1420145464 instance=ExtResource("41_cgvj2")]
-position = Vector2(144, 16)
-removal_animation_blink_segments = 6

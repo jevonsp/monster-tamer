@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://b3thwfigthean"]
+
+[ext_resource type="MeshLibrary" uid="uid://csuegmaw74rvl" path="res://3d_migration/grid_map/grid_map_meshlib.meshlib" id="1_5wycy"]
+[ext_resource type="Script" uid="uid://bck12xyohpsyh" path="res://3d_migration/3d_test_scene.gd" id="1_8os53"]
+[ext_resource type="Script" uid="uid://fnwa1pqx17iw" path="res://3d_migration/custom_grid_map.gd" id="2_38pum"]
+[ext_resource type="PackedScene" uid="uid://cwpa4g2nam2ht" path="res://3d_migration/character_3d/player_3d/player_3d.tscn" id="3_ypi68"]
+
+[sub_resource type="Sky" id="Sky_38pum"]
+
+[sub_resource type="Environment" id="Environment_ypi68"]
+background_mode = 2
+sky = SubResource("Sky_38pum")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 3
+
+[node name="3DTestScene" type="Node3D" unique_id=994996019]
+script = ExtResource("1_8os53")
+
+[node name="GridMap" type="GridMap" parent="." unique_id=43720475]
+mesh_library = ExtResource("1_5wycy")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(1, 65535, 0, 1, 65534, 0, 0, 65535, 0, 0, 65534, 0, 65535, 65534, 0, 65535, 65535, 0, 65535, 0, 655360, 0, 0, 0, 1, 0, 0, 2, 65534, 655360, 2, 65535, 0, 2, 0, 0, 131071, 65535, 1, 131071, 0, 1, 131072, 65535, 1, 131072, 0, 1, 131073, 65535, 1441794, 131074, 65535, 1441794, 131073, 0, 1441796, 131074, 0, 1441796, 131075, 0, 655361, 131075, 65535, 655361, 65540, 0, 655361, 65540, 65535, 655361, 3, 0, 655360, 3, 65535, 655360, 4, 65535, 655360, 4, 0, 655360, 5, 0, 655360, 5, 65535, 655360, 3, 65534, 655360, 4, 65534, 655360, 5, 65534, 655360, 5, 1, 655360, 4, 1, 655360, 3, 1, 655360, 2, 1, 655360, 1, 1, 655360, 0, 1, 655360, 65535, 1, 655360, 65534, 1, 655360, 65534, 65534, 655360, 65534, 65535, 655360, 65534, 0, 655360)
+}
+script = ExtResource("2_38pum")
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1938113437]
+environment = SubResource("Environment_ypi68")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1330486078]
+transform = Transform3D(0.81915206, -0.4055798, 0.4055798, 0, 0.70710677, 0.70710677, -0.57357645, -0.579228, 0.579228, 0, 0, 0)
+light_energy = 1.2
+
+[node name="Player3D" parent="." unique_id=1753601607 instance=ExtResource("3_ypi68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4646707, 2.2640119, 1.1900759)
+collision_layer = 1
+collision_mask = 1

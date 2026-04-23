@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cwpa4g2nam2ht"]
+
+[ext_resource type="PackedScene" uid="uid://c2xbnw25xuobt" path="res://3d_migration/character_3d/character_3d.tscn" id="1_7r8pb"]
+[ext_resource type="Script" uid="uid://cu477quowdllf" path="res://3d_migration/character_3d/player_3d/player_3d.gd" id="2_vk4mx"]
+[ext_resource type="Script" uid="uid://bw03lodbfd71m" path="res://3d_migration/character_3d/player_3d/pivot_camera_3d.gd" id="3_n7w2a"]
+
+[node name="Player3D" unique_id=841998966 node_paths=PackedStringArray("pivot", "camera_3d") instance=ExtResource("1_7r8pb")]
+script = ExtResource("2_vk4mx")
+pivot = NodePath("Pivot")
+camera_3d = NodePath("Pivot/Camera3D")
+
+[node name="TopSprite3D" parent="." index="1" unique_id=1223395461]
+transform = Transform3D(6, 0, 0, 0, 4.2426405, 4.2426405, 0, -4.2426405, 4.2426405, 0, 0, 0)
+
+[node name="BottomSprite3D" parent="." index="2" unique_id=199606803]
+transform = Transform3D(6, 0, 0, 0, 4.2426405, 4.2426405, 0, -4.2426405, 4.2426405, 0, 0, 0)
+
+[node name="RayCast3D" parent="." index="5" unique_id=1955437500]
+exclude_parent = true
+
+[node name="Pivot" type="Node3D" parent="." index="7" unique_id=586972792]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Pivot" index="0" unique_id=1815551868]
+transform = Transform3D(1, 0, 0, 0, 0.7071069, 0.7071067, 0, -0.7071067, 0.7071069, 0, 4.2156363, 4.308422)
+current = true
+script = ExtResource("3_n7w2a")

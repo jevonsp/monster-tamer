@@ -2,20 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jin4lhaho270"
-path="res://.godot/imported/player_sprite_sheet_bottom.png-87a9019cc6ae69b7cd2ca0aeff34a054.ctex"
+uid="uid://bod6drngqeqvm"
+path.s3tc="res://.godot/imported/BridgeMiddle_0.png-a151734dc359d7a979570aed1dc960c4.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "b6dbd10c1a066f1ec27b0c5ac0ea97b3"
 }
 
 [deps]
 
-source_file="res://player/player_sprite_sheet_bottom.png"
-dest_files=["res://.godot/imported/player_sprite_sheet_bottom.png-87a9019cc6ae69b7cd2ca0aeff34a054.ctex"]
+source_file="res://3d_migration/grid_map/assets/BridgeMiddle_0.png"
+dest_files=["res://.godot/imported/BridgeMiddle_0.png-a151734dc359d7a979570aed1dc960c4.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
