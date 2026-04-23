@@ -1,0 +1,2 @@
+class_name StoryFlagHandler3D
+extends StoryFlagHandler

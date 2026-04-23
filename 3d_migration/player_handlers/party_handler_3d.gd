@@ -1,4 +1,4 @@
-class_name PartyHandler
+class_name PartyHandler3D
 extends Node
 
 const MAX_PARTY_SIZE := 6
@@ -7,7 +7,7 @@ const STORAGE_SIZE := 300
 var party: Array[Monster] = []
 var storage: Dictionary[int, Monster] = { }
 
-@onready var player: Player = $".."
+@onready var player: Player3D = $".."
 
 
 func create_storage() -> void:
@@ -28,7 +28,6 @@ func send_player_party_and_storage() -> void:
 
 
 func add(monster: Monster):
-	"""Single entry point for adding new monsters to the party or storage"""
 	if not _add_to_party(monster):
 		_add_to_storage(monster)
 
@@ -73,7 +72,6 @@ func remove_monster(monster: Monster, with_farewell: bool = true) -> void:
 
 
 func deposit_monster(monster: Monster) -> void:
-	"""Only use on monsters in party"""
 	var idx = party.find(monster)
 	if idx < 0:
 		return
@@ -83,7 +81,6 @@ func deposit_monster(monster: Monster) -> void:
 
 
 func withdraw_monster(monster: Monster) -> void:
-	"""Only use on monsters in storage"""
 	var val = storage.find_key(monster)
 	if val == null:
 		return

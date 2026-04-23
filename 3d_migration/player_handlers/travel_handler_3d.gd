@@ -1,4 +1,4 @@
-class_name TravelHandler
+class_name TravelHandler3D
 extends Node
 
 @export var current_location: Map.Location = Map.Location.NONE
@@ -8,13 +8,13 @@ var is_sidescrolling: bool = false:
 		is_sidescrolling = value
 		print("is_sidescrolling: ", is_sidescrolling)
 
-@onready var player: Player = $".."
+@onready var player: Player3D = $".."
 
 
 func start_surfing() -> void:
 	player.travel_state = player.TravelState.SURFING
 	get_tree().call_group("surf_object", "toggle_mode", TravelBlockerObject.State.PASSABLE)
-	await player.walk_one_tile(player.facing_direction)
+	await player.walk_one_step_along_facing()
 
 
 func stop_surfing() -> void:

@@ -1,0 +1,2 @@
+class_name InventoryHandler3D
+extends InventoryHandler

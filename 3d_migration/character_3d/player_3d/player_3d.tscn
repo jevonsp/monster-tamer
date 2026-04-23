@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://c2xbnw25xuobt" path="res://3d_migration/character_3d/character_3d.tscn" id="1_7r8pb"]
 [ext_resource type="Script" uid="uid://cu477quowdllf" path="res://3d_migration/character_3d/player_3d/player_3d.gd" id="2_vk4mx"]
 [ext_resource type="Script" uid="uid://bw03lodbfd71m" path="res://3d_migration/character_3d/player_3d/pivot_camera_3d.gd" id="3_n7w2a"]
-[ext_resource type="Script" uid="uid://c2p5hrggrr333" path="res://player/party_handler.gd" id="4_waopg"]
-[ext_resource type="Script" uid="uid://b6d3li8e862ak" path="res://player/inventory_handler.gd" id="5_15jm7"]
-[ext_resource type="Script" uid="uid://hokvqkpxisi5" path="res://player/story_flag_handler.gd" id="6_qb2af"]
-[ext_resource type="Script" uid="uid://b01kh5yxdsqth" path="res://player/player_info_handler.gd" id="7_etutf"]
-[ext_resource type="Script" uid="uid://csmo8u0qm54u1" path="res://player/travel_handler.gd" id="8_tpeas"]
+[ext_resource type="Script" path="res://3d_migration/player_handlers/party_handler_3d.gd" id="4_waopg"]
+[ext_resource type="Script" path="res://3d_migration/player_handlers/inventory_handler_3d.gd" id="5_15jm7"]
+[ext_resource type="Script" path="res://3d_migration/player_handlers/story_flag_handler_3d.gd" id="6_qb2af"]
+[ext_resource type="Script" path="res://3d_migration/player_handlers/player_info_handler_3d.gd" id="7_etutf"]
+[ext_resource type="Script" path="res://3d_migration/player_handlers/travel_handler_3d.gd" id="8_tpeas"]
 
 [node name="Player3D" unique_id=841998966 node_paths=PackedStringArray("pivot", "camera_3d") instance=ExtResource("1_7r8pb")]
 script = ExtResource("2_vk4mx")

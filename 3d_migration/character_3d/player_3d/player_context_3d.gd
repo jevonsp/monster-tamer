@@ -7,8 +7,8 @@ signal toggle_player(value: bool)
 @warning_ignore_restore("unused_signal")
 var player: Player3D
 var camera_3d: Camera3D
-var party_handler
-var inventory_handler
-var story_flag_handler
-var travel_handler
-var player_info_handler
+var party_handler: PartyHandler3D
+var inventory_handler: InventoryHandler3D
+var story_flag_handler: StoryFlagHandler3D
+var travel_handler: TravelHandler3D
+var player_info_handler: PlayerInfo3D
