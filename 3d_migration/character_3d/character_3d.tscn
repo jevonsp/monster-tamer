@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c2xbnw25xuobt"]
 
 [ext_resource type="Texture2D" uid="uid://bvd7340kdr155" path="res://player/player_sprite_sheet_top.png" id="1_kho6m"]
+[ext_resource type="Script" uid="uid://cxfjuh87npwv5" path="res://3d_migration/character_3d/character_3d.gd" id="1_xpncy"]
 [ext_resource type="Texture2D" uid="uid://jin4lhaho270" path="res://player/player_sprite_sheet_bottom.png" id="2_u61w3"]
 [ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="3_sheet"]
 
@@ -1141,6 +1142,7 @@ transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition
 [node name="Character3D" type="Area3D" unique_id=751460403]
 collision_layer = 2
 collision_mask = 13
+script = ExtResource("1_xpncy")
 
 [node name="Sprite2D" type="Sprite3D" parent="." unique_id=800473344]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
@@ -1152,7 +1154,7 @@ hframes = 3
 vframes = 3
 
 [node name="TopSprite3D" type="Sprite3D" parent="." unique_id=1223395461]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 offset = Vector2(0, -4)
 billboard = 1
 texture_filter = 0
@@ -1161,7 +1163,7 @@ hframes = 3
 vframes = 3
 
 [node name="BottomSprite3D" type="Sprite3D" parent="." unique_id=199606803]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 offset = Vector2(0, -4)
 billboard = 1
 texture_filter = 0
@@ -1174,14 +1176,13 @@ libraries/ = SubResource("AnimationLibrary_boad6")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=2084784604]
 tree_root = SubResource("AnimationNodeStateMachine_s7qer")
-anim_player = NodePath("AnimationPlayer")
+anim_player = NodePath("../AnimationPlayer")
 parameters/Idle/blend_position = Vector2(0, 0.9482758)
 parameters/Jump/blend_position = Vector2(0, 0)
 parameters/Turn/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(0.071542144, -0.09482753)
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1955437500]
-exclude_parent = true
 target_position = Vector3(0, 0, 1)
 collision_mask = 5
 hit_from_inside = true

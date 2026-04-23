@@ -17,6 +17,9 @@ func _process(delta: float) -> void:
 	if not processing or camera_3d == null:
 		return
 	_update_held_keys(delta)
+	# Recompute blend space every frame while the pivot (camera yaw) is tweening so 8-way sprites follow the view.
+	if camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting():
+		anim_helper.refresh_facing_blends(_facing_grid, self)
 	if Input.is_action_pressed("right_stick_right"):
 		camera_3d._rotate_camera(1)
 	elif Input.is_action_pressed("right_stick_left"):
@@ -28,7 +31,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if grid_map == null:
 		return
-	if pivot == null or camera_3d == null or camera_3d._rotating:
+	if pivot == null or camera_3d == null or (camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting()):
 		return
 	match _current_state:
 		MoveState.IDLE:
@@ -42,7 +45,7 @@ func _physics_process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing or grid_map == null:
 		return
-	if camera_3d == null or camera_3d._rotating or pivot == null:
+	if camera_3d == null or (camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting()) or pivot == null:
 		return
 	if _current_state != MoveState.IDLE:
 		return
@@ -51,7 +54,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func setup() -> void:
+	# Path is from this AnimationTree node: sibling AnimationPlayer is ../AnimationPlayer (not a child).
+	animation_tree.anim_player = NodePath("../AnimationPlayer")
 	animation_tree.active = true
+	animation_tree.advance(0.0)
 	anim_helper.animation_tree = animation_tree
 	anim_helper.camera_3d = camera_3d
 	if camera_3d:
@@ -149,6 +155,7 @@ func _process_moving_state(delta: float) -> void:
 		_move_progress = 0.0
 		var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
 		PlayerContext3D.walk_segmented_completed.emit(ground)
+		notify_grid_step_landed(ground)
 		_moving = false
 
 	var input_dir := get_input_direction()

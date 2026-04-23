@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bjjlgwvqsjuit"]
+
+[ext_resource type="PackedScene" uid="uid://c2xbnw25xuobt" path="res://3d_migration/character_3d/character_3d.tscn" id="1_ufc6u"]
+[ext_resource type="Script" uid="uid://s7bl7njltcce" path="res://3d_migration/character_3d/npc_3d/npc_3d.gd" id="2_npc3d"]
+
+[node name="NPC3D" unique_id=751460403 instance=ExtResource("1_ufc6u")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_npc3d")
+
+[node name="RayCast3D" parent="." index="5" unique_id=1955437500]
+collision_mask = 2

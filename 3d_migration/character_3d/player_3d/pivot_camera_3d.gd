@@ -1,3 +1,4 @@
+class_name PivotCamera3D
 extends Camera3D
 
 signal rotation_finished
@@ -8,6 +9,10 @@ signal rotation_midpoint_reached
 
 var pivot: Node3D
 var _rotating := false
+
+
+func is_pivot_orbiting() -> bool:
+	return _rotating
 
 
 func _rotate_camera(direction_sign: int) -> void:

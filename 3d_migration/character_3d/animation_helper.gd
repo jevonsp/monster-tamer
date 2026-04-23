@@ -15,6 +15,7 @@ func world_dir_from_grid(dir: Vector3i) -> Vector3:
 	return Vector3(float(dir.x), 0.0, float(dir.z)).normalized()
 
 
+## Blend in camera/pivot local space: keeps Idle/Walk/Turn 8-way art aligned when the view orbits the pivot.
 func camera_relative_blend(world_dir: Vector3) -> Vector2:
 	var wd := world_dir
 	wd.y = 0.0

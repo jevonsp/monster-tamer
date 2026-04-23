@@ -4,8 +4,17 @@
 [ext_resource type="Script" uid="uid://bck12xyohpsyh" path="res://3d_migration/3d_test_scene.gd" id="1_8os53"]
 [ext_resource type="Script" uid="uid://fnwa1pqx17iw" path="res://3d_migration/custom_grid_map.gd" id="2_38pum"]
 [ext_resource type="PackedScene" uid="uid://cwpa4g2nam2ht" path="res://3d_migration/character_3d/player_3d/player_3d.tscn" id="3_ypi68"]
+[ext_resource type="PackedScene" uid="uid://bjjlgwvqsjuit" path="res://3d_migration/character_3d/npc_3d/npc_3d.tscn" id="5_wqy44"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_grid_exp"]
+sky_top_color = Color(0.2, 0.45, 0.85, 1)
+sky_horizon_color = Color(0.65, 0.75, 0.9, 1)
+ground_bottom_color = Color(0.12, 0.12, 0.14, 1)
+ground_horizon_color = Color(0.35, 0.38, 0.42, 1)
+sun_angle_max = 35.0
 
 [sub_resource type="Sky" id="Sky_38pum"]
+sky_material = SubResource("ProceduralSkyMaterial_grid_exp")
 
 [sub_resource type="Environment" id="Environment_ypi68"]
 background_mode = 2
@@ -33,8 +42,10 @@ environment = SubResource("Environment_ypi68")
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=1330486078]
 transform = Transform3D(0.81915206, -0.4055798, 0.4055798, 0, 0.70710677, 0.70710677, -0.57357645, -0.579228, 0.579228, 0, 0, 0)
 light_energy = 1.2
+shadow_enabled = true
 
-[node name="Player3D" parent="." unique_id=1753601607 instance=ExtResource("3_ypi68")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4646707, 2.2640119, 1.1900759)
-collision_layer = 1
-collision_mask = 1
+[node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("3_ypi68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.3, 1.5)
+
+[node name="NPC3D" parent="." unique_id=751460403 instance=ExtResource("5_wqy44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.3, 1.5)
