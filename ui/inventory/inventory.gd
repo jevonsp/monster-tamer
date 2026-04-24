@@ -184,7 +184,7 @@ func _exit_inventory() -> void:
 		return
 	_toggle_visible()
 	Ui.on_inventory_closed.emit()
-	if not Player.in_battle:
+	if not PlayerContext3D.player.in_battle:
 		Ui.on_menu_closed.emit()
 	interfaces.ui_context = Global.AccessFrom.NONE
 

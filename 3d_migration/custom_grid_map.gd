@@ -3,6 +3,7 @@ extends GridMap
 
 const TILE_DICT: Dictionary = {
 	STAIRS = 1,
+	LEDGE = 15,
 }
 
 @export var mesh_flags: Dictionary[int, TileFlags]
@@ -17,11 +18,6 @@ func _ready() -> void:
 	stairs = get_used_cells_by_item(TILE_DICT.STAIRS)
 	_build_cell_flags()
 	_build_graph_edges()
-
-	for n in graph:
-		print("node: ", n)
-		for e in n:
-			print("edge: ", e)
 
 
 func is_nav_walkable_cell(cell: Vector3i) -> bool:
@@ -58,6 +54,11 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				TileFlags.get_allowed_stair_direction_above(cell, orientation)
 				tile_flags.allowed_below_entry_cell = \
 				TileFlags.get_allowed_stair_direction_below(cell, orientation)
+			TILE_DICT.STAIRS:
+				var orientation := _horizontal_basis_to_step(get_cell_item_basis(cell).x)
+				tile_flags.tile_type = TileFlags.TileType.LEDGE
+				tile_flags.ledge_direction = orientation
+				tile_flags.ledge_landing_cell = TileFlags.get_ledge_landing_cell(cell, orientation)
 
 
 func _build_graph_edges() -> void:
@@ -109,6 +110,16 @@ func _get_logical_edges(cell: Vector3i) -> Array[GraphEdge]:
 				ge_above.step = stair_dir
 				ge_above.to_cell = above
 				edges.append(ge_above)
+
+	if get_cell_item(cell) == TILE_DICT.LEDGE:
+		var tf: TileFlags = cell_flags.get(cell)
+		if tf:
+			var landing = tf.ledge_landing_cell
+			if landing in used_cells and _is_walkable(landing):
+				var ge := GraphEdge.new()
+				ge.step = tf.ledge_direction
+				ge.to_cell = landing
+				edges.append(ge)
 
 	return edges
 

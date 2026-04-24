@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://pu4xt6ueh485"]
+
+[ext_resource type="PackedScene" uid="uid://dfo5gyemql214" path="res://3d_migration/grid_map/gltfs/CliffEdge.gltf" id="1_i0aas"]
+
+[node name="CliffEdge" unique_id=1466771672 instance=ExtResource("1_i0aas")]

@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://ck01xs5nlptpr" path="res://3d_migration/grid_map/gltfs/BuildingRoofEdgeMiddle_0.png" id="12_4uk6l"]
 [ext_resource type="Texture2D" uid="uid://7fronjrd6mpb" path="res://3d_migration/grid_map/gltfs/BuildingRoofMiddleCenter_0.png" id="13_4uk6l"]
 [ext_resource type="Texture2D" uid="uid://ci8ms8v6i853h" path="res://3d_migration/grid_map/gltfs/FloorTiledWhite_0.png" id="14_et0h2"]
+[ext_resource type="Texture2D" uid="uid://dssi7lmsvjjrr" path="res://3d_migration/grid_map/gltfs/CliffEdge_0.png" id="15_f80fs"]
+[ext_resource type="Texture2D" uid="uid://dqw1t5dhtbwu5" path="res://3d_migration/grid_map/gltfs/LedgeEdge_0.png" id="16_xpjvv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0tdg4"]
 resource_name = "material_0"
@@ -607,6 +609,90 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_mh6qx")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1u8ol"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("15_f80fs")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_k16oa"]
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAAAEAAEABAADAAEAAgAFAAAABAAAAAUAAgADAAUABAAFAAMA"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("//8AAAAAAAAAAAAA//8AAP//AAD//wAAAAD/////AAAAAAAAAAAAAP///////wAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_00rr8"]
+resource_name = "blockbench_export_mesh"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/1//v/8f/3//X/9//x//v/9n/7//J/9//2f/f/8n/7//W/9//xv/v/9b/7//G/9//2//u/+v/3v/r/+7/wv/t/8L/3f/S/+3"),
+"format": 34896613399,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADwAQABEA"),
+"material": SubResource("StandardMaterial3D_1u8ol"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 18,
+"vertex_data": PackedByteArray("//8AAAAA/78AAAAA////v///AAD///+/AAAAAAAA/7///wAA//8AgAAA/////wCA////////AIAAAAAA//8AgAAAAAAAAAAA////////AAAAAP////8AAP//AAAAAAAAAAAAAAAA/78AAP//////vwAAAAD///+///8AAP///7//////////v///AAAAAP+/AAD/fwAA/38AAP9/AAD/f/9/////f////3////9/////f4Ha/3+B2v9/gdr/f4Ha/3////9/////f////38AAP9/AAD/fwAA")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_k16oa")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dg5m"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("16_xpjvv")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_dpav0"]
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 0.5, 1),
+"format": 34896613377,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAwACAAEAAwAAAAIAAwABAAQABAAAAAMAAAAFAAEABAABAAUABAAFAAAA"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("//8AAAAAAAAAAAAA//8AAP//AAD//wAA/////wAAAAAAAP//AAAAAAAAAAAAAAAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_xjx4e"]
+resource_name = "blockbench_export_mesh"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 0.5, 1),
+"attribute_data": PackedByteArray("/2f/f/8n/0v/Z/9L/yf/f/9n/4f/J/+j/yf/h/9n/6P/a/+H/yv/v/8r/4f/a/+//4P/a/9D/3//g/9//4P/a/+D/3//Q/9/"),
+"format": 34896613399,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADwAQABEA"),
+"material": SubResource("StandardMaterial3D_3dg5m"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 18,
+"vertex_data": PackedByteArray("//8AAAAA/78AAAAA////v///AAD///+/AAAAAAAA/78AAP//AAD/////AAAAAP///////wAA//8AAAAAAAD///////8AAButAAAAAP//G60AAP//AAAbrf//AAD//xutAAD//wAAAAAAAAAA//8AAAAAAAAAAAAA/////wAA/7///wAAAAD/v///AAD///+/AAD/fwAA/38AAP9/AAD/f/9/////f////3////9///////9/////f////3////9//z//f/8//3//P/9//38AAP9/AAD/fwAA")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_dpav0")
+
 [node name="GridMapMeshScene" type="Node3D" unique_id=1728491286]
 
 [node name="GrassBlock" type="MeshInstance3D" parent="." unique_id=386451816]
@@ -663,3 +749,11 @@ mesh = SubResource("ArrayMesh_d3m1g")
 [node name="FloorTiledWhite" type="MeshInstance3D" parent="." unique_id=1867113783]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 0)
 mesh = SubResource("ArrayMesh_eo0e5")
+
+[node name="CliffEdge" type="MeshInstance3D" parent="." unique_id=1950078177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+mesh = SubResource("ArrayMesh_00rr8")
+
+[node name="LedgeEdge" type="MeshInstance3D" parent="." unique_id=1357436059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+mesh = SubResource("ArrayMesh_xjx4e")

@@ -63,9 +63,9 @@ func _sync_cursor_input_enabled() -> void:
 
 
 func _sync_marker_from_player() -> void:
-	if Player.travel == null:
+	if PlayerContext3D.player == null:
 		return
-	Global.location_changed.emit(Player.travel.current_location)
+	Global.location_changed.emit(PlayerContext3D.travel_handler.current_location)
 
 
 func _on_cursor_location_entered(cursor_location: Map.Location) -> void:

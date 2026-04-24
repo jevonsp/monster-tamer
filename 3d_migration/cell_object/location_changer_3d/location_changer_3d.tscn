@@ -5,3 +5,6 @@
 
 [node name="LocationChanger3D" unique_id=1454602347 instance=ExtResource("1_hjnb6")]
 script = ExtResource("2_dc3uj")
+location_entering = 0
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

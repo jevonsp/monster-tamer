@@ -1,4 +1,4 @@
-class_name InventoryHandler3D
+class_name InventoryHandler
 extends Node
 
 @export var inventory: Dictionary[Item.Type, InventoryPage] = { }
