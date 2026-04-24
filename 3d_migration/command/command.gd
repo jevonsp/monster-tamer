@@ -1,38 +1,49 @@
 class_name Command
 extends Resource
 
+## How the interact machine moves after a phase.
+## NEXT: run the next phase, or the next command after *after_trigger*.
+## STOP: end this command list; no more commands in this interaction.
+enum Flow { NEXT, STOP }
+
 @export var should_trigger: bool = true
 @export var should_exit: bool = false
 
 
-func before_trigger() -> bool:
+func before_trigger() -> Flow:
 	if should_exit:
-		return false
+		return Flow.STOP
 	if not should_trigger:
-		return true
-
-	# Do pre trigger stuff here
-
-	return true
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _before_impl()
 
 
-func trigger() -> bool:
+func _before_impl() -> Flow:
+	return Flow.NEXT
+
+
+func trigger() -> Flow:
 	if should_exit:
-		return false
+		return Flow.STOP
 	if not should_trigger:
-		return true
-
-	# Do command here
-
-	return true
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _trigger_impl()
 
 
-func after_trigger() -> bool:
+func _trigger_impl() -> Flow:
+	return Flow.NEXT
+
+
+func after_trigger() -> Flow:
 	if should_exit:
-		return false
+		return Flow.STOP
 	if not should_trigger:
-		return true
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _after_impl()
 
-	# Clean up command here
 
-	return true
+func _after_impl() -> Flow:
+	return Flow.NEXT

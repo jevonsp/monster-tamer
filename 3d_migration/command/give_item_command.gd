@@ -8,53 +8,25 @@ extends Command
 @export var is_question: bool = false
 
 
-func before_trigger() -> bool:
-	if should_exit:
-		return false
-	if not should_trigger:
-		return true
-
-	# Do pre trigger stuff here
-
-	return true
-
-
-func trigger() -> bool:
-	if should_exit:
-		return false
-	if not should_trigger:
-		return true
-
+func _trigger_impl() -> Flow:
 	text = format_text() if needs_formatting else text
 
 	if is_question:
 		Ui.send_text_box.emit(null, text, false, true, false)
-		var answer = await Ui.answer_given
-		if answer:
-			PlayerContext3D.inventory_handler.add(item, quantity)
-		return answer
+		var answer: bool = await Ui.answer_given
+		if not answer:
+			return Flow.STOP
+		PlayerContext3D.inventory_handler.add(item, quantity)
+		return Flow.NEXT
 	else:
 		Ui.send_text_box.emit(null, text, false, false, false)
 
 	PlayerContext3D.inventory_handler.add(item, quantity)
-
-	return true
-
-
-func after_trigger() -> bool:
-	if should_exit:
-		return false
-	if not should_trigger:
-		return true
-
-	# Clean up command here
-
-	return true
+	return Flow.NEXT
 
 
 func format_text() -> Array[String]:
-	var formatted: Array[String]
-
+	var formatted: Array[String] = []
 	for string in text:
 		formatted.append(
 			string.format(
@@ -64,5 +36,4 @@ func format_text() -> Array[String]:
 				},
 			),
 		)
-
 	return formatted
