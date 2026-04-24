@@ -107,7 +107,8 @@ func _bind_buttons() -> void:
 		button.focus_entered.connect(func(): last_focused_quantity_button = button)
 
 
-func _display_store(store_component: NPCStoreComponent) -> void:
+# WARNING: fix these
+func _display_store(store_component) -> void:
 	_open_store_ui()
 	_update_inventory(store_component)
 	_show_options()
@@ -116,7 +117,8 @@ func _display_store(store_component: NPCStoreComponent) -> void:
 	_update_currency_panel()
 
 
-func _update_inventory(store_component: NPCStoreComponent) -> void:
+# WARNING: fix these
+func _update_inventory(store_component) -> void:
 	npc_inventory = store_component.inventory
 	player_ref = get_tree().get_first_node_in_group("player")
 	if player_ref:

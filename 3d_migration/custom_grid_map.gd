@@ -18,6 +18,17 @@ func _ready() -> void:
 	_build_cell_flags()
 	_build_graph_edges()
 
+	for n in graph:
+		print("node: ", n)
+		for e in n:
+			print("edge: ", e)
+
+
+func is_nav_walkable_cell(cell: Vector3i) -> bool:
+	if cell not in used_cells:
+		return false
+	return _is_walkable(cell)
+
 
 func _build_cell_flags() -> void:
 	used_cells = get_used_cells()
@@ -115,12 +126,6 @@ func _horizontal_basis_to_step(basis_x: Vector3) -> Vector3i:
 			best_dot = d
 			best = cardinal
 	return best
-
-
-func is_nav_walkable_cell(cell: Vector3i) -> bool:
-	if cell not in used_cells:
-		return false
-	return _is_walkable(cell)
 
 
 func _is_walkable(cell: Vector3i) -> bool:

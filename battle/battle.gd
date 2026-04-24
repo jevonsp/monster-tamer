@@ -21,7 +21,7 @@ var is_wild_battle: bool:
 		return session.is_wild_battle
 	set(value):
 		session.is_wild_battle = value
-var enemy_trainer: Trainer:
+var enemy_trainer: Trainer3D:
 	get:
 		return session.enemy_trainer
 	set(value):
@@ -87,7 +87,7 @@ func end_battle() -> void:
 	if is_wild_battle:
 		NuzlockeTracker.monster_encountered_on_route(Player.travel.current_location)
 	_release_held_input_actions()
-	var ended_trainer: Trainer = enemy_trainer
+	var ended_trainer: Trainer3D = enemy_trainer
 	_clear_all()
 	_toggle_visible()
 	_toggle_player()
@@ -143,7 +143,7 @@ func _start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	await _switch_to_battle()
 
 
-func _start_trainer_battle(trainer: Trainer) -> void:
+func _start_trainer_battle(trainer: Trainer3D) -> void:
 	Ui.switch_ui_context.emit(Global.AccessFrom.BATTLE)
 	session.start_trainer_battle(trainer)
 	await _switch_to_battle()

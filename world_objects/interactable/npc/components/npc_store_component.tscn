@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://dwx7fw8ds8jy6"]
-
-[ext_resource type="Script" uid="uid://coiacrcyqphnl" path="res://world_objects/interactable/npc/components/npc_store_component.gd" id="1_oa1ig"]
-
-[node name="NPCStoreComponent" type="Node" unique_id=221203702]
-script = ExtResource("1_oa1ig")

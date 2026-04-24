@@ -9,7 +9,7 @@ static func create_route_tracker() -> void:
 	for val in Map.Location.values():
 		route_tracker[val] = false
 
-	Player.info.nuzlocke_tracker = route_tracker
+	PlayerContext3D.player_info_handler.nuzlocke_tracker = route_tracker
 
 
 static func hydrate_from_save(info: Info) -> void:

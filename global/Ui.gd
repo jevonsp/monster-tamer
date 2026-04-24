@@ -28,7 +28,7 @@ signal request_open_summary(monster: Monster)
 signal on_summary_closed
 signal move_learning_finished
 signal request_open_storage
-signal request_open_store(store_component: NPCStoreComponent)
+signal request_open_store(store_component)
 signal grab_default_battle_focus
 signal update_save_info
 signal request_text_entry

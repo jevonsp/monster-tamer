@@ -5,12 +5,12 @@ extends Node
 signal toggle_in_battle
 signal battle_started
 signal wild_battle_requested(mon_data: MonsterData, level: int)
-signal trainer_battle_requested(trainer: Trainer)
+signal trainer_battle_requested(trainer: Trainer3D)
 signal add_switch_to_turn_queue(switch: Switch)
 signal switch_monster_to_first(monster: Monster)
 signal battle_switch_complete
 signal add_item_to_turn_queue(item: Item)
-signal battle_ended(enemy_trainer: Trainer)
+signal battle_ended(enemy_trainer: Trainer3D)
 signal send_move_animation(scene: PackedScene)
 signal move_animation_complete
 signal send_item_throw_animation(item: Item)

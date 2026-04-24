@@ -200,7 +200,7 @@ func _connect_signals() -> void:
 	Ui.set_inventory_use.connect(_set_mode_use_target)
 	Ui.set_inventory_give.connect(_set_mode_give_target)
 	Battle.trainer_battle_requested.connect(func(_trainer): is_trainer_battle = true)
-	Battle.battle_ended.connect(func(_enemy_trainer: Trainer) -> void: is_trainer_battle = false)
+	Battle.battle_ended.connect(func(_enemy_trainer: Trainer3D) -> void: is_trainer_battle = false)
 
 
 func _on_inventory_change(new_inventory: Dictionary[Item.Type, InventoryPage]) -> void:
@@ -233,7 +233,7 @@ func _update_current_items() -> void:
 
 
 func _update_currency_panel() -> void:
-	var money = Player.inventory.money
+	var money = PlayerContext3D.inventory_handler.money
 	money_label.text = "%s <- Money" % [money]
 
 

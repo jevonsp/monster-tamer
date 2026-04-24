@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://dfcyvpb7eplen"]
-
-[ext_resource type="PackedScene" uid="uid://b0vyjd3isbdso" path="res://world_objects/interactable/npc/npc.tscn" id="1_x35b0"]
-
-[node name="BlockerNPC" instance=ExtResource("1_x35b0")]
-dialogue = Array[String]([])

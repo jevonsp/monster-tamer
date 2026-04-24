@@ -73,7 +73,7 @@ func _continue() -> void:
 
 
 func _new_game() -> void:
-	var main: Node2D = SaverLoader.load_level(SaverLoader.MAIN)
+	var main: Node = SaverLoader.load_level(SaverLoader.MAIN)
 	SaverLoader.toggle_visible()
 	Global.toggle_player.emit()
 

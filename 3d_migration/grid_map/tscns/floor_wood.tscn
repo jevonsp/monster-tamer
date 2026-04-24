@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://d0mdptrokgsn4"]
+
+[ext_resource type="PackedScene" uid="uid://dflj3tmukhyxd" path="res://3d_migration/grid_map/gltfs/FloorWood.gltf" id="1_wjvvd"]
+
+[node name="FloorWood" unique_id=1752549872 instance=ExtResource("1_wjvvd")]

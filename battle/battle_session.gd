@@ -5,7 +5,7 @@ var player_actor: Monster
 var enemy_actor: Monster
 var player_party: Array[Monster] = []
 var is_wild_battle: bool = true
-var enemy_trainer: Trainer = null
+var enemy_trainer: Trainer3D = null
 var enemy_party: Array[Monster] = []
 
 
@@ -40,20 +40,13 @@ func start_wild_battle(monster_data: MonsterData, level: int) -> void:
 	set_player_actor(player_party[0])
 
 
-func start_trainer_battle(trainer: Trainer) -> void:
+func start_trainer_battle(trainer: Trainer3D) -> void:
 	clear_actors()
 	is_wild_battle = false
 	enemy_trainer = trainer
 	_set_enemy_party(trainer.party, trainer.party_levels)
 	set_enemy_actor(enemy_party[0])
 	set_player_actor(player_party[0])
-
-
-func _set_enemy_party(party: Array[MonsterData], levels: Array[int]) -> void:
-	enemy_party.clear()
-	for i in range(len(party)):
-		var monster: Monster = party[i].set_up(levels[i])
-		enemy_party.append(monster)
 
 
 func reset_stats() -> void:
@@ -85,3 +78,10 @@ func clear_all_battle_state() -> void:
 	clear_actors()
 	clear_parties()
 	is_wild_battle = true
+
+
+func _set_enemy_party(party: Array[MonsterData], levels: Array[int]) -> void:
+	enemy_party.clear()
+	for i in range(len(party)):
+		var monster: Monster = party[i].set_up(levels[i])
+		enemy_party.append(monster)

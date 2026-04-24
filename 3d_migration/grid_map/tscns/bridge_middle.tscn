@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bbqto00xtyqqc"]
+
+[ext_resource type="PackedScene" uid="uid://cpgv4id63ecwv" path="res://3d_migration/grid_map/gltfs/BridgeMiddle.gltf" id="1_tqbra"]
+
+[node name="BridgeMiddle" unique_id=965276494 instance=ExtResource("1_tqbra")]

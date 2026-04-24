@@ -1,8 +1,8 @@
 class_name SavedData
 extends Resource
 
-@export var position: Vector2 = Vector2.ZERO
-@export var facing_dir: TileMover.Direction = TileMover.Direction.NONE
+@export var position: Vector3 = Vector3.ZERO
+@export var facing_grid: Vector3i = Vector3i(0, 0, 1)
 @export var node_path: NodePath
 @export var state: int = 0
 @export var is_obtained: bool = false

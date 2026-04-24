@@ -18,13 +18,15 @@ func update_info() -> void:
 
 
 func update_name_label() -> void:
-	if Player.info and Player.info.player_name:
-		name_label.text = "NAME: %s" % Player.info.player_name
+	var h := PlayerContext3D.player_info_handler
+	if h and h.player_name:
+		name_label.text = "NAME: %s" % h.player_name
 
 
 func update_play_time_label() -> void:
-	if Player.info and Player.info.player_name:
-		play_time_label.text = "PLAY TIME: %s" % _parse_minutes(Player.info.play_time)
+	var h := PlayerContext3D.player_info_handler
+	if h and h.player_name:
+		play_time_label.text = "PLAY TIME: %s" % _parse_minutes(h.play_time)
 
 
 func update_last_saved_label() -> void:

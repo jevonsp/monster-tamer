@@ -1,7 +1,7 @@
 class_name SavedGame
 extends Resource
 
-@export var player_position: Vector2 = Vector2.ZERO
+@export var player_position: Vector3 = Vector3.ZERO
 @export var player_party: Array[Monster] = []
 @export var player_storage: Dictionary[int, Monster] = { }
 @export var player_inventory: Dictionary[Item.Type, InventoryPage] = { }

@@ -1,15 +1,15 @@
 extends Node
 ## Saves Data at ~/.local/share/godot/app_userdata/
 
-const MAIN = preload("res://maps/vertical_slice/vertical_slice.tscn")
+const MAIN = preload("res://main/main.tscn")
 const TITLE_SCREEN = preload("uid://bwmithvrs81lb")
 
-var loaded_scene: Node2D
+var loaded_scene: Node
 
 @onready var game_root = $"."
 
 
-func load_level(scene: PackedScene) -> Node2D:
+func load_level(scene: PackedScene) -> Node:
 	var new_scene = scene.instantiate()
 	set_loaded_level(new_scene)
 	toggle_visible()
@@ -28,7 +28,7 @@ func toggle_visible() -> void:
 func save_game() -> void:
 	var saved_game: SavedGame = SavedGame.new()
 
-	var player: Player = get_tree().get_first_node_in_group("player")
+	var player: Player3D = PlayerContext3D.player
 	if player:
 		saved_game = save_player(saved_game, player)
 
@@ -61,7 +61,7 @@ func save_game_exists() -> bool:
 	return FileAccess.file_exists("user://savegame.tres")
 
 
-func save_player(saved_game: SavedGame, player: Player) -> SavedGame:
+func save_player(saved_game: SavedGame, player: Player3D) -> SavedGame:
 	saved_game.player_position = player.global_position
 	saved_game.player_party = player.party.party
 	saved_game.player_storage = player.party.storage
@@ -73,7 +73,7 @@ func save_player(saved_game: SavedGame, player: Player) -> SavedGame:
 	return saved_game
 
 
-func load_player(saved_game: SavedGame, player: Player):
+func load_player(saved_game: SavedGame, player: Player3D):
 	player.global_position = saved_game.player_position
 	player.party.party = saved_game.player_party
 	player.party.storage = saved_game.player_storage

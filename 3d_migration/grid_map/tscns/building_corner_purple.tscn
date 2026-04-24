@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://khc2yg840k3p"]
+
+[ext_resource type="PackedScene" uid="uid://5kpn13f1dct4" path="res://3d_migration/grid_map/gltfs/BuildingCornerPurple.gltf" id="1_pehxq"]
+
+[node name="BuildingCornerPurple" unique_id=919342627 instance=ExtResource("1_pehxq")]

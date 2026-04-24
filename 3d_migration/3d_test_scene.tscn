@@ -26,7 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://8fngqhn3p02d" path="res://3d_migration/cell_object/static_objects/sign.tscn" id="24_yn0yl"]
 [ext_resource type="PackedScene" uid="uid://b6lnst7vmnqro" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.tscn" id="25_8vtj5"]
 [ext_resource type="PackedScene" uid="uid://uq2lp2w1qfh5" path="res://3d_migration/cell_object/teleporter_objects/teleporter_point_3d.tscn" id="26_hvbc5"]
-[ext_resource type="PackedScene" uid="uid://b2tmuifso2osq" path="res://3d_migration/cell_object/teleporter_objects/door.tscn" id="27_hvbc5"]
+[ext_resource type="PackedScene" uid="uid://b2tmuifso2osq" path="res://3d_migration/cell_object/teleporter_objects/door_teleporter.tscn" id="27_hvbc5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_grid_exp"]
 sky_top_color = Color(0.2, 0.45, 0.85, 1)

@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bemcgc5augssx"]
+
+[ext_resource type="PackedScene" uid="uid://i6ut67gfkbiw" path="res://3d_migration/grid_map/gltfs/Stairs.gltf" id="1_1augx"]
+
+[node name="Stairs" unique_id=1466870509 instance=ExtResource("1_1augx")]

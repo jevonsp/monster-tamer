@@ -131,7 +131,7 @@ func _on_battle_started() -> void:
 	in_battle = true
 
 
-func _on_battle_ended(_enemy_trainer: Trainer) -> void:
+func _on_battle_ended(_enemy_trainer: Trainer3D) -> void:
 	in_battle = false
 
 

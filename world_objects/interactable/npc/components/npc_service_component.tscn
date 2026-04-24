@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://e0q6pt3xt1a"]
-
-[ext_resource type="Script" uid="uid://b3svc7k2m4nq0" path="res://world_objects/interactable/npc/components/npc_service_component.gd" id="1_svc"]
-
-[node name="NPCServiceComponent" type="Node" unique_id=1491352628]
-script = ExtResource("1_svc")

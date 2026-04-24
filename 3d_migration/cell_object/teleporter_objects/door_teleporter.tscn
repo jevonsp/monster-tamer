@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://b2tmuifso2osq"]
+
+[ext_resource type="PackedScene" uid="uid://b6lnst7vmnqro" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.tscn" id="1_igxi1"]
+[ext_resource type="Script" uid="uid://dyvhdnui8jjeu" path="res://3d_migration/cell_object/teleporter_objects/door_teleporter.gd" id="2_fterr"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/command/command_list.gd" id="3_oel6l"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/command/command.gd" id="4_m824k"]
+[ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/command/say_command.gd" id="5_7ckkm"]
+[ext_resource type="PackedScene" uid="uid://8jwd7apcrsg8" path="res://3d_migration/grid_map/tscns/door.tscn" id="6_mg7sr"]
+
+[sub_resource type="Resource" id="Resource_fg5ki"]
+script = ExtResource("5_7ckkm")
+text = Array[String](["Its locked..."])
+is_autocomplete = true
+metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
+
+[sub_resource type="Resource" id="Resource_1soxq"]
+script = ExtResource("3_oel6l")
+commands = Array[ExtResource("4_m824k")]([SubResource("Resource_fg5ki")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[node name="Door" unique_id=1454602347 instance=ExtResource("1_igxi1")]
+script = ExtResource("2_fterr")
+command_lists = Array[ExtResource("3_oel6l")]([SubResource("Resource_1soxq")])
+blocks_player = true
+
+[node name="CollisionShape3D" parent="." index="0" unique_id=598749242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
+
+[node name="Door" parent="." index="2" unique_id=2121705082 instance=ExtResource("6_mg7sr")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.5, -0.5, 0)
+
+[editable path="Door"]

@@ -3,8 +3,6 @@ extends Character3D
 
 enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
 
-var in_battle: bool = false
-
 @export var pivot: Node3D
 @export var camera_3d: Camera3D
 
@@ -13,6 +11,8 @@ var held_keys: Array[String] = []
 var key_hold_times: Dictionary = { }
 var travel_state: TravelState = TravelState.DEFAULT
 var respawn_point: Vector3 = Vector3.ZERO
+var command_active: bool = false
+var in_battle: bool = false
 
 @onready var party_handler: PartyHandler3D = $PartyHandler
 @onready var inventory_handler: InventoryHandler3D = $InventoryHandler
@@ -57,12 +57,24 @@ func _physics_process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not processing or grid_map == null:
 		return
+	if command_active:
+		if event.is_action_pressed("menu"):
+			get_viewport().set_input_as_handled()
+		return
 	if camera_3d == null or (camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting()) or pivot == null:
 		return
 	if _current_state != MoveState.IDLE:
 		return
 	if event.is_action_pressed("yes"):
 		_attempt_interaction()
+		get_viewport().set_input_as_handled()
+	if not processing:
+		if event.is_action_pressed("menu") and not _text_entry_is_using_menu():
+			get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("menu"):
+		_open_menu()
+		get_viewport().set_input_as_handled()
 
 
 func setup() -> void:
@@ -96,23 +108,6 @@ func setup_player_context() -> void:
 	PlayerContext3D.player_info_handler = player_info_handler
 
 
-func _setup_handlers_3d() -> void:
-	player_info_handler.player = self
-	if not player_info_handler.player_info.is_empty():
-		player_info_handler.update_info()
-	if respawn_point == Vector3.ZERO:
-		set_respawn_point()
-	party_handler.create_storage()
-	party_handler._connect_signals()
-	inventory_handler._connect_signals()
-	player_info_handler._connect_signals()
-	travel_handler._connect_signals()
-	if not Battle.toggle_in_battle.is_connected(toggle_in_battle):
-		Battle.toggle_in_battle.connect(toggle_in_battle)
-	if not Global.send_respawn_player.is_connected(_respawn):
-		Global.send_respawn_player.connect(_respawn)
-
-
 func set_respawn_point() -> void:
 	respawn_point = global_position
 	player_info_handler.respawn_point = Vector2(respawn_point.x, respawn_point.z)
@@ -123,26 +118,6 @@ func toggle_in_battle() -> void:
 	if not in_battle:
 		for monster in party_handler.party:
 			monster.was_active_in_battle = false
-
-
-func _respawn() -> void:
-	if Options.is_nuzlocke():
-		await _lose()
-		return
-	global_position = respawn_point
-	party_handler.fully_heal_and_revive_party()
-
-
-func _lose() -> void:
-	var ta: Array[String] = [
-		"You have ran out of usable Monsters while in Nuzlocke mode.",
-		"You will be returned to the title screen.",
-		"You can permanently turn off Nuzlocke mode at any time in the options menu.",
-	]
-	Ui.send_text_box.emit(null, ta, false, false, false)
-	await Ui.text_box_complete
-
-	SaverLoader.switch_to_title()
 
 
 func walk_one_step_along_facing() -> void:
@@ -174,6 +149,50 @@ func set_movement_locked(value: bool) -> void:
 		processing = false
 	else:
 		processing = true
+
+
+func _text_entry_is_using_menu() -> bool:
+	var te: Node = get_tree().get_first_node_in_group("text_entry_root")
+	if te == null or not is_instance_valid(te):
+		return false
+	return te.visible and te.get("processing") == true
+
+
+func _setup_handlers_3d() -> void:
+	player_info_handler.player = self
+	if not player_info_handler.player_info.is_empty():
+		player_info_handler.update_info()
+	if respawn_point == Vector3.ZERO:
+		set_respawn_point()
+	party_handler.create_storage()
+	party_handler._connect_signals()
+	inventory_handler._connect_signals()
+	player_info_handler._connect_signals()
+	travel_handler._connect_signals()
+	if not Battle.toggle_in_battle.is_connected(toggle_in_battle):
+		Battle.toggle_in_battle.connect(toggle_in_battle)
+	if not Global.send_respawn_player.is_connected(_respawn):
+		Global.send_respawn_player.connect(_respawn)
+
+
+func _respawn() -> void:
+	if Options.is_nuzlocke():
+		await _lose()
+		return
+	global_position = respawn_point
+	party_handler.fully_heal_and_revive_party()
+
+
+func _lose() -> void:
+	var ta: Array[String] = [
+		"You have ran out of usable Monsters while in Nuzlocke mode.",
+		"You will be returned to the title screen.",
+		"You can permanently turn off Nuzlocke mode at any time in the options menu.",
+	]
+	Ui.send_text_box.emit(null, ta, false, false, false)
+	await Ui.text_box_complete
+
+	SaverLoader.switch_to_title()
 
 
 func _on_camera_rotation_finished() -> void:
@@ -287,3 +306,11 @@ func _get_interaction_ray_collider() -> Object:
 
 func _toggle_player(value: bool) -> void:
 	processing = value
+
+
+func _open_menu() -> void:
+	party_handler.send_player_party()
+	inventory_handler.send_player_inventory()
+	if _move_progress != 0.0:
+		await PlayerContext3D.walk_segmented_completed
+	Ui.request_open_menu.emit()

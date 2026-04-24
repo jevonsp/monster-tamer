@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://lhddd3n3qiyj"]
+
+[ext_resource type="PackedScene" uid="uid://diep6c2pgql2y" path="res://3d_migration/grid_map/gltfs/DoorNotchPurple.gltf" id="1_q5qwt"]
+
+[node name="DoorNotch" unique_id=1661868641 instance=ExtResource("1_q5qwt")]

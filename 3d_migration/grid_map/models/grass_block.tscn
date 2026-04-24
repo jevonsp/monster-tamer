@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://dm3dwtw6sinn6"]
-
-[ext_resource type="PackedScene" uid="uid://bpo8gxpifc37n" path="res://3d_migration/grid_map/assets/GrassTile.gltf" id="1_n1die"]
-
-[node name="GrassBlock" unique_id=640212137 instance=ExtResource("1_n1die")]
