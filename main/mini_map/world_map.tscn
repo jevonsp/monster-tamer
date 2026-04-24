@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://c7pd38l5i20xf"]
+
+[ext_resource type="Script" uid="uid://cdkqmtt200ynk" path="res://main/mini_map/world_map.gd" id="1_8p8y2"]
+[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="2_c5p0o"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="3_xuags"]
+[ext_resource type="PackedScene" uid="uid://beem8km8uvvbr" path="res://main/mini_map/cursor.tscn" id="10_pe7t7"]
+
+[node name="WorldMap" type="Control" unique_id=207139352]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8p8y2")
+
+[node name="Panel" parent="." unique_id=134393662 instance=ExtResource("2_c5p0o")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 400.0
+offset_bottom = 64.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=55029717]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="LocationLabel" type="Label" parent="Panel/MarginContainer" unique_id=59908403]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("3_xuags")
+theme_override_font_sizes/font_size = 32
+text = "LOCATION: UNKNOWN"
+vertical_alignment = 1
+
+[node name="Cursor" parent="." unique_id=2037848349 instance=ExtResource("10_pe7t7")]
+z_index = 1
+position = Vector2(32, 96)
+scale = Vector2(3, 3)
+max_speed = 200.0
+friction = 850.0

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bbb2gn17jo8ty"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_hjnb6"]
+[ext_resource type="Script" uid="uid://cpje2k0j5wr5l" path="res://3d_migration/cell_object/location_changer_3d/location_changer_3d.gd" id="2_dc3uj"]
+
+[node name="LocationChanger3D" unique_id=1454602347 instance=ExtResource("1_hjnb6")]
+script = ExtResource("2_dc3uj")

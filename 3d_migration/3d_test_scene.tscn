@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://q21m3s4lx1nn" path="res://ui/info_hud/info_hud.tscn" id="19_gt1xy"]
 [ext_resource type="PackedScene" uid="uid://c7ish7puudh7h" path="res://ui/text_entry/text_entry.tscn" id="20_ac4vl"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="21_eh8r8"]
-[ext_resource type="PackedScene" uid="uid://c7pd38l5i20xf" path="res://maps/mini_map/world_map.tscn" id="21_p8vk2"]
+[ext_resource type="PackedScene" uid="uid://c7pd38l5i20xf" path="res://main/mini_map/world_map.tscn" id="21_p8vk2"]
 [ext_resource type="PackedScene" uid="uid://8fngqhn3p02d" path="res://3d_migration/cell_object/static_objects/sign.tscn" id="24_yn0yl"]
 [ext_resource type="PackedScene" uid="uid://b6lnst7vmnqro" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.tscn" id="25_8vtj5"]
 [ext_resource type="PackedScene" uid="uid://uq2lp2w1qfh5" path="res://3d_migration/cell_object/teleporter_objects/teleporter_point_3d.tscn" id="26_hvbc5"]

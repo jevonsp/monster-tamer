@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5hcw5xmokpiu"]
 
 [ext_resource type="Script" uid="uid://cx7kajuhekh3y" path="res://main/intro_sequence.gd" id="1_xxhso"]
-[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="2_rse4a"]
+[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://3d_migration/character_3d/player_sprite_sheet.png" id="2_rse4a"]
 
 [node name="IntroSequence" type="Control" unique_id=973191004]
 layout_mode = 3

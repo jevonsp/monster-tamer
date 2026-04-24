@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://q21m3s4lx1nn" path="res://ui/info_hud/info_hud.tscn" id="12_t1yuj"]
 [ext_resource type="PackedScene" uid="uid://c7ish7puudh7h" path="res://ui/text_entry/text_entry.tscn" id="13_vqjab"]
-[ext_resource type="PackedScene" uid="uid://c7pd38l5i20xf" path="res://maps/mini_map/world_map.tscn" id="15_s758e"]
 [ext_resource type="PackedScene" uid="uid://deo1cymxo6ciu" path="res://3d_migration/grid_map/3d_world.tscn" id="16_n3o0a"]
 [ext_resource type="PackedScene" uid="uid://cwpa4g2nam2ht" path="res://3d_migration/character_3d/player_3d/player_3d.tscn" id="18_4hmqs"]
 [ext_resource type="MeshLibrary" uid="uid://csuegmaw74rvl" path="res://3d_migration/grid_map/grid_map_meshlib.meshlib" id="19_vapsy"]
@@ -97,9 +96,6 @@ visible = false
 visible = false
 
 [node name="TextEntry" parent="Interfaces" unique_id=1175498139 instance=ExtResource("13_vqjab")]
-visible = false
-
-[node name="WorldMap" parent="Interfaces" unique_id=207139352 instance=ExtResource("15_s758e")]
 visible = false
 
 [node name="Trackers" type="Node" parent="." unique_id=1613058454]
