@@ -77,7 +77,7 @@ class FakeBattle:
 	var enemy_actor: Monster
 	var player_party: Array[Monster] = []
 	var enemy_party: Array[Monster] = []
-	var enemy_trainer: Trainer = null
+	var enemy_trainer: Trainer3D = null
 	var ended: bool = false
 
 	func end_battle() -> void:
