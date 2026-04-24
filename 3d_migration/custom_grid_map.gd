@@ -54,7 +54,7 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				TileFlags.get_allowed_stair_direction_above(cell, orientation)
 				tile_flags.allowed_below_entry_cell = \
 				TileFlags.get_allowed_stair_direction_below(cell, orientation)
-			TILE_DICT.STAIRS:
+			TILE_DICT.LEDGE:
 				var orientation := _horizontal_basis_to_step(get_cell_item_basis(cell).x)
 				tile_flags.tile_type = TileFlags.TileType.LEDGE
 				tile_flags.ledge_direction = orientation
@@ -73,6 +73,9 @@ func _build_graph_edges() -> void:
 func _get_logical_edges(cell: Vector3i) -> Array[GraphEdge]:
 	var edges: Array[GraphEdge] = []
 	for dir in [Vector3i.FORWARD, Vector3i.BACK, Vector3i.LEFT, Vector3i.RIGHT]:
+		var tf: TileFlags = cell_flags.get(cell)
+		if tf and tf.tile_type == TileFlags.TileType.LEDGE and dir == tf.ledge_direction:
+			continue
 		var target = cell + dir
 		var is_neighbor = true if target in used_cells and _is_walkable(target) else false
 		if is_neighbor:
