@@ -84,4 +84,4 @@ func _on_player_interact() -> void:
 		return
 	if command_index >= command_lists.size():
 		return
-	await command_lists[command_index].run()
+	await command_lists[command_index].run(self)

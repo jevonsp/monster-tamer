@@ -37,12 +37,16 @@ var _blocks_player: bool = false
 var _masks_player: bool = true
 
 
+func _ready() -> void:
+	pass
+
+
 func interact(_player: Player3D) -> void:
 	if command_lists.is_empty():
 		return
 	if command_index >= command_lists.size():
 		return
-	await command_lists[command_index].run()
+	await command_lists[command_index].run(self)
 
 
 func _update() -> void:

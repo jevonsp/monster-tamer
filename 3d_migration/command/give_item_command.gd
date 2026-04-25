@@ -8,7 +8,21 @@ extends Command
 @export var is_question: bool = false
 
 
-func _trigger_impl() -> Flow:
+func format_text() -> Array[String]:
+	var formatted: Array[String] = []
+	for string in text:
+		formatted.append(
+			string.format(
+				{
+					"amount": quantity,
+					"item_name": item.name,
+				},
+			),
+		)
+	return formatted
+
+
+func _trigger_impl(owner: Node) -> Flow:
 	text = format_text() if needs_formatting else text
 
 	if is_question:
@@ -23,17 +37,3 @@ func _trigger_impl() -> Flow:
 
 	PlayerContext3D.inventory_handler.add(item, quantity)
 	return Flow.NEXT
-
-
-func format_text() -> Array[String]:
-	var formatted: Array[String] = []
-	for string in text:
-		formatted.append(
-			string.format(
-				{
-					"amount": quantity,
-					"item_name": item.name,
-				},
-			),
-		)
-	return formatted

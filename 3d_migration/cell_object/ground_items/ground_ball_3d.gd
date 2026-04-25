@@ -10,4 +10,4 @@ func interact(_player: Player3D) -> void:
 		return
 	if command_index >= command_lists.size():
 		return
-	await command_lists[command_index].run()
+	await command_lists[command_index].run(self)

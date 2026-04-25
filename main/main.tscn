@@ -28,6 +28,7 @@
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="27_qs5eo"]
 [ext_resource type="Script" uid="uid://mg1f86e6bqka" path="res://3d_migration/command/give_item_command.gd" id="28_frbr6"]
 [ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/command/say_command.gd" id="28_wpkmi"]
+[ext_resource type="PackedScene" uid="uid://dmr8x8bswtmtu" path="res://3d_migration/cell_object/progress_blocker_objects/3d_cuttable_small_tree.tscn" id="31_wpkmi"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 [ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
 
@@ -230,5 +231,9 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_amlcg")])
 [node name="GroundBall3D" parent="StarterTown/Objects" unique_id=590738967 instance=ExtResource("24_oagth")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 3)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_wpkmi")])
+
+[node name="CuttableSmallTree" parent="StarterTown/Objects" unique_id=362134638 instance=ExtResource("31_wpkmi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0)
+requirement_text = Array[String](["You don't have the requirements to pass."])
 
 [editable path="3DWorld"]

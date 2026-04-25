@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://be8a278mrn774"]
+
+[ext_resource type="PackedScene" uid="uid://dgleuuqw8mlp5" path="res://3d_migration/grid_map/gltfs/CuttableSmallTreeModel.gltf" id="1_2sojf"]
+
+[node name="CuttableSmallTreeModel" unique_id=1786256566 instance=ExtResource("1_2sojf")]

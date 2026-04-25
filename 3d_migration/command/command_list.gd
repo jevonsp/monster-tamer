@@ -5,17 +5,18 @@ extends Resource
 
 
 ## Runs *commands* in order. The first *STOP* in before → trigger → after ends the whole list.
-func run() -> void:
+func run(owner: Node) -> void:
 	PlayerContext3D.toggle_player.emit(false)
+	PlayerContext3D.player.clear_inputs()
 
 	for command: Command in commands:
 		if command == null:
 			continue
-		if await command.before_trigger() == Command.Flow.STOP:
+		if await command.before_trigger(owner) == Command.Flow.STOP:
 			return
-		if await command.trigger() == Command.Flow.STOP:
+		if await command.trigger(owner) == Command.Flow.STOP:
 			return
-		if await command.after_trigger() == Command.Flow.STOP:
+		if await command.after_trigger(owner) == Command.Flow.STOP:
 			return
 
 	PlayerContext3D.toggle_player.emit(true)

@@ -10,40 +10,40 @@ enum Flow { NEXT, STOP }
 @export var should_exit: bool = false
 
 
-func before_trigger() -> Flow:
+func before_trigger(owner: Node) -> Flow:
 	if should_exit:
 		return Flow.STOP
 	if not should_trigger:
 		return Flow.NEXT
 	@warning_ignore("redundant_await")
-	return await _before_impl()
+	return await _before_impl(owner)
 
 
-func _before_impl() -> Flow:
+func trigger(owner: Node) -> Flow:
+	if should_exit:
+		return Flow.STOP
+	if not should_trigger:
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _trigger_impl(owner)
+
+
+func after_trigger(owner: Node) -> Flow:
+	if should_exit:
+		return Flow.STOP
+	if not should_trigger:
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _after_impl(owner)
+
+
+func _before_impl(owner) -> Flow:
 	return Flow.NEXT
 
 
-func trigger() -> Flow:
-	if should_exit:
-		return Flow.STOP
-	if not should_trigger:
-		return Flow.NEXT
-	@warning_ignore("redundant_await")
-	return await _trigger_impl()
-
-
-func _trigger_impl() -> Flow:
+func _trigger_impl(owner) -> Flow:
 	return Flow.NEXT
 
 
-func after_trigger() -> Flow:
-	if should_exit:
-		return Flow.STOP
-	if not should_trigger:
-		return Flow.NEXT
-	@warning_ignore("redundant_await")
-	return await _after_impl()
-
-
-func _after_impl() -> Flow:
+func _after_impl(owner) -> Flow:
 	return Flow.NEXT

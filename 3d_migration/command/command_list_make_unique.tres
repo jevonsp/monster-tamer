@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CommandList" format=3 uid="uid://b0dadf1ml6om0"]
+
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/command/command_list.gd" id="1_cgydq"]
+
+[resource]
+script = ExtResource("1_cgydq")
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"

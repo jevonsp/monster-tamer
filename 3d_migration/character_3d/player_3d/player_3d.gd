@@ -13,6 +13,7 @@ var travel_state: TravelState = TravelState.DEFAULT
 var respawn_point: Vector3 = Vector3.ZERO
 var command_active: bool = false
 var in_battle: bool = false
+var _bump_latched_collider_id: int = -1
 
 @onready var party_handler: PartyHandler3D = $PartyHandler
 @onready var inventory_handler: InventoryHandler3D = $InventoryHandler
@@ -255,6 +256,7 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 	if not started:
 		_bump()
 		return false
+	_bump_latched_collider_id = -1
 	if grid_map == null:
 		return false
 	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
@@ -273,7 +275,15 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 
 
 func _bump() -> void:
-	_attempt_interaction()
+	var collider: Object = _get_interaction_ray_collider()
+	if collider == null:
+		_bump_latched_collider_id = -1
+		return
+	var collider_id := collider.get_instance_id()
+	if collider_id == _bump_latched_collider_id:
+		return
+	_bump_latched_collider_id = collider_id
+	collider.interact(self)
 
 
 func _toggle_player(value: bool) -> void:

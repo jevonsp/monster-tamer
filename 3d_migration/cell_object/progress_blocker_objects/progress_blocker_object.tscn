@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bs2duyh5f0tca"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_w8ndj"]
+[ext_resource type="Script" uid="uid://yftotfuxgtdn" path="res://3d_migration/cell_object/progress_blocker_objects/progress_blocker_object.gd" id="2_yi0ha"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/command/command_list.gd" id="3_osito"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/command/command.gd" id="4_wwb84"]
+[ext_resource type="Script" uid="uid://c0fm5worp5r8n" path="res://3d_migration/command/blink_command.gd" id="5_oum4f"]
+
+[sub_resource type="Resource" id="Resource_6o1g1"]
+script = ExtResource("5_oum4f")
+metadata/_custom_type_script = "uid://c0fm5worp5r8n"
+
+[sub_resource type="Resource" id="Resource_osito"]
+script = ExtResource("3_osito")
+commands = Array[ExtResource("4_wwb84")]([SubResource("Resource_6o1g1")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[node name="ProgressBlockerObject" unique_id=1454602347 instance=ExtResource("1_w8ndj")]
+script = ExtResource("2_yi0ha")
+flag_requirement = 3
+requirement_text = "You don't have the requirements to pass."
+command_lists = Array[ExtResource("3_osito")]([SubResource("Resource_osito")])
+blocks_player = true
+masks_player = false
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="1" unique_id=1203066535]
