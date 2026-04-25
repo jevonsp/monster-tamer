@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://ifn651iyyxam"]
+
+[ext_resource type="PackedScene" uid="uid://dvles4pvw3mwu" path="res://3d_migration/grid_map/gltfs/water/Water7.gltf" id="1_32b76"]
+
+[node name="Water7" unique_id=1833412436 instance=ExtResource("1_32b76")]

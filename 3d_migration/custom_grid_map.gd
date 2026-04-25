@@ -4,22 +4,53 @@ extends GridMap
 const TILE_DICT: Dictionary = {
 	STAIRS = 1,
 	LEDGE = 15,
+	WATER = 16,
+}
+const WATER_DICT: Dictionary = {
+	WATER_0 = 16,
+	WATER_1 = 17,
+	WATER_2 = 18,
+	WATER_3 = 19,
+	WATER_4 = 20,
+	WATER_5 = 21,
+	WATER_6 = 22,
+	WATER_7 = 23,
+	WATER_8 = 24,
+	WATER_9 = 25,
+	WATER_10 = 26,
+	WATER_11 = 27,
+	WATER_12 = 28,
+	WATER_13 = 29,
+	WATER_14 = 30,
+	WATER_15 = 31,
 }
 const _LEDGE_MAX_HORIZONTAL_SCAN := 4
 const _LEDGE_MAX_VERTICAL_SCAN := 4
 
 @export var mesh_flags: Dictionary[int, TileFlags]
+@export_subgroup("Animation Values")
+@export var water_animation_interval := 0.5
 
 var cell_flags: Dictionary[Vector3i, TileFlags]
 var graph: Dictionary[Vector3i, Array] = { }
 var used_cells: Array[Vector3i] = []
 var stairs: Array[Vector3i] = []
+var water: Array[Vector3i] = []
+var water_animation_timer := 0.0
 
 
 func _ready() -> void:
 	stairs = get_used_cells_by_item(TILE_DICT.STAIRS)
+	_collect_water_cells()
 	_build_cell_flags()
 	_build_graph_edges()
+
+
+func _process(delta: float) -> void:
+	water_animation_timer += delta
+	if water_animation_timer >= water_animation_interval:
+		_animate_water_cells()
+		water_animation_timer = 0.0
 
 
 func is_nav_walkable_cell(cell: Vector3i) -> bool:
@@ -160,9 +191,9 @@ func _get_ledge_landing_candidates(ledge_cell: Vector3i, direction: Vector3i) ->
 
 
 func _append_edge_or_ledge_drop(
-	edges: Array[GraphEdge],
-	step: Vector3i,
-	target: Vector3i
+		edges: Array[GraphEdge],
+		step: Vector3i,
+		target: Vector3i,
 ) -> void:
 	if get_cell_item(target) == TILE_DICT.LEDGE:
 		var ledge_dir := _get_ledge_drop_direction(target)
@@ -202,3 +233,25 @@ func _is_walkable(cell: Vector3i) -> bool:
 		return cell_above_tile_flags.is_passable and cell_tile_flags.is_walkable
 
 	return false
+
+
+func _animate_water_cells() -> void:
+	for cell in water:
+		var current_cell_item = get_cell_item(cell)
+		var next_item = _next_water_tile_id(current_cell_item)
+		if next_item != current_cell_item:
+			set_cell_item(cell, next_item, get_cell_item_orientation(cell))
+
+
+func _collect_water_cells() -> void:
+	water.clear()
+	for water_tile_id in WATER_DICT.values():
+		water.append_array(get_used_cells_by_item(water_tile_id))
+
+
+func _next_water_tile_id(current_tile_id: int) -> int:
+	if current_tile_id < WATER_DICT.WATER_0 or current_tile_id > WATER_DICT.WATER_15:
+		return WATER_DICT.WATER_0
+	if current_tile_id == WATER_DICT.WATER_15:
+		return WATER_DICT.WATER_0
+	return current_tile_id + 1

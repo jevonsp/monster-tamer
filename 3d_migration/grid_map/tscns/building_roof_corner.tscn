@@ -1,5 +1,5 @@
 [gd_scene format=3 uid="uid://b5yh5n2gycghj"]
 
-[ext_resource type="PackedScene" uid="uid://b74lnmqrpm6uy" path="res://3d_migration/grid_map/gltfs/BuildingRoofCorner.gltf" id="1_1fww2"]
+[ext_resource type="PackedScene" uid="uid://b74lnmqrpm6uy" path="res://3d_migration/grid_map/gltfs/building/BuildingRoofCorner.gltf" id="1_1fww2"]
 
 [node name="BuildingRoofCorner" unique_id=377226416 instance=ExtResource("1_1fww2")]

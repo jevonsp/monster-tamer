@@ -22,5 +22,3 @@ func interact(body: Player) -> void:
 				await body.walk_to_tile(body.facing_direction)
 			Player.TravelState.SURFING:
 				await body.travel.start_surfing()
-			Player.TravelState.CLIMBING:
-				await body.travel.start_climbing()
