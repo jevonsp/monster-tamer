@@ -127,16 +127,28 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 		return false
 	for edge: GraphEdge in edges:
 		if edge.step == direction:
-			_tile_start_world = global_position
-			_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
-			_move_progress = 0.0
-			_moving = true
-			_ensure_walk_playing()
-			_set_walk_anim_speed(true)
-			move_step_started.emit(edge.step, edge.to_cell)
-			_on_animation_move_step_started(edge.step, edge.to_cell)
+			match edge.move_kind:
+				GraphEdge.MoveKind.LEDGE_JUMP:
+					_begin_ledge_jump(edge)
+				_:
+					_begin_slide(edge)
 			return true
 	return false
+
+
+func _begin_slide(edge: GraphEdge) -> void:
+	_tile_start_world = global_position
+	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
+	_move_progress = 0.0
+	_moving = true
+	_ensure_walk_playing()
+	_set_walk_anim_speed(true)
+	move_step_started.emit(edge.step, edge.to_cell)
+	_on_animation_move_step_started(edge.step, edge.to_cell)
+
+
+func _begin_ledge_jump(edge: GraphEdge) -> void:
+	_begin_slide(edge)
 
 
 func _ensure_walk_playing() -> void:

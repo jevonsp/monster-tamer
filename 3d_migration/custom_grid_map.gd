@@ -5,6 +5,8 @@ const TILE_DICT: Dictionary = {
 	STAIRS = 1,
 	LEDGE = 15,
 }
+const _LEDGE_MAX_HORIZONTAL_SCAN := 4
+const _LEDGE_MAX_VERTICAL_SCAN := 4
 
 @export var mesh_flags: Dictionary[int, TileFlags]
 
@@ -55,10 +57,12 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				tile_flags.allowed_below_entry_cell = \
 				TileFlags.get_allowed_stair_direction_below(cell, orientation)
 			TILE_DICT.LEDGE:
-				var orientation := _horizontal_basis_to_step(get_cell_item_basis(cell).x)
+				var orientation := _get_ledge_drop_direction(cell)
 				tile_flags.tile_type = TileFlags.TileType.LEDGE
 				tile_flags.ledge_direction = orientation
-				tile_flags.ledge_landing_cell = TileFlags.get_ledge_landing_cell(cell, orientation)
+				var landing_cells := _get_ledge_landing_candidates(cell, orientation)
+				if not landing_cells.is_empty():
+					tile_flags.ledge_landing_cell = landing_cells[0]
 
 
 func _build_graph_edges() -> void:
@@ -79,10 +83,11 @@ func _get_logical_edges(cell: Vector3i) -> Array[GraphEdge]:
 		var target = cell + dir
 		var is_neighbor = true if target in used_cells and _is_walkable(target) else false
 		if is_neighbor:
-			var ge := GraphEdge.new()
-			ge.step = dir
-			ge.to_cell = target
-			edges.append(ge)
+			_append_edge_or_ledge_drop(edges, dir, target)
+		else:
+			var raised_ledge_target: Vector3i = cell + dir + Vector3i.UP
+			if raised_ledge_target in used_cells and get_cell_item(raised_ledge_target) == TILE_DICT.LEDGE:
+				_append_edge_or_ledge_drop(edges, dir, raised_ledge_target)
 
 	for h_dir in [Vector3i.FORWARD, Vector3i.BACK, Vector3i.LEFT, Vector3i.RIGHT]:
 		for v_dir in [Vector3i.UP, Vector3i.DOWN]:
@@ -92,10 +97,7 @@ func _get_logical_edges(cell: Vector3i) -> Array[GraphEdge]:
 				var tf: TileFlags = cell_flags.get(target)
 				if tf:
 					if cell == tf.allowed_above_entry_cell or cell == tf.allowed_below_entry_cell:
-						var ge := GraphEdge.new()
-						ge.step = h_dir
-						ge.to_cell = target
-						edges.append(ge)
+						_append_edge_or_ledge_drop(edges, h_dir, target)
 
 	if get_cell_item(cell) == TILE_DICT.STAIRS:
 		var tf: TileFlags = cell_flags.get(cell)
@@ -104,24 +106,24 @@ func _get_logical_edges(cell: Vector3i) -> Array[GraphEdge]:
 			var below: Vector3i = tf.allowed_below_entry_cell
 			var above: Vector3i = tf.allowed_above_entry_cell
 			if below in used_cells and _is_walkable(below):
-				var ge_below := GraphEdge.new()
-				ge_below.step = -stair_dir
-				ge_below.to_cell = below
-				edges.append(ge_below)
+				_append_edge_or_ledge_drop(edges, -stair_dir, below)
 			if above in used_cells and _is_walkable(above):
-				var ge_above := GraphEdge.new()
-				ge_above.step = stair_dir
-				ge_above.to_cell = above
-				edges.append(ge_above)
+				_append_edge_or_ledge_drop(edges, stair_dir, above)
 
 	if get_cell_item(cell) == TILE_DICT.LEDGE:
 		var tf: TileFlags = cell_flags.get(cell)
 		if tf:
-			var landing = tf.ledge_landing_cell
-			if landing in used_cells and _is_walkable(landing):
+			var ledge_dir := _get_ledge_drop_direction(cell)
+			var landing_cells := _get_ledge_landing_candidates(cell, ledge_dir)
+			if not landing_cells.is_empty():
+				var landing: Vector3i = landing_cells[0]
+				tf.ledge_direction = ledge_dir
+				tf.ledge_landing_cell = landing
 				var ge := GraphEdge.new()
-				ge.step = tf.ledge_direction
+				ge.step = ledge_dir
 				ge.to_cell = landing
+				ge.move_kind = GraphEdge.MoveKind.LEDGE_JUMP
+				ge.via_cell = cell
 				edges.append(ge)
 
 	return edges
@@ -140,6 +142,52 @@ func _horizontal_basis_to_step(basis_x: Vector3) -> Vector3i:
 			best_dot = d
 			best = cardinal
 	return best
+
+
+func _get_ledge_drop_direction(cell: Vector3i) -> Vector3i:
+	return _horizontal_basis_to_step(-get_cell_item_basis(cell).z)
+
+
+func _get_ledge_landing_candidates(ledge_cell: Vector3i, direction: Vector3i) -> Array[Vector3i]:
+	var result: Array[Vector3i] = []
+	for horizontal_distance in range(1, _LEDGE_MAX_HORIZONTAL_SCAN + 1):
+		for vertical_drop in range(1, _LEDGE_MAX_VERTICAL_SCAN + 1):
+			var candidate := ledge_cell + (direction * horizontal_distance) + (Vector3i.DOWN * vertical_drop)
+			if candidate in used_cells and _is_walkable(candidate) and get_cell_item(candidate) != TILE_DICT.LEDGE:
+				result.append(candidate)
+				return result
+	return result
+
+
+func _append_edge_or_ledge_drop(
+	edges: Array[GraphEdge],
+	step: Vector3i,
+	target: Vector3i
+) -> void:
+	if get_cell_item(target) == TILE_DICT.LEDGE:
+		var ledge_dir := _get_ledge_drop_direction(target)
+		if step != ledge_dir:
+			return
+		var landing_cells := _get_ledge_landing_candidates(target, ledge_dir)
+		if landing_cells.is_empty():
+			return
+		var landing: Vector3i = landing_cells[0]
+		var ledge_tf: TileFlags = cell_flags.get(target)
+		if ledge_tf:
+			ledge_tf.ledge_direction = ledge_dir
+			ledge_tf.ledge_landing_cell = landing
+		var ledge_edge := GraphEdge.new()
+		ledge_edge.step = step
+		ledge_edge.to_cell = landing
+		ledge_edge.move_kind = GraphEdge.MoveKind.LEDGE_JUMP
+		ledge_edge.via_cell = target
+		edges.append(ledge_edge)
+		return
+
+	var ge := GraphEdge.new()
+	ge.step = step
+	ge.to_cell = target
+	edges.append(ge)
 
 
 func _is_walkable(cell: Vector3i) -> bool:
