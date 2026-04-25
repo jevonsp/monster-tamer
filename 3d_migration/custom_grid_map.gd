@@ -15,21 +15,21 @@ const WATER_DICT: Dictionary = {
 	WATER_5 = 21,
 	WATER_6 = 22,
 	WATER_7 = 23,
-	WATER_8 = 24,
-	WATER_9 = 25,
-	WATER_10 = 26,
-	WATER_11 = 27,
-	WATER_12 = 28,
-	WATER_13 = 29,
-	WATER_14 = 30,
-	WATER_15 = 31,
+	#WATER_8 = 24,
+	#WATER_9 = 25,
+	#WATER_10 = 26,
+	#WATER_11 = 27,
+	#WATER_12 = 28,
+	#WATER_13 = 29,
+	#WATER_14 = 30,
+	#WATER_15 = 31,
 }
 const _LEDGE_MAX_HORIZONTAL_SCAN := 4
 const _LEDGE_MAX_VERTICAL_SCAN := 4
 
 @export var mesh_flags: Dictionary[int, TileFlags]
 @export_subgroup("Animation Values")
-@export var water_animation_interval := 0.5
+@export var water_animation_interval := 0.25
 
 var cell_flags: Dictionary[Vector3i, TileFlags]
 var graph: Dictionary[Vector3i, Array] = { }
@@ -37,6 +37,8 @@ var used_cells: Array[Vector3i] = []
 var stairs: Array[Vector3i] = []
 var water: Array[Vector3i] = []
 var water_animation_timer := 0.0
+var water_frame := 0
+var water_direction := 1
 
 
 func _ready() -> void:
@@ -236,22 +238,19 @@ func _is_walkable(cell: Vector3i) -> bool:
 
 
 func _animate_water_cells() -> void:
+	water_frame += water_direction
+	if water_frame >= WATER_DICT.size():
+		water_frame = WATER_DICT.size()
+		water_direction = -1
+	elif water_frame <= 0:
+		water_frame = 0
+		water_direction = 1
+	var tile_id := WATER_DICT.WATER_0 + water_frame
 	for cell in water:
-		var current_cell_item = get_cell_item(cell)
-		var next_item = _next_water_tile_id(current_cell_item)
-		if next_item != current_cell_item:
-			set_cell_item(cell, next_item, get_cell_item_orientation(cell))
+		set_cell_item(cell, tile_id, get_cell_item_orientation(cell))
 
 
 func _collect_water_cells() -> void:
 	water.clear()
 	for water_tile_id in WATER_DICT.values():
 		water.append_array(get_used_cells_by_item(water_tile_id))
-
-
-func _next_water_tile_id(current_tile_id: int) -> int:
-	if current_tile_id < WATER_DICT.WATER_0 or current_tile_id > WATER_DICT.WATER_15:
-		return WATER_DICT.WATER_0
-	if current_tile_id == WATER_DICT.WATER_15:
-		return WATER_DICT.WATER_0
-	return current_tile_id + 1
