@@ -20,6 +20,7 @@ var _bump_latched_collider_id: int = -1
 @onready var story_flag_handler: StoryFlagHandler3D = $StoryFlagHandler
 @onready var player_info_handler: PlayerInfo3D = $PlayerInfoHandler
 @onready var travel_handler: TravelHandler3D = $TravelHandler
+@onready var overlay: ColorRect = $CanvasLayer/Overlay
 
 
 func _ready() -> void:
@@ -166,7 +167,7 @@ func _setup_handlers_3d() -> void:
 
 
 func _respawn() -> void:
-	if Options.is_nuzlocke():
+	if GameOptions.is_nuzlocke():
 		await _lose()
 		return
 	global_position = respawn_point

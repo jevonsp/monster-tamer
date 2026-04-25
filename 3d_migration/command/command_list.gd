@@ -19,4 +19,5 @@ func run(owner: Node) -> void:
 		if await command.after_trigger(owner) == Command.Flow.STOP:
 			return
 
+	PlayerContext3D.player.clear_inputs()
 	PlayerContext3D.toggle_player.emit(true)

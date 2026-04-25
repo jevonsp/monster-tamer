@@ -78,23 +78,23 @@ func grab_entry_focus() -> void:
 
 func display_settings() -> void:
 	button_label_pairs[0].btn_lbl.text = settings_info["control_scheme"].button_text
-	match Options.control_scheme:
-		Options.ControlScheme.XBOX_SONY:
+	match GameOptions.control_scheme:
+		GameOptions.ControlScheme.XBOX_SONY:
 			button_label_pairs[0].reg_lbl.text = settings_info["control_scheme"].options_text[0]
-		Options.ControlScheme.NINTENDO:
+		GameOptions.ControlScheme.NINTENDO:
 			button_label_pairs[0].reg_lbl.text = settings_info["control_scheme"].options_text[1]
 
 	button_label_pairs[1].btn_lbl.text = settings_info["game_variant"].button_text
-	match Options.game_variant:
-		Options.GameVariant.NORMAL:
+	match GameOptions.game_variant:
+		GameOptions.GameVariant.NORMAL:
 			button_label_pairs[1].reg_lbl.text = settings_info["game_variant"].options_text[0]
-		Options.GameVariant.NUZLOCKE:
+		GameOptions.GameVariant.NUZLOCKE:
 			button_label_pairs[1].reg_lbl.text = settings_info["game_variant"].options_text[1]
-	if not Options.can_change_variant:
+	if not GameOptions.can_change_variant:
 		option_button_1.disabled = true
 
 	button_label_pairs[2].btn_lbl.text = settings_info["is_forgetful_saver"].button_text
-	if Options.is_forgetful_saver:
+	if GameOptions.is_forgetful_saver:
 		button_label_pairs[2].reg_lbl.text = settings_info["is_forgetful_saver"].options_text[1]
 	else:
 		button_label_pairs[2].reg_lbl.text = settings_info["is_forgetful_saver"].options_text[0]
@@ -109,26 +109,26 @@ func _bind_buttons() -> void:
 func _on_option_button_pressed(button: Button) -> void:
 	match button:
 		option_button_0:
-			Options.control_scheme = (
-				Options.ControlScheme.NINTENDO
-				if Options.control_scheme == Options.ControlScheme.XBOX_SONY
-				else Options.ControlScheme.XBOX_SONY
+			GameOptions.control_scheme = (
+				GameOptions.ControlScheme.NINTENDO
+				if GameOptions.control_scheme == GameOptions.ControlScheme.XBOX_SONY
+				else GameOptions.ControlScheme.XBOX_SONY
 			)
 			var p0: Player = get_tree().get_first_node_in_group("player") as Player
 			if p0:
-				p0.info.input_layout = Options.control_scheme
+				p0.info.input_layout = GameOptions.control_scheme
 			else:
-				InputRemapper.apply(Options.control_scheme)
+				InputRemapper.apply(GameOptions.control_scheme)
 		option_button_1:
-			if Options.can_change_variant:
-				Options.game_variant = (
-					Options.GameVariant.NUZLOCKE
-					if Options.game_variant == Options.GameVariant.NORMAL
-					else Options.GameVariant.NORMAL
+			if GameOptions.can_change_variant:
+				GameOptions.game_variant = (
+					GameOptions.GameVariant.NUZLOCKE
+					if GameOptions.game_variant == GameOptions.GameVariant.NORMAL
+					else GameOptions.GameVariant.NORMAL
 				)
-				Options.can_change_variant = false
+				GameOptions.can_change_variant = false
 		option_button_2:
-			Options.is_forgetful_saver = not Options.is_forgetful_saver
+			GameOptions.is_forgetful_saver = not GameOptions.is_forgetful_saver
 		_:
 			return
 	SaverLoader.save_config()

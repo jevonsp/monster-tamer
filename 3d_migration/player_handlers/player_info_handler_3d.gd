@@ -37,7 +37,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	set(value):
 		play_time = value
 		player_info["play_time"] = play_time
-@export var input_layout: Options.ControlScheme = Options.ControlScheme.XBOX_SONY:
+@export var input_layout: GameOptions.ControlScheme = GameOptions.ControlScheme.XBOX_SONY:
 	set(value):
 		input_layout = value
 		player_info["input_layout"] = input_layout
@@ -61,6 +61,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 			travel_handler.is_sidescrolling = value
 
 var player: Player3D
+
 @onready var travel_handler: TravelHandler3D = $"../TravelHandler"
 
 

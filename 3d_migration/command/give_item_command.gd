@@ -22,7 +22,7 @@ func format_text() -> Array[String]:
 	return formatted
 
 
-func _trigger_impl(owner: Node) -> Flow:
+func _trigger_impl(_owner: Node) -> Flow:
 	text = format_text() if needs_formatting else text
 
 	if is_question:

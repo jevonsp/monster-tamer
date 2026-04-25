@@ -83,17 +83,17 @@ func load_player(saved_game: SavedGame, player: Player3D):
 	player.info.player_info = saved_game.player_info
 	player.info.update_info()
 	NuzlockeTracker.hydrate_from_save(player.info)
-	Options.control_scheme = player.info.input_layout
+	GameOptions.control_scheme = player.info.input_layout
 	save_config()
 
 
 func save_config() -> void:
 	var config = ConfigFile.new()
 
-	config.set_value("settings", "control_scheme", Options.control_scheme)
-	config.set_value("settings", "is_forgetful_saver", Options.is_forgetful_saver)
+	config.set_value("settings", "control_scheme", GameOptions.control_scheme)
+	config.set_value("settings", "is_forgetful_saver", GameOptions.is_forgetful_saver)
 
-	config.set_value("game", "game_variant", Options.game_variant)
+	config.set_value("game", "game_variant", GameOptions.game_variant)
 
 	config.save("user://settings.cfg")
 
@@ -103,20 +103,20 @@ func load_config() -> void:
 	if config.load("user://settings.cfg") != OK:
 		save_config()
 	else:
-		var cs = config.get_value("settings", "control_scheme", Options.control_scheme)
+		var cs = config.get_value("settings", "control_scheme", GameOptions.control_scheme)
 		if typeof(cs) != TYPE_INT:
-			cs = Options.control_scheme
-		Options.control_scheme = clampi(int(cs), 0, Options.ControlScheme.size() - 1) as Options.ControlScheme
+			cs = GameOptions.control_scheme
+		GameOptions.control_scheme = clampi(int(cs), 0, GameOptions.ControlScheme.size() - 1) as GameOptions.ControlScheme
 
-		var fs = config.get_value("settings", "is_forgetful_saver", Options.is_forgetful_saver)
-		Options.is_forgetful_saver = fs if typeof(fs) == TYPE_BOOL else false
+		var fs = config.get_value("settings", "is_forgetful_saver", GameOptions.is_forgetful_saver)
+		GameOptions.is_forgetful_saver = fs if typeof(fs) == TYPE_BOOL else false
 
-		var gv = config.get_value("game", "game_variant", Options.game_variant)
+		var gv = config.get_value("game", "game_variant", GameOptions.game_variant)
 		if typeof(gv) != TYPE_INT:
-			gv = Options.game_variant
-		Options.game_variant = clampi(int(gv), 0, Options.GameVariant.size() - 1) as Options.GameVariant
+			gv = GameOptions.game_variant
+		GameOptions.game_variant = clampi(int(gv), 0, GameOptions.GameVariant.size() - 1) as GameOptions.GameVariant
 
-	InputRemapper.apply(Options.control_scheme)
+	InputRemapper.apply(GameOptions.control_scheme)
 
 
 func switch_to_title() -> void:

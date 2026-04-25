@@ -63,6 +63,7 @@ grow_horizontal = 0
 [node name="No" type="Button" parent="YesNoButtons" unique_id=752553216]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath(".")
 focus_neighbor_bottom = NodePath(".")
 theme_override_fonts/font = ExtResource("4_856fh")
 theme_override_font_sizes/font_size = 32
@@ -91,6 +92,7 @@ autowrap_mode = 3
 [node name="Yes" type="Button" parent="YesNoButtons" unique_id=1187289545]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath(".")
 theme_override_fonts/font = ExtResource("4_856fh")
 theme_override_font_sizes/font_size = 32

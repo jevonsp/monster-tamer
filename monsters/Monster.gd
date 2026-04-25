@@ -323,7 +323,7 @@ func faint() -> void:
 		return
 	is_fainted = true
 
-	if Options.is_nuzlocke():
+	if GameOptions.is_nuzlocke():
 		is_disabled = true
 
 	Battle.send_monster_fainted.emit(self)

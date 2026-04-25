@@ -13,7 +13,7 @@ func _ready() -> void:
 	get_window().size = Vector2i(Global.GAME_WIDTH, Global.GAME_HEIGHT)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	#(player as Player).info.input_layout = Options.control_scheme
+	PlayerContext3D.player_info_handler.input_layout = GameOptions.control_scheme
 
 
 func _process(_delta: float) -> void:

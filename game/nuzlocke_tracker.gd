@@ -36,6 +36,6 @@ static func monster_encountered_on_route(location: Map.Location) -> void:
 
 
 static func can_catch_monster_on_route(location: Map.Location) -> bool:
-	if Options.game_variant == Options.GameVariant.NUZLOCKE:
+	if GameOptions.game_variant == GameOptions.GameVariant.NUZLOCKE:
 		return not route_tracker.get(location, false)
 	return true

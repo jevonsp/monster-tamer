@@ -100,7 +100,7 @@ func _delete_save_process() -> void:
 
 
 func _erase_save() -> void:
-	Options._reset()
+	GameOptions._reset()
 	SaverLoader.erase_saved_game()
 	_prepare_buttons()
 

@@ -28,9 +28,9 @@ StoreService="*res://game/store_service.gd"
 MoveLearningService="*res://game/move_learning_service.gd"
 TileChecker="*uid://dh1ixbfe55bx8"
 FieldCapability="*uid://ba7tc6eindlqb"
-Options="*uid://bxmtrbhvrhxfc"
 ItemFinding="*uid://4r8nxcjv17u0"
 PlayerContext3D="*res://3d_migration/character_3d/player_3d/player_context_3d.gd"
+GameOptions="*uid://bxmtrbhvrhxfc"
 
 [display]
 
