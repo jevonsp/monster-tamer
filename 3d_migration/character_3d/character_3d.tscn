@@ -1,9 +1,53 @@
 [gd_scene format=3 uid="uid://c2xbnw25xuobt"]
 
-[ext_resource type="Texture2D" uid="uid://bvd7340kdr155" path="res://3d_migration/character_3d/player_sprite_sheet_top.png" id="1_kho6m"]
+[ext_resource type="Texture2D" uid="uid://bvd7340kdr155" path="res://player/player_sprite_sheet_top.png" id="1_kho6m"]
 [ext_resource type="Script" uid="uid://cxfjuh87npwv5" path="res://3d_migration/character_3d/character_3d.gd" id="1_xpncy"]
-[ext_resource type="Texture2D" uid="uid://jin4lhaho270" path="res://3d_migration/character_3d/player_sprite_sheet_bottom.png" id="2_u61w3"]
-[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://3d_migration/character_3d/player_sprite_sheet.png" id="3_sheet"]
+[ext_resource type="Texture2D" uid="uid://jin4lhaho270" path="res://player/player_sprite_sheet_bottom.png" id="2_u61w3"]
+[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="3_sheet"]
+[ext_resource type="Texture2D" uid="uid://0vpmcp8f8r2s" path="res://3d_migration/character_3d/shadow_3d-Sheet.png" id="5_4eanv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6an6"]
+atlas = ExtResource("5_4eanv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpxw1"]
+atlas = ExtResource("5_4eanv")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4hra"]
+atlas = ExtResource("5_4eanv")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3qvx8"]
+atlas = ExtResource("5_4eanv")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nba8"]
+atlas = ExtResource("5_4eanv")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xpncy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6an6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpxw1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4hra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3qvx8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nba8")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
 
 [sub_resource type="Animation" id="Animation_rkbax"]
 resource_name = "IdleDown"
@@ -1171,6 +1215,15 @@ texture_filter = 0
 texture = ExtResource("2_u61w3")
 hframes = 3
 vframes = 3
+
+[node name="Shadow" type="AnimatedSprite3D" parent="BottomSprite3D" unique_id=207606514]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.16000001, 0)
+sorting_offset = -1.0
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_xpncy")
+frame = 4
+frame_progress = 1.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=425261018]
 libraries/ = SubResource("AnimationLibrary_boad6")

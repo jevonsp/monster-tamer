@@ -2,20 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvlq2gyumhgpr"
-path="res://.godot/imported/shadow-Sheet.png-1ab563fc0db1830adcc7f427d09b12a5.ctex"
+uid="uid://0vpmcp8f8r2s"
+path.s3tc="res://.godot/imported/shadow_3d-Sheet.png-6ae7a42856975303cad343b9f65994ab.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://3d_migration/character_3d/shadow-Sheet.png"
-dest_files=["res://.godot/imported/shadow-Sheet.png-1ab563fc0db1830adcc7f427d09b12a5.ctex"]
+source_file="res://3d_migration/character_3d/shadow_3d-Sheet.png"
+dest_files=["res://.godot/imported/shadow_3d-Sheet.png-6ae7a42856975303cad343b9f65994ab.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -23,7 +24,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -37,4 +38,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

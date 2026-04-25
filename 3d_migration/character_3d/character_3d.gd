@@ -7,14 +7,16 @@ signal move_step_started(step: Vector3i, to_cell: Vector3i)
 signal grid_step_landed(ground: Vector3i)
 signal walk_reached_idle
 
-enum MoveState { IDLE, TURNING, MOVING }
+enum MoveState { IDLE, TURNING, MOVING, LEDGE_JUMPING }
 
 const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
-const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.3, 0.5)
+const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.5, 0.5)
 
 @export var ray_cast_3d: RayCast3D
 @export var walk_speed := 5.0
+@export var ledge_jump_speed := 2.0
+@export var ledge_jump_height := 1.0
 @export var facing_grid: Vector3i = Vector3i(0, 0, 1)
 
 var anim_helper := AnimationHelper.new()
@@ -30,6 +32,12 @@ var _move_progress: float = 0.0
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var shadow: AnimatedSprite3D = $BottomSprite3D/Shadow
+
+
+func _ready() -> void:
+	if shadow.visible:
+		shadow.visible = false
 
 
 func will_collide() -> bool:
@@ -41,9 +49,29 @@ func can_move_in() -> bool:
 	return not will_collide()
 
 
+func walk_one_step_along_facing() -> void:
+	if grid_map == null:
+		return
+	if _current_state != MoveState.IDLE or _moving:
+		return
+	if not _try_begin_slide(_facing_grid):
+		return
+	if _current_state != MoveState.LEDGE_JUMPING:
+		_current_state = MoveState.MOVING
+	await grid_step_landed
+
+
+func get_input_direction() -> Vector3i:
+	return Vector3i.ZERO
+
+
 func notify_grid_step_landed(ground: Vector3i) -> void:
 	grid_step_landed.emit(ground)
 	_on_animation_grid_step_landed(ground)
+
+
+func key_hold_ready() -> bool:
+	return true
 
 
 ## Override in a subclass to hook turn animation start (in addition to `turn_started` if you use signals).
@@ -136,6 +164,85 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 	return false
 
 
+func _process_idle_state() -> void:
+	var input_dir := get_input_direction()
+	if input_dir == Vector3i.ZERO:
+		return
+	if input_dir != _facing_grid:
+		_start_turning(input_dir)
+		return
+	if _try_begin_slide(input_dir):
+		if _current_state == MoveState.LEDGE_JUMPING:
+			return
+		_current_state = MoveState.MOVING
+
+
+func _process_turning_state(delta: float) -> void:
+	_turn_timer += delta
+	var input_dir := get_input_direction()
+	var should_move: bool = input_dir == _facing_grid \
+	and key_hold_ready() \
+	and input_dir != Vector3i.ZERO
+	if should_move and _try_begin_slide(input_dir):
+		if _current_state == MoveState.LEDGE_JUMPING:
+			return
+		_current_state = MoveState.MOVING
+		return
+	if _turn_timer >= TURN_DURATION:
+		_finish_turn()
+
+
+func _process_moving_state(delta: float) -> void:
+	if _moving:
+		_move_progress += walk_speed * delta
+		if _move_progress < 1.0:
+			global_position = _tile_start_world.lerp(_tile_target_world, _move_progress)
+			return
+		global_position = _tile_target_world
+		_move_progress = 0.0
+		var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+		notify_grid_step_landed(ground)
+		_moving = false
+
+	var input_dir := get_input_direction()
+	if input_dir == Vector3i.ZERO:
+		_finish_walk_to_idle()
+		return
+	if input_dir != _facing_grid:
+		_finish_walk_to_idle()
+		_start_turning(input_dir)
+		return
+	if not _try_begin_slide(input_dir):
+		_finish_walk_to_idle()
+
+
+func _process_ledge_jumping_state(delta: float) -> void:
+	_move_progress += ledge_jump_speed * delta
+	if _move_progress < 1.0:
+		var flat_pos := _tile_start_world.lerp(_tile_target_world, _move_progress)
+		var arc := sin(_move_progress * PI) * ledge_jump_height
+		global_position = flat_pos + Vector3.UP * arc
+		return
+	global_position = _tile_target_world
+	_move_progress = 0.0
+	_moving = false
+	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	notify_grid_step_landed(ground)
+	_finish_walk_to_idle()
+
+
+func _process_movement_state(delta: float) -> void:
+	match _current_state:
+		MoveState.IDLE:
+			_process_idle_state()
+		MoveState.TURNING:
+			_process_turning_state(delta)
+		MoveState.MOVING:
+			_process_moving_state(delta)
+		MoveState.LEDGE_JUMPING:
+			_process_ledge_jumping_state(delta)
+
+
 func _begin_slide(edge: GraphEdge) -> void:
 	_tile_start_world = global_position
 	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
@@ -148,7 +255,13 @@ func _begin_slide(edge: GraphEdge) -> void:
 
 
 func _begin_ledge_jump(edge: GraphEdge) -> void:
-	_begin_slide(edge)
+	_tile_start_world = global_position
+	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
+	_move_progress = 0.0
+	_moving = true
+	_current_state = MoveState.LEDGE_JUMPING
+
+	_play_shadow()
 
 
 func _ensure_walk_playing() -> void:
@@ -166,3 +279,13 @@ func _set_walk_anim_speed(walking: bool) -> void:
 		animation_player.speed_scale = WALK_ANIM_LENGTH_SEC * walk_speed
 	else:
 		animation_player.speed_scale = 1.0
+
+
+func _play_shadow() -> void:
+	shadow.visible = true
+	shadow.stop()
+	shadow.frame = 0
+	await get_tree().process_frame
+	shadow.play()
+	await shadow.animation_finished
+	shadow.visible = false

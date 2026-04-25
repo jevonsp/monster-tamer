@@ -22,6 +22,7 @@ var in_battle: bool = false
 
 
 func _ready() -> void:
+	super()
 	add_to_group("player")
 	setup()
 
@@ -45,13 +46,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if pivot == null or camera_3d == null or (camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting()):
 		return
-	match _current_state:
-		MoveState.IDLE:
-			_process_idle_state()
-		MoveState.TURNING:
-			_process_turning_state(delta)
-		MoveState.MOVING:
-			_process_moving_state(delta)
+	_process_movement_state(delta)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -120,22 +115,16 @@ func toggle_in_battle() -> void:
 			monster.was_active_in_battle = false
 
 
-func walk_one_step_along_facing() -> void:
-	if grid_map == null:
-		return
-	if _current_state != MoveState.IDLE or _moving:
-		return
-	if not _try_begin_slide(_facing_grid):
-		return
-	_current_state = MoveState.MOVING
-	await grid_step_landed
-
-
 func get_input_direction() -> Vector3i:
 	if held_keys.is_empty():
 		return Vector3i.ZERO
 	var action: String = held_keys.back()
 	return _camera_relative_cardinal_for_action(action)
+
+
+func key_hold_ready() -> bool:
+	return not held_keys.is_empty() \
+	and key_hold_times.get(held_keys.back(), 0.0) >= TURN_DURATION
 
 
 func clear_inputs() -> void:
@@ -199,6 +188,10 @@ func _on_camera_rotation_finished() -> void:
 	anim_helper.refresh_facing_blends(_facing_grid, self)
 
 
+func _on_animation_grid_step_landed(ground: Vector3i) -> void:
+	PlayerContext3D.walk_segmented_completed.emit(ground)
+
+
 func _update_held_keys(delta: float) -> void:
 	var directions: Array[String] = ["forward", "back", "left", "right", "up", "down"]
 	for dir in directions:
@@ -237,55 +230,6 @@ func _camera_relative_cardinal(local_dir: Vector3) -> Vector3i:
 		return Vector3i(1, 0, 0) if world_dir.x > 0.0 else Vector3i(-1, 0, 0)
 	else:
 		return Vector3i(0, 0, 1) if world_dir.z > 0.0 else Vector3i(0, 0, -1)
-
-
-func _process_idle_state() -> void:
-	var input_dir := get_input_direction()
-	if input_dir == Vector3i.ZERO:
-		return
-	if input_dir != _facing_grid:
-		_start_turning(input_dir)
-		return
-	if _try_begin_slide(input_dir):
-		_current_state = MoveState.MOVING
-
-
-func _process_turning_state(delta: float) -> void:
-	_turn_timer += delta
-	var input_dir := get_input_direction()
-	var should_move: bool = input_dir == _facing_grid \
-	and not held_keys.is_empty() \
-	and key_hold_times.get(held_keys.back(), 0.0) >= TURN_DURATION
-	if should_move and _try_begin_slide(input_dir):
-		_current_state = MoveState.MOVING
-		return
-	if _turn_timer >= TURN_DURATION:
-		_finish_turn()
-
-
-func _process_moving_state(delta: float) -> void:
-	if _moving:
-		_move_progress += walk_speed * delta
-		if _move_progress < 1.0:
-			global_position = _tile_start_world.lerp(_tile_target_world, _move_progress)
-			return
-		global_position = _tile_target_world
-		_move_progress = 0.0
-		var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
-		PlayerContext3D.walk_segmented_completed.emit(ground)
-		notify_grid_step_landed(ground)
-		_moving = false
-
-	var input_dir := get_input_direction()
-	if input_dir == Vector3i.ZERO:
-		_finish_walk_to_idle()
-		return
-	if input_dir != _facing_grid:
-		_finish_walk_to_idle()
-		_start_turning(input_dir)
-		return
-	if not _try_begin_slide(input_dir):
-		_finish_walk_to_idle()
 
 
 func _attempt_interaction() -> void:
