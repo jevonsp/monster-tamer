@@ -248,6 +248,34 @@ func _get_interaction_ray_collider() -> Object:
 	return ray_cast_3d.get_collider() if ray_cast_3d.is_colliding() else null
 
 
+func _try_begin_slide(direction: Vector3i) -> bool:
+	_turn_ray_in(direction)
+	ray_cast_3d.force_raycast_update()
+	var started = can_move_in()
+	if not started:
+		_bump()
+		return false
+	if grid_map == null:
+		return false
+	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var edges: Array = grid_map.graph.get(ground, [])
+	if not edges:
+		return false
+	for edge: GraphEdge in edges:
+		if edge.step == direction:
+			match edge.move_kind:
+				GraphEdge.MoveKind.LEDGE_JUMP:
+					_begin_ledge_jump(edge)
+				_:
+					_begin_slide(edge)
+			return true
+	return false
+
+
+func _bump() -> void:
+	_attempt_interaction()
+
+
 func _toggle_player(value: bool) -> void:
 	processing = value
 

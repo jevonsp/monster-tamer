@@ -80,12 +80,8 @@ func _grid_direction_toward(world_point: Vector3) -> Vector3i:
 
 
 func _on_player_interact() -> void:
-	PlayerContext3D.toggle_player.emit(false)
-
 	if command_lists.is_empty():
 		return
 	if command_index >= command_lists.size():
 		return
 	await command_lists[command_index].run()
-
-	PlayerContext3D.toggle_player.emit(true)

@@ -142,28 +142,6 @@ func _finish_walk_to_idle() -> void:
 	_on_animation_walk_reached_idle()
 
 
-func _try_begin_slide(direction: Vector3i) -> bool:
-	_turn_ray_in(direction)
-	ray_cast_3d.force_raycast_update()
-	if not can_move_in():
-		return false
-	if grid_map == null:
-		return false
-	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
-	var edges: Array = grid_map.graph.get(ground, [])
-	if not edges:
-		return false
-	for edge: GraphEdge in edges:
-		if edge.step == direction:
-			match edge.move_kind:
-				GraphEdge.MoveKind.LEDGE_JUMP:
-					_begin_ledge_jump(edge)
-				_:
-					_begin_slide(edge)
-			return true
-	return false
-
-
 func _process_idle_state() -> void:
 	var input_dir := get_input_direction()
 	if input_dir == Vector3i.ZERO:
@@ -241,6 +219,28 @@ func _process_movement_state(delta: float) -> void:
 			_process_moving_state(delta)
 		MoveState.LEDGE_JUMPING:
 			_process_ledge_jumping_state(delta)
+
+
+func _try_begin_slide(direction: Vector3i) -> bool:
+	_turn_ray_in(direction)
+	ray_cast_3d.force_raycast_update()
+	if not can_move_in():
+		return false
+	if grid_map == null:
+		return false
+	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var edges: Array = grid_map.graph.get(ground, [])
+	if not edges:
+		return false
+	for edge: GraphEdge in edges:
+		if edge.step == direction:
+			match edge.move_kind:
+				GraphEdge.MoveKind.LEDGE_JUMP:
+					_begin_ledge_jump(edge)
+				_:
+					_begin_slide(edge)
+			return true
+	return false
 
 
 func _begin_slide(edge: GraphEdge) -> void:
