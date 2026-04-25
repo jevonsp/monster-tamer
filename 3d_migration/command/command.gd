@@ -37,13 +37,13 @@ func after_trigger(owner: Node) -> Flow:
 	return await _after_impl(owner)
 
 
-func _before_impl(owner) -> Flow:
+func _before_impl(_owner) -> Flow:
 	return Flow.NEXT
 
 
-func _trigger_impl(owner) -> Flow:
+func _trigger_impl(_owner) -> Flow:
 	return Flow.NEXT
 
 
-func _after_impl(owner) -> Flow:
+func _after_impl(_owner) -> Flow:
 	return Flow.NEXT
