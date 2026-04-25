@@ -260,8 +260,17 @@ func _begin_ledge_jump(edge: GraphEdge) -> void:
 	_move_progress = 0.0
 	_moving = true
 	_current_state = MoveState.LEDGE_JUMPING
-
+	anim_helper.apply_blends_for_grid_direction(edge.step)
+	_ensure_jump_playing()
 	_play_shadow()
+
+
+func _ensure_jump_playing() -> void:
+	var sm := anim_helper.state_machine_playback()
+	if sm == null:
+		return
+	if sm.get_current_node() != &"Jump":
+		sm.start(&"Jump")
 
 
 func _ensure_walk_playing() -> void:
