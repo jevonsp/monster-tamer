@@ -1,4 +1,3 @@
-@tool
 class_name GroundBall3D
 extends CellObject
 

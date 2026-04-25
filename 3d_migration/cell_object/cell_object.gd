@@ -1,4 +1,3 @@
-@tool
 class_name CellObject
 extends Area3D
 
@@ -11,8 +10,7 @@ extends Area3D
 		if _is_active == val:
 			return
 		_is_active = val
-		if Engine.is_editor_hint():
-			_update()
+		_update()
 @export var blocks_player: bool = false:
 	get:
 		return _blocks_player
@@ -20,8 +18,7 @@ extends Area3D
 		if _blocks_player == val:
 			return
 		_blocks_player = val
-		if Engine.is_editor_hint():
-			_update()
+		_update()
 @export var masks_player: bool = true:
 	get:
 		return _masks_player
@@ -29,24 +26,53 @@ extends Area3D
 		if _masks_player == val:
 			return
 		_masks_player = val
-		if Engine.is_editor_hint():
-			_update()
+		_update()
 
 var _is_active: bool = true
 var _blocks_player: bool = false
 var _masks_player: bool = true
+var _is_visible: bool = true
 
 
 func _ready() -> void:
-	pass
+	_update()
 
 
 func interact(_player: Player3D) -> void:
+	if not is_active:
+		return
 	if command_lists.is_empty():
 		return
 	if command_index >= command_lists.size():
 		return
 	await command_lists[command_index].run(self)
+
+
+func on_save_game(saved_data_array: Array[SavedData]) -> void:
+	var new_saved_data = SavedData.new()
+	new_saved_data.node_path = get_path()
+
+	new_saved_data.is_active = _is_active
+	new_saved_data.blocks_player = _blocks_player
+	new_saved_data.masks_player = _masks_player
+	new_saved_data.is_visible = _is_visible
+
+	saved_data_array.append(new_saved_data)
+
+
+func on_before_load_game() -> void:
+	pass
+
+
+func on_load_game(saved_data_array: Array[SavedData]) -> void:
+	for data: SavedData in saved_data_array:
+		if data.node_path == get_path():
+			_is_active = data.is_active
+			_blocks_player = data.blocks_player
+			_masks_player = data.masks_player
+			_is_visible = data.is_visible
+
+	_update()
 
 
 func _update() -> void:
@@ -62,3 +88,4 @@ func _update() -> void:
 		collision_mask = 2
 	else:
 		collision_mask = 0
+	visible = _is_visible

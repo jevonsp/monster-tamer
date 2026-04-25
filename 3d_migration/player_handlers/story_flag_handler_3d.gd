@@ -2,6 +2,7 @@ class_name StoryFlagHandler3D
 extends Node
 
 @export var story_flags: Dictionary[Story.Flag, bool] = {
+	Story.Flag.NONE: true,
 	Story.Flag.TUTORIAL_FINISHED: false,
 	Story.Flag.BADGE_ONE: false,
 	Story.Flag.BADGE_TWO: false,

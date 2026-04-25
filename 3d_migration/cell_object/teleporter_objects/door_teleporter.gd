@@ -1,4 +1,3 @@
-@tool
 extends TeleporterObject
 
 @onready var animation_player: AnimationPlayer = $Door/AnimationPlayer

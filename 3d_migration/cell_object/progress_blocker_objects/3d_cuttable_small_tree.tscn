@@ -4,6 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://be8a278mrn774" path="res://3d_migration/grid_map/tscns/cuttable_small_tree_model.tscn" id="2_6068m"]
 
 [node name="CuttableSmallTree" unique_id=1454602347 instance=ExtResource("1_p25rv")]
+collision_layer = 3
+requirement_text = Array[String](["You don't have the requirements to pass."])
 
 [node name="CuttableSmallTreeModel" parent="." index="2" unique_id=1786256566 instance=ExtResource("2_6068m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.5, 0.5)
+
+[editable path="CuttableSmallTreeModel"]

@@ -234,6 +234,6 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_wpkmi")])
 
 [node name="CuttableSmallTree" parent="StarterTown/Objects" unique_id=362134638 instance=ExtResource("31_wpkmi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0)
-requirement_text = Array[String](["You don't have the requirements to pass."])
+flag_requirement = 0
 
 [editable path="3DWorld"]

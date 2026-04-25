@@ -16,11 +16,10 @@ commands = Array[ExtResource("4_wwb84")]([SubResource("Resource_6o1g1")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 
 [node name="ProgressBlockerObject" unique_id=1454602347 instance=ExtResource("1_w8ndj")]
+collision_layer = 3
 script = ExtResource("2_yi0ha")
 flag_requirement = 3
-requirement_text = "You don't have the requirements to pass."
+requirement_text = Array[String](["You don't have the requirements to pass."])
 command_lists = Array[ExtResource("3_osito")]([SubResource("Resource_osito")])
 blocks_player = true
 masks_player = false
-
-[node name="Sprite3D" type="Sprite3D" parent="." index="1" unique_id=1203066535]
