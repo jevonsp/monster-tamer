@@ -102,6 +102,9 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 	var tile_flags: TileFlags = cell_flags.get(cell)
 	if tile_flags:
 		var tile_id := get_cell_item(cell)
+		if _is_water_tile_id(tile_id):
+			tile_flags.tile_type = TileFlags.TileType.WATER
+			return
 		match tile_id:
 			TILE_DICT.STAIRS:
 				var orientation := _horizontal_basis_to_step(get_cell_item_basis(cell).x)
@@ -116,8 +119,6 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				var landing_cells := _get_ledge_landing_candidates(cell, orientation)
 				if not landing_cells.is_empty():
 					tile_flags.ledge_landing_cell = landing_cells[0]
-			TILE_DICT.WATER:
-				tile_flags.tile_type = TileFlags.TileType.WATER
 
 
 func _build_graph_edges() -> void:

@@ -10,6 +10,7 @@ var key_hold_times: Dictionary = { }
 var respawn_point: Vector3 = Vector3.ZERO
 var command_active: bool = false
 var in_battle: bool = false
+var _asked_surfing_once: bool = false
 var _bump_latched_collider_id: int = -1
 
 @onready var party_handler: PartyHandler3D = $PartyHandler
@@ -262,6 +263,9 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
 	var edge := _get_edge_for_direction(ground, direction)
 	if edge == null:
+		var blocked_edge := _get_edge_for_direction_ignoring_travel_state(ground, direction)
+		if _should_attempt_surf(blocked_edge, ground):
+			_try_start_surf(direction)
 		return false
 	match edge.move_kind:
 		GraphEdge.MoveKind.LEDGE_JUMP:
@@ -290,26 +294,36 @@ func _on_move_edge_landed(edge: GraphEdge, ground: Vector3i) -> void:
 		travel_handler.stop_surf()
 
 
-func _try_start_surf() -> bool:
+func _should_attempt_surf(edge: GraphEdge, from_cell: Vector3i) -> bool:
+	if edge == null:
+		return false
+	if travel_handler == null:
+		return false
+	return travel_handler.can_start_surf(edge, from_cell)
+
+
+func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
 	if grid_map == null or travel_handler == null:
 		return false
 	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
-	var edge := _get_edge_for_direction_ignoring_travel_state(ground, _facing_grid)
-	if not travel_handler.can_start_surf(edge, ground):
+	var edge := _get_edge_for_direction_ignoring_travel_state(ground, direction)
+	if not _should_attempt_surf(edge, ground):
 		return false
 	var ta: Array[String]
 	if not FieldCapability._can_surf():
 		ta = ["If you had a monster that could surf, you could sail the seas!"]
-		Ui.send_text_box.emit(null, ta, false, false, false)
+		Ui.send_text_box.emit(null, ta, true, false, false)
 		await Ui.text_box_complete
 		return false
-	ta = ["Do you want to start surfing?"]
-	Ui.send_text_box.emit(null, ta, false, true, false)
-	var answer = await Ui.answer_given
-	if not answer:
-		return false
+	if not _asked_surfing_once:
+		ta = ["Do you want to start surfing?"]
+		Ui.send_text_box.emit(null, ta, false, true, false)
+		var answer = await Ui.answer_given
+		if not answer:
+			return false
+	_asked_surfing_once = true
 	travel_handler.start_surf()
-	var started := _try_begin_slide(_facing_grid)
+	var started := _try_begin_slide(direction)
 	if not started:
 		travel_handler.stop_surf()
 		return false
