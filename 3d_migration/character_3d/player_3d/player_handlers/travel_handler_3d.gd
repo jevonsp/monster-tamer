@@ -11,18 +11,23 @@ enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
 @export var current_location: Map.Location = Map.Location.NONE
 
 var travel_state: TravelState = TravelState.DEFAULT
-var is_sidescrolling: bool = false:
-	set(value):
-		if value == is_sidescrolling:
-			return
-		is_sidescrolling = value
-		print("is_sidescrolling: ", is_sidescrolling)
-		if is_sidescrolling:
-			pass
-		else:
-			pass
+var is_side_scrolling: bool = false
+var is_on_ladder: bool = false
 
 @onready var player: Player3D = $".."
+
+
+func get_travel_dictionary() -> Dictionary:
+	var result = { }
+
+	result["is_side_scrolling"] = is_side_scrolling
+
+	return result
+
+
+func set_travel_info(travel_dict) -> void:
+	if travel_dict.get("is_side_scrolling"):
+		is_side_scrolling = travel_dict["is_side_scrolling"]
 
 
 func is_surfing() -> bool:
@@ -40,13 +45,52 @@ func can_start_surf(edge: GraphEdge, from_cell: Vector3i) -> bool:
 
 
 func start_surf() -> void:
-	print("start")
 	travel_state = TravelState.SURFING
+	await PlayerContext3D.walk_segmented_completed
+	print("start")
+	surfing_started.emit()
 
 
 func stop_surf() -> void:
 	print("stop")
 	travel_state = TravelState.DEFAULT
+	surfing_finished.emit()
+
+
+func start_side_scroll() -> void:
+	if is_side_scrolling:
+		return
+	if player != null and player.grid_map != null:
+		var ground := player.helper.get_ground_cell(
+			player.global_position,
+			player.grid_map,
+			player.get_height_adjustment(),
+		)
+		is_side_scrolling = true
+		player.global_position = player.cell_to_world(ground)
+	else:
+		is_side_scrolling = true
+	side_scrolling_started.emit()
+
+
+func stop_side_scroll() -> void:
+	if not is_side_scrolling:
+		return
+	if player != null and player.grid_map != null:
+		var ground := player.helper.get_ground_cell(
+			player.global_position,
+			player.grid_map,
+			player.get_height_adjustment(),
+		)
+		is_side_scrolling = false
+		player.global_position = player.cell_to_world(ground)
+	else:
+		is_side_scrolling = false
+	side_scrolling_finished.emit()
+
+
+func can_move_vertically() -> bool:
+	return not is_side_scrolling or is_on_ladder
 
 
 func _connect_signals() -> void:

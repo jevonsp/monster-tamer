@@ -12,6 +12,7 @@ enum MoveState { IDLE, TURNING, MOVING, SLIDING, LEDGE_JUMPING }
 const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
 const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.5, 0.5)
+const SIDE_SCROLLING_HEIGHT_ADJUSTMENT := HEIGHT_ADJUSTMENT + Vector3(0, 0, -0.3)
 
 @export var ray_cast_3d: RayCast3D
 @export var walk_speed := 5.0
@@ -43,28 +44,7 @@ func _ready() -> void:
 
 func will_collide() -> bool:
 	ray_cast_3d.force_raycast_update()
-	var is_colliding := ray_cast_3d.is_colliding()
-	var collider: Object = ray_cast_3d.get_collider() if is_colliding else null
-	var collider_layer := -1
-	var collider_mask := -1
-	if collider is CollisionObject3D:
-		collider_layer = collider.collision_layer
-		collider_mask = collider.collision_mask
-	print(
-		"[Character3D move ray] colliding=%s target=%s mask=%s collide_with_areas=%s collide_with_bodies=%s collider=%s collider_type=%s collider_layer=%s collider_mask=%s"
-		% [
-			is_colliding,
-			ray_cast_3d.target_position,
-			ray_cast_3d.collision_mask,
-			ray_cast_3d.collide_with_areas,
-			ray_cast_3d.collide_with_bodies,
-			collider,
-			collider.get_class() if collider != null else "null",
-			collider_layer,
-			collider_mask,
-		]
-	)
-	return is_colliding
+	return ray_cast_3d.is_colliding()
 
 
 func can_move_in() -> bool:
@@ -83,6 +63,22 @@ func walk_one_step_along_facing() -> void:
 
 func get_input_direction() -> Vector3i:
 	return Vector3i.ZERO
+
+
+func get_height_adjustment() -> Vector3:
+	return HEIGHT_ADJUSTMENT
+
+
+func cell_to_world(cell: Vector3i) -> Vector3:
+	return Vector3(cell) + get_height_adjustment()
+
+
+func get_ground_cell_at(world_position: Vector3) -> Vector3i:
+	return helper.get_ground_cell(world_position, grid_map, get_height_adjustment())
+
+
+func get_current_ground_cell() -> Vector3i:
+	return get_ground_cell_at(global_position)
 
 
 func notify_grid_step_landed(ground: Vector3i) -> void:
@@ -163,7 +159,6 @@ func _start_turning(dir: Vector3i) -> void:
 func _turn_ray_in(direction: Vector3i) -> void:
 	ray_cast_3d.target_position = Vector3(direction)
 	ray_cast_3d.force_raycast_update()
-	print("[Character3D turn ray] direction=%s target=%s" % [direction, ray_cast_3d.target_position])
 
 
 func _finish_turn() -> void:
@@ -181,7 +176,7 @@ func _finish_walk_to_idle() -> void:
 	var finished_slide := _current_state == MoveState.SLIDING
 	var ground := Vector3i.ZERO
 	if grid_map != null:
-		ground = helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+		ground = get_current_ground_cell()
 	_set_walk_anim_speed(false)
 	anim_helper.apply_direction_blends(anim_helper.blend_for_facing(_facing_grid))
 	var sm := anim_helper.state_machine_playback()
@@ -243,7 +238,7 @@ func _process_sliding_state(delta: float) -> void:
 		global_position = _tile_target_world
 		_move_progress = 0.0
 		_moving = false
-		var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+		var ground := get_current_ground_cell()
 		notify_grid_step_landed(ground)
 		var next_edge := _get_sliding_continuation_edge(ground, landed_edge)
 		if next_edge != null:
@@ -263,7 +258,7 @@ func _process_ledge_jumping_state(delta: float) -> void:
 	global_position = _tile_target_world
 	_move_progress = 0.0
 	_moving = false
-	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var ground := get_current_ground_cell()
 	notify_grid_step_landed(ground)
 	_finish_walk_to_idle()
 
@@ -289,7 +284,7 @@ func _try_start_move(direction: Vector3i) -> bool:
 		return false
 	if grid_map == null:
 		return false
-	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var ground := get_current_ground_cell()
 	var edge := _get_edge_for_direction(ground, direction)
 	if edge == null:
 		return false
@@ -325,7 +320,7 @@ func _begin_step_move(edge: GraphEdge) -> void:
 
 func _setup_step_move(edge: GraphEdge) -> void:
 	_tile_start_world = global_position
-	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
+	_tile_target_world = cell_to_world(edge.to_cell)
 	_move_progress = 0.0
 	_moving = true
 	_active_edge = edge
@@ -351,7 +346,7 @@ func _advance_step_motion(delta: float) -> bool:
 	global_position = _tile_target_world
 	_move_progress = 0.0
 	_moving = false
-	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var ground := get_current_ground_cell()
 	notify_grid_step_landed(ground)
 	return false
 
@@ -366,7 +361,7 @@ func _get_sliding_continuation_edge(ground: Vector3i, landed_edge: GraphEdge) ->
 
 func _begin_ledge_jump(edge: GraphEdge) -> void:
 	_tile_start_world = global_position
-	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
+	_tile_target_world = cell_to_world(edge.to_cell)
 	_move_progress = 0.0
 	_moving = true
 	_active_edge = edge

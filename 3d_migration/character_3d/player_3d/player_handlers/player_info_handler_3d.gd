@@ -53,12 +53,6 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	set(value):
 		nuzlocke_tracker = value
 		player_info["nuzlocke_tracker"] = value
-@export var is_sidescrolling: bool = false:
-	set(value):
-		is_sidescrolling = value
-		player_info["is_sidescrolling"] = value
-		if travel_handler:
-			travel_handler.is_sidescrolling = value
 
 var player: Player3D
 

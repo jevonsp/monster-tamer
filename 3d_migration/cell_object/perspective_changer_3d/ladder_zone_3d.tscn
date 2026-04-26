@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dlbah42lqf6we"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_e1gv8"]
+[ext_resource type="Script" uid="uid://d24jqdururv3t" path="res://3d_migration/cell_object/perspective_changer_3d/ladder_zone_3d.gd" id="2_lxymc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lxymc"]
+size = Vector3(0.938, 0.938, 0.938)
+
+[node name="LadderZone3D" unique_id=1454602347 instance=ExtResource("1_e1gv8")]
+collision_layer = 0
+script = ExtResource("2_lxymc")
+ladder_length = 1
+
+[node name="CollisionShape3D" parent="." index="0" unique_id=598749242]
+shape = SubResource("BoxShape3D_lxymc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

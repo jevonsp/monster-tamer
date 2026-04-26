@@ -127,6 +127,12 @@ func key_hold_ready() -> bool:
 	and key_hold_times.get(held_keys.back(), 0.0) >= TURN_DURATION
 
 
+func get_height_adjustment() -> Vector3:
+	if travel_handler != null and travel_handler.is_side_scrolling:
+		return SIDE_SCROLLING_HEIGHT_ADJUSTMENT
+	return HEIGHT_ADJUSTMENT
+
+
 func clear_inputs() -> void:
 	held_keys.clear()
 	key_hold_times.clear()
@@ -162,6 +168,8 @@ func _setup_handlers_3d() -> void:
 		Battle.toggle_in_battle.connect(toggle_in_battle)
 	if not Global.send_respawn_player.is_connected(_respawn):
 		Global.send_respawn_player.connect(_respawn)
+	travel_handler.side_scrolling_started.connect(camera_3d._on_side_scrolling_started)
+	travel_handler.side_scrolling_finished.connect(camera_3d._on_side_scrolling_finished)
 
 
 func _respawn() -> void:
@@ -195,7 +203,7 @@ func _on_animation_grid_step_landed(ground: Vector3i) -> void:
 func _on_animation_move_step_started(step: Vector3i, _to_cell: Vector3i) -> void:
 	if travel_handler == null or grid_map == null:
 		return
-	var from_cell := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var from_cell := get_current_ground_cell()
 	var edge := _get_edge_for_direction(from_cell, step)
 	if edge != null and edge.move_kind == GraphEdge.MoveKind.SURF and travel_handler.is_surfing():
 		_ensure_surf_playing()
@@ -219,7 +227,11 @@ func _begin_step_move(edge: GraphEdge) -> void:
 
 
 func _update_held_keys(delta: float) -> void:
-	var directions: Array[String] = ["forward", "back", "left", "right", "up", "down"]
+	var directions: Array[String] = []
+	if travel_handler.can_move_vertically():
+		directions = ["forward", "back", "left", "right"]
+	else:
+		directions = ["left", "right"]
 	for dir in directions:
 		if Input.is_action_just_pressed(dir):
 			held_keys.push_back(dir)
@@ -271,31 +283,9 @@ func _attempt_interaction() -> void:
 
 func _get_interaction_ray_collider() -> Object:
 	if ray_cast_3d == null:
-		print("[Player3D ray] RayCast3D is null")
 		return null
 	ray_cast_3d.force_raycast_update()
-	var is_colliding := ray_cast_3d.is_colliding()
-	var collider: Object = ray_cast_3d.get_collider() if is_colliding else null
-	var collider_layer := -1
-	var collider_mask := -1
-	if collider is CollisionObject3D:
-		collider_layer = collider.collision_layer
-		collider_mask = collider.collision_mask
-	print(
-		"[Player3D ray] colliding=%s target=%s mask=%s collide_with_areas=%s collide_with_bodies=%s collider=%s collider_type=%s collider_layer=%s collider_mask=%s"
-		% [
-			is_colliding,
-			ray_cast_3d.target_position,
-			ray_cast_3d.collision_mask,
-			ray_cast_3d.collide_with_areas,
-			ray_cast_3d.collide_with_bodies,
-			collider,
-			collider.get_class() if collider != null else "null",
-			collider_layer,
-			collider_mask,
-		]
-	)
-	return collider
+	return ray_cast_3d.get_collider() if ray_cast_3d.is_colliding() else null
 
 
 func _try_start_move(direction: Vector3i) -> bool:
@@ -308,7 +298,7 @@ func _try_start_move(direction: Vector3i) -> bool:
 	_bump_latched_collider_id = -1
 	if grid_map == null:
 		return false
-	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var ground := get_current_ground_cell()
 	var edge := _get_edge_for_direction(ground, direction)
 	if edge == null:
 		var blocked_edge := _get_edge_for_direction_ignoring_travel_state(ground, direction)
@@ -357,7 +347,7 @@ func _should_attempt_surf(edge: GraphEdge, from_cell: Vector3i) -> bool:
 func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
 	if grid_map == null or travel_handler == null:
 		return false
-	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var ground := get_current_ground_cell()
 	var edge := _get_edge_for_direction_ignoring_travel_state(ground, direction)
 	if not _should_attempt_surf(edge, ground):
 		return false
@@ -375,11 +365,11 @@ func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
 			return false
 	_asked_surfing_once = true
 	travel_handler.start_surf()
+
 	var started := _try_start_move(direction)
 	if not started:
 		travel_handler.stop_surf()
 		return false
-	await PlayerContext3D.walk_segmented_completed
 
 	return true
 

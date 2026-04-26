@@ -63,25 +63,30 @@ func save_game_exists() -> bool:
 
 func save_player(saved_game: SavedGame, player: Player3D) -> SavedGame:
 	saved_game.player_position = player.global_position
-	saved_game.player_party = player.party.party
-	saved_game.player_storage = player.party.storage
-	saved_game.player_inventory = player.inventory.inventory
-	saved_game.player_money = player.inventory.money
-	saved_game.story_flags = player.story_flags.story_flags
-	saved_game.player_info = player.info.player_info
+	saved_game.player_party = player.party_handler.party
+	saved_game.player_storage = player.party_handler.storage
+	saved_game.player_inventory = player.inventory_handler.inventory
+	saved_game.player_money = player.inventory_handler.money
+	saved_game.story_flags = player.story_flag_handler.story_flags
+
+	saved_game.player_info = player.player_info_handler.player_info
+	saved_game.travel_info = player.travel_handler.get_travel_dictionary()
 
 	return saved_game
 
 
 func load_player(saved_game: SavedGame, player: Player3D):
 	player.global_position = saved_game.player_position
-	player.party.party = saved_game.player_party
-	player.party.storage = saved_game.player_storage
-	player.inventory.inventory = saved_game.player_inventory
-	player.inventory.money = saved_game.player_money
-	player.story_flags.story_flags = saved_game.story_flags
-	player.info.player_info = saved_game.player_info
-	player.info.update_info()
+	player.party_handler.party = saved_game.player_party
+	player.party_handler.storage = saved_game.player_storage
+	player.inventory_handler.inventory = saved_game.player_inventory
+	player.inventory_handler.money = saved_game.player_money
+	player.story_flag_handler.story_flags = saved_game.story_flags
+	player.player_info_handler.player_info = saved_game.player_info
+
+	player.player_info_handler.update_info()
+	player.travel_handler.set_travel_info(saved_game.travel_info)
+
 	NuzlockeTracker.hydrate_from_save(player.info)
 	GameOptions.control_scheme = player.info.input_layout
 	save_config()

@@ -28,12 +28,8 @@ func _teleport_player(player: Player3D) -> void:
 	var sample: Vector3 = teleporter_point.global_position
 	if teleporter_point.marker:
 		sample = teleporter_point.marker.global_position
-	var cell: Vector3i = player.helper.get_ground_cell(
-		sample,
-		player.grid_map,
-		Character3D.HEIGHT_ADJUSTMENT,
-	)
-	player.global_position = Vector3(cell) + Character3D.HEIGHT_ADJUSTMENT
+	var cell: Vector3i = player.get_ground_cell_at(sample)
+	player.global_position = player.cell_to_world(cell)
 
 
 func _iris_open(duration: float = 1.0) -> void:

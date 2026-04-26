@@ -8,4 +8,5 @@ extends Resource
 @export var player_money: int = 0
 @export var story_flags: Dictionary[Story.Flag, bool] = { }
 @export var player_info: Dictionary = { }
+@export var travel_info: Dictionary = { }
 @export var saved_data_array: Array[SavedData] = []

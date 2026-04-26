@@ -35,10 +35,6 @@ var _masks_player: bool = true
 
 func _ready() -> void:
 	_update()
-	print(
-		"[CellObject ready] name=%s path=%s blocks_player=%s is_active=%s layer=%s mask=%s"
-		% [name, get_path(), _blocks_player, _is_active, collision_layer, collision_mask]
-	)
 
 
 func interact(_player: Player3D) -> void:
@@ -98,20 +94,6 @@ func _update() -> void:
 		collision_mask = 2
 	else:
 		collision_mask = 0
-	print(
-		"[CellObject update] name=%s path=%s blocks_player=%s masks_player=%s is_active=%s layer=%s mask=%s monitoring=%s monitorable=%s"
-		% [
-			name,
-			get_path(),
-			_blocks_player,
-			_masks_player,
-			_is_active,
-			collision_layer,
-			collision_mask,
-			monitoring,
-			monitorable,
-		]
-	)
 
 
 func _deactivate() -> void:

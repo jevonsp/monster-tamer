@@ -19,6 +19,6 @@ func _on_area_entered(area: Area3D) -> void:
 	await PlayerContext3D.walk_segmented_completed
 	match type:
 		Type.ENTRANCE:
-			PlayerContext3D.travel_handler.is_sidescrolling = true
+			PlayerContext3D.travel_handler.start_side_scroll()
 		Type.EXIT:
-			PlayerContext3D.travel_handler.is_sidescrolling = false
+			PlayerContext3D.travel_handler.stop_side_scroll()
