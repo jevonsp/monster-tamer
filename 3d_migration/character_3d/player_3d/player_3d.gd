@@ -1,15 +1,12 @@
 class_name Player3D
 extends Character3D
 
-enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
-
 @export var pivot: Node3D
 @export var camera_3d: Camera3D
 
 var processing: bool = true
 var held_keys: Array[String] = []
 var key_hold_times: Dictionary = { }
-var travel_state: TravelState = TravelState.DEFAULT
 var respawn_point: Vector3 = Vector3.ZERO
 var command_active: bool = false
 var in_battle: bool = false
