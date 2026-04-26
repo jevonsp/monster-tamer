@@ -31,7 +31,6 @@ extends Area3D
 var _is_active: bool = true
 var _blocks_player: bool = false
 var _masks_player: bool = true
-var _is_visible: bool = true
 
 
 func _ready() -> void:
@@ -55,7 +54,7 @@ func on_save_game(saved_data_array: Array[SavedData]) -> void:
 	new_saved_data.is_active = _is_active
 	new_saved_data.blocks_player = _blocks_player
 	new_saved_data.masks_player = _masks_player
-	new_saved_data.is_visible = _is_visible
+	new_saved_data.is_visible = visible
 
 	saved_data_array.append(new_saved_data)
 
@@ -70,7 +69,7 @@ func on_load_game(saved_data_array: Array[SavedData]) -> void:
 			_is_active = data.is_active
 			_blocks_player = data.blocks_player
 			_masks_player = data.masks_player
-			_is_visible = data.is_visible
+			visible = data.is_visible
 
 	_update()
 
@@ -88,4 +87,10 @@ func _update() -> void:
 		collision_mask = 2
 	else:
 		collision_mask = 0
-	visible = _is_visible
+
+
+func _deactivate() -> void:
+	is_active = false
+	blocks_player = false
+	visible = false
+	_update()

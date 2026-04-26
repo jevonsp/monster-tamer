@@ -7,7 +7,6 @@ extends Command
 @export var needs_formatting: bool = true
 @export var is_question: bool = false
 
-
 func format_text() -> Array[String]:
 	var formatted: Array[String] = []
 	for string in text:
@@ -28,12 +27,14 @@ func _trigger_impl(_owner: Node) -> Flow:
 	if is_question:
 		Ui.send_text_box.emit(null, text, false, true, false)
 		var answer: bool = await Ui.answer_given
+		await Ui.text_box_complete
 		if not answer:
 			return Flow.STOP
 		PlayerContext3D.inventory_handler.add(item, quantity)
 		return Flow.NEXT
 	else:
 		Ui.send_text_box.emit(null, text, false, false, false)
+		await Ui.text_box_complete
 
 	PlayerContext3D.inventory_handler.add(item, quantity)
 	return Flow.NEXT

@@ -27,8 +27,14 @@
 [ext_resource type="PackedScene" uid="uid://8fngqhn3p02d" path="res://3d_migration/cell_object/basic_cell_objects/3d_sign.tscn" id="27_o8j3b"]
 [ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="27_qs5eo"]
 [ext_resource type="Script" uid="uid://mg1f86e6bqka" path="res://3d_migration/command/give_item_command.gd" id="28_frbr6"]
+[ext_resource type="Resource" uid="uid://dnpr3t8vm34dc" path="res://monsters/fox_mcleaf/fox_mcleaf_md.tres" id="28_ue0mw"]
 [ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/command/say_command.gd" id="28_wpkmi"]
+[ext_resource type="Script" uid="uid://dpea41etsmgcs" path="res://3d_migration/command/give_monster_command.gd" id="29_vqjab"]
+[ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger_md.tres" id="30_h3axc"]
+[ext_resource type="Resource" uid="uid://cdor45ba2o0aa" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_md.tres" id="31_vqjab"]
 [ext_resource type="PackedScene" uid="uid://dmr8x8bswtmtu" path="res://3d_migration/cell_object/progress_blocker_objects/3d_cuttable_small_tree.tscn" id="31_wpkmi"]
+[ext_resource type="PackedScene" uid="uid://cr1y1o7vakhfl" path="res://3d_migration/3d_zones/3d_zone.tscn" id="32_o0l78"]
+[ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="33_576ah"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 [ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
 
@@ -42,9 +48,52 @@ script = ExtResource("21_re7it")
 is_walkable = false
 metadata/_custom_type_script = "uid://cycqvoutcwoj"
 
-[sub_resource type="Resource" id="Resource_qs5eo"]
+[sub_resource type="Resource" id="Resource_ue0mw"]
+script = ExtResource("28_wpkmi")
+text = Array[String](["Take the Fox Mcleaf?"])
+is_question = true
+metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
+
+[sub_resource type="Resource" id="Resource_yjufm"]
+script = ExtResource("29_vqjab")
+monster_data = ExtResource("28_ue0mw")
+metadata/_custom_type_script = "uid://dpea41etsmgcs"
+
+[sub_resource type="Resource" id="Resource_vqjab"]
 script = ExtResource("25_d00gp")
-commands = Array[ExtResource("26_d8vpj")]([null])
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_ue0mw"), SubResource("Resource_yjufm")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_h3axc"]
+script = ExtResource("28_wpkmi")
+text = Array[String](["Take the Pyro Badger?"])
+is_question = true
+metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
+
+[sub_resource type="Resource" id="Resource_phifs"]
+script = ExtResource("29_vqjab")
+monster_data = ExtResource("30_h3axc")
+metadata/_custom_type_script = "uid://dpea41etsmgcs"
+
+[sub_resource type="Resource" id="Resource_cgvj2"]
+script = ExtResource("25_d00gp")
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_h3axc"), SubResource("Resource_phifs")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_4pcu1"]
+script = ExtResource("28_wpkmi")
+text = Array[String](["Take the Pistol Shrimp?"])
+is_question = true
+metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
+
+[sub_resource type="Resource" id="Resource_t1yuj"]
+script = ExtResource("29_vqjab")
+monster_data = ExtResource("31_vqjab")
+metadata/_custom_type_script = "uid://dpea41etsmgcs"
+
+[sub_resource type="Resource" id="Resource_d7rgo"]
+script = ExtResource("25_d00gp")
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_4pcu1"), SubResource("Resource_t1yuj")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 
 [sub_resource type="Resource" id="Resource_o0l78"]
@@ -76,6 +125,9 @@ metadata/_custom_type_script = "uid://mg1f86e6bqka"
 script = ExtResource("25_d00gp")
 commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_o8j3b")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o0l78"]
+size = Vector3(4, 1, 3)
 
 [node name="Main" type="Node3D" unique_id=626842757]
 script = ExtResource("1_xwkvk")
@@ -140,7 +192,7 @@ visible = false
 light_energy = 0.1
 
 [node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("18_4hmqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 2.2, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61.5, 2.2, 1.5)
 facing_grid = Vector3i(0, 0, -1)
 
 [node name="GridMap" type="GridMap" parent="." unique_id=1421721277]
@@ -207,25 +259,28 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -59,
 [node name="StarterMonsters" type="Node3D" parent="StarterTown/Objects" unique_id=273048368]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 2, 67)
 
-[node name="GroundBall3D0" parent="StarterTown/Objects/StarterMonsters" unique_id=996329638 instance=ExtResource("24_oagth")]
-command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_qs5eo")])
+[node name="GroundBall3D0" parent="StarterTown/Objects/StarterMonsters" unique_id=996329638 node_paths=PackedStringArray("linked_balls") instance=ExtResource("24_oagth")]
+linked_balls = [NodePath("../GroundBall3D1"), NodePath("../GroundBall3D2")]
+command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_vqjab")])
 
-[node name="GroundBall3D1" parent="StarterTown/Objects/StarterMonsters" unique_id=631953009 instance=ExtResource("24_oagth")]
+[node name="GroundBall3D1" parent="StarterTown/Objects/StarterMonsters" unique_id=631953009 node_paths=PackedStringArray("linked_balls") instance=ExtResource("24_oagth")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_qs5eo")])
+linked_balls = [NodePath("../GroundBall3D0"), NodePath("../GroundBall3D2")]
+command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_cgvj2")])
 
-[node name="GroundBall3D2" parent="StarterTown/Objects/StarterMonsters" unique_id=1879912671 instance=ExtResource("24_oagth")]
+[node name="GroundBall3D2" parent="StarterTown/Objects/StarterMonsters" unique_id=1879912671 node_paths=PackedStringArray("linked_balls") instance=ExtResource("24_oagth")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_qs5eo")])
+linked_balls = [NodePath("../GroundBall3D0"), NodePath("../GroundBall3D1")]
+command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_d7rgo")])
 
 [node name="Signs" type="Node3D" parent="StarterTown/Objects" unique_id=849573231]
 
 [node name="Mom\'sHouseSign" parent="StarterTown/Objects/Signs" unique_id=1671398239 instance=ExtResource("27_o8j3b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_576ah")])
 
 [node name="Prof\'sLabSign" parent="StarterTown/Objects/Signs" unique_id=1440595950 instance=ExtResource("27_o8j3b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2, 0)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_amlcg")])
 
 [node name="GroundBall3D" parent="StarterTown/Objects" unique_id=590738967 instance=ExtResource("24_oagth")]
@@ -235,5 +290,14 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_wpkmi")])
 [node name="CuttableSmallTree" parent="StarterTown/Objects" unique_id=362134638 instance=ExtResource("31_wpkmi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0)
 flag_requirement = 0
+
+[node name="3DZone" parent="." unique_id=1637628257 instance=ExtResource("32_o0l78")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 3)
+encounter_table = Array[ExtResource("33_576ah")]([])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3DZone" unique_id=2119470889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1)
+shape = SubResource("BoxShape3D_o0l78")
+debug_color = Color(1, 0, 0, 1)
 
 [editable path="3DWorld"]

@@ -13,6 +13,7 @@ var game_text_box: GameTextBox
 var field_suppress_depth: int = 0
 var interfaces_dictionary: Dictionary = { }
 var _blocking_ui: Array[Control] = []
+var _last_blocked: bool = false
 
 @onready var menu: Control = $Menu
 @onready var options_panel: Control = $OptionsPanel
@@ -80,9 +81,13 @@ func end_field_suppress() -> void:
 
 func refresh_field_input() -> void:
 	var blocked := field_suppress_depth > 0
+	var game_text_box_processing := game_text_box.processing if game_text_box else false
 	if not blocked:
 		for c in _blocking_ui:
-			if c.visible:
+			var is_visible_blocker := c.visible
+			if c == game_text_box:
+				is_visible_blocker = c.visible and game_text_box_processing
+			if is_visible_blocker:
 				blocked = true
 				break
 	interfaces_dictionary.clear()
@@ -90,6 +95,9 @@ func refresh_field_input() -> void:
 		interfaces_dictionary[c] = c.visible
 	interfaces_dictionary[player_3d] = not blocked
 	player_3d.processing = not blocked
+	if _last_blocked and not blocked:
+		player_3d.clear_inputs()
+	_last_blocked = blocked
 
 
 func _ensure_dialogue_nodes() -> void:

@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://c1nk03ar8xow5"]
+
+[ext_resource type="PackedScene" uid="uid://4srrs31e361v" path="res://3d_migration/grid_map/gltfs/SmashableSmallRock.gltf" id="1_7w22e"]
+
+[node name="SmashableSmallRock" unique_id=405499113 instance=ExtResource("1_7w22e")]

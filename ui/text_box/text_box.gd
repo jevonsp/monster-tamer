@@ -134,6 +134,7 @@ func clear_text() -> void:
 	if has_focus():
 		release_focus()
 	visible = false
+	_notify_interfaces_field_input()
 
 
 func _toggle_visible() -> void:
@@ -170,6 +171,7 @@ func _load_text(
 	is_auto_complete = auto_complete
 	if not is_auto_complete:
 		processing = true
+	_notify_interfaces_field_input()
 	text_index = 0
 	if text_index <= -1:
 		return
@@ -238,6 +240,7 @@ func _clean_up() -> void:
 	is_question = false
 	is_auto_complete = false
 	_phase = Phase.LINES
+	_notify_interfaces_field_input()
 
 
 func _clear_choice_ui() -> void:
@@ -297,3 +300,9 @@ func _finish_choice_presentation() -> void:
 	yes_no_buttons.visible = true
 	_clean_up()
 	Ui.text_box_complete.emit()
+
+
+func _notify_interfaces_field_input() -> void:
+	var interfaces = get_tree().get_first_node_in_group("interfaces")
+	if interfaces and interfaces.has_method("refresh_field_input"):
+		interfaces.refresh_field_input()

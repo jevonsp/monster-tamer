@@ -7,7 +7,6 @@ enum TileType { DEFAULT, STAIRS, LEDGE }
 @export var tile_type: TileType = TileType.DEFAULT
 @export var is_walkable: bool = true
 @export var is_passable: bool = false
-@export_range(0.0, 1.0, 0.01) var encounter_rate: float = 0.0
 @export var allowed_below_entry_cell: Vector3i = Vector3i.ZERO
 @export var allowed_above_entry_cell: Vector3i = Vector3i.ZERO
 @export var ledge_direction: Vector3i = Vector3i.ZERO

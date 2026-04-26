@@ -284,7 +284,8 @@ func _bump() -> void:
 	if collider_id == _bump_latched_collider_id:
 		return
 	_bump_latched_collider_id = collider_id
-	collider.interact(self)
+	if collider.has_method("interact"):
+		collider.interact(self)
 
 
 func _toggle_player(value: bool) -> void:

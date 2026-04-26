@@ -1,11 +1,12 @@
-@tool
 class_name ProgressBlockerObject
 extends CellObject
 
 static var prompted_once: bool = false
 
 @export var flag_requirement: Story.Flag = Story.Flag.BADGE_ONE
+@export_subgroup("Text")
 @export_multiline() var requirement_text: Array[String] = ["You don't have the requirements to pass."]
+@export_multiline() var question_text: Array[String] = ["Would you like to destroy it?"]
 
 
 func _ready() -> void:
@@ -23,7 +24,6 @@ func interact(player: Player3D) -> void:
 		return
 	else:
 		if not prompted_once:
-			var question_text: Array[String] = ["Would you like to destroy it?"]
 			Ui.send_text_box.emit(null, question_text, false, true, false)
 			var answer = await Ui.answer_given
 			if answer:
@@ -38,10 +38,3 @@ func interact(player: Player3D) -> void:
 
 func _has_requirment() -> bool:
 	return PlayerContext3D.player.story_flag_handler.story_flags[flag_requirement]
-
-
-func _deactivate() -> void:
-	is_active = false
-	blocks_player = false
-	_is_visible = false
-	_update()
