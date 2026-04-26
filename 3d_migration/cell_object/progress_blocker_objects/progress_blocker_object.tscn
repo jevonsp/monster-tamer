@@ -16,10 +16,12 @@ commands = Array[ExtResource("4_wwb84")]([SubResource("Resource_6o1g1")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 
 [node name="ProgressBlockerObject" unique_id=1454602347 instance=ExtResource("1_w8ndj")]
-collision_layer = 3
+collision_layer = 5
 script = ExtResource("2_yi0ha")
-flag_requirement = 3
+permanence = 0
+removal_type = 0
 requirement_text = Array[String](["You don't have the requirements to pass."])
+question_text = Array[String](["Would you like to destroy it?"])
 command_lists = Array[ExtResource("3_osito")]([SubResource("Resource_osito")])
 blocks_player = true
 masks_player = false

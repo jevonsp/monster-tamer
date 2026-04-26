@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bc4vbgoi6lvwq"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_hesjw"]
+[ext_resource type="Script" uid="uid://cjjpqdw5tc5ir" path="res://3d_migration/cell_object/perspective_changer_3d/perspective_changer_3d.gd" id="2_4r8gl"]
+
+[node name="PerspectiveChanger3D" unique_id=1454602347 instance=ExtResource("1_hesjw")]
+script = ExtResource("2_4r8gl")
+type = 0
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

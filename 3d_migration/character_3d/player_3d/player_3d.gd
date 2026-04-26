@@ -358,6 +358,7 @@ func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
 		travel_handler.stop_surf()
 		return false
 	await PlayerContext3D.walk_segmented_completed
+
 	return true
 
 

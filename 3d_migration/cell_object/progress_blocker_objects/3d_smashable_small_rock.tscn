@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://c1nk03ar8xow5" path="res://3d_migration/grid_map/tscns/smashable_small_rock_model.tscn" id="2_edy7w"]
 
 [node name="SmashableSmallRock" unique_id=1454602347 instance=ExtResource("1_67s3j")]
-permanence = 0
 removal_type = 2
 requirement_text = Array[String](["Maybe you could smash this rock..."])
 question_text = Array[String](["Would you like to smash it?"])

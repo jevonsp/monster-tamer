@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="7_rtd0r"]
 
 [node name="GroundBall3D" unique_id=1454602347 node_paths=PackedStringArray("linked_balls") instance=ExtResource("1_ixsw5")]
-collision_layer = 3
+collision_layer = 5
 script = ExtResource("2_4nbf0")
 linked_balls = []
 blocks_player = true

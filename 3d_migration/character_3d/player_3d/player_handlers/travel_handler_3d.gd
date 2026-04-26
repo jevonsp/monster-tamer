@@ -1,6 +1,11 @@
 class_name TravelHandler3D
 extends Node
 
+signal side_scrolling_started
+signal side_scrolling_finished
+signal surfing_started
+signal surfing_finished
+
 enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
 
 @export var current_location: Map.Location = Map.Location.NONE
@@ -8,8 +13,14 @@ enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
 var travel_state: TravelState = TravelState.DEFAULT
 var is_sidescrolling: bool = false:
 	set(value):
+		if value == is_sidescrolling:
+			return
 		is_sidescrolling = value
 		print("is_sidescrolling: ", is_sidescrolling)
+		if is_sidescrolling:
+			pass
+		else:
+			pass
 
 @onready var player: Player3D = $".."
 
@@ -29,10 +40,12 @@ func can_start_surf(edge: GraphEdge, from_cell: Vector3i) -> bool:
 
 
 func start_surf() -> void:
+	print("start")
 	travel_state = TravelState.SURFING
 
 
 func stop_surf() -> void:
+	print("stop")
 	travel_state = TravelState.DEFAULT
 
 
