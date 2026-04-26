@@ -270,7 +270,11 @@ func _try_start_move(direction: Vector3i) -> bool:
 	match edge.move_kind:
 		GraphEdge.MoveKind.LEDGE_JUMP:
 			_begin_ledge_jump(edge)
+		GraphEdge.MoveKind.SLIDE:
+			_current_state = MoveState.SLIDING
+			_begin_slide_step(edge, false)
 		_:
+			_current_state = MoveState.MOVING
 			_begin_step_move(edge)
 	return true
 
@@ -327,8 +331,6 @@ func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
 	if not started:
 		travel_handler.stop_surf()
 		return false
-	if _current_state != MoveState.LEDGE_JUMPING:
-		_current_state = MoveState.MOVING
 	return true
 
 

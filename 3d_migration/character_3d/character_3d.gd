@@ -7,7 +7,7 @@ signal move_step_started(step: Vector3i, to_cell: Vector3i)
 signal grid_step_landed(ground: Vector3i)
 signal walk_reached_idle
 
-enum MoveState { IDLE, TURNING, MOVING, LEDGE_JUMPING }
+enum MoveState { IDLE, TURNING, MOVING, SLIDING, LEDGE_JUMPING }
 
 const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
@@ -17,18 +17,12 @@ const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.5, 0.5)
 @export var walk_speed := 5.0
 @export var ledge_jump_speed := 2.0
 @export var ledge_jump_height := 1.0
-@export var facing_grid: Vector3i = Vector3i(0, 0, 1):
-	set(val):
-		facing_grid = val
-		print("facing_grid: ", facing_grid)
+@export var facing_grid: Vector3i = Vector3i(0, 0, 1)
 
 var anim_helper := AnimationHelper.new()
 var helper := MovementHelper.new()
 var grid_map: CustomGridMap
-var _facing_grid: Vector3i = Vector3i(0, 0, 1):
-	set(val):
-		_facing_grid = val
-		print("_facing_grid: ", _facing_grid)
+var _facing_grid: Vector3i = Vector3i(0, 0, 1)
 var _current_state: MoveState = MoveState.IDLE
 var _turn_timer: float = 0.0
 var _moving := false
@@ -63,8 +57,6 @@ func walk_one_step_along_facing() -> void:
 		return
 	if not _try_start_move(_facing_grid):
 		return
-	if _current_state != MoveState.LEDGE_JUMPING:
-		_current_state = MoveState.MOVING
 	await grid_step_landed
 
 
@@ -100,6 +92,21 @@ func _on_animation_move_step_started(_step: Vector3i, _to_cell: Vector3i) -> voi
 
 ## Called when a walk segment lerp has finished (player lands on a new cell).
 func _on_animation_grid_step_landed(_ground: Vector3i) -> void:
+	pass
+
+
+## Called when a slide state begins on the first step onto ice.
+func _on_animation_slide_started(_step: Vector3i, _to_cell: Vector3i) -> void:
+	pass
+
+
+## Called when a slide continues automatically to another ice step.
+func _on_animation_slide_continued(_step: Vector3i, _to_cell: Vector3i) -> void:
+	pass
+
+
+## Called when a slide sequence resolves and control returns to idle.
+func _on_animation_slide_finished(_ground: Vector3i) -> void:
 	pass
 
 
@@ -149,6 +156,10 @@ func _finish_turn() -> void:
 
 
 func _finish_walk_to_idle() -> void:
+	var finished_slide := _current_state == MoveState.SLIDING
+	var ground := Vector3i.ZERO
+	if grid_map != null:
+		ground = helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
 	_set_walk_anim_speed(false)
 	anim_helper.apply_direction_blends(anim_helper.blend_for_facing(_facing_grid))
 	var sm := anim_helper.state_machine_playback()
@@ -156,6 +167,8 @@ func _finish_walk_to_idle() -> void:
 		sm.start(&"Idle")
 	_current_state = MoveState.IDLE
 	walk_reached_idle.emit()
+	if finished_slide:
+		_on_animation_slide_finished(ground)
 	_on_animation_walk_reached_idle()
 
 
@@ -166,10 +179,7 @@ func _process_idle_state() -> void:
 	if input_dir != _facing_grid:
 		_start_turning(input_dir)
 		return
-	if _try_start_move(input_dir):
-		if _current_state == MoveState.LEDGE_JUMPING:
-			return
-		_current_state = MoveState.MOVING
+	_try_start_move(input_dir)
 
 
 func _process_turning_state(delta: float) -> void:
@@ -179,9 +189,6 @@ func _process_turning_state(delta: float) -> void:
 	and key_hold_ready() \
 	and input_dir != Vector3i.ZERO
 	if should_move and _try_start_move(input_dir):
-		if _current_state == MoveState.LEDGE_JUMPING:
-			return
-		_current_state = MoveState.MOVING
 		return
 	if _turn_timer >= TURN_DURATION:
 		_finish_turn()
@@ -189,18 +196,7 @@ func _process_turning_state(delta: float) -> void:
 
 func _process_moving_state(delta: float) -> void:
 	if _moving:
-		_move_progress += walk_speed * delta
-		if _move_progress < 1.0:
-			global_position = _tile_start_world.lerp(_tile_target_world, _move_progress)
-			return
-		global_position = _tile_target_world
-		_move_progress = 0.0
-		var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
-		var continuation_edge := _get_forced_continuation_edge(ground)
-		notify_grid_step_landed(ground)
-		_moving = false
-		if continuation_edge != null:
-			_begin_step_move(continuation_edge)
+		if _advance_step_motion(delta):
 			return
 
 	var input_dir := get_input_direction()
@@ -213,6 +209,26 @@ func _process_moving_state(delta: float) -> void:
 		return
 	if not _try_start_move(input_dir):
 		_finish_walk_to_idle()
+
+
+func _process_sliding_state(delta: float) -> void:
+	if _moving:
+		_move_progress += walk_speed * delta
+		if _move_progress < 1.0:
+			global_position = _tile_start_world.lerp(_tile_target_world, _move_progress)
+			return
+		var landed_edge := _active_edge
+		global_position = _tile_target_world
+		_move_progress = 0.0
+		_moving = false
+		var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+		notify_grid_step_landed(ground)
+		var next_edge := _get_sliding_continuation_edge(ground, landed_edge)
+		if next_edge != null:
+			_begin_slide_step(next_edge, true)
+			return
+
+	_finish_walk_to_idle()
 
 
 func _process_ledge_jumping_state(delta: float) -> void:
@@ -238,6 +254,8 @@ func _process_movement_state(delta: float) -> void:
 			_process_turning_state(delta)
 		MoveState.MOVING:
 			_process_moving_state(delta)
+		MoveState.SLIDING:
+			_process_sliding_state(delta)
 		MoveState.LEDGE_JUMPING:
 			_process_ledge_jumping_state(delta)
 
@@ -256,7 +274,11 @@ func _try_start_move(direction: Vector3i) -> bool:
 	match edge.move_kind:
 		GraphEdge.MoveKind.LEDGE_JUMP:
 			_begin_ledge_jump(edge)
+		GraphEdge.MoveKind.SLIDE:
+			_current_state = MoveState.SLIDING
+			_begin_slide_step(edge, false)
 		_:
+			_current_state = MoveState.MOVING
 			_begin_step_move(edge)
 	return true
 
@@ -272,23 +294,52 @@ func _get_edge_for_direction(from_cell: Vector3i, direction: Vector3i) -> GraphE
 
 
 func _begin_step_move(edge: GraphEdge) -> void:
-	_tile_start_world = global_position
-	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
-	_move_progress = 0.0
-	_moving = true
-	_active_edge = edge
+	_setup_step_move(edge)
 	_ensure_walk_playing()
 	_set_walk_anim_speed(true)
 	move_step_started.emit(edge.step, edge.to_cell)
 	_on_animation_move_step_started(edge.step, edge.to_cell)
 
 
-func _get_forced_continuation_edge(ground: Vector3i) -> GraphEdge:
-	if _active_edge == null or _active_edge.move_kind != GraphEdge.MoveKind.SLIDE:
+func _setup_step_move(edge: GraphEdge) -> void:
+	_tile_start_world = global_position
+	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
+	_move_progress = 0.0
+	_moving = true
+	_active_edge = edge
+
+
+func _begin_slide_step(edge: GraphEdge, continued: bool) -> void:
+	_setup_step_move(edge)
+	_ensure_slide_playing()
+	_set_walk_anim_speed(true)
+	move_step_started.emit(edge.step, edge.to_cell)
+	_on_animation_move_step_started(edge.step, edge.to_cell)
+	if continued:
+		_on_animation_slide_continued(edge.step, edge.to_cell)
+	else:
+		_on_animation_slide_started(edge.step, edge.to_cell)
+
+
+func _advance_step_motion(delta: float) -> bool:
+	_move_progress += walk_speed * delta
+	if _move_progress < 1.0:
+		global_position = _tile_start_world.lerp(_tile_target_world, _move_progress)
+		return true
+	global_position = _tile_target_world
+	_move_progress = 0.0
+	_moving = false
+	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	notify_grid_step_landed(ground)
+	return false
+
+
+func _get_sliding_continuation_edge(ground: Vector3i, landed_edge: GraphEdge) -> GraphEdge:
+	if landed_edge == null or landed_edge.move_kind != GraphEdge.MoveKind.SLIDE:
 		return null
 	if grid_map == null or not grid_map.is_ice_cell(ground):
 		return null
-	return _get_edge_for_direction(ground, _active_edge.step)
+	return _get_edge_for_direction(ground, landed_edge.step)
 
 
 func _begin_ledge_jump(edge: GraphEdge) -> void:
@@ -317,6 +368,14 @@ func _ensure_walk_playing() -> void:
 		return
 	if sm.get_current_node() != &"Walk":
 		sm.start(&"Walk")
+
+
+func _ensure_slide_playing() -> void:
+	var sm := anim_helper.state_machine_playback()
+	if sm == null:
+		return
+	if sm.get_current_node() != &"Slide":
+		sm.start(&"Slide")
 
 
 func _set_walk_anim_speed(walking: bool) -> void:
