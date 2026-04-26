@@ -5,6 +5,7 @@ const TILE_DICT: Dictionary = {
 	STAIRS = 1,
 	LEDGE = 15,
 	WATER = 16,
+	ICE = 32,
 }
 const WATER_DICT: Dictionary = {
 	WATER_0 = 16,
@@ -66,6 +67,11 @@ func is_water_cell(cell: Vector3i) -> bool:
 	return tile_flags != null and tile_flags.tile_type == TileFlags.TileType.WATER
 
 
+func is_ice_cell(cell: Vector3i) -> bool:
+	var tile_flags: TileFlags = cell_flags.get(cell)
+	return tile_flags != null and tile_flags.tile_type == TileFlags.TileType.ICE
+
+
 func is_land_cell(cell: Vector3i) -> bool:
 	return cell in used_cells and _is_walkable(cell) and not is_water_cell(cell)
 
@@ -102,9 +108,6 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 	var tile_flags: TileFlags = cell_flags.get(cell)
 	if tile_flags:
 		var tile_id := get_cell_item(cell)
-		if _is_water_tile_id(tile_id):
-			tile_flags.tile_type = TileFlags.TileType.WATER
-			return
 		match tile_id:
 			TILE_DICT.STAIRS:
 				var orientation := _horizontal_basis_to_step(get_cell_item_basis(cell).x)
@@ -119,6 +122,10 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				var landing_cells := _get_ledge_landing_candidates(cell, orientation)
 				if not landing_cells.is_empty():
 					tile_flags.ledge_landing_cell = landing_cells[0]
+			TILE_DICT.WATER:
+				tile_flags.tile_type = TileFlags.TileType.WATER
+			TILE_DICT.ICE:
+				tile_flags.tile_type = TileFlags.TileType.ICE
 
 
 func _build_graph_edges() -> void:
@@ -246,6 +253,8 @@ func _append_edge_or_ledge_drop(
 	ge.to_cell = target
 	if is_water_cell(from_cell) or is_water_cell(target):
 		ge.move_kind = GraphEdge.MoveKind.SURF
+	elif is_ice_cell(from_cell) or is_ice_cell(target):
+		ge.move_kind = GraphEdge.MoveKind.SLIDE
 	edges.append(ge)
 
 

@@ -61,7 +61,7 @@ func walk_one_step_along_facing() -> void:
 		return
 	if _current_state != MoveState.IDLE or _moving:
 		return
-	if not _try_begin_slide(_facing_grid):
+	if not _try_start_move(_facing_grid):
 		return
 	if _current_state != MoveState.LEDGE_JUMPING:
 		_current_state = MoveState.MOVING
@@ -166,7 +166,7 @@ func _process_idle_state() -> void:
 	if input_dir != _facing_grid:
 		_start_turning(input_dir)
 		return
-	if _try_begin_slide(input_dir):
+	if _try_start_move(input_dir):
 		if _current_state == MoveState.LEDGE_JUMPING:
 			return
 		_current_state = MoveState.MOVING
@@ -178,7 +178,7 @@ func _process_turning_state(delta: float) -> void:
 	var should_move: bool = input_dir == _facing_grid \
 	and key_hold_ready() \
 	and input_dir != Vector3i.ZERO
-	if should_move and _try_begin_slide(input_dir):
+	if should_move and _try_start_move(input_dir):
 		if _current_state == MoveState.LEDGE_JUMPING:
 			return
 		_current_state = MoveState.MOVING
@@ -196,8 +196,12 @@ func _process_moving_state(delta: float) -> void:
 		global_position = _tile_target_world
 		_move_progress = 0.0
 		var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+		var continuation_edge := _get_forced_continuation_edge(ground)
 		notify_grid_step_landed(ground)
 		_moving = false
+		if continuation_edge != null:
+			_begin_step_move(continuation_edge)
+			return
 
 	var input_dir := get_input_direction()
 	if input_dir == Vector3i.ZERO:
@@ -207,7 +211,7 @@ func _process_moving_state(delta: float) -> void:
 		_finish_walk_to_idle()
 		_start_turning(input_dir)
 		return
-	if not _try_begin_slide(input_dir):
+	if not _try_start_move(input_dir):
 		_finish_walk_to_idle()
 
 
@@ -238,7 +242,7 @@ func _process_movement_state(delta: float) -> void:
 			_process_ledge_jumping_state(delta)
 
 
-func _try_begin_slide(direction: Vector3i) -> bool:
+func _try_start_move(direction: Vector3i) -> bool:
 	_turn_ray_in(direction)
 	ray_cast_3d.force_raycast_update()
 	if not can_move_in():
@@ -253,7 +257,7 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 		GraphEdge.MoveKind.LEDGE_JUMP:
 			_begin_ledge_jump(edge)
 		_:
-			_begin_slide(edge)
+			_begin_step_move(edge)
 	return true
 
 
@@ -267,7 +271,7 @@ func _get_edge_for_direction(from_cell: Vector3i, direction: Vector3i) -> GraphE
 	return null
 
 
-func _begin_slide(edge: GraphEdge) -> void:
+func _begin_step_move(edge: GraphEdge) -> void:
 	_tile_start_world = global_position
 	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
 	_move_progress = 0.0
@@ -277,6 +281,14 @@ func _begin_slide(edge: GraphEdge) -> void:
 	_set_walk_anim_speed(true)
 	move_step_started.emit(edge.step, edge.to_cell)
 	_on_animation_move_step_started(edge.step, edge.to_cell)
+
+
+func _get_forced_continuation_edge(ground: Vector3i) -> GraphEdge:
+	if _active_edge == null or _active_edge.move_kind != GraphEdge.MoveKind.SLIDE:
+		return null
+	if grid_map == null or not grid_map.is_ice_cell(ground):
+		return null
+	return _get_edge_for_direction(ground, _active_edge.step)
 
 
 func _begin_ledge_jump(edge: GraphEdge) -> void:

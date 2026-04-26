@@ -250,7 +250,7 @@ func _get_interaction_ray_collider() -> Object:
 	return ray_cast_3d.get_collider() if ray_cast_3d.is_colliding() else null
 
 
-func _try_begin_slide(direction: Vector3i) -> bool:
+func _try_start_move(direction: Vector3i) -> bool:
 	_turn_ray_in(direction)
 	ray_cast_3d.force_raycast_update()
 	var started = can_move_in()
@@ -271,7 +271,7 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 		GraphEdge.MoveKind.LEDGE_JUMP:
 			_begin_ledge_jump(edge)
 		_:
-			_begin_slide(edge)
+			_begin_step_move(edge)
 	return true
 
 
@@ -323,7 +323,7 @@ func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
 			return false
 	_asked_surfing_once = true
 	travel_handler.start_surf()
-	var started := _try_begin_slide(direction)
+	var started := _try_start_move(direction)
 	if not started:
 		travel_handler.stop_surf()
 		return false
