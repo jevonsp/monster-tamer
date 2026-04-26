@@ -69,6 +69,8 @@ func _check_badges(badge: Story.Flag) -> bool:
 
 
 func _can_surf() -> bool:
+	return true
+	# ALERT change back after testing
 	return _check_monsters_moves(SURF) and _check_badges(Story.Flag.BADGE_THREE)
 
 

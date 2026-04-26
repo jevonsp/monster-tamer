@@ -14,16 +14,6 @@ var is_sidescrolling: bool = false:
 @onready var player: Player3D = $".."
 
 
-func _connect_signals() -> void:
-	Global.location_changed.connect(_on_location_changed)
-
-
-func _on_location_changed(new_location: Map.Location) -> void:
-	if new_location == current_location:
-		return
-	current_location = new_location
-
-
 func is_surfing() -> bool:
 	return travel_state == TravelState.SURFING
 
@@ -44,3 +34,13 @@ func start_surf() -> void:
 
 func stop_surf() -> void:
 	travel_state = TravelState.DEFAULT
+
+
+func _connect_signals() -> void:
+	Global.location_changed.connect(_on_location_changed)
+
+
+func _on_location_changed(new_location: Map.Location) -> void:
+	if new_location == current_location:
+		return
+	current_location = new_location

@@ -378,6 +378,14 @@ func _ensure_slide_playing() -> void:
 		sm.start(&"Slide")
 
 
+func _ensure_surf_playing() -> void:
+	var sm := anim_helper.state_machine_playback()
+	if sm == null:
+		return
+	if sm.get_current_node() != &"Surf":
+		sm.start(&"Surf")
+
+
 func _set_walk_anim_speed(walking: bool) -> void:
 	if animation_player == null:
 		return

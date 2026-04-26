@@ -192,6 +192,32 @@ func _on_animation_grid_step_landed(ground: Vector3i) -> void:
 	PlayerContext3D.walk_segmented_completed.emit(ground)
 
 
+func _on_animation_move_step_started(step: Vector3i, _to_cell: Vector3i) -> void:
+	if travel_handler == null or grid_map == null:
+		return
+	var from_cell := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var edge := _get_edge_for_direction(from_cell, step)
+	if edge != null and edge.move_kind == GraphEdge.MoveKind.SURF and travel_handler.is_surfing():
+		_ensure_surf_playing()
+
+
+func _on_animation_walk_reached_idle() -> void:
+	if travel_handler == null or not travel_handler.is_surfing():
+		return
+	_ensure_surf_playing()
+
+
+func _begin_step_move(edge: GraphEdge) -> void:
+	_setup_step_move(edge)
+	_set_walk_anim_speed(true)
+	move_step_started.emit(edge.step, edge.to_cell)
+	if edge.move_kind == GraphEdge.MoveKind.SURF and travel_handler != null and travel_handler.is_surfing():
+		_ensure_surf_playing()
+	else:
+		_ensure_walk_playing()
+	_on_animation_move_step_started(edge.step, edge.to_cell)
+
+
 func _update_held_keys(delta: float) -> void:
 	var directions: Array[String] = ["forward", "back", "left", "right", "up", "down"]
 	for dir in directions:
@@ -331,6 +357,7 @@ func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
 	if not started:
 		travel_handler.stop_surf()
 		return false
+	await PlayerContext3D.walk_segmented_completed
 	return true
 
 

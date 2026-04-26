@@ -57,6 +57,7 @@ func apply_direction_blends(blend: Vector2) -> void:
 	if animation_tree == null:
 		return
 	animation_tree.set("parameters/Idle/blend_position", blend)
+	animation_tree.set("parameters/Surf/blend_position", blend)
 	animation_tree.set("parameters/Walk/blend_position", blend)
 	animation_tree.set("parameters/Slide/blend_position", blend)
 	animation_tree.set("parameters/Turn/blend_position", blend)
