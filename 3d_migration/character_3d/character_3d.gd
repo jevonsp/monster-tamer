@@ -35,6 +35,7 @@ var _moving := false
 var _tile_start_world: Vector3
 var _tile_target_world: Vector3
 var _move_progress: float = 0.0
+var _active_edge: GraphEdge
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -73,6 +74,8 @@ func get_input_direction() -> Vector3i:
 
 func notify_grid_step_landed(ground: Vector3i) -> void:
 	grid_step_landed.emit(ground)
+	_on_move_edge_landed(_active_edge, ground)
+	_active_edge = null
 	_on_animation_grid_step_landed(ground)
 
 
@@ -103,6 +106,14 @@ func _on_animation_grid_step_landed(_ground: Vector3i) -> void:
 ## When movement stops and returns to idle without starting a new turn in the same frame.
 func _on_animation_walk_reached_idle() -> void:
 	pass
+
+
+func _on_move_edge_landed(_edge: GraphEdge, _ground: Vector3i) -> void:
+	pass
+
+
+func _can_traverse_edge(_edge: GraphEdge, _from_cell: Vector3i) -> bool:
+	return true
 
 
 func _start_turning(dir: Vector3i) -> void:
@@ -235,18 +246,25 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 	if grid_map == null:
 		return false
 	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
-	var edges: Array = grid_map.graph.get(ground, [])
-	if not edges:
+	var edge := _get_edge_for_direction(ground, direction)
+	if edge == null:
 		return false
+	match edge.move_kind:
+		GraphEdge.MoveKind.LEDGE_JUMP:
+			_begin_ledge_jump(edge)
+		_:
+			_begin_slide(edge)
+	return true
+
+
+func _get_edge_for_direction(from_cell: Vector3i, direction: Vector3i) -> GraphEdge:
+	var edges: Array = grid_map.graph.get(from_cell, [])
+	if not edges:
+		return null
 	for edge: GraphEdge in edges:
-		if edge.step == direction:
-			match edge.move_kind:
-				GraphEdge.MoveKind.LEDGE_JUMP:
-					_begin_ledge_jump(edge)
-				_:
-					_begin_slide(edge)
-			return true
-	return false
+		if edge.step == direction and _can_traverse_edge(edge, from_cell):
+			return edge
+	return null
 
 
 func _begin_slide(edge: GraphEdge) -> void:
@@ -254,6 +272,7 @@ func _begin_slide(edge: GraphEdge) -> void:
 	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
 	_move_progress = 0.0
 	_moving = true
+	_active_edge = edge
 	_ensure_walk_playing()
 	_set_walk_anim_speed(true)
 	move_step_started.emit(edge.step, edge.to_cell)
@@ -265,6 +284,7 @@ func _begin_ledge_jump(edge: GraphEdge) -> void:
 	_tile_target_world = Vector3(edge.to_cell) + HEIGHT_ADJUSTMENT
 	_move_progress = 0.0
 	_moving = true
+	_active_edge = edge
 	_current_state = MoveState.LEDGE_JUMPING
 	anim_helper.apply_blends_for_grid_direction(edge.step)
 	_ensure_jump_playing()

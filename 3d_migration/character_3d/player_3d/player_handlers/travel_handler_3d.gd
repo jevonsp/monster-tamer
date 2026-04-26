@@ -22,3 +22,25 @@ func _on_location_changed(new_location: Map.Location) -> void:
 	if new_location == current_location:
 		return
 	current_location = new_location
+
+
+func is_surfing() -> bool:
+	return travel_state == TravelState.SURFING
+
+
+func can_start_surf(edge: GraphEdge, from_cell: Vector3i) -> bool:
+	if edge == null or player == null or player.grid_map == null:
+		return false
+	if edge.move_kind != GraphEdge.MoveKind.SURF:
+		return false
+	if is_surfing():
+		return false
+	return player.grid_map.is_land_cell(from_cell) and player.grid_map.is_water_cell(edge.to_cell)
+
+
+func start_surf() -> void:
+	travel_state = TravelState.SURFING
+
+
+func stop_surf() -> void:
+	travel_state = TravelState.DEFAULT

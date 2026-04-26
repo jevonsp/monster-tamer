@@ -236,9 +236,10 @@ func _attempt_interaction() -> void:
 		return
 
 	var collider: Object = _get_interaction_ray_collider()
-	if not collider:
+	if collider:
+		collider.interact(self)
 		return
-	collider.interact(self)
+	_try_start_surf()
 
 
 func _get_interaction_ray_collider() -> Object:
@@ -259,31 +260,78 @@ func _try_begin_slide(direction: Vector3i) -> bool:
 	if grid_map == null:
 		return false
 	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
-	var edges: Array = grid_map.graph.get(ground, [])
-	if not edges:
+	var edge := _get_edge_for_direction(ground, direction)
+	if edge == null:
 		return false
+	match edge.move_kind:
+		GraphEdge.MoveKind.LEDGE_JUMP:
+			_begin_ledge_jump(edge)
+		_:
+			_begin_slide(edge)
+	return true
+
+
+func _can_traverse_edge(edge: GraphEdge, from_cell: Vector3i) -> bool:
+	if edge.move_kind != GraphEdge.MoveKind.SURF:
+		return true
+	if travel_handler == null or grid_map == null:
+		return false
+	if travel_handler.is_surfing():
+		return true
+	return not grid_map.is_land_cell(from_cell)
+
+
+func _on_move_edge_landed(edge: GraphEdge, ground: Vector3i) -> void:
+	if edge == null or edge.move_kind != GraphEdge.MoveKind.SURF:
+		return
+	if travel_handler == null or grid_map == null:
+		return
+	if travel_handler.is_surfing() and grid_map.is_land_cell(ground):
+		travel_handler.stop_surf()
+
+
+func _try_start_surf() -> bool:
+	if grid_map == null or travel_handler == null:
+		return false
+	var ground := helper.get_ground_cell(global_position, grid_map, HEIGHT_ADJUSTMENT)
+	var edge := _get_edge_for_direction_ignoring_travel_state(ground, _facing_grid)
+	if not travel_handler.can_start_surf(edge, ground):
+		return false
+	var ta: Array[String]
+	if not FieldCapability._can_surf():
+		ta = ["If you had a monster that could surf, you could sail the seas!"]
+		Ui.send_text_box.emit(null, ta, false, false, false)
+		await Ui.text_box_complete
+		return false
+	ta = ["Do you want to start surfing?"]
+	Ui.send_text_box.emit(null, ta, false, true, false)
+	var answer = await Ui.answer_given
+	if not answer:
+		return false
+	travel_handler.start_surf()
+	var started := _try_begin_slide(_facing_grid)
+	if not started:
+		travel_handler.stop_surf()
+		return false
+	if _current_state != MoveState.LEDGE_JUMPING:
+		_current_state = MoveState.MOVING
+	return true
+
+
+func _get_edge_for_direction_ignoring_travel_state(from_cell: Vector3i, direction: Vector3i) -> GraphEdge:
+	if grid_map == null:
+		return null
+	var edges: Array = grid_map.graph.get(from_cell, [])
+	if not edges:
+		return null
 	for edge: GraphEdge in edges:
 		if edge.step == direction:
-			match edge.move_kind:
-				GraphEdge.MoveKind.LEDGE_JUMP:
-					_begin_ledge_jump(edge)
-				_:
-					_begin_slide(edge)
-			return true
-	return false
+			return edge
+	return null
 
 
 func _bump() -> void:
-	var collider: Object = _get_interaction_ray_collider()
-	if collider == null:
-		_bump_latched_collider_id = -1
-		return
-	var collider_id := collider.get_instance_id()
-	if collider_id == _bump_latched_collider_id:
-		return
-	_bump_latched_collider_id = collider_id
-	if collider.has_method("interact"):
-		collider.interact(self)
+	_attempt_interaction()
 
 
 func _toggle_player(value: bool) -> void:

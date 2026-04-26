@@ -31,7 +31,7 @@ const _LEDGE_MAX_VERTICAL_SCAN := 4
 @export_subgroup("Animation Values")
 @export var water_animation_interval := 0.25
 
-var cell_flags: Dictionary[Vector3i, TileFlags]
+var cell_flags: Dictionary[Vector3i, TileFlags] = { }
 var graph: Dictionary[Vector3i, Array] = { }
 var used_cells: Array[Vector3i] = []
 var stairs: Array[Vector3i] = []
@@ -61,7 +61,26 @@ func is_nav_walkable_cell(cell: Vector3i) -> bool:
 	return _is_walkable(cell)
 
 
+func is_water_cell(cell: Vector3i) -> bool:
+	var tile_flags: TileFlags = cell_flags.get(cell)
+	return tile_flags != null and tile_flags.tile_type == TileFlags.TileType.WATER
+
+
+func is_land_cell(cell: Vector3i) -> bool:
+	return cell in used_cells and _is_walkable(cell) and not is_water_cell(cell)
+
+
+func is_shoreline_transition(from_cell: Vector3i, to_cell: Vector3i) -> bool:
+	return (is_land_cell(from_cell) and is_water_cell(to_cell)) \
+	or (is_water_cell(from_cell) and is_land_cell(to_cell))
+
+
+func _is_water_tile_id(tile_id: int) -> bool:
+	return tile_id in WATER_DICT.values()
+
+
 func _build_cell_flags() -> void:
+	cell_flags.clear()
 	used_cells = get_used_cells()
 	for cell in used_cells:
 		var tile_flags = TileFlags.new()
@@ -82,7 +101,8 @@ func _build_cell_flags() -> void:
 func _mark_cell_tile_flags(cell: Vector3i) -> void:
 	var tile_flags: TileFlags = cell_flags.get(cell)
 	if tile_flags:
-		match get_cell_item(cell):
+		var tile_id := get_cell_item(cell)
+		match tile_id:
 			TILE_DICT.STAIRS:
 				var orientation := _horizontal_basis_to_step(get_cell_item_basis(cell).x)
 				tile_flags.allowed_above_entry_cell = \
@@ -97,7 +117,7 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				if not landing_cells.is_empty():
 					tile_flags.ledge_landing_cell = landing_cells[0]
 			TILE_DICT.WATER:
-				tile_flags.tile_type = TileFlags.TileType.
+				tile_flags.tile_type = TileFlags.TileType.WATER
 
 
 func _build_graph_edges() -> void:
@@ -161,8 +181,6 @@ func _get_logical_edges(cell: Vector3i) -> Array[GraphEdge]:
 				ge.via_cell = cell
 				edges.append(ge)
 
-	if get_cell_item(cell) == TILE_DICT.WATER:
-		var tf: TileFlags = cell_flags.get(cell)
 	return edges
 
 
@@ -201,6 +219,7 @@ func _append_edge_or_ledge_drop(
 		step: Vector3i,
 		target: Vector3i,
 ) -> void:
+	var from_cell := target - step
 	if get_cell_item(target) == TILE_DICT.LEDGE:
 		var ledge_dir := _get_ledge_drop_direction(target)
 		if step != ledge_dir:
@@ -224,6 +243,8 @@ func _append_edge_or_ledge_drop(
 	var ge := GraphEdge.new()
 	ge.step = step
 	ge.to_cell = target
+	if is_water_cell(from_cell) or is_water_cell(target):
+		ge.move_kind = GraphEdge.MoveKind.SURF
 	edges.append(ge)
 
 
