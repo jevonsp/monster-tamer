@@ -47,6 +47,13 @@ func interact(_player: Player3D) -> void:
 	await command_lists[command_index].run(self)
 
 
+func change_command_index_to(index: int) -> void:
+	if index > command_lists.size():
+		return
+
+	command_index = index
+
+
 func on_save_game(saved_data_array: Array[SavedData]) -> void:
 	var new_saved_data = SavedData.new()
 	new_saved_data.node_path = get_path()

@@ -45,6 +45,13 @@ func set_facing_grid(dir: Vector3i) -> void:
 	anim_helper.refresh_facing_blends(facing_grid, self)
 
 
+func change_command_index_to(index: int) -> void:
+	if index > command_lists.size():
+		return
+
+	command_index = index
+
+
 func _bind_camera_and_connect() -> void:
 	var cam: Camera3D = PlayerContext3D.camera_3d
 	if cam == null:
