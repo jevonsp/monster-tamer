@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cr1y1o7vakhfl"]
 
 [ext_resource type="Script" uid="uid://djsen6xnefmky" path="res://3d_migration/wild_zone_3d/wild_zone_3d.gd" id="1_b1hql"]
-[ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="2_tf3ri"]
+[ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://3d_migration/wild_zone_3d/EncounterEntry.gd" id="2_tf3ri"]
 
 [sub_resource type="Resource" id="Resource_6bd7g"]
 script = ExtResource("2_tf3ri")

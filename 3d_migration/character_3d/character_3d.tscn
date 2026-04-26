@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c2xbnw25xuobt"]
 
 [ext_resource type="Script" uid="uid://cxfjuh87npwv5" path="res://3d_migration/character_3d/character_3d.gd" id="1_xpncy"]
-[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://player/player_sprite_sheet.png" id="2_4eanv"]
+[ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://3d_migration/character_3d/player_sprite_sheet.png" id="2_4eanv"]
 [ext_resource type="Texture2D" uid="uid://c0nws8jv5y2lt" path="res://3d_migration/character_3d/player_sprite_sheet_top.png" id="3_4eanv"]
 [ext_resource type="Texture2D" uid="uid://btwe1kpe2kslq" path="res://3d_migration/character_3d/player_sprite_sheet_bottom.png" id="4_4eanv"]
 [ext_resource type="Texture2D" uid="uid://0vpmcp8f8r2s" path="res://3d_migration/character_3d/shadow_3d-Sheet.png" id="5_4eanv"]
@@ -2232,6 +2232,7 @@ transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(99, 32)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qbtjr"]
+size = Vector3(0.938, 0.938, 0.938)
 
 [node name="Character3D" type="Area3D" unique_id=751460403 node_paths=PackedStringArray("ray_cast_3d")]
 collision_layer = 2

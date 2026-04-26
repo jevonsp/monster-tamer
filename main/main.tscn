@@ -34,7 +34,6 @@
 [ext_resource type="Resource" uid="uid://cdor45ba2o0aa" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_md.tres" id="31_vqjab"]
 [ext_resource type="PackedScene" uid="uid://dmr8x8bswtmtu" path="res://3d_migration/cell_object/progress_blocker_objects/3d_cuttable_small_tree.tscn" id="31_wpkmi"]
 [ext_resource type="PackedScene" uid="uid://cr1y1o7vakhfl" path="res://3d_migration/wild_zone_3d/wild_zone_3d.tscn" id="32_o0l78"]
-[ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="33_576ah"]
 [ext_resource type="PackedScene" uid="uid://c48jijgejmcel" path="res://3d_migration/cell_object/progress_blocker_objects/3d_smashable_small_rock.tscn" id="36_h3axc"]
 [ext_resource type="PackedScene" uid="uid://bc4vbgoi6lvwq" path="res://3d_migration/cell_object/perspective_changer_3d/perspective_changer_3d.tscn" id="39_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://dlbah42lqf6we" path="res://3d_migration/cell_object/perspective_changer_3d/ladder_zone_3d.tscn" id="40_yjufm"]
@@ -305,7 +304,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 1)
 
 [node name="WildZone3D" parent="StarterTown/Zones" unique_id=1637628257 instance=ExtResource("32_o0l78")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 2, 2.5)
-encounter_table = Array[ExtResource("33_576ah")]([])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StarterTown/Zones/WildZone3D" unique_id=2119470889]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1)

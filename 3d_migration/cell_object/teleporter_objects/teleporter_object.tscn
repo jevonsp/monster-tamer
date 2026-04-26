@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_4h60y"]
 [ext_resource type="Script" uid="uid://b4fn7qgwqulb2" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.gd" id="2_06uac"]
-[ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://world_objects/teleporter/iris_transition.gdshader" id="3_rwva0"]
+[ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://shaders/iris_transition.gdshader" id="3_rwva0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rwva0"]
 size = Vector3(0.9, 0.9, 0.9)
