@@ -6,14 +6,11 @@ const CUT = preload("uid://bw063g71xyrx1")
 const ROCK_SMASH = preload("uid://bxhxjt62xyrx1")
 
 
-func get_available_travel_methods() -> Array[Player.TravelState]:
-	var travel_methods: Array[Player.TravelState] = []
+func get_available_travel_methods() -> Array[TravelHandler3D.TravelState]:
+	var travel_methods: Array[TravelHandler3D.TravelState] = []
 
 	if _can_surf():
-		travel_methods.append(Player.TravelState.SURFING)
-
-	if _can_climb():
-		travel_methods.append(Player.TravelState.CLIMBING)
+		travel_methods.append(TravelHandler3D.TravelState.SURFING)
 
 	return travel_methods
 
@@ -31,7 +28,20 @@ func get_available_removal_methods() -> Array[RemoveBlockerObject.RemovalType]:
 
 
 func _check_monsters_moves(move_ref: Move) -> bool:
-	for monster in Player.party.party:
+	# This basically has all the possible checks i could ever want lol
+	if PlayerContext3D.party_handler.party.is_empty():
+		return false
+
+	for monster in PlayerContext3D.party_handler.party:
+		for move in monster.monster_data.learn_set:
+			if move == move_ref:
+				return true
+		for move in monster.monster_data.level_up_moves:
+			if monster.monster_data.level_up_moves[move] == move_ref:
+				return true
+		for move in monster.monster_data.starting_moves:
+			if move == move_ref:
+				return true
 		for move in monster.moves:
 			if move == move_ref:
 				return true
@@ -39,14 +49,14 @@ func _check_monsters_moves(move_ref: Move) -> bool:
 
 
 func _check_monster_types(type: TypeChart.Type) -> bool:
-	for monster in Player.party.party:
+	for monster in PlayerContext3D.party_handler.party:
 		if monster.primary_type == type or monster.secondary_type == type:
 			return true
 	return false
 
 
 func _check_items(item_ref: Item) -> bool:
-	var inventory = Player.inventory.inventory
+	var inventory = PlayerContext3D.inventory_handler.inventory
 	for page: InventoryPage in inventory.values():
 		for item: Item in page.page:
 			if item == item_ref:
@@ -55,11 +65,11 @@ func _check_items(item_ref: Item) -> bool:
 
 
 func _check_badges(badge: Story.Flag) -> bool:
-	return Player.story_flags.story_flags[badge] == true
+	return PlayerContext3D.story_flag_handler.story_flags[badge] == true
 
 
 func _can_surf() -> bool:
-	return _check_monsters_moves(SURF) and _check_badges(Story.Flag.BADGE_FOUR)
+	return _check_monsters_moves(SURF) and _check_badges(Story.Flag.BADGE_THREE)
 
 
 func _can_climb() -> bool:

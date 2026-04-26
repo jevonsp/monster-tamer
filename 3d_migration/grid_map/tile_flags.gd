@@ -1,7 +1,7 @@
 class_name TileFlags
 extends Resource
 
-enum TileType { DEFAULT, STAIRS, LEDGE }
+enum TileType { DEFAULT, STAIRS, LEDGE, WATER, ICE }
 
 @export var elevation: int = 0
 @export var tile_type: TileType = TileType.DEFAULT

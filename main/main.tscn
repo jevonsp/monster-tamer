@@ -35,6 +35,7 @@
 [ext_resource type="PackedScene" uid="uid://dmr8x8bswtmtu" path="res://3d_migration/cell_object/progress_blocker_objects/3d_cuttable_small_tree.tscn" id="31_wpkmi"]
 [ext_resource type="PackedScene" uid="uid://cr1y1o7vakhfl" path="res://3d_migration/3d_zones/3d_zone.tscn" id="32_o0l78"]
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://world_objects/encounter/EncounterEntry.gd" id="33_576ah"]
+[ext_resource type="PackedScene" uid="uid://c48jijgejmcel" path="res://3d_migration/cell_object/progress_blocker_objects/3d_smashable_small_rock.tscn" id="36_h3axc"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 [ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
 
@@ -206,6 +207,7 @@ mesh_flags = Dictionary[int, ExtResource("21_re7it")]({
 7: SubResource("Resource_re7it"),
 14: SubResource("Resource_frbr6")
 })
+water_animation_interval = null
 metadata/_editor_floor_ = Vector3(0, 1, 0)
 
 [node name="StarterTown" type="Node3D" parent="." unique_id=1497830256]
@@ -283,13 +285,20 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_576ah")])
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2, 0)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_amlcg")])
 
-[node name="GroundBall3D" parent="StarterTown/Objects" unique_id=590738967 instance=ExtResource("24_oagth")]
+[node name="Items" type="Node3D" parent="StarterTown/Objects" unique_id=1243736008]
+
+[node name="GroundBall3D" parent="StarterTown/Objects/Items" unique_id=590738967 instance=ExtResource("24_oagth")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 3)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_wpkmi")])
 
-[node name="CuttableSmallTree" parent="StarterTown/Objects" unique_id=362134638 instance=ExtResource("31_wpkmi")]
+[node name="DestroyableObjects" type="Node3D" parent="StarterTown/Objects" unique_id=20002186]
+
+[node name="CuttableSmallTree" parent="StarterTown/Objects/DestroyableObjects" unique_id=362134638 instance=ExtResource("31_wpkmi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0)
-flag_requirement = 0
+removal_type = 0
+
+[node name="SmashableSmallRock" parent="StarterTown/Objects/DestroyableObjects" unique_id=708312477 instance=ExtResource("36_h3axc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 1)
 
 [node name="3DZone" parent="." unique_id=1637628257 instance=ExtResource("32_o0l78")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 3)

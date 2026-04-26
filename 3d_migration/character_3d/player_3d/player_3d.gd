@@ -234,6 +234,7 @@ func _camera_relative_cardinal(local_dir: Vector3) -> Vector3i:
 func _attempt_interaction() -> void:
 	if _move_progress != 0.0:
 		return
+
 	var collider: Object = _get_interaction_ray_collider()
 	if not collider:
 		return

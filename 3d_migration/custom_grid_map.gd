@@ -96,6 +96,8 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				var landing_cells := _get_ledge_landing_candidates(cell, orientation)
 				if not landing_cells.is_empty():
 					tile_flags.ledge_landing_cell = landing_cells[0]
+			TILE_DICT.WATER:
+				tile_flags.tile_type = TileFlags.TileType.
 
 
 func _build_graph_edges() -> void:
@@ -159,6 +161,8 @@ func _get_logical_edges(cell: Vector3i) -> Array[GraphEdge]:
 				ge.via_cell = cell
 				edges.append(ge)
 
+	if get_cell_item(cell) == TILE_DICT.WATER:
+		var tf: TileFlags = cell_flags.get(cell)
 	return edges
 
 

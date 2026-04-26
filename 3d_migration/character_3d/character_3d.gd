@@ -17,12 +17,18 @@ const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.5, 0.5)
 @export var walk_speed := 5.0
 @export var ledge_jump_speed := 2.0
 @export var ledge_jump_height := 1.0
-@export var facing_grid: Vector3i = Vector3i(0, 0, 1)
+@export var facing_grid: Vector3i = Vector3i(0, 0, 1):
+	set(val):
+		facing_grid = val
+		print("facing_grid: ", facing_grid)
 
 var anim_helper := AnimationHelper.new()
 var helper := MovementHelper.new()
 var grid_map: CustomGridMap
-var _facing_grid: Vector3i = Vector3i(0, 0, 1)
+var _facing_grid: Vector3i = Vector3i(0, 0, 1):
+	set(val):
+		_facing_grid = val
+		print("_facing_grid: ", _facing_grid)
 var _current_state: MoveState = MoveState.IDLE
 var _turn_timer: float = 0.0
 var _moving := false

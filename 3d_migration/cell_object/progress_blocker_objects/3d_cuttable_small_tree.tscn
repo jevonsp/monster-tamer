@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://be8a278mrn774" path="res://3d_migration/grid_map/tscns/cuttable_small_tree_model.tscn" id="2_6068m"]
 
 [node name="CuttableSmallTree" unique_id=1454602347 instance=ExtResource("1_p25rv")]
+permanence = 0
+removal_type = 1
 requirement_text = Array[String](["Maybe you could cut down this tree..."])
 question_text = Array[String](["Would you like to cut it?"])
 
