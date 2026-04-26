@@ -43,7 +43,28 @@ func _ready() -> void:
 
 func will_collide() -> bool:
 	ray_cast_3d.force_raycast_update()
-	return ray_cast_3d.is_colliding()
+	var is_colliding := ray_cast_3d.is_colliding()
+	var collider: Object = ray_cast_3d.get_collider() if is_colliding else null
+	var collider_layer := -1
+	var collider_mask := -1
+	if collider is CollisionObject3D:
+		collider_layer = collider.collision_layer
+		collider_mask = collider.collision_mask
+	print(
+		"[Character3D move ray] colliding=%s target=%s mask=%s collide_with_areas=%s collide_with_bodies=%s collider=%s collider_type=%s collider_layer=%s collider_mask=%s"
+		% [
+			is_colliding,
+			ray_cast_3d.target_position,
+			ray_cast_3d.collision_mask,
+			ray_cast_3d.collide_with_areas,
+			ray_cast_3d.collide_with_bodies,
+			collider,
+			collider.get_class() if collider != null else "null",
+			collider_layer,
+			collider_mask,
+		]
+	)
+	return is_colliding
 
 
 func can_move_in() -> bool:
@@ -140,8 +161,9 @@ func _start_turning(dir: Vector3i) -> void:
 
 
 func _turn_ray_in(direction: Vector3i) -> void:
-	ray_cast_3d.force_raycast_update()
 	ray_cast_3d.target_position = Vector3(direction)
+	ray_cast_3d.force_raycast_update()
+	print("[Character3D turn ray] direction=%s target=%s" % [direction, ray_cast_3d.target_position])
 
 
 func _finish_turn() -> void:

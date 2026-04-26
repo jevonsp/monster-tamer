@@ -271,9 +271,31 @@ func _attempt_interaction() -> void:
 
 func _get_interaction_ray_collider() -> Object:
 	if ray_cast_3d == null:
+		print("[Player3D ray] RayCast3D is null")
 		return null
 	ray_cast_3d.force_raycast_update()
-	return ray_cast_3d.get_collider() if ray_cast_3d.is_colliding() else null
+	var is_colliding := ray_cast_3d.is_colliding()
+	var collider: Object = ray_cast_3d.get_collider() if is_colliding else null
+	var collider_layer := -1
+	var collider_mask := -1
+	if collider is CollisionObject3D:
+		collider_layer = collider.collision_layer
+		collider_mask = collider.collision_mask
+	print(
+		"[Player3D ray] colliding=%s target=%s mask=%s collide_with_areas=%s collide_with_bodies=%s collider=%s collider_type=%s collider_layer=%s collider_mask=%s"
+		% [
+			is_colliding,
+			ray_cast_3d.target_position,
+			ray_cast_3d.collision_mask,
+			ray_cast_3d.collide_with_areas,
+			ray_cast_3d.collide_with_bodies,
+			collider,
+			collider.get_class() if collider != null else "null",
+			collider_layer,
+			collider_mask,
+		]
+	)
+	return collider
 
 
 func _try_start_move(direction: Vector3i) -> bool:
