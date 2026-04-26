@@ -12,7 +12,7 @@ var focus_state: Focused = Focused.OPTION
 var transaction_state: Transaction = Transaction.CHOOSING
 var npc_inventory: Dictionary[Item.Type, InventoryPage] = { }
 var player_inventory: Dictionary[Item.Type, InventoryPage] = { }
-var player_ref: Player = null
+var player_ref: Player3D = null
 var categories: int = 1
 var current_category: int = 0
 var last_focused_item_button: Button = null
@@ -151,7 +151,7 @@ func _display_item_category() -> void:
 
 
 func _update_currency_panel() -> void:
-	var money: int = Player.inventory.money if Player.inventory else 0
+	var money: int = PlayerContext3D.inventory_handler.money if PlayerContext3D.inventory_handler else 0
 	money_label.text = "%s <- Money" % [money]
 
 

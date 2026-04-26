@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_ixsw5"]
 [ext_resource type="Script" uid="uid://yjdugqi5q8a5" path="res://3d_migration/cell_object/ground_items/ground_ball_3d.gd" id="2_4nbf0"]
-[ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="7_rtd0r"]
+[ext_resource type="Texture2D" uid="uid://ddedh5jwmoi1a" path="res://3d_migration/cell_object/ground_items/ball_single.png" id="3_xt7ut"]
 
 [node name="GroundBall3D" unique_id=1454602347 node_paths=PackedStringArray("linked_balls") instance=ExtResource("1_ixsw5")]
 collision_layer = 5
@@ -14,6 +14,4 @@ blocks_player = true
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.5, 0, 0.5)
 billboard = 1
 texture_filter = 0
-texture = ExtResource("7_rtd0r")
-hframes = 7
-frame = 1
+texture = ExtResource("3_xt7ut")

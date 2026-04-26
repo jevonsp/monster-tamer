@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://dpsykgdfm0gej"]
-
-[ext_resource type="PackedScene" uid="uid://dto2snf0miliu" path="res://world_objects/interactable/blocker_object/travel_blocker_object/travel_blocker_object.tscn" id="1_xdh4y"]
-
-[node name="SurfObject" unique_id=750354463 groups=["surf_object"] instance=ExtResource("1_xdh4y")]
-cant_interact_text = "If you had a Monster strong enough, you could surf here!"
-question_interact_text = "Would you like to surf?"

@@ -12,7 +12,8 @@ static func create_route_tracker() -> void:
 	PlayerContext3D.player_info_handler.nuzlocke_tracker = route_tracker
 
 
-static func hydrate_from_save(info: Info) -> void:
+static func hydrate_from_save() -> void:
+	var info = PlayerContext3D.player_info_handler
 	if not info.player_info.has("nuzlocke_tracker"):
 		create_route_tracker()
 		return

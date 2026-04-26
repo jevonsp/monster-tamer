@@ -2,7 +2,7 @@ extends Node
 
 
 func try_buy(
-		player_ref: Player,
+		player_ref: Player3D,
 		current_category: int,
 		item: Item,
 		amount: int,
@@ -20,7 +20,7 @@ func try_buy(
 
 
 func try_sell(
-		player_ref: Player,
+		player_ref: Player3D,
 		player_inventory: Dictionary,
 		current_category: int,
 		item: Item,
@@ -37,7 +37,7 @@ func try_sell(
 	return { "ok": true }
 
 
-func credit_player_for_sale(player_ref: Player, item: Item, amount: int) -> void:
+func credit_player_for_sale(player_ref: Player3D, item: Item, amount: int) -> void:
 	var sell_value: int = maxi(1, int(item.price / 2.0))
 	var total_value: int = sell_value * amount
 	if player_ref.inventory_handler.has_method("add_money"):
@@ -59,7 +59,7 @@ func increase_npc_stock(npc_inventory: Dictionary, item: Item, amount: int) -> v
 		page.page[item] = amount
 
 
-func _can_player_afford(player_ref: Player, item: Item) -> bool:
+func _can_player_afford(player_ref: Player3D, item: Item) -> bool:
 	return player_ref.inventory_handler.money >= item.price
 
 
@@ -77,7 +77,7 @@ func _check_enough_stock(
 	return page.page[item] >= amount
 
 
-func _pay_for_item(player_ref: Player, item: Item) -> void:
+func _pay_for_item(player_ref: Player3D, item: Item) -> void:
 	player_ref.inventory_handler.adjust_money(-item.price)
 
 

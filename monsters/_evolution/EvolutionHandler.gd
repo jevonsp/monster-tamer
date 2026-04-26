@@ -77,7 +77,7 @@ func evolve_monster_in_place(monster: Monster, entry: Entry) -> void:
 	monster.set_type()
 	monster.set_monster_name(has_nickname, starting_name)
 
-	var player: Player = get_tree().get_first_node_in_group("player") as Player
+	var player = PlayerContext3D.player
 	if player:
 		player.party_handler.send_player_party()
 	Battle.request_display_monsters.emit()

@@ -114,7 +114,7 @@ func _on_option_button_pressed(button: Button) -> void:
 				if GameOptions.control_scheme == GameOptions.ControlScheme.XBOX_SONY
 				else GameOptions.ControlScheme.XBOX_SONY
 			)
-			var p0: Player = get_tree().get_first_node_in_group("player") as Player
+			var p0: Player3D = PlayerContext3D.player
 			if p0:
 				p0.info.input_layout = GameOptions.control_scheme
 			else:

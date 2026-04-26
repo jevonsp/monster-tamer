@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://bgm0u2s71302j"]
-
-[ext_resource type="Script" uid="uid://w7j6735ql5ek" path="res://world_objects/encounter/grass/wild_zone.gd" id="1_cn6f4"]
-
-[node name="WildZone" type="Node2D" unique_id=871059853]
-y_sort_enabled = true
-script = ExtResource("1_cn6f4")

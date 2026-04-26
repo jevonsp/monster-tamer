@@ -1,6 +1,6 @@
 extends Sprite2D
 
-const BALL = preload("uid://iikfm8js0p7y")
+const BALL = preload("res://3d_migration/cell_object/ground_items/ball_single.png")
 
 var starting_pos: Vector2
 

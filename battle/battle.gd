@@ -85,7 +85,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func end_battle() -> void:
 	if is_wild_battle:
-		NuzlockeTracker.monster_encountered_on_route(Player.travel.current_location)
+		NuzlockeTracker.monster_encountered_on_route(PlayerContext3D.travel_handler.current_location)
 	_release_held_input_actions()
 	var ended_trainer: Trainer3D = enemy_trainer
 	_clear_all()
@@ -177,8 +177,7 @@ func _set_player_party(party: Array[Monster]) -> void:
 
 
 func _release_held_input_actions() -> void:
-	var player: Player = get_tree().get_first_node_in_group("player")
-	player.clear_inputs()
+	PlayerContext3D.player.clear_inputs()
 
 
 func _clear_all() -> void:

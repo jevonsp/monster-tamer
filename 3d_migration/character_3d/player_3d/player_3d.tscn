@@ -23,6 +23,9 @@ script = ExtResource("2_vk4mx")
 pivot = NodePath("Pivot")
 camera_3d = NodePath("Pivot/Camera3D")
 
+[node name="Sprite2D" parent="." index="0" unique_id=800473344]
+texture = null
+
 [node name="TopSprite3D" parent="." index="1" unique_id=1223395461]
 transform = Transform3D(5, 0, 0, 0, 3.535534, 3.535534, 0, -3.535534, 3.535534, 0, 0, 0)
 

@@ -15,14 +15,14 @@ func get_available_travel_methods() -> Array[TravelHandler3D.TravelState]:
 	return travel_methods
 
 
-func get_available_removal_methods() -> Array[RemoveBlockerObject.RemovalType]:
-	var removal_types: Array[RemoveBlockerObject.RemovalType] = []
+func get_available_removal_methods() -> Array[ProgressBlockerObject.RemovalType]:
+	var removal_types: Array[ProgressBlockerObject.RemovalType] = []
 
 	if _can_cut_trees():
-		removal_types.append(RemoveBlockerObject.RemovalType.CUT)
+		removal_types.append(ProgressBlockerObject.RemovalType.CUT)
 
 	if _can_rock_smash():
-		removal_types.append(RemoveBlockerObject.RemovalType.SMASH)
+		removal_types.append(ProgressBlockerObject.RemovalType.SMASH)
 
 	return removal_types
 
@@ -69,8 +69,6 @@ func _check_badges(badge: Story.Flag) -> bool:
 
 
 func _can_surf() -> bool:
-	return true
-	# ALERT change back after testing
 	return _check_monsters_moves(SURF) and _check_badges(Story.Flag.BADGE_THREE)
 
 

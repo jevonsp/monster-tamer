@@ -109,7 +109,7 @@ func _dispense_winnings() -> void:
 	var battle_session: BattleSession = battle.battle_session
 	if battle.is_wild_battle:
 		var money = _calculate_trainer_winnings(battle_session)
-		Player.inventory.adjust_money(money)
+		PlayerContext3D.inventory_handler.adjust_money(money)
 
 		var ta: Array[String] = ["You got %s money for winning!" % [money]]
 		Ui.send_text_box.emit(null, ta, false, false, false)
@@ -118,7 +118,7 @@ func _dispense_winnings() -> void:
 	else:
 		var item = _calculate_wild_winnings(battle_session)
 		if item:
-			Player.inventory.add(item)
+			PlayerContext3D.inventory_handler.add(item)
 			var ta: Array[String] = ["Your %s managed to find a %s after the battle!" % [battle_session.player_actor.name, item.name]]
 
 			Ui.send_text_box.emit(null, ta, false, false, false)

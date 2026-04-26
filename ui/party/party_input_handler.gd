@@ -12,12 +12,48 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not party.is_forced_switch:
 			visibility_focus_handler.toggle_visible()
 			Ui.on_party_closed.emit()
-			if not Player.in_battle:
+			if not PlayerContext3D.player.in_battle:
 				Ui.on_menu_closed.emit()
 			get_viewport().set_input_as_handled()
 
 	if event.is_action_pressed("no"):
 		_handle_no_input()
+
+
+func on_monster_pressed(button: Button) -> void:
+	party.last_selected_monster = button
+	var num := int(button.name.trim_prefix("Panel"))
+
+	match party.interfaces.ui_context:
+		Global.AccessFrom.PARTY:
+			match party.state:
+				party.State.DEFAULT:
+					party.moving_source_index = num
+					visibility_focus_handler.toggle_options_visible()
+				party.State.MOVING:
+					party.stop_moving(num)
+		Global.AccessFrom.INVENTORY:
+			Ui.monster_selected.emit(button.actor)
+		Global.AccessFrom.BATTLE:
+			await _handle_battle_press(button, num)
+
+
+func on_option_pressed(button: Button) -> void:
+	party.last_selected_option = button
+
+	match button.name:
+		"Summary":
+			party.open_summary()
+		"Move":
+			party.start_moving()
+		"Use":
+			party.use()
+		"Give":
+			party.give()
+		"Take":
+			party.take()
+
+	get_viewport().set_input_as_handled()
 
 
 func _handle_no_input() -> void:
@@ -44,24 +80,6 @@ func _handle_no_input() -> void:
 	get_viewport().set_input_as_handled()
 
 
-func on_monster_pressed(button: Button) -> void:
-	party.last_selected_monster = button
-	var num := int(button.name.trim_prefix("Panel"))
-
-	match party.interfaces.ui_context:
-		Global.AccessFrom.PARTY:
-			match party.state:
-				party.State.DEFAULT:
-					party.moving_source_index = num
-					visibility_focus_handler.toggle_options_visible()
-				party.State.MOVING:
-					party.stop_moving(num)
-		Global.AccessFrom.INVENTORY:
-			Ui.monster_selected.emit(button.actor)
-		Global.AccessFrom.BATTLE:
-			await _handle_battle_press(button, num)
-
-
 func _handle_battle_press(button: Button, num: int) -> void:
 	if not party.is_forced_switch:
 		if num == 0:
@@ -78,21 +96,3 @@ func _handle_battle_press(button: Button, num: int) -> void:
 		Battle.send_selected_force_switch.emit(button.actor)
 		party.is_forced_switch = false
 		visibility_focus_handler.toggle_visible()
-
-
-func on_option_pressed(button: Button) -> void:
-	party.last_selected_option = button
-
-	match button.name:
-		"Summary":
-			party.open_summary()
-		"Move":
-			party.start_moving()
-		"Use":
-			party.use()
-		"Give":
-			party.give()
-		"Take":
-			party.take()
-
-	get_viewport().set_input_as_handled()
