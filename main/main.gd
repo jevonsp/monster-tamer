@@ -8,7 +8,7 @@ extends Node3D
 func _ready() -> void:
 	if player and grid_map:
 		player.grid_map = grid_map
-		player.helper.used_cells = grid_map.get_used_cells()
+		player.movement_helper.used_cells = grid_map.get_used_cells()
 	get_window().grab_focus()
 	get_window().size = Vector2i(Global.GAME_WIDTH, Global.GAME_HEIGHT)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

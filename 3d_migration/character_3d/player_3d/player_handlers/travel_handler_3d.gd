@@ -61,7 +61,7 @@ func start_side_scroll() -> void:
 	if is_side_scrolling:
 		return
 	if player != null and player.grid_map != null:
-		var ground := player.helper.get_ground_cell(
+		var ground := player.movement_helper.get_ground_cell(
 			player.global_position,
 			player.grid_map,
 			player.get_height_adjustment(),
@@ -77,7 +77,7 @@ func stop_side_scroll() -> void:
 	if not is_side_scrolling:
 		return
 	if player != null and player.grid_map != null:
-		var ground := player.helper.get_ground_cell(
+		var ground := player.movement_helper.get_ground_cell(
 			player.global_position,
 			player.grid_map,
 			player.get_height_adjustment(),
