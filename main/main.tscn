@@ -193,7 +193,6 @@ light_energy = 0.1
 
 [node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("18_4hmqs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, 1.2, 3.5)
-facing_grid = Vector3i(0, 0, -1)
 
 [node name="GridMap" type="GridMap" parent="." unique_id=1421721277]
 mesh_library = ExtResource("19_vapsy")

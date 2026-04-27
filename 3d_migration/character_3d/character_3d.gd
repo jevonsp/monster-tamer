@@ -11,19 +11,21 @@ enum MoveState { IDLE, TURNING, MOVING, SLIDING, LEDGE_JUMPING }
 
 const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
+const MOVE_SPEED := 5.0
+const STAIR_SPEED := 2.5
 const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.5, 0.5)
 const SIDE_SCROLLING_HEIGHT_ADJUSTMENT := HEIGHT_ADJUSTMENT + Vector3(0, 0, -0.3)
 
 @export var ray_cast_3d: RayCast3D
-@export var walk_speed := 5.0
+@export var walk_speed := MOVE_SPEED
 @export var ledge_jump_speed := 2.0
 @export var ledge_jump_height := 1.0
 @export var facing_grid: Vector3i = Vector3i(0, 0, 1)
 
+var walk_speed_modifiers := 1.0
 var anim_helper := AnimationHelper.new()
 var movement_helper := MovementHelper.new()
 var grid_map: CustomGridMap
-var _facing_grid: Vector3i = Vector3i(0, 0, 1)
 var _current_state: MoveState = MoveState.IDLE
 var _turn_timer: float = 0.0
 var _moving := false
@@ -40,6 +42,7 @@ var _active_edge: GraphEdge
 func _ready() -> void:
 	if shadow.visible:
 		shadow.visible = false
+	anim_helper.refresh_facing_blends(facing_grid, self)
 
 
 func will_collide() -> bool:
@@ -56,7 +59,7 @@ func walk_one_step_along_facing() -> void:
 		return
 	if _current_state != MoveState.IDLE or _moving:
 		return
-	if not _try_start_move(_facing_grid):
+	if not _try_start_move(facing_grid):
 		return
 	await grid_step_landed
 
@@ -148,7 +151,7 @@ func _start_turning(dir: Vector3i) -> void:
 	var sm := anim_helper.state_machine_playback()
 	if sm:
 		sm.start(&"Turn")
-	_facing_grid = dir
+	facing_grid = dir
 	_turn_ray_in(dir)
 	_current_state = MoveState.TURNING
 	_turn_timer = 0.0
@@ -163,7 +166,7 @@ func _turn_ray_in(direction: Vector3i) -> void:
 
 func _finish_turn() -> void:
 	_set_walk_anim_speed(false)
-	anim_helper.apply_direction_blends(anim_helper.blend_for_facing(_facing_grid))
+	anim_helper.apply_direction_blends(anim_helper.blend_for_facing(facing_grid))
 	var sm := anim_helper.state_machine_playback()
 	if sm:
 		sm.start(&"Idle")
@@ -178,7 +181,7 @@ func _finish_walk_to_idle() -> void:
 	if grid_map != null:
 		ground = get_current_ground_cell()
 	_set_walk_anim_speed(false)
-	anim_helper.apply_direction_blends(anim_helper.blend_for_facing(_facing_grid))
+	anim_helper.apply_direction_blends(anim_helper.blend_for_facing(facing_grid))
 	var sm := anim_helper.state_machine_playback()
 	if sm:
 		sm.start(&"Idle")
@@ -193,7 +196,7 @@ func _process_idle_state() -> void:
 	var input_dir := get_input_direction()
 	if input_dir == Vector3i.ZERO:
 		return
-	if input_dir != _facing_grid:
+	if input_dir != facing_grid:
 		_start_turning(input_dir)
 		return
 	_try_start_move(input_dir)
@@ -202,7 +205,7 @@ func _process_idle_state() -> void:
 func _process_turning_state(delta: float) -> void:
 	_turn_timer += delta
 	var input_dir := get_input_direction()
-	var should_move: bool = input_dir == _facing_grid \
+	var should_move: bool = input_dir == facing_grid \
 	and key_hold_ready() \
 	and input_dir != Vector3i.ZERO
 	if should_move and _try_start_move(input_dir):
@@ -220,7 +223,7 @@ func _process_moving_state(delta: float) -> void:
 	if input_dir == Vector3i.ZERO:
 		_finish_walk_to_idle()
 		return
-	if input_dir != _facing_grid:
+	if input_dir != facing_grid:
 		_finish_walk_to_idle()
 		_start_turning(input_dir)
 		return
@@ -295,6 +298,12 @@ func _try_start_move(direction: Vector3i) -> bool:
 			_current_state = MoveState.SLIDING
 			_begin_slide_step(edge, false)
 		_:
+			var from_tile_id := grid_map.get_cell_item(ground)
+			var to_tile_id := grid_map.get_cell_item(edge.to_cell)
+			if from_tile_id == grid_map.TILE_DICT.STAIRS or to_tile_id == grid_map.TILE_DICT.STAIRS:
+				walk_speed = STAIR_SPEED * walk_speed_modifiers
+			else:
+				walk_speed = MOVE_SPEED * walk_speed_modifiers
 			_current_state = MoveState.MOVING
 			_begin_step_move(edge)
 	return true

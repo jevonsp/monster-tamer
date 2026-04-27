@@ -32,7 +32,7 @@ func _process(delta: float) -> void:
 		return
 	_update_held_keys(delta)
 	if camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting():
-		anim_helper.refresh_facing_blends(_facing_grid, self)
+		anim_helper.refresh_facing_blends(facing_grid, self)
 	if Input.is_action_pressed("right_stick_right"):
 		camera_3d._rotate_camera(1)
 	elif Input.is_action_pressed("right_stick_left"):
@@ -88,7 +88,7 @@ func setup_helpers() -> void:
 		camera_3d.pivot = pivot
 		camera_3d.rotation_midpoint_reached.connect(_on_camera_rotation_finished)
 		camera_3d.rotation_finished.connect(_on_camera_rotation_finished)
-	anim_helper.call_deferred("refresh_facing_blends", _facing_grid, self)
+	anim_helper.call_deferred("refresh_facing_blends", facing_grid, self)
 
 
 func setup_player_context() -> void:
@@ -193,7 +193,7 @@ func _lose() -> void:
 
 
 func _on_camera_rotation_finished() -> void:
-	anim_helper.refresh_facing_blends(_facing_grid, self)
+	anim_helper.refresh_facing_blends(facing_grid, self)
 
 
 func _on_animation_grid_step_landed(ground: Vector3i) -> void:
@@ -312,6 +312,11 @@ func _try_start_move(direction: Vector3i) -> bool:
 			_current_state = MoveState.SLIDING
 			_begin_slide_step(edge, false)
 		_:
+			var to_tile_id := grid_map.get_cell_item(edge.to_cell)
+			if to_tile_id == grid_map.TILE_DICT.STAIRS:
+				walk_speed = STAIR_SPEED * walk_speed_modifiers
+			else:
+				walk_speed = MOVE_SPEED * walk_speed_modifiers
 			_current_state = MoveState.MOVING
 			_begin_step_move(edge)
 	return true
@@ -344,7 +349,7 @@ func _should_attempt_surf(edge: GraphEdge, from_cell: Vector3i) -> bool:
 	return travel_handler.can_start_surf(edge, from_cell)
 
 
-func _try_start_surf(direction: Vector3i = _facing_grid) -> bool:
+func _try_start_surf(direction: Vector3i = facing_grid) -> bool:
 	if grid_map == null or travel_handler == null:
 		return false
 	var ground := get_current_ground_cell()
