@@ -46,7 +46,7 @@ func _update_debug_mesh(size: Vector3, pos: Vector3) -> void:
 
 	var mat := StandardMaterial3D.new()
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.albedo_color = Color(0.2, 0.8, 1.0, 0.35)
+	mat.albedo_color = Color(255, 0.0, 0.0, 0.5)
 	mat.no_depth_test = true
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mesh_node.material_override = mat

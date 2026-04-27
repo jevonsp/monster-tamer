@@ -3,6 +3,25 @@ extends Command
 
 enum Direction { UP, DOWN, LEFT, RIGHT }
 
+@export var tile_list: Array[Direction] = []
+
+
+func walk_tiles(character: Character3D) -> void:
+	if tile_list.is_empty():
+		return
+	for dir in tile_list:
+		if character._try_start_move(_vec_from_dir(dir)):
+			await character.grid_step_landed
+		else:
+			return
+
+
+func _trigger_impl(owner) -> Flow:
+	if owner is not Character3D:
+		return Flow.NEXT
+	await walk_tiles(owner)
+	return Flow.NEXT
+
 
 func _vec_from_dir(dir: Direction) -> Vector3i:
 	match dir:
