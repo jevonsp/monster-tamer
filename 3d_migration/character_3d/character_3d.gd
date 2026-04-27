@@ -21,7 +21,7 @@ const SIDE_SCROLLING_HEIGHT_ADJUSTMENT := HEIGHT_ADJUSTMENT + Vector3(0, 0, -0.3
 @export var facing_grid: Vector3i = Vector3i(0, 0, 1)
 
 var anim_helper := AnimationHelper.new()
-var helper := MovementHelper.new()
+var movement_helper := MovementHelper.new()
 var grid_map: CustomGridMap
 var _facing_grid: Vector3i = Vector3i(0, 0, 1)
 var _current_state: MoveState = MoveState.IDLE
@@ -74,7 +74,7 @@ func cell_to_world(cell: Vector3i) -> Vector3:
 
 
 func get_ground_cell_at(world_position: Vector3) -> Vector3i:
-	return helper.get_ground_cell(world_position, grid_map, get_height_adjustment())
+	return movement_helper.get_ground_cell(world_position, grid_map, get_height_adjustment())
 
 
 func get_current_ground_cell() -> Vector3i:
