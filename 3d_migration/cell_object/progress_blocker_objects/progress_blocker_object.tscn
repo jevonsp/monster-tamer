@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_w8ndj"]
 [ext_resource type="Script" uid="uid://yftotfuxgtdn" path="res://3d_migration/cell_object/progress_blocker_objects/progress_blocker_object.gd" id="2_yi0ha"]
-[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/command/command_list.gd" id="3_osito"]
-[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/command/command.gd" id="4_wwb84"]
-[ext_resource type="Script" uid="uid://c0fm5worp5r8n" path="res://3d_migration/command/blink_command.gd" id="5_oum4f"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="3_osito"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="4_wwb84"]
+[ext_resource type="Script" uid="uid://c0fm5worp5r8n" path="res://3d_migration/world_command/blink_command.gd" id="5_oum4f"]
 
 [sub_resource type="Resource" id="Resource_6o1g1"]
 script = ExtResource("5_oum4f")

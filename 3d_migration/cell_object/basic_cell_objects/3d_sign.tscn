@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://8fngqhn3p02d"]
 
 [ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_fn7yq"]
-[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/command/command_list.gd" id="2_e4r1b"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="2_e4r1b"]
 [ext_resource type="PackedScene" uid="uid://c587dnnagridh" path="res://3d_migration/grid_map/tscns/sign.tscn" id="2_m6mgy"]
-[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/command/command.gd" id="3_0hpmh"]
-[ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/command/say_command.gd" id="4_6qmgr"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="3_0hpmh"]
+[ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/world_command/say_command.gd" id="4_6qmgr"]
 
 [sub_resource type="Resource" id="Resource_iurhu"]
 script = ExtResource("4_6qmgr")

@@ -1,0 +1,46 @@
+class_name Action
+extends Resource
+
+enum Flow { NEXT, SKIP, STOP }
+
+@export var should_trigger: bool = true
+@export var should_exit: bool = false
+
+
+func before_trigger(owner: Node) -> Flow:
+	if should_exit:
+		return Flow.STOP
+	if not should_trigger:
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _before_impl(owner)
+
+
+func trigger(owner: Node) -> Flow:
+	if should_exit:
+		return Flow.STOP
+	if not should_trigger:
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _trigger_impl(owner)
+
+
+func after_trigger(owner: Node) -> Flow:
+	if should_exit:
+		return Flow.STOP
+	if not should_trigger:
+		return Flow.NEXT
+	@warning_ignore("redundant_await")
+	return await _after_impl(owner)
+
+
+func _before_impl(_owner) -> Flow:
+	return Flow.NEXT
+
+
+func _trigger_impl(_owner) -> Flow:
+	return Flow.NEXT
+
+
+func _after_impl(_owner) -> Flow:
+	return Flow.NEXT
