@@ -2,10 +2,9 @@ class_name Choice
 extends Resource
 
 enum Type { MOVE, ITEM, SWITCH, FLEE }
-enum UserSide { NONE, PLAYER, ENEMY }
+enum Target { NONE, ENEMY, USER, ALLIES, ENEMIES, OTHERS, ALL }
 
 var action: Variant
-var type: Type = Type.MOVE
+var action_type: Type = Type.MOVE
 var actor: Monster = null
-var side: UserSide = UserSide.NONE
 var targets: Array[Monster] = []
