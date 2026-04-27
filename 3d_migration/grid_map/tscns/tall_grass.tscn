@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://kxqq7lert13o"]
+
+[ext_resource type="PackedScene" uid="uid://bll3qsmew30yf" path="res://3d_migration/grid_map/gltfs/TallGrass.gltf" id="1_lk63v"]
+
+[node name="TallGrass" unique_id=2033623568 instance=ExtResource("1_lk63v")]

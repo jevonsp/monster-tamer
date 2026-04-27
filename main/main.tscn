@@ -36,6 +36,7 @@
 [ext_resource type="PackedScene" uid="uid://cr1y1o7vakhfl" path="res://3d_migration/wild_zone_3d/wild_zone_3d.tscn" id="32_o0l78"]
 [ext_resource type="PackedScene" uid="uid://c48jijgejmcel" path="res://3d_migration/cell_object/progress_blocker_objects/3d_smashable_small_rock.tscn" id="36_h3axc"]
 [ext_resource type="PackedScene" uid="uid://bc4vbgoi6lvwq" path="res://3d_migration/cell_object/perspective_changer_3d/perspective_changer_3d.tscn" id="39_d7rgo"]
+[ext_resource type="PackedScene" uid="uid://1abjsn18125c" path="res://3d_migration/wild_zone_3d/grass_area_3d.tscn" id="40_phifs"]
 [ext_resource type="PackedScene" uid="uid://dlbah42lqf6we" path="res://3d_migration/cell_object/perspective_changer_3d/ladder_zone_3d.tscn" id="40_yjufm"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 [ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
@@ -127,9 +128,6 @@ metadata/_custom_type_script = "uid://mg1f86e6bqka"
 script = ExtResource("25_d00gp")
 commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_o8j3b")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_o0l78"]
-size = Vector3(4, 1, 3)
 
 [node name="Main" type="Node3D" unique_id=626842757]
 script = ExtResource("1_xwkvk")
@@ -302,14 +300,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 1)
 
 [node name="Zones" type="Node3D" parent="StarterTown" unique_id=379680952]
 
-[node name="WildZone3D" parent="StarterTown/Zones" unique_id=1637628257 instance=ExtResource("32_o0l78")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 2, 2.5)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StarterTown/Zones/WildZone3D" unique_id=2119470889]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1)
-shape = SubResource("BoxShape3D_o0l78")
-debug_color = Color(1, 0, 0, 1)
-
 [node name="PerspectiveChangerExit" parent="StarterTown/Zones" unique_id=1047929248 instance=ExtResource("39_d7rgo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1, 3)
 type = 2
@@ -321,5 +311,17 @@ type = 1
 [node name="LadderZone3D" parent="StarterTown/Zones" unique_id=882840719 instance=ExtResource("40_yjufm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 0)
 ladder_length = 4
+
+[node name="WildZone3D" parent="StarterTown/Zones" unique_id=1288161633 instance=ExtResource("32_o0l78")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 3)
+
+[node name="GrassArea3D0" parent="StarterTown/Zones/WildZone3D" unique_id=21345236 instance=ExtResource("40_phifs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="GrassArea3D1" parent="StarterTown/Zones/WildZone3D" unique_id=663280007 instance=ExtResource("40_phifs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 0)
+
+[node name="GrassArea3D2" parent="StarterTown/Zones/WildZone3D" unique_id=1021272192 instance=ExtResource("40_phifs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
 
 [editable path="3DWorld"]

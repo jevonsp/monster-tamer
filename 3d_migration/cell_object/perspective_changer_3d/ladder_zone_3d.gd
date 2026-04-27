@@ -11,8 +11,7 @@ const BASE_SIZE := 0.938
 		ladder_length = val
 		if Engine.is_editor_hint():
 			update_ladder()
-
-@onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
+@export var collision_shape_3d: CollisionShape3D
 
 
 func _ready() -> void:

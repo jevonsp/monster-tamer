@@ -1,20 +1,12 @@
 class_name WildZone3D
-extends Area3D
+extends Node3D
 
 @export_range(0.0, 1.0, 0.01) var encounter_rate: float = 0.15
 @export var encounter_table: Array[EncounterEntry] = []
 
-var player_in_zone: bool = false
-
 
 func _ready() -> void:
-	PlayerContext3D.walk_segmented_completed.connect(_on_walk_segmented_completed)
-
-
-func _on_walk_segmented_completed(_ground_cell: Vector3i) -> void:
-	if player_in_zone:
-		if _roll_encounter():
-			_create_encounter()
+	_setup()
 
 
 func _roll_encounter() -> bool:
@@ -44,13 +36,7 @@ func _create_encounter() -> void:
 			return
 
 
-func _on_area_entered(area: Area3D) -> void:
-	if area is Player3D:
-		player_in_zone = true
-		print('entered')
-
-
-func _on_area_exited(area: Area3D) -> void:
-	if area is Player3D:
-		player_in_zone = false
-		print('exited')
+func _setup() -> void:
+	for child in get_children():
+		if child is WildArea3D:
+			child.wild_zone = self

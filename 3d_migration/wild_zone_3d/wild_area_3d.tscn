@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://du8cyq5vhv5r7"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_n1whl"]
+[ext_resource type="Script" uid="uid://dgnb4lqpssjcu" path="res://3d_migration/wild_zone_3d/wild_area_3d.gd" id="2_javiw"]
+
+[node name="WildArea3D" unique_id=1454602347 instance=ExtResource("1_n1whl")]
+script = ExtResource("2_javiw")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
