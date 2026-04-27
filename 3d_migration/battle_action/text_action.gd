@@ -12,7 +12,7 @@ func _before_impl(_owner) -> Flow:
 
 
 func _trigger_impl(owner: BattleChassis) -> Flow:
-	var ta: Array[String] = [_format(text, owner)]
+	var ta: Array[String] = [text]
 	Ui.send_text_box.emit(null, ta, is_autocomplete, is_question, false)
 
 	if is_question:
@@ -27,13 +27,3 @@ func _trigger_impl(owner: BattleChassis) -> Flow:
 
 func _after_impl(_owner) -> Flow:
 	return Flow.NEXT
-
-
-func _format(string: String, battle_chassis: BattleChassis) -> String:
-	var choice = battle_chassis.turn_queue[battle_chassis.turn_index]
-	var f = {
-		"user": battle_chassis.current_actor,
-		"action": choice.action,
-		"targets": battle_chassis.targeter.resolve_targets(choice, battle_chassis),
-	}
-	return string.format(f)
