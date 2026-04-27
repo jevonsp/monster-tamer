@@ -29,10 +29,11 @@ func execute(actor: Monster, target: Monster, battle_context: BattleContext) -> 
 		await use_effect.execute(actor, target, battle_context)
 
 
-func use(target: Monster) -> void:
+func use(target: Monster) -> bool:
 	if use_effect:
 		@warning_ignore("redundant_await")
-		await use_effect.use(target)
+		return await use_effect.use(target)
+	return false
 
 
 func give(target: Monster) -> bool:

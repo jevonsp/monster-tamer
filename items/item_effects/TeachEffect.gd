@@ -4,9 +4,9 @@ extends ItemEffect
 @export var move: Move
 
 
-func use(target: Monster) -> void:
+func use(target: Monster) -> bool:
 	if move == null:
-		return
+		return false
 
 	var ta: Array[String]
 
@@ -14,13 +14,13 @@ func use(target: Monster) -> void:
 		ta = ["%s already knows %s." % [target.name, move.name]]
 		Ui.send_text_box.emit(null, ta, false, false, false)
 		await Ui.text_box_complete
-		return
+		return false
 
 	if not target.monster_data.can_learn_move(move):
 		ta = ["%s can't learn %s." % [target.name, move.name]]
 		Ui.send_text_box.emit(null, ta, false, false, false)
 		await Ui.text_box_complete
-		return
+		return false
 
 	ta = ["Teach %s to %s?" % [move.name, target.name]]
 	Ui.send_text_box.emit(null, ta, false, true, false)
@@ -28,7 +28,8 @@ func use(target: Monster) -> void:
 	await Ui.text_box_complete
 
 	if not answer:
-		return
+		return false
 
 	Party.request_summary_move_learning.emit(target, move)
 	await Ui.move_learning_finished
+	return true

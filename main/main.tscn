@@ -293,7 +293,6 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_wpkmi")])
 
 [node name="CuttableSmallTree" parent="StarterTown/Objects/DestroyableObjects" unique_id=362134638 instance=ExtResource("31_wpkmi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0)
-removal_type = 0
 
 [node name="SmashableSmallRock" parent="StarterTown/Objects/DestroyableObjects" unique_id=708312477 instance=ExtResource("36_h3axc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 1)

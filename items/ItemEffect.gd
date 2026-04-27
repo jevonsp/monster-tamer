@@ -6,5 +6,5 @@ func execute(_actor: Monster, _target: Monster, _battle_context: BattleContext) 
 	pass
 
 
-func use(_target: Monster) -> void:
-	pass
+func use(_target: Monster) -> bool:
+	return false

@@ -42,8 +42,8 @@ func construct_inventory() -> void:
 
 
 func on_use_item_on(item: Item, monster: Monster) -> void:
-	await item.use(monster)
-	if not item.is_multi_use:
+	var item_was_used: bool = await item.use(monster)
+	if item_was_used and not item.is_multi_use:
 		remove(item)
 	Ui.item_finished_using.emit()
 
