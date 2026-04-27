@@ -7,7 +7,6 @@ extends Resource
 ## Runs *commands* in order. The first *STOP* in before → trigger → after ends the whole list.
 func run(owner: Node) -> Command.Flow:
 	var final_flow := Command.Flow.NEXT
-
 	for command: Command in commands:
 		if command == null:
 			continue

@@ -4,27 +4,45 @@ extends Resource
 @export var actions: Array[Action] = []
 
 
-func run(owner: Node) -> Action.Flow:
+func run(owner: BattleChassis) -> Action.Flow:
 	var final_flow := Action.Flow.NEXT
-	PlayerContext3D.toggle_player.emit(false)
-	PlayerContext3D.player.clear_inputs()
+	var i := 0
+	var skip_count := 0
 
-	for action: Action in actions:
+	while i < actions.size():
+		if skip_count > 0:
+			skip_count -= 1
+			i += 1
+			continue
+		var action := actions[i]
 		if action == null:
+			i += 1
 			continue
 		var before_flow := await action.before_trigger(owner)
-		if before_flow == Action.Flow.STOP:
-			final_flow = Action.Flow.STOP
-			break
+		match before_flow:
+			Action.Flow.STOP:
+				final_flow = Action.Flow.STOP
+				break
+			Action.Flow.SKIP:
+				skip_count += 1
+				i += 1
+				continue
 		var trigger_flow := await action.trigger(owner)
-		if trigger_flow == Action.Flow.STOP:
-			final_flow = Action.Flow.STOP
-			break
+		match trigger_flow:
+			Action.Flow.STOP:
+				final_flow = Action.Flow.STOP
+				break
+			Action.Flow.SKIP:
+				skip_count += 1
+				i += 1
+				continue
 		var after_flow := await action.after_trigger(owner)
-		if after_flow == Action.Flow.STOP:
-			final_flow = Action.Flow.STOP
-			break
+		match after_flow:
+			Action.Flow.STOP:
+				final_flow = Action.Flow.STOP
+				break
+			Action.Flow.SKIP:
+				skip_count += 1
+		i += 1
 
-	PlayerContext3D.player.clear_inputs()
-	PlayerContext3D.toggle_player.emit(true)
 	return final_flow
