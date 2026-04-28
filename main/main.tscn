@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bht67orrcfsor" path="res://ui/interfaces.gd" id="2_piupu"]
 [ext_resource type="PackedScene" uid="uid://dohpco4ojenuk" path="res://ui/summary/summary.tscn" id="3_na0o7"]
 [ext_resource type="PackedScene" uid="uid://bdu1o6lykdp4n" path="res://ui/inventory/inventory.tscn" id="5_4hmqs"]
-[ext_resource type="PackedScene" path="res://battle/battle.tscn" id="7_4dugh"]
 [ext_resource type="PackedScene" uid="uid://qugnwvtxqunc" path="res://ui/storage/storage.tscn" id="9_jofbb"]
 [ext_resource type="PackedScene" uid="uid://ddh270jnw5hsd" path="res://ui/text_box/text_box.tscn" id="9_n53tw"]
 [ext_resource type="PackedScene" uid="uid://dyraldrxu7umn" path="res://ui/store/store.tscn" id="10_ue0mw"]
@@ -145,9 +144,6 @@ offset_left = 432.0
 offset_top = 16.0
 offset_right = -16.0
 offset_bottom = -16.0
-
-[node name="Battle" parent="Interfaces" unique_id=1219946530 instance=ExtResource("7_4dugh")]
-visible = false
 
 [node name="EvolutionScreen" parent="Interfaces" unique_id=1601790307 instance=ExtResource("12_cgvj2")]
 visible = false

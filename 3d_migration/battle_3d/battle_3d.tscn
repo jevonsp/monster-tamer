@@ -1,13 +1,11 @@
 [gd_scene format=3 uid="uid://c0gf3olxnha8c"]
 
-[ext_resource type="PackedScene" uid="uid://boxcel2kld2tg" path="res://battle/move_buttons.tscn" id="2_bc560"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="3_ujixi"]
 [ext_resource type="Texture2D" uid="uid://b4aiwusy8adko" path="res://3d_migration/battle_3d/_assets/plus.png" id="4_5abls"]
 [ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://3d_migration/battle_3d/_assets/up_arrow.png" id="5_7lpel"]
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="6_kxxxp"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="7_bphwl"]
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="8_tcwm6"]
-[ext_resource type="PackedScene" uid="uid://bbdhbxa071x5y" path="res://battle/texture_rect.tscn" id="9_5r5f4"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="10_gsefg"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="11_7f0d1"]
 [ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="12_oadct"]
@@ -30,20 +28,98 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MoveButtons" parent="CanvasLayer/Content" unique_id=1958324966 instance=ExtResource("2_bc560")]
+[node name="MoveButtons" type="GridContainer" parent="CanvasLayer/Content" unique_id=1904353618]
 visible = false
 layout_mode = 1
 anchors_preset = 2
-anchor_left = 0.0
 anchor_top = 1.0
-anchor_right = 0.0
 anchor_bottom = 1.0
 offset_left = 16.0
 offset_top = -192.0
 offset_right = 640.0
 offset_bottom = -16.0
-grow_horizontal = 1
 grow_vertical = 0
+columns = 2
+
+[node name="Move0" parent="CanvasLayer/Content/MoveButtons" unique_id=1279246463 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+
+[node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move0" unique_id=635744212]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_font_sizes/font_size = 64
+text = "Move"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Move1" parent="CanvasLayer/Content/MoveButtons" unique_id=1930387975 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+layout_mode = 2
+focus_neighbor_right = NodePath(".")
+
+[node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move1" unique_id=252418567]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_font_sizes/font_size = 64
+text = "Move"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Move2" parent="CanvasLayer/Content/MoveButtons" unique_id=1094670472 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+
+[node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move2" unique_id=1145211404]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_font_sizes/font_size = 64
+text = "Move"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Move3" parent="CanvasLayer/Content/MoveButtons" unique_id=92415258 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+layout_mode = 2
+focus_neighbor_right = NodePath(".")
+
+[node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move3" unique_id=63908812]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_font_sizes/font_size = 64
+text = "Move"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MoveInfoHelperPanel" parent="CanvasLayer/Content" unique_id=1744171946 instance=ExtResource("3_ujixi")]
 visible = false
@@ -101,7 +177,7 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Fight" parent="CanvasLayer/Content/OptionButtons" unique_id=1279246463 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Fight" parent="CanvasLayer/Content/OptionButtons" unique_id=1761904595 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 
@@ -217,13 +293,12 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerTextureRect" parent="CanvasLayer/Content" unique_id=2099373258 instance=ExtResource("9_5r5f4")]
+[node name="PlayerTextureRect" type="TextureRect" parent="CanvasLayer/Content" unique_id=1774285037]
 layout_mode = 0
 offset_left = 97.0
 offset_top = 150.0
 offset_right = 353.00024
 offset_bottom = 406.00006
-script = null
 
 [node name="PlayerHPBar" parent="CanvasLayer/Content" unique_id=1881680306 instance=ExtResource("10_gsefg")]
 layout_mode = 0
@@ -283,14 +358,12 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyTextureRect" parent="CanvasLayer/Content" unique_id=192231794 instance=ExtResource("9_5r5f4")]
+[node name="EnemyTextureRect" type="TextureRect" parent="CanvasLayer/Content" unique_id=1345203005]
 layout_mode = 0
 offset_left = 931.0
 offset_top = 150.0
 offset_right = 1187.0002
 offset_bottom = 406.0
-flip_h = false
-script = null
 
 [node name="EnemyHPBar" parent="CanvasLayer/Content" unique_id=1570994503 instance=ExtResource("10_gsefg")]
 layout_mode = 0
