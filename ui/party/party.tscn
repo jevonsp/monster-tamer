@@ -8,7 +8,6 @@
 [ext_resource type="Script" uid="uid://c2len2o8bhocm" path="res://ui/party/panel.gd" id="2_s6yn0"]
 [ext_resource type="Script" uid="uid://b17e4f25gv3el" path="res://ui/party/party_visibility_focus_handler.gd" id="3_bpc48"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="3_inosj"]
-[ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="4_o2fwo"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="4_o14qd"]
 [ext_resource type="Script" uid="uid://b1qcrqtwcixei" path="res://ui/party/party_texture_rect.gd" id="5_s6yn0"]
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="7_7pu1b"]
@@ -90,12 +89,8 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=2042695058 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" type="Label" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=349425539]
 layout_mode = 2
-size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("7_7pu1b")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 2
 
 [node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer" unique_id=1845518759]
 layout_mode = 2
@@ -166,13 +161,6 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=288736064 instance=ExtResource("4_o2fwo")]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("7_7pu1b")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 2
-
 [node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer" unique_id=1341167354]
 layout_mode = 2
 size_flags_vertical = 3
@@ -242,12 +230,8 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=1153126225 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" type="Label" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=61681301]
 layout_mode = 2
-size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("7_7pu1b")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 2
 
 [node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer" unique_id=1959809466]
 layout_mode = 2
@@ -318,12 +302,8 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=1628744761 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" type="Label" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=1552582094]
 layout_mode = 2
-size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("7_7pu1b")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 2
 
 [node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer" unique_id=319695650]
 layout_mode = 2
@@ -394,12 +374,8 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=1960080859 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" type="Label" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=2051199733]
 layout_mode = 2
-size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("7_7pu1b")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 2
 
 [node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer" unique_id=1134911055]
 layout_mode = 2
@@ -470,12 +446,8 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="PlayerLevelLabel" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=265440608 instance=ExtResource("4_o2fwo")]
+[node name="PlayerLevelLabel" type="Label" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer0/MarginContainer1" unique_id=17591096]
 layout_mode = 2
-size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("7_7pu1b")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 2
 
 [node name="Spacer" type="Control" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer" unique_id=1977943374]
 layout_mode = 2

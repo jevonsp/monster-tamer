@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://cju8x0fsbax2m" path="res://ui/party/name_label.tscn" id="1_25wx7"]
 [ext_resource type="Script" uid="uid://1cyiewtnenc2" path="res://ui/summary/summary.gd" id="1_e1nmq"]
-[ext_resource type="PackedScene" uid="uid://deu2vrcwep874" path="res://battle/player_level_label.tscn" id="2_3muql"]
 [ext_resource type="Script" uid="uid://c7mywkergbubx" path="res://ui/summary/summary_visibility_focus_handler.gd" id="3_7gq2p"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="3_e1nmq"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="4_3k2wb"]
@@ -69,13 +68,8 @@ theme_override_fonts/font = ExtResource("6_gwyma")
 theme_override_font_sizes/font_size = 64
 horizontal_alignment = 1
 
-[node name="PlayerLevelLabel" parent="Content/Main/HBoxContainer0" unique_id=2042695058 instance=ExtResource("2_3muql")]
+[node name="PlayerLevelLabel" type="Label" parent="Content/Main/HBoxContainer0" unique_id=1714409829]
 layout_mode = 2
-size_flags_horizontal = 8
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("6_gwyma")
-theme_override_font_sizes/font_size = 64
-horizontal_alignment = 2
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="Content/Main" unique_id=282849657]
 layout_mode = 2
