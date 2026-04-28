@@ -31,7 +31,7 @@ func _after_impl(_owner) -> Flow:
 
 func _parse_text(owner: BattleChassis) -> void:
 	var choice: Choice = owner.turn_queue[owner.turn_index]
-	match choice.Type:
+	match choice.type:
 		Choice.Type.MOVE:
 			return _parse_move(owner)
 		Choice.Type.ITEM:
