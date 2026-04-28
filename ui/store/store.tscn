@@ -1,38 +1,10 @@
 [gd_scene format=3 uid="uid://dyraldrxu7umn"]
 
 [ext_resource type="Script" uid="uid://b2o65v4wu71tk" path="res://ui/store/store.gd" id="1_ma4uk"]
-[ext_resource type="Script" uid="uid://bgyhnnjr7fx2q" path="res://classes/InventoryPage.gd" id="2_7dac8"]
-[ext_resource type="Script" uid="uid://c3s5668st8huq" path="res://items/Item.gd" id="3_ma41c"]
-[ext_resource type="Resource" uid="uid://c2vdpfxevsbcy" path="res://items/potion/potion.tres" id="4_a3op8"]
-[ext_resource type="Resource" uid="uid://bxx0p3qhlq7yk" path="res://items/base_ball/base_ball.tres" id="5_sep80"]
-[ext_resource type="Resource" uid="uid://dtqxmbxg0e5sk" path="res://items/super_soaker/super_soaker.tres" id="6_q17of"]
-[ext_resource type="Resource" uid="uid://gnyal6ncooei" path="res://items/tm/tm.tres" id="7_rgtmx"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="8_a3op8"]
 [ext_resource type="PackedScene" uid="uid://bj2vxn7tdgrya" path="res://ui/background/background.tscn" id="8_ma41c"]
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="9_sep80"]
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="11_q17of"]
-
-[sub_resource type="Resource" id="Resource_snh7x"]
-script = ExtResource("2_7dac8")
-page = Dictionary[ExtResource("3_ma41c"), int]({
-ExtResource("4_a3op8"): -1,
-ExtResource("5_sep80"): -1
-})
-metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
-
-[sub_resource type="Resource" id="Resource_ffyin"]
-script = ExtResource("2_7dac8")
-page = Dictionary[ExtResource("3_ma41c"), int]({
-ExtResource("6_q17of"): 1
-})
-metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
-
-[sub_resource type="Resource" id="Resource_mbiw1"]
-script = ExtResource("2_7dac8")
-page = Dictionary[ExtResource("3_ma41c"), int]({
-ExtResource("7_rgtmx"): 1
-})
-metadata/_custom_type_script = "uid://bgyhnnjr7fx2q"
 
 [node name="Store" type="Control" unique_id=1010499898]
 z_index = 1
@@ -43,11 +15,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ma4uk")
-inventory = Dictionary[int, ExtResource("2_7dac8")]({
-0: SubResource("Resource_snh7x"),
-1: SubResource("Resource_ffyin"),
-2: SubResource("Resource_mbiw1")
-})
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1663767245]
 clip_contents = false

@@ -10,10 +10,8 @@ func walk_tiles(character: Character3D) -> void:
 	if tile_list.is_empty():
 		return
 	for dir in tile_list:
-		if character._try_start_move(_vec_from_dir(dir)):
-			await character.grid_step_landed
-		else:
-			return
+		character._try_start_move(_vec_from_dir(dir))
+		await character.grid_step_landed
 
 
 func _trigger_impl(owner) -> Flow:

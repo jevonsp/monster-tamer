@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://dsnxexesn8m00"]
+
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_i62g4"]
+
+[resource]
+script = ExtResource("1_i62g4")
+metadata/_custom_type_script = "uid://dyr8euc0vcinb"

@@ -1,9 +1,9 @@
 extends Node
 
-const CLIMBING_SHOES = preload("uid://du7xft6yrfja1")
-const SURF = preload("uid://cc3o42tg3cca0")
-const CUT = preload("uid://bw063g71xyrx1")
-const ROCK_SMASH = preload("uid://bxhxjt62xyrx1")
+const CUT = preload("uid://dct4aev5dipxt")
+const ROCK_SMASH = preload("uid://dsnxexesn8m00")
+const SURF = preload("uid://bretmrdrou0vg")
+const CLIMBING_SHOES = preload("uid://xonkjuu2u8sm")
 
 
 func get_available_travel_methods() -> Array[TravelHandler3D.TravelState]:

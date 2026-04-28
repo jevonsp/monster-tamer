@@ -20,7 +20,6 @@ var _last_blocked: bool = false
 @onready var party: Control = $Party
 @onready var summary: Control = $Summary
 @onready var inventory: Control = $Inventory
-@onready var battle: Control = $Battle
 @onready var storage: Control = $Storage
 @onready var store: Control = $Store
 @onready var evolution_screen: Control = $EvolutionScreen
@@ -39,7 +38,6 @@ func _ready() -> void:
 		party,
 		summary,
 		inventory,
-		battle,
 		storage,
 		store,
 		evolution_screen,
@@ -51,7 +49,6 @@ func _ready() -> void:
 		c.visibility_changed.connect(_on_blocking_ui_visibility_changed)
 	Global.toggle_player.connect(refresh_field_input)
 	_connect_signals()
-	battle.visibility_changed.connect(_on_battle_visibility_changed)
 	evolution_screen.visibility_changed.connect(_on_evolution_visibility_changed)
 	call_deferred("_deferred_refresh_dialogue_presenter")
 	refresh_field_input()
@@ -130,8 +127,6 @@ func _deferred_refresh_dialogue_presenter() -> void:
 func _resolve_dialogue_layout() -> GameTextBox.LayoutMode:
 	if evolution_screen.visible:
 		return GameTextBox.LayoutMode.EVOLUTION
-	if battle.visible and ui_context == Global.AccessFrom.BATTLE:
-		return GameTextBox.LayoutMode.BATTLE
 	return GameTextBox.LayoutMode.FIELD
 
 

@@ -56,10 +56,6 @@ func interact(_player: Player3D) -> void:
 	_after_command_list_run(flow)
 
 
-func _after_command_list_run(_flow: Command.Flow) -> void:
-	pass
-
-
 func change_command_index_to(index: int) -> void:
 	if index > command_lists.size():
 		return
@@ -94,9 +90,11 @@ func on_load_game(saved_data_array: Array[SavedData]) -> void:
 	_update()
 
 
+func _after_command_list_run(_flow: Command.Flow) -> void:
+	pass
+
+
 func _update() -> void:
-	if not is_node_ready():
-		return
 	_masks_player = _is_active
 	visible = _is_active
 	if _blocks_player:

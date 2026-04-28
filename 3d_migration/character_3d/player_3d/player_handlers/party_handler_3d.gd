@@ -102,7 +102,7 @@ func _connect_signals() -> void:
 	Party.capture_monster.connect(add)
 	Party.player_party_requested.connect(send_player_party)
 	Battle.send_monster_death_experience.connect(_grant_party_experience)
-	Ui.request_switch_creation.connect(_on_request_switch_creation)
+	#Ui.request_switch_creation.connect(_on_request_switch_creation)
 	Battle.switch_monster_to_first.connect(_on_switch_monster_to_first)
 	Party.out_of_battle_switch.connect(_on_out_of_battle_switch)
 	Party.storage_deposit_monster.connect(deposit_monster)
@@ -164,12 +164,11 @@ func _grant_party_experience(amount: int) -> void:
 		await monster.gain_exp(share, player.in_battle)
 	Battle.player_done_giving_exp.emit()
 
-
-func _on_request_switch_creation(index: int) -> void:
-	var switch = Switch.new()
-	switch.actor = party[0]
-	switch.target = party[index]
-	Battle.add_switch_to_turn_queue.emit(switch)
+	#func _on_request_switch_creation(index: int) -> void:
+	#var switch = Switch.new()
+	#switch.actor = party[0]
+	#switch.target = party[index]
+	#Battle.add_switch_to_turn_queue.emit(switch)
 
 
 func _on_switch_monster_to_first(monster: Monster) -> void:

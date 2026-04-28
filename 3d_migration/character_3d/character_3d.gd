@@ -13,7 +13,7 @@ const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
 const MOVE_SPEED := 5.0
 const STAIR_SPEED := 2.5
-const HEIGHT_ADJUSTMENT := Vector3(0.5, 2.5, 0.5)
+const HEIGHT_ADJUSTMENT := Vector3(0, 2, 0)
 const SIDE_SCROLLING_HEIGHT_ADJUSTMENT := HEIGHT_ADJUSTMENT + Vector3(0, 0, -0.3)
 
 @export var ray_cast_3d: RayCast3D

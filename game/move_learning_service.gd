@@ -1,5 +1,6 @@
 extends Node
 
+
 func show_move_learned_message(monster: Monster, move: Move) -> void:
 	var ta: Array[String] = ["%s learned %s." % [monster.name, move.name]]
 	Ui.send_text_box.emit(
@@ -16,7 +17,7 @@ func resolve_move_learning(summary: Control, monster: Monster, move: Move) -> vo
 	summary.learning_monster = monster
 	summary.move_learning = move
 
-	var learn_index := monster.get_learn_index()
+	var learn_index = monster.get_learn_index()
 	if learn_index >= 0:
 		monster.learn_move(move, learn_index)
 		await announce_move_learned(monster, move)

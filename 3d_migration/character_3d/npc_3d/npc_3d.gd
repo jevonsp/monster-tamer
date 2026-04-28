@@ -5,7 +5,9 @@ const MAX_CAMERA_BIND_ATTEMPTS := 120
 
 @export var command_lists: Array[CommandList] = []
 @export var command_index: int = 0
+@export var idle_commands: Array[CommandList] = []
 
+var is_active: bool = true
 var _camera_signals_connected := false
 var _bind_attempts := 0
 
@@ -87,14 +89,23 @@ func _grid_direction_toward(world_point: Vector3) -> Vector3i:
 
 
 func _on_player_interact() -> void:
-	PlayerContext3D.toggle_player.emit(false)
-	PlayerContext3D.player.clear_inputs()
-
+	if not is_active:
+		return
 	if command_lists.is_empty():
 		return
 	if command_index >= command_lists.size():
 		return
-	await command_lists[command_index].run(self)
+
+	PlayerContext3D.toggle_player.emit(false)
+	PlayerContext3D.player.clear_inputs()
+
+	var flow: Command.Flow = await command_lists[command_index].run(self)
 
 	PlayerContext3D.player.clear_inputs()
 	PlayerContext3D.toggle_player.emit(true)
+
+	_after_command_list_run(flow)
+
+
+func _after_command_list_run(_flow: Command.Flow) -> void:
+	pass

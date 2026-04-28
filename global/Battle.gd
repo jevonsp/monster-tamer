@@ -6,7 +6,7 @@ signal toggle_in_battle
 signal battle_started
 signal wild_battle_requested(mon_data: MonsterData, level: int)
 signal trainer_battle_requested(trainer: Trainer3D)
-signal add_switch_to_turn_queue(switch: Switch)
+#signal add_switch_to_turn_queue(switch: Switch)
 signal switch_monster_to_first(monster: Monster)
 signal battle_switch_complete
 signal add_item_to_turn_queue(item: Item)

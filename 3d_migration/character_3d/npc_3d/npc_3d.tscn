@@ -2,12 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://c2xbnw25xuobt" path="res://3d_migration/character_3d/character_3d.tscn" id="1_ufc6u"]
 [ext_resource type="Script" uid="uid://s7bl7njltcce" path="res://3d_migration/character_3d/npc_3d/npc_3d.gd" id="2_npc3d"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="3_0uh7d"]
 
 [node name="NPC3D" unique_id=751460403 instance=ExtResource("1_ufc6u")]
-collision_layer = 4
 collision_mask = 0
 script = ExtResource("2_npc3d")
-facing_grid = Vector3i(0, 0, 1)
+command_lists = Array[ExtResource("3_0uh7d")]([])
+command_index = 0
+idle_commands = Array[ExtResource("3_0uh7d")]([])
 
 [node name="RayCast3D" parent="." index="5" unique_id=1955437500]
-collision_mask = 2
+collision_mask = 7

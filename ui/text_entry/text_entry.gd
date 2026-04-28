@@ -175,20 +175,20 @@ func _toggle_visible() -> void:
 		call_deferred("_ensure_text_entry_focus")
 
 
-func _on_button_clicked(from_button: TextEntryButton, chr: String, is_special: bool, act: TextEntryButton.Action) -> void:
+func _on_button_clicked(from_button: TextEntryButton, chr: String, is_special: bool, act: TextEntryButton.ButtonType) -> void:
 	if not is_special:
 		_add_character(chr)
 		if is_instance_valid(from_button) and not from_button.is_visible_in_tree():
 			_refocus_parallel_letter_key(from_button)
 	else:
 		match act:
-			TextEntryButton.Action.DELETE:
+			TextEntryButton.ButtonType.DELETE:
 				_remove_character()
-			TextEntryButton.Action.SHIFT:
+			TextEntryButton.ButtonType.SHIFT:
 				_shift_characters()
-			TextEntryButton.Action.CANCEL:
+			TextEntryButton.ButtonType.CANCEL:
 				_cancel()
-			TextEntryButton.Action.ENTER:
+			TextEntryButton.ButtonType.ENTER:
 				_enter()
 			_:
 				pass

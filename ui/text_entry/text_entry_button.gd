@@ -2,17 +2,17 @@
 class_name TextEntryButton
 extends Button
 
-signal button_clicked(from_button: TextEntryButton, chr: String, is_special: bool, act: Action)
+signal button_clicked(from_button: TextEntryButton, chr: String, is_special: bool, act: ButtonType)
 signal focus_entered_info(button: Button, grid_container: GridContainer)
 
-enum Action { NONE, DELETE, SHIFT, CANCEL, ENTER }
+enum ButtonType { NONE, DELETE, SHIFT, CANCEL, ENTER }
 
 @export var character: String:
 	set(value):
 		character = value
 		_set_label()
 @export var is_special: bool = false
-@export var action: Action = Action.NONE
+@export var action: ButtonType = ButtonType.NONE
 
 @onready var label: Label = $Label
 
@@ -37,7 +37,7 @@ func _set_label() -> void:
 
 func _on_pressed() -> void:
 	button_clicked.emit(self, character, is_special, action)
-	if action != Action.SHIFT and is_visible_in_tree():
+	if action != ButtonType.SHIFT and is_visible_in_tree():
 		grab_focus()
 
 

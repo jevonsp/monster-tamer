@@ -1,6 +1,6 @@
 extends Node
 
-const BASE_BALL = preload("uid://bxx0p3qhlq7yk")
+const BASE_BALL = preload("uid://dpiumhuub3udr")
 
 
 func get_chance_for_route() -> float:

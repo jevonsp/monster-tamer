@@ -6,13 +6,13 @@ signal evolution_result(result: Result)
 
 enum Result { COMPLETE, CANCEL }
 
-const EVO_TABLE: EvolutionTable = preload("uid://cbntqm4gc2s7l")
-
+#const EVO_TABLE: EvolutionTable = preload("uid://cbntqm4gc2s7l")
 var evolution_table: EvolutionTable = null
 
 
 func _ready() -> void:
-	evolution_table = EVO_TABLE
+	pass
+	#evolution_table = EVO_TABLE
 
 
 func check_monster_evolve(monster: Monster, trigger: Entry.Trigger, item: Item = null) -> Entry:
