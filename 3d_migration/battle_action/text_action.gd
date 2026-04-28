@@ -27,3 +27,32 @@ func _trigger_impl(owner: BattleChassis) -> Flow:
 
 func _after_impl(_owner) -> Flow:
 	return Flow.NEXT
+
+
+func _parse_text(owner: BattleChassis) -> void:
+	var choice: Choice = owner.turn_queue[owner.turn_index]
+	match choice.Type:
+		Choice.Type.MOVE:
+			return _parse_move(owner)
+		Choice.Type.ITEM:
+			return _parse_item()
+		Choice.Type.SWITCH:
+			return _parse_switch()
+		Choice.Type.FLEE:
+			return _parse_flee()
+
+
+func _parse_move(owner: BattleChassis) -> void:
+	pass
+
+
+func _parse_item() -> void:
+	pass
+
+
+func _parse_switch() -> void:
+	pass
+
+
+func _parse_flee() -> void:
+	pass
