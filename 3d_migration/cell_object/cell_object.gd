@@ -38,19 +38,26 @@ func _ready() -> void:
 
 
 func interact(_player: Player3D) -> void:
-	PlayerContext3D.toggle_player.emit(false)
-	PlayerContext3D.player.clear_inputs()
-
 	if not is_active:
 		return
 	if command_lists.is_empty():
 		return
 	if command_index >= command_lists.size():
 		return
-	await command_lists[command_index].run(self)
+
+	PlayerContext3D.toggle_player.emit(false)
+	PlayerContext3D.player.clear_inputs()
+
+	var flow: Command.Flow = await command_lists[command_index].run(self)
 
 	PlayerContext3D.player.clear_inputs()
 	PlayerContext3D.toggle_player.emit(true)
+
+	_after_command_list_run(flow)
+
+
+func _after_command_list_run(_flow: Command.Flow) -> void:
+	pass
 
 
 func change_command_index_to(index: int) -> void:
