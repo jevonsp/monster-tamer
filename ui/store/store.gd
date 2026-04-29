@@ -19,7 +19,6 @@ var last_focused_item_button: Button = null
 var last_focused_option_button: Button = null
 var last_focused_quantity_button: Button = null
 
-@onready var interfaces: CanvasLayer = $".."
 @onready var v_box_container: VBoxContainer = $ScrollContainer/MarginContainer/VBoxContainer
 @onready var options_box: VBoxContainer = $Options
 @onready var category_panel: Panel = $Panel
@@ -34,6 +33,11 @@ func _ready() -> void:
 	_bind_buttons()
 	_display_current()
 	categories = inventory.size()
+
+
+func _exit_tree() -> void:
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -297,6 +301,8 @@ func _drop_category_focus() -> void:
 func _open_store_ui() -> void:
 	visible = true
 	processing = true
+	if UiFlow != null:
+		UiFlow.register_ui_layer(self, true)
 	Ui.switch_ui_context.emit(Global.AccessFrom.STORE)
 	_set_focus_state(Focused.OPTION)
 
@@ -304,8 +310,8 @@ func _open_store_ui() -> void:
 func _close_store_ui() -> void:
 	visible = false
 	processing = false
-	if interfaces.ui_context == Global.AccessFrom.STORE:
-		Ui.switch_ui_context.emit(Global.AccessFrom.NONE)
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 
 
 func _show_options() -> void:

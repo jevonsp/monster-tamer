@@ -33,10 +33,11 @@ func _process(delta: float) -> void:
 	_update_held_keys(delta)
 	if camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting():
 		anim_helper.refresh_facing_blends(facing_grid, self)
-	if Input.is_action_pressed("right_stick_right"):
-		camera_3d._rotate_camera(1)
-	elif Input.is_action_pressed("right_stick_left"):
-		camera_3d._rotate_camera(-1)
+	if travel_handler.is_side_scrolling:
+		if Input.is_action_pressed("right_stick_right"):
+			camera_3d._rotate_camera(1)
+		elif Input.is_action_pressed("right_stick_left"):
+			camera_3d._rotate_camera(-1)
 
 
 func _physics_process(delta: float) -> void:
@@ -401,10 +402,9 @@ func _toggle_player(value: bool) -> void:
 
 
 func _open_menu() -> void:
+	# WARNING TODO Fix this
 	party_handler.send_player_party()
 	inventory_handler.send_player_inventory()
 	if _move_progress != 0.0:
 		await PlayerContext3D.walk_segmented_completed
 	Ui.request_open_menu.emit()
-
-

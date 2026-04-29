@@ -16,6 +16,7 @@ var text_index: int = -1
 var _phase: Phase = Phase.LINES
 var _layout_mode: LayoutMode = LayoutMode.FIELD
 var _hide_after_close: bool = true
+var _is_registered_with_ui_flow: bool = false
 
 @onready var text_box: Button = $"."
 @onready var main_label: Label = $MarginContainer/MainLabel
@@ -27,6 +28,10 @@ var _hide_after_close: bool = true
 
 func _enter_tree() -> void:
 	add_to_group("game_text_box")
+
+
+func _exit_tree() -> void:
+	_sync_world_input_block(false)
 
 
 func _ready() -> void:
@@ -134,7 +139,7 @@ func clear_text() -> void:
 	if has_focus():
 		release_focus()
 	visible = false
-	_notify_interfaces_field_input()
+	_sync_world_input_block(false)
 
 
 func _toggle_visible() -> void:
@@ -171,7 +176,7 @@ func _load_text(
 	is_auto_complete = auto_complete
 	if not is_auto_complete:
 		processing = true
-	_notify_interfaces_field_input()
+	_sync_world_input_block(processing)
 	text_index = 0
 	if text_index <= -1:
 		return
@@ -240,7 +245,7 @@ func _clean_up() -> void:
 	is_question = false
 	is_auto_complete = false
 	_phase = Phase.LINES
-	_notify_interfaces_field_input()
+	_sync_world_input_block(false)
 
 
 func _clear_choice_ui() -> void:
@@ -302,7 +307,16 @@ func _finish_choice_presentation() -> void:
 	Ui.text_box_complete.emit()
 
 
-func _notify_interfaces_field_input() -> void:
-	var interfaces = get_tree().get_first_node_in_group("interfaces")
-	if interfaces and interfaces.has_method("refresh_field_input"):
-		interfaces.refresh_field_input()
+func _sync_world_input_block(should_block: bool) -> void:
+	if UiFlow == null:
+		return
+	if should_block:
+		if _is_registered_with_ui_flow:
+			return
+		UiFlow.register_ui_layer(self, true)
+		_is_registered_with_ui_flow = true
+		return
+	if not _is_registered_with_ui_flow:
+		return
+	UiFlow.unregister_ui_layer(self)
+	_is_registered_with_ui_flow = false

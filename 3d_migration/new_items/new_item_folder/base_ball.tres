@@ -4,4 +4,6 @@
 
 [resource]
 script = ExtResource("1_g2x88")
+name = "Ball"
+item_type = 3
 metadata/_custom_type_script = "uid://dn6y7ffc03cod"

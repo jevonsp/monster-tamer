@@ -18,6 +18,11 @@ func _ready() -> void:
 	_connect_signals()
 
 
+func _exit_tree() -> void:
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
+
+
 func _input(event: InputEvent) -> void:
 	if not processing:
 		return
@@ -66,6 +71,8 @@ func _finish_evolution(n: String) -> void:
 	await Ui.text_box_complete
 
 	visible = false
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 	EvolutionHandler.finish_evolve()
 
 	clean_up()
@@ -89,6 +96,8 @@ func _cancel_evolution(n: String) -> void:
 	await Ui.text_box_complete
 
 	visible = false
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 	EvolutionHandler.finish_evolve()
 
 	clean_up()
@@ -97,6 +106,11 @@ func _cancel_evolution(n: String) -> void:
 func _toggle_visible() -> void:
 	visible = not visible
 	processing = visible
+	if UiFlow != null:
+		if visible:
+			UiFlow.register_ui_layer(self, true)
+		else:
+			UiFlow.unregister_ui_layer(self)
 
 
 func _set_up_screen(monster: Monster, entry: Entry) -> void:

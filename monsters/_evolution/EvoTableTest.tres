@@ -3,24 +3,7 @@
 [ext_resource type="Script" uid="uid://chb0fywkmkasb" path="res://monsters/_evolution/EvolutionTable.gd" id="1_3trew"]
 [ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="1_gkrxn"]
 [ext_resource type="Script" uid="uid://rtalei6rs3as" path="res://monsters/_evolution/EntryList.gd" id="2_pcbgp"]
-[ext_resource type="Resource" uid="uid://cdor45ba2o0aa" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_md.tres" id="3_yi8ul"]
-[ext_resource type="Script" uid="uid://jbbbybygit5i" path="res://monsters/_evolution/Entry.gd" id="4_xmyvy"]
-[ext_resource type="Resource" uid="uid://b0531qwrotpbx" path="res://monsters/shrimp/akimbo_shrimp/akimbo_shrimp_md.tres" id="5_epm4x"]
-
-[sub_resource type="Resource" id="Resource_yi8ul"]
-script = ExtResource("4_xmyvy")
-finish_monster = ExtResource("5_epm4x")
-required_level = 3
-metadata/_custom_type_script = "uid://jbbbybygit5i"
-
-[sub_resource type="Resource" id="Resource_xmyvy"]
-script = ExtResource("2_pcbgp")
-list = Array[ExtResource("4_xmyvy")]([SubResource("Resource_yi8ul")])
-metadata/_custom_type_script = "uid://rtalei6rs3as"
 
 [resource]
 script = ExtResource("1_3trew")
-table = Dictionary[ExtResource("1_gkrxn"), ExtResource("2_pcbgp")]({
-ExtResource("3_yi8ul"): SubResource("Resource_xmyvy")
-})
 metadata/_custom_type_script = "uid://chb0fywkmkasb"

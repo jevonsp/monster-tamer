@@ -93,6 +93,6 @@ func _handle_battle_press(button: Button, num: int) -> void:
 			Ui.send_text_box.emit(null, ["That monster is not able to fight!"], true, false, false)
 			await Ui.text_box_complete
 			return
-		Battle.send_selected_force_switch.emit(button.actor)
+		Battle.submit_forced_switch(button.actor)
 		party.is_forced_switch = false
 		visibility_focus_handler.toggle_visible()

@@ -1,0 +1,20 @@
+---
+description: No redundant or "AI slop" comments in code
+alwaysApply: true
+---
+
+# Comments
+
+- Do **not** add comments that only restate the next line, name another file/scene path, or explain what changed ("same as X", "matches Y in .tscn"). The diff and names already document that.
+- Skip comments whose only job would be to narrate the edit for a human reader.
+- Keep comments for non-obvious **why** or invariants the code cannot express; otherwise omit them.
+---
+description: No redundant or “AI slop” comments in code
+alwaysApply: true
+---
+
+# Comments
+
+- Do **not** add comments that only restate the next line, name another file/scene path, or explain what changed (“same as X”, “matches Y in .tscn”). The diff and names already document that.
+- Skip comments whose only job would be to narrate the edit for a human reader.
+- Keep comments for non-obvious **why** or invariants the code cannot express; otherwise omit them.

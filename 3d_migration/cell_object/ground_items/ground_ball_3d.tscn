@@ -2,12 +2,25 @@
 
 [ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_ixsw5"]
 [ext_resource type="Script" uid="uid://yjdugqi5q8a5" path="res://3d_migration/cell_object/ground_items/ground_ball_3d.gd" id="2_4nbf0"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="3_xp46i"]
 [ext_resource type="Texture2D" uid="uid://ddedh5jwmoi1a" path="res://3d_migration/cell_object/ground_items/ball_single.png" id="3_xt7ut"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="4_v2344"]
+[ext_resource type="Script" uid="uid://mg1f86e6bqka" path="res://3d_migration/world_command/give_item_command.gd" id="5_uqqvl"]
+
+[sub_resource type="Resource" id="Resource_dc1pv"]
+script = ExtResource("5_uqqvl")
+metadata/_custom_type_script = "uid://mg1f86e6bqka"
+
+[sub_resource type="Resource" id="Resource_qxvoy"]
+script = ExtResource("3_xp46i")
+commands = Array[ExtResource("4_v2344")]([SubResource("Resource_dc1pv")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 
 [node name="GroundBall3D" unique_id=1454602347 node_paths=PackedStringArray("linked_balls") instance=ExtResource("1_ixsw5")]
 collision_layer = 5
 script = ExtResource("2_4nbf0")
 linked_balls = []
+command_lists = Array[ExtResource("3_xp46i")]([SubResource("Resource_qxvoy")])
 blocks_player = true
 
 [node name="Sprite3D" type="Sprite3D" parent="." index="1" unique_id=1438696752]

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cyr7i8uoohjr7"]
+
+[ext_resource type="Script" uid="uid://dn6y7ffc03cod" path="res://3d_migration/new_items/item.gd" id="1_erws0"]
+
+[resource]
+script = ExtResource("1_erws0")
+name = "Hold Item"
+can_be_held = true
+metadata/_custom_type_script = "uid://dn6y7ffc03cod"

@@ -9,8 +9,8 @@ var party_ref: Array[Monster] = []
 var last_selected_monster: Button = null
 var last_selected_option: Button = null
 var moving_source_index: int = -1
+var _is_registered_with_ui_flow: bool = false
 
-@onready var interfaces: CanvasLayer = $".."
 @onready var options_box: VBoxContainer = $MarginContainer/Control/Options
 @onready var panels: Dictionary = {
 	panel_0 = $MarginContainer/Content/GridContainer/Panel0,
@@ -39,6 +39,10 @@ func _ready() -> void:
 	if visible:
 		processing = true
 		visibility_focus_handler.focus_default_monster()
+
+
+func _exit_tree() -> void:
+	_sync_world_input_block(false)
 
 
 func start_moving() -> void:
@@ -173,3 +177,18 @@ func _on_request_forced_switch() -> void:
 
 func _set_item_use_processing(value: bool, _reason: String) -> void:
 	processing = value and visible
+
+
+func _sync_world_input_block(should_block: bool) -> void:
+	if UiFlow == null:
+		return
+	if should_block:
+		if _is_registered_with_ui_flow:
+			return
+		UiFlow.register_ui_layer(self, true)
+		_is_registered_with_ui_flow = true
+		return
+	if not _is_registered_with_ui_flow:
+		return
+	UiFlow.unregister_ui_layer(self)
+	_is_registered_with_ui_flow = false

@@ -23,7 +23,11 @@ func push(direction: Vector3i) -> bool:
 	var player := PlayerContext3D.player
 	var from_cell: Vector3i = player.get_ground_cell_at(global_position)
 	var to_cell := from_cell + direction
-	global_position = player.cell_to_world(to_cell)
+
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "global_position", player.cell_to_world(to_cell), 0.5)
+	await tween.finished
+
 	return true
 
 

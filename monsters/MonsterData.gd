@@ -32,7 +32,7 @@ func set_up(level: int) -> Monster:
 	monster.set_monster_moves()
 	create_learn_set()
 	monster.set_stats()
-	monster.create_stat_multis()
+	#monster.create_stat_multis()
 	monster.current_hitpoints = monster.max_hitpoints
 
 	return monster

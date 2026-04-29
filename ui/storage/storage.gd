@@ -34,6 +34,11 @@ func _ready() -> void:
 		visibility_focus_handler.focus_default_monster()
 
 
+func _exit_tree() -> void:
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
+
+
 func guard_clause_deposit() -> bool:
 	var player = get_tree().get_first_node_in_group("player")
 	if player and not player.party_handler.can_deposit_from_party():

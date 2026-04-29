@@ -26,6 +26,11 @@ func _ready() -> void:
 	call_deferred("_sync_cursor_input_enabled")
 
 
+func _exit_tree() -> void:
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
+
+
 func _input(event: InputEvent) -> void:
 	if not processing:
 		return
@@ -49,6 +54,11 @@ func _connect_signals() -> void:
 func _toggle_visible() -> void:
 	visible = not visible
 	processing = visible
+	if UiFlow != null:
+		if visible:
+			UiFlow.register_ui_layer(self, true)
+		else:
+			UiFlow.unregister_ui_layer(self)
 	if visible:
 		for map_rect in map_rect_list:
 			if map_rect.bobble_tween:

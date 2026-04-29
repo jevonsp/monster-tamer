@@ -23,6 +23,7 @@ func set_visible(value: bool, monster: Monster = null) -> void:
 
 	summary.visible = value
 	summary.processing = value
+	_sync_world_input_block(value)
 
 	if monster != null:
 		summary.show_monster(monster)
@@ -67,3 +68,12 @@ func _reset_summary_state() -> void:
 func _set_move_panel_focus_style(style: StyleBoxTexture) -> void:
 	for button in summary.move_panels:
 		button.add_theme_stylebox_override("focus", style)
+
+
+func _sync_world_input_block(should_block: bool) -> void:
+	if UiFlow == null:
+		return
+	if should_block:
+		UiFlow.register_ui_layer(summary, true)
+		return
+	UiFlow.unregister_ui_layer(summary)

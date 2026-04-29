@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://dr2ta8seew5k8"]
+
+[ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_8kgfe"]
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_lj5wn"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="2_7oawg"]
+[ext_resource type="Script" uid="uid://bni3l11hqu6mq" path="res://3d_migration/battle_action/actions/damage_action.gd" id="3_iv80e"]
+[ext_resource type="Script" uid="uid://dba2nfq8c7sm3" path="res://3d_migration/battle_action/actions/hp_tween_action.gd" id="4_mfhh7"]
+[ext_resource type="Script" uid="uid://bsp7hlscc4yes" path="res://3d_migration/battle_action/actions/post_damage_text_action.gd" id="5_7oawg"]
+[ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="5_peubn"]
+
+[sub_resource type="Resource" id="Resource_47spn"]
+script = ExtResource("2_7oawg")
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_bfix5"]
+script = ExtResource("3_iv80e")
+metadata/_custom_type_script = "uid://bni3l11hqu6mq"
+
+[sub_resource type="Resource" id="Resource_rbab6"]
+script = ExtResource("4_mfhh7")
+metadata/_custom_type_script = "uid://dba2nfq8c7sm3"
+
+[sub_resource type="Resource" id="Resource_iv80e"]
+script = ExtResource("5_7oawg")
+metadata/_custom_type_script = "uid://bsp7hlscc4yes"
+
+[sub_resource type="Resource" id="Resource_6xlux"]
+script = ExtResource("5_peubn")
+actions = Array[ExtResource("1_8kgfe")]([SubResource("Resource_47spn"), SubResource("Resource_bfix5"), SubResource("Resource_rbab6"), SubResource("Resource_iv80e")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[resource]
+script = ExtResource("1_lj5wn")
+name = "Basic Hit"
+actions = SubResource("Resource_6xlux")
+description = "Description"
+metadata/_custom_type_script = "uid://dyr8euc0vcinb"

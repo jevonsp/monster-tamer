@@ -2,4 +2,4 @@
 .godot/
 /android/
 docs/vertical-slice-plan.md
-.cursor/rules/no-noise-comments.mdc
+.cursor/debug-*.log

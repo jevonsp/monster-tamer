@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://yx0hpdrx2je4" path="res://ui/party/party.tscn" id="12_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://q21m3s4lx1nn" path="res://ui/info_hud/info_hud.tscn" id="12_t1yuj"]
 [ext_resource type="PackedScene" uid="uid://c7ish7puudh7h" path="res://ui/text_entry/text_entry.tscn" id="13_vqjab"]
+[ext_resource type="PackedScene" uid="uid://c0gf3olxnha8c" path="res://3d_migration/battle_3d/battle_scene_3d.tscn" id="15_7eg6f"]
 [ext_resource type="PackedScene" uid="uid://c7pd38l5i20xf" path="res://mini_map/world_map.tscn" id="15_qs5eo"]
 [ext_resource type="PackedScene" uid="uid://deo1cymxo6ciu" path="res://3d_migration/grid_map/3d_world.tscn" id="16_n3o0a"]
 [ext_resource type="PackedScene" uid="uid://cwpa4g2nam2ht" path="res://3d_migration/character_3d/player_3d/player_3d.tscn" id="18_4hmqs"]
@@ -22,14 +23,22 @@
 [ext_resource type="PackedScene" uid="uid://uq2lp2w1qfh5" path="res://3d_migration/cell_object/teleporter_objects/teleporter_point_3d.tscn" id="23_re7it"]
 [ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="25_d00gp"]
 [ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="26_d8vpj"]
+[ext_resource type="PackedScene" uid="uid://cc8ig8jfcoveu" path="res://3d_migration/cell_object/ground_items/ground_ball_3d.tscn" id="26_h3axc"]
+[ext_resource type="Script" uid="uid://dpea41etsmgcs" path="res://3d_migration/world_command/give_monster_command.gd" id="27_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://8fngqhn3p02d" path="res://3d_migration/cell_object/basic_cell_objects/3d_sign.tscn" id="27_o8j3b"]
+[ext_resource type="Resource" uid="uid://cdor45ba2o0aa" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_md.tres" id="27_yjufm"]
 [ext_resource type="PackedScene" uid="uid://bhp8ve32n87ui" path="res://3d_migration/cell_object/push_objects/pushable_cell_object.tscn" id="28_ue0mw"]
 [ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/world_command/say_command.gd" id="28_wpkmi"]
+[ext_resource type="Resource" uid="uid://cvmykrss1u38p" path="res://monsters/pyro_badger/pyro_badger_md.tres" id="29_yjufm"]
+[ext_resource type="Resource" uid="uid://dnpr3t8vm34dc" path="res://monsters/fox_mcleaf/fox_mcleaf_md.tres" id="30_phifs"]
+[ext_resource type="Resource" uid="uid://cyr7i8uoohjr7" path="res://3d_migration/new_items/new_item_folder/hold_item_test.tres" id="31_t1yuj"]
 [ext_resource type="PackedScene" uid="uid://dmr8x8bswtmtu" path="res://3d_migration/cell_object/progress_blocker_objects/3d_cuttable_small_tree.tscn" id="31_wpkmi"]
+[ext_resource type="Script" uid="uid://mg1f86e6bqka" path="res://3d_migration/world_command/give_item_command.gd" id="32_4pcu1"]
 [ext_resource type="PackedScene" uid="uid://cr1y1o7vakhfl" path="res://3d_migration/wild_zone_3d/wild_zone_3d.tscn" id="32_o0l78"]
 [ext_resource type="Script" uid="uid://boe0spd64vvf8" path="res://3d_migration/world_command/walk_tiles_command.gd" id="33_wpvt5"]
 [ext_resource type="Script" uid="uid://prq4ybyignd8" path="res://3d_migration/world_command/look_command.gd" id="34_amlcg"]
 [ext_resource type="PackedScene" uid="uid://c48jijgejmcel" path="res://3d_migration/cell_object/progress_blocker_objects/3d_smashable_small_rock.tscn" id="36_h3axc"]
+[ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://3d_migration/wild_zone_3d/EncounterEntry.gd" id="39_4pcu1"]
 [ext_resource type="PackedScene" uid="uid://bc4vbgoi6lvwq" path="res://3d_migration/cell_object/perspective_changer_3d/perspective_changer_3d.tscn" id="39_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://bjjlgwvqsjuit" path="res://3d_migration/character_3d/npc_3d/npc_3d.tscn" id="40_cgvj2"]
 [ext_resource type="PackedScene" uid="uid://1abjsn18125c" path="res://3d_migration/wild_zone_3d/grass_area_3d.tscn" id="40_phifs"]
@@ -66,6 +75,73 @@ metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
 script = ExtResource("25_d00gp")
 commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_wpvt5")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_cgvj2"]
+script = ExtResource("27_d7rgo")
+monster_data = ExtResource("27_yjufm")
+is_question = true
+metadata/_custom_type_script = "uid://dpea41etsmgcs"
+
+[sub_resource type="Resource" id="Resource_t1yuj"]
+script = ExtResource("25_d00gp")
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_cgvj2")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_4pcu1"]
+script = ExtResource("27_d7rgo")
+monster_data = ExtResource("29_yjufm")
+is_question = true
+metadata/_custom_type_script = "uid://dpea41etsmgcs"
+
+[sub_resource type="Resource" id="Resource_7eg6f"]
+script = ExtResource("25_d00gp")
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_4pcu1")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_rue0h"]
+script = ExtResource("27_d7rgo")
+monster_data = ExtResource("30_phifs")
+is_question = true
+metadata/_custom_type_script = "uid://dpea41etsmgcs"
+
+[sub_resource type="Resource" id="Resource_c5cfd"]
+script = ExtResource("25_d00gp")
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_rue0h")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_v40no"]
+script = ExtResource("32_4pcu1")
+item = ExtResource("31_t1yuj")
+metadata/_custom_type_script = "uid://mg1f86e6bqka"
+
+[sub_resource type="Resource" id="Resource_omb8t"]
+script = ExtResource("25_d00gp")
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_v40no")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="Resource" id="Resource_k5bb4"]
+script = ExtResource("39_4pcu1")
+monster = ExtResource("29_yjufm")
+chance = 0.33
+level_low = 1
+level_high = 2
+metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
+
+[sub_resource type="Resource" id="Resource_028el"]
+script = ExtResource("39_4pcu1")
+monster = ExtResource("30_phifs")
+chance = 0.33
+level_low = 1
+level_high = 2
+metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
+
+[sub_resource type="Resource" id="Resource_yyc07"]
+script = ExtResource("39_4pcu1")
+monster = ExtResource("27_yjufm")
+chance = 0.33
+level_low = 1
+level_high = 2
+metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
 
 [sub_resource type="Resource" id="Resource_ue0mw"]
 script = ExtResource("28_wpkmi")
@@ -107,8 +183,9 @@ script = ExtResource("2_piupu")
 [node name="Menu" parent="Interfaces" unique_id=1738143517 instance=ExtResource("11_bsumw")]
 visible = false
 
-[node name="OptionsPanel" parent="Interfaces" unique_id=1091762526 instance=ExtResource("43_opts")]
+[node name="OptionsPanel" parent="Interfaces/Menu" unique_id=1091762526 instance=ExtResource("43_opts")]
 visible = false
+layout_mode = 1
 offset_left = 432.0
 offset_top = 16.0
 offset_right = -16.0
@@ -146,6 +223,8 @@ visible = false
 
 [node name="WorldMap" parent="Interfaces" unique_id=207139352 instance=ExtResource("15_qs5eo")]
 visible = false
+
+[node name="BattleScene3D" parent="Interfaces" unique_id=1959478633 instance=ExtResource("15_7eg6f")]
 
 [node name="Trackers" type="Node" parent="." unique_id=1613058454]
 
@@ -232,6 +311,25 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_amlcg")])
 
 [node name="Items" type="Node3D" parent="StarterTown/Objects" unique_id=1243736008]
 
+[node name="Monster0" parent="StarterTown/Objects/Items" unique_id=1571750752 node_paths=PackedStringArray("linked_balls") instance=ExtResource("26_h3axc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 2, 66)
+linked_balls = [NodePath("../Monster1"), NodePath("../Monster2")]
+command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_t1yuj")])
+
+[node name="Monster1" parent="StarterTown/Objects/Items" unique_id=832324647 node_paths=PackedStringArray("linked_balls") instance=ExtResource("26_h3axc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 66)
+linked_balls = [NodePath("../Monster0"), NodePath("../Monster2")]
+command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_7eg6f")])
+
+[node name="Monster2" parent="StarterTown/Objects/Items" unique_id=1203249655 node_paths=PackedStringArray("linked_balls") instance=ExtResource("26_h3axc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 2, 66)
+linked_balls = [NodePath("../Monster0"), NodePath("../Monster1")]
+command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_c5cfd")])
+
+[node name="GroundBall3D" parent="StarterTown/Objects/Items" unique_id=694593334 instance=ExtResource("26_h3axc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 2, 67)
+command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_omb8t")])
+
 [node name="DestroyableObjects" type="Node3D" parent="StarterTown/Objects" unique_id=20002186]
 
 [node name="CuttableSmallTree" parent="StarterTown/Objects/DestroyableObjects" unique_id=362134638 instance=ExtResource("31_wpkmi")]
@@ -242,7 +340,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 1)
 
 [node name="PushableCellObject" parent="StarterTown/Objects" unique_id=961867267 instance=ExtResource("28_ue0mw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 0)
-blocks_player = true
 
 [node name="Zones" type="Node3D" parent="StarterTown" unique_id=379680952]
 
@@ -266,6 +363,8 @@ masks_player = false
 
 [node name="WildZone3D" parent="StarterTown/Zones" unique_id=1288161633 instance=ExtResource("32_o0l78")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 3)
+encounter_rate = 1.0
+encounter_table = Array[ExtResource("39_4pcu1")]([SubResource("Resource_k5bb4"), SubResource("Resource_028el"), SubResource("Resource_yyc07")])
 
 [node name="GrassArea3D0" parent="StarterTown/Zones/WildZone3D" unique_id=21345236 instance=ExtResource("40_phifs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
@@ -283,7 +382,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -1)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_h3axc")])
 
 [node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("18_4hmqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.9999999, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 1.9999999, 67)
 collision_mask = 13
 
 [editable path="3DWorld"]

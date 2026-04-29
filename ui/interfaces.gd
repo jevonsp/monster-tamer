@@ -11,42 +11,15 @@ var ui_context: Global.AccessFrom = Global.AccessFrom.NONE
 var dialogue_canvas: CanvasLayer
 var game_text_box: GameTextBox
 var field_suppress_depth: int = 0
-var interfaces_dictionary: Dictionary = { }
-var _blocking_ui: Array[Control] = []
 var _last_blocked: bool = false
 
-@onready var menu: Control = $Menu
-@onready var options_panel: Control = $OptionsPanel
-@onready var party: Control = $Party
-@onready var summary: Control = $Summary
-@onready var inventory: Control = $Inventory
-@onready var storage: Control = $Storage
-@onready var store: Control = $Store
 @onready var evolution_screen: Control = $EvolutionScreen
-@onready var text_entry: Control = $TextEntry
-@onready var world_map: Map = $WorldMap
-@onready var player_3d: Player3D = $"../Player3D"
 
 
 func _ready() -> void:
 	_ensure_dialogue_nodes()
 	game_text_box.bind_ui_signals()
 	add_to_group("interfaces")
-	_blocking_ui = [
-		menu,
-		options_panel,
-		party,
-		summary,
-		inventory,
-		storage,
-		store,
-		evolution_screen,
-		game_text_box,
-		text_entry,
-		world_map,
-	]
-	for c in _blocking_ui:
-		c.visibility_changed.connect(_on_blocking_ui_visibility_changed)
 	Global.toggle_player.connect(refresh_field_input)
 	_connect_signals()
 	evolution_screen.visibility_changed.connect(_on_evolution_visibility_changed)
@@ -78,24 +51,15 @@ func end_field_suppress() -> void:
 
 func refresh_field_input() -> void:
 	var blocked := field_suppress_depth > 0
-	var game_text_box_processing := game_text_box.processing if game_text_box else false
-	if not blocked:
-		for c in _blocking_ui:
-			var is_visible_blocker := c.visible
-			if c == game_text_box:
-				is_visible_blocker = c.visible and game_text_box_processing
-			if is_visible_blocker:
-				blocked = true
-				break
-	interfaces_dictionary.clear()
-	for c in _blocking_ui:
-		interfaces_dictionary[c] = c.visible
-	var allow_player_input := not blocked and not player_3d.command_active
-	interfaces_dictionary[player_3d] = allow_player_input
-	player_3d.processing = allow_player_input
-	if _last_blocked and not blocked:
-		player_3d.clear_inputs()
-	_last_blocked = blocked
+	if not blocked and UiFlow != null and UiFlow.is_world_input_blocked():
+		blocked = true
+	var player_3d = PlayerContext3D.player
+	if player_3d:
+		var allow_player_input: bool = not blocked and not player_3d.command_active
+		player_3d.processing = allow_player_input
+		if _last_blocked and not blocked:
+			player_3d.clear_inputs()
+		_last_blocked = blocked
 
 
 func _ensure_dialogue_nodes() -> void:
@@ -139,14 +103,16 @@ func _on_evolution_visibility_changed() -> void:
 	refresh_dialogue_presenter()
 
 
-func _on_blocking_ui_visibility_changed() -> void:
-	refresh_field_input()
-
-
 func _connect_signals() -> void:
 	Ui.switch_ui_context.connect(_on_switch_ui_context)
+	if UiFlow != null and not UiFlow.world_input_block_state_changed.is_connected(_on_world_input_block_state_changed):
+		UiFlow.world_input_block_state_changed.connect(_on_world_input_block_state_changed)
 
 
 func _on_switch_ui_context(new_context: Global.AccessFrom) -> void:
 	ui_context = new_context
 	refresh_dialogue_presenter()
+
+
+func _on_world_input_block_state_changed(_is_blocked: bool) -> void:
+	refresh_field_input()

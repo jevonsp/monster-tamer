@@ -121,3 +121,10 @@ func set_stats() -> void:
 
 func set_pp(move: Move) -> void:
 	move_pp[move] = move.base_pp
+
+
+func hold_item(item: Item) -> bool:
+	if held_item == null:
+		held_item = item
+		return true
+	return false

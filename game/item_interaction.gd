@@ -2,19 +2,15 @@ extends Node
 
 
 func can_use_outside_battle(item: Item) -> bool:
-	return item.use_effect != null
+	return item.can_be_used_outside_battle
 
 
 func can_give_to_monster(item: Item) -> bool:
-	if item.catch_effect != null:
-		return false
-	if item.use_effect != null:
-		return false
-	return item.held_effect != null
+	return item.can_be_held
 
 
 func can_use_in_battle(item: Item) -> bool:
-	return item.use_effect != null or item.catch_effect != null
+	return item.can_be_used_in_battle
 
 
 func battle_item_blocked_reason(item: Item, is_trainer_battle: bool) -> String:

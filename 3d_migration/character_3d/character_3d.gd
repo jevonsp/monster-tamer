@@ -420,7 +420,24 @@ func _get_sliding_continuation_edge(ground: Vector3i, landed_edge: GraphEdge) ->
 		return null
 	if grid_map == null or not grid_map.is_ice_cell(ground):
 		return null
+	_turn_ray_in(landed_edge.step)
+	if _slide_is_blocked_by_collider():
+		return null
 	return _get_edge_for_direction(ground, landed_edge.step)
+
+
+func _slide_is_blocked_by_collider() -> bool:
+	ray_cast_3d.force_raycast_update()
+	if not ray_cast_3d.is_colliding():
+		return false
+	var collider: Object = ray_cast_3d.get_collider()
+	if collider == null:
+		return false
+	if collider is CellObject:
+		if "is_passable" in collider:
+			return not bool(collider.get("is_passable"))
+		return bool(collider.blocks_player)
+	return true
 
 
 func _begin_ledge_jump(edge: GraphEdge) -> void:

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="Move" format=3 uid="uid://12sdsw4nr1sd"]
+
+[ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_2u0l1"]
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_b5riy"]
+[ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="2_s8j0h"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="3_0mvx1"]
+
+[sub_resource type="Resource" id="Resource_6fr3e"]
+script = ExtResource("3_0mvx1")
+text = Array[String](["[PIPELINE TEST] {actor} used {move} on {target}!"])
+
+[sub_resource type="Resource" id="Resource_3d8ap"]
+script = ExtResource("2_s8j0h")
+actions = Array[ExtResource("1_2u0l1")]([SubResource("Resource_6fr3e")])
+
+[resource]
+script = ExtResource("1_b5riy")
+name = "Strength"
+actions = SubResource("Resource_3d8ap")
+metadata/_custom_type_script = "uid://dyr8euc0vcinb"

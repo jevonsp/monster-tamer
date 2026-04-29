@@ -2,10 +2,10 @@ extends Control
 
 var processing: bool = false
 var last_focused_button: Button = null
+var _is_registered_with_ui_flow: bool = false
 
-@onready var interfaces: CanvasLayer = $".."
 @onready var save_info_panel: Panel = $Content/SaveInfoPanel
-@onready var options_panel: Panel = $"../OptionsPanel"
+@onready var options_panel: Panel = $OptionsPanel
 
 
 func _ready() -> void:
@@ -15,6 +15,10 @@ func _ready() -> void:
 	Ui.request_open_menu.connect(_toggle_visible)
 	if visible:
 		_toggle_visible()
+
+
+func _exit_tree() -> void:
+	_sync_world_input_block(false)
 
 
 func _input(event: InputEvent) -> void:
@@ -71,6 +75,7 @@ func _on_focus_entered(button: Button) -> void:
 func _toggle_visible() -> void:
 	visible = not visible
 	processing = visible
+	_sync_world_input_block(visible)
 	if visible:
 		_focus_default()
 		Ui.switch_ui_context.emit(Global.AccessFrom.MENU)
@@ -122,3 +127,18 @@ func _finish_save_process() -> void:
 	await Ui.text_box_complete
 
 	_toggle_visible()
+
+
+func _sync_world_input_block(should_block: bool) -> void:
+	if UiFlow == null:
+		return
+	if should_block:
+		if _is_registered_with_ui_flow:
+			return
+		UiFlow.register_ui_layer(self, true)
+		_is_registered_with_ui_flow = true
+		return
+	if not _is_registered_with_ui_flow:
+		return
+	UiFlow.unregister_ui_layer(self)
+	_is_registered_with_ui_flow = false

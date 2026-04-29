@@ -40,12 +40,19 @@ var last_focused_index: int = -1
 func _ready() -> void:
 	add_to_group("text_entry_root")
 	processing = visible
+	if visible and UiFlow != null:
+		UiFlow.register_ui_layer(self, true)
 	_connect_signals()
 	_toggle_capitals(true)
 	_refresh_shift_button_labels()
 	_setup_wrapped_focus_neighbors()
 	get_viewport().gui_focus_changed.connect(_on_viewport_focus_changed)
 	call_deferred("_ensure_text_entry_focus")
+
+
+func _exit_tree() -> void:
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 
 
 func _input(event: InputEvent) -> void:
@@ -168,6 +175,11 @@ func _toggle_visible() -> void:
 
 	visible = not visible
 	processing = visible
+	if UiFlow != null:
+		if visible:
+			UiFlow.register_ui_layer(self, true)
+		else:
+			UiFlow.unregister_ui_layer(self)
 	if visible:
 		string = ""
 		_refresh_shift_button_labels()
@@ -362,6 +374,8 @@ func _close_and_reset() -> void:
 	string = ""
 	visible = false
 	processing = false
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 	capitals.visible = false
 	lowercase.visible = true
 	special.visible = false

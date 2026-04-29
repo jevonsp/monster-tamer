@@ -4,7 +4,7 @@ extends Resource
 @export var actions: Array[Action] = []
 
 
-func run(actor: Monster, targets: Array[Monster]) -> Action.Flow:
+func run(ctx: ActionContext) -> Action.Flow:
 	var final_flow := Action.Flow.NEXT
 	var i := 0
 	var skip_count := 0
@@ -18,7 +18,7 @@ func run(actor: Monster, targets: Array[Monster]) -> Action.Flow:
 		if action == null:
 			i += 1
 			continue
-		var before_flow := await action.before_trigger(actor, targets)
+		var before_flow := await action.before_trigger(ctx)
 		match before_flow:
 			Action.Flow.STOP:
 				final_flow = Action.Flow.STOP
@@ -27,7 +27,7 @@ func run(actor: Monster, targets: Array[Monster]) -> Action.Flow:
 				skip_count += 1
 				i += 1
 				continue
-		var trigger_flow := await action.trigger(actor, targets)
+		var trigger_flow := await action.trigger(ctx)
 		match trigger_flow:
 			Action.Flow.STOP:
 				final_flow = Action.Flow.STOP
@@ -36,7 +36,7 @@ func run(actor: Monster, targets: Array[Monster]) -> Action.Flow:
 				skip_count += 1
 				i += 1
 				continue
-		var after_flow := await action.after_trigger(actor, targets)
+		var after_flow := await action.after_trigger(ctx)
 		match after_flow:
 			Action.Flow.STOP:
 				final_flow = Action.Flow.STOP

@@ -64,11 +64,18 @@ func _ready() -> void:
 	option_button_3.visible = false
 	button_label_pairs[3].btn_lbl.visible = false
 	button_label_pairs[3].reg_lbl.visible = false
+	visibility_changed.connect(_on_visibility_changed)
 	var back := NodePath("../../../../../Menu/Content/VBoxContainer/Options")
 	for b: Button in [option_button_0, option_button_1, option_button_2]:
 		b.focus_neighbor_left = back
 	display_settings()
 	_bind_buttons()
+	_on_visibility_changed()
+
+
+func _exit_tree() -> void:
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 
 
 func grab_entry_focus() -> void:
@@ -133,3 +140,12 @@ func _on_option_button_pressed(button: Button) -> void:
 			return
 	SaverLoader.save_config()
 	display_settings()
+
+
+func _on_visibility_changed() -> void:
+	if UiFlow == null:
+		return
+	if visible:
+		UiFlow.register_ui_layer(self, true)
+		return
+	UiFlow.unregister_ui_layer(self)

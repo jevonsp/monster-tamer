@@ -9,8 +9,7 @@ func _ready() -> void:
 	Battle.send_hitpoints_change.connect(_on_send_hitpoints_change)
 
 
-func set_actor(new_actor) -> void:
-	actor = new_actor
+func update() -> void:
 	if actor:
 		max_value = actor.max_hitpoints * SMOOTH_SCALE
 		value = actor.current_hitpoints * SMOOTH_SCALE
@@ -20,12 +19,12 @@ func set_actor(new_actor) -> void:
 		modulate = Color.TRANSPARENT
 
 
-func _on_send_hitpoints_change(target: Monster, new_hp: int) -> void:
+func _on_send_hitpoints_change(target: Monster, _from_hp: int, to_hp: int) -> void:
 	if target != actor:
 		return
 
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "value", new_hp * SMOOTH_SCALE, Global.DEFAULT_DELAY)
+	tween.tween_property(self, "value", to_hp * SMOOTH_SCALE, Global.DEFAULT_DELAY)
 
 	await tween.finished
 

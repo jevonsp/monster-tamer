@@ -9,7 +9,8 @@ func push_object(owner: Node) -> bool:
 	if player == null:
 		return false
 	var push_direction: Vector3i = player.facing_grid
-	return bool(owner.push(push_direction))
+	var result := await (owner as PushableCellObject).push(push_direction)
+	return result
 
 
 func _trigger_impl(owner) -> Flow:

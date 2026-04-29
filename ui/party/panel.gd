@@ -17,11 +17,14 @@ func update_actor(a: Monster) -> void:
 		hp_bar,
 		player_exp_bar,
 	]:
+		var has_actor_prop := false
+		for p in node.get_property_list():
+			if p.get("name", "") == "actor":
+				has_actor_prop = true
+				break
 		actor = a
-		node.actor = a
-		if node.has_method("set_actor"):
-			node.set_actor(a)
-			continue
+		if has_actor_prop:
+			node.actor = a
 		if node.has_method("update"):
 			node.update()
 	if actor == null:

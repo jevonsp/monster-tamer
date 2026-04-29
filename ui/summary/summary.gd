@@ -15,7 +15,6 @@ var in_battle: bool = false
 var last_focused_move_button: Button = null
 var moving_index_one: int = -1
 
-@onready var interfaces: CanvasLayer = $".."
 @onready var update_handler: Node = $UpdateHandler
 @onready var visibility_focus_handler: Node = $"Visibility&FocusHandler"
 @onready var input_handler: Node = $InputHandler
@@ -62,6 +61,11 @@ func _ready() -> void:
 	_bind_buttons()
 	if visible:
 		processing = true
+
+
+func _exit_tree() -> void:
+	if UiFlow != null:
+		UiFlow.unregister_ui_layer(self)
 
 
 func show_monster(monster: Monster) -> void:

@@ -10,6 +10,7 @@ func toggle_visible() -> void:
 func set_visible(value: bool) -> void:
 	party.visible = value
 	party.processing = value
+	party._sync_world_input_block(value)
 
 	if party.visible:
 		focus_default_monster()

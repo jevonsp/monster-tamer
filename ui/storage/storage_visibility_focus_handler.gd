@@ -6,6 +6,7 @@ extends Node
 func toggle_visible() -> void:
 	storage.visible = not storage.visible
 	storage.processing = storage.visible
+	_sync_world_input_block(storage.visible)
 	if storage.visible:
 		focus_default_monster()
 
@@ -39,3 +40,12 @@ func focus_default_option() -> void:
 		first_button.grab_focus()
 	else:
 		storage.last_selected_option.grab_focus()
+
+
+func _sync_world_input_block(should_block: bool) -> void:
+	if UiFlow == null:
+		return
+	if should_block:
+		UiFlow.register_ui_layer(storage, true)
+		return
+	UiFlow.unregister_ui_layer(storage)

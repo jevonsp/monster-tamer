@@ -7,6 +7,7 @@ extends Command
 @export var needs_formatting: bool = true
 @export var is_question: bool = false
 
+
 func format_text() -> Array[String]:
 	var formatted: Array[String] = []
 	for string in text:

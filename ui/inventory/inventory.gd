@@ -15,6 +15,7 @@ var mode: Mode = Mode.BROWSING
 var is_trainer_battle: bool = false
 var last_selected_option: Button = null
 var last_selected_item_button: Button = null
+var _is_registered_with_ui_flow: bool = false
 var categories: int = 1
 var current_category: int = 0
 var _category_types: Array[Item.Type] = []
@@ -35,6 +36,10 @@ func _ready() -> void:
 	_bind_buttons()
 	if visible:
 		_toggle_visible()
+
+
+func _exit_tree() -> void:
+	_sync_world_input_block(false)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -302,8 +307,6 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 					if not ItemInteraction.can_give_to_monster(item):
 						await show_cant_hold_text()
 						return
-					Ui.item_selected.emit(item)
-					return
 				Mode.PICK_USE_TARGET:
 					if not ItemInteraction.can_use_outside_battle(item):
 						await show_cant_use_text()
@@ -327,7 +330,8 @@ func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 				await show_cant_use_in_trainer_battle_text()
 				last_selected_item_button.grab_focus()
 				return
-			Battle.add_item_to_turn_queue.emit(item)
+			Battle.enqueue_item_choice(item)
+			await Battle.resolve_queued_turn()
 			Inventory.item_used.emit(item)
 			_toggle_visible()
 			mode = Mode.BROWSING
@@ -348,6 +352,7 @@ func _on_option_pressed(button: Button) -> void:
 func _toggle_visible() -> void:
 	visible = not visible
 	processing = visible
+	_sync_world_input_block(visible)
 	_set_focus_state(Focused.CATEGORY)
 	last_selected_item_button = null
 	if not visible:
@@ -386,3 +391,18 @@ func _focus_option_default() -> void:
 		last_selected_option.grab_focus()
 	else:
 		option_buttons.use.grab_focus()
+
+
+func _sync_world_input_block(should_block: bool) -> void:
+	if UiFlow == null:
+		return
+	if should_block:
+		if _is_registered_with_ui_flow:
+			return
+		UiFlow.register_ui_layer(self, true)
+		_is_registered_with_ui_flow = true
+		return
+	if not _is_registered_with_ui_flow:
+		return
+	UiFlow.unregister_ui_layer(self)
+	_is_registered_with_ui_flow = false

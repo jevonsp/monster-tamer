@@ -4,4 +4,6 @@
 
 [resource]
 script = ExtResource("1_clt70")
+name = "Climbing Shoes"
+item_type = 4
 metadata/_custom_type_script = "uid://dn6y7ffc03cod"

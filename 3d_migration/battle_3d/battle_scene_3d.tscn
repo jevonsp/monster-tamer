@@ -1,14 +1,15 @@
 [gd_scene format=3 uid="uid://c0gf3olxnha8c"]
 
-[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="3_ujixi"]
-[ext_resource type="Texture2D" uid="uid://b4aiwusy8adko" path="res://3d_migration/battle_3d/_assets/plus.png" id="4_5abls"]
-[ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://3d_migration/battle_3d/_assets/up_arrow.png" id="5_7lpel"]
-[ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="6_kxxxp"]
-[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="7_bphwl"]
-[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="8_tcwm6"]
-[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="10_gsefg"]
-[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="11_7f0d1"]
-[ext_resource type="Texture2D" uid="uid://d1r2s8htoxusa" path="res://items/base_ball/animated_ball-Sheet.png" id="12_oadct"]
+[ext_resource type="Script" uid="uid://b0eschxpt8svv" path="res://3d_migration/battle_3d/battle_scene_3d.gd" id="1_skgbq"]
+[ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_uwaou"]
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="3_5hvxb"]
+[ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="4_3b21i"]
+[ext_resource type="Texture2D" uid="uid://b4aiwusy8adko" path="res://3d_migration/battle_3d/_assets/plus.png" id="5_0evwg"]
+[ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://3d_migration/battle_3d/_assets/up_arrow.png" id="6_jlchf"]
+[ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="7_kd2in"]
+[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="8_hklsg"]
+[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="9_axjho"]
+[ext_resource type="Texture2D" uid="uid://bb2fpsjjas2ep" path="res://3d_migration/battle_3d/_assets/animated_ball-Sheet.png" id="10_f0nnn"]
 
 [sub_resource type="Curve2D" id="Curve2D_eu6g2"]
 _data = {
@@ -16,9 +17,12 @@ _data = {
 }
 point_count = 11
 
-[node name="Battle3D" type="Node3D" unique_id=1959478633]
+[node name="BattleScene3D" type="Node3D" unique_id=1959478633]
+visible = false
+script = ExtResource("1_skgbq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=674145223]
+visible = false
 
 [node name="Content" type="Control" parent="CanvasLayer" unique_id=2083652698]
 layout_mode = 3
@@ -41,7 +45,7 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Move0" parent="CanvasLayer/Content/MoveButtons" unique_id=1279246463 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Move0" parent="CanvasLayer/Content/MoveButtons" unique_id=1279246463 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 
@@ -55,13 +59,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Move1" parent="CanvasLayer/Content/MoveButtons" unique_id=1930387975 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Move1" parent="CanvasLayer/Content/MoveButtons" unique_id=1930387975 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_right = NodePath(".")
 
@@ -75,13 +79,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Move2" parent="CanvasLayer/Content/MoveButtons" unique_id=1094670472 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Move2" parent="CanvasLayer/Content/MoveButtons" unique_id=1094670472 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 
@@ -95,13 +99,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Move3" parent="CanvasLayer/Content/MoveButtons" unique_id=92415258 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Move3" parent="CanvasLayer/Content/MoveButtons" unique_id=92415258 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_right = NodePath(".")
 
@@ -115,13 +119,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveInfoHelperPanel" parent="CanvasLayer/Content" unique_id=1744171946 instance=ExtResource("3_ujixi")]
+[node name="MoveInfoHelperPanel" parent="CanvasLayer/Content" unique_id=1744171946 instance=ExtResource("4_3b21i")]
 visible = false
 layout_mode = 0
 offset_left = 448.0
@@ -148,15 +152,15 @@ alignment = 1
 
 [node name="STABMarker" type="TextureRect" parent="CanvasLayer/Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer" unique_id=197489357]
 layout_mode = 2
-texture = ExtResource("4_5abls")
+texture = ExtResource("5_0evwg")
 expand_mode = 3
 
 [node name="EfficacyMarker" type="TextureRect" parent="CanvasLayer/Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer" unique_id=683685716]
 layout_mode = 2
-texture = ExtResource("5_7lpel")
+texture = ExtResource("6_jlchf")
 expand_mode = 3
 
-[node name="MoveDescriptionPanel" parent="CanvasLayer/Content" unique_id=253956150 instance=ExtResource("6_kxxxp")]
+[node name="MoveDescriptionPanel" parent="CanvasLayer/Content" unique_id=253956150 instance=ExtResource("7_kd2in")]
 layout_mode = 0
 offset_left = 656.0
 offset_top = 528.0
@@ -177,7 +181,7 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Fight" parent="CanvasLayer/Content/OptionButtons" unique_id=1761904595 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Fight" parent="CanvasLayer/Content/OptionButtons" unique_id=1761904595 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 
@@ -191,13 +195,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Fight"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Party" parent="CanvasLayer/Content/OptionButtons" unique_id=1110597983 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Party" parent="CanvasLayer/Content/OptionButtons" unique_id=1110597983 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_right = NodePath(".")
 
@@ -211,13 +215,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Party"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Item" parent="CanvasLayer/Content/OptionButtons" unique_id=1119364462 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Item" parent="CanvasLayer/Content/OptionButtons" unique_id=1119364462 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
 
@@ -231,13 +235,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Item"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Run" parent="CanvasLayer/Content/OptionButtons" unique_id=77549642 groups=["option_buttons"] instance=ExtResource("7_bphwl")]
+[node name="Run" parent="CanvasLayer/Content/OptionButtons" unique_id=77549642 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_right = NodePath(".")
 
@@ -251,13 +255,13 @@ offset_top = -11.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Run"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerPanel" parent="CanvasLayer/Content" unique_id=647968432 instance=ExtResource("3_ujixi")]
+[node name="PlayerPanel" parent="CanvasLayer/Content" unique_id=647968432 instance=ExtResource("4_3b21i")]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 16.0
@@ -277,7 +281,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Lvl.99"
 horizontal_alignment = 1
@@ -287,7 +291,7 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Name"
 horizontal_alignment = 1
@@ -300,7 +304,7 @@ offset_top = 150.0
 offset_right = 353.00024
 offset_bottom = 406.00006
 
-[node name="PlayerHPBar" parent="CanvasLayer/Content" unique_id=1881680306 instance=ExtResource("10_gsefg")]
+[node name="PlayerHPBar" parent="CanvasLayer/Content" unique_id=1881680306 instance=ExtResource("8_hklsg")]
 layout_mode = 0
 anchors_preset = 0
 anchor_top = 0.0
@@ -314,7 +318,7 @@ grow_horizontal = 1
 grow_vertical = 1
 script = null
 
-[node name="PlayerEXPBar" parent="CanvasLayer/Content" unique_id=2114861553 instance=ExtResource("11_7f0d1")]
+[node name="PlayerEXPBar" parent="CanvasLayer/Content" unique_id=2114861553 instance=ExtResource("9_axjho")]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 441.0
@@ -322,7 +326,7 @@ offset_right = 416.0
 offset_bottom = 468.0
 script = null
 
-[node name="EnemyPanel" parent="CanvasLayer/Content" unique_id=1322883269 instance=ExtResource("3_ujixi")]
+[node name="EnemyPanel" parent="CanvasLayer/Content" unique_id=1322883269 instance=ExtResource("4_3b21i")]
 layout_mode = 0
 offset_left = 896.0
 offset_top = 16.0
@@ -342,7 +346,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Lvl.99"
 horizontal_alignment = 1
@@ -352,7 +356,7 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_tcwm6")
+theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
 text = "Name"
 horizontal_alignment = 1
@@ -365,7 +369,7 @@ offset_top = 150.0
 offset_right = 1187.0002
 offset_bottom = 406.0
 
-[node name="EnemyHPBar" parent="CanvasLayer/Content" unique_id=1570994503 instance=ExtResource("10_gsefg")]
+[node name="EnemyHPBar" parent="CanvasLayer/Content" unique_id=1570994503 instance=ExtResource("8_hklsg")]
 layout_mode = 0
 anchors_preset = 0
 anchor_top = 0.0
@@ -391,6 +395,6 @@ rotates = false
 [node name="ItemSprite" type="Sprite2D" parent="CanvasLayer/AnimationContainer/Path2D/PathFollow2D" unique_id=1761635139]
 position = Vector2(1, -2)
 scale = Vector2(8, 8)
-texture = ExtResource("12_oadct")
+texture = ExtResource("10_f0nnn")
 hframes = 7
 frame = 1
