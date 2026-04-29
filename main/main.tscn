@@ -23,6 +23,7 @@
 [ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="25_d00gp"]
 [ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="26_d8vpj"]
 [ext_resource type="PackedScene" uid="uid://8fngqhn3p02d" path="res://3d_migration/cell_object/basic_cell_objects/3d_sign.tscn" id="27_o8j3b"]
+[ext_resource type="PackedScene" uid="uid://bhp8ve32n87ui" path="res://3d_migration/cell_object/push_objects/pushable_cell_object.tscn" id="28_ue0mw"]
 [ext_resource type="Script" uid="uid://bpsiiu3iawtmi" path="res://3d_migration/world_command/say_command.gd" id="28_wpkmi"]
 [ext_resource type="PackedScene" uid="uid://dmr8x8bswtmtu" path="res://3d_migration/cell_object/progress_blocker_objects/3d_cuttable_small_tree.tscn" id="31_wpkmi"]
 [ext_resource type="PackedScene" uid="uid://cr1y1o7vakhfl" path="res://3d_migration/wild_zone_3d/wild_zone_3d.tscn" id="32_o0l78"]
@@ -239,6 +240,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0)
 [node name="SmashableSmallRock" parent="StarterTown/Objects/DestroyableObjects" unique_id=708312477 instance=ExtResource("36_h3axc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 1)
 
+[node name="PushableCellObject" parent="StarterTown/Objects" unique_id=961867267 instance=ExtResource("28_ue0mw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 0)
+blocks_player = true
+
 [node name="Zones" type="Node3D" parent="StarterTown" unique_id=379680952]
 
 [node name="PerspectiveChangerExit" parent="StarterTown/Zones" unique_id=1047929248 instance=ExtResource("39_d7rgo")]
@@ -251,7 +256,13 @@ type = 1
 
 [node name="LadderZone3D" parent="StarterTown/Zones" unique_id=882840719 instance=ExtResource("40_yjufm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 0)
+visible = false
+collision_layer = 3
+collision_mask = 0
 ladder_length = 4
+is_active = false
+blocks_player = true
+masks_player = false
 
 [node name="WildZone3D" parent="StarterTown/Zones" unique_id=1288161633 instance=ExtResource("32_o0l78")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 3)
@@ -267,7 +278,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
 
 [node name="NPCs" type="Node3D" parent="StarterTown" unique_id=440577619]
 
-[node name="NPC3D" parent="StarterTown/NPCs" unique_id=751460403 instance=ExtResource("40_cgvj2")]
+[node name="NPC3D" parent="StarterTown/NPCs" unique_id=1894526312 instance=ExtResource("40_cgvj2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -1)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_h3axc")])
 

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bhp8ve32n87ui"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_r6j2l"]
+[ext_resource type="Script" uid="uid://cj83hoblqfjdw" path="res://3d_migration/cell_object/push_objects/pushable_cell_object.gd" id="2_whkl8"]
+[ext_resource type="PackedScene" uid="uid://c1nk03ar8xow5" path="res://3d_migration/grid_map/tscns/smashable_small_rock_model.tscn" id="3_prw8g"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="3_t73ts"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="4_m2r52"]
+[ext_resource type="Script" uid="uid://dh007jvq60kii" path="res://3d_migration/world_command/push_command.gd" id="5_q244j"]
+
+[sub_resource type="Resource" id="Resource_3x24c"]
+script = ExtResource("5_q244j")
+metadata/_custom_type_script = "uid://dh007jvq60kii"
+
+[sub_resource type="Resource" id="Resource_lwljc"]
+script = ExtResource("3_t73ts")
+commands = Array[ExtResource("4_m2r52")]([SubResource("Resource_3x24c")])
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[node name="PushableCellObject" unique_id=961867267 instance=ExtResource("1_r6j2l")]
+script = ExtResource("2_whkl8")
+is_pushable = true
+command_lists = Array[ExtResource("3_t73ts")]([SubResource("Resource_lwljc")])
+blocks_player = true
+
+[node name="SmashableSmallRock" parent="." index="1" unique_id=405499113 instance=ExtResource("3_prw8g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.5, 0.5)

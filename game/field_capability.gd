@@ -4,6 +4,7 @@ const CUT = preload("uid://dct4aev5dipxt")
 const ROCK_SMASH = preload("uid://dsnxexesn8m00")
 const SURF = preload("uid://bretmrdrou0vg")
 const CLIMBING_SHOES = preload("uid://xonkjuu2u8sm")
+const STRENGTH = preload("uid://12sdsw4nr1sd")
 
 
 func get_available_travel_methods() -> Array[TravelHandler3D.TravelState]:
@@ -69,7 +70,7 @@ func _check_badges(badge: Story.Flag) -> bool:
 
 
 func _can_surf() -> bool:
-	return _check_monsters_moves(SURF) and _check_badges(Story.Flag.BADGE_THREE)
+	return _check_monsters_moves(SURF) and _check_badges(Story.Flag.BADGE_FOUR)
 
 
 func _can_climb() -> bool:
@@ -82,3 +83,8 @@ func _can_cut_trees() -> bool:
 
 func _can_rock_smash() -> bool:
 	return _check_monsters_moves(ROCK_SMASH) and _check_badges(Story.Flag.BADGE_TWO)
+
+
+func _can_use_strength() -> bool:
+	return true
+	return _check_monsters_moves(STRENGTH) and _check_badges(Story.Flag.BADGE_THREE)
