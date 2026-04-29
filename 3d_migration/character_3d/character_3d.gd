@@ -7,7 +7,7 @@ signal move_step_started(step: Vector3i, to_cell: Vector3i)
 signal grid_step_landed(ground: Vector3i)
 signal walk_reached_idle
 
-enum MoveState { IDLE, TURNING, MOVING, SLIDING, LEDGE_JUMPING }
+enum MoveState { IDLE, TURNING, MOVING, SLIDING, LEDGE_JUMPING, CLIMBING }
 
 const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
@@ -45,6 +45,12 @@ func _ready() -> void:
 	anim_helper.refresh_facing_blends(facing_grid, self)
 
 
+func _physics_process(delta: float) -> void:
+	if grid_map == null:
+		return
+	_process_movement_state(delta)
+
+
 func will_collide() -> bool:
 	ray_cast_3d.force_raycast_update()
 	return ray_cast_3d.is_colliding()
@@ -59,9 +65,49 @@ func walk_one_step_along_facing() -> void:
 		return
 	if _current_state != MoveState.IDLE or _moving:
 		return
-	if not _try_start_move(facing_grid):
+	await walk_path([facing_grid])
+
+
+func turn_to_direction(direction: Vector3i) -> void:
+	if direction == Vector3i.ZERO or direction == facing_grid:
 		return
-	await grid_step_landed
+	await _await_scripted_idle()
+	if direction == facing_grid:
+		return
+	_start_turning(direction)
+	await turn_finished
+
+
+func walk_path(directions: Array[Vector3i]) -> bool:
+	if directions.is_empty():
+		return true
+	if grid_map == null:
+		return false
+	await _await_scripted_idle()
+	for direction: Vector3i in directions:
+		if direction == Vector3i.ZERO:
+			continue
+		if direction != facing_grid:
+			await turn_to_direction(direction)
+		if not _try_start_move(direction):
+			return false
+		await grid_step_landed
+	return true
+
+
+func look_directions(directions: Array[Vector3i]) -> bool:
+	if directions.is_empty():
+		return true
+	if grid_map == null:
+		return false
+	await _await_scripted_idle()
+	for direction: Vector3i in directions:
+		if direction == Vector3i.ZERO:
+			continue
+		if direction != facing_grid:
+			await turn_to_direction(direction)
+			await get_tree().create_timer(0.25).timeout
+	return true
 
 
 func get_input_direction() -> Vector3i:
@@ -137,6 +183,15 @@ func _on_animation_walk_reached_idle() -> void:
 
 func _on_move_edge_landed(_edge: GraphEdge, _ground: Vector3i) -> void:
 	pass
+
+
+func _await_scripted_idle() -> void:
+	if _current_state == MoveState.IDLE and not _moving:
+		return
+	if _current_state == MoveState.TURNING:
+		await turn_finished
+		return
+	await walk_reached_idle
 
 
 func _can_traverse_edge(_edge: GraphEdge, _from_cell: Vector3i) -> bool:

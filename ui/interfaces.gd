@@ -90,8 +90,9 @@ func refresh_field_input() -> void:
 	interfaces_dictionary.clear()
 	for c in _blocking_ui:
 		interfaces_dictionary[c] = c.visible
-	interfaces_dictionary[player_3d] = not blocked
-	player_3d.processing = not blocked
+	var allow_player_input := not blocked and not player_3d.command_active
+	interfaces_dictionary[player_3d] = allow_player_input
+	player_3d.processing = allow_player_input
 	if _last_blocked and not blocked:
 		player_3d.clear_inputs()
 	_last_blocked = blocked

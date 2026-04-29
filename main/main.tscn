@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://dmr8x8bswtmtu" path="res://3d_migration/cell_object/progress_blocker_objects/3d_cuttable_small_tree.tscn" id="31_wpkmi"]
 [ext_resource type="PackedScene" uid="uid://cr1y1o7vakhfl" path="res://3d_migration/wild_zone_3d/wild_zone_3d.tscn" id="32_o0l78"]
 [ext_resource type="Script" uid="uid://boe0spd64vvf8" path="res://3d_migration/world_command/walk_tiles_command.gd" id="33_wpvt5"]
+[ext_resource type="Script" uid="uid://prq4ybyignd8" path="res://3d_migration/world_command/look_command.gd" id="34_amlcg"]
 [ext_resource type="PackedScene" uid="uid://c48jijgejmcel" path="res://3d_migration/cell_object/progress_blocker_objects/3d_smashable_small_rock.tscn" id="36_h3axc"]
 [ext_resource type="PackedScene" uid="uid://bc4vbgoi6lvwq" path="res://3d_migration/cell_object/perspective_changer_3d/perspective_changer_3d.tscn" id="39_d7rgo"]
 [ext_resource type="PackedScene" uid="uid://bjjlgwvqsjuit" path="res://3d_migration/character_3d/npc_3d/npc_3d.tscn" id="40_cgvj2"]
@@ -75,9 +76,24 @@ script = ExtResource("33_wpvt5")
 tile_list = Array[int]([3, 1])
 metadata/_custom_type_script = "uid://boe0spd64vvf8"
 
+[sub_resource type="Resource" id="Resource_d7rgo"]
+script = ExtResource("34_amlcg")
+look_list = Array[int]([0])
+metadata/_custom_type_script = "uid://prq4ybyignd8"
+
+[sub_resource type="Resource" id="Resource_yjufm"]
+script = ExtResource("33_wpvt5")
+tile_list = Array[int]([0, 2])
+metadata/_custom_type_script = "uid://boe0spd64vvf8"
+
+[sub_resource type="Resource" id="Resource_phifs"]
+script = ExtResource("34_amlcg")
+look_list = Array[int]([1])
+metadata/_custom_type_script = "uid://prq4ybyignd8"
+
 [sub_resource type="Resource" id="Resource_h3axc"]
 script = ExtResource("25_d00gp")
-commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_ue0mw"), SubResource("Resource_vqjab")])
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_ue0mw"), SubResource("Resource_vqjab"), SubResource("Resource_d7rgo"), SubResource("Resource_yjufm"), SubResource("Resource_phifs")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 
 [node name="Main" type="Node3D" unique_id=626842757]

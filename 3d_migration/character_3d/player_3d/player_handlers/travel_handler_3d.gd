@@ -6,7 +6,7 @@ signal side_scrolling_finished
 signal surfing_started
 signal surfing_finished
 
-enum TravelState { DEFAULT, SURFING, BIKING, CLIMBING }
+enum TravelState { DEFAULT, SURFING, BIKING }
 
 @export var current_location: Map.Location = Map.Location.NONE
 

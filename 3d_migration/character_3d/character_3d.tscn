@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" uid="uid://cxfjuh87npwv5" path="res://3d_migration/character_3d/character_3d.gd" id="1_xpncy"]
 [ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://3d_migration/character_3d/player_sprite_sheet.png" id="2_4eanv"]
-[ext_resource type="Texture2D" uid="uid://c0nws8jv5y2lt" path="res://3d_migration/character_3d/player_sprite_sheet_top.png" id="3_4eanv"]
-[ext_resource type="Texture2D" uid="uid://btwe1kpe2kslq" path="res://3d_migration/character_3d/player_sprite_sheet_bottom.png" id="4_4eanv"]
+[ext_resource type="Texture2D" uid="uid://djoqot0cq4qv1" path="res://3d_migration/character_3d/player_sprite_sheet_top.png" id="3_4eanv"]
+[ext_resource type="Texture2D" uid="uid://b2i0knoomugo6" path="res://3d_migration/character_3d/player_sprite_sheet_bottom.png" id="4_4eanv"]
 [ext_resource type="Texture2D" uid="uid://0vpmcp8f8r2s" path="res://3d_migration/character_3d/shadow_3d-Sheet.png" id="5_4eanv"]
-[ext_resource type="Script" uid="uid://o18rdytnkply" path="res://3d_migration/character_3d/test.gd" id="6_c6an6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c6an6"]
 atlas = ExtResource("5_4eanv")
@@ -49,6 +48,137 @@ animations = [{
 "name": &"default",
 "speed": 10.0
 }]
+
+[sub_resource type="Animation" id="Animation_4eanv"]
+resource_name = "ClimbDown"
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BottomSprite3D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TopSprite3D:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TopSprite3D:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BottomSprite3D:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_c6an6"]
+resource_name = "ClimbIdle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BottomSprite3D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TopSprite3D:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_rpxw1"]
+resource_name = "ClimbUp"
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopSprite3D:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BottomSprite3D:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TopSprite3D:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BottomSprite3D:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4), Vector2i(0, 4), Vector2i(1, 4)]
+}
 
 [sub_resource type="Animation" id="Animation_rkbax"]
 resource_name = "IdleDown"
@@ -1959,6 +2089,9 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_boad6"]
 _data = {
+&"ClimbDown": SubResource("Animation_4eanv"),
+&"ClimbIdle": SubResource("Animation_c6an6"),
+&"ClimbUp": SubResource("Animation_rpxw1"),
 &"IdleDown": SubResource("Animation_rkbax"),
 &"IdleLeft": SubResource("Animation_g1dw6"),
 &"IdleRight": SubResource("Animation_yw30f"),
@@ -2230,7 +2363,7 @@ states/Turn/position = Vector2(350.5, 199.5)
 states/Walk/node = SubResource("AnimationNodeBlendSpace2D_hg6s5")
 states/Walk/position = Vector2(644.5, 54.5)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_8t03j"), "Idle", "Turn", SubResource("AnimationNodeStateMachineTransition_2ieo8"), "Turn", "Idle", SubResource("AnimationNodeStateMachineTransition_ebec5"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_yllr7"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_kb6p2"), "Turn", "Jump", SubResource("AnimationNodeStateMachineTransition_wodsf"), "Jump", "Turn", SubResource("AnimationNodeStateMachineTransition_32hag"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_tqiix"), "Jump", "Walk", SubResource("AnimationNodeStateMachineTransition_e7oew"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_c35mf"), "Walk", "Jump", SubResource("AnimationNodeStateMachineTransition_65viv"), "Turn", "Walk", SubResource("AnimationNodeStateMachineTransition_x7c3f"), "Walk", "Turn", SubResource("AnimationNodeStateMachineTransition_bjvpn"), "Slide", "Idle", SubResource("AnimationNodeStateMachineTransition_slide_idle"), "Idle", "Slide", SubResource("AnimationNodeStateMachineTransition_idle_slide"), "Slide", "Turn", SubResource("AnimationNodeStateMachineTransition_slide_turn"), "Turn", "Slide", SubResource("AnimationNodeStateMachineTransition_turn_slide"), "Slide", "Jump", SubResource("AnimationNodeStateMachineTransition_slide_jump"), "Jump", "Slide", SubResource("AnimationNodeStateMachineTransition_jump_slide"), "Slide", "Walk", SubResource("AnimationNodeStateMachineTransition_slide_walk"), "Walk", "Slide", SubResource("AnimationNodeStateMachineTransition_walk_slide"), "Surf", "Idle", SubResource("AnimationNodeStateMachineTransition_surf_idle"), "Idle", "Surf", SubResource("AnimationNodeStateMachineTransition_idle_surf"), "Surf", "Turn", SubResource("AnimationNodeStateMachineTransition_surf_turn"), "Turn", "Surf", SubResource("AnimationNodeStateMachineTransition_turn_surf"), "Surf", "Jump", SubResource("AnimationNodeStateMachineTransition_surf_jump"), "Jump", "Surf", SubResource("AnimationNodeStateMachineTransition_jump_surf"), "Surf", "Walk", SubResource("AnimationNodeStateMachineTransition_surf_walk"), "Walk", "Surf", SubResource("AnimationNodeStateMachineTransition_walk_surf"), "Surf", "Slide", SubResource("AnimationNodeStateMachineTransition_surf_slide"), "Slide", "Surf", SubResource("AnimationNodeStateMachineTransition_slide_surf")]
-graph_offset = Vector2(99, 32)
+graph_offset = Vector2(240, 102)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qbtjr"]
 size = Vector3(0.938, 0.938, 0.938)
@@ -2257,7 +2390,7 @@ billboard = 1
 texture_filter = 0
 texture = ExtResource("3_4eanv")
 hframes = 3
-vframes = 4
+vframes = 5
 
 [node name="BottomSprite3D" type="Sprite3D" parent="." unique_id=199606803]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.5, 0.19999999, 0.5)
@@ -2266,7 +2399,7 @@ billboard = 1
 texture_filter = 0
 texture = ExtResource("4_4eanv")
 hframes = 3
-vframes = 4
+vframes = 5
 
 [node name="Shadow" type="AnimatedSprite3D" parent="BottomSprite3D" unique_id=207606514]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.16000001, 0)
@@ -2296,7 +2429,6 @@ target_position = Vector3(0, 0, 1)
 collision_mask = 7
 hit_back_faces = false
 collide_with_areas = true
-script = ExtResource("6_c6an6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1405516688]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.19999999, 0.5)

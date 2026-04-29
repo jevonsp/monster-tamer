@@ -13,6 +13,7 @@ var _bind_attempts := 0
 
 
 func _ready() -> void:
+	super()
 	animation_tree.anim_player = NodePath("../AnimationPlayer")
 	animation_tree.active = true
 	animation_tree.advance(0.0)
@@ -37,7 +38,7 @@ func interact(player: Player3D) -> void:
 	ray_cast_3d.target_position = Vector3(toward)
 	ray_cast_3d.force_raycast_update()
 	set_facing_grid(toward)
-	_on_player_interact()
+	await _on_player_interact()
 
 
 func set_facing_grid(dir: Vector3i) -> void:

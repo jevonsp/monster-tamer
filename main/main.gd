@@ -6,9 +6,8 @@ extends Node3D
 
 
 func _ready() -> void:
-	if player and grid_map:
-		player.grid_map = grid_map
-		player.movement_helper.used_cells = grid_map.get_used_cells()
+	if grid_map:
+		_assign_grid_map(self)
 	get_window().grab_focus()
 	get_window().size = Vector2i(Global.GAME_WIDTH, Global.GAME_HEIGHT)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -24,3 +23,11 @@ func _process(_delta: float) -> void:
 func _input(event):
 	if event is InputEventMouse:
 		get_viewport().set_input_as_handled()
+
+
+func _assign_grid_map(root: Node) -> void:
+	for child in root.get_children():
+		if child is Character3D:
+			child.grid_map = grid_map
+			child.movement_helper.used_cells = grid_map.get_used_cells()
+		_assign_grid_map(child)

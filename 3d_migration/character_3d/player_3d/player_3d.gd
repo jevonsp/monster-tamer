@@ -396,6 +396,7 @@ func _bump() -> void:
 
 
 func _toggle_player(value: bool) -> void:
+	command_active = not value
 	processing = value
 
 
@@ -405,3 +406,5 @@ func _open_menu() -> void:
 	if _move_progress != 0.0:
 		await PlayerContext3D.walk_segmented_completed
 	Ui.request_open_menu.emit()
+
+
