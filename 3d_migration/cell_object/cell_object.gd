@@ -95,7 +95,6 @@ func _after_command_list_run(_flow: Command.Flow) -> void:
 
 
 func _update() -> void:
-	_masks_player = _is_active
 	visible = _is_active
 	if _blocks_player:
 		collision_layer = 3

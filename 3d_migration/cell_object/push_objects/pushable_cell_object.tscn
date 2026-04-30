@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="3_t73ts"]
 [ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="4_m2r52"]
 [ext_resource type="Script" uid="uid://dh007jvq60kii" path="res://3d_migration/world_command/push_command.gd" id="5_q244j"]
+[ext_resource type="PackedScene" uid="uid://42r6n4qrycmx" path="res://3d_migration/cell_object/push_objects/gpu_particles_3d_test.tscn" id="7_m2r52"]
 
 [sub_resource type="Resource" id="Resource_3x24c"]
 script = ExtResource("5_q244j")
@@ -24,3 +25,10 @@ blocks_player = true
 
 [node name="SmashableSmallRock" parent="." index="1" unique_id=405499113 instance=ExtResource("3_prw8g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.5, 0.5)
+
+[node name="Pivot" type="Node3D" parent="." index="2" unique_id=324735907]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.5, -0.5, 0.5)
+
+[node name="GPUParticles3D" parent="Pivot" index="0" unique_id=1406101101 instance=ExtResource("7_m2r52")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+amount = 20

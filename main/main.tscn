@@ -340,7 +340,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 2, 1)
 
 [node name="PushableCellObject" parent="StarterTown/Objects" unique_id=961867267 instance=ExtResource("28_ue0mw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 1)
 
 [node name="Zones" type="Node3D" parent="StarterTown" unique_id=379680952]
 
@@ -354,12 +354,7 @@ type = 1
 
 [node name="LadderZone3D" parent="StarterTown/Zones" unique_id=882840719 instance=ExtResource("40_yjufm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 0)
-collision_layer = 3
-collision_mask = 0
 ladder_length = 4
-is_active = false
-blocks_player = true
-masks_player = false
 
 [node name="WildZone3D" parent="StarterTown/Zones" unique_id=1288161633 instance=ExtResource("32_o0l78")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 3)
@@ -382,7 +377,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -1)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_h3axc")])
 
 [node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("18_4hmqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 1.9999999, 67)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 1)
 collision_mask = 13
 
 [editable path="3DWorld"]

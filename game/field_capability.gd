@@ -86,5 +86,4 @@ func _can_rock_smash() -> bool:
 
 
 func _can_use_strength() -> bool:
-	return true
 	return _check_monsters_moves(STRENGTH) and _check_badges(Story.Flag.BADGE_THREE)

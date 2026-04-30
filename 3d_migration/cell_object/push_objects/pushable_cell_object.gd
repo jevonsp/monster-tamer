@@ -3,6 +3,9 @@ extends CellObject
 
 @export var is_pushable: bool = true
 
+@onready var pivot: Node3D = $Pivot
+@onready var gpu_particles_3d: GPUParticles3D = $Pivot/GPUParticles3D
+
 
 func can_push(direction: Vector3i) -> bool:
 	if not is_pushable or direction == Vector3i.ZERO:
@@ -26,6 +29,10 @@ func push(direction: Vector3i) -> bool:
 
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "global_position", player.cell_to_world(to_cell), 0.5)
+
+	_angle_pivot_from_dir(direction)
+	_play_vfx()
+
 	await tween.finished
 
 	return true
@@ -45,3 +52,21 @@ func _has_blocking_collider_at(world_pos: Vector3) -> bool:
 		if collider is Player3D or collider is Character3D or collider is CellObject:
 			return true
 	return false
+
+
+func _play_vfx() -> void:
+	if gpu_particles_3d.emitting == true:
+		gpu_particles_3d.emitting = false
+	gpu_particles_3d.emitting = true
+
+
+func _angle_pivot_from_dir(dir: Vector3i) -> void:
+	match dir:
+		Vector3i.FORWARD:
+			pivot.rotation_degrees.y = 180.0
+		Vector3i.BACK:
+			pivot.rotation_degrees.y = 0.0
+		Vector3i.LEFT:
+			pivot.rotation_degrees.y = 90.0
+		Vector3i.RIGHT:
+			pivot.rotation_degrees.y = -90.0

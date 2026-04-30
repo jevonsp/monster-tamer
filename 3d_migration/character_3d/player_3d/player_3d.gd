@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 	_update_held_keys(delta)
 	if camera_3d.has_method("is_pivot_orbiting") and camera_3d.is_pivot_orbiting():
 		anim_helper.refresh_facing_blends(facing_grid, self)
-	if travel_handler.is_side_scrolling:
+	if not travel_handler.is_side_scrolling:
 		if Input.is_action_pressed("right_stick_right"):
 			camera_3d._rotate_camera(1)
 		elif Input.is_action_pressed("right_stick_left"):
@@ -244,6 +244,18 @@ func _update_held_keys(delta: float) -> void:
 			key_hold_times[dir] += delta
 
 
+func _rebuild_held_keys() -> void:
+	var directions: Array[String] = []
+	if travel_handler.can_move_vertically():
+		directions = ["forward", "back", "left", "right"]
+	else:
+		directions = ["left", "right"]
+	for dir in directions:
+		if Input.is_action_pressed(dir):
+			held_keys.push_back(dir)
+			key_hold_times[dir] = 0.0
+
+
 func _camera_relative_cardinal_for_action(action: String) -> Vector3i:
 	match action:
 		"forward", "up":
@@ -399,6 +411,8 @@ func _bump() -> void:
 func _toggle_player(value: bool) -> void:
 	command_active = not value
 	processing = value
+	if processing:
+		_rebuild_held_keys()
 
 
 func _open_menu() -> void:
