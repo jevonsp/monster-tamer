@@ -62,6 +62,7 @@ func apply_direction_blends(blend: Vector2) -> void:
 	animation_tree.set("parameters/Slide/blend_position", blend)
 	animation_tree.set("parameters/Turn/blend_position", blend)
 	animation_tree.set("parameters/Jump/blend_position", blend)
+	animation_tree.set("parameters/Climb/blend_position", blend)
 
 
 func refresh_facing_blends(facing_grid: Vector3i, tree_owner: Node) -> void:

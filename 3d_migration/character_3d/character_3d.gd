@@ -11,6 +11,7 @@ enum MoveState { IDLE, TURNING, MOVING, SLIDING, LEDGE_JUMPING, CLIMBING }
 
 const TURN_DURATION := 0.1
 const WALK_ANIM_LENGTH_SEC := 0.8
+const CLIMB_ANIM_LENGTH_SEC := 0.8
 const MOVE_SPEED := 5.0
 const STAIR_SPEED := 2.5
 const HEIGHT_ADJUSTMENT := Vector3(0, 2, 0)
@@ -329,6 +330,8 @@ func _process_movement_state(delta: float) -> void:
 			_process_turning_state(delta)
 		MoveState.MOVING:
 			_process_moving_state(delta)
+		MoveState.CLIMBING:
+			_process_climbing_state(delta)
 		MoveState.SLIDING:
 			_process_sliding_state(delta)
 		MoveState.LEDGE_JUMPING:
@@ -353,14 +356,12 @@ func _try_start_move(direction: Vector3i) -> bool:
 			_current_state = MoveState.SLIDING
 			_begin_slide_step(edge, false)
 		_:
-			var from_tile_id := grid_map.get_cell_item(ground)
-			var to_tile_id := grid_map.get_cell_item(edge.to_cell)
-			if from_tile_id == grid_map.TILE_DICT.STAIRS or to_tile_id == grid_map.TILE_DICT.STAIRS:
-				walk_speed = STAIR_SPEED * walk_speed_modifiers
+			if _current_state == MoveState.CLIMBING:
+				pass
 			else:
-				walk_speed = MOVE_SPEED * walk_speed_modifiers
-			_current_state = MoveState.MOVING
+				_current_state = MoveState.MOVING
 			_begin_step_move(edge)
+			_set_walk_speed(direction)
 	return true
 
 
@@ -484,11 +485,27 @@ func _ensure_surf_playing() -> void:
 		sm.start(&"Surf")
 
 
+func _process_climbing_state(delta: float) -> void:
+	_ensure_climb_playing()
+	_process_moving_state(delta)
+
+
+func _ensure_climb_playing() -> void:
+	var sm := anim_helper.state_machine_playback()
+	if sm == null:
+		return
+	if sm.get_current_node() != &"Climb":
+		sm.start(&"Climb")
+
+
 func _set_walk_anim_speed(walking: bool) -> void:
 	if animation_player == null:
 		return
 	if walking:
-		animation_player.speed_scale = WALK_ANIM_LENGTH_SEC * walk_speed
+		var anim_length_sec := WALK_ANIM_LENGTH_SEC
+		if _current_state == MoveState.CLIMBING:
+			anim_length_sec = CLIMB_ANIM_LENGTH_SEC
+		animation_player.speed_scale = anim_length_sec * walk_speed
 	else:
 		animation_player.speed_scale = 1.0
 
@@ -501,3 +518,21 @@ func _play_shadow() -> void:
 	shadow.play()
 	await shadow.animation_finished
 	shadow.visible = false
+
+
+func _current_anim_node_name() -> String:
+	var sm := anim_helper.state_machine_playback()
+	if sm == null:
+		return "null"
+	return str(sm.get_current_node())
+
+
+func _set_walk_speed(direction: Vector3i) -> void:
+	var ground := get_current_ground_cell()
+	var edge := _get_edge_for_direction(ground, direction)
+	var from_tile_id := grid_map.get_cell_item(ground)
+	var to_tile_id := grid_map.get_cell_item(edge.to_cell)
+	if from_tile_id == grid_map.TILE_DICT.STAIRS or to_tile_id == grid_map.TILE_DICT.STAIRS or _current_state == MoveState.CLIMBING:
+		walk_speed = STAIR_SPEED * walk_speed_modifiers
+	else:
+		walk_speed = MOVE_SPEED * walk_speed_modifiers

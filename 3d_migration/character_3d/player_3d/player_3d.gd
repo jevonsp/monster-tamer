@@ -13,12 +13,18 @@ var in_battle: bool = false
 var _asked_surfing_once: bool = false
 var _bump_latched_collider_id: int = -1
 
+const CLIMB_BLEND_IDLE := Vector2.ZERO
+const CLIMB_BLEND_DOWN := Vector2(0.0, 1.0)
+const CLIMB_BLEND_UP := Vector2(0.0, -1.0)
+
 @onready var party_handler: PartyHandler3D = $PartyHandler
 @onready var inventory_handler: InventoryHandler3D = $InventoryHandler
 @onready var story_flag_handler: StoryFlagHandler3D = $StoryFlagHandler
 @onready var player_info_handler: PlayerInfo3D = $PlayerInfoHandler
 @onready var travel_handler: TravelHandler3D = $TravelHandler
 @onready var overlay: ColorRect = $CanvasLayer/Overlay
+@onready var top_sprite_3d: Sprite3D = $TopSprite3D
+@onready var bottom_sprite_3d: Sprite3D = $BottomSprite3D
 
 
 func _ready() -> void:
@@ -222,6 +228,8 @@ func _begin_step_move(edge: GraphEdge) -> void:
 	move_step_started.emit(edge.step, edge.to_cell)
 	if edge.move_kind == GraphEdge.MoveKind.SURF and travel_handler != null and travel_handler.is_surfing():
 		_ensure_surf_playing()
+	elif _current_state == MoveState.CLIMBING:
+		_ensure_climb_playing()
 	else:
 		_ensure_walk_playing()
 	_on_animation_move_step_started(edge.step, edge.to_cell)
@@ -325,13 +333,16 @@ func _try_start_move(direction: Vector3i) -> bool:
 			_current_state = MoveState.SLIDING
 			_begin_slide_step(edge, false)
 		_:
-			var to_tile_id := grid_map.get_cell_item(edge.to_cell)
-			if to_tile_id == grid_map.TILE_DICT.STAIRS:
-				walk_speed = STAIR_SPEED * walk_speed_modifiers
+			var climbing_on_ladder := travel_handler != null \
+			and travel_handler.is_on_ladder \
+			and direction in [Vector3i.FORWARD, Vector3i.BACK]
+			if climbing_on_ladder:
+				_current_state = MoveState.CLIMBING
+				_apply_climb_blend_for_direction(direction)
 			else:
-				walk_speed = MOVE_SPEED * walk_speed_modifiers
-			_current_state = MoveState.MOVING
+				_current_state = MoveState.MOVING
 			_begin_step_move(edge)
+			_set_walk_speed(direction)
 	return true
 
 
@@ -422,3 +433,50 @@ func _open_menu() -> void:
 	if _move_progress != 0.0:
 		await PlayerContext3D.walk_segmented_completed
 	Ui.request_open_menu.emit()
+
+
+func _process_climbing_state(delta: float) -> void:
+	if _moving:
+		_apply_climb_blend_for_direction(facing_grid)
+		if _advance_step_motion(delta):
+			return
+
+	if travel_handler == null or not travel_handler.is_on_ladder:
+		_finish_walk_to_idle()
+		return
+
+	var input_dir := get_input_direction()
+	if input_dir == Vector3i.ZERO:
+		_apply_climb_idle()
+		return
+
+	if input_dir in [Vector3i.FORWARD, Vector3i.BACK]:
+		if input_dir != facing_grid:
+			facing_grid = input_dir
+			_turn_ray_in(input_dir)
+			anim_helper.apply_blends_for_grid_direction(input_dir)
+		_apply_climb_blend_for_direction(input_dir)
+		if not _try_start_move(input_dir):
+			_apply_climb_idle()
+		return
+
+	if input_dir != facing_grid:
+		_finish_walk_to_idle()
+		_start_turning(input_dir)
+		return
+
+	_finish_walk_to_idle()
+	_start_turning(input_dir)
+
+
+func _apply_climb_idle() -> void:
+	animation_tree.set("parameters/Climb/blend_position", CLIMB_BLEND_IDLE)
+	_ensure_climb_playing()
+	_set_walk_anim_speed(false)
+
+
+func _apply_climb_blend_for_direction(direction: Vector3i) -> void:
+	if direction == Vector3i.FORWARD:
+		animation_tree.set("parameters/Climb/blend_position", CLIMB_BLEND_UP)
+	elif direction == Vector3i.BACK:
+		animation_tree.set("parameters/Climb/blend_position", CLIMB_BLEND_DOWN)
