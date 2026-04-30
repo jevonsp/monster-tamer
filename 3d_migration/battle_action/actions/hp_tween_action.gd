@@ -7,7 +7,8 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 		return Flow.NEXT
 
 	var hp_evt: Dictionary = ctx.data["last_hp_change"]
+	var new_ctx = ctx.duplicate()
 	@warning_ignore("redundant_await")
-	await ctx.presenter.tween_hp(hp_evt["target"], hp_evt["from"], hp_evt["to"])
+	await ctx.presenter.tween_hp(new_ctx, hp_evt["target"], hp_evt["from"], hp_evt["to"])
 
 	return Flow.NEXT

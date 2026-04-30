@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bcepp324gu3k"]
+
+[ext_resource type="Script" uid="uid://ba0627vp4a6v8" path="res://3d_migration/cell_object/debug_mesh.gd" id="1_slku3"]
+
+[node name="DebugMesh" type="Node" unique_id=1642121358]
+script = ExtResource("1_slku3")

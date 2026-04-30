@@ -225,6 +225,7 @@ visible = false
 visible = false
 
 [node name="BattleScene3D" parent="Interfaces" unique_id=1959478633 instance=ExtResource("15_7eg6f")]
+visible = false
 
 [node name="Trackers" type="Node" parent="." unique_id=1613058454]
 
@@ -353,7 +354,6 @@ type = 1
 
 [node name="LadderZone3D" parent="StarterTown/Zones" unique_id=882840719 instance=ExtResource("40_yjufm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 0)
-visible = false
 collision_layer = 3
 collision_mask = 0
 ladder_length = 4

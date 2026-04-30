@@ -28,8 +28,8 @@ func display(item_to_show: Item, amount: int, show_price: bool = false) -> void:
 
 
 func _display_texture(item_displaying: Item) -> void:
-	if item_displaying.inventory_texture:
-		texture_rect.texture = item_displaying.inventory_texture
+	if item_displaying.texture:
+		texture_rect.texture = item_displaying.texture
 	else:
 		texture_rect.texture = null
 

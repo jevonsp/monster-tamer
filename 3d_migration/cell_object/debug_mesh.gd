@@ -1,39 +1,25 @@
 @tool
-class_name LadderZone3D
-extends CellObject
+class_name DebugMesh
+extends Node
 
-const BASE_SIZE := 0.938
-
-@export var ladder_length: int = 1:
-	set(val):
-		if val <= 0:
-			return
-		ladder_length = val
-		update_ladder()
-@export var collision_shape_3d: CollisionShape3D
 @export var draw_debug_shape: bool = true:
 	set(val):
 		draw_debug_shape = val
 		if Engine.is_editor_hint():
-			update_ladder()
+			_get_box_and_shape()
 
 
 func _ready() -> void:
-	update_ladder()
+	if Engine.is_editor_hint():
+		_get_box_and_shape()
 
 
-func update_ladder() -> void:
+func _get_box_and_shape():
+	var collision_shape_3d: CollisionShape3D = get_parent().get_node_or_null("CollisionShape3D")
 	if collision_shape_3d == null:
 		return
 	var box := collision_shape_3d.shape as BoxShape3D
-	var new_size_z := BASE_SIZE + (ladder_length - 1)
-	box.size.z = new_size_z
-
-	var start_face_z := 0.5 - (BASE_SIZE * 0.5)
-	collision_shape_3d.position.z = start_face_z + (new_size_z * 0.5)
-
-	if Engine.is_editor_hint():
-		_update_debug_mesh(box.size, collision_shape_3d.position)
+	_update_debug_mesh(box.size, collision_shape_3d.position)
 
 
 func _update_debug_mesh(size: Vector3, pos: Vector3) -> void:
@@ -56,15 +42,3 @@ func _update_debug_mesh(size: Vector3, pos: Vector3) -> void:
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mesh_node.material_override = mat
 	mesh_node.visible = draw_debug_shape
-
-
-func _on_area_entered(area: Area3D) -> void:
-	if area is not Player3D:
-		return
-	(area as Player3D).travel_handler.is_on_ladder = true
-
-
-func _on_area_exited(area: Area3D) -> void:
-	if area is not Player3D:
-		return
-	(area as Player3D).travel_handler.is_on_ladder = false

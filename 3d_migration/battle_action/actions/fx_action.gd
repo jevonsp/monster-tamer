@@ -6,6 +6,7 @@ extends Action
 
 
 func _trigger_impl(ctx: ActionContext) -> Flow:
+	var new_ctx = ctx.duplicate()
 	@warning_ignore("redundant_await")
-	await ctx.presenter.play_fx(fx_id, payload)
+	await ctx.presenter.play_fx(new_ctx, fx_id, payload)
 	return Flow.NEXT

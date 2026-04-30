@@ -1,8 +1,11 @@
 class_name BattleScene3D
 extends Node3D
 
+enum VisibleButtons { OPTIONS, MOVES }
+
 var battle_chassis: BattleChassis
 var processing: bool = false
+var button_state: VisibleButtons = VisibleButtons.OPTIONS
 var last_focused_move_button: Button = null
 var last_focused_option_button: Button = null
 var _player_actor_0: Monster
@@ -17,11 +20,11 @@ var _is_registered_with_ui_flow: bool = false
 @onready var efficacy_marker: TextureRect = $CanvasLayer/Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer/EfficacyMarker
 @onready var player_level_label: Label = $CanvasLayer/Content/PlayerPanel/VBoxContainer/PlayerLevelLabel
 @onready var player_name_label: Label = $CanvasLayer/Content/PlayerPanel/VBoxContainer/PlayerNameLabel
-@onready var player_texture_rect: TextureRect = $CanvasLayer/Content/PlayerTextureRect
+@onready var player_texture_rect: TextureRect = $CanvasLayer/Content/Animations/PlayerTextureRect
 @onready var player_hp_bar: TextureProgressBar = $CanvasLayer/Content/PlayerHPBar
 @onready var player_exp_bar: TextureProgressBar = $CanvasLayer/Content/PlayerEXPBar
 @onready var enemy_name_label: Label = $CanvasLayer/Content/EnemyPanel/VBoxContainer/EnemyNameLabel
-@onready var enemy_texture_rect: TextureRect = $CanvasLayer/Content/EnemyTextureRect
+@onready var enemy_texture_rect: TextureRect = $CanvasLayer/Content/Animations/EnemyTextureRect
 @onready var enemy_hp_bar: TextureProgressBar = $CanvasLayer/Content/EnemyHPBar
 @onready var player_0_slot: Array = [
 	move_0_label,
@@ -41,11 +44,27 @@ var _is_registered_with_ui_flow: bool = false
 	enemy_texture_rect,
 	enemy_hp_bar,
 ]
+@onready var move_buttons: GridContainer = $CanvasLayer/Content/MoveButtons
+@onready var option_buttons: GridContainer = $CanvasLayer/Content/OptionButtons
+@onready var move_0: Button = $CanvasLayer/Content/MoveButtons/Move0
+@onready var move_1: Button = $CanvasLayer/Content/MoveButtons/Move1
+@onready var move_2: Button = $CanvasLayer/Content/MoveButtons/Move2
+@onready var move_3: Button = $CanvasLayer/Content/MoveButtons/Move3
+@onready var fight: Button = $CanvasLayer/Content/OptionButtons/Fight
+@onready var party: Button = $CanvasLayer/Content/OptionButtons/Party
+@onready var item: Button = $CanvasLayer/Content/OptionButtons/Item
+@onready var run: Button = $CanvasLayer/Content/OptionButtons/Run
+@onready var animation_player: MoveAnimator = $CanvasLayer/Content/Animations/AnimationPlayer
+@onready var fx_player: AnimationPlayer = $CanvasLayer/Content/Animations/FxPlayer
+@onready var canvas_layer: CanvasLayer = $CanvasLayer
 
 
 func _ready() -> void:
 	Battle.set_battle_scene(self)
 	_connect_signals()
+	_bind_buttons()
+	_focus_default()
+	canvas_layer.visible = visible
 
 
 func _exit_tree() -> void:
@@ -53,16 +72,31 @@ func _exit_tree() -> void:
 		Battle.set_battle_scene(null)
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	match button_state:
+		VisibleButtons.OPTIONS:
+			if event.is_action_pressed("no"):
+				run.grab_focus()
+		VisibleButtons.MOVES:
+			if event.is_action_pressed("no"):
+				_change_button_state(VisibleButtons.OPTIONS)
+
+
 func show_text(_lines: Array[String], _auto_complete: bool = false) -> void:
 	pass
 
 
-func play_move_animation(_choice: Choice) -> void:
-	pass
+func play_move_animation(choice: Choice) -> void:
+	if choice.type == Choice.Type.MOVE:
+		await animation_player._play_animation(choice.action_or_list.get_animation_name())
 
 
-func play_fx(_fx_id: StringName, _payload: Dictionary = { }) -> void:
-	pass
+func play_fx(fx_id: StringName, payload: Dictionary = { }) -> void:
+	match fx_id:
+		&"hit":
+			fx_player.play_hit(payload.get("target"))
+		&"throw":
+			fx_player.play_throw_item(payload.get("item"))
 
 
 func tween_hp(_target: Monster, _from_hp: int, _to_hp: int) -> void:
@@ -92,6 +126,26 @@ func set_battle_chassis(value: BattleChassis) -> void:
 	)
 
 
+func _bind_buttons() -> void:
+	for button: Button in [
+		move_0,
+		move_1,
+		move_2,
+		move_3,
+	]:
+		button.focus_entered.connect(_on_move_focus_entered.bind(button))
+		button.pressed.connect(_on_move_pressed.bind(button))
+	for button: Button in [
+		fight,
+		party,
+		item,
+		run,
+	]:
+		button.focus_entered.connect(_on_option_focus_entered.bind(button))
+		button.pressed.connect(_on_option_pressed.bind(button))
+	fight.pressed.connect(_change_button_state.bind(VisibleButtons.MOVES))
+
+
 func _connect_signals() -> void:
 	if battle_chassis != null and not battle_chassis.actors_changed.is_connected(_bind_actors):
 		battle_chassis.actors_changed.connect(_bind_actors)
@@ -116,6 +170,7 @@ func _bind_actors(
 
 func _toggle_visible() -> void:
 	visible = not visible
+	canvas_layer.visible = visible
 	processing = visible
 	_sync_world_input_block(visible)
 	if visible:
@@ -142,4 +197,56 @@ func _sync_world_input_block(should_block: bool) -> void:
 
 
 func _focus_default() -> void:
-	pass
+	match button_state:
+		VisibleButtons.OPTIONS:
+			if last_focused_option_button:
+				last_focused_option_button.grab_focus()
+			else:
+				fight.grab_focus()
+		VisibleButtons.MOVES:
+			if last_focused_move_button:
+				last_focused_move_button.grab_focus()
+			else:
+				move_0.grab_focus()
+
+
+func _change_button_state(state: VisibleButtons) -> bool:
+	if state == button_state:
+		return false
+	button_state = state
+	match state:
+		VisibleButtons.OPTIONS:
+			move_buttons.visible = false
+			option_buttons.visible = true
+		VisibleButtons.MOVES:
+			move_buttons.visible = true
+			option_buttons.visible = false
+
+	_focus_default()
+
+	return true
+
+
+func _on_move_focus_entered(button: Button) -> void:
+	last_focused_move_button = button
+
+
+func _on_option_focus_entered(button: Button) -> void:
+	last_focused_option_button = button
+
+
+func _on_option_pressed(button: Button) -> void:
+	print(button.name)
+
+
+func _on_move_pressed(button: Button) -> void:
+	print(int(button.name))
+	var actor = Battle.resolve_player_actor()
+	if not actor:
+		return
+	var idx = int(button.name)
+	if idx > actor.moves.size():
+		return
+	var move = actor.moves.get(idx)
+	if move:
+		Battle.enqueue_move_choice(move)

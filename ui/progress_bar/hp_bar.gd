@@ -9,6 +9,10 @@ func _ready() -> void:
 	Battle.send_hitpoints_change.connect(_on_send_hitpoints_change)
 
 
+func set_actor(a: Monster) -> void:
+	actor = a
+
+
 func update() -> void:
 	if actor:
 		max_value = actor.max_hitpoints * SMOOTH_SCALE

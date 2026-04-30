@@ -3,5 +3,7 @@ extends Action
 
 
 func _trigger_impl(ctx: ActionContext) -> Flow:
-	await ctx.presenter.play_move_animation(ctx.choice)
+	var new_ctx = ctx.duplicate()
+	@warning_ignore("redundant_await")
+	await ctx.presenter.play_move_animation(new_ctx, ctx.choice)
 	return Flow.NEXT

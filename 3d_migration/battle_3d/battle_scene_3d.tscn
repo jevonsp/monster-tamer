@@ -9,16 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="7_kd2in"]
 [ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="8_hklsg"]
 [ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="9_axjho"]
-[ext_resource type="Texture2D" uid="uid://bb2fpsjjas2ep" path="res://3d_migration/battle_3d/_assets/animated_ball-Sheet.png" id="10_f0nnn"]
-
-[sub_resource type="Curve2D" id="Curve2D_eu6g2"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, -48, 0, 0, 0, 0, 112, -96, 0, 0, 0, 0, 208, -128, 0, 0, 0, 0, 352, -144, 0, 0, 0, 0, 416, -144, 0, 0, 0, 0, 464, -144, 0, 0, 0, 0, 608, -128, 0, 0, 0, 0, 720, -96, 0, 0, 0, 0, 816, -48, 0, 0, 0, 0, 864, 0)
-}
-point_count = 11
+[ext_resource type="PackedScene" uid="uid://cee6xgq8p1th" path="res://3d_migration/battle_3d/animations.tscn" id="10_skgbq"]
 
 [node name="BattleScene3D" type="Node3D" unique_id=1959478633]
-visible = false
 script = ExtResource("1_skgbq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=674145223]
@@ -297,13 +290,6 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerTextureRect" type="TextureRect" parent="CanvasLayer/Content" unique_id=1774285037]
-layout_mode = 0
-offset_left = 97.0
-offset_top = 150.0
-offset_right = 353.00024
-offset_bottom = 406.00006
-
 [node name="PlayerHPBar" parent="CanvasLayer/Content" unique_id=1881680306 instance=ExtResource("8_hklsg")]
 layout_mode = 0
 anchors_preset = 0
@@ -362,13 +348,6 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EnemyTextureRect" type="TextureRect" parent="CanvasLayer/Content" unique_id=1345203005]
-layout_mode = 0
-offset_left = 931.0
-offset_top = 150.0
-offset_right = 1187.0002
-offset_bottom = 406.0
-
 [node name="EnemyHPBar" parent="CanvasLayer/Content" unique_id=1570994503 instance=ExtResource("8_hklsg")]
 layout_mode = 0
 anchors_preset = 0
@@ -383,18 +362,7 @@ grow_horizontal = 1
 grow_vertical = 1
 script = null
 
-[node name="AnimationContainer" type="Node2D" parent="CanvasLayer" unique_id=1888418741]
+[node name="Animations" parent="CanvasLayer/Content" unique_id=842676835 instance=ExtResource("10_skgbq")]
+layout_mode = 1
 
-[node name="Path2D" type="Path2D" parent="CanvasLayer/AnimationContainer" unique_id=457981979]
-position = Vector2(224, 272)
-curve = SubResource("Curve2D_eu6g2")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="CanvasLayer/AnimationContainer/Path2D" unique_id=268699456]
-rotates = false
-
-[node name="ItemSprite" type="Sprite2D" parent="CanvasLayer/AnimationContainer/Path2D/PathFollow2D" unique_id=1761635139]
-position = Vector2(1, -2)
-scale = Vector2(8, 8)
-texture = ExtResource("10_f0nnn")
-hframes = 7
-frame = 1
+[editable path="CanvasLayer/Content/Animations"]

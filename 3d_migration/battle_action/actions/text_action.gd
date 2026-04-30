@@ -10,8 +10,9 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 	var lines := text
 	if needs_formatting:
 		lines = _format_text(ctx.choice)
+	var new_ctx = ctx.duplicate()
 	@warning_ignore("redundant_await")
-	await ctx.presenter.show_text(lines, is_autocomplete)
+	await ctx.presenter.show_text(new_ctx, lines, is_autocomplete)
 	return Flow.NEXT
 
 

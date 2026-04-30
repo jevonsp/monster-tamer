@@ -13,7 +13,7 @@ signal send_item_throw_animation(item: Item)
 signal item_animation_complete
 signal send_item_wiggle(times: int)
 signal wiggle_animation_complete
-signal send_sprite_shake(target: Monster)
+signal send_sprite_hit(target: Monster)
 signal send_hitpoints_change(target: Monster, from_hp: int, to_hp: int)
 signal hitpoints_animation_complete
 signal send_monster_death_experience(amount: int)
@@ -23,8 +23,8 @@ signal player_done_giving_exp
 signal monster_gained_level(target: Monster, amount: int)
 signal request_forced_switch
 signal request_display_monsters
-@warning_ignore_restore("unused_signal")
 
+@warning_ignore_restore("unused_signal")
 var chassis: BattleChassis
 var presenter: BattlePresenter
 
@@ -49,7 +49,7 @@ func enqueue_item_choice(item: Item) -> void:
 	if item == null or item.actions == null:
 		return
 	_ensure_chassis()
-	var actor := _resolve_player_actor()
+	var actor := resolve_player_actor()
 	if actor == null:
 		return
 	var choice := Choice.new()
@@ -64,7 +64,7 @@ func enqueue_move_choice(move: Move) -> void:
 	if move == null or move.actions == null:
 		return
 	_ensure_chassis()
-	var actor := _resolve_player_actor()
+	var actor := resolve_player_actor()
 	if actor == null:
 		return
 	var choice := Choice.new()
@@ -73,6 +73,7 @@ func enqueue_move_choice(move: Move) -> void:
 	choice.targets = _resolve_default_targets()
 	choice.action_or_list = move
 	chassis.turn_queue.append(choice)
+	print(choice)
 
 
 func submit_forced_switch(target: Monster) -> void:
@@ -89,7 +90,7 @@ func resolve_queued_turn() -> void:
 	chassis.turn_index = 0
 
 
-func _resolve_player_actor() -> Monster:
+func resolve_player_actor() -> Monster:
 	var handler: PartyHandler3D = null
 	if PlayerContext3D.party_handler != null:
 		handler = PlayerContext3D.party_handler

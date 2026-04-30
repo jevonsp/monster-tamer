@@ -4,13 +4,14 @@
 [ext_resource type="Script" uid="uid://d24jqdururv3t" path="res://3d_migration/cell_object/perspective_changer_3d/ladder_zone_3d.gd" id="2_lxymc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lxymc"]
-size = Vector3(0.938, 0.938, 0.938)
+size = Vector3(0.938, 0.938, 3.938)
 
 [node name="LadderZone3D" unique_id=1454602347 node_paths=PackedStringArray("collision_shape_3d") instance=ExtResource("1_e1gv8")]
 collision_layer = 0
 script = ExtResource("2_lxymc")
 ladder_length = 1
 collision_shape_3d = NodePath("CollisionShape3D")
+draw_debug_shape = true
 
 [node name="CollisionShape3D" parent="." index="0" unique_id=598749242]
 shape = SubResource("BoxShape3D_lxymc")
