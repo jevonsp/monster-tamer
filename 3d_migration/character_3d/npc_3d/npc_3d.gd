@@ -7,6 +7,7 @@ const MAX_CAMERA_BIND_ATTEMPTS := 120
 @export var command_index: int = 0
 @export var idle_commands: Array[CommandList] = []
 
+var interaction_helper: InteractionHelper = InteractionHelper.new(self)
 var is_active: bool = true
 var _camera_signals_connected := false
 var _bind_attempts := 0
@@ -38,7 +39,7 @@ func interact(player: Player3D) -> void:
 	ray_cast_3d.target_position = Vector3(toward)
 	ray_cast_3d.force_raycast_update()
 	set_facing_grid(toward)
-	await _on_player_interact()
+	await _on_player_interact(player)
 
 
 func set_facing_grid(dir: Vector3i) -> void:
@@ -89,23 +90,8 @@ func _grid_direction_toward(world_point: Vector3) -> Vector3i:
 	return Vector3i(0, 0, 1) if flat.z > 0.0 else Vector3i(0, 0, -1)
 
 
-func _on_player_interact() -> void:
-	if not is_active:
-		return
-	if command_lists.is_empty():
-		return
-	if command_index >= command_lists.size():
-		return
-
-	PlayerContext3D.toggle_player.emit(false)
-	PlayerContext3D.player.clear_inputs()
-
-	var flow: Command.Flow = await command_lists[command_index].run(self)
-
-	PlayerContext3D.player.clear_inputs()
-	PlayerContext3D.toggle_player.emit(true)
-
-	_after_command_list_run(flow)
+func _on_player_interact(player: Player3D) -> void:
+	await interaction_helper.interact(player)
 
 
 func _after_command_list_run(_flow: Command.Flow) -> void:

@@ -28,6 +28,7 @@ extends Area3D
 		_masks_player = val
 		_update()
 
+var interaction_helper: InteractionHelper = InteractionHelper.new(self)
 var _is_active: bool = true
 var _blocks_player: bool = false
 var _masks_player: bool = true
@@ -37,23 +38,8 @@ func _ready() -> void:
 	_update()
 
 
-func interact(_player: Player3D) -> void:
-	if not is_active:
-		return
-	if command_lists.is_empty():
-		return
-	if command_index >= command_lists.size():
-		return
-
-	PlayerContext3D.toggle_player.emit(false)
-	PlayerContext3D.player.clear_inputs()
-
-	var flow: Command.Flow = await command_lists[command_index].run(self)
-
-	PlayerContext3D.player.clear_inputs()
-	PlayerContext3D.toggle_player.emit(true)
-
-	_after_command_list_run(flow)
+func interact(player: Player3D) -> void:
+	await interaction_helper.interact(player)
 
 
 func change_command_index_to(index: int) -> void:

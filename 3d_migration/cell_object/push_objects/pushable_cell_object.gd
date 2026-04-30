@@ -1,6 +1,8 @@
 class_name PushableCellObject
 extends CellObject
 
+static var prompted_once: bool = false
+
 @export var is_pushable: bool = true
 
 @onready var pivot: Node3D = $Pivot
@@ -13,6 +15,20 @@ func can_push(direction: Vector3i) -> bool:
 	var player := PlayerContext3D.player
 	if player == null or player.grid_map == null:
 		return false
+	var ta: Array[String] = []
+	if not FieldCapability._can_use_strength():
+		ta = ["If your monster was stronger you could push this heavy boulder!"]
+		Ui.send_text_box.emit(null, ta, false, false, false)
+		await Ui.text_box_complete
+		return false
+	else:
+		if not prompted_once:
+			ta = ["Would you like to push boulders?"]
+			Ui.send_text_box.emit(null, ta, false, true, false)
+			var answer = await Ui.answer_given
+			if not answer:
+				return false
+			prompted_once = true
 	var from_cell: Vector3i = player.get_ground_cell_at(global_position)
 	var to_cell := from_cell + direction
 	if not player.grid_map.is_nav_walkable_cell(to_cell):
@@ -21,7 +37,7 @@ func can_push(direction: Vector3i) -> bool:
 
 
 func push(direction: Vector3i) -> bool:
-	if not can_push(direction):
+	if not await can_push(direction):
 		return false
 	var player := PlayerContext3D.player
 	var from_cell: Vector3i = player.get_ground_cell_at(global_position)

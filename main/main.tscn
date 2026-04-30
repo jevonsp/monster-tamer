@@ -354,7 +354,11 @@ type = 1
 
 [node name="LadderZone3D" parent="StarterTown/Zones" unique_id=882840719 instance=ExtResource("40_yjufm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 0)
-ladder_length = 4
+visible = false
+collision_layer = 3
+ladder_length = true
+is_active = false
+blocks_player = true
 
 [node name="WildZone3D" parent="StarterTown/Zones" unique_id=1288161633 instance=ExtResource("32_o0l78")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 3)
