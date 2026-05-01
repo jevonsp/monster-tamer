@@ -45,6 +45,7 @@
 [ext_resource type="PackedScene" uid="uid://dlbah42lqf6we" path="res://3d_migration/cell_object/perspective_changer_3d/ladder_zone_3d.tscn" id="40_yjufm"]
 [ext_resource type="PackedScene" uid="uid://dlps62nqvguro" path="res://main/time_keeper.tscn" id="41_phifs"]
 [ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
+[ext_resource type="Script" uid="uid://bc6bbss6gvabp" path="res://3d_migration/world_command/emote_command.gd" id="45_rue0h"]
 
 [sub_resource type="Resource" id="Resource_re7it"]
 script = ExtResource("21_re7it")
@@ -151,6 +152,7 @@ metadata/_custom_type_script = "uid://d1pbkl87o0kqt"
 [sub_resource type="Resource" id="Resource_ue0mw"]
 script = ExtResource("28_wpkmi")
 text = Array[String](["Sliding on ice is fun!"])
+is_autocomplete = true
 metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
 
 [sub_resource type="Resource" id="Resource_vqjab"]
@@ -173,9 +175,14 @@ script = ExtResource("34_amlcg")
 look_list = Array[int]([1])
 metadata/_custom_type_script = "uid://prq4ybyignd8"
 
+[sub_resource type="Resource" id="Resource_55spl"]
+script = ExtResource("45_rue0h")
+emote_type = 3
+metadata/_custom_type_script = "uid://bc6bbss6gvabp"
+
 [sub_resource type="Resource" id="Resource_h3axc"]
 script = ExtResource("25_d00gp")
-commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_ue0mw"), SubResource("Resource_vqjab"), SubResource("Resource_d7rgo"), SubResource("Resource_yjufm"), SubResource("Resource_phifs")])
+commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_ue0mw"), SubResource("Resource_vqjab"), SubResource("Resource_d7rgo"), SubResource("Resource_yjufm"), SubResource("Resource_phifs"), SubResource("Resource_55spl")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 
 [node name="Main" type="Node3D" unique_id=626842757]
@@ -392,7 +399,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -1)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_h3axc")])
 
 [node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("18_4hmqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 69)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0)
 collision_mask = 13
 
 [editable path="3DWorld"]

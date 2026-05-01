@@ -4,7 +4,128 @@
 [ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://3d_migration/character_3d/player_sprite_sheet.png" id="2_4eanv"]
 [ext_resource type="Texture2D" uid="uid://djoqot0cq4qv1" path="res://3d_migration/character_3d/player_sprite_sheet_top.png" id="3_4eanv"]
 [ext_resource type="Texture2D" uid="uid://b2i0knoomugo6" path="res://3d_migration/character_3d/player_sprite_sheet_bottom.png" id="4_4eanv"]
+[ext_resource type="Script" uid="uid://ktqftc37ccu" path="res://3d_migration/character_3d/emote.gd" id="4_c6an6"]
+[ext_resource type="Texture2D" uid="uid://bta8cqjjj4k6b" path="res://3d_migration/character_3d/emote-Sheet.png" id="4_rpxw1"]
 [ext_resource type="Texture2D" uid="uid://0vpmcp8f8r2s" path="res://3d_migration/character_3d/shadow_3d-Sheet.png" id="5_4eanv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4vmnr"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(0, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_343et"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(17, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aj6uj"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(34, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdw1u"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(51, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fon26"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(68, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucoqn"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(85, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xtyw4"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(102, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixhgu"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(119, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnmm2"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(136, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bhlp"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(187, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u36sw"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(170, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h3xmm"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(204, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpxkr"]
+atlas = ExtResource("4_rpxw1")
+region = Rect2(153, 0, 17, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_emote"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4vmnr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_343et")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aj6uj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdw1u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fon26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ucoqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xtyw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixhgu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnmm2")
+}],
+"loop": false,
+"name": &"bubble",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3bhlp")
+}],
+"loop": false,
+"name": &"exclaim",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u36sw")
+}],
+"loop": false,
+"name": &"heart",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h3xmm")
+}],
+"loop": true,
+"name": &"question",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpxkr")
+}],
+"loop": false,
+"name": &"smile",
+"speed": 10.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c6an6"]
 atlas = ExtResource("5_4eanv")
@@ -2582,6 +2703,15 @@ texture_filter = 0
 texture = ExtResource("3_4eanv")
 hframes = 3
 vframes = 5
+
+[node name="Emote" type="AnimatedSprite3D" parent="TopSprite3D" unique_id=1976571857]
+transform = Transform3D(-4.3711392e-08, 0, -1, 0, 1, 0, 1, 0, -4.3711392e-08, 0, 0.14, 0)
+visible = false
+billboard = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_emote")
+animation = &"question"
+script = ExtResource("4_c6an6")
 
 [node name="BottomSprite3D" type="Sprite3D" parent="." unique_id=199606803]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0.5, 0.19999999, 0.5)

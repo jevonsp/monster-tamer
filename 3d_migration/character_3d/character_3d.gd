@@ -38,6 +38,7 @@ var _active_edge: GraphEdge
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var shadow: AnimatedSprite3D = $BottomSprite3D/Shadow
+@onready var emote: Emote = $TopSprite3D/Emote
 
 
 func _ready() -> void:
