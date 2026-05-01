@@ -47,6 +47,15 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 	_processing_turn = false
 
 
+func advance_turn() -> void:
+	create_and_enqueue_enemy_action()
+	resolve_turn(Battle.presenter)
+
+
+func create_and_enqueue_enemy_action() -> void:
+	pass
+
+
 func is_player_actor(monster: Monster) -> bool:
 	return true if monster in player_team else false
 
@@ -73,6 +82,9 @@ func is_processing_turn():
 
 
 func _clean_up_turn() -> void:
+	# find fainted actors and clean them up
+	# if there are more monsters in the team then make a forced switch
+	# if there arent more monsters either win or lose
 	pass
 
 

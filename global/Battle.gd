@@ -73,6 +73,7 @@ func enqueue_move_choice(move: Move) -> void:
 	choice.targets = _resolve_default_targets()
 	choice.action_or_list = move
 	chassis.turn_queue.append(choice)
+	chassis.advance_turn()
 
 
 func submit_forced_switch(target: Monster) -> void:
