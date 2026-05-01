@@ -12,6 +12,7 @@ var turn_queue: Array[Choice] = []
 var turn_index: int = 0
 var current_actor: Monster
 var trainer: Trainer3D
+var _processing_turn: bool = false
 
 
 func _init() -> void:
@@ -22,6 +23,8 @@ func _init() -> void:
 func resolve_turn(presenter: BattlePresenter) -> void:
 	if _turn_index_too_big():
 		return
+
+	_processing_turn = true
 
 	for choice: Choice in turn_queue:
 		_set_current_actor()
@@ -38,6 +41,10 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 		turn_index += 1
 		if _turn_index_too_big():
 			return
+
+	_clean_up_turn()
+
+	_processing_turn = false
 
 
 func is_player_actor(monster: Monster) -> bool:
@@ -61,6 +68,14 @@ func change_actor(
 	return false
 
 
+func is_processing_turn():
+	return _processing_turn
+
+
+func _clean_up_turn() -> void:
+	pass
+
+
 func _set_current_actor() -> void:
 	current_actor = turn_queue[turn_index].actor
 
@@ -76,8 +91,12 @@ func _resolve_action_list(choice: Choice) -> ActionList:
 	if choice == null or choice.action_or_list == null:
 		return null
 	match choice.type:
-		Choice.Type.MOVE, Choice.Type.ITEM:
-			return choice.action_or_list.actions if choice.action_or_list is Resource else null
+		Choice.Type.MOVE:
+			var move: Move = choice.action_or_list as Move
+			return move.action_list if move != null else null
+		Choice.Type.ITEM:
+			var item: Item = choice.action_or_list as Item
+			return item.actions if item != null else null
 		Choice.Type.SWITCH, Choice.Type.FLEE:
 			return choice.action_or_list if choice.action_or_list is ActionList else null
 	return null

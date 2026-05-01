@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://1edou8innd53" path="res://3d_migration/battle_3d/move_info_helper_panel.gd" id="6_mgeol"]
 [ext_resource type="Script" uid="uid://dcrraql11tyq" path="res://3d_migration/battle_3d/stab_marker.gd" id="7_q6v51"]
 [ext_resource type="Script" uid="uid://mb7jbhtxm6h1" path="res://3d_migration/battle_3d/efficacy_marker.gd" id="9_oipvg"]
-[ext_resource type="PackedScene" uid="uid://cee6xgq8p1th" path="res://3d_migration/battle_3d/animations.tscn" id="10_skgbq"]
+[ext_resource type="PackedScene" uid="uid://c6d5i3er8ir6x" path="res://3d_migration/battle_3d/animations.tscn" id="10_skgbq"]
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="10_wnxp7"]
 [ext_resource type="Script" uid="uid://llp3tbpm4tku" path="res://3d_migration/battle_3d/level_label.gd" id="11_idmq2"]
 [ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="11_mgeol"]
@@ -27,6 +27,24 @@
 [ext_resource type="Texture2D" uid="uid://tnpw2bvs4t1a" path="res://3d_migration/battle_3d/progress_bar/exp_bar_under.png" id="17_3o3jr"]
 [ext_resource type="Texture2D" uid="uid://cokbwct2vtvef" path="res://3d_migration/battle_3d/progress_bar/exp_bar_progess.png" id="18_hjeg4"]
 [ext_resource type="Script" uid="uid://claekbpydln3e" path="res://3d_migration/battle_3d/player_exp_bar.gd" id="19_22bmu"]
+
+[sub_resource type="Shader" id="Shader_w8ghm"]
+code = "shader_type canvas_item;
+
+uniform float flash_amount : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	COLOR = mix(tex, vec4(1.0, 1.0, 1.0, tex.a), flash_amount);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1qgh3"]
+shader = SubResource("Shader_w8ghm")
+shader_parameter/flash_amount = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_enemy0"]
+shader = SubResource("Shader_w8ghm")
+shader_parameter/flash_amount = 0.0
 
 [node name="BattleScene3D" type="Node3D" unique_id=1959478633]
 script = ExtResource("1_skgbq")
@@ -469,5 +487,29 @@ script = ExtResource("16_smfnq")
 
 [node name="Animations" parent="CanvasLayer/Content" unique_id=842676835 instance=ExtResource("10_skgbq")]
 layout_mode = 1
+
+[node name="PlayerTextureRect" parent="CanvasLayer/Content/Animations" index="0" unique_id=714945025]
+material = SubResource("ShaderMaterial_1qgh3")
+anchor_left = 0.082
+anchor_top = 0.18200001
+anchor_right = 0.282
+anchor_bottom = 0.53800005
+offset_left = -7.9600067
+offset_top = 18.959991
+offset_right = -7.959778
+offset_bottom = 18.640015
+
+[node name="EnemyTextureRect" parent="CanvasLayer/Content/Animations" index="1" unique_id=1433175572]
+material = SubResource("ShaderMaterial_enemy0")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.74700004
+anchor_top = 0.18200001
+anchor_right = 0.947
+anchor_bottom = 0.53800005
+offset_left = -25.160034
+offset_top = 18.959991
+offset_right = -25.15979
+offset_bottom = 18.639954
 
 [editable path="CanvasLayer/Content/Animations"]

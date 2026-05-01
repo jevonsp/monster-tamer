@@ -5,7 +5,7 @@ var actor: Monster = null
 @onready var label: Label = $Label
 
 
-func set_actor(a: Monster, update: bool = false) -> void:
+func set_actor(a: Monster, update: bool = true) -> void:
 	if not a:
 		actor = null
 		return

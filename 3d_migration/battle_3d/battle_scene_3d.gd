@@ -75,6 +75,9 @@ func _exit_tree() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if battle_chassis.is_processing_turn():
+		return
+
 	match button_state:
 		VisibleButtons.OPTIONS:
 			if event.is_action_pressed("no"):
@@ -98,9 +101,14 @@ func play_move_animation(choice: Choice) -> void:
 func play_fx(fx_id: StringName, payload: Dictionary = { }) -> void:
 	match fx_id:
 		&"hit":
-			fx_player.play_hit(payload.get("target"))
+			@warning_ignore("redundant_await")
+			await fx_player.play_hit(payload.get("target"), _player_actor_0, _enemy_actor_0)
 		&"throw":
-			fx_player.play_throw_item(payload.get("item"))
+			@warning_ignore("redundant_await")
+			await fx_player.play_throw_item(payload.get("item"))
+		&"faint":
+			@warning_ignore("redundant_await")
+			await fx_player.play_faint(payload.get("target"), _player_actor_0, _enemy_actor_0)
 
 
 func tween_hp(target: Monster, _from_hp: int, to_hp: int) -> void:
@@ -243,6 +251,7 @@ func _on_move_focus_entered(button: Button) -> void:
 	if move:
 		button.display()
 		stab_marker.display(move)
+		move_description_panel.display(move)
 
 
 func _on_option_focus_entered(button: Button) -> void:

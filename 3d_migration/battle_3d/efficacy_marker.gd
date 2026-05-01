@@ -6,7 +6,7 @@ const DOWN_ARROW = preload("uid://borvjxgoof7ao")
 var actor: Monster = null
 
 
-func set_actor(a: Monster, update: bool = false) -> void:
+func set_actor(a: Monster, update: bool = true) -> void:
 	if not a:
 		actor = null
 		return

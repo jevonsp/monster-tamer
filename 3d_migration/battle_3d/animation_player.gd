@@ -7,3 +7,7 @@ func _play_animation(anim: StringName) -> void:
 
 	play(anim)
 	await animation_finished
+
+
+func _play_test() -> void:
+	pass

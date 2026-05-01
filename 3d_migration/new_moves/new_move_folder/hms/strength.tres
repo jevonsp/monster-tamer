@@ -16,5 +16,5 @@ actions = Array[ExtResource("1_2u0l1")]([SubResource("Resource_6fr3e")])
 [resource]
 script = ExtResource("1_b5riy")
 name = "Strength"
-actions = SubResource("Resource_3d8ap")
+action_list = SubResource("Resource_3d8ap")
 metadata/_custom_type_script = "uid://dyr8euc0vcinb"

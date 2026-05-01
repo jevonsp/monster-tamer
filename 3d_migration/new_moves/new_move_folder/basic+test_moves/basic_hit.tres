@@ -12,6 +12,7 @@
 
 [sub_resource type="Resource" id="Resource_47spn"]
 script = ExtResource("2_7oawg")
+is_autocomplete = true
 metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
 
 [sub_resource type="Resource" id="Resource_q2pk3"]
@@ -43,6 +44,6 @@ metadata/_custom_type_script = "uid://18gkypu1dgxy"
 [resource]
 script = ExtResource("1_lj5wn")
 name = "Basic Hit"
-actions = SubResource("Resource_6xlux")
+action_list = SubResource("Resource_6xlux")
 description = "Description"
 metadata/_custom_type_script = "uid://dyr8euc0vcinb"

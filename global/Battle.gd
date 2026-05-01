@@ -61,7 +61,7 @@ func enqueue_item_choice(item: Item) -> void:
 
 
 func enqueue_move_choice(move: Move) -> void:
-	if move == null or move.actions == null:
+	if move == null or move.action_list == null:
 		return
 	_ensure_chassis()
 	var actor := resolve_player_actor()

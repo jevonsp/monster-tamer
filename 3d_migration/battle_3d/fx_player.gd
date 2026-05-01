@@ -7,10 +7,10 @@ const BALL_SINGLE = preload("uid://ddedh5jwmoi1a")
 @onready var item_sprite: Sprite2D = $"../Path2D/PathFollow2D/ItemSprite"
 
 
-func play_hit(target: Monster) -> void:
-	if player_texture_rect.actor == target:
+func play_hit(target: Monster, player_actor: Monster, enemy_actor: Monster) -> void:
+	if target == player_actor:
 		play("player_0_hit")
-	if enemy_texture_rect.actor == target:
+	elif target == enemy_actor:
 		play("enemy_0_hit")
 	await animation_finished
 
@@ -24,5 +24,18 @@ func play_throw_item(item: Item) -> void:
 	item_sprite.texture = BALL_SINGLE
 
 
-func play_item_wiggle(times: int) -> void:
+func play_item_wiggle(_times: int) -> void:
 	pass
+
+
+func play_faint(target: Monster, player_actor: Monster, enemy_actor: Monster) -> void:
+	if target == player_actor:
+		play("player_0_faint")
+		await animation_finished
+		player_texture_rect.texture = null
+		play("RESET")
+	elif target == enemy_actor:
+		play("enemy_0_faint")
+		await animation_finished
+		enemy_texture_rect.texture = null
+		play("RESET")

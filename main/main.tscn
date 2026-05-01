@@ -327,17 +327,17 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_amlcg")])
 [node name="Items" type="Node3D" parent="StarterTown/Objects" unique_id=1243736008]
 
 [node name="Monster0" parent="StarterTown/Objects/Items" unique_id=1571750752 node_paths=PackedStringArray("linked_balls") instance=ExtResource("26_h3axc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 2, 66)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -61, 2, 70)
 linked_balls = [NodePath("../Monster1"), NodePath("../Monster2")]
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_t1yuj")])
 
 [node name="Monster1" parent="StarterTown/Objects/Items" unique_id=832324647 node_paths=PackedStringArray("linked_balls") instance=ExtResource("26_h3axc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 66)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 70)
 linked_balls = [NodePath("../Monster0"), NodePath("../Monster2")]
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_7eg6f")])
 
 [node name="Monster2" parent="StarterTown/Objects/Items" unique_id=1203249655 node_paths=PackedStringArray("linked_balls") instance=ExtResource("26_h3axc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 2, 66)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59, 2, 70)
 linked_balls = [NodePath("../Monster0"), NodePath("../Monster1")]
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_c5cfd")])
 
@@ -392,7 +392,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -1)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_h3axc")])
 
 [node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("18_4hmqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 67)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 69)
 collision_mask = 13
 
 [editable path="3DWorld"]

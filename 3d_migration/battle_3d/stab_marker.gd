@@ -3,7 +3,7 @@ extends TextureRect
 var actor: Monster = null
 
 
-func set_actor(a: Monster, update: bool = false) -> void:
+func set_actor(a: Monster, update: bool = true) -> void:
 	if not a:
 		actor = null
 		return

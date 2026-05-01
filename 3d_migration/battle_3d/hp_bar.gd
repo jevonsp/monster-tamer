@@ -3,7 +3,7 @@ extends TextureProgressBar
 var actor: Monster = null
 
 
-func set_actor(a: Monster, update: bool = false) -> void:
+func set_actor(a: Monster, update: bool = true) -> void:
 	if not a:
 		actor = null
 		return
@@ -17,5 +17,5 @@ func display() -> void:
 		value = 100.0
 		max_value = 100.0
 		return
-	max_value = actor.max_hitpoints
-	value = actor.current_hitpoints
+	max_value = actor.max_hitpoints * 100
+	value = actor.current_hitpoints * 100

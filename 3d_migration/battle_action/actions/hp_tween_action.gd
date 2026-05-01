@@ -11,4 +11,8 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 	@warning_ignore("redundant_await")
 	await ctx.presenter.tween_hp(new_ctx, hp_evt["target"], hp_evt["from"], hp_evt["to"])
 
+	if hp_evt["target_fainted"]:
+		@warning_ignore("redundant_await")
+		await ctx.presenter.play_fx(new_ctx, "faint", {"target": hp_evt["target"]})
+
 	return Flow.NEXT
