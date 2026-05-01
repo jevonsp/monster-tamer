@@ -1600,6 +1600,6 @@ mesh = SubResource("ArrayMesh_ug0u5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
 mesh = SubResource("ArrayMesh_rd13o")
 
-[node name="Ladder" type="MeshInstance3D" parent="." unique_id=1677755453]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0.25, 0)
+[node name="Ladder" type="MeshInstance3D" parent="." unique_id=748174240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0.375, 0)
 mesh = SubResource("ArrayMesh_87qi2")

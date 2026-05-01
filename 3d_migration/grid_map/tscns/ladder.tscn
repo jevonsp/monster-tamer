@@ -2,4 +2,4 @@
 
 [ext_resource type="PackedScene" uid="uid://dmw25a5rgdy23" path="res://3d_migration/grid_map/gltfs/Ladder.gltf" id="1_p32x8"]
 
-[node name="Ladder" unique_id=498271510 instance=ExtResource("1_p32x8")]
+[node name="Ladder" unique_id=153044190 instance=ExtResource("1_p32x8")]

@@ -21,7 +21,7 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 			t = "Oh no! %s fainted!" % target.name
 		t += "%s did %s damage!" % [actor.name, target.name]
 
-	var new_ctx = ctx.duplicate()
+	var new_ctx = ctx.fork()
 	@warning_ignore("redundant_await")
 	await ctx.presenter.show_text(new_ctx, [t])
 

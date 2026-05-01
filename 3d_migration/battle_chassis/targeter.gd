@@ -1,4 +1,4 @@
-class_name AllowedTargets
+class_name Targeter
 extends RefCounted
 
 var chassis: BattleChassis = null

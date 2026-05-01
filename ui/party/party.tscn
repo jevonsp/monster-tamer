@@ -2,9 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cju8x0fsbax2m" path="res://ui/party/name_label.tscn" id="1_lummr"]
 [ext_resource type="Script" uid="uid://bftpw7kat02cd" path="res://ui/party/party.gd" id="1_o2fwo"]
-[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="1_o4ru8"]
 [ext_resource type="Script" uid="uid://d12b56vbn6477" path="res://ui/party/party_input_handler.gd" id="2_b8itp"]
-[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="2_lummr"]
 [ext_resource type="Script" uid="uid://c2len2o8bhocm" path="res://ui/party/panel.gd" id="2_s6yn0"]
 [ext_resource type="Script" uid="uid://b17e4f25gv3el" path="res://ui/party/party_visibility_focus_handler.gd" id="3_bpc48"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="3_inosj"]
@@ -119,12 +117,12 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1881680306 instance=ExtResource("2_lummr")]
+[node name="HPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1683608230]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=2114861553 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel0/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1028059598]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
@@ -194,12 +192,12 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1127728143 instance=ExtResource("2_lummr")]
+[node name="HPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=658335472]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1643360598 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel1/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=607019825]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
@@ -269,12 +267,12 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1359900746 instance=ExtResource("2_lummr")]
+[node name="HPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=352173139]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=28245087 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel2/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1428076574]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
@@ -344,12 +342,12 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1063348691 instance=ExtResource("2_lummr")]
+[node name="HPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=168136973]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=446710225 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel3/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1950945746]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
@@ -419,12 +417,12 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1993936310 instance=ExtResource("2_lummr")]
+[node name="HPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1066954871]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1100735099 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel4/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=563025494]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
@@ -494,12 +492,12 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HPBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=1789548829 instance=ExtResource("2_lummr")]
+[node name="HPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=2109050367]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="PlayerEXPBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=194131086 instance=ExtResource("1_o4ru8")]
+[node name="PlayerEXPBar" type="TextureProgressBar" parent="MarginContainer/Content/GridContainer/Panel5/VBoxContainer/HBoxContainer1/VBoxContainer" unique_id=986725605]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 4

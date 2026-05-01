@@ -3,13 +3,11 @@ extends Panel
 const UP_ARROW = preload("uid://cx1kq2j7nown8")
 const DOWN_ARROW = preload("uid://borvjxgoof7ao")
 
-@onready var visibility_focus_handler: Node = $"../../Visibility&FocusHandler"
 @onready var stab_marker: TextureRect = $MarginContainer/HBoxContainer/STABMarker
 @onready var efficacy_marker: TextureRect = $MarginContainer/HBoxContainer/EfficacyMarker
 
 
 func _ready() -> void:
-	visibility_focus_handler.send_move_helper_panel_info.connect(_parse_information)
 	_hide_marker(stab_marker)
 	_hide_marker(efficacy_marker)
 

@@ -94,3 +94,5 @@ func _create_wild_battle(monster_data: MonsterData, level: int) -> void:
 
 	player_actors = { 0: player_team[0] }
 	enemy_actors = { 0: enemy_team[0] }
+
+	actors_changed.emit(player_actors, enemy_actors)

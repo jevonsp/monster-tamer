@@ -18,6 +18,7 @@ var _is_registered_with_ui_flow: bool = false
 @onready var move_3_label: Label = $CanvasLayer/Content/MoveButtons/Move3/Label
 @onready var stab_marker: TextureRect = $CanvasLayer/Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer/STABMarker
 @onready var efficacy_marker: TextureRect = $CanvasLayer/Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer/EfficacyMarker
+@onready var move_description_panel: Button = $CanvasLayer/Content/MoveDescriptionPanel
 @onready var player_level_label: Label = $CanvasLayer/Content/PlayerPanel/VBoxContainer/PlayerLevelLabel
 @onready var player_name_label: Label = $CanvasLayer/Content/PlayerPanel/VBoxContainer/PlayerNameLabel
 @onready var player_texture_rect: TextureRect = $CanvasLayer/Content/Animations/PlayerTextureRect
@@ -26,13 +27,18 @@ var _is_registered_with_ui_flow: bool = false
 @onready var enemy_name_label: Label = $CanvasLayer/Content/EnemyPanel/VBoxContainer/EnemyNameLabel
 @onready var enemy_texture_rect: TextureRect = $CanvasLayer/Content/Animations/EnemyTextureRect
 @onready var enemy_hp_bar: TextureProgressBar = $CanvasLayer/Content/EnemyHPBar
+@onready var move_0: Button = $CanvasLayer/Content/MoveButtons/Move0
+@onready var move_1: Button = $CanvasLayer/Content/MoveButtons/Move1
+@onready var move_2: Button = $CanvasLayer/Content/MoveButtons/Move2
+@onready var move_3: Button = $CanvasLayer/Content/MoveButtons/Move3
 @onready var player_0_slot: Array = [
-	move_0_label,
-	move_1_label,
-	move_2_label,
-	move_3_label,
+	move_0,
+	move_1,
+	move_2,
+	move_3,
 	stab_marker,
 	efficacy_marker,
+	move_description_panel,
 	player_level_label,
 	player_name_label,
 	player_texture_rect,
@@ -46,10 +52,6 @@ var _is_registered_with_ui_flow: bool = false
 ]
 @onready var move_buttons: GridContainer = $CanvasLayer/Content/MoveButtons
 @onready var option_buttons: GridContainer = $CanvasLayer/Content/OptionButtons
-@onready var move_0: Button = $CanvasLayer/Content/MoveButtons/Move0
-@onready var move_1: Button = $CanvasLayer/Content/MoveButtons/Move1
-@onready var move_2: Button = $CanvasLayer/Content/MoveButtons/Move2
-@onready var move_3: Button = $CanvasLayer/Content/MoveButtons/Move3
 @onready var fight: Button = $CanvasLayer/Content/OptionButtons/Fight
 @onready var party: Button = $CanvasLayer/Content/OptionButtons/Party
 @onready var item: Button = $CanvasLayer/Content/OptionButtons/Item
@@ -82,13 +84,15 @@ func _unhandled_input(event: InputEvent) -> void:
 				_change_button_state(VisibleButtons.OPTIONS)
 
 
-func show_text(_lines: Array[String], _auto_complete: bool = false) -> void:
-	pass
+func show_text(lines: Array[String], auto_complete: bool = false) -> void:
+	Ui.send_text_box.emit(null, lines, auto_complete, false, false)
+	await Ui.text_box_complete
 
 
 func play_move_animation(choice: Choice) -> void:
 	if choice.type == Choice.Type.MOVE:
-		await animation_player._play_animation(choice.action_or_list.get_animation_name())
+		var anim = choice.action_or_list.get_animation_name()
+		await animation_player._play_animation(anim)
 
 
 func play_fx(fx_id: StringName, payload: Dictionary = { }) -> void:
@@ -99,17 +103,17 @@ func play_fx(fx_id: StringName, payload: Dictionary = { }) -> void:
 			fx_player.play_throw_item(payload.get("item"))
 
 
-func tween_hp(_target: Monster, _from_hp: int, _to_hp: int) -> void:
+func tween_hp(target: Monster, _from_hp: int, to_hp: int) -> void:
 	var bar: TextureProgressBar = null
-	if _target == _player_actor_0:
+	if target == _player_actor_0:
 		bar = player_hp_bar
-	elif _target == _enemy_actor_0:
+	elif target == _enemy_actor_0:
 		bar = enemy_hp_bar
 	if bar == null:
 		Battle.hitpoints_animation_complete.emit()
 		return
 	var tween := get_tree().create_tween()
-	tween.tween_property(bar, "value", _to_hp * 100, Global.DEFAULT_DELAY)
+	tween.tween_property(bar, "value", to_hp * 100, Global.DEFAULT_DELAY)
 	await tween.finished
 	Battle.hitpoints_animation_complete.emit()
 
@@ -229,6 +233,16 @@ func _change_button_state(state: VisibleButtons) -> bool:
 
 func _on_move_focus_entered(button: Button) -> void:
 	last_focused_move_button = button
+	var actor = Battle.resolve_player_actor()
+	if not actor:
+		return
+	var idx = int(button.name)
+	if idx > actor.moves.size():
+		return
+	var move = actor.moves.get(idx)
+	if move:
+		button.display()
+		stab_marker.display(move)
 
 
 func _on_option_focus_entered(button: Button) -> void:
@@ -250,3 +264,4 @@ func _on_move_pressed(button: Button) -> void:
 	var move = actor.moves.get(idx)
 	if move:
 		Battle.enqueue_move_choice(move)
+		Battle.chassis.resolve_turn(Battle.presenter)

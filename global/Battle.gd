@@ -73,7 +73,6 @@ func enqueue_move_choice(move: Move) -> void:
 	choice.targets = _resolve_default_targets()
 	choice.action_or_list = move
 	chassis.turn_queue.append(choice)
-	print(choice)
 
 
 func submit_forced_switch(target: Monster) -> void:
@@ -102,6 +101,12 @@ func resolve_player_actor() -> Monster:
 	if party.is_empty():
 		return null
 	return party[0]
+
+
+func resolve_enemy_actor() -> Monster:
+	if chassis == null:
+		return null
+	return chassis.enemy_actors[0]
 
 
 func _resolve_default_targets() -> Array[Monster]:

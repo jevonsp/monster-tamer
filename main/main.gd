@@ -13,6 +13,12 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	PlayerContext3D.player_info_handler.input_layout = GameOptions.control_scheme
+	var gm = $GridMap
+	var lib = gm.mesh_library
+	print("meshlib path:", lib.resource_path)
+	print("item 33 name:", lib.get_item_name(33))
+	print("item 33 mesh xform:", lib.get_item_mesh_transform(33))
+	print("item 33 mesh aabb:", lib.get_item_mesh(33).get_aabb())
 
 
 func _process(_delta: float) -> void:

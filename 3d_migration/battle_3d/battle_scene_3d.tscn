@@ -3,19 +3,35 @@
 [ext_resource type="Script" uid="uid://b0eschxpt8svv" path="res://3d_migration/battle_3d/battle_scene_3d.gd" id="1_skgbq"]
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="2_uwaou"]
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="3_5hvxb"]
+[ext_resource type="Script" uid="uid://bm1lkuuimf7ag" path="res://3d_migration/battle_3d/move_button.gd" id="3_hrq1u"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="4_3b21i"]
 [ext_resource type="Texture2D" uid="uid://b4aiwusy8adko" path="res://3d_migration/battle_3d/_assets/plus.png" id="5_0evwg"]
 [ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://3d_migration/battle_3d/_assets/up_arrow.png" id="6_jlchf"]
-[ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="7_kd2in"]
-[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="8_hklsg"]
-[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="9_axjho"]
+[ext_resource type="Script" uid="uid://1edou8innd53" path="res://3d_migration/battle_3d/move_info_helper_panel.gd" id="6_mgeol"]
+[ext_resource type="Script" uid="uid://dcrraql11tyq" path="res://3d_migration/battle_3d/stab_marker.gd" id="7_q6v51"]
+[ext_resource type="Script" uid="uid://mb7jbhtxm6h1" path="res://3d_migration/battle_3d/efficacy_marker.gd" id="9_oipvg"]
 [ext_resource type="PackedScene" uid="uid://cee6xgq8p1th" path="res://3d_migration/battle_3d/animations.tscn" id="10_skgbq"]
+[ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="10_wnxp7"]
+[ext_resource type="Script" uid="uid://llp3tbpm4tku" path="res://3d_migration/battle_3d/level_label.gd" id="11_idmq2"]
+[ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="11_mgeol"]
+[ext_resource type="Script" uid="uid://c5l5ajn4ajvbj" path="res://3d_migration/battle_3d/name_label.gd" id="12_34aw4"]
+[ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="12_smfnq"]
+[ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="13_3o3jr"]
+[ext_resource type="Texture2D" uid="uid://blfy8pc7ykj6r" path="res://3d_migration/battle_3d/progress_bar/health_bar_under.png" id="13_khpua"]
+[ext_resource type="StyleBox" uid="uid://ben02j7eumnqj" path="res://ui/button_panel/button_panel_focus_stylebox.tres" id="14_hjeg4"]
+[ext_resource type="Texture2D" uid="uid://crrcakik2iq1a" path="res://3d_migration/battle_3d/progress_bar/bar_over.png" id="14_wnxp7"]
+[ext_resource type="Script" uid="uid://brsiteeky5ece" path="res://3d_migration/battle_3d/move_description_panel.gd" id="15_22bmu"]
+[ext_resource type="Texture2D" uid="uid://b1vucxva6pgrv" path="res://3d_migration/battle_3d/progress_bar/health_bar_progress.png" id="15_mgeol"]
+[ext_resource type="FontFile" uid="uid://bvaql87kwciiq" path="res://3p_assets/fonts/m3x6.ttf" id="16_i3mu8"]
+[ext_resource type="Script" uid="uid://brefmnx4acwf5" path="res://3d_migration/battle_3d/hp_bar.gd" id="16_smfnq"]
+[ext_resource type="Texture2D" uid="uid://tnpw2bvs4t1a" path="res://3d_migration/battle_3d/progress_bar/exp_bar_under.png" id="17_3o3jr"]
+[ext_resource type="Texture2D" uid="uid://cokbwct2vtvef" path="res://3d_migration/battle_3d/progress_bar/exp_bar_progess.png" id="18_hjeg4"]
+[ext_resource type="Script" uid="uid://claekbpydln3e" path="res://3d_migration/battle_3d/player_exp_bar.gd" id="19_22bmu"]
 
 [node name="BattleScene3D" type="Node3D" unique_id=1959478633]
 script = ExtResource("1_skgbq")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=674145223]
-visible = false
 
 [node name="Content" type="Control" parent="CanvasLayer" unique_id=2083652698]
 layout_mode = 3
@@ -38,9 +54,10 @@ offset_bottom = -16.0
 grow_vertical = 0
 columns = 2
 
-[node name="Move0" parent="CanvasLayer/Content/MoveButtons" unique_id=1279246463 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
+[node name="Move0" parent="CanvasLayer/Content/MoveButtons" unique_id=1279246463 instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
+script = ExtResource("3_hrq1u")
 
 [node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move0" unique_id=635744212]
 layout_mode = 1
@@ -58,9 +75,10 @@ text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Move1" parent="CanvasLayer/Content/MoveButtons" unique_id=1930387975 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
+[node name="Move1" parent="CanvasLayer/Content/MoveButtons" unique_id=1930387975 instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_right = NodePath(".")
+script = ExtResource("3_hrq1u")
 
 [node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move1" unique_id=252418567]
 layout_mode = 1
@@ -78,9 +96,10 @@ text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Move2" parent="CanvasLayer/Content/MoveButtons" unique_id=1094670472 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
+[node name="Move2" parent="CanvasLayer/Content/MoveButtons" unique_id=1094670472 instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
+script = ExtResource("3_hrq1u")
 
 [node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move2" unique_id=1145211404]
 layout_mode = 1
@@ -98,9 +117,10 @@ text = "Move"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Move3" parent="CanvasLayer/Content/MoveButtons" unique_id=92415258 groups=["option_buttons"] instance=ExtResource("2_uwaou")]
+[node name="Move3" parent="CanvasLayer/Content/MoveButtons" unique_id=92415258 instance=ExtResource("2_uwaou")]
 layout_mode = 2
 focus_neighbor_right = NodePath(".")
+script = ExtResource("3_hrq1u")
 
 [node name="Label" type="Label" parent="CanvasLayer/Content/MoveButtons/Move3" unique_id=63908812]
 layout_mode = 1
@@ -119,12 +139,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MoveInfoHelperPanel" parent="CanvasLayer/Content" unique_id=1744171946 instance=ExtResource("4_3b21i")]
-visible = false
 layout_mode = 0
 offset_left = 448.0
 offset_top = 459.0
 offset_right = 640.0
 offset_bottom = 523.0
+script = ExtResource("6_mgeol")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Content/MoveInfoHelperPanel" unique_id=532069745]
 layout_mode = 1
@@ -147,20 +167,83 @@ alignment = 1
 layout_mode = 2
 texture = ExtResource("5_0evwg")
 expand_mode = 3
+script = ExtResource("7_q6v51")
 
 [node name="EfficacyMarker" type="TextureRect" parent="CanvasLayer/Content/MoveInfoHelperPanel/MarginContainer/HBoxContainer" unique_id=683685716]
 layout_mode = 2
 texture = ExtResource("6_jlchf")
 expand_mode = 3
+script = ExtResource("9_oipvg")
 
-[node name="MoveDescriptionPanel" parent="CanvasLayer/Content" unique_id=253956150 instance=ExtResource("7_kd2in")]
+[node name="MoveDescriptionPanel" type="Button" parent="CanvasLayer/Content" unique_id=253956150]
 layout_mode = 0
 offset_left = 656.0
 offset_top = 528.0
 offset_right = 1270.0
 offset_bottom = 704.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 focus_mode = 0
-script = null
+theme_override_styles/normal = ExtResource("10_wnxp7")
+theme_override_styles/pressed = ExtResource("11_mgeol")
+theme_override_styles/hover = ExtResource("12_smfnq")
+theme_override_styles/disabled = ExtResource("13_3o3jr")
+theme_override_styles/focus = ExtResource("14_hjeg4")
+script = ExtResource("15_22bmu")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Content/MoveDescriptionPanel" unique_id=456331800]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Content/MoveDescriptionPanel/MarginContainer" unique_id=296320718]
+layout_mode = 2
+theme_override_constants/separation = -5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Content/MoveDescriptionPanel/MarginContainer/VBoxContainer" unique_id=946442853]
+layout_mode = 2
+alignment = 1
+
+[node name="BPLabel" type="Label" parent="CanvasLayer/Content/MoveDescriptionPanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=578664664]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5hvxb")
+theme_override_font_sizes/font_size = 58
+text = "BP: 40"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/Content/MoveDescriptionPanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1310856745]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_5hvxb")
+theme_override_font_sizes/font_size = 58
+text = "Move"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PPLabel" type="Label" parent="CanvasLayer/Content/MoveDescriptionPanel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1249664898]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5hvxb")
+theme_override_font_sizes/font_size = 58
+text = "PP:25"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="CanvasLayer/Content/MoveDescriptionPanel/MarginContainer/VBoxContainer" unique_id=1324065241]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("16_i3mu8")
+theme_override_font_sizes/font_size = 48
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod."
+autowrap_mode = 3
 
 [node name="OptionButtons" type="GridContainer" parent="CanvasLayer/Content" unique_id=543327414]
 layout_mode = 1
@@ -279,6 +362,7 @@ theme_override_font_sizes/font_size = 64
 text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("11_idmq2")
 
 [node name="PlayerNameLabel" type="Label" parent="CanvasLayer/Content/PlayerPanel/VBoxContainer" unique_id=1127918032]
 layout_mode = 2
@@ -289,28 +373,42 @@ theme_override_font_sizes/font_size = 64
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("12_34aw4")
 
-[node name="PlayerHPBar" parent="CanvasLayer/Content" unique_id=1881680306 instance=ExtResource("8_hklsg")]
+[node name="PlayerHPBar" type="TextureProgressBar" parent="CanvasLayer/Content" unique_id=1881680306]
 layout_mode = 0
-anchors_preset = 0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 offset_left = 32.0
 offset_top = 412.0
 offset_right = 416.0
 offset_bottom = 439.0
-grow_horizontal = 1
-grow_vertical = 1
-script = null
+size_flags_horizontal = 3
+size_flags_vertical = 3
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("13_khpua")
+texture_over = ExtResource("14_wnxp7")
+texture_progress = ExtResource("15_mgeol")
+script = ExtResource("16_smfnq")
 
-[node name="PlayerEXPBar" parent="CanvasLayer/Content" unique_id=2114861553 instance=ExtResource("9_axjho")]
+[node name="PlayerEXPBar" type="TextureProgressBar" parent="CanvasLayer/Content" unique_id=2114861553]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 441.0
 offset_right = 416.0
 offset_bottom = 468.0
-script = null
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("17_3o3jr")
+texture_over = ExtResource("14_wnxp7")
+texture_progress = ExtResource("18_hjeg4")
+script = ExtResource("19_22bmu")
 
 [node name="EnemyPanel" parent="CanvasLayer/Content" unique_id=1322883269 instance=ExtResource("4_3b21i")]
 layout_mode = 0
@@ -337,6 +435,7 @@ theme_override_font_sizes/font_size = 64
 text = "Lvl.99"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("11_idmq2")
 
 [node name="EnemyNameLabel" type="Label" parent="CanvasLayer/Content/EnemyPanel/VBoxContainer" unique_id=294592335]
 layout_mode = 2
@@ -347,20 +446,26 @@ theme_override_font_sizes/font_size = 64
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("12_34aw4")
 
-[node name="EnemyHPBar" parent="CanvasLayer/Content" unique_id=1570994503 instance=ExtResource("8_hklsg")]
+[node name="EnemyHPBar" type="TextureProgressBar" parent="CanvasLayer/Content" unique_id=1570994503]
 layout_mode = 0
-anchors_preset = 0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 offset_left = 864.0
 offset_top = 412.0
 offset_right = 1248.0
 offset_bottom = 439.0
-grow_horizontal = 1
-grow_vertical = 1
-script = null
+size_flags_horizontal = 3
+size_flags_vertical = 3
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("13_khpua")
+texture_over = ExtResource("14_wnxp7")
+texture_progress = ExtResource("15_mgeol")
+script = ExtResource("16_smfnq")
 
 [node name="Animations" parent="CanvasLayer/Content" unique_id=842676835 instance=ExtResource("10_skgbq")]
 layout_mode = 1
