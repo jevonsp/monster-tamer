@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4aiwusy8adko"
-path="res://.godot/imported/plus.png-1908b947d46e883b79d85a4fbba3baf7.ctex"
+uid="uid://cx1kq2j7nown8"
+path="res://.godot/imported/up_arrow.png-c7274f635b60c178027f1d2fbeaf8468.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://3d_migration/battle_3d/_assets/plus.png"
-dest_files=["res://.godot/imported/plus.png-1908b947d46e883b79d85a4fbba3baf7.ctex"]
+source_file="res://3d_migration/battle_3d/_assets/ui/up_arrow.png"
+dest_files=["res://.godot/imported/up_arrow.png-c7274f635b60c178027f1d2fbeaf8468.ctex"]
 
 [params]
 

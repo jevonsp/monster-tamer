@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cx1kq2j7nown8"
-path="res://.godot/imported/up_arrow.png-49e57a30c70f412e6bd2704dd9d0237c.ctex"
+uid="uid://bb2fpsjjas2ep"
+path="res://.godot/imported/animated_ball-Sheet.png-c99e669237e1ffe40a0e50ab311a7dca.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://3d_migration/battle_3d/_assets/up_arrow.png"
-dest_files=["res://.godot/imported/up_arrow.png-49e57a30c70f412e6bd2704dd9d0237c.ctex"]
+source_file="res://3d_migration/battle_3d/_assets/fx/animated_ball-Sheet.png"
+dest_files=["res://.godot/imported/animated_ball-Sheet.png-c99e669237e1ffe40a0e50ab311a7dca.ctex"]
 
 [params]
 

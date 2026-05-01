@@ -8,7 +8,7 @@ extends Resource
 @export var target_type: Choice.Target = Choice.Target.ENEMY
 @export var base_pp: int = 20
 @export_multiline() var description: String
-@export_enum("test") var animation_name: String = "test"
+@export_enum("splat") var animation_name: String = "splat"
 
 
 func get_animation_name() -> StringName:

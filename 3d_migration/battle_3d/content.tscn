@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://bnaimpf3oa2qj" path="res://ui/button_panel/button.tscn" id="1_xsuq3"]
 [ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="2_6eifl"]
 [ext_resource type="PackedScene" uid="uid://f33pg62rqa0v" path="res://ui/button_panel/panel.tscn" id="3_mn5wp"]
-[ext_resource type="Texture2D" uid="uid://b4aiwusy8adko" path="res://3d_migration/battle_3d/_assets/plus.png" id="4_3hgc7"]
-[ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://3d_migration/battle_3d/_assets/up_arrow.png" id="5_qbc5g"]
+[ext_resource type="Texture2D" uid="uid://b4aiwusy8adko" path="res://3d_migration/battle_3d/_assets/ui/plus.png" id="4_3hgc7"]
+[ext_resource type="Texture2D" uid="uid://cx1kq2j7nown8" path="res://3d_migration/battle_3d/_assets/ui/up_arrow.png" id="5_qbc5g"]
 [ext_resource type="PackedScene" uid="uid://c7dppshejn64v" path="res://ui/summary/summary_move_panel.tscn" id="6_80rii"]
-[ext_resource type="PackedScene" uid="uid://ca2t8g1fmv3er" path="res://ui/progress_bar/hp_bar.tscn" id="7_gcl6o"]
-[ext_resource type="PackedScene" uid="uid://lq32c6hrp08x" path="res://ui/progress_bar/player_exp_bar.tscn" id="8_7v8qu"]
+[ext_resource type="PackedScene" path="res://ui/progress_bar/hp_bar.tscn" id="7_gcl6o"]
+[ext_resource type="PackedScene" path="res://ui/progress_bar/player_exp_bar.tscn" id="8_7v8qu"]
 
 [node name="Content" type="Control" unique_id=719650874]
 layout_mode = 3
