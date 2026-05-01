@@ -13,6 +13,7 @@
 [sub_resource type="Resource" id="Resource_47spn"]
 script = ExtResource("2_7oawg")
 is_autocomplete = true
+needs_formatting = true
 metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
 
 [sub_resource type="Resource" id="Resource_q2pk3"]

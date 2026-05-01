@@ -165,6 +165,9 @@ func _connect_signals() -> void:
 	if not Battle.battle_started.is_connected(_toggle_visible):
 		Battle.battle_started.connect(_toggle_visible)
 
+	if not Battle.battle_ended.is_connected(_toggle_visible):
+		Battle.battle_ended.connect(_toggle_visible)
+
 
 func _bind_actors(
 		p_actors: Dictionary[int, Monster],
@@ -180,7 +183,7 @@ func _bind_actors(
 			node.set_actor(_enemy_actor_0)
 
 
-func _toggle_visible() -> void:
+func _toggle_visible(_trainer3d: Trainer3D = null) -> void:
 	visible = not visible
 	canvas_layer.visible = visible
 	processing = visible
@@ -272,5 +275,5 @@ func _on_move_pressed(button: Button) -> void:
 		return
 	var move = actor.moves.get(idx)
 	if move:
-		Battle.enqueue_move_choice(move)
-		Battle.chassis.resolve_turn(Battle.presenter)
+		@warning_ignore("redundant_await")
+		await Battle.enqueue_move_choice(move)

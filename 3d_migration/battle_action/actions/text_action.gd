@@ -3,7 +3,7 @@ extends Action
 
 @export_multiline() var text: Array[String] = ["{actor} used {move} on {target}!"]
 @export var is_autocomplete: bool = false
-@export var needs_formatting: bool = true
+@export var needs_formatting: bool = false
 
 
 func _trigger_impl(ctx: ActionContext) -> Flow:

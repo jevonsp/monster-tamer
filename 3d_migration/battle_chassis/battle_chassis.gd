@@ -8,6 +8,7 @@ signal actors_changed(p_actors: Dictionary[int, Monster], e_actors: Dictionary[i
 @export var player_actors: Dictionary[int, Monster] = { }
 @export var enemy_actors: Dictionary[int, Monster] = { }
 
+var in_battle: bool = false
 var turn_queue: Array[Choice] = []
 var turn_index: int = 0
 var current_actor: Monster
@@ -21,36 +22,36 @@ func _init() -> void:
 
 
 func resolve_turn(presenter: BattlePresenter) -> void:
-	if _turn_index_too_big():
+	_prune_invalid_choices_from_turn_queue()
+	if turn_queue.is_empty():
 		return
 
 	_processing_turn = true
+	while not turn_queue.is_empty() and in_battle:
+		var choice: Choice = turn_queue[0]
+		current_actor = choice.actor
 
-	for choice: Choice in turn_queue:
-		_set_current_actor()
 		var action_list := _resolve_action_list(choice)
 		if action_list == null:
-			turn_index += 1
-			if _turn_index_too_big():
-				return
+			turn_queue.pop_at(0)
+			_prune_invalid_choices_from_turn_queue()
 			continue
 
 		var ctx := ActionContext.new(self, choice, presenter)
 		await action_list.run(ctx)
+		turn_queue.pop_at(0)
+		_prune_invalid_choices_from_turn_queue()
+		await _clean_up_turn()
 
-		turn_index += 1
-		if _turn_index_too_big():
-			return
-
-	_clean_up_turn()
-
+	turn_queue.clear()
+	turn_index = 0
 	_processing_turn = false
 
 
 func advance_turn() -> void:
 	Battle.enqueue_enemy_move_choice()
 	_sort_turn_queue()
-	resolve_turn(Battle.presenter)
+	await resolve_turn(Battle.presenter)
 
 
 func is_player_actor(monster: Monster) -> bool:
@@ -66,11 +67,11 @@ func change_actor(
 		out_monster: Monster,
 		in_monster: Monster,
 ) -> bool:
-	var out_key: int = team.find_key(out_monster)
-	if out_key:
-		team[out_key] = in_monster
-		actors_changed.emit(player_actors, enemy_actors)
-		return true
+	for k in team.keys():
+		if team[k] == out_monster:
+			team[k] = in_monster
+			actors_changed.emit(player_actors, enemy_actors)
+			return true
 	return false
 
 
@@ -109,27 +110,63 @@ func _prio(c: Choice) -> int:
 	return 0
 
 
-func _clean_up_queue() -> void:
-	# remove fainted actors
-	pass
+func _prune_invalid_choices_from_turn_queue() -> void:
+	var kept: Array[Choice] = []
+	for choice: Choice in turn_queue:
+		if _choice_is_valid(choice):
+			kept.append(choice)
+	turn_queue.assign(kept)
+
+
+func _choice_is_valid(choice: Choice) -> bool:
+	if choice == null or choice.actor == null or choice.actor.is_fainted:
+		return false
+	if not choice.targets.is_empty():
+		var t: Monster = choice.targets[0]
+		if t != null and t.is_fainted:
+			return false
+	return true
 
 
 func _clean_up_turn() -> void:
-	# find fainted actors and clean them up
-	# if there are more monsters in the team then make a forced switch
-	# if there arent more monsters either win or lose
-	pass
+	for idx: int in enemy_actors.keys():
+		var em: Monster = enemy_actors[idx]
+		if em != null and em.is_fainted:
+			enemy_actors.erase(idx)
+
+	var next_enemy: Monster = _get_next_enemy_actor()
+	if next_enemy != null:
+		enemy_actors[0] = next_enemy
+		actors_changed.emit(player_actors, enemy_actors)
+	elif not enemy_team.is_empty():
+		await _end_battle_won()
+		return
+
+	for idx: int in player_actors.keys():
+		var pm: Monster = player_actors[idx]
+		if pm != null and pm.is_fainted:
+			player_actors.erase(idx)
+
+	var next_player: Monster = _get_next_player_actor()
+	if next_player != null:
+		player_actors[0] = next_player
+		actors_changed.emit(player_actors, enemy_actors)
+	elif not player_team.is_empty():
+		await _end_battle_lost()
 
 
-func _set_current_actor() -> void:
-	current_actor = turn_queue[turn_index].actor
+func _get_next_enemy_actor() -> Monster:
+	for monster: Monster in enemy_team:
+		if monster != null and not monster.is_fainted:
+			return monster
+	return null
 
 
-func _turn_index_too_big() -> bool:
-	if turn_index >= turn_queue.size():
-		turn_index = 0
-		return true
-	return false
+func _get_next_player_actor() -> Monster:
+	for monster: Monster in player_team:
+		if monster != null and not monster.is_fainted:
+			return monster
+	return null
 
 
 func _resolve_action_list(choice: Choice) -> ActionList:
@@ -148,6 +185,8 @@ func _resolve_action_list(choice: Choice) -> ActionList:
 
 
 func _create_wild_battle(monster_data: MonsterData, level: int) -> void:
+	in_battle = true
+
 	player_actors.clear()
 	enemy_actors.clear()
 
@@ -156,7 +195,29 @@ func _create_wild_battle(monster_data: MonsterData, level: int) -> void:
 	var monster = monster_data.set_up(level)
 	enemy_team = [monster]
 
-	player_actors = { 0: player_team[0] }
-	enemy_actors = { 0: enemy_team[0] }
+	player_actors = { 0: _get_next_player_actor() }
+	enemy_actors = { 0: _get_next_enemy_actor() }
 
 	actors_changed.emit(player_actors, enemy_actors)
+
+
+func _end_battle_won() -> void:
+	var ctx := ActionContext.new(self, null, Battle.presenter)
+	var ta: Array[String] = ["You won!"]
+	@warning_ignore("redundant_await")
+	await ctx.presenter.show_text(ctx, ta, false)
+	in_battle = false
+	Battle.battle_ended.emit(trainer)
+	player_actors.clear()
+	enemy_actors.clear()
+
+
+func _end_battle_lost() -> void:
+	var ctx := ActionContext.new(self, null, Battle.presenter)
+	var ta: Array[String] = ["You have no Pokémon able to fight!"]
+	@warning_ignore("redundant_await")
+	await ctx.presenter.show_text(ctx, ta, false)
+	in_battle = false
+	Battle.battle_ended.emit(trainer)
+	player_actors.clear()
+	enemy_actors.clear()

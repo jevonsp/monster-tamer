@@ -73,17 +73,25 @@ func enqueue_move_choice(move: Move) -> void:
 	choice.targets = _resolve_default_targets()
 	choice.action_or_list = move
 	chassis.turn_queue.append(choice)
-	chassis.advance_turn()
+	@warning_ignore("redundant_await")
+	await chassis.advance_turn()
 
 
 func enqueue_enemy_move_choice() -> void:
-	var enemy = resolve_enemy_actor()
-	var picker = EnemyMovePicker.new(enemy)
-	var move = picker.pick_move()
+	var enemy := resolve_enemy_actor()
+	if enemy == null or enemy.is_fainted:
+		return
+	var player := resolve_player_actor()
+	if player == null:
+		return
+	var picker := EnemyMovePicker.new(enemy)
+	var move := picker.pick_move()
+	if move == null:
+		return
 	var choice := Choice.new()
 	choice.type = Choice.Type.MOVE
 	choice.actor = enemy
-	choice.targets = [resolve_player_actor()]
+	choice.targets = [player]
 	choice.action_or_list = move
 	chassis.turn_queue.append(choice)
 
@@ -111,22 +119,24 @@ func resolve_player_actor() -> Monster:
 	if handler == null:
 		return null
 	var party: Array[Monster] = handler.party
-	if party.is_empty():
-		return null
-	return party[0]
+	for m: Monster in party:
+		if m != null and not m.is_fainted:
+			return m
+	return null
 
 
 func resolve_enemy_actor() -> Monster:
 	if chassis == null:
 		return null
-	return chassis.enemy_actors[0]
+	return chassis.enemy_actors.get(0, null)
 
 
 func _resolve_default_targets() -> Array[Monster]:
 	if chassis == null:
 		return []
-	if not chassis.enemy_team.is_empty():
-		return [chassis.enemy_team[0]]
+	var enemy: Monster = chassis.enemy_actors.get(0, null)
+	if enemy != null and not enemy.is_fainted:
+		return [enemy]
 	return []
 
 
