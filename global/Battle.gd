@@ -76,6 +76,18 @@ func enqueue_move_choice(move: Move) -> void:
 	chassis.advance_turn()
 
 
+func enqueue_enemy_move_choice() -> void:
+	var enemy = resolve_enemy_actor()
+	var picker = EnemyMovePicker.new(enemy)
+	var move = picker.pick_move()
+	var choice := Choice.new()
+	choice.type = Choice.Type.MOVE
+	choice.actor = enemy
+	choice.targets = [resolve_player_actor()]
+	choice.action_or_list = move
+	chassis.turn_queue.append(choice)
+
+
 func submit_forced_switch(target: Monster) -> void:
 	if target == null:
 		return

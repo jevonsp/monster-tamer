@@ -88,7 +88,7 @@ func load_player(saved_game: SavedGame, player: Player3D):
 	player.travel_handler.set_travel_info(saved_game.travel_info)
 
 	NuzlockeTracker.hydrate_from_save()
-	GameOptions.control_scheme = player.info.input_layout
+	GameOptions.control_scheme = player.player_info_handler.input_layout
 	save_config()
 
 

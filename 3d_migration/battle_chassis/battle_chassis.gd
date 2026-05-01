@@ -48,12 +48,9 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 
 
 func advance_turn() -> void:
-	create_and_enqueue_enemy_action()
+	Battle.enqueue_enemy_move_choice()
+	_sort_turn_queue()
 	resolve_turn(Battle.presenter)
-
-
-func create_and_enqueue_enemy_action() -> void:
-	pass
 
 
 func is_player_actor(monster: Monster) -> bool:
@@ -79,6 +76,42 @@ func change_actor(
 
 func is_processing_turn():
 	return _processing_turn
+
+
+func _sort_turn_queue() -> void:
+	turn_queue.sort_custom(func(a: Choice, b: Choice) -> bool: return _choice_before(a, b))
+
+
+func _choice_before(a: Choice, b: Choice) -> bool:
+	var pa := _prio(a)
+	var pb := _prio(b)
+	if pa != pb:
+		return pa > pb
+	var aspd := a.actor.speed if a.actor else 0
+	var bspd := b.actor.speed if b.actor else 0
+	if aspd != bspd:
+		return aspd > bspd
+	var at := a.targets[0].speed if a.targets.size() > 0 and a.targets[0] else 0
+	var bt := b.targets[0].speed if b.targets.size() > 0 and b.targets[0] else 0
+	return at > bt
+
+
+func _prio(c: Choice) -> int:
+	match c.type:
+		Choice.Type.SWITCH, Choice.Type.FLEE:
+			return 6
+		Choice.Type.MOVE:
+			var m: Move = c.action_or_list as Move
+			return m.priority if m else 0
+		Choice.Type.ITEM:
+			var i: Item = c.action_or_list as Item
+			return i.priority if i else 7
+	return 0
+
+
+func _clean_up_queue() -> void:
+	# remove fainted actors
+	pass
 
 
 func _clean_up_turn() -> void:
