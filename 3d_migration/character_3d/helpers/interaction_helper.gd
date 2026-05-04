@@ -16,12 +16,6 @@ func interact(_player: Player3D) -> void:
 	if owner_object.command_index >= owner_object.command_lists.size():
 		return
 
-	PlayerContext3D.toggle_player.emit(false)
-	PlayerContext3D.player.clear_inputs()
-
 	var flow: Command.Flow = await owner_object.command_lists[owner_object.command_index].run(owner_object)
-
-	PlayerContext3D.player.clear_inputs()
-	PlayerContext3D.toggle_player.emit(true)
 
 	owner_object._after_command_list_run(flow)

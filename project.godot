@@ -25,13 +25,9 @@ SaverLoader="*uid://du1mlwngfelbr"
 EvolutionHandler="*uid://bvot1xns8ml0w"
 UiFlow="*res://global/UiFlow.gd"
 ItemInteraction="*res://game/item_interaction.gd"
-StoreService="*res://game/store_service.gd"
-MoveLearningService="*res://game/move_learning_service.gd"
 FieldCapability="*uid://ba7tc6eindlqb"
-ItemFinding="*uid://4r8nxcjv17u0"
 PlayerContext3D="*res://3d_migration/character_3d/player_3d/player_context_3d.gd"
 GameOptions="*uid://bxmtrbhvrhxfc"
-DirHelper="*uid://c7hs6b84rcpcw"
 
 [display]
 

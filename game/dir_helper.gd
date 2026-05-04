@@ -1,4 +1,5 @@
-extends Node
+class_name DirHelper
+extends RefCounted
 
 enum Direction { UP, DOWN, LEFT, RIGHT }
 

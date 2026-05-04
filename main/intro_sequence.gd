@@ -27,6 +27,7 @@ func play_intro_sequence() -> void:
 
 	var entered_name: String = outcome.get("text", "") as String
 	PlayerContext3D.player_info_handler.player_name = entered_name
+	print("set name: %s" % PlayerContext3D.player_info_handler.player_name)
 
 	ta = ["So you're called %s" % entered_name]
 	Ui.send_text_box.emit(null, ta, false, false, false)

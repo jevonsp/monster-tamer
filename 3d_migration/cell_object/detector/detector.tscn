@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://wowup4myh5r8"]
+
+[ext_resource type="PackedScene" uid="uid://6i5gcxueg00c" path="res://3d_migration/cell_object/cell_object.tscn" id="1_jxxn6"]
+[ext_resource type="Script" uid="uid://d1nbtpqausor0" path="res://3d_migration/cell_object/detector/detector.gd" id="2_v4oec"]
+
+[node name="Detector" unique_id=1454602347 instance=ExtResource("1_jxxn6")]
+script = ExtResource("2_v4oec")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

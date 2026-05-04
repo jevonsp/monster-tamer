@@ -29,13 +29,13 @@ signal on_summary_closed
 signal move_learning_finished
 signal request_open_storage
 signal request_open_store(store_component)
-signal grab_default_battle_focus
+#signal grab_default_battle_focus
 signal update_save_info
 signal request_text_entry
 signal text_enter_pressed(chosen_string: String)
 signal text_cancel_info(can_cancel: bool, message: String)
 signal text_cancel_pressed
-signal text_cancel_response(answer: bool)
+#signal text_cancel_response(answer: bool)
 signal send_choices(question: Array[String], choices: Array[String])
 signal choice_given(choice: String)
 signal request_open_map

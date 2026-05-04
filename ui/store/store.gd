@@ -211,24 +211,9 @@ func _on_button_pressed(button: Button) -> void:
 	_set_focus_state(Focused.CATEGORY)
 
 
-func _on_quantity_pressed(button: Button) -> void:
+func _on_quantity_pressed(_button: Button) -> void:
 	match transaction_state:
-		Transaction.BUYING:
-			match button.name:
-				"One":
-					_buy(1)
-				"Five":
-					_buy(5)
-				"Ten":
-					_buy(10)
-		Transaction.SELLING:
-			match button.name:
-				"One":
-					_sell(1)
-				"Five":
-					_sell(5)
-				"Ten":
-					_sell(10)
+		pass
 
 	_hide_quantity()
 	_set_focus_state(Focused.ITEM)
@@ -442,31 +427,3 @@ func _reset() -> void:
 	_show_options()
 	_hide_items()
 	_hide_quantity()
-
-
-func _buy(amount: int) -> void:
-	var item = last_focused_item_button.item
-	var r: Dictionary = StoreService.try_buy(player_ref, current_category, item, amount, inventory)
-	if r.ok:
-		_grab_item_focus()
-		return
-	var ta: Array[String] = [r.message]
-	Ui.send_text_box.emit(null, ta, true, false, false)
-	await Ui.text_box_complete
-	_grab_item_focus()
-
-
-func _sell(amount: int) -> void:
-	if not player_ref:
-		return
-	if not last_focused_item_button:
-		return
-	var item: Item = last_focused_item_button.item
-	var r: Dictionary = StoreService.try_sell(player_ref, player_inventory, current_category, item, amount)
-	if r.ok:
-		_display_current()
-		_set_focus_state(Focused.ITEM)
-		return
-	var ta: Array[String] = [r.message]
-	Ui.send_text_box.emit(null, ta, true, false, false)
-	await Ui.text_box_complete

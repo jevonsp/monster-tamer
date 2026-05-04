@@ -38,8 +38,9 @@ func fully_heal_and_revive_party() -> void:
 	for monster: Monster in party:
 		if GameOptions.is_nuzlocke() and monster.is_disabled:
 			continue
-		monster.fully_heal_and_revive()
-		monster.restore_pp()
+		var msr = MonsterRestorationService.new()
+		msr.fully_heal_and_revive(monster)
+		msr.restore_pp(monster)
 	send_player_party()
 
 

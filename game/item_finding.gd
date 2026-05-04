@@ -1,4 +1,5 @@
-extends Node
+class_name ItemFinding
+extends RefCounted
 
 const BASE_BALL = preload("uid://dpiumhuub3udr")
 

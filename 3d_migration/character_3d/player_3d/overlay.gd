@@ -3,9 +3,11 @@ extends ColorRect
 
 signal show_overlay(type: OverlayType)
 
-enum OverlayType { NONE, IRIS, DARK }
+enum OverlayType { NONE, IRIS, DARK, WATER }
 
 @export var overlay_type: OverlayType = OverlayType.NONE
+
+@onready var water: ColorRect = $"../Water"
 
 
 func _ready() -> void:
@@ -28,6 +30,11 @@ func show_dark() -> void:
 	visible = true
 
 
+func show_water() -> void:
+	visible = false
+	water.visible = true
+
+
 func _on_show_overlay(type: OverlayType) -> void:
 	match type:
 		OverlayType.NONE:
@@ -36,3 +43,5 @@ func _on_show_overlay(type: OverlayType) -> void:
 			show_iris()
 		OverlayType.DARK:
 			show_dark()
+		OverlayType.WATER:
+			show_water()

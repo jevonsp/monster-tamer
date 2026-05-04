@@ -100,18 +100,6 @@ func finish_moving_move() -> void:
 	visibility_focus_handler.clear_move_swap_highlight()
 
 
-func ask_remove_move() -> void:
-	await MoveLearningService.ask_remove_move(self)
-
-
-func handle_cancel_learning() -> bool:
-	return await MoveLearningService.handle_cancel_learning(self)
-
-
-func clean_up_learning_move() -> void:
-	MoveLearningService.clean_up_learning_move(self)
-
-
 func _connect_signals() -> void:
 	Party.send_player_party.connect(_set_player_party)
 	Ui.on_menu_closed.connect(_clear_player_party)
@@ -119,7 +107,6 @@ func _connect_signals() -> void:
 	Battle.battle_started.connect(_on_battle_started)
 	Battle.battle_ended.connect(_on_battle_ended)
 	Party.request_summary_learn_move.connect(_on_request_summary_learn_move)
-	Party.request_summary_move_learning.connect(_resolve_move_learning)
 
 
 func _bind_buttons() -> void:
@@ -156,11 +143,3 @@ func _clear_player_party() -> void:
 func _on_request_summary_learn_move(move: Move) -> void:
 	is_learning_move = true
 	move_learning = move
-
-
-func _resolve_move_learning(monster: Monster, move: Move) -> void:
-	await MoveLearningService.resolve_move_learning(self, monster, move)
-
-
-func _set_move_learning_processing(value: bool, reason: String) -> void:
-	MoveLearningService.set_move_learning_processing(self, value, reason)

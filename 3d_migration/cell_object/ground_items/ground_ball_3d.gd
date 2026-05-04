@@ -7,6 +7,6 @@ extends CellObject
 func _after_command_list_run(flow: Command.Flow) -> void:
 	if flow == Command.Flow.STOP:
 		return
-	_deactivate()
+	deactivate()
 	for ball in linked_balls:
-		ball._deactivate()
+		ball.deactivate()

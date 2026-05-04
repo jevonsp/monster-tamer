@@ -39,7 +39,13 @@ func _ready() -> void:
 
 
 func interact(player: Player3D) -> void:
+	PlayerContext3D.toggle_player.emit(false)
+	PlayerContext3D.player.clear_inputs()
+
 	await interaction_helper.interact(player)
+
+	PlayerContext3D.player.clear_inputs()
+	PlayerContext3D.toggle_player.emit(true)
 
 
 func change_command_index_to(index: int) -> void:
@@ -76,6 +82,13 @@ func on_load_game(saved_data_array: Array[SavedData]) -> void:
 	_update()
 
 
+func deactivate() -> void:
+	is_active = false
+	blocks_player = false
+	visible = false
+	_update()
+
+
 func _after_command_list_run(_flow: Command.Flow) -> void:
 	pass
 
@@ -90,10 +103,3 @@ func _update() -> void:
 		collision_mask = 2
 	else:
 		collision_mask = 0
-
-
-func _deactivate() -> void:
-	is_active = false
-	blocks_player = false
-	visible = false
-	_update()

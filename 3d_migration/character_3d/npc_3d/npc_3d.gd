@@ -91,7 +91,13 @@ func _grid_direction_toward(world_point: Vector3) -> Vector3i:
 
 
 func _on_player_interact(player: Player3D) -> void:
+	PlayerContext3D.toggle_player.emit(false)
+	PlayerContext3D.player.clear_inputs()
+
 	await interaction_helper.interact(player)
+
+	PlayerContext3D.player.clear_inputs()
+	PlayerContext3D.toggle_player.emit(true)
 
 
 func _after_command_list_run(_flow: Command.Flow) -> void:

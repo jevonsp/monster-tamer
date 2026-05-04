@@ -32,7 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://bggxixy3u0k84" path="res://3d_migration/grid_map/gltfs/water/Water13_0.png" id="30_2eem7"]
 [ext_resource type="Texture2D" uid="uid://bxgymn0l7uwu8" path="res://3d_migration/grid_map/gltfs/water/Water14_0.png" id="31_7elqm"]
 [ext_resource type="Texture2D" uid="uid://d26ivfimebqnn" path="res://3d_migration/grid_map/gltfs/water/Water15_0.png" id="32_efdq8"]
-[ext_resource type="Texture2D" uid="uid://cuocjfw21j6dt" path="res://3d_migration/grid_map/tscns/Ice_0.png" id="33_jhvh2"]
+[ext_resource type="Texture2D" uid="uid://cdlbquuddcw46" path="res://3d_migration/grid_map/gltfs/Ice_0.png" id="34_87qi2"]
 [ext_resource type="Texture2D" uid="uid://dtsbifnch6nfa" path="res://3d_migration/grid_map/gltfs/Ladder_0.png" id="34_rd13o"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0tdg4"]
@@ -1383,48 +1383,6 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_2o0yb")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tt0et"]
-resource_name = "material_0"
-transparency = 2
-alpha_scissor_threshold = 0.05
-alpha_antialiasing_mode = 0
-cull_mode = 2
-albedo_texture = ExtResource("33_jhvh2")
-texture_filter = 0
-texture_repeat = false
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_2ql7n"]
-_surfaces = [{
-"aabb": AABB(-0.5, 0, -0.5, 1, 1, 1),
-"format": 34896613377,
-"index_count": 36,
-"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAAAAIAAAAEAAEAAQAFAAMABAAFAAEAAwAGAAAABgAEAAAABQAGAAMABgAHAAQABAAHAAUABQAHAAYA"),
-"name": "material_0",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 8,
-"vertex_data": PackedByteArray("/////wAAAAD//wAA//8AAP///////wAAAAD/////AAD//wAAAAAAAAAAAAD//wAAAAD//wAAAAAAAAAAAAAAAA==")
-}]
-blend_shape_mode = 0
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_rd13o"]
-resource_name = "blockbench_export_mesh"
-_surfaces = [{
-"aabb": AABB(-0.5, 0, -0.5, 1, 1, 1),
-"attribute_data": PackedByteArray("//8AAAAA//8AAAAA//////////8AAAAA//8AAAAA//8AAP////8AAP////8AAAAA/////wAAAAD//wAAAAD///////8AAAAA//8AAAAA/////wAAAAD//wAAAAD/////"),
-"format": 34896613399,
-"index_count": 36,
-"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
-"material": SubResource("StandardMaterial3D_tt0et"),
-"name": "material_0",
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 24,
-"vertex_data": PackedByteArray("/////wAA/7///wAA////v/////////+///8AAAAA/78AAAAA////vwAA//8AAP+/AAD//////78AAAAAAAD/vwAA//////+//////wAA/7//////////vwAA//8AAP+///8AAAAA/78AAAAA////v///AAD///+/AAAAAAAA/7///wAA//8AgAAA/////wCA////////AIAAAAAA//8AgAAA//8AAP////8AAAAA////////AAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9///////9/////f////3////9/AAD/fwAA/38AAP9/AAD/f/9/////f////3////9/////f////3////9/////f///")
-}]
-blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_2ql7n")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0f4e7"]
 resource_name = "material_0"
 transparency = 2
@@ -1466,6 +1424,49 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_tm6vj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvu6k"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+blend_mode = 4
+cull_mode = 2
+albedo_texture = ExtResource("34_87qi2")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_06m7s"]
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 1, 1),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAAAAIAAAAEAAEAAQAFAAMABAAFAAEAAwAGAAAABgAEAAAABQAGAAMABgAHAAQABAAHAAUABQAHAAYA"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("/////wAAAAD//wAA//8AAP///////wAAAAD/////AAD//wAAAAAAAAAAAAD//wAAAAD//wAAAAAAAAAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_sjlw3"]
+resource_name = "blockbench_export_mesh"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.5, 1, 1, 1),
+"attribute_data": PackedByteArray("/6NVNf+XVUX/l1U1/6NVRf+jVUX/l1U1/6NVNf+XVUUAAP///38AAP9///8AAAAA/6NVRf+XVTX/o1U1/5dVRf+jVUX/l1U1/6NVNf+XVUX/o1U1/5dVRf+XVTX/o1VF"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_fvu6k"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/////wAA/7///wAA////v/////////+///8AAAAA/78AAAAA////vwAA//8AAP+/AAD//////78AAAAAAAD/vwAA//////+//////wAA/7//////////vwAA//8AAP+///8AAAAA/78AAAAA////v///AAD///+/AAAAAAAA/7///wAA//8AgAAA/////wCA////////AIAAAAAA//8AgAAA//8AAP////8AAAAA////////AAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9///////9/////f////3////9/AAD/fwAA/38AAP9/AAD/f/9/////f////3////9/////f////3////9/////f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_06m7s")
 
 [node name="GridMapMeshScene" type="Node3D" unique_id=1728491286]
 
@@ -1596,10 +1597,10 @@ mesh = SubResource("ArrayMesh_ocpvy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 0, 0)
 mesh = SubResource("ArrayMesh_ug0u5")
 
-[node name="Ice" type="MeshInstance3D" parent="." unique_id=577403666]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
-mesh = SubResource("ArrayMesh_rd13o")
-
 [node name="Ladder" type="MeshInstance3D" parent="." unique_id=748174240]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0.375, 0)
 mesh = SubResource("ArrayMesh_87qi2")
+
+[node name="Ice" type="MeshInstance3D" parent="." unique_id=1384938544]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
+mesh = SubResource("ArrayMesh_sjlw3")

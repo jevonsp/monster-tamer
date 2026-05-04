@@ -1,6 +1,10 @@
 class_name Player3D
 extends Character3D
 
+const CLIMB_BLEND_IDLE := Vector2.ZERO
+const CLIMB_BLEND_DOWN := Vector2(0.0, 1.0)
+const CLIMB_BLEND_UP := Vector2(0.0, -1.0)
+
 @export var pivot: Node3D
 @export var camera_3d: Camera3D
 
@@ -12,10 +16,6 @@ var command_active: bool = false
 var in_battle: bool = false
 var _asked_surfing_once: bool = false
 var _bump_latched_collider_id: int = -1
-
-const CLIMB_BLEND_IDLE := Vector2.ZERO
-const CLIMB_BLEND_DOWN := Vector2(0.0, 1.0)
-const CLIMB_BLEND_UP := Vector2(0.0, -1.0)
 
 @onready var party_handler: PartyHandler3D = $PartyHandler
 @onready var inventory_handler: InventoryHandler3D = $InventoryHandler
@@ -151,6 +151,10 @@ func set_movement_locked(value: bool) -> void:
 		processing = false
 	else:
 		processing = true
+
+
+func is_moving() -> bool:
+	return _moving
 
 
 func _text_entry_is_using_menu() -> bool:

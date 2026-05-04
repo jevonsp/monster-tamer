@@ -37,7 +37,7 @@ func interact(player: Player3D) -> void:
 
 	super(player)
 
-	_deactivate()
+	deactivate()
 
 
 func on_load_game(saved_data_array: Array[SavedData]) -> void:

@@ -275,6 +275,8 @@ func _process_moving_state(delta: float) -> void:
 	if _moving:
 		if _advance_step_motion(delta):
 			return
+		if _moving:
+			return
 
 	var input_dir := get_input_direction()
 	if input_dir == Vector3i.ZERO:

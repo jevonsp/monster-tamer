@@ -9,7 +9,8 @@ func look_dirs(character: Character3D) -> bool:
 		return true
 	var directions: Array[Vector3i] = []
 	for dir: DirHelper.Direction in look_list:
-		directions.append(DirHelper.vec_from_dir(dir))
+		var dir_helper = DirHelper.new()
+		directions.append(dir_helper.vec_from_dir(dir))
 	return await character.look_directions(directions)
 
 

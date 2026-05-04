@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cuocjfw21j6dt"
-path.s3tc="res://.godot/imported/Ice_0.png-6ec51fe1ac888c43e43a143c10c1e8b1.s3tc.ctex"
+uid="uid://cdlbquuddcw46"
+path.s3tc="res://.godot/imported/Ice_0.png-5515e6bbe2e3eb0e5f9af76427ae7d3d.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "91f514108131a23942efe15f5b8d6fcf"
+"md5": "0c582a1ad8530e2b1105f07c7a92aa8e"
 }
 
 [deps]
 
-source_file="res://3d_migration/grid_map/tscns/Ice_0.png"
-dest_files=["res://.godot/imported/Ice_0.png-6ec51fe1ac888c43e43a143c10c1e8b1.s3tc.ctex"]
+source_file="res://3d_migration/grid_map/gltfs/Ice_0.png"
+dest_files=["res://.godot/imported/Ice_0.png-5515e6bbe2e3eb0e5f9af76427ae7d3d.s3tc.ctex"]
 
 [params]
 

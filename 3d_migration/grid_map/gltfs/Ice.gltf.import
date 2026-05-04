@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://conqi1qqlbi6t"
-path="res://.godot/imported/Ice.gltf-24a1568d48e403780d630ad47dffd39c.scn"
+path="res://.godot/imported/Ice.gltf-856c55020f61386e090553fdea40f482.scn"
 
 [deps]
 
-source_file="res://3d_migration/grid_map/tscns/Ice.gltf"
-dest_files=["res://.godot/imported/Ice.gltf-24a1568d48e403780d630ad47dffd39c.scn"]
+source_file="res://3d_migration/grid_map/gltfs/Ice.gltf"
+dest_files=["res://.godot/imported/Ice.gltf-856c55020f61386e090553fdea40f482.scn"]
 
 [params]
 
