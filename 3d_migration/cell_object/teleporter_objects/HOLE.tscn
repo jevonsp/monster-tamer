@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://du2pitlcf8rag"]
+
+[ext_resource type="Script" uid="uid://b4fn7qgwqulb2" path="res://3d_migration/cell_object/teleporter_objects/teleporter_object.gd" id="1_8pfnq"]
+[ext_resource type="Script" uid="uid://bbpkwu8gp6ll4" path="res://3d_migration/world_command/command_list.gd" id="2_jfgo0"]
+[ext_resource type="Script" uid="uid://daao8xiandqfx" path="res://3d_migration/world_command/command.gd" id="3_tmrf3"]
+[ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://shaders/iris_transition.gdshader" id="5_pscsi"]
+[ext_resource type="PackedScene" uid="uid://cp18pvft6xci3" path="res://3d_migration/grid_map/tscns/hole.tscn" id="6_2bwwd"]
+
+[sub_resource type="Resource" id="Resource_1soxq"]
+script = ExtResource("2_jfgo0")
+metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rwva0"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1dmt2"]
+shader = ExtResource("5_pscsi")
+shader_parameter/iris_size = 0.999999977648
+shader_parameter/feather = 0.02999999932944
+shader_parameter/overlay_opacity = 1.0
+shader_parameter/centre = Vector2(0.5, 0.5)
+
+[node name="HOLE" type="Area3D" unique_id=1454602347 groups=["interactable"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_8pfnq")
+command_lists = Array[ExtResource("2_jfgo0")]([SubResource("Resource_1soxq")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=598749242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -0.5)
+shape = SubResource("BoxShape3D_rwva0")
+debug_color = Color(1, 0, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1999684961]
+
+[node name="IrisColorRect" type="ColorRect" parent="CanvasLayer" unique_id=265644474]
+visible = false
+material = SubResource("ShaderMaterial_1dmt2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Hole" parent="." unique_id=1415686941 instance=ExtResource("6_2bwwd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.5, -0.5)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

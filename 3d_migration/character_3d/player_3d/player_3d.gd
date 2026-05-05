@@ -157,6 +157,12 @@ func is_moving() -> bool:
 	return _moving
 
 
+func set_state(new_state: MoveState) -> void:
+	if new_state == _current_state:
+		return
+	_current_state = new_state
+
+
 func _text_entry_is_using_menu() -> bool:
 	var te: Node = get_tree().get_first_node_in_group("text_entry_root")
 	if te == null or not is_instance_valid(te):
@@ -291,8 +297,7 @@ func _camera_relative_cardinal(local_dir: Vector3) -> Vector3i:
 
 	if absf(world_dir.x) >= absf(world_dir.z):
 		return Vector3i(1, 0, 0) if world_dir.x > 0.0 else Vector3i(-1, 0, 0)
-	else:
-		return Vector3i(0, 0, 1) if world_dir.z > 0.0 else Vector3i(0, 0, -1)
+	return Vector3i(0, 0, 1) if world_dir.z > 0.0 else Vector3i(0, 0, -1)
 
 
 func _attempt_interaction() -> void:

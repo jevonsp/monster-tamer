@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b0d40f7cjdpqg"]
+
+[node name="RouteOne" type="Node3D" unique_id=294995450]
+
+[node name="Zones" type="Node3D" parent="." unique_id=1018808948]
+
+[node name="NPCs" type="Node3D" parent="." unique_id=1564545815]
+
+[node name="Items" type="Node3D" parent="." unique_id=762412299]
+
+[node name="Objects" type="Node3D" parent="." unique_id=711863566]

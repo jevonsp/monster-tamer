@@ -61,6 +61,8 @@ func start_side_scroll() -> void:
 	if is_side_scrolling:
 		return
 	if player != null and player.grid_map != null:
+		player.set_state(player.MoveState.CLIMBING)
+
 		var ground := player.movement_helper.get_ground_cell(
 			player.global_position,
 			player.grid_map,
@@ -70,6 +72,7 @@ func start_side_scroll() -> void:
 		player.global_position = player.cell_to_world(ground)
 	else:
 		is_side_scrolling = true
+
 	side_scrolling_started.emit()
 
 
@@ -86,6 +89,9 @@ func stop_side_scroll() -> void:
 		player.global_position = player.cell_to_world(ground)
 	else:
 		is_side_scrolling = false
+
+	player.set_state(player.MoveState.IDLE)
+
 	side_scrolling_finished.emit()
 
 

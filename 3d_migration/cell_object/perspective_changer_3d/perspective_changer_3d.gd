@@ -16,9 +16,12 @@ func _ready() -> void:
 func _on_area_entered(area: Area3D) -> void:
 	if area is not Player3D:
 		return
-	await PlayerContext3D.walk_segmented_completed
+	if (area as Player3D).is_moving():
+		await PlayerContext3D.walk_segmented_completed
 	match type:
 		Type.ENTRANCE:
 			PlayerContext3D.travel_handler.start_side_scroll()
 		Type.EXIT:
 			PlayerContext3D.travel_handler.stop_side_scroll()
+		_:
+			printerr("ERR: Set %s perspective Type" % self.name)

@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cp18pvft6xci3"]
+
+[ext_resource type="PackedScene" uid="uid://cw2ewuqr7l6mh" path="res://3d_migration/grid_map/gltfs/Hole.gltf" id="1_ndpcs"]
+
+[node name="Hole" unique_id=1415686941 instance=ExtResource("1_ndpcs")]

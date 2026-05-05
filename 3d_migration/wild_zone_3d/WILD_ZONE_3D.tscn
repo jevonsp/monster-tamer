@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://djsen6xnefmky" path="res://3d_migration/wild_zone_3d/wild_zone_3d.gd" id="1_b1hql"]
 
-[node name="WildZone3D" type="Node3D" unique_id=1288161633]
+[node name="WILD_ZONE_3D" type="Node3D" unique_id=1288161633]
 script = ExtResource("1_b1hql")

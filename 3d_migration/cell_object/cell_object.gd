@@ -103,3 +103,46 @@ func _update() -> void:
 		collision_mask = 2
 	else:
 		collision_mask = 0
+
+
+func _sync_editor_debug_mesh_to_collision_shape(
+	collision_shape: CollisionShape3D,
+	size: Vector3,
+	debug_visible: bool,
+) -> void:
+	if collision_shape == null:
+		return
+	var mesh_node: MeshInstance3D = null
+	for child in collision_shape.get_children():
+		if child is MeshInstance3D and String(child.name).begins_with("EditorDebugMesh"):
+			if mesh_node == null:
+				mesh_node = child as MeshInstance3D
+			else:
+				child.queue_free()
+	for child in get_children():
+		if child is MeshInstance3D and String(child.name).begins_with("EditorDebugMesh"):
+			if mesh_node == null:
+				mesh_node = child as MeshInstance3D
+			else:
+				child.queue_free()
+	if mesh_node == null:
+		mesh_node = MeshInstance3D.new()
+		mesh_node.name = "EditorDebugMesh"
+		collision_shape.add_child(mesh_node)
+	elif mesh_node.get_parent() != collision_shape:
+		mesh_node.get_parent().remove_child(mesh_node)
+		collision_shape.add_child(mesh_node)
+	mesh_node.owner = null
+	mesh_node.position = Vector3.ZERO
+	mesh_node.rotation = Vector3.ZERO
+	mesh_node.scale = Vector3.ONE
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	mesh_node.mesh = mesh
+	var mat := StandardMaterial3D.new()
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.albedo_color = Color(255, 0.0, 0.0, 0.5)
+	mat.no_depth_test = true
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mesh_node.material_override = mat
+	mesh_node.visible = debug_visible

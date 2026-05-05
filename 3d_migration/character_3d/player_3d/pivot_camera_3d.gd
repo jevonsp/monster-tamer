@@ -21,8 +21,9 @@ func _rotate_camera(direction_sign: int) -> void:
 	_rotating = true
 	var target := pivot.rotation_degrees + Vector3(0, float(direction_sign) * step_degrees, 0)
 	var tween := get_tree().create_tween()
-	tween.tween_property(pivot, "rotation_degrees", target, tween_duration).set_trans(Tween.TRANS_LINEAR)
-	tween.parallel().tween_callback(func(): rotation_midpoint_reached.emit()).set_delay(tween_duration * 0.5)
+
+	tween.tween_property(pivot, "rotation_degrees", target, tween_duration).set_trans(Tween.TRANS_LINEAR) # gdlint-ignore
+	tween.parallel().tween_callback(func(): rotation_midpoint_reached.emit()).set_delay(tween_duration * 0.5) # gdlint-ignore
 	await tween.finished
 	_rotating = false
 	rotation_finished.emit()

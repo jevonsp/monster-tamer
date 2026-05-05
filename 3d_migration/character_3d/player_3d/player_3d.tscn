@@ -4,9 +4,7 @@
 [ext_resource type="Script" uid="uid://cu477quowdllf" path="res://3d_migration/character_3d/player_3d/player_3d.gd" id="2_vk4mx"]
 [ext_resource type="Shader" uid="uid://ciuu0flp8r2cq" path="res://shaders/iris_transition.gdshader" id="3_15jm7"]
 [ext_resource type="Script" uid="uid://bw03lodbfd71m" path="res://3d_migration/character_3d/player_3d/pivot_camera_3d.gd" id="3_n7w2a"]
-[ext_resource type="Texture2D" uid="uid://djoqot0cq4qv1" path="res://3d_migration/character_3d/player_sprite_sheet_top.png" id="3_tpeas"]
 [ext_resource type="Script" uid="uid://cmisydnnltv1i" path="res://3d_migration/character_3d/player_3d/overlay.gd" id="4_qb2af"]
-[ext_resource type="Texture2D" uid="uid://b2i0knoomugo6" path="res://3d_migration/character_3d/player_sprite_sheet_bottom.png" id="4_v1bcl"]
 [ext_resource type="Script" uid="uid://d24oe5df2q6jr" path="res://3d_migration/character_3d/player_3d/player_handlers/party_handler_3d.gd" id="4_waopg"]
 [ext_resource type="Script" uid="uid://dcrs2ayvx0g53" path="res://3d_migration/character_3d/player_3d/player_handlers/inventory_handler_3d.gd" id="5_15jm7"]
 [ext_resource type="Script" uid="uid://u0fjo2y4tebh" path="res://3d_migration/character_3d/player_3d/player_handlers/story_flag_handler_3d.gd" id="6_qb2af"]
@@ -33,30 +31,8 @@ texture = null
 [node name="TopSprite3D" parent="." index="1" unique_id=1223395461]
 transform = Transform3D(5, 0, 0, 0, 3.535534, 3.535534, 0, -3.535534, 3.535534, 0.5, 0.19999999, 0.5)
 
-[node name="TopSpriteReflection" type="Sprite3D" parent="TopSprite3D" index="1" unique_id=1521909396]
-transform = Transform3D(-1, -8.7422784e-08, 0, 8.742278e-08, -1, 0, 0, 0, 1, 0, -0.24041635, -0.098994985)
-visible = false
-offset = Vector2(0, -4)
-flip_v = true
-billboard = 1
-texture_filter = 0
-texture = ExtResource("3_tpeas")
-hframes = 3
-vframes = 5
-
 [node name="Shadow" parent="BottomSprite3D" parent_id_path=PackedInt32Array(199606803) index="0" unique_id=207606514]
 visible = false
-
-[node name="BottomSpriteReflection" type="Sprite3D" parent="BottomSprite3D" parent_id_path=PackedInt32Array(199606803) index="1" unique_id=2106678812]
-transform = Transform3D(-1, -8.7422784e-08, 0, 6.181724e-08, -0.70710677, 0.70710677, -6.181724e-08, 0.70710677, 0.70710677, 0, -0.24000004, 0.1)
-visible = false
-offset = Vector2(0, -4)
-flip_v = true
-billboard = 1
-texture_filter = 0
-texture = ExtResource("4_v1bcl")
-hframes = 3
-vframes = 5
 
 [node name="AnimationTree" parent="." index="4" unique_id=2084784604]
 anim_player = NodePath("AnimationPlayer")
