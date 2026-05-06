@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cu608frn62l0w"]
+
+[ext_resource type="PackedScene" uid="uid://bys84cxfkivxs" path="res://3d_migration/grid_map/gltfs/Snow.gltf" id="1_phjkr"]
+
+[node name="Snow" unique_id=186115594 instance=ExtResource("1_phjkr")]

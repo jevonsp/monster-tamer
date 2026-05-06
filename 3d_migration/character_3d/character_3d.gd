@@ -352,6 +352,7 @@ func _try_start_move(direction: Vector3i) -> bool:
 	var edge := _get_edge_for_direction(ground, direction)
 	if edge == null:
 		return false
+
 	match edge.move_kind:
 		GraphEdge.MoveKind.LEDGE_JUMP:
 			_begin_ledge_jump(edge)
@@ -427,7 +428,8 @@ func _get_sliding_continuation_edge(ground: Vector3i, landed_edge: GraphEdge) ->
 	_turn_ray_in(landed_edge.step)
 	if _slide_is_blocked_by_collider():
 		return null
-	return _get_edge_for_direction(ground, landed_edge.step)
+	var next_edge := _get_edge_for_direction(ground, landed_edge.step)
+	return next_edge
 
 
 func _slide_is_blocked_by_collider() -> bool:

@@ -5,7 +5,7 @@ const TILE_DICT: Dictionary = {
 	STAIRS = 1,
 	LEDGE = 15,
 	WATER = 16,
-	ICE = 32,
+	ICE = 33,
 }
 const WATER_DICT: Dictionary = {
 	WATER_0 = 16,
@@ -44,6 +44,7 @@ var water_direction := 1
 
 func _ready() -> void:
 	stairs = get_used_cells_by_item(TILE_DICT.STAIRS)
+
 	_collect_water_cells()
 	_build_cell_flags()
 	_build_graph_edges()
@@ -102,6 +103,9 @@ func _build_cell_flags() -> void:
 		var cells = get_used_cells_by_item(key)
 		for cell in cells:
 			cell_flags[cell] = mesh_flags[key]
+
+	for cell in used_cells:
+		_mark_cell_tile_flags(cell)
 
 
 func _mark_cell_tile_flags(cell: Vector3i) -> void:
