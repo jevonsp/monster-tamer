@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://c6pw8k0lim5i7"]
+
+[ext_resource type="Texture2D" uid="uid://bq0soqgxciif4" path="res://new_monsters/01_Monster_Sheet.png" id="1_bsrhv"]
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_xxfqh"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_bsrhv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsrhv"]
+atlas = ExtResource("1_bsrhv")
+region = Rect2(420, 60, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyhrg"]
+atlas = ExtResource("1_bsrhv")
+region = Rect2(420, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bgee"]
+atlas = ExtResource("1_bsrhv")
+region = Rect2(420, 180, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tagl5"]
+atlas = ExtResource("1_bsrhv")
+region = Rect2(420, 120, 60, 60)
+
+[resource]
+script = ExtResource("2_bsrhv")
+species = "Dragwing"
+description = "Only the strongest of this monster family are able to hunt enough food to grow wings."
+base_front_texture = SubResource("AtlasTexture_iyhrg")
+base_back_texture = SubResource("AtlasTexture_bsrhv")
+shiny_front_texture = SubResource("AtlasTexture_tagl5")
+shiny_back_texture = SubResource("AtlasTexture_7bgee")
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

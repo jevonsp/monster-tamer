@@ -7,7 +7,10 @@ enum Gender { GENDERLESS, MALE, FEMALE }
 @export_multiline var description: String = ""
 @export var primary_type: TypeChart.Type
 @export var secondary_type: TypeChart.Type
-@export var texture: Texture2D
+@export var base_front_texture: Texture2D
+@export var base_back_texture: Texture2D
+@export var shiny_front_texture: Texture2D
+@export var shiny_back_texture: Texture2D
 @export_subgroup("Moves")
 @export var starting_moves: Array[Move] = []
 @export var level_up_moves: Dictionary[int, Move] = { }

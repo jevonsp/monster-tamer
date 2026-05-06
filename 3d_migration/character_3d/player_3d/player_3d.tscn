@@ -35,7 +35,7 @@ transform = Transform3D(5, 0, 0, 0, 3.535534, 3.535534, 0, -3.535534, 3.535534, 
 visible = false
 
 [node name="AnimationTree" parent="." index="4" unique_id=2084784604]
-anim_player = NodePath("AnimationPlayer")
+anim_player = NodePath("../AnimationPlayer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="7" unique_id=1074753232]
 

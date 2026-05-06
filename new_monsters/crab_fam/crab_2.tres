@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://h6sy234tshgc"]
+
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_0whts"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_c1fkh"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0whts"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1fkh"]
+atlas = SubResource("CompressedTexture2D_0whts")
+region = Rect2(60, 60, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dg6da"]
+atlas = SubResource("CompressedTexture2D_0whts")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fe4p"]
+atlas = SubResource("CompressedTexture2D_0whts")
+region = Rect2(60, 180, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ywbr"]
+atlas = SubResource("CompressedTexture2D_0whts")
+region = Rect2(60, 120, 60, 60)
+
+[resource]
+script = ExtResource("2_c1fkh")
+species = "Crablish"
+description = "A medium-sized hermit crab monster. Beware its powerful claws."
+primary_type = 2
+base_front_texture = SubResource("AtlasTexture_dg6da")
+base_back_texture = SubResource("AtlasTexture_c1fkh")
+shiny_front_texture = SubResource("AtlasTexture_3ywbr")
+shiny_back_texture = SubResource("AtlasTexture_6fe4p")
+metadata/_custom_type_script = "uid://vx6b6njwqnde"
