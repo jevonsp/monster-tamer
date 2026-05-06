@@ -20,7 +20,6 @@ func _ready() -> void:
 	_ensure_dialogue_nodes()
 	game_text_box.bind_ui_signals()
 	add_to_group("interfaces")
-	Global.toggle_player.connect(refresh_field_input)
 	_connect_signals()
 	evolution_screen.visibility_changed.connect(_on_evolution_visibility_changed)
 	call_deferred("_deferred_refresh_dialogue_presenter")

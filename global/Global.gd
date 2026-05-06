@@ -1,7 +1,6 @@
 extends Node
 
 @warning_ignore_start("unused_signal")
-signal toggle_player
 signal step_completed(position: Vector2)
 signal send_respawn_player
 signal period_of_day_changed

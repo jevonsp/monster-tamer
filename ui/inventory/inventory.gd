@@ -294,6 +294,10 @@ func _set_mode_give_target(value: bool) -> void:
 	mode = Mode.PICK_GIVE_TARGET if value else Mode.BROWSING
 
 
+func is_waiting_for_party_target() -> bool:
+	return not visible and (mode == Mode.PICK_USE_TARGET or mode == Mode.PICK_GIVE_TARGET)
+
+
 func _on_inventory_panel_pressed(inventory_panel: Button) -> void:
 	_set_item_focus(inventory_panel)
 	var item: Item = inventory_panel.item

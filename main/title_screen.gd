@@ -75,7 +75,8 @@ func _continue() -> void:
 func _new_game() -> void:
 	var main: Node = SaverLoader.load_level(SaverLoader.MAIN)
 	SaverLoader.toggle_visible()
-	Global.toggle_player.emit()
+	if main.interfaces and main.interfaces.has_method("refresh_field_input"):
+		main.interfaces.refresh_field_input()
 
 	_prep_new_save()
 
