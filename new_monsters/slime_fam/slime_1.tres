@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://bajoj8yy1f2yv"]
+
+[ext_resource type="Texture2D" uid="uid://bq0soqgxciif4" path="res://new_monsters/01_Monster_Sheet.png" id="1_asy4a"]
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_j0chu"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_asy4a"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dldu1"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bbyos"]
+atlas = SubResource("CompressedTexture2D_dldu1")
+region = Rect2(360, 300, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4quh"]
+atlas = ExtResource("1_asy4a")
+region = Rect2(360, 240, 60, 60)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l0vym"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3gor"]
+atlas = SubResource("CompressedTexture2D_l0vym")
+region = Rect2(360, 420, 60, 60)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w2bnm"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyuuo"]
+atlas = SubResource("CompressedTexture2D_w2bnm")
+region = Rect2(360, 360, 60, 60)
+
+[resource]
+script = ExtResource("2_asy4a")
+species = "Sad Slime"
+description = "Found in dungeons and caves. This slime is lonely."
+base_front_texture = SubResource("AtlasTexture_s4quh")
+base_back_texture = SubResource("AtlasTexture_bbyos")
+shiny_front_texture = SubResource("AtlasTexture_qyuuo")
+shiny_back_texture = SubResource("AtlasTexture_p3gor")
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

@@ -14,13 +14,6 @@ func set_visible(value: bool) -> void:
 
 	if party.visible:
 		focus_default_monster()
-		for panel in party.panels:
-			party.panels[panel].player_exp_bar.active = true
-	else:
-		if party.interfaces.ui_context != Global.AccessFrom.BATTLE:
-			Ui.switch_ui_context.emit(Global.AccessFrom.NONE)
-		for panel in party.panels:
-			party.panels[panel].player_exp_bar.active = false
 
 	if party.visible and party.options_box.visible:
 		focus_default_option()

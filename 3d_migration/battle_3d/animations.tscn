@@ -3,7 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://bb2fpsjjas2ep" path="res://3d_migration/battle_3d/_assets/fx/animated_ball-Sheet.png" id="1_1ecc4"]
 [ext_resource type="Script" uid="uid://bya2xxyulmn5h" path="res://3d_migration/battle_3d/fx_player.gd" id="2_il1f4"]
 [ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="2_w8ghm"]
-[ext_resource type="Script" uid="uid://bxj7j7ui2lvws" path="res://3d_migration/battle_3d/texture_rect.gd" id="3_w8ghm"]
+[ext_resource type="Script" uid="uid://x8pvomff4rh7" path="res://3d_migration/battle_3d/enemy_texture_rect.gd" id="3_8tqf1"]
+[ext_resource type="Script" uid="uid://bxj7j7ui2lvws" path="res://3d_migration/battle_3d/player_texture_rect.gd" id="3_w8ghm"]
 [ext_resource type="Script" uid="uid://d3dtu6yc1y1qq" path="res://3d_migration/battle_3d/animation_player.gd" id="6_8tqf1"]
 [ext_resource type="Texture2D" uid="uid://23v2pw0i4gy2" path="res://3d_migration/battle_3d/_assets/animations/Blood Splat.png" id="6_il1f4"]
 
@@ -498,7 +499,7 @@ offset_top = 150.0
 offset_right = 1187.0002
 offset_bottom = 406.0
 texture = ExtResource("2_w8ghm")
-script = ExtResource("3_w8ghm")
+script = ExtResource("3_8tqf1")
 metadata/_edit_use_anchors_ = true
 
 [node name="Path2D" type="Path2D" parent="." unique_id=584710496]

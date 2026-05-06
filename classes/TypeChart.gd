@@ -8,6 +8,7 @@ enum Type {
 	GRASS,
 	AIR,
 	EARTH,
+	ICE,
 }
 
 const NOT_VERY: float = 0.5
@@ -22,14 +23,16 @@ const TYPE_CHART: Dictionary = {
 		Type.GRASS: NORMAL,
 		Type.AIR: NORMAL,
 		Type.EARTH: NOT_VERY,
+		Type.ICE: NORMAL,
 	},
 	Type.FIRE: {
 		Type.NONE: NORMAL,
-		Type.FIRE: NORMAL,
+		Type.FIRE: NOT_VERY,
 		Type.WATER: NOT_VERY,
 		Type.GRASS: SUPER_EFFECTIVE,
 		Type.AIR: SUPER_EFFECTIVE,
 		Type.EARTH: NOT_VERY,
+		Type.ICE: SUPER_EFFECTIVE,
 	},
 	Type.WATER: {
 		Type.NONE: NORMAL,
@@ -38,6 +41,7 @@ const TYPE_CHART: Dictionary = {
 		Type.GRASS: NOT_VERY,
 		Type.AIR: NORMAL,
 		Type.EARTH: SUPER_EFFECTIVE,
+		Type.ICE: NOT_VERY,
 	},
 	Type.GRASS: {
 		Type.NONE: NORMAL,
@@ -46,6 +50,7 @@ const TYPE_CHART: Dictionary = {
 		Type.GRASS: NORMAL,
 		Type.AIR: NOT_VERY,
 		Type.EARTH: SUPER_EFFECTIVE,
+		Type.ICE: NORMAL,
 	},
 	Type.AIR: {
 		Type.NONE: NORMAL,
@@ -54,6 +59,7 @@ const TYPE_CHART: Dictionary = {
 		Type.GRASS: NORMAL,
 		Type.AIR: NORMAL,
 		Type.EARTH: SUPER_EFFECTIVE,
+		Type.ICE: NORMAL,
 	},
 	Type.EARTH: {
 		Type.NONE: NORMAL,
@@ -62,10 +68,18 @@ const TYPE_CHART: Dictionary = {
 		Type.GRASS: NORMAL,
 		Type.AIR: NORMAL,
 		Type.EARTH: NOT_VERY,
+		Type.ICE: NORMAL,
+	},
+	Type.ICE: {
+		Type.NONE: NORMAL,
+		Type.FIRE: NOT_VERY,
+		Type.WATER: NOT_VERY,
+		Type.GRASS: SUPER_EFFECTIVE,
+		Type.AIR: NORMAL,
+		Type.EARTH: SUPER_EFFECTIVE,
+		Type.ICE: NORMAL,
 	},
 }
-
-
 # TYPE_CHART_GENERATED_END
 static func get_attacking_type_efficacy(attacking_type: Type, defender: Monster) -> float:
 	var primary_type: Type = defender.primary_type

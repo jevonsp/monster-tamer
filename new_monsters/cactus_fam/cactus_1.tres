@@ -33,6 +33,7 @@ region = Rect2(180, 120, 60, 60)
 script = ExtResource("2_x68e6")
 species = "Cacteeny"
 description = "This monster loves the desert. If given enough sunlight, it will grow big and strong."
+primary_type = 3
 base_front_texture = SubResource("AtlasTexture_t44qp")
 base_back_texture = SubResource("AtlasTexture_svgiu")
 shiny_front_texture = SubResource("AtlasTexture_o6eqa")

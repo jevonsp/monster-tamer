@@ -24,6 +24,7 @@ region = Rect2(360, 120, 60, 60)
 script = ExtResource("2_08q86")
 species = "Dragling"
 description = "In the first stages of its life, this species stays on the ground. They gorge themselves and try to grow strong enough to sprout wings."
+primary_type = 1
 base_front_texture = SubResource("AtlasTexture_wwi36")
 base_back_texture = SubResource("AtlasTexture_cnk2l")
 shiny_front_texture = SubResource("AtlasTexture_0gfkk")

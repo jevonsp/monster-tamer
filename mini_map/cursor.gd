@@ -21,9 +21,9 @@ func get_input_direction() -> Vector2:
 		dir.x += 1.0
 	if Input.is_action_pressed("left"):
 		dir.x -= 1.0
-	if Input.is_action_pressed("down"):
+	if Input.is_action_pressed("back"):
 		dir.y += 1.0
-	if Input.is_action_pressed("up"):
+	if Input.is_action_pressed("forward"):
 		dir.y -= 1.0
 	return dir
 

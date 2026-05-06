@@ -24,6 +24,7 @@ region = Rect2(420, 120, 60, 60)
 script = ExtResource("2_bsrhv")
 species = "Dragwing"
 description = "Only the strongest of this monster family are able to hunt enough food to grow wings."
+primary_type = 1
 base_front_texture = SubResource("AtlasTexture_iyhrg")
 base_back_texture = SubResource("AtlasTexture_bsrhv")
 shiny_front_texture = SubResource("AtlasTexture_tagl5")

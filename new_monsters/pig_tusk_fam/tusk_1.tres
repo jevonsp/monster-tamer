@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://et1uqlevb4qn"]
+
+[ext_resource type="Texture2D" uid="uid://bq0soqgxciif4" path="res://new_monsters/01_Monster_Sheet.png" id="1_ocotl"]
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="2_ljngl"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="3_1i6qr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0l3uy"]
+atlas = ExtResource("1_ocotl")
+region = Rect2(540, 300, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tjjo"]
+atlas = ExtResource("1_ocotl")
+region = Rect2(540, 240, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03ud6"]
+atlas = ExtResource("1_ocotl")
+region = Rect2(540, 420, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsp3f"]
+atlas = ExtResource("1_ocotl")
+region = Rect2(540, 360, 60, 60)
+
+[resource]
+script = ExtResource("3_1i6qr")
+species = "Tuskmini"
+description = "This miniature boar Monster is small, but fierce. Once weaned from their mothers, they grow rapidly."
+primary_type = 6
+base_front_texture = SubResource("AtlasTexture_5tjjo")
+base_back_texture = SubResource("AtlasTexture_0l3uy")
+shiny_front_texture = SubResource("AtlasTexture_tsp3f")
+shiny_back_texture = SubResource("AtlasTexture_03ud6")
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

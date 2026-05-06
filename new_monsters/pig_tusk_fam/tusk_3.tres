@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://bh65j1smah643"]
+
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_bdhjk"]
+[ext_resource type="Texture2D" uid="uid://bq0soqgxciif4" path="res://new_monsters/01_Monster_Sheet.png" id="1_nerm8"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_nerm8"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_p3dqq"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbrd1"]
+atlas = SubResource("CompressedTexture2D_p3dqq")
+region = Rect2(660, 300, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxgof"]
+atlas = ExtResource("1_nerm8")
+region = Rect2(660, 240, 60, 60)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xuv0g"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3pta"]
+atlas = SubResource("CompressedTexture2D_xuv0g")
+region = Rect2(660, 420, 60, 60)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n1i6h"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ln3jy"]
+atlas = SubResource("CompressedTexture2D_n1i6h")
+region = Rect2(660, 360, 60, 60)
+
+[resource]
+script = ExtResource("2_nerm8")
+species = "Tuskmaxi"
+description = "This Monster's tusks are believed to have curative properties. Good luck ever defeating this beast though!"
+primary_type = 6
+base_front_texture = SubResource("AtlasTexture_cxgof")
+base_back_texture = SubResource("AtlasTexture_dbrd1")
+shiny_front_texture = SubResource("AtlasTexture_ln3jy")
+shiny_back_texture = SubResource("AtlasTexture_c3pta")
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

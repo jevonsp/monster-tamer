@@ -24,6 +24,7 @@ region = Rect2(240, 120, 60, 60)
 script = ExtResource("2_f8cto")
 species = "Cactungus"
 description = "This monster might look friendly, but don't pet it! Its prickly spines afflict poison."
+primary_type = 3
 base_front_texture = SubResource("AtlasTexture_qa4um")
 base_back_texture = SubResource("AtlasTexture_f8cto")
 shiny_front_texture = SubResource("AtlasTexture_8y2hu")

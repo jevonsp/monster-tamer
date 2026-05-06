@@ -13,4 +13,7 @@ func display() -> void:
 	if not actor:
 		texture = null
 		return
-	texture = actor.monster_data.texture
+	if actor.is_shiny:
+		texture = actor.monster_data.shiny_back_texture
+	else:
+		texture = actor.monster_data.base_back_texture

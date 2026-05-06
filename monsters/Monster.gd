@@ -26,6 +26,7 @@ const EXPERIENCE_PER_LEVEL: int = 50
 @export var secondary_type: Variant = null
 @export var gender: MonsterData.Gender
 @export var nature: String = ""
+@export var is_shiny: bool = false
 @export var level: int = 1
 @export var experience: int = 0
 @export var max_hitpoints: int
