@@ -10,6 +10,22 @@
 [ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="5_tick"]
 [ext_resource type="Resource" uid="uid://baq85l5hyexsx" path="res://classes/status/resources/confusion_self_hit.tres" id="6_self_hit"]
 
+[sub_resource type="Resource" id="Resource_conf_apply_fx"]
+script = ExtResource("3_vbd33")
+fx_scene = ExtResource("2_get2x")
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_conf_apply_txt"]
+script = ExtResource("4_kqkp3")
+text = Array[String](["{target} became confused!"])
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_conf_apply"]
+script = ExtResource("3_list")
+actions = Array[ExtResource("1_action")]([SubResource("Resource_conf_apply_fx"), SubResource("Resource_conf_apply_txt")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
 [sub_resource type="Resource" id="Resource_get2x"]
 script = ExtResource("4_kqkp3")
 text = Array[String](["{actor}'s confusion wore off"])
@@ -61,6 +77,7 @@ id = &"confusion"
 name = "Confusion"
 slot = 1
 default_duration = 4
+on_apply = SubResource("Resource_conf_apply")
 on_expire = SubResource("Resource_vbd33")
 on_turn_end = SubResource("Resource_conf_on_turn_end")
 on_potential_block = SubResource("Resource_conf_block_list")

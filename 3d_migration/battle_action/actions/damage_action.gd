@@ -12,7 +12,7 @@ enum DamageCategory { PHYSICAL, SPECIAL }
 @export var target_self: bool = false
 ## When > 0, damage is `target.max_hitpoints * fraction_of_max_hp` instead of
 ## the base_power formula. Bypasses attacker stats and crits.
-@export_range(0.0, 1.0) var fraction_of_max_hp: float = 0.0
+@export_range(0.0, 1.0, .001) var fraction_of_max_hp: float = 0.0
 
 
 func _trigger_impl(ctx: ActionContext) -> Flow:

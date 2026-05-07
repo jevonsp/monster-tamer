@@ -3,33 +3,6 @@
 [ext_resource type="Script" uid="uid://cdm4tkdpvawlj" path="res://3d_migration/battle_3d/fx/battle_animation.gd" id="1_7dtqu"]
 [ext_resource type="Texture2D" uid="uid://by73jxcedrfjc" path="res://3d_migration/battle_3d/_assets/fx/Stuned2.png" id="2_24n4f"]
 
-[sub_resource type="Animation" id="Animation_24n4f"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control/Stunned:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Control/Stunned:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="Animation" id="Animation_battle_anim"]
 resource_name = "animation"
 step = 0.1
@@ -60,7 +33,6 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_battle_anim"]
 _data = {
-&"RESET": SubResource("Animation_24n4f"),
 &"animation": SubResource("Animation_battle_anim")
 }
 

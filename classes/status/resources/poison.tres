@@ -3,17 +3,72 @@
 [ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_2leh5"]
 [ext_resource type="Script" uid="uid://bvgeyvppx7tph" path="res://classes/status/status_data.gd" id="1_q16ju"]
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="2_je8cu"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://3d_migration/battle_action/actions/fx_action.gd" id="2_wwwxp"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="3_7rowe"]
+[ext_resource type="PackedScene" uid="uid://c5bbgqquoujuy" path="res://3d_migration/battle_3d/fx/poison.tscn" id="5_wxj2o"]
+[ext_resource type="Script" uid="uid://bni3l11hqu6mq" path="res://3d_migration/battle_action/actions/damage_action.gd" id="6_i1jox"]
+[ext_resource type="Script" uid="uid://dba2nfq8c7sm3" path="res://3d_migration/battle_action/actions/hp_tween_action.gd" id="7_77yks"]
+[ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="8_myxo3"]
+
+[sub_resource type="Resource" id="Resource_ech84"]
+script = ExtResource("2_wwwxp")
+fx_scene = ExtResource("5_wxj2o")
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_8sbem"]
+script = ExtResource("3_7rowe")
+text = Array[String](["{target} is afflicted with poison!"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
 
 [sub_resource type="Resource" id="Resource_q5aon"]
 script = ExtResource("2_je8cu")
+actions = Array[ExtResource("1_2leh5")]([SubResource("Resource_ech84"), SubResource("Resource_8sbem")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[sub_resource type="Resource" id="Resource_s0mrg"]
+script = ExtResource("3_7rowe")
+text = Array[String](["{actor}'s poison wore off"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
 
 [sub_resource type="Resource" id="Resource_rp5sa"]
 script = ExtResource("2_je8cu")
+actions = Array[ExtResource("1_2leh5")]([SubResource("Resource_s0mrg")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
-[sub_resource type="Resource" id="Resource_7ed7r"]
+[sub_resource type="Resource" id="Resource_cfp4g"]
+script = ExtResource("2_wwwxp")
+fx_scene = ExtResource("5_wxj2o")
+target_self = true
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_5d6tl"]
+script = ExtResource("3_7rowe")
+text = Array[String](["{actor} is hurt by its poison!"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_d5mqq"]
+script = ExtResource("6_i1jox")
+target_self = true
+fraction_of_max_hp = 0.125
+metadata/_custom_type_script = "uid://bni3l11hqu6mq"
+
+[sub_resource type="Resource" id="Resource_2cua1"]
+script = ExtResource("7_77yks")
+metadata/_custom_type_script = "uid://dba2nfq8c7sm3"
+
+[sub_resource type="Resource" id="Resource_a7548"]
+script = ExtResource("8_myxo3")
+metadata/_custom_type_script = "uid://941llsbe6qozm"
+
+[sub_resource type="Resource" id="Resource_peqng"]
 script = ExtResource("2_je8cu")
+actions = Array[ExtResource("1_2leh5")]([SubResource("Resource_cfp4g"), SubResource("Resource_5d6tl"), SubResource("Resource_d5mqq"), SubResource("Resource_2cua1"), SubResource("Resource_a7548")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
 [resource]
@@ -23,5 +78,5 @@ name = "Poison"
 slot = 0
 on_apply = SubResource("Resource_q5aon")
 on_expire = SubResource("Resource_rp5sa")
-on_turn_end = SubResource("Resource_7ed7r")
+on_turn_end = SubResource("Resource_peqng")
 metadata/_custom_type_script = "uid://bvgeyvppx7tph"

@@ -1,10 +1,83 @@
 [gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://d3h1w61rrvc1q"]
 
 [ext_resource type="Script" uid="uid://bvgeyvppx7tph" path="res://classes/status/status_data.gd" id="1_hie42"]
+[ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_ih6gu"]
+[ext_resource type="PackedScene" uid="uid://c31fu0fwmht3u" path="res://3d_migration/battle_3d/fx/frostbite.tscn" id="2_wldhy"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://3d_migration/battle_action/actions/fx_action.gd" id="3_27dey"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="4_2fbgy"]
+[ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="5_h65ei"]
+[ext_resource type="Script" uid="uid://bni3l11hqu6mq" path="res://3d_migration/battle_action/actions/damage_action.gd" id="6_2fbgy"]
+[ext_resource type="Script" uid="uid://dba2nfq8c7sm3" path="res://3d_migration/battle_action/actions/hp_tween_action.gd" id="7_h65ei"]
+[ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="8_igc7u"]
+
+[sub_resource type="Resource" id="Resource_igc7u"]
+script = ExtResource("3_27dey")
+fx_scene = ExtResource("2_wldhy")
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_rxk73"]
+script = ExtResource("4_2fbgy")
+text = Array[String](["{target} is afflicted with frostbite!"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_ohldn"]
+script = ExtResource("5_h65ei")
+actions = Array[ExtResource("1_ih6gu")]([SubResource("Resource_igc7u"), SubResource("Resource_rxk73")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[sub_resource type="Resource" id="Resource_mvnj7"]
+script = ExtResource("4_2fbgy")
+text = Array[String](["{actor}'s frostbite wore off."])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_vjpjt"]
+script = ExtResource("5_h65ei")
+actions = Array[ExtResource("1_ih6gu")]([SubResource("Resource_mvnj7")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[sub_resource type="Resource" id="Resource_sd24l"]
+script = ExtResource("3_27dey")
+fx_scene = ExtResource("2_wldhy")
+target_self = true
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_41ho6"]
+script = ExtResource("4_2fbgy")
+text = Array[String](["{actor} is hurt by its frostbite!"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_xnt4p"]
+script = ExtResource("6_2fbgy")
+target_self = true
+fraction_of_max_hp = 0.063
+metadata/_custom_type_script = "uid://bni3l11hqu6mq"
+
+[sub_resource type="Resource" id="Resource_0jkf7"]
+script = ExtResource("7_h65ei")
+metadata/_custom_type_script = "uid://dba2nfq8c7sm3"
+
+[sub_resource type="Resource" id="Resource_28uu7"]
+script = ExtResource("8_igc7u")
+metadata/_custom_type_script = "uid://941llsbe6qozm"
+
+[sub_resource type="Resource" id="Resource_xcffh"]
+script = ExtResource("5_h65ei")
+actions = Array[ExtResource("1_ih6gu")]([SubResource("Resource_sd24l"), SubResource("Resource_41ho6"), SubResource("Resource_xnt4p"), SubResource("Resource_0jkf7"), SubResource("Resource_28uu7")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
 [resource]
 script = ExtResource("1_hie42")
 id = &"frostbite"
 name = "Frostbite"
 slot = 0
+default_duration = 2
+on_apply = SubResource("Resource_ohldn")
+on_expire = SubResource("Resource_vjpjt")
+on_turn_end = SubResource("Resource_xcffh")
 metadata/_custom_type_script = "uid://bvgeyvppx7tph"

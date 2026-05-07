@@ -2,17 +2,60 @@
 
 [ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_action"]
 [ext_resource type="Script" uid="uid://bvgeyvppx7tph" path="res://classes/status/status_data.gd" id="2_status"]
+[ext_resource type="PackedScene" uid="uid://dqa25jbw43pc" path="res://3d_migration/battle_3d/fx/sleep.tscn" id="2_x2y8t"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://3d_migration/battle_action/actions/fx_action.gd" id="3_ba062"]
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="3_list"]
 [ext_resource type="Script" uid="uid://chvyd3cr0y7nt" path="res://3d_migration/battle_action/actions/set_block_action.gd" id="4_block"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="4_lpvm8"]
 [ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="5_tick"]
+
+[sub_resource type="Resource" id="Resource_c15nr"]
+script = ExtResource("3_ba062")
+fx_scene = ExtResource("2_x2y8t")
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_oqwbl"]
+script = ExtResource("4_lpvm8")
+text = Array[String](["{target} is asleep! They may be unable to act"])
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_6beis"]
+script = ExtResource("3_list")
+actions = Array[ExtResource("1_action")]([SubResource("Resource_c15nr"), SubResource("Resource_oqwbl")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[sub_resource type="Resource" id="Resource_sleep_expire_txt"]
+script = ExtResource("4_lpvm8")
+text = Array[String](["{actor} woke up!"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_wi0aw"]
+script = ExtResource("3_list")
+actions = Array[ExtResource("1_action")]([SubResource("Resource_sleep_expire_txt")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
 [sub_resource type="Resource" id="Resource_sleep_block"]
 script = ExtResource("4_block")
 metadata/_custom_type_script = "uid://rxjgqbzr9spov"
 
+[sub_resource type="Resource" id="Resource_q3ijc"]
+script = ExtResource("3_ba062")
+fx_scene = ExtResource("2_x2y8t")
+target_self = true
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_fv8nc"]
+script = ExtResource("4_lpvm8")
+text = Array[String](["{actor} is fast asleep."])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
 [sub_resource type="Resource" id="Resource_sleep_block_list"]
 script = ExtResource("3_list")
-actions = Array[ExtResource("1_action")]([SubResource("Resource_sleep_block")])
+actions = Array[ExtResource("1_action")]([SubResource("Resource_sleep_block"), SubResource("Resource_q3ijc"), SubResource("Resource_fv8nc")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
 [sub_resource type="Resource" id="Resource_sleep_tick"]
@@ -30,6 +73,8 @@ id = &"sleep"
 name = "Sleep"
 slot = 0
 default_duration = 3
+on_apply = SubResource("Resource_6beis")
+on_expire = SubResource("Resource_wi0aw")
 on_turn_end = SubResource("Resource_sleep_on_turn_end")
 on_potential_block = SubResource("Resource_sleep_block_list")
 metadata/_custom_type_script = "uid://bvgeyvppx7tph"
