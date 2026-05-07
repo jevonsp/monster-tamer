@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://fe34kfrmeh1f"]
+
+[ext_resource type="Script" uid="uid://c50j0hhhqqyis" path="res://3d_migration/new_moves/new_move_folder/move_animation.gd" id="1_byjem"]
+[ext_resource type="Texture2D" uid="uid://bo32h21yrg6ys" path="res://3d_migration/battle_3d/_assets/animations/Ice Lance.png" id="2_b8vah"]
+
+[sub_resource type="Animation" id="Animation_b8vah"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ice:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ice:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_byjem"]
+resource_name = "animation"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ice:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Ice:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cdvkw"]
+_data = {
+&"RESET": SubResource("Animation_b8vah"),
+&"animation": SubResource("Animation_byjem")
+}
+
+[node name="IceLance" type="Control" unique_id=1581423725 node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 256.0
+offset_bottom = 256.0
+script = ExtResource("1_byjem")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2048365611]
+libraries/ = SubResource("AnimationLibrary_cdvkw")
+
+[node name="Ice" type="Sprite2D" parent="." unique_id=1311661320]
+position = Vector2(84.99999, 128)
+scale = Vector2(5, 5)
+texture = ExtResource("2_b8vah")
+hframes = 8

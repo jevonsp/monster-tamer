@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://b4ovlrmsibiia"]
+
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_4mq48"]
+[ext_resource type="Texture2D" uid="uid://bq0soqgxciif4" path="res://3d_migration/new_monsters/01_Monster_Sheet.png" id="1_x68e6"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_x68e6"]
+[ext_resource type="Resource" uid="uid://dr2ta8seew5k8" path="res://3d_migration/new_moves/new_move_folder/basic+test_moves/basic_hit.tres" id="4_bhhit"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jftdx"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svgiu"]
+atlas = SubResource("CompressedTexture2D_jftdx")
+region = Rect2(180, 60, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t44qp"]
+atlas = ExtResource("1_x68e6")
+region = Rect2(180, 0, 60, 60)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hfxco"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vai0i"]
+atlas = SubResource("CompressedTexture2D_hfxco")
+region = Rect2(180, 180, 60, 60)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xi8dv"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6eqa"]
+atlas = SubResource("CompressedTexture2D_xi8dv")
+region = Rect2(180, 120, 60, 60)
+
+[resource]
+script = ExtResource("2_x68e6")
+species = "Cacteeny"
+description = "This monster loves the desert. If given enough sunlight, it will grow big and strong."
+primary_type = 3
+base_front_texture = SubResource("AtlasTexture_t44qp")
+base_back_texture = SubResource("AtlasTexture_svgiu")
+shiny_front_texture = SubResource("AtlasTexture_o6eqa")
+shiny_back_texture = SubResource("AtlasTexture_vai0i")
+starting_moves = Array[ExtResource("1_4mq48")]([ExtResource("4_bhhit")])
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dvp1rq1omqe17"]
+
+[ext_resource type="FontFile" uid="uid://c6trtmkp0715g" path="res://3p_assets/fonts/m5x7.ttf" id="1_fpl3t"]
+
+[node name="Splash" type="Control" unique_id=967389583]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=376339478]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -51.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_fpl3t")
+theme_override_font_sizes/font_size = 64
+text = "Art by Jevon Phillips, Raphael Hatencia, Willibab and AxulArt"
+horizontal_alignment = 1

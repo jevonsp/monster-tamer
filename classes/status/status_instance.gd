@@ -1,4 +1,4 @@
 class_name StatusInstance
 extends Resource
 
-enum StatusSlot { }
+var status_slot: StatusData.StatusSlot

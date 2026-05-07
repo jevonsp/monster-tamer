@@ -56,7 +56,7 @@ var _is_registered_with_ui_flow: bool = false
 @onready var party: Button = $CanvasLayer/Content/OptionButtons/Party
 @onready var item: Button = $CanvasLayer/Content/OptionButtons/Item
 @onready var run: Button = $CanvasLayer/Content/OptionButtons/Run
-@onready var animation_player: MoveAnimator = $CanvasLayer/Content/Animations/AnimationPlayer
+@onready var animations: Animations = $CanvasLayer/Content/Animations
 @onready var fx_player: AnimationPlayer = $CanvasLayer/Content/Animations/FxPlayer
 @onready var canvas_layer: CanvasLayer = $CanvasLayer
 
@@ -94,8 +94,7 @@ func show_text(lines: Array[String], auto_complete: bool = false) -> void:
 
 func play_move_animation(choice: Choice) -> void:
 	if choice.type == Choice.Type.MOVE:
-		var anim = choice.action_or_list.get_animation_name()
-		await animation_player._play_animation(anim)
+		await animations.play_animation(choice, battle_chassis)
 
 
 func play_fx(fx_id: StringName, payload: Dictionary = { }) -> void:

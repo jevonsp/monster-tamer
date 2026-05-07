@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://ddrac46ick05f"]
+
+[ext_resource type="Script" uid="uid://c50j0hhhqqyis" path="res://3d_migration/new_moves/new_move_folder/move_animation.gd" id="1_5m77q"]
+[ext_resource type="Texture2D" uid="uid://cc3c0hhjsvu1k" path="res://3d_migration/battle_3d/_assets/animations/Bubble.png" id="2_i6230"]
+
+[sub_resource type="Animation" id="Animation_27au6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_nwwri"]
+resource_name = "animation"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.6, 0.70000005, 0.8, 0.90000004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cdvkw"]
+_data = {
+&"RESET": SubResource("Animation_27au6"),
+&"animation": SubResource("Animation_nwwri")
+}
+
+[node name="Bubble" type="Control" unique_id=1581423725 node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 256.0
+offset_bottom = 256.0
+script = ExtResource("1_5m77q")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2048365611]
+libraries/ = SubResource("AnimationLibrary_cdvkw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=641105]
+position = Vector2(111, 111)
+scale = Vector2(5, 5)
+texture = ExtResource("2_i6230")
+hframes = 4

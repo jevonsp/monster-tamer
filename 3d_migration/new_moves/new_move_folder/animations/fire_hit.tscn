@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://cdlgpd5td3b87"]
+
+[ext_resource type="Script" uid="uid://c50j0hhhqqyis" path="res://3d_migration/new_moves/new_move_folder/move_animation.gd" id="1_ahbnf"]
+[ext_resource type="Texture2D" uid="uid://5dvhpgy45i25" path="res://3d_migration/battle_3d/_assets/animations/Fire Hit.png" id="2_tc3gm"]
+[ext_resource type="Texture2D" uid="uid://crdmt1clis8jh" path="res://3d_migration/battle_3d/_assets/animations/Smoke2-Sheet.png" id="3_4go5k"]
+
+[sub_resource type="Animation" id="Animation_nwwri"]
+resource_name = "animation"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Smoke:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.08099997, 0.88),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Smoke:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.07999998, 0.099999994, 0.119999975, 0.13999999, 0.16, 0.17999998, 0.19999999, 0.22, 0.23999998, 0.25999996, 0.27999997, 0.29999998, 0.31999996, 0.33999994, 0.35999998, 0.37999997, 0.4, 0.42, 0.43999997, 0.45999995, 0.47999993, 0.49999997, 0.52, 0.53999996, 0.55999994, 0.5799999, 0.5999999, 0.6199999, 0.64, 0.65999997, 0.67999995, 0.6999999, 0.7199999, 0.7399999, 0.76, 0.78, 0.79999995, 0.81999993, 0.8399999, 0.8599999),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Fire:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Fire:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cdvkw"]
+_data = {
+&"animation": SubResource("Animation_nwwri")
+}
+
+[node name="FireHit" type="Control" unique_id=1581423725 node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 256.0
+offset_bottom = 256.0
+script = ExtResource("1_ahbnf")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2048365611]
+libraries/ = SubResource("AnimationLibrary_cdvkw")
+
+[node name="Fire" type="Sprite2D" parent="." unique_id=240358179]
+position = Vector2(159.99997, 131.00002)
+scale = Vector2(5, 5)
+texture = ExtResource("2_tc3gm")
+hframes = 8
+
+[node name="Smoke" type="Sprite2D" parent="." unique_id=1016237991]
+z_index = -2
+position = Vector2(-8.999992, -196.00002)
+scale = Vector2(5, 5)
+texture = ExtResource("3_4go5k")
+hframes = 5
+vframes = 8

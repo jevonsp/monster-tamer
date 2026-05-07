@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://y6x3ruf0pqsl"]
+
+[ext_resource type="Script" uid="uid://c50j0hhhqqyis" path="res://3d_migration/new_moves/new_move_folder/move_animation.gd" id="1_cdvkw"]
+
+[sub_resource type="Animation" id="Animation_nwwri"]
+resource_name = "animation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cdvkw"]
+_data = {
+&"animation": SubResource("Animation_nwwri")
+}
+
+[node name="AnimationTemplate" type="Control" unique_id=1581423725 node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 256.0
+offset_bottom = 256.0
+script = ExtResource("1_cdvkw")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2048365611]
+libraries/ = SubResource("AnimationLibrary_cdvkw")

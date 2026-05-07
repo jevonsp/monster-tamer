@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://b83uwpb1n2q4f"]
+
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_1ihke"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_sqv1q"]
+[ext_resource type="Resource" uid="uid://dr2ta8seew5k8" path="res://3d_migration/new_moves/new_move_folder/basic+test_moves/basic_hit.tres" id="3_bhhit"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1ihke"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ihke"]
+atlas = SubResource("CompressedTexture2D_1ihke")
+region = Rect2(600, 300, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqv1q"]
+atlas = SubResource("CompressedTexture2D_1ihke")
+region = Rect2(600, 240, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdfdw"]
+atlas = SubResource("CompressedTexture2D_1ihke")
+region = Rect2(600, 420, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_baygn"]
+atlas = SubResource("CompressedTexture2D_1ihke")
+region = Rect2(600, 360, 60, 60)
+
+[resource]
+script = ExtResource("2_sqv1q")
+species = "Tuskmedi"
+description = "This monster is known for its thick hair, allowing it to withstand extreme cold."
+primary_type = 6
+base_front_texture = SubResource("AtlasTexture_sqv1q")
+base_back_texture = SubResource("AtlasTexture_1ihke")
+shiny_front_texture = SubResource("AtlasTexture_baygn")
+shiny_back_texture = SubResource("AtlasTexture_xdfdw")
+starting_moves = Array[ExtResource("1_1ihke")]([ExtResource("3_bhhit")])
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

@@ -24,5 +24,8 @@ func clear_monster() -> void:
 func display_monster(monster: Monster) -> void:
 	actor = monster
 	name_label.text = monster.name
-	texture_rect.texture = monster.monster_data.texture
+	if actor.is_shiny:
+		texture_rect.texture = monster.monster_data.shiny_front_texture
+	else:
+		texture_rect.texture = monster.monster_data.base_front_texture
 	level_label.text = "Lvl. %s" % monster.level

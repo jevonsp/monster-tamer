@@ -89,7 +89,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
-text = "Move"
+text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -110,7 +110,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
-text = "Move"
+text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -131,7 +131,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
-text = "Move"
+text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -152,7 +152,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("3_5hvxb")
 theme_override_font_sizes/font_size = 64
-text = "Move"
+text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -498,7 +498,6 @@ offset_left = -7.9600067
 offset_top = 18.959991
 offset_right = -7.959778
 offset_bottom = 18.640015
-flip_h = false
 
 [node name="EnemyTextureRect" parent="CanvasLayer/Content/Animations" index="1" unique_id=1433175572]
 material = SubResource("ShaderMaterial_enemy0")

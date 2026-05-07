@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://bhngu3j6uk65o"]
+
+[ext_resource type="Script" uid="uid://c50j0hhhqqyis" path="res://3d_migration/new_moves/new_move_folder/move_animation.gd" id="1_hixrb"]
+[ext_resource type="Texture2D" uid="uid://bwe7571a3y2o6" path="res://3d_migration/battle_3d/_assets/animations/Sparks-Sheet.png" id="2_2bocg"]
+
+[sub_resource type="Animation" id="Animation_83eam"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spark:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Spark:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_nwwri"]
+resource_name = "animation"
+length = 0.6
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Spark:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Spark:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.20000005, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cdvkw"]
+_data = {
+&"RESET": SubResource("Animation_83eam"),
+&"animation": SubResource("Animation_nwwri")
+}
+
+[node name="Spark" type="Control" unique_id=1581423725 node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 256.0
+offset_bottom = 256.0
+script = ExtResource("1_hixrb")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2048365611]
+libraries/ = SubResource("AnimationLibrary_cdvkw")
+
+[node name="Spark" type="Sprite2D" parent="." unique_id=1686466221]
+position = Vector2(189, 66.99999)
+scale = Vector2(5, 5)
+texture = ExtResource("2_2bocg")
+hframes = 3
+vframes = 3

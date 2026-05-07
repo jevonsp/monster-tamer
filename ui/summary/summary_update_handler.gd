@@ -1,9 +1,15 @@
 extends Node
 
 @onready var summary: Control = $".."
+@onready var _actor_nodes: Array[Node] = [
+	summary.hp_bar,
+	summary.exp_bar,
+	summary.portrait,
+]
 
 
 func clear_monster() -> void:
+	_bind_actor(null)
 	for label in summary.labels:
 		label.text = ""
 
@@ -20,6 +26,7 @@ func display_monster(monster: Monster) -> void:
 	clear_monster()
 	if monster == null:
 		return
+	_bind_actor(monster)
 
 	summary.gender_label.text = MonsterData.Gender.keys()[monster.gender].to_lower().capitalize()
 	summary.name_label.text = monster.name
@@ -27,7 +34,6 @@ func display_monster(monster: Monster) -> void:
 
 	summary.hp_bar.max_value = monster.max_hitpoints
 	summary.hp_bar.value = monster.current_hitpoints
-	summary.hp_bar.actor = monster
 
 	var min_exp: int = Monster.EXPERIENCE_PER_LEVEL * (monster.level - 1)
 	var max_exp: int = Monster.EXPERIENCE_PER_LEVEL * monster.level
@@ -35,7 +41,6 @@ func display_monster(monster: Monster) -> void:
 	summary.exp_bar.max_value = max_exp
 	summary.exp_bar.min_value = min_exp
 	summary.exp_bar.value = monster.experience
-	summary.exp_bar.actor = monster
 
 	summary.portrait.texture = monster.monster_data.texture
 	summary.description_label.text = monster.monster_data.description
@@ -54,3 +59,11 @@ func display_monster(monster: Monster) -> void:
 		summary.move_panels[panel_index].move = move
 		summary.move_panels[panel_index].setup()
 		panel_index += 1
+
+
+func _bind_actor(actor: Monster) -> void:
+	for node: Node in _actor_nodes:
+		if node == null:
+			continue
+		if node.has_method(&"set_actor"):
+			node.set_actor(actor)

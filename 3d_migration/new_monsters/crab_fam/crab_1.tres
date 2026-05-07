@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://dr8ph7vj5218i"]
+
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_6arb5"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_egf5i"]
+[ext_resource type="Resource" uid="uid://dr2ta8seew5k8" path="res://3d_migration/new_moves/new_move_folder/basic+test_moves/basic_hit.tres" id="3_bhhit"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bj22o"]
+load_path = "res://.godot/imported/01_Monster_Sheet.png-d5ce7cef497c3061549d5051289f83d9.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cabv2"]
+atlas = SubResource("CompressedTexture2D_bj22o")
+region = Rect2(0, 60, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dbbg"]
+atlas = SubResource("CompressedTexture2D_bj22o")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1y36s"]
+atlas = SubResource("CompressedTexture2D_bj22o")
+region = Rect2(0, 180, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmmdg"]
+atlas = SubResource("CompressedTexture2D_bj22o")
+region = Rect2(0, 120, 60, 60)
+
+[resource]
+script = ExtResource("2_egf5i")
+species = "Crabler"
+description = "A small hermit crab. It can blow powerful bubbles."
+primary_type = 2
+base_front_texture = SubResource("AtlasTexture_8dbbg")
+base_back_texture = SubResource("AtlasTexture_cabv2")
+shiny_front_texture = SubResource("AtlasTexture_rmmdg")
+shiny_back_texture = SubResource("AtlasTexture_1y36s")
+starting_moves = Array[ExtResource("1_6arb5")]([ExtResource("3_bhhit")])
+metadata/_custom_type_script = "uid://vx6b6njwqnde"
