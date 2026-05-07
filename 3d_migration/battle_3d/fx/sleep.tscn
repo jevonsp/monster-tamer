@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://96f12n8baepaj"]
+[gd_scene format=3 uid="uid://dqa25jbw43pc"]
 
-[ext_resource type="Script" uid="uid://nxuqlp4hkvjut" path="res://3d_migration/battle_3d/battle_animation.gd" id="1_battle_anim"]
+[ext_resource type="Script" uid="uid://cdm4tkdpvawlj" path="res://3d_migration/battle_3d/fx/battle_animation.gd" id="1_sll7g"]
 
 [sub_resource type="Animation" id="Animation_battle_anim"]
 resource_name = "animation"
@@ -10,14 +10,14 @@ _data = {
 &"animation": SubResource("Animation_battle_anim")
 }
 
-[node name="BattleAnimationTemplate" type="Control" node_paths=PackedStringArray("animation_player")]
+[node name="Sleep" type="Control" unique_id=1331138347 node_paths=PackedStringArray("animation_player")]
 custom_minimum_size = Vector2(256, 256)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 256.0
 offset_bottom = 256.0
-script = ExtResource("1_battle_anim")
+script = ExtResource("1_sll7g")
 animation_player = NodePath("AnimationPlayer")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1022780979]
 libraries/ = SubResource("AnimationLibrary_battle_anim")

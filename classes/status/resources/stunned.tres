@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://4n0bmsxvojdj"]
+
+[ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_ldcm6"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://3d_migration/battle_action/actions/fx_action.gd" id="2_ucolw"]
+[ext_resource type="Script" uid="uid://chvyd3cr0y7nt" path="res://3d_migration/battle_action/actions/set_block_action.gd" id="2_vfaxn"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="3_cdfkl"]
+[ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="3_ucolw"]
+[ext_resource type="Script" uid="uid://bvgeyvppx7tph" path="res://classes/status/status_data.gd" id="4_cdfkl"]
+
+[sub_resource type="Resource" id="Resource_6l7tc"]
+script = ExtResource("2_ucolw")
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_0senm"]
+script = ExtResource("3_cdfkl")
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_letoq"]
+script = ExtResource("3_ucolw")
+actions = Array[ExtResource("1_ldcm6")]([SubResource("Resource_6l7tc"), SubResource("Resource_0senm")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[sub_resource type="Resource" id="Resource_para_block"]
+script = ExtResource("2_vfaxn")
+chance = 0.25
+metadata/_custom_type_script = "uid://rxjgqbzr9spov"
+
+[sub_resource type="Resource" id="Resource_para_block_list"]
+script = ExtResource("3_ucolw")
+actions = Array[ExtResource("1_ldcm6")]([SubResource("Resource_para_block"), null])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[resource]
+script = ExtResource("4_cdfkl")
+id = &"stunned"
+name = "Stunned"
+slot = 0
+stat_multipliers = {
+5: 0.5
+}
+on_apply = SubResource("Resource_letoq")
+on_potential_block = SubResource("Resource_para_block_list")
+metadata/_custom_type_script = "uid://bvgeyvppx7tph"

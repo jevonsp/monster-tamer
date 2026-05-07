@@ -2,11 +2,35 @@
 
 [ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_action"]
 [ext_resource type="Script" uid="uid://bvgeyvppx7tph" path="res://classes/status/status_data.gd" id="1_status"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://3d_migration/battle_action/actions/fx_action.gd" id="2_34nv1"]
+[ext_resource type="PackedScene" uid="uid://dh6mn30ccw48h" path="res://3d_migration/battle_3d/fx/burn.tscn" id="2_kfnjs"]
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="2_list"]
 [ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="3_text"]
 [ext_resource type="Script" uid="uid://bni3l11hqu6mq" path="res://3d_migration/battle_action/actions/damage_action.gd" id="4_damage"]
 [ext_resource type="Script" uid="uid://dba2nfq8c7sm3" path="res://3d_migration/battle_action/actions/hp_tween_action.gd" id="5_hptween"]
 [ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="6_tick"]
+
+[sub_resource type="Resource" id="Resource_6qfqn"]
+script = ExtResource("2_34nv1")
+fx_scene = ExtResource("2_kfnjs")
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_kfnjs"]
+script = ExtResource("3_text")
+text = Array[String](["{target} was burned!"])
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_qolfy"]
+script = ExtResource("2_list")
+actions = Array[ExtResource("1_action")]([SubResource("Resource_6qfqn"), SubResource("Resource_kfnjs")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[sub_resource type="Resource" id="Resource_34nv1"]
+script = ExtResource("2_34nv1")
+fx_scene = ExtResource("2_kfnjs")
+target_self = true
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
 
 [sub_resource type="Resource" id="Resource_burn_text"]
 script = ExtResource("3_text")
@@ -31,7 +55,7 @@ metadata/_custom_type_script = "uid://941llsbe6qozm"
 
 [sub_resource type="Resource" id="Resource_burn_on_turn_end"]
 script = ExtResource("2_list")
-actions = Array[ExtResource("1_action")]([SubResource("Resource_burn_text"), SubResource("Resource_burn_damage"), SubResource("Resource_burn_hptween"), SubResource("Resource_burn_tick")])
+actions = Array[ExtResource("1_action")]([SubResource("Resource_34nv1"), SubResource("Resource_burn_text"), SubResource("Resource_burn_damage"), SubResource("Resource_burn_hptween"), SubResource("Resource_burn_tick")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
 [resource]
@@ -42,5 +66,6 @@ slot = 0
 stat_multipliers = {
 1: 0.5
 }
+on_apply = SubResource("Resource_qolfy")
 on_turn_end = SubResource("Resource_burn_on_turn_end")
 metadata/_custom_type_script = "uid://bvgeyvppx7tph"

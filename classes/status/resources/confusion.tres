@@ -1,11 +1,39 @@
-[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://cm911937hvpd9"]
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://cna12a37hvpea"]
 
 [ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_action"]
+[ext_resource type="PackedScene" uid="uid://f48qfjh43hwx" path="res://3d_migration/battle_3d/fx/confusion.tscn" id="2_get2x"]
 [ext_resource type="Script" uid="uid://bvgeyvppx7tph" path="res://classes/status/status_data.gd" id="2_status"]
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="3_list"]
-[ext_resource type="Script" uid="uid://tdzrwp1dhoscy" path="res://3d_migration/battle_action/actions/set_substitute_action_list.gd" id="4_sub"]
-[ext_resource type="Script" uid="uid://941llsbe6qozm" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="5_tick"]
-[ext_resource type="Resource" uid="uid://i0k0cpyy3spch" path="res://classes/status/resources/confusion_self_hit.tres" id="6_self_hit"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://3d_migration/battle_action/actions/fx_action.gd" id="3_vbd33"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="4_kqkp3"]
+[ext_resource type="Script" uid="uid://dwebkidc7vbbw" path="res://3d_migration/battle_action/actions/set_substitute_action_list.gd" id="4_sub"]
+[ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="5_tick"]
+[ext_resource type="Resource" uid="uid://baq85l5hyexsx" path="res://classes/status/resources/confusion_self_hit.tres" id="6_self_hit"]
+
+[sub_resource type="Resource" id="Resource_get2x"]
+script = ExtResource("4_kqkp3")
+text = Array[String](["{actor}'s confusion wore off"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_vbd33"]
+script = ExtResource("3_list")
+actions = Array[ExtResource("1_action")]([SubResource("Resource_get2x")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[sub_resource type="Resource" id="Resource_geuk6"]
+script = ExtResource("3_vbd33")
+fx_scene = ExtResource("2_get2x")
+target_self = true
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
+
+[sub_resource type="Resource" id="Resource_7wtxo"]
+script = ExtResource("4_kqkp3")
+text = Array[String](["{actor} is confused and might hurt itself while thrashing wildly!"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
 
 [sub_resource type="Resource" id="Resource_conf_sub"]
 script = ExtResource("4_sub")
@@ -15,7 +43,7 @@ metadata/_custom_type_script = "uid://tdzrwp1dhoscy"
 
 [sub_resource type="Resource" id="Resource_conf_block_list"]
 script = ExtResource("3_list")
-actions = Array[ExtResource("1_action")]([SubResource("Resource_conf_sub")])
+actions = Array[ExtResource("1_action")]([SubResource("Resource_geuk6"), SubResource("Resource_7wtxo"), SubResource("Resource_conf_sub")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
 [sub_resource type="Resource" id="Resource_conf_tick"]
@@ -33,9 +61,7 @@ id = &"confusion"
 name = "Confusion"
 slot = 1
 default_duration = 4
-stack_policy = 0
-stat_multipliers = {
-}
-on_potential_block = SubResource("Resource_conf_block_list")
+on_expire = SubResource("Resource_vbd33")
 on_turn_end = SubResource("Resource_conf_on_turn_end")
+on_potential_block = SubResource("Resource_conf_block_list")
 metadata/_custom_type_script = "uid://bvgeyvppx7tph"

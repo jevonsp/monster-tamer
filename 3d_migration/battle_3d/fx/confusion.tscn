@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://f48qfjh43hwx"]
+
+[ext_resource type="Script" uid="uid://cdm4tkdpvawlj" path="res://3d_migration/battle_3d/fx/battle_animation.gd" id="1_ie1l5"]
+[ext_resource type="Texture2D" uid="uid://turwd4ueuva1" path="res://3d_migration/battle_3d/_assets/fx/Confused.png" id="2_dkv7i"]
+
+[sub_resource type="Animation" id="Animation_2dwc0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect/Confused:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect/Confused:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_battle_anim"]
+resource_name = "animation"
+length = 0.8
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect/Confused:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect/Confused:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.70000005, 0.79999995, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_battle_anim"]
+_data = {
+&"RESET": SubResource("Animation_2dwc0"),
+&"animation": SubResource("Animation_battle_anim")
+}
+
+[node name="Confusion" type="Control" unique_id=1331138347 node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 7.0
+offset_top = -15.0
+offset_right = 263.0
+offset_bottom = 241.0
+script = ExtResource("1_ie1l5")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1022780979]
+libraries/ = SubResource("AnimationLibrary_battle_anim")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1118186072]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Confused" type="Sprite2D" parent="TextureRect" unique_id=322925707]
+position = Vector2(27.999998, 59.000008)
+scale = Vector2(5, 5)
+texture = ExtResource("2_dkv7i")
+hframes = 5

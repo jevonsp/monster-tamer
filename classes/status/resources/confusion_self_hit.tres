@@ -1,10 +1,17 @@
-[gd_resource type="Resource" script_class="ActionList" format=3 uid="uid://i0k0cpyy3spch"]
+[gd_resource type="Resource" script_class="ActionList" format=3 uid="uid://baq85l5hyexsx"]
 
 [ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_action"]
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="2_list"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://3d_migration/battle_action/actions/fx_action.gd" id="2_runt5"]
 [ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="3_text"]
 [ext_resource type="Script" uid="uid://bni3l11hqu6mq" path="res://3d_migration/battle_action/actions/damage_action.gd" id="4_damage"]
 [ext_resource type="Script" uid="uid://dba2nfq8c7sm3" path="res://3d_migration/battle_action/actions/hp_tween_action.gd" id="5_hptween"]
+
+[sub_resource type="Resource" id="Resource_exkbs"]
+script = ExtResource("2_runt5")
+fx_id = &"hit"
+target_self = true
+metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
 
 [sub_resource type="Resource" id="Resource_conf_text"]
 script = ExtResource("3_text")
@@ -25,5 +32,5 @@ metadata/_custom_type_script = "uid://dba2nfq8c7sm3"
 
 [resource]
 script = ExtResource("2_list")
-actions = Array[ExtResource("1_action")]([SubResource("Resource_conf_text"), SubResource("Resource_conf_damage"), SubResource("Resource_conf_hptween")])
+actions = Array[ExtResource("1_action")]([SubResource("Resource_exkbs"), SubResource("Resource_conf_text"), SubResource("Resource_conf_damage"), SubResource("Resource_conf_hptween")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
