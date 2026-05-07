@@ -3,7 +3,14 @@ extends Resource
 
 signal actors_changed(p_actors: Dictionary[int, Monster], e_actors: Dictionary[int, Monster])
 
-enum Phase { NONE, BEFORE, DURING, AFTER }
+enum Phase { NONE, BEFORE, AFTER }
+
+## Hook lists, in order, that fire when their phase is active. Statuses without
+## a populated ActionList for a given hook are skipped.
+const _PHASE_HOOK_LISTS: Dictionary = {
+	Phase.BEFORE: [&"on_turn_start", &"on_potential_block", &"on_blocked_action"],
+	Phase.AFTER: [&"on_turn_end"],
+}
 
 @export var player_team: Array[Monster] = []
 @export var enemy_team: Array[Monster] = []
@@ -34,12 +41,6 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 		var choice: Choice = turn_queue[turn_index]
 		current_actor = choice.actor
 
-		turn_phase = Phase.BEFORE
-		_resolve_statuses_for_phase(presenter)
-
-		turn_phase = Phase.DURING
-		_resolve_statuses_for_phase(presenter)
-
 		var action_list := _resolve_action_list(choice)
 		if action_list == null:
 			turn_queue.pop_at(0)
@@ -47,10 +48,21 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 			continue
 
 		var ctx := ActionContext.new(self, choice, presenter)
-		await action_list.run(ctx)
+
+		turn_phase = Phase.BEFORE
+		await _resolve_statuses_for_phase(ctx)
+
+		var blocked: bool = ctx.data.get("block_action", false)
+		var substitute: ActionList = ctx.data.get("substitute_action_list", null)
+		if not blocked:
+			if substitute != null:
+				await substitute.run(ctx)
+				ctx.data.erase("substitute_action_list")
+			else:
+				await action_list.run(ctx)
 
 		turn_phase = Phase.AFTER
-		_resolve_statuses_for_phase(presenter)
+		await _resolve_statuses_for_phase(ctx)
 
 		turn_index += 1
 
@@ -230,7 +242,7 @@ func _end_battle_won() -> void:
 
 func _end_battle_lost() -> void:
 	var ctx := ActionContext.new(self, null, Battle.presenter)
-	var ta: Array[String] = ["You have no Pokémon able to fight!"]
+	var ta: Array[String] = ["You have no Monsters able to fight!"]
 	@warning_ignore("redundant_await")
 	await ctx.presenter.show_text(ctx, ta, false)
 	in_battle = false
@@ -239,6 +251,22 @@ func _end_battle_lost() -> void:
 	enemy_actors.clear()
 
 
-func _resolve_statuses_for_phase(presenter: BattlePresenter) -> void:
-	var choice: Choice = turn_queue[turn_index]
-	var ctx := ActionContext.new(self, choice, presenter)
+func _resolve_statuses_for_phase(ctx: ActionContext) -> void:
+	if ctx == null or ctx.choice == null or ctx.choice.actor == null:
+		return
+	var actor: Monster = ctx.choice.actor
+	var hooks: Array = _PHASE_HOOK_LISTS.get(turn_phase, [])
+	ctx.data["status_phase"] = turn_phase
+	for hook: StringName in hooks:
+		var instances: Array[StatusInstance] = actor.get_statuses_with_hook(hook)
+		for instance in instances:
+			if instance == null or instance.data == null:
+				continue
+			var hook_list: ActionList = instance.data.get(hook)
+			if hook_list == null:
+				continue
+			ctx.data["acting_status"] = instance
+			var flow: Action.Flow = await hook_list.run(ctx)
+			ctx.data.erase("acting_status")
+			if flow == Action.Flow.STOP:
+				return

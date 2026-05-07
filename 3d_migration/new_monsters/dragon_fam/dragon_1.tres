@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://3d_migration/new_moves/move.gd" id="1_dvsrm"]
 [ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="2_08q86"]
 [ext_resource type="Resource" uid="uid://dr2ta8seew5k8" path="res://3d_migration/new_moves/new_move_folder/basic+test_moves/basic_hit.tres" id="3_bhhit"]
+[ext_resource type="Resource" uid="uid://ctfexeada2awl" path="res://3d_migration/new_moves/new_move_folder/moves/flame_breath.tres" id="5_bi2uq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cnk2l"]
 atlas = ExtResource("1_08q86")
@@ -30,5 +31,5 @@ base_front_texture = SubResource("AtlasTexture_wwi36")
 base_back_texture = SubResource("AtlasTexture_cnk2l")
 shiny_front_texture = SubResource("AtlasTexture_0gfkk")
 shiny_back_texture = SubResource("AtlasTexture_enriu")
-starting_moves = Array[ExtResource("1_dvsrm")]([ExtResource("3_bhhit")])
+starting_moves = Array[ExtResource("1_dvsrm")]([ExtResource("3_bhhit"), ExtResource("5_bi2uq")])
 metadata/_custom_type_script = "uid://vx6b6njwqnde"

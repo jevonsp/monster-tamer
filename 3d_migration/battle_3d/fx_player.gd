@@ -39,3 +39,19 @@ func play_faint(target: Monster, player_actor: Monster, enemy_actor: Monster) ->
 		await animation_finished
 		enemy_texture_rect.texture = null
 		play("RESET")
+
+
+func play_confusion(target: Monster, player_actor: Monster, enemy_actor: Monster) -> void:
+	pass
+
+
+func play_burn(target: Monster, player_actor: Monster, enemy_actor: Monster) -> void:
+	pass
+
+
+func play_poison(target: Monster, player_actor: Monster, enemy_actor: Monster) -> void:
+	pass
+
+
+func play_paralyzed(target: Monster, player_actor: Monster, enemy_actor: Monster) -> void:
+	pass

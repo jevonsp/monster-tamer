@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="StatusData" format=3 uid="uid://cwhflag65orpi"]
+
+[ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://3d_migration/battle_action/action.gd" id="1_action"]
+[ext_resource type="Script" uid="uid://bvgeyvppx7tph" path="res://classes/status/status_data.gd" id="1_status"]
+[ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="2_list"]
+[ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://3d_migration/battle_action/actions/text_action.gd" id="3_text"]
+[ext_resource type="Script" uid="uid://bni3l11hqu6mq" path="res://3d_migration/battle_action/actions/damage_action.gd" id="4_damage"]
+[ext_resource type="Script" uid="uid://dba2nfq8c7sm3" path="res://3d_migration/battle_action/actions/hp_tween_action.gd" id="5_hptween"]
+[ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://3d_migration/battle_action/actions/tick_statuses_action.gd" id="6_tick"]
+
+[sub_resource type="Resource" id="Resource_burn_text"]
+script = ExtResource("3_text")
+text = Array[String](["{actor} is hurt by its burn!"])
+is_autocomplete = true
+needs_formatting = true
+metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
+
+[sub_resource type="Resource" id="Resource_burn_damage"]
+script = ExtResource("4_damage")
+target_self = true
+fraction_of_max_hp = 0.125
+metadata/_custom_type_script = "uid://bni3l11hqu6mq"
+
+[sub_resource type="Resource" id="Resource_burn_hptween"]
+script = ExtResource("5_hptween")
+metadata/_custom_type_script = "uid://dba2nfq8c7sm3"
+
+[sub_resource type="Resource" id="Resource_burn_tick"]
+script = ExtResource("6_tick")
+metadata/_custom_type_script = "uid://941llsbe6qozm"
+
+[sub_resource type="Resource" id="Resource_burn_on_turn_end"]
+script = ExtResource("2_list")
+actions = Array[ExtResource("1_action")]([SubResource("Resource_burn_text"), SubResource("Resource_burn_damage"), SubResource("Resource_burn_hptween"), SubResource("Resource_burn_tick")])
+metadata/_custom_type_script = "uid://18gkypu1dgxy"
+
+[resource]
+script = ExtResource("1_status")
+id = &"burn"
+name = "Burn"
+slot = 0
+stat_multipliers = {
+1: 0.5
+}
+on_turn_end = SubResource("Resource_burn_on_turn_end")
+metadata/_custom_type_script = "uid://bvgeyvppx7tph"

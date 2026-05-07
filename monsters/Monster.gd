@@ -133,32 +133,151 @@ func hold_item(item: Item) -> bool:
 	return false
 
 
-func get_statuses_for_phase(phase: BattleChassis.Phase) -> Array[StatusInstance]:
+func add_status(instance: StatusInstance) -> bool:
+	if instance == null or instance.data == null:
+		return false
+	if instance.source == null:
+		instance.source = self
+	if instance.turns_remaining < 0 and instance.data.default_duration >= 0:
+		instance.turns_remaining = instance.data.default_duration
+	match instance.data.slot:
+		StatusData.StatusSlot.PRIMARY:
+			return _set_slotted_status(&"primary", instance)
+		StatusData.StatusSlot.SECONDARY:
+			return _set_slotted_status(&"secondary", instance)
+		StatusData.StatusSlot.TERTIARY:
+			return _add_tertiary_status(instance)
+	return false
+
+
+func remove_status(status_id: StringName) -> bool:
+	if primary_status != null and primary_status.data != null and primary_status.data.id == status_id:
+		primary_status = null
+		return true
+	if secondary_status != null and secondary_status.data != null and secondary_status.data.id == status_id:
+		secondary_status = null
+		return true
+	var idx := 0
+	while idx < tertiary_statuses.size():
+		var t: StatusInstance = tertiary_statuses[idx]
+		if t != null and t.data != null and t.data.id == status_id:
+			tertiary_statuses.remove_at(idx)
+			return true
+		idx += 1
+	return false
+
+
+func has_status(status_id: StringName) -> bool:
+	return get_status_by_id(status_id) != null
+
+
+func get_status_by_id(status_id: StringName) -> StatusInstance:
+	for s in _all_active_statuses():
+		if s != null and s.data != null and s.data.id == status_id:
+			return s
+	return null
+
+
+func get_statuses_with_hook(hook: StringName) -> Array[StatusInstance]:
 	var result: Array[StatusInstance] = []
-	match phase:
-		BattleChassis.Phase.BEFORE:
-			if primary_status and primary_status.data and primary_status.data.on_turn_start:
-				result.append(primary_status)
-			if secondary_status and secondary_status.data and secondary_status.data.on_turn_start:
-				result.append(secondary_status)
-			for status in tertiary_statuses:
-				if status.data and status.data.on_turn_start:
-					result.append(status)
-		BattleChassis.Phase.DURING:
-			if primary_status and primary_status.data and primary_status.data.on_potential_block:
-				result.append(primary_status)
-			# gdlint-ignore-next-line
-			if secondary_status and secondary_status.data and secondary_status.data.on_potential_block:
-				result.append(secondary_status)
-			for status in tertiary_statuses:
-				if status.data and status.data.on_potential_block:
-					result.append(status)
-		BattleChassis.Phase.AFTER:
-			if primary_status and primary_status.data and primary_status.data.on_turn_end:
-				result.append(primary_status)
-			if secondary_status and secondary_status.data and secondary_status.data.on_turn_end:
-				result.append(secondary_status)
-			for status in tertiary_statuses:
-				if status.data and status.data.on_turn_end:
-					result.append(status)
+	for s in _all_active_statuses():
+		if s == null or s.data == null:
+			continue
+		if s.data.get(hook) != null:
+			result.append(s)
 	return result
+
+
+func get_effective_stat(stat: Monster.Stat) -> float:
+	var base: float = float(_get_base_stat(stat))
+	var multi: float = 1.0
+	if stat_stages_and_multis != null:
+		multi *= float(stat_stages_and_multis.stat_multipliers.get(stat, 1.0))
+		var stage: int = int(stat_stages_and_multis.stat_stages.get(stat, 0))
+		multi *= _stat_stage_multiplier(stage)
+	multi *= _status_stat_multiplier(stat)
+	return base * multi
+
+
+func _all_active_statuses() -> Array[StatusInstance]:
+	var arr: Array[StatusInstance] = []
+	if primary_status != null:
+		arr.append(primary_status)
+	if secondary_status != null:
+		arr.append(secondary_status)
+	for t: StatusInstance in tertiary_statuses:
+		if t != null:
+			arr.append(t)
+	return arr
+
+
+func _set_slotted_status(slot_key: StringName, incoming: StatusInstance) -> bool:
+	var existing: StatusInstance = primary_status if slot_key == &"primary" else secondary_status
+	if existing != null:
+		match incoming.data.stack_policy:
+			StatusData.StackPolicy.REJECT:
+				return false
+			StatusData.StackPolicy.REFRESH:
+				existing.turns_remaining = incoming.data.default_duration
+				existing.stacks = mini(existing.stacks + 1, 99)
+				return true
+			StatusData.StackPolicy.REPLACE:
+				pass
+	if slot_key == &"primary":
+		primary_status = incoming
+	else:
+		secondary_status = incoming
+	return true
+
+
+func _add_tertiary_status(incoming: StatusInstance) -> bool:
+	var existing: StatusInstance = get_status_by_id(incoming.data.id)
+	if existing != null:
+		match incoming.data.stack_policy:
+			StatusData.StackPolicy.REJECT:
+				return false
+			StatusData.StackPolicy.REFRESH:
+				existing.turns_remaining = incoming.data.default_duration
+				existing.stacks = mini(existing.stacks + 1, 99)
+				return true
+			StatusData.StackPolicy.REPLACE:
+				var idx: int = tertiary_statuses.find(existing)
+				tertiary_statuses[idx] = incoming
+				return true
+	tertiary_statuses.append(incoming)
+	return true
+
+
+func _get_base_stat(stat: Monster.Stat) -> int:
+	match stat:
+		Monster.Stat.ATTACK:
+			return attack
+		Monster.Stat.DEFENSE:
+			return defense
+		Monster.Stat.SPECIAL_ATTACK:
+			return special_attack
+		Monster.Stat.SPECIAL_DEFENSE:
+			return special_defense
+		Monster.Stat.SPEED:
+			return speed
+		Monster.Stat.HITPOINTS:
+			return max_hitpoints
+	return 0
+
+
+func _stat_stage_multiplier(stage: int) -> float:
+	if stage == 0:
+		return 1.0
+	if stage > 0:
+		return float(2 + stage) / 2.0
+	return 2.0 / float(2 - stage)
+
+
+func _status_stat_multiplier(stat: Monster.Stat) -> float:
+	var multi: float = 1.0
+	for s: StatusInstance in _all_active_statuses():
+		if s == null or s.data == null:
+			continue
+		if s.data.stat_multipliers.has(stat):
+			multi *= float(s.data.stat_multipliers[stat])
+	return multi

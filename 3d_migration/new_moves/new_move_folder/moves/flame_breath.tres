@@ -9,43 +9,51 @@
 [ext_resource type="Script" uid="uid://bni3l11hqu6mq" path="res://3d_migration/battle_action/actions/damage_action.gd" id="5_i2ejr"]
 [ext_resource type="Script" uid="uid://dba2nfq8c7sm3" path="res://3d_migration/battle_action/actions/hp_tween_action.gd" id="6_2gu0d"]
 [ext_resource type="Script" uid="uid://bsp7hlscc4yes" path="res://3d_migration/battle_action/actions/post_damage_text_action.gd" id="7_g4u7u"]
+[ext_resource type="Script" uid="uid://dkobgqbiwhtji" path="res://3d_migration/battle_action/actions/apply_status_action.gd" id="8_6la4k"]
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://3d_migration/battle_action/action_list.gd" id="8_tywyv"]
+[ext_resource type="Resource" uid="uid://cwhflag65orpi" path="res://classes/status/resources/burn.tres" id="9_pwqls"]
 
-[sub_resource type="Resource" id="Resource_3xy77"]
+[sub_resource type="Resource" id="Resource_lirw4"]
 script = ExtResource("2_urrya")
 is_autocomplete = true
 needs_formatting = true
 metadata/_custom_type_script = "uid://bw7lc2nh3oi8b"
 
-[sub_resource type="Resource" id="Resource_ls71b"]
+[sub_resource type="Resource" id="Resource_urrya"]
 script = ExtResource("3_6la4k")
 metadata/_custom_type_script = "uid://cujunrcnqbpxv"
 
-[sub_resource type="Resource" id="Resource_wbarr"]
+[sub_resource type="Resource" id="Resource_6la4k"]
 script = ExtResource("4_pwqls")
 fx_id = &"hit"
 metadata/_custom_type_script = "uid://doq3w1sqfpbhr"
 
-[sub_resource type="Resource" id="Resource_qhyjq"]
+[sub_resource type="Resource" id="Resource_pwqls"]
 script = ExtResource("5_i2ejr")
+base_power = 5
 metadata/_custom_type_script = "uid://bni3l11hqu6mq"
 
-[sub_resource type="Resource" id="Resource_m5jw7"]
+[sub_resource type="Resource" id="Resource_i2ejr"]
 script = ExtResource("6_2gu0d")
 metadata/_custom_type_script = "uid://dba2nfq8c7sm3"
 
-[sub_resource type="Resource" id="Resource_m41p3"]
+[sub_resource type="Resource" id="Resource_2gu0d"]
 script = ExtResource("7_g4u7u")
 metadata/_custom_type_script = "uid://bsp7hlscc4yes"
 
-[sub_resource type="Resource" id="Resource_3t31f"]
+[sub_resource type="Resource" id="Resource_tywyv"]
+script = ExtResource("8_6la4k")
+status_data = ExtResource("9_pwqls")
+metadata/_custom_type_script = "uid://dkobgqbiwhtji"
+
+[sub_resource type="Resource" id="Resource_g4u7u"]
 script = ExtResource("8_tywyv")
-actions = Array[ExtResource("1_lirw4")]([SubResource("Resource_3xy77"), SubResource("Resource_ls71b"), SubResource("Resource_wbarr"), SubResource("Resource_qhyjq"), SubResource("Resource_m5jw7"), SubResource("Resource_m41p3")])
+actions = Array[ExtResource("1_lirw4")]([SubResource("Resource_lirw4"), SubResource("Resource_urrya"), SubResource("Resource_6la4k"), SubResource("Resource_pwqls"), SubResource("Resource_i2ejr"), SubResource("Resource_2gu0d"), SubResource("Resource_tywyv")])
 metadata/_custom_type_script = "uid://18gkypu1dgxy"
 
 [resource]
 script = ExtResource("1_2f5km")
 name = "Flame Breath"
-action_list = SubResource("Resource_3t31f")
+action_list = SubResource("Resource_g4u7u")
 animation = ExtResource("1_wmnuk")
 metadata/_custom_type_script = "uid://dyr8euc0vcinb"
