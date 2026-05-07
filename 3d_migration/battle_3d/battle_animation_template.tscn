@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://96f12n8baepaj"]
+
+[ext_resource type="Script" uid="uid://nxuqlp4hkvjut" path="res://3d_migration/battle_3d/battle_animation.gd" id="1_battle_anim"]
+
+[sub_resource type="Animation" id="Animation_battle_anim"]
+resource_name = "animation"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_battle_anim"]
+_data = {
+&"animation": SubResource("Animation_battle_anim")
+}
+
+[node name="BattleAnimationTemplate" type="Control" node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 256.0
+offset_bottom = 256.0
+script = ExtResource("1_battle_anim")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimationLibrary_battle_anim")

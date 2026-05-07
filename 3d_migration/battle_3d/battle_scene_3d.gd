@@ -110,6 +110,22 @@ func play_fx(fx_id: StringName, payload: Dictionary = { }) -> void:
 			await fx_player.play_faint(payload.get("target"), _player_actor_0, _enemy_actor_0)
 
 
+func play_fx_scene(scene: PackedScene, target: Monster) -> void:
+	if scene == null:
+		return
+	var inst: BattleAnimation = scene.instantiate()
+	var rect: TextureRect
+	if target == _player_actor_0:
+		rect = player_texture_rect
+	elif target == _enemy_actor_0:
+		rect = enemy_texture_rect
+	else:
+		return
+	rect.add_child(inst)
+	await inst.play()
+	inst.queue_free()
+
+
 func tween_hp(target: Monster, _from_hp: int, to_hp: int) -> void:
 	var bar: TextureProgressBar = null
 	if target == _player_actor_0:

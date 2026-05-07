@@ -33,6 +33,12 @@ func play_fx(_ctx: ActionContext, fx_id: StringName, payload: Dictionary = { }) 
 		return
 
 
+func play_fx_scene(_ctx: ActionContext, scene: PackedScene, target: Monster) -> void:
+	if battle_scene != null:
+		@warning_ignore("redundant_await")
+		await battle_scene.play_fx_scene(scene, target)
+
+
 func tween_hp(_ctx: ActionContext, target: Monster, from_hp: int, to_hp: int) -> void:
 	if battle_scene != null:
 		@warning_ignore("redundant_await")
