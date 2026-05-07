@@ -3,6 +3,8 @@ extends Resource
 
 signal actors_changed(p_actors: Dictionary[int, Monster], e_actors: Dictionary[int, Monster])
 
+enum Phase { NONE, BEFORE, DURING, AFTER }
+
 @export var player_team: Array[Monster] = []
 @export var enemy_team: Array[Monster] = []
 @export var player_actors: Dictionary[int, Monster] = { }
@@ -11,6 +13,7 @@ signal actors_changed(p_actors: Dictionary[int, Monster], e_actors: Dictionary[i
 var in_battle: bool = false
 var turn_queue: Array[Choice] = []
 var turn_index: int = 0
+var turn_phase: Phase = Phase.NONE
 var current_actor: Monster
 var trainer: Trainer3D
 var _processing_turn: bool = false
@@ -27,9 +30,15 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 		return
 
 	_processing_turn = true
-	while not turn_queue.is_empty() and in_battle:
-		var choice: Choice = turn_queue[0]
+	while turn_index < turn_queue.size() and in_battle:
+		var choice: Choice = turn_queue[turn_index]
 		current_actor = choice.actor
+
+		turn_phase = Phase.BEFORE
+		_resolve_statuses_for_phase(presenter)
+
+		turn_phase = Phase.DURING
+		_resolve_statuses_for_phase(presenter)
 
 		var action_list := _resolve_action_list(choice)
 		if action_list == null:
@@ -39,7 +48,12 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 
 		var ctx := ActionContext.new(self, choice, presenter)
 		await action_list.run(ctx)
-		turn_queue.pop_at(0)
+
+		turn_phase = Phase.AFTER
+		_resolve_statuses_for_phase(presenter)
+
+		turn_index += 1
+
 		_prune_invalid_choices_from_turn_queue()
 		await _clean_up_turn()
 
@@ -129,6 +143,8 @@ func _choice_is_valid(choice: Choice) -> bool:
 
 
 func _clean_up_turn() -> void:
+	turn_phase = Phase.NONE
+
 	for idx: int in enemy_actors.keys():
 		var em: Monster = enemy_actors[idx]
 		if em != null and em.is_fainted:
@@ -221,3 +237,8 @@ func _end_battle_lost() -> void:
 	Battle.battle_ended.emit(trainer)
 	player_actors.clear()
 	enemy_actors.clear()
+
+
+func _resolve_statuses_for_phase(presenter: BattlePresenter) -> void:
+	var choice: Choice = turn_queue[turn_index]
+	var ctx := ActionContext.new(self, choice, presenter)

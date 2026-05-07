@@ -50,7 +50,9 @@ const EXPERIENCE_PER_LEVEL: int = 50
 var is_able_to_fight: bool:
 	get:
 		return not is_fainted and not is_captured
-var statuses: Array[StatusInstance] = []
+var primary_status: StatusInstance = null
+var secondary_status: StatusInstance = null
+var tertiary_statuses: Array[StatusInstance] = []
 
 
 func set_monster_data(monster_data_resource: MonsterData) -> void:
@@ -129,3 +131,34 @@ func hold_item(item: Item) -> bool:
 		held_item = item
 		return true
 	return false
+
+
+func get_statuses_for_phase(phase: BattleChassis.Phase) -> Array[StatusInstance]:
+	var result: Array[StatusInstance] = []
+	match phase:
+		BattleChassis.Phase.BEFORE:
+			if primary_status and primary_status.data and primary_status.data.on_turn_start:
+				result.append(primary_status)
+			if secondary_status and secondary_status.data and secondary_status.data.on_turn_start:
+				result.append(secondary_status)
+			for status in tertiary_statuses:
+				if status.data and status.data.on_turn_start:
+					result.append(status)
+		BattleChassis.Phase.DURING:
+			if primary_status and primary_status.data and primary_status.data.on_potential_block:
+				result.append(primary_status)
+			# gdlint-ignore-next-line
+			if secondary_status and secondary_status.data and secondary_status.data.on_potential_block:
+				result.append(secondary_status)
+			for status in tertiary_statuses:
+				if status.data and status.data.on_potential_block:
+					result.append(status)
+		BattleChassis.Phase.AFTER:
+			if primary_status and primary_status.data and primary_status.data.on_turn_end:
+				result.append(primary_status)
+			if secondary_status and secondary_status.data and secondary_status.data.on_turn_end:
+				result.append(secondary_status)
+			for status in tertiary_statuses:
+				if status.data and status.data.on_turn_end:
+					result.append(status)
+	return result

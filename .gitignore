@@ -3,3 +3,5 @@
 /android/
 docs/vertical-slice-plan.md
 .cursor/debug-*.log
+.gdtoolkit.toml
+.gdlint.cfg

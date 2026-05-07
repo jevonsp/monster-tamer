@@ -41,6 +41,7 @@
 [ext_resource type="Script" uid="uid://djsen6xnefmky" path="res://3d_migration/wild_zone_3d/wild_zone_3d.gd" id="43_7eg6f"]
 [ext_resource type="PackedScene" uid="uid://dshb0hignus5c" path="res://ui/menu/options_panel.tscn" id="43_opts"]
 [ext_resource type="Resource" uid="uid://5u06tiomp7rn" path="res://3d_migration/new_monsters/rat_fam/rat_1.tres" id="44_028el"]
+[ext_resource type="PackedScene" uid="uid://bbb2gn17jo8ty" path="res://3d_migration/cell_object/location_changer_3d/location_changer_3d.tscn" id="44_55spl"]
 [ext_resource type="Script" uid="uid://d1pbkl87o0kqt" path="res://3d_migration/wild_zone_3d/EncounterEntry.gd" id="44_rue0h"]
 [ext_resource type="PackedScene" uid="uid://1abjsn18125c" path="res://3d_migration/wild_zone_3d/TALL_GRASS_ZONE.tscn" id="45_c5cfd"]
 [ext_resource type="Script" uid="uid://bc6bbss6gvabp" path="res://3d_migration/world_command/emote_command.gd" id="45_rue0h"]
@@ -576,6 +577,12 @@ collision_shape_3d = NodePath("CollisionShape3D")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 2, 71)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_46muq"), SubResource("Resource_gmy4t")])
 blocks_player = true
+
+[node name="TownExit" parent="StarterTown/Zones" unique_id=1925236271 instance=ExtResource("44_55spl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2, 2)
+
+[node name="TownEntrance" parent="StarterTown/Zones" unique_id=573641967 instance=ExtResource("44_55spl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 2, 2)
 
 [node name="RouteOne" type="Node3D" parent="." unique_id=294995450]
 
