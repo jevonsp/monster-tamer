@@ -3,6 +3,12 @@
 [ext_resource type="Script" uid="uid://blx4fyq45fja3" path="res://gameplay/battle/battle_action/action.gd" id="1_action"]
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://gameplay/battle/battle_action/action_list.gd" id="2_list"]
 [ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://gameplay/battle/battle_action/actions/text_action.gd" id="3_text"]
+[ext_resource type="Script" path="res://gameplay/battle/battle_action/actions/fx_action.gd" id="4_fx"]
+[ext_resource type="PackedScene" path="res://gameplay/battle/battle_3d/fx/sun.tscn" id="5_sun_scene"]
+
+[sub_resource type="Resource" id="Resource_sun_fx"]
+script = ExtResource("4_fx")
+fx_scene = ExtResource("5_sun_scene")
 
 [sub_resource type="Resource" id="Resource_sun_expiry_text"]
 script = ExtResource("3_text")
@@ -11,4 +17,4 @@ is_autocomplete = true
 
 [resource]
 script = ExtResource("2_list")
-actions = Array[ExtResource("1_action")]([SubResource("Resource_sun_expiry_text")])
+actions = Array[ExtResource("1_action")]([SubResource("Resource_sun_fx"), SubResource("Resource_sun_expiry_text")])

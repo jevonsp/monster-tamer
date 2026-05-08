@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://cqs2g0qqgbfg4"]
+
+[ext_resource type="Script" uid="uid://cdm4tkdpvawlj" path="res://gameplay/battle/battle_3d/fx/battle_animation.gd" id="1_5c0fu"]
+[ext_resource type="Texture2D" uid="uid://lw0wtmcugo3f" path="res://gameplay/battle/battle_3d/_assets/animations/Lightning Bolt.png" id="2_bm6lg"]
+
+[sub_resource type="Animation" id="Animation_5c0fu"]
+resource_name = "animation"
+length = 1.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/Lightning0:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/Lightning0:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/Lightning1:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/Lightning1:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/Lightning2:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.4, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Control/Lightning2:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.4, 0.5, 0.6, 0.70000005, 0.79999995, 0.9, 1, 1.1, 1.2, 1.3000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bm6lg"]
+_data = {
+&"animation": SubResource("Animation_5c0fu")
+}
+
+[node name="Magnet" type="Control" unique_id=1331138347 node_paths=PackedStringArray("animation_player")]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5c0fu")
+animation_player = NodePath("")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=490551631]
+libraries/ = SubResource("AnimationLibrary_bm6lg")
+
+[node name="Control" type="Control" parent="." unique_id=1099738166]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Lightning0" type="Sprite2D" parent="Control" unique_id=828567981]
+visible = false
+position = Vector2(-367.99997, -280)
+scale = Vector2(5, 5)
+texture = ExtResource("2_bm6lg")
+hframes = 5
+vframes = 3
+frame = 9
+
+[node name="Lightning1" type="Sprite2D" parent="Control" unique_id=1726066836]
+visible = false
+scale = Vector2(5, 5)
+texture = ExtResource("2_bm6lg")
+hframes = 5
+vframes = 3
+frame = 10
+
+[node name="Lightning2" type="Sprite2D" parent="Control" unique_id=1151191165]
+visible = false
+position = Vector2(367.99997, -215.99998)
+scale = Vector2(5, 5)
+texture = ExtResource("2_bm6lg")
+hframes = 5
+vframes = 3
+frame = 8
