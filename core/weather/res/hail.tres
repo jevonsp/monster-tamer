@@ -1,9 +1,15 @@
 [gd_resource type="Resource" script_class="Weather" format=3 uid="uid://c04l6ovh02ogf"]
 
 [ext_resource type="Script" uid="uid://bhhasedg3pw7h" path="res://core/weather/weather.gd" id="1_mwn7b"]
+[ext_resource type="Resource" path="res://core/weather/res/hail_on_persist_action_list.tres" id="2_hail_persist"]
+[ext_resource type="Resource" path="res://core/weather/res/hail_on_expiry_action_list.tres" id="3_hail_expiry"]
+[ext_resource type="Resource" path="res://core/weather/res/hail_on_entry_action_list.tres" id="4_hail_entry"]
 
 [resource]
 script = ExtResource("1_mwn7b")
+on_entry_action_list = ExtResource("4_hail_entry")
+on_expiry_action_list = ExtResource("3_hail_expiry")
+on_persist_action_list = ExtResource("2_hail_persist")
 boosted_types = Array[int]([6, 4])
 reduced_types = Array[int]([3])
 metadata/_custom_type_script = "uid://bhhasedg3pw7h"

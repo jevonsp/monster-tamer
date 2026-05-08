@@ -1,7 +1,13 @@
 [gd_resource type="Resource" script_class="Weather" format=3 uid="uid://ctbb5ibo7jfae"]
 
 [ext_resource type="Script" uid="uid://bhhasedg3pw7h" path="res://core/weather/weather.gd" id="1_aejqo"]
+[ext_resource type="Resource" path="res://core/weather/res/magnet_on_persist_action_list.tres" id="2_magnet_persist"]
+[ext_resource type="Resource" path="res://core/weather/res/magnet_on_expiry_action_list.tres" id="3_magnet_expiry"]
+[ext_resource type="Resource" path="res://core/weather/res/magnet_on_entry_action_list.tres" id="4_magnet_entry"]
 
 [resource]
 script = ExtResource("1_aejqo")
+on_entry_action_list = ExtResource("4_magnet_entry")
+on_expiry_action_list = ExtResource("3_magnet_expiry")
+on_persist_action_list = ExtResource("2_magnet_persist")
 metadata/_custom_type_script = "uid://bhhasedg3pw7h"
