@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Weather" format=3 uid="uid://bpdpo1rgdxrt"]
+
+[ext_resource type="Script" uid="uid://bhhasedg3pw7h" path="res://core/weather/weather.gd" id="1_vih11"]
+
+[resource]
+script = ExtResource("1_vih11")
+boosted_types = Array[int]([2, 7])
+reduced_types = Array[int]([0])
+metadata/_custom_type_script = "uid://bhhasedg3pw7h"

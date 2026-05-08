@@ -2,10 +2,12 @@ class_name DamageAction
 extends Action
 
 enum DamageCategory { PHYSICAL, SPECIAL }
+enum AttackCategory { PHYSICAL, SPECIAL }
 
 @export var base_power: int = 30
 @export var type: TypeChart.Type = TypeChart.Type.NONE
-@export var category: DamageCategory = DamageCategory.PHYSICAL
+@export var damage_category: DamageCategory = DamageCategory.PHYSICAL
+@export var attack_stat: AttackCategory = AttackCategory.PHYSICAL
 @export var recoil_percent: float = 0.0
 ## When true, the action damages ctx.choice.actor instead of the first target.
 ## Used by self-damage status ticks (e.g. burn, poison).
@@ -66,25 +68,52 @@ func _calc_efficacy(_attacker: Monster, _target: Monster) -> float:
 	return 1.0
 
 
-func _calc_damage(attacker: Monster, _target: Monster) -> int:
+func _calc_damage(attacker: Monster, target: Monster) -> int:
 	if attacker == null:
-		return base_power
-	var attack_stat: float = float(attacker.attack)
-	match category:
-		DamageCategory.PHYSICAL:
-			attack_stat = attacker.get_effective_stat(Monster.Stat.ATTACK)
-		DamageCategory.SPECIAL:
-			attack_stat = attacker.get_effective_stat(Monster.Stat.SPECIAL_ATTACK)
-	# Placeholder formula until full damage math is implemented; routes attack
-	# through get_effective_stat so passive status multipliers (e.g. burn) apply.
-	var base_attack: float = max(1.0, float(attacker.attack))
-	var ratio: float = attack_stat / base_attack
-	return int(round(float(base_power) * ratio))
+		return 0
+
+	var attack := _get_effective_attacking_stat(attacker, attack_stat)
+	var defense := _get_effective_defending_stat(target, damage_category)
+
+	var stab := _get_stab_bonus(attacker)
+	var final := _get_final_damage(attacker, target, attack, defense) * stab
+
+	return int(final)
+
+
+func _get_effective_attacking_stat(attacker: Monster, category: AttackCategory) -> int:
+	if category == AttackCategory.PHYSICAL:
+		return round(attacker.get_effective_stat(Monster.Stat.ATTACK))
+	return round(attacker.get_effective_stat(Monster.Stat.SPECIAL_ATTACK))
+
+
+func _get_effective_defending_stat(defender: Monster, category: DamageCategory) -> int:
+	if category == DamageCategory.PHYSICAL:
+		return round(defender.get_effective_stat(Monster.Stat.DEFENSE))
+	return round(defender.get_effective_stat(Monster.Stat.SPECIAL_DEFENSE))
+
+
+func _get_stab_bonus(attacker: Monster) -> float:
+	if attacker.secondary_type == TypeChart.Type.NONE:
+		if attacker.primary_type == type:
+			return 1.5
+		return 1.0
+	if attacker.primary_type == type or attacker.secondary_type == type:
+		return 1.5
+	return 1.0
+
+
+func _get_final_damage(attacker: Monster, _defender: Monster, a_stat: int, d_stat: int) -> int:
+	var level_factor := ((2.0 * attacker.level) / 5.0) + 2.0
+	var stat_ratio := a_stat / float(d_stat)
+	var damage := ((level_factor * base_power * stat_ratio) / 50.0) + 2.0
+
+	return int(damage)
 
 
 func _calc_critical(_attacker: Monster, _target: Monster) -> bool:
 	return false
 
 
-func _calc_recoil() -> int:
-	return 0
+func _calc_recoil(damage: int) -> int:
+	return int(damage * recoil_percent)

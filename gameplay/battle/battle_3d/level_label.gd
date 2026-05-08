@@ -16,4 +16,5 @@ func display() -> void:
 	if not actor:
 		text = ""
 		return
+	print("actor: %s, level: %s" % [actor, actor.level])
 	text = "Lvl. %s" % [actor.level]

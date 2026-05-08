@@ -9,6 +9,7 @@ enum Type {
 	AIR,
 	EARTH,
 	ICE,
+	ELEC,
 }
 
 const NOT_VERY: float = 0.5
@@ -24,6 +25,7 @@ const TYPE_CHART: Dictionary = {
 		Type.AIR: NORMAL,
 		Type.EARTH: NOT_VERY,
 		Type.ICE: NORMAL,
+		Type.ELEC: NORMAL,
 	},
 	Type.FIRE: {
 		Type.NONE: NORMAL,
@@ -33,6 +35,7 @@ const TYPE_CHART: Dictionary = {
 		Type.AIR: SUPER_EFFECTIVE,
 		Type.EARTH: NOT_VERY,
 		Type.ICE: SUPER_EFFECTIVE,
+		Type.ELEC: NORMAL,
 	},
 	Type.WATER: {
 		Type.NONE: NORMAL,
@@ -42,6 +45,7 @@ const TYPE_CHART: Dictionary = {
 		Type.AIR: NORMAL,
 		Type.EARTH: SUPER_EFFECTIVE,
 		Type.ICE: NOT_VERY,
+		Type.ELEC: NOT_VERY,
 	},
 	Type.GRASS: {
 		Type.NONE: NORMAL,
@@ -51,6 +55,7 @@ const TYPE_CHART: Dictionary = {
 		Type.AIR: NOT_VERY,
 		Type.EARTH: SUPER_EFFECTIVE,
 		Type.ICE: NORMAL,
+		Type.ELEC: NORMAL,
 	},
 	Type.AIR: {
 		Type.NONE: NORMAL,
@@ -60,15 +65,17 @@ const TYPE_CHART: Dictionary = {
 		Type.AIR: NORMAL,
 		Type.EARTH: SUPER_EFFECTIVE,
 		Type.ICE: NORMAL,
+		Type.ELEC: NOT_VERY,
 	},
 	Type.EARTH: {
 		Type.NONE: NORMAL,
 		Type.FIRE: SUPER_EFFECTIVE,
 		Type.WATER: NORMAL,
-		Type.GRASS: NORMAL,
+		Type.GRASS: NOT_VERY,
 		Type.AIR: NORMAL,
 		Type.EARTH: NOT_VERY,
-		Type.ICE: NORMAL,
+		Type.ICE: SUPER_EFFECTIVE,
+		Type.ELEC: SUPER_EFFECTIVE,
 	},
 	Type.ICE: {
 		Type.NONE: NORMAL,
@@ -78,6 +85,17 @@ const TYPE_CHART: Dictionary = {
 		Type.AIR: NORMAL,
 		Type.EARTH: SUPER_EFFECTIVE,
 		Type.ICE: NORMAL,
+		Type.ELEC: NORMAL,
+	},
+	Type.ELEC: {
+		Type.NONE: NORMAL,
+		Type.FIRE: NORMAL,
+		Type.WATER: SUPER_EFFECTIVE,
+		Type.GRASS: NORMAL,
+		Type.AIR: SUPER_EFFECTIVE,
+		Type.EARTH: NOT_VERY,
+		Type.ICE: NORMAL,
+		Type.ELEC: NOT_VERY,
 	},
 }
 # TYPE_CHART_GENERATED_END

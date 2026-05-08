@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cx7kajuhekh3y" path="res://app/intro_sequence.gd" id="1_xxhso"]
 [ext_resource type="Texture2D" uid="uid://dmemkc7d8fav6" path="res://gameplay/field/character_3d/player_sprite_sheet.png" id="2_rse4a"]
+[ext_resource type="Texture2D" uid="uid://n4q5a8ubsssx" path="res://gameplay/field/character_3d/girl_player_sprite_sheet.png" id="3_tjh2h"]
 
 [node name="IntroSequence" type="Control" unique_id=973191004]
 layout_mode = 3
@@ -29,7 +30,7 @@ position = Vector2(128, 128)
 scale = Vector2(4, 4)
 texture = ExtResource("2_rse4a")
 hframes = 3
-vframes = 3
+vframes = 5
 
 [node name="BModel" type="Button" parent="ModelButtons" unique_id=1637000882]
 layout_mode = 2
@@ -38,6 +39,6 @@ size_flags_horizontal = 3
 [node name="TextureRect" type="Sprite2D" parent="ModelButtons/BModel" unique_id=31687558]
 position = Vector2(126, 128)
 scale = Vector2(4, 4)
-texture = ExtResource("2_rse4a")
+texture = ExtResource("3_tjh2h")
 hframes = 3
-vframes = 3
+vframes = 5

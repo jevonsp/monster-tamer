@@ -24,6 +24,7 @@ var _is_registered_with_ui_flow: bool = false
 @onready var player_texture_rect: TextureRect = $CanvasLayer/Content/Animations/PlayerTextureRect
 @onready var player_hp_bar: TextureProgressBar = $CanvasLayer/Content/PlayerHPBar
 @onready var player_exp_bar: TextureProgressBar = $CanvasLayer/Content/PlayerEXPBar
+@onready var enemy_level_label: Label = $CanvasLayer/Content/EnemyPanel/VBoxContainer/EnemyLevelLabel
 @onready var enemy_name_label: Label = $CanvasLayer/Content/EnemyPanel/VBoxContainer/EnemyNameLabel
 @onready var enemy_texture_rect: TextureRect = $CanvasLayer/Content/Animations/EnemyTextureRect
 @onready var enemy_hp_bar: TextureProgressBar = $CanvasLayer/Content/EnemyHPBar
@@ -47,6 +48,7 @@ var _is_registered_with_ui_flow: bool = false
 ]
 @onready var enemy_0_slot: Array = [
 	enemy_name_label,
+	enemy_level_label,
 	enemy_texture_rect,
 	enemy_hp_bar,
 ]

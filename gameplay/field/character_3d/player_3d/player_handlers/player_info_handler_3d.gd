@@ -4,6 +4,10 @@ extends Node
 enum Gender { NONE, MALE, FEMALE, NB }
 enum Model { A, B }
 
+const GIRL_PLAYER_SPRITE_SHEET_BOTTOM = preload("uid://eyafdrossyxu")
+const GIRL_PLAYER_SPRITE_SHEET_TOP = preload("uid://qwl3inoes80n")
+const PLAYER_SPRITE_SHEET_BOTTOM = preload("uid://b2i0knoomugo6")
+const PLAYER_SPRITE_SHEET_TOP = preload("uid://djoqot0cq4qv1")
 const _PLAYER_FIELDS: Array[StringName] = [
 	&"player_name",
 	&"player_gender",
@@ -30,9 +34,9 @@ const _PLAYER_FIELDS: Array[StringName] = [
 		player_info["player_model"] = player_model
 		match player_model:
 			Model.A:
-				pass
+				player.set_sprite_model(PLAYER_SPRITE_SHEET_TOP, PLAYER_SPRITE_SHEET_BOTTOM)
 			Model.B:
-				printerr("MODEL B NOT IMPLEMENTED")
+				player.set_sprite_model(GIRL_PLAYER_SPRITE_SHEET_TOP, GIRL_PLAYER_SPRITE_SHEET_BOTTOM)
 @export var play_time: int = 0:
 	set(value):
 		play_time = value

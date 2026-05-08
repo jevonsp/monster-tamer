@@ -23,8 +23,6 @@ var _bump_latched_collider_id: int = -1
 @onready var player_info_handler: PlayerInfo3D = $PlayerInfoHandler
 @onready var travel_handler: TravelHandler3D = $TravelHandler
 @onready var overlay: ColorRect = $CanvasLayer/Overlay
-@onready var top_sprite_3d: Sprite3D = $TopSprite3D
-@onready var bottom_sprite_3d: Sprite3D = $BottomSprite3D
 
 
 func _ready() -> void:

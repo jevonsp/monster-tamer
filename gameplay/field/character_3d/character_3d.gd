@@ -35,6 +35,8 @@ var _tile_target_world: Vector3
 var _move_progress: float = 0.0
 var _active_edge: GraphEdge
 
+@onready var top_sprite_3d: Sprite3D = $TopSprite3D
+@onready var bottom_sprite_3d: Sprite3D = $BottomSprite3D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var shadow: AnimatedSprite3D = $BottomSprite3D/Shadow
@@ -141,6 +143,11 @@ func notify_grid_step_landed(ground: Vector3i) -> void:
 
 func key_hold_ready() -> bool:
 	return true
+
+
+func set_sprite_model(top_sprite_texture: Texture2D, bottom_sprite_texture: Texture2D) -> void:
+	top_sprite_3d.texture = top_sprite_texture
+	bottom_sprite_3d.texture = bottom_sprite_texture
 
 
 ## Override in a subclass to hook turn animation start (in addition to `turn_started` if you use signals).

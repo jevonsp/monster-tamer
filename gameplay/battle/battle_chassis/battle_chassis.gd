@@ -22,6 +22,7 @@ var turn_queue: Array[Choice] = []
 var turn_index: int = 0
 var turn_phase: Phase = Phase.NONE
 var current_actor: Monster
+var current_weather: Weather = null
 var trainer: Trainer3D
 var _processing_turn: bool = false
 
@@ -35,6 +36,11 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 	_prune_invalid_choices_from_turn_queue()
 	if turn_queue.is_empty():
 		return
+
+	var persist_weather_list := _resolve_weather_list(Weather.List.PERSIST)
+	if persist_weather_list:
+		var ctx := ActionContext.new(self, null, presenter)
+		await persist_weather_list.run(ctx)
 
 	_processing_turn = true
 	while turn_index < turn_queue.size() and in_battle:
@@ -68,6 +74,11 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 
 		_prune_invalid_choices_from_turn_queue()
 		await _clean_up_turn()
+
+	var expiry_weather_list := _resolve_weather_list(Weather.List.EXPIRY)
+	if expiry_weather_list:
+		var ctx := ActionContext.new(self, null, presenter)
+		await expiry_weather_list.run(ctx)
 
 	turn_queue.clear()
 	turn_index = 0
@@ -152,6 +163,22 @@ func _choice_is_valid(choice: Choice) -> bool:
 		if t != null and t.is_fainted:
 			return false
 	return true
+
+
+func _resolve_weather_list(phase: Weather.List) -> ActionList:
+	if not current_weather:
+		return null
+
+	match phase:
+		Weather.List.ENTRY:
+			return current_weather.on_entry_action_list
+		Weather.List.EXPIRY:
+			if current_weather.turns_remaining <= 0:
+				return current_weather.on_expiry_action_list
+		Weather.List.PERSIST:
+			return current_weather.on_persist_action_list
+
+	return null
 
 
 func _clean_up_turn() -> void:

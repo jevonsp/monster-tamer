@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://gameplay/battle/battle_action/actions/text_action.gd" id="4_kqkp3"]
 [ext_resource type="Script" uid="uid://dwebkidc7vbbw" path="res://gameplay/battle/battle_action/actions/set_substitute_action_list.gd" id="4_sub"]
 [ext_resource type="Script" uid="uid://ddrba043ws6q" path="res://gameplay/battle/battle_action/actions/tick_statuses_action.gd" id="5_tick"]
-[ext_resource type="Resource" uid="uid://baq85l5hyexsx" path="res://core/status/resources/confusion_self_hit.tres" id="6_self_hit"]
+[ext_resource type="Resource" uid="uid://baq85l5hyexsx" path="res://core/status/res/confusion_self_hit.tres" id="6_self_hit"]
 
 [sub_resource type="Resource" id="Resource_conf_apply_fx"]
 script = ExtResource("3_vbd33")
