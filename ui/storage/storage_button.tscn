@@ -2,7 +2,7 @@
 
 [ext_resource type="StyleBox" uid="uid://vnl52cbxfn1v" path="res://ui/button_panel/button_panel_normal_stylebox.tres" id="1_e8c4v"]
 [ext_resource type="Script" uid="uid://btl3vpkfaaxt1" path="res://ui/storage/storage_button.gd" id="1_jtyxo"]
-[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="1_r5kvc"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://content/monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="1_r5kvc"]
 [ext_resource type="StyleBox" uid="uid://di3rvnejy3534" path="res://ui/button_panel/button_panel_pressed_stylebox.tres" id="2_negh5"]
 [ext_resource type="StyleBox" uid="uid://c2pdlg7ky617b" path="res://ui/button_panel/button_panel_hover_stylebox.tres" id="3_rhu4p"]
 [ext_resource type="StyleBox" uid="uid://baj851txs0iuf" path="res://ui/button_panel/button_panel_disabled_stylebox.tres" id="4_thabk"]

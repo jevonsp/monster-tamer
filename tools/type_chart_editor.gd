@@ -2,7 +2,7 @@ class_name TypeChartEditor
 extends Control
 
 const DATA_PATH: String = TypeChartData.DATA_PATH
-const CHART_SCRIPT_PATH: String = "res://classes/TypeChart.gd"
+const CHART_SCRIPT_PATH: String = "res://core/TypeChart.gd"
 const PANEL_MIN_WIDTH: float = 220.0
 const CELL_WIDTH: float = 90.0
 const CELL_HEIGHT: float = 38.0

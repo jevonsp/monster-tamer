@@ -1,7 +1,7 @@
 class_name TypeChartGenerator
 extends RefCounted
 
-const OUTPUT_PATH: String = "res://classes/TypeChart.gd"
+const OUTPUT_PATH: String = "res://core/TypeChart.gd"
 const GENERATED_BEGIN: String = "# TYPE_CHART_GENERATED_BEGIN"
 const GENERATED_END: String = "# TYPE_CHART_GENERATED_END"
 const EFFICACY_NAMES: Dictionary = {

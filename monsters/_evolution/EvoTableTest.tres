@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="EvolutionTable" format=3 uid="uid://cbntqm4gc2s7l"]
-
-[ext_resource type="Script" uid="uid://chb0fywkmkasb" path="res://monsters/_evolution/EvolutionTable.gd" id="1_3trew"]
-[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://monsters/MonsterData.gd" id="1_gkrxn"]
-[ext_resource type="Script" uid="uid://rtalei6rs3as" path="res://monsters/_evolution/EntryList.gd" id="2_pcbgp"]
-
-[resource]
-script = ExtResource("1_3trew")
-metadata/_custom_type_script = "uid://chb0fywkmkasb"

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cr1y1o7vakhfl"]
+
+[ext_resource type="Script" uid="uid://djsen6xnefmky" path="res://gameplay/field/wild_zone_3d/wild_zone_3d.gd" id="1_b1hql"]
+
+[node name="WILD_ZONE_3D" type="Node3D" unique_id=1288161633]
+script = ExtResource("1_b1hql")

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3 uid="uid://cdor45ba2o0aa"]
+
+[ext_resource type="Script" uid="uid://dyr8euc0vcinb" path="res://gameplay/battle/moves/move.gd" id="1_lw1av"]
+[ext_resource type="Resource" uid="uid://bretmrdrou0vg" path="res://content/moves/hms/surf.tres" id="2_asqbg"]
+[ext_resource type="Script" uid="uid://vx6b6njwqnde" path="res://core/monster/MonsterData.gd" id="3_droyv"]
+[ext_resource type="Texture2D" uid="uid://0xibjcv2bffr" path="res://content/monsters/shrimp/pistol_shrimp/pistol_shrimp_remake.png" id="3_nmn5g"]
+[ext_resource type="Resource" uid="uid://dr2ta8seew5k8" path="res://content/moves/basic_test/basic_hit.tres" id="4_38kov"]
+
+[resource]
+script = ExtResource("3_droyv")
+species = "Pistol Shrimp"
+primary_type = 2
+texture = ExtResource("3_nmn5g")
+starting_moves = Array[ExtResource("1_lw1av")]([ExtResource("4_38kov")])
+learn_set = Array[ExtResource("1_lw1av")]([ExtResource("2_asqbg")])
+base_hitpoints = null
+base_attack = null
+base_special_attack = null
+base_defense = null
+base_special_defense = null
+base_speed = null
+catch_rate = null
+male_ratio = null
+female_ratio = null
+metadata/_custom_type_script = "uid://vx6b6njwqnde"

@@ -23,10 +23,10 @@ Ui="*uid://bff20rbrygtl1"
 Party="*uid://cg1eo25180r5y"
 SaverLoader="*uid://du1mlwngfelbr"
 EvolutionHandler="*uid://bvot1xns8ml0w"
-UiFlow="*res://global/UiFlow.gd"
-ItemInteraction="*res://game/item_interaction.gd"
+UiFlow="*res://autoload/UiFlow.gd"
+ItemInteraction="*res://systems/item_interaction.gd"
 FieldCapability="*uid://ba7tc6eindlqb"
-PlayerContext3D="*res://3d_migration/character_3d/player_3d/player_context_3d.gd"
+PlayerContext3D="*res://gameplay/field/character_3d/player_3d/player_context_3d.gd"
 GameOptions="*uid://bxmtrbhvrhxfc"
 
 [display]

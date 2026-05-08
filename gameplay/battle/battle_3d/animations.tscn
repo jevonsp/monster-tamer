@@ -1,0 +1,378 @@
+[gd_scene format=3 uid="uid://c6d5i3er8ir6x"]
+
+[ext_resource type="Texture2D" uid="uid://bb2fpsjjas2ep" path="res://gameplay/battle/battle_3d/_assets/fx/animated_ball-Sheet.png" id="1_1ecc4"]
+[ext_resource type="Texture2D" uid="uid://bq0soqgxciif4" path="res://content/monsters/01_Monster_Sheet.png" id="1_2wkkj"]
+[ext_resource type="Script" uid="uid://voey0b0yxhfo" path="res://gameplay/battle/battle_3d/animations.gd" id="1_sohia"]
+[ext_resource type="Script" uid="uid://bya2xxyulmn5h" path="res://gameplay/battle/battle_3d/fx_player.gd" id="2_il1f4"]
+[ext_resource type="Script" uid="uid://x8pvomff4rh7" path="res://gameplay/battle/battle_3d/enemy_texture_rect.gd" id="3_8tqf1"]
+[ext_resource type="Script" uid="uid://bxj7j7ui2lvws" path="res://gameplay/battle/battle_3d/player_texture_rect.gd" id="3_w8ghm"]
+
+[sub_resource type="Shader" id="Shader_1qgh3"]
+code = "shader_type canvas_item;
+
+uniform float flash_amount : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	COLOR = mix(tex, vec4(1.0, 1.0, 1.0, tex.a), flash_amount);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1qgh3"]
+shader = SubResource("Shader_1qgh3")
+shader_parameter/flash_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxwvs"]
+atlas = ExtResource("1_2wkkj")
+region = Rect2(0, 60, 60, 60)
+
+[sub_resource type="Shader" id="Shader_il1f4"]
+code = "shader_type canvas_item;
+
+uniform float flash_amount : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
+	COLOR = mix(tex, vec4(1.0, 1.0, 1.0, tex.a), flash_amount);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8tqf1"]
+shader = SubResource("Shader_il1f4")
+shader_parameter/flash_amount = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmwin"]
+atlas = ExtResource("1_2wkkj")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="Curve2D" id="Curve2D_eu6g2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 48, -48, 0, 0, 0, 0, 112, -96, 0, 0, 0, 0, 208, -128, 0, 0, 0, 0, 352, -144, 0, 0, 0, 0, 416, -144, 0, 0, 0, 0, 464, -144, 0, 0, 0, 0, 608, -128, 0, 0, 0, 0, 720, -96, 0, 0, 0, 0, 816, -48, 0, 0, 0, 0, 864, 0)
+}
+point_count = 11
+
+[sub_resource type="Animation" id="Animation_w8ghm"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/PlayerTextureRect:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(256.00024, 256.00006)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animations/EnemyTextureRect:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(256.00024, 256)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Animations/PlayerTextureRect:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(97, 150)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Animations/EnemyTextureRect:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(931, 150)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Animations/PlayerTextureRect:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Animations/EnemyTextureRect:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Animations/PlayerTextureRect:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Animations/EnemyTextureRect:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Animations/Path2D/PathFollow2D/ItemSprite:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_sohia"]
+resource_name = "enemy_0_faint"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/EnemyTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(931, 150), Vector2(931, 100), Vector2(931, 100), Vector2(931, 749)]
+}
+
+[sub_resource type="Animation" id="Animation_1qgh3"]
+resource_name = "enemy_0_hit"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/EnemyTextureRect:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2, 2, 2),
+"points": PackedFloat32Array(931, -0.25, 0, 0.25, 0, 960, -0.033333335, -9, 0, 0, 980, -0.008333333, -2.8333335, 0, 0, 915, -0.025000002, 14.500001, 0, 0, 931, -0.016666666, -2.6666667, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.4, 0.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animations/EnemyTextureRect:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2, 2, 2),
+"points": PackedFloat32Array(150, -0.25, 0, 0.25, 0, 140, -0.033333335, 5.5000005, 0, 0, 150, -0.008333333, -7, 0, 0, 161, -0.025000002, -0.33333334, 0, 0, 150, -0.016666666, 1.8333334, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.4, 0.5)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Animations/EnemyTextureRect:material:shader_parameter/flash_amount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_2wkkj"]
+resource_name = "player_0_faint"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/PlayerTextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(97, 150), Vector2(97, 100), Vector2(97, 100), Vector2(97, 749)]
+}
+
+[sub_resource type="Animation" id="Animation_il1f4"]
+resource_name = "player_0_hit"
+length = 0.5
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/PlayerTextureRect:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2, 2, 2),
+"points": PackedFloat32Array(97, -0.25, 0, 0.25, 0, 68, -0.033333335, 9, 0, 0, 48, -0.008333333, 2.8333335, 0, 0, 113, -0.025000002, -14.500001, 0, 0, 97, -0.016666666, 2.6666667, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.4, 0.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animations/PlayerTextureRect:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2, 2, 2),
+"points": PackedFloat32Array(150, -0.25, 0, 0.25, 0, 140, -0.033333335, 5.5000005, 0, 0, 150, -0.008333333, -7, 0, 0, 161, -0.025000002, -0.33333334, 0, 0, 150, -0.016666666, 1.8333334, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.4, 0.5)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Animations/PlayerTextureRect:material:shader_parameter/flash_amount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_8tqf1"]
+resource_name = "throw_item"
+length = 0.8
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animations/Path2D/PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.16666667, -0.16666667, 0, 0),
+"times": PackedFloat32Array(0, 0.8)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animations/Path2D/PathFollow2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 2, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 3.1415927, -0.075, -0.52359885, 0, 0, 6.2831855, -0.058333337, -0.5235988, 0, 0),
+"times": PackedFloat32Array(0, 0.45, 0.8)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Animations/Path2D/PathFollow2D/ItemSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8tqf1"]
+_data = {
+&"RESET": SubResource("Animation_w8ghm"),
+&"enemy_0_faint": SubResource("Animation_sohia"),
+&"enemy_0_hit": SubResource("Animation_1qgh3"),
+&"player_0_faint": SubResource("Animation_2wkkj"),
+&"player_0_hit": SubResource("Animation_il1f4"),
+&"throw_item": SubResource("Animation_8tqf1")
+}
+
+[node name="Animations" type="Control" unique_id=842676835]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sohia")
+
+[node name="PlayerTextureRect" type="TextureRect" parent="." unique_id=714945025]
+z_index = -1
+material = SubResource("ShaderMaterial_1qgh3")
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.6680555
+anchor_bottom = 1.6680555
+offset_left = 97.0
+offset_top = -1051.0
+offset_right = 353.00024
+offset_bottom = -794.99994
+texture = SubResource("AtlasTexture_sxwvs")
+script = ExtResource("3_w8ghm")
+metadata/_edit_use_anchors_ = true
+
+[node name="EnemyTextureRect" type="TextureRect" parent="." unique_id=1433175572]
+z_index = -1
+material = SubResource("ShaderMaterial_8tqf1")
+layout_mode = 0
+offset_left = 931.0
+offset_top = 150.0
+offset_right = 1187.0002
+offset_bottom = 406.0
+texture = SubResource("AtlasTexture_lmwin")
+script = ExtResource("3_8tqf1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Path2D" type="Path2D" parent="." unique_id=584710496]
+position = Vector2(224, 272)
+curve = SubResource("Curve2D_eu6g2")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" unique_id=1657002085]
+position = Vector2(864, 0)
+rotation = 6.2831855
+progress = 942.5424
+rotates = false
+
+[node name="ItemSprite" type="Sprite2D" parent="Path2D/PathFollow2D" unique_id=1308835749]
+visible = false
+scale = Vector2(8, 8)
+texture = ExtResource("1_1ecc4")
+hframes = 7
+frame = 1
+
+[node name="FxPlayer" type="AnimationPlayer" parent="." unique_id=1890415258]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_8tqf1")
+script = ExtResource("2_il1f4")
