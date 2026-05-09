@@ -57,6 +57,10 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	set(value):
 		nuzlocke_tracker = value
 		player_info["nuzlocke_tracker"] = value
+@export var dex_tracker: DexTracker:
+	set(value):
+		dex_tracker = value
+		player_info["dex_tracker"] = value
 
 var player: Player3D
 

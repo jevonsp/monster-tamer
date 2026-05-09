@@ -20,6 +20,7 @@ func _ready() -> void:
 	animation_tree.advance(0.0)
 	anim_helper.animation_tree = animation_tree
 	_bind_camera_and_connect()
+	add_to_group("save_object")
 
 
 func _process(_delta: float) -> void:
@@ -54,6 +55,29 @@ func change_command_index_to(index: int) -> void:
 		return
 
 	command_index = index
+
+
+func on_save_game(saved_data_array: Array[SavedData]) -> void:
+	var new_saved_data = SavedData.new()
+	new_saved_data.node_path = get_path()
+
+	new_saved_data.position = global_position
+	new_saved_data.facing_grid = facing_grid
+
+	saved_data_array.append(new_saved_data)
+
+
+func on_before_load_game() -> void:
+	pass
+
+
+func on_load_game(saved_data_array: Array[SavedData]) -> void:
+	for data: SavedData in saved_data_array:
+		if data.node_path == get_path():
+			facing_grid = data.facing_grid
+			global_position = data.position
+
+	_update()
 
 
 func _bind_camera_and_connect() -> void:
@@ -102,3 +126,7 @@ func _on_player_interact(player: Player3D) -> void:
 
 func _after_command_list_run(_flow: Command.Flow) -> void:
 	pass
+
+
+func _update() -> void:
+	anim_helper.refresh_facing_blends(facing_grid, self)

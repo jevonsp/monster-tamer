@@ -67,7 +67,7 @@ func _ready() -> void:
 	Battle.set_battle_scene(self)
 	_connect_signals()
 	_bind_buttons()
-	_focus_default()
+	focus_default()
 	canvas_layer.visible = visible
 
 
@@ -155,6 +155,20 @@ func set_battle_chassis(value: BattleChassis) -> void:
 	)
 
 
+func focus_default() -> void:
+	match button_state:
+		VisibleButtons.OPTIONS:
+			if last_focused_option_button:
+				last_focused_option_button.grab_focus()
+			else:
+				fight.grab_focus()
+		VisibleButtons.MOVES:
+			if last_focused_move_button:
+				last_focused_move_button.grab_focus()
+			else:
+				move_0.grab_focus()
+
+
 func _bind_buttons() -> void:
 	for button: Button in [
 		move_0,
@@ -206,7 +220,7 @@ func _toggle_visible(_trainer3d: Trainer3D = null) -> void:
 	processing = visible
 	_sync_world_input_block(visible)
 	if visible:
-		_focus_default()
+		focus_default()
 		Ui.switch_ui_context.emit(Global.AccessFrom.MENU)
 	else:
 		last_focused_move_button = null
@@ -228,20 +242,6 @@ func _sync_world_input_block(should_block: bool) -> void:
 	_is_registered_with_ui_flow = false
 
 
-func _focus_default() -> void:
-	match button_state:
-		VisibleButtons.OPTIONS:
-			if last_focused_option_button:
-				last_focused_option_button.grab_focus()
-			else:
-				fight.grab_focus()
-		VisibleButtons.MOVES:
-			if last_focused_move_button:
-				last_focused_move_button.grab_focus()
-			else:
-				move_0.grab_focus()
-
-
 func _change_button_state(state: VisibleButtons) -> bool:
 	if state == button_state:
 		return false
@@ -254,7 +254,7 @@ func _change_button_state(state: VisibleButtons) -> bool:
 			move_buttons.visible = true
 			option_buttons.visible = false
 
-	_focus_default()
+	focus_default()
 
 	return true
 

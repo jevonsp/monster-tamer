@@ -76,7 +76,8 @@ func _calc_damage(attacker: Monster, target: Monster) -> int:
 	var defense := _get_effective_defending_stat(target, damage_category)
 
 	var stab := _get_stab_bonus(attacker)
-	var final := _get_final_damage(attacker, target, attack, defense) * stab
+	var critical := 2 if _calc_critical(attacker, target) else 1
+	var final := _get_final_damage(attacker, target, attack, defense) * stab * critical
 
 	return int(final)
 
@@ -111,8 +112,10 @@ func _get_final_damage(attacker: Monster, _defender: Monster, a_stat: int, d_sta
 	return int(damage)
 
 
-func _calc_critical(_attacker: Monster, _target: Monster) -> bool:
-	return false
+func _calc_critical(attacker: Monster, _target: Monster) -> int:
+	var crit_stage = attacker.stat_stages_and_multis.stat_stages[Monster.Stat.CRITICAL]
+	var crit_chance = MonsterStatMultipliers.critical_stage_multi[crit_stage]
+	return crit_chance > randf()
 
 
 func _calc_recoil(damage: int) -> int:

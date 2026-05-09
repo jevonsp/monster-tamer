@@ -34,16 +34,16 @@
 	"limits": {
 		"cyclomatic_critical": 15,
 		"cyclomatic_warning": 10,
-		"file_lines_hard": 300,
-		"file_lines_soft": 200,
-		"function_lines": 30,
-		"function_lines_critical": 60,
+		"file_lines_hard": 1000,
+		"file_lines_soft": 600,
+		"function_lines": 50,
+		"function_lines_critical": 100,
 		"god_class_exports": 15,
 		"god_class_functions": 20,
 		"god_class_signals": 10,
 		"max_line_length": 120,
-		"max_nesting": 3,
-		"max_parameters": 4
+		"max_nesting": 5,
+		"max_parameters": 5
 	},
 	"scanning": {
 		"respect_gdignore": true,

@@ -113,3 +113,4 @@ func _close_title_screen() -> void:
 
 func _prep_new_save() -> void:
 	NuzlockeTracker.create_route_tracker()
+	PlayerContext3D.player_info_handler.dex_tracker = DexTracker.new()

@@ -46,3 +46,7 @@ func tween_hp(_ctx: ActionContext, target: Monster, from_hp: int, to_hp: int) ->
 		return
 	Battle.send_hitpoints_change.emit(target, from_hp, to_hp)
 	await Battle.hitpoints_animation_complete
+
+
+func focus_buttons() -> void:
+	battle_scene.focus_default()

@@ -36,6 +36,7 @@ var _masks_player: bool = true
 
 func _ready() -> void:
 	_update()
+	add_to_group("save_object")
 
 
 func interact(player: Player3D) -> void:
@@ -106,9 +107,9 @@ func _update() -> void:
 
 
 func _sync_editor_debug_mesh_to_collision_shape(
-	collision_shape: CollisionShape3D,
-	size: Vector3,
-	debug_visible: bool,
+		collision_shape: CollisionShape3D,
+		size: Vector3,
+		debug_visible: bool,
 ) -> void:
 	if collision_shape == null:
 		return

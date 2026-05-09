@@ -5,8 +5,6 @@ signal actors_changed(p_actors: Dictionary[int, Monster], e_actors: Dictionary[i
 
 enum Phase { NONE, BEFORE, AFTER }
 
-## Hook lists, in order, that fire when their phase is active. Statuses without
-## a populated ActionList for a given hook are skipped.
 const _PHASE_HOOK_LISTS: Dictionary = {
 	Phase.BEFORE: [&"on_turn_start", &"on_potential_block", &"on_blocked_action"],
 	Phase.AFTER: [&"on_turn_end"],
@@ -83,6 +81,8 @@ func resolve_turn(presenter: BattlePresenter) -> void:
 	turn_queue.clear()
 	turn_index = 0
 	_processing_turn = false
+
+	presenter.focus_buttons()
 
 
 func advance_turn() -> void:

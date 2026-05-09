@@ -78,7 +78,7 @@ metadata/_custom_type_script = "uid://cycqvoutcwoj"
 [sub_resource type="Resource" id="Resource_73sti"]
 script = ExtResource("27_d7rgo")
 monster_data = ExtResource("26_028el")
-level = 2
+level = 3
 is_question = true
 metadata/_custom_type_script = "uid://dpea41etsmgcs"
 
@@ -124,7 +124,7 @@ metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 [sub_resource type="Resource" id="Resource_nxdj1"]
 script = ExtResource("27_d7rgo")
 monster_data = ExtResource("30_3le5t")
-level = 2
+level = 3
 is_question = true
 metadata/_custom_type_script = "uid://dpea41etsmgcs"
 
@@ -136,7 +136,7 @@ metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 [sub_resource type="Resource" id="Resource_tay5t"]
 script = ExtResource("27_d7rgo")
 monster_data = ExtResource("31_55spl")
-level = 2
+level = 3
 is_question = true
 metadata/_custom_type_script = "uid://dpea41etsmgcs"
 
@@ -163,42 +163,6 @@ metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
 [sub_resource type="Resource" id="Resource_amlcg"]
 script = ExtResource("25_d00gp")
 commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_wpvt5")])
-metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
-
-[sub_resource type="Resource" id="Resource_ue0mw"]
-script = ExtResource("28_wpkmi")
-text = Array[String](["Sliding on ice is fun!"])
-is_autocomplete = true
-metadata/_custom_type_script = "uid://bpsiiu3iawtmi"
-
-[sub_resource type="Resource" id="Resource_vqjab"]
-script = ExtResource("33_wpvt5")
-tile_list = Array[int]([3, 1])
-metadata/_custom_type_script = "uid://boe0spd64vvf8"
-
-[sub_resource type="Resource" id="Resource_d7rgo"]
-script = ExtResource("34_amlcg")
-look_list = Array[int]([0])
-metadata/_custom_type_script = "uid://prq4ybyignd8"
-
-[sub_resource type="Resource" id="Resource_yjufm"]
-script = ExtResource("33_wpvt5")
-tile_list = Array[int]([0, 2])
-metadata/_custom_type_script = "uid://boe0spd64vvf8"
-
-[sub_resource type="Resource" id="Resource_phifs"]
-script = ExtResource("34_amlcg")
-look_list = Array[int]([1])
-metadata/_custom_type_script = "uid://prq4ybyignd8"
-
-[sub_resource type="Resource" id="Resource_55spl"]
-script = ExtResource("45_rue0h")
-emote_type = 3
-metadata/_custom_type_script = "uid://bc6bbss6gvabp"
-
-[sub_resource type="Resource" id="Resource_hifdc"]
-script = ExtResource("25_d00gp")
-commands = Array[ExtResource("26_d8vpj")]([SubResource("Resource_ue0mw"), SubResource("Resource_vqjab"), SubResource("Resource_d7rgo"), SubResource("Resource_yjufm"), SubResource("Resource_phifs"), SubResource("Resource_55spl")])
 metadata/_custom_type_script = "uid://bbpkwu8gp6ll4"
 
 [sub_resource type="Resource" id="Resource_7ny4s"]
@@ -543,10 +507,6 @@ command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_amlcg")])
 
 [node name="NPCs" type="Node3D" parent="StarterTown" unique_id=440577619]
 
-[node name="Skater" parent="StarterTown/NPCs" unique_id=1894526312 instance=ExtResource("40_cgvj2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, -2)
-command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_hifdc")])
-
 [node name="BlockingNPC" parent="StarterTown/NPCs" unique_id=751460403 instance=ExtResource("40_cgvj2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, 2)
 command_lists = Array[ExtResource("25_d00gp")]([SubResource("Resource_agj3o"), SubResource("Resource_snvkn"), SubResource("Resource_e4lmg")])
@@ -736,7 +696,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 2, 64)
 type = 2
 
 [node name="Player3D" parent="." unique_id=841998966 instance=ExtResource("18_4hmqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62, 2.1, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62, 2, 1)
 collision_mask = 13
 
 [editable path="3DWorld"]

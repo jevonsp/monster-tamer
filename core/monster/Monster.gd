@@ -31,11 +31,11 @@ const EXPERIENCE_PER_LEVEL: int = 50
 @export var experience: int = 0
 @export var max_hitpoints: int
 @export var current_hitpoints: int
-@export var attack: int = 1
-@export var special_attack: int = 1
-@export var defense: int = 1
-@export var special_defense: int = 1
-@export var speed: int = 1
+@export var attack: int = 0
+@export var special_attack: int = 0
+@export var defense: int = 0
+@export var special_defense: int = 0
+@export var speed: int = 0
 @export var moves: Array[Move] = []
 @export var move_pp: Dictionary[Move, int] = { }
 @export var is_player_monster: bool = false
@@ -45,7 +45,7 @@ const EXPERIENCE_PER_LEVEL: int = 50
 @export var was_active_in_battle: bool = false
 @export var player_in_battle: bool = false
 @export var held_item: Item
-@export var stat_stages_and_multis: MonsterStatMultipliers = null
+@export var stat_stages_and_multis: MonsterStatMultipliers = MonsterStatMultipliers.new()
 
 var is_able_to_fight: bool:
 	get:
@@ -98,28 +98,34 @@ func set_monster_name(has_nickname: bool, nick_name: Variant = null) -> void:
 
 
 func set_stats() -> void:
-	var stats: Array[int] = [attack, defense, special_attack, special_defense, speed]
-	var stat_enums: Array[Monster.Stat] = [
-		Monster.Stat.ATTACK,
-		Monster.Stat.DEFENSE,
-		Monster.Stat.SPECIAL_ATTACK,
-		Monster.Stat.SPECIAL_DEFENSE,
-		Monster.Stat.SPEED,
-	]
-	var base_stats: Array[int] = [
-		monster_data.base_attack,
-		monster_data.base_defense,
-		monster_data.base_special_attack,
-		monster_data.base_special_defense,
-		monster_data.base_speed,
-	]
-	for i in range(stats.size()):
-		stats[i] = ceili(
-			(int((2 * base_stats[i] * level) / 100.0) + 5)
-			* NatureChart.get_nature_multiplier(nature, stat_enums[i]),
-		)
-
+	attack = ceili(
+		(int((2 * monster_data.base_attack * level) / 100.0) + 5)
+		* NatureChart.get_nature_multiplier(nature, Monster.Stat.ATTACK),
+	)
+	defense = ceili(
+		(int((2 * monster_data.base_defense * level) / 100.0) + 5)
+		* NatureChart.get_nature_multiplier(nature, Monster.Stat.DEFENSE),
+	)
+	special_attack = ceili(
+		(int((2 * monster_data.base_special_attack * level) / 100.0) + 5)
+		* NatureChart.get_nature_multiplier(nature, Monster.Stat.SPECIAL_ATTACK),
+	)
+	special_defense = ceili(
+		(int((2 * monster_data.base_special_defense * level) / 100.0) + 5)
+		* NatureChart.get_nature_multiplier(nature, Monster.Stat.SPECIAL_DEFENSE),
+	)
+	speed = ceili(
+		(int((2 * monster_data.base_speed * level) / 100.0) + 5)
+		* NatureChart.get_nature_multiplier(nature, Monster.Stat.SPEED),
+	)
 	max_hitpoints = int((2 * monster_data.base_hitpoints * level) / 100.0) + level + 10
+	current_hitpoints = max_hitpoints
+	print("attack: %s" % [attack])
+	print("defense: %s" % [defense])
+	print("special_attack: %s" % [special_attack])
+	print("special_defense: %s" % [special_defense])
+	print("speed: %s" % [speed])
+	print("hp: %s" % [current_hitpoints])
 
 
 func set_pp(move: Move) -> void:
