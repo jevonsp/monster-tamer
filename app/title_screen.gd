@@ -101,7 +101,6 @@ func _delete_save_process() -> void:
 
 
 func _erase_save() -> void:
-	GameOptions._reset()
 	SaverLoader.erase_saved_game()
 	_prepare_buttons()
 
@@ -112,5 +111,10 @@ func _close_title_screen() -> void:
 
 
 func _prep_new_save() -> void:
-	NuzlockeTracker.create_route_tracker()
+	var game_options = GameOptions.new()
+	game_options.reset_defaults()
+	PlayerContext3D.player_info_handler.game_options = game_options
+	SaverLoader.load_config()
+	PlayerContext3D.player_info_handler.nuzlocke_tracker = NuzlockeTracker.new()
+	PlayerContext3D.player_info_handler.nuzlocke_tracker.create_route_tracker()
 	PlayerContext3D.player_info_handler.dex_tracker = DexTracker.new()

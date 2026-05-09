@@ -13,7 +13,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	&"player_gender",
 	&"player_model",
 	&"play_time",
-	&"input_layout",
+	&"game_options",
 	&"respawn_point",
 	&"nuzlocke_tracker",
 	&"is_sidescrolling",
@@ -41,11 +41,19 @@ const _PLAYER_FIELDS: Array[StringName] = [
 	set(value):
 		play_time = value
 		player_info["play_time"] = play_time
-@export var input_layout: GameOptions.ControlScheme = GameOptions.ControlScheme.XBOX_SONY:
+@export var input_layout: int = 0:
 	set(value):
-		input_layout = value
-		player_info["input_layout"] = input_layout
+		input_layout = clampi(int(value), 0, 1)
+		if game_options != null:
+			game_options.control_scheme = int(input_layout)
 		InputRemapper.apply(input_layout)
+@export var game_options: GameOptions:
+	set(value):
+		game_options = value
+		player_info["game_options"] = value
+		if value != null:
+			input_layout = value.control_scheme
+			InputRemapper.apply(input_layout)
 @export var respawn_point: Vector2 = Vector2.ZERO:
 	set(value):
 		respawn_point = value
@@ -53,7 +61,7 @@ const _PLAYER_FIELDS: Array[StringName] = [
 		if player:
 			var p := Vector3(value.x, player.global_position.y, value.y)
 			player.respawn_point = p
-@export var nuzlocke_tracker: Dictionary = { }:
+@export var nuzlocke_tracker: NuzlockeTracker:
 	set(value):
 		nuzlocke_tracker = value
 		player_info["nuzlocke_tracker"] = value
@@ -70,7 +78,21 @@ var player: Player3D
 func update_info() -> void:
 	for prop in _PLAYER_FIELDS:
 		if player_info.has(prop):
+			if prop == &"nuzlocke_tracker" and typeof(player_info[prop]) == TYPE_DICTIONARY:
+				var tracker := NuzlockeTracker.new()
+				tracker.hydrate_from_save(player_info[prop])
+				set(prop, tracker)
+				continue
+			if prop == &"game_options":
+				var options = GameOptions.new()
+				options.hydrate_legacy(player_info[prop])
+				set(prop, options)
+				continue
 			set(prop, player_info[prop])
+	if game_options == null:
+		var options = GameOptions.new()
+		options.hydrate_legacy(player_info.get("game_options", null))
+		set(&"game_options", options)
 
 
 func _connect_signals() -> void:

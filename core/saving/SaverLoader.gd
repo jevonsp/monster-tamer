@@ -86,43 +86,67 @@ func load_player(saved_game: SavedGame, player: Player3D):
 
 	player.player_info_handler.update_info()
 	player.travel_handler.set_travel_info(saved_game.travel_info)
+	if player.player_info_handler.game_options == null:
+		var game_options = GameOptions.new()
+		game_options.hydrate_legacy(player.player_info_handler.player_info.get("game_options", null))
+		player.player_info_handler.game_options = game_options
 
-	NuzlockeTracker.hydrate_from_save()
-	GameOptions.control_scheme = player.player_info_handler.input_layout
+	if player.player_info_handler.nuzlocke_tracker == null:
+		var tracker := NuzlockeTracker.new()
+		tracker.hydrate_from_save(player.player_info_handler.player_info.get("nuzlocke_tracker", null))
+		player.player_info_handler.nuzlocke_tracker = tracker
+	if player.player_info_handler.dex_tracker == null:
+		var dex_tracker := DexTracker.new()
+		dex_tracker.hydrate_from_save(player.player_info_handler.player_info.get("dex_tracker", null))
+		player.player_info_handler.dex_tracker = dex_tracker
 	save_config()
 
 
 func save_config() -> void:
+	var resolved: Resource = _ensure_game_options()
 	var config = ConfigFile.new()
 
-	config.set_value("settings", "control_scheme", GameOptions.control_scheme)
-	config.set_value("settings", "is_forgetful_saver", GameOptions.is_forgetful_saver)
+	config.set_value("settings", "control_scheme", resolved.control_scheme)
+	config.set_value("settings", "is_forgetful_saver", resolved.is_forgetful_saver)
 
-	config.set_value("game", "game_variant", GameOptions.game_variant)
+	config.set_value("game", "game_variant", resolved.game_variant)
 
 	config.save("user://settings.cfg")
 
 
 func load_config() -> void:
+	var resolved: Resource = _ensure_game_options()
 	var config = ConfigFile.new()
 	if config.load("user://settings.cfg") != OK:
 		save_config()
 	else:
-		var cs = config.get_value("settings", "control_scheme", GameOptions.control_scheme)
+		var cs = config.get_value("settings", "control_scheme", resolved.control_scheme)
 		if typeof(cs) != TYPE_INT:
-			cs = GameOptions.control_scheme
-		GameOptions.control_scheme = clampi(int(cs), 0, GameOptions.ControlScheme.size() - 1) as GameOptions.ControlScheme
+			cs = resolved.control_scheme
+		resolved.control_scheme = clampi(int(cs), 0, 1)
 
-		var fs = config.get_value("settings", "is_forgetful_saver", GameOptions.is_forgetful_saver)
-		GameOptions.is_forgetful_saver = fs if typeof(fs) == TYPE_BOOL else false
+		var fs = config.get_value("settings", "is_forgetful_saver", resolved.is_forgetful_saver)
+		resolved.is_forgetful_saver = fs if typeof(fs) == TYPE_BOOL else false
 
-		var gv = config.get_value("game", "game_variant", GameOptions.game_variant)
+		var gv = config.get_value("game", "game_variant", resolved.game_variant)
 		if typeof(gv) != TYPE_INT:
-			gv = GameOptions.game_variant
-		GameOptions.game_variant = clampi(int(gv), 0, GameOptions.GameVariant.size() - 1) as GameOptions.GameVariant
+			gv = resolved.game_variant
+		resolved.game_variant = clampi(int(gv), 0, 1)
 
-	InputRemapper.apply(GameOptions.control_scheme)
+	InputRemapper.apply(resolved.control_scheme)
 
 
 func switch_to_title() -> void:
 	get_tree().change_scene_to_packed(TITLE_SCREEN)
+
+
+func _ensure_game_options() -> Resource:
+	var pih: PlayerInfo3D = PlayerContext3D.player_info_handler
+	if pih != null:
+		if pih.game_options == null:
+			pih.game_options = GameOptions.new()
+			pih.game_options.reset_defaults()
+		return pih.game_options
+	var options = GameOptions.new()
+	options.reset_defaults()
+	return options

@@ -27,7 +27,6 @@ UiFlow="*res://autoload/UiFlow.gd"
 ItemInteraction="*res://systems/item_interaction.gd"
 FieldCapability="*uid://ba7tc6eindlqb"
 PlayerContext3D="*res://gameplay/field/character_3d/player_3d/player_context_3d.gd"
-GameOptions="*uid://bxmtrbhvrhxfc"
 
 [display]
 

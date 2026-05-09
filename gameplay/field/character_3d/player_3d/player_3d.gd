@@ -188,7 +188,8 @@ func _setup_handlers_3d() -> void:
 
 
 func _respawn() -> void:
-	if GameOptions.is_nuzlocke():
+	var options: Resource = player_info_handler.game_options
+	if options != null and options.is_nuzlocke():
 		await _lose()
 		return
 	global_position = respawn_point

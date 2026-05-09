@@ -35,8 +35,9 @@ func add(monster: Monster):
 
 
 func fully_heal_and_revive_party() -> void:
+	var options: Resource = player.player_info_handler.game_options
 	for monster: Monster in party:
-		if GameOptions.is_nuzlocke() and monster.is_disabled:
+		if options != null and options.is_nuzlocke() and monster.is_disabled:
 			continue
 		var msr = MonsterRestorationService.new()
 		msr.fully_heal_and_revive(monster)

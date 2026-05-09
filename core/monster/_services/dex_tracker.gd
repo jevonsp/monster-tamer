@@ -20,3 +20,14 @@ func _on_monster_caught(monster: Monster) -> bool:
 		return false
 	dex[monster] = true
 	return true
+
+
+func hydrate_from_save(raw: Variant) -> void:
+	if raw is DexTracker:
+		var source = raw
+		monster_list = source.monster_list.duplicate()
+		dex = source.dex.duplicate()
+		if dex.is_empty() and not monster_list.is_empty():
+			_create_dex()
+		return
+	_create_dex()

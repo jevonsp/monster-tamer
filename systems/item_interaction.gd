@@ -16,7 +16,8 @@ func can_use_in_battle(item: Item) -> bool:
 func battle_item_blocked_reason(item: Item, is_trainer_battle: bool) -> String:
 	if not can_use_in_battle(item):
 		return "cant_use"
-	if item.catch_effect != null and not NuzlockeTracker.can_catch_monster_on_route(PlayerContext3D.travel_handler.current_location):
+	var tracker: NuzlockeTracker = PlayerContext3D.player_info_handler.nuzlocke_tracker
+	if item.catch_effect != null and tracker != null and not tracker.can_catch_monster_on_route(PlayerContext3D.travel_handler.current_location):
 		return "cant_use"
 	if is_trainer_battle and item.catch_effect:
 		return "trainer_catch"

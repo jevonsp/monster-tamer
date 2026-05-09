@@ -1,12 +1,11 @@
 class_name InputRemapper
 extends Object
 
-
-static func apply(scheme: GameOptions.ControlScheme) -> void:
+static func apply(scheme: int) -> void:
 	match scheme:
-		GameOptions.ControlScheme.XBOX_SONY:
+		0:
 			_apply_sony_xbox()
-		GameOptions.ControlScheme.NINTENDO:
+		1:
 			_apply_nintendo()
 
 

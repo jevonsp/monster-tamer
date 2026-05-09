@@ -1,23 +1,16 @@
 class_name NuzlockeTracker
-extends Node
+extends Resource
 
-static var route_tracker: Dictionary = { }
+@export var route_tracker: Dictionary = { }
 
 
-static func create_route_tracker() -> void:
+func create_route_tracker() -> void:
 	route_tracker.clear()
 	for val in Map.Location.values():
 		route_tracker[val] = false
 
-	PlayerContext3D.player_info_handler.nuzlocke_tracker = route_tracker
 
-
-static func hydrate_from_save() -> void:
-	var info = PlayerContext3D.player_info_handler
-	if not info.player_info.has("nuzlocke_tracker"):
-		create_route_tracker()
-		return
-	var raw: Variant = info.player_info["nuzlocke_tracker"]
+func hydrate_from_save(raw: Variant) -> void:
 	if typeof(raw) != TYPE_DICTIONARY:
 		create_route_tracker()
 		return
@@ -28,15 +21,15 @@ static func hydrate_from_save() -> void:
 	for val in Map.Location.values():
 		if not d.has(val):
 			d[val] = false
-	info.nuzlocke_tracker = d
 	route_tracker = d
 
 
-static func monster_encountered_on_route(location: Map.Location) -> void:
+func monster_encountered_on_route(location: Map.Location) -> void:
 	route_tracker[location] = true
 
 
-static func can_catch_monster_on_route(location: Map.Location) -> bool:
-	if GameOptions.game_variant == GameOptions.GameVariant.NUZLOCKE:
+func can_catch_monster_on_route(location: Map.Location) -> bool:
+	var options: Resource = PlayerContext3D.player_info_handler.game_options
+	if options != null and options.game_variant == 1:
 		return not route_tracker.get(location, false)
 	return true

@@ -1,5 +1,12 @@
 extends Panel
 
+const CONTROL_SCHEME_XBOX_SONY := 0
+const CONTROL_SCHEME_NINTENDO := 1
+const GAME_VARIANT_NORMAL := 0
+const GAME_VARIANT_NUZLOCKE := 1
+
+var _fallback_options: Resource = null
+
 var settings_info: Dictionary = {
 	"control_scheme": {
 		button_text = "Control Scheme",
@@ -84,24 +91,25 @@ func grab_entry_focus() -> void:
 
 
 func display_settings() -> void:
+	var options: Resource = _options()
 	button_label_pairs[0].btn_lbl.text = settings_info["control_scheme"].button_text
-	match GameOptions.control_scheme:
-		GameOptions.ControlScheme.XBOX_SONY:
+	match options.control_scheme:
+		CONTROL_SCHEME_XBOX_SONY:
 			button_label_pairs[0].reg_lbl.text = settings_info["control_scheme"].options_text[0]
-		GameOptions.ControlScheme.NINTENDO:
+		CONTROL_SCHEME_NINTENDO:
 			button_label_pairs[0].reg_lbl.text = settings_info["control_scheme"].options_text[1]
 
 	button_label_pairs[1].btn_lbl.text = settings_info["game_variant"].button_text
-	match GameOptions.game_variant:
-		GameOptions.GameVariant.NORMAL:
+	match options.game_variant:
+		GAME_VARIANT_NORMAL:
 			button_label_pairs[1].reg_lbl.text = settings_info["game_variant"].options_text[0]
-		GameOptions.GameVariant.NUZLOCKE:
+		GAME_VARIANT_NUZLOCKE:
 			button_label_pairs[1].reg_lbl.text = settings_info["game_variant"].options_text[1]
-	if not GameOptions.can_change_variant:
+	if not options.can_change_variant:
 		option_button_1.disabled = true
 
 	button_label_pairs[2].btn_lbl.text = settings_info["is_forgetful_saver"].button_text
-	if GameOptions.is_forgetful_saver:
+	if options.is_forgetful_saver:
 		button_label_pairs[2].reg_lbl.text = settings_info["is_forgetful_saver"].options_text[1]
 	else:
 		button_label_pairs[2].reg_lbl.text = settings_info["is_forgetful_saver"].options_text[0]
@@ -114,28 +122,29 @@ func _bind_buttons() -> void:
 
 
 func _on_option_button_pressed(button: Button) -> void:
+	var options: Resource = _options()
 	match button:
 		option_button_0:
-			GameOptions.control_scheme = (
-				GameOptions.ControlScheme.NINTENDO
-				if GameOptions.control_scheme == GameOptions.ControlScheme.XBOX_SONY
-				else GameOptions.ControlScheme.XBOX_SONY
+			options.control_scheme = (
+				CONTROL_SCHEME_NINTENDO
+				if options.control_scheme == CONTROL_SCHEME_XBOX_SONY
+				else CONTROL_SCHEME_XBOX_SONY
 			)
 			var p0: Player3D = PlayerContext3D.player
 			if p0:
-				p0.info.input_layout = GameOptions.control_scheme
+				p0.player_info_handler.input_layout = options.control_scheme
 			else:
-				InputRemapper.apply(GameOptions.control_scheme)
+				InputRemapper.apply(options.control_scheme)
 		option_button_1:
-			if GameOptions.can_change_variant:
-				GameOptions.game_variant = (
-					GameOptions.GameVariant.NUZLOCKE
-					if GameOptions.game_variant == GameOptions.GameVariant.NORMAL
-					else GameOptions.GameVariant.NORMAL
+			if options.can_change_variant:
+				options.game_variant = (
+					GAME_VARIANT_NUZLOCKE
+					if options.game_variant == GAME_VARIANT_NORMAL
+					else GAME_VARIANT_NORMAL
 				)
-				GameOptions.can_change_variant = false
+				options.can_change_variant = false
 		option_button_2:
-			GameOptions.is_forgetful_saver = not GameOptions.is_forgetful_saver
+			options.is_forgetful_saver = not options.is_forgetful_saver
 		_:
 			return
 	SaverLoader.save_config()
@@ -149,3 +158,17 @@ func _on_visibility_changed() -> void:
 		UiFlow.register_ui_layer(self, true)
 		return
 	UiFlow.unregister_ui_layer(self)
+
+
+func _options() -> Resource:
+	if PlayerContext3D == null or PlayerContext3D.player_info_handler == null:
+		if _fallback_options == null:
+			_fallback_options = GameOptions.new()
+			_fallback_options.reset_defaults()
+		return _fallback_options
+	var pih: PlayerInfo3D = PlayerContext3D.player_info_handler
+	if pih.game_options == null:
+		var options = GameOptions.new()
+		options.reset_defaults()
+		pih.game_options = options
+	return pih.game_options
