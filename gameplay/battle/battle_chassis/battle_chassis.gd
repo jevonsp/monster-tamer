@@ -99,6 +99,17 @@ func is_enemy_actor(monster: Monster) -> bool:
 	return true if monster in enemy_team else false
 
 
+func get_active_battle_monsters() -> Array[Monster]:
+	var out: Array[Monster] = []
+	for m: Monster in player_actors.values():
+		if m != null and not m.is_fainted:
+			out.append(m)
+	for m: Monster in enemy_actors.values():
+		if m != null and not m.is_fainted:
+			out.append(m)
+	return out
+
+
 func change_actor(
 		team: Dictionary[int, Monster],
 		out_monster: Monster,

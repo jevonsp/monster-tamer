@@ -143,6 +143,25 @@ func tween_hp(target: Monster, _from_hp: int, to_hp: int) -> void:
 	Battle.hitpoints_animation_complete.emit()
 
 
+func tween_hp_simultaneous(hp_events: Array[Dictionary]) -> void:
+	if hp_events.is_empty():
+		return
+	var tween := get_tree().create_tween()
+	tween.set_parallel(true)
+	for evt: Dictionary in hp_events:
+		var target: Monster = evt["target"]
+		var to_hp: int = evt["to"]
+		var bar: TextureProgressBar = null
+		if target == _player_actor_0:
+			bar = player_hp_bar
+		elif target == _enemy_actor_0:
+			bar = enemy_hp_bar
+		if bar != null:
+			tween.tween_property(bar, "value", to_hp * 100, Global.DEFAULT_DELAY)
+	await tween.finished
+	Battle.hitpoints_animation_complete.emit()
+
+
 func set_battle_chassis(value: BattleChassis) -> void:
 	if battle_chassis != null and battle_chassis.actors_changed.is_connected(_bind_actors):
 		battle_chassis.actors_changed.disconnect(_bind_actors)

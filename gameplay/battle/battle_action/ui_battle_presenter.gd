@@ -48,5 +48,18 @@ func tween_hp(_ctx: ActionContext, target: Monster, from_hp: int, to_hp: int) ->
 	await Battle.hitpoints_animation_complete
 
 
+func tween_hp_simultaneous(_ctx: ActionContext, hp_events: Array[Dictionary]) -> void:
+	if battle_scene != null:
+		@warning_ignore("redundant_await")
+		await battle_scene.tween_hp_simultaneous(hp_events)
+		return
+	for evt: Dictionary in hp_events:
+		var t: Monster = evt["target"]
+		var from_hp: int = evt["from"]
+		var to_hp: int = evt["to"]
+		Battle.send_hitpoints_change.emit(t, from_hp, to_hp)
+		await Battle.hitpoints_animation_complete
+
+
 func focus_buttons() -> void:
 	battle_scene.focus_default()

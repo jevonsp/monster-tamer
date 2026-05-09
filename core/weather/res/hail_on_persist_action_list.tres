@@ -4,8 +4,9 @@
 [ext_resource type="Script" uid="uid://18gkypu1dgxy" path="res://gameplay/battle/battle_action/action_list.gd" id="2_list"]
 [ext_resource type="Script" uid="uid://bw7lc2nh3oi8b" path="res://gameplay/battle/battle_action/actions/text_action.gd" id="3_text"]
 [ext_resource type="Script" uid="uid://b2qox4ok2lw13" path="res://gameplay/battle/battle_action/actions/tick_weather_action.gd" id="4_tick_weather"]
-[ext_resource type="Script" path="res://gameplay/battle/battle_action/actions/fx_action.gd" id="5_fx"]
-[ext_resource type="PackedScene" path="res://gameplay/battle/battle_3d/fx/hail.tscn" id="6_hail_scene"]
+[ext_resource type="Script" uid="uid://doq3w1sqfpbhr" path="res://gameplay/battle/battle_action/actions/fx_action.gd" id="5_fx"]
+[ext_resource type="PackedScene" uid="uid://caxdblwj4i44r" path="res://gameplay/battle/battle_3d/fx/hail.tscn" id="6_hail_scene"]
+[ext_resource type="Script" path="res://gameplay/battle/battle_action/actions/weather_persist_action.gd" id="7_weather_persist"]
 
 [sub_resource type="Resource" id="Resource_hail_fx"]
 script = ExtResource("5_fx")
@@ -16,9 +17,12 @@ script = ExtResource("3_text")
 text = Array[String](["It is hailing."])
 is_autocomplete = true
 
+[sub_resource type="Resource" id="Resource_weather_damage"]
+script = ExtResource("7_weather_persist")
+
 [sub_resource type="Resource" id="Resource_tick_weather"]
 script = ExtResource("4_tick_weather")
 
 [resource]
 script = ExtResource("2_list")
-actions = Array[ExtResource("1_action")]([SubResource("Resource_hail_fx"), SubResource("Resource_hail_text"), SubResource("Resource_tick_weather")])
+actions = Array[ExtResource("1_action")]([SubResource("Resource_hail_fx"), SubResource("Resource_hail_text"), SubResource("Resource_weather_damage"), SubResource("Resource_tick_weather")])

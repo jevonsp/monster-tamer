@@ -22,5 +22,9 @@ func tween_hp(_ctx: ActionContext, _target: Monster, _from_hp: int, _to_hp: int)
 	pass
 
 
+func tween_hp_simultaneous(_ctx: ActionContext, _hp_events: Array[Dictionary]) -> void:
+	pass
+
+
 func focus_buttons() -> void:
 	pass
