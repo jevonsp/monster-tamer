@@ -212,6 +212,37 @@ func test_burn_tick_damages_self_by_fraction() -> void:
 	assert_eq(int(ctx.data["last_hp_change"]["damage"]), 10)
 
 
+func test_compute_damage_event_recoil_from_dealt_damage() -> void:
+	var attacker := _make_monster(50, 100)
+	var target := _make_monster(50, 200)
+	var pack: Dictionary = DamageCalculator.compute_damage_event(
+		attacker,
+		target,
+		40,
+		TypeChart.Type.NONE,
+		DamageCalculator.DamageCategory.PHYSICAL,
+		DamageCalculator.AttackCategory.PHYSICAL,
+		0.0,
+		0.25,
+		null,
+	)
+	var dealt: int = pack["damage"]
+	assert_eq(pack["recoil"], int(round(float(dealt) * 0.25)))
+
+
+func test_damage_action_last_hp_change_includes_recoil() -> void:
+	var attacker := _make_monster(50, 100)
+	var target := _make_monster(50, 200)
+	var d := DamageAction.new()
+	d.base_power = 40
+	d.recoil_percent = 0.25
+	var ctx := ActionContext.new(null, _make_choice(attacker, target, ActionList.new()), BattlePresenter.new())
+	target.current_hitpoints = target.max_hitpoints
+	d._trigger_impl(ctx)
+	var last: Dictionary = ctx.data["last_hp_change"]
+	assert_eq(last["recoil"], int(round(float(last["damage"]) * 0.25)))
+
+
 # --- Phase hook resolver semantics ---
 
 func test_block_action_skips_main_action_list() -> void:

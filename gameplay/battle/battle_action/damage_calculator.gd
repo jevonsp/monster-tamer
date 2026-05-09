@@ -17,10 +17,12 @@ static func compute_damage_event(
 		weather: Weather = null,
 ) -> Dictionary:
 	if fraction_of_max_hp > 0.0:
+		var frac_dmg := maxi(1, int(round(float(target.max_hitpoints) * fraction_of_max_hp)))
 		return {
-			"damage": maxi(1, int(round(float(target.max_hitpoints) * fraction_of_max_hp))),
+			"damage": frac_dmg,
 			"critical": false,
 			"efficacy": 1.0,
+			"recoil": _recoil_from_dealt(frac_dmg, recoil_percent),
 		}
 	var efficacy: float = _calc_efficacy(move_type, target)
 	var dmg: int = _calc_damage(
@@ -41,6 +43,7 @@ static func compute_damage_event(
 		"damage": dmg,
 		"critical": critical,
 		"efficacy": efficacy,
+		"recoil": _recoil_from_dealt(dmg, recoil_percent),
 	}
 
 
@@ -117,5 +120,7 @@ static func _calc_weather(move_type: TypeChart.Type, weather: Weather = null) ->
 	return 1.0
 
 
-func _calc_recoil(damage: int, recoil_percent: float) -> int:
-	return int(damage * recoil_percent)
+static func _recoil_from_dealt(dealt: int, recoil_percent: float) -> int:
+	if recoil_percent <= 0.0:
+		return 0
+	return int(round(float(dealt) * recoil_percent))

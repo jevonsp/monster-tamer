@@ -24,8 +24,16 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 		else:
 			t = "%s did %d damage!" % [actor.name, damage]
 
+	var lines: Array[String] = [t]
+	var recoil: int = last_hp_change.get("recoil", 0)
+	if recoil > 0:
+		if ctx.chassis.is_enemy_actor(actor):
+			lines.append("Enemy %s was hit by %d point(s) of recoil!" % [actor.name, recoil])
+		else:
+			lines.append("%s was hit by %d point(s) of recoil!" % [actor.name, recoil])
+
 	var new_ctx = ctx.fork()
 	@warning_ignore("redundant_await")
-	await ctx.presenter.show_text(new_ctx, [t])
+	await ctx.presenter.show_text(new_ctx, lines)
 
 	return Flow.NEXT

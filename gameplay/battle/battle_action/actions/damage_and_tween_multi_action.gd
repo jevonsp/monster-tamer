@@ -20,7 +20,7 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 			continue
 
 		var weather: Weather = ctx.chassis.current_weather if ctx.chassis != null else null
-		var hp_evt := _apply_damage(attacker, target, weather, recoil_percent)
+		var hp_evt := _apply_damage(attacker, target, weather)
 		var ctx_2 := ctx.fork()
 		@warning_ignore("redundant_await")
 		await ctx.presenter.tween_hp(ctx_2, hp_evt["target"], hp_evt["from"], hp_evt["to"])
@@ -28,6 +28,20 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 		if hp_evt["target_fainted"]:
 			@warning_ignore("redundant_await")
 			await ctx.presenter.play_fx(ctx_2, "faint", { "target": hp_evt["target"] })
+
+		var recoil_amt: int = hp_evt.get("recoil", 0)
+		if recoil_amt > 0 and attacker != null:
+			var from_a := attacker.current_hitpoints
+			attacker.current_hitpoints = maxi(0, from_a - recoil_amt)
+			var attacker_fainted := attacker.current_hitpoints <= 0
+			if attacker_fainted:
+				attacker.is_fainted = true
+			var recoil_ctx := ctx.fork()
+			@warning_ignore("redundant_await")
+			await ctx.presenter.tween_hp(recoil_ctx, attacker, from_a, attacker.current_hitpoints)
+			if attacker_fainted:
+				@warning_ignore("redundant_await")
+				await ctx.presenter.play_fx(recoil_ctx, "faint", { "target": attacker })
 
 	return Flow.NEXT
 
@@ -41,12 +55,7 @@ func _resolve_targets(ctx: ActionContext) -> Array[Monster]:
 	return result
 
 
-func _apply_damage(
-		attacker: Monster,
-		target: Monster,
-		weather: Weather,
-		recoil_percent: float,
-) -> Dictionary:
+func _apply_damage(attacker: Monster, target: Monster, weather: Weather) -> Dictionary:
 	var from_hp := target.current_hitpoints
 	var pack: Dictionary = DamageCalculator.compute_damage_event(
 		attacker,
@@ -62,6 +71,7 @@ func _apply_damage(
 	var dmg: int = pack["damage"]
 	var critical: bool = pack["critical"]
 	var efficacy: float = pack["efficacy"]
+	var recoil: int = pack["recoil"]
 
 	target.current_hitpoints = maxi(0, from_hp - dmg)
 
@@ -77,4 +87,5 @@ func _apply_damage(
 		"efficacy": efficacy,
 		"critical": critical,
 		"target_fainted": target_fainted,
+		"recoil": recoil,
 	}

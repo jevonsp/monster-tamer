@@ -31,6 +31,7 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 	var dmg: int = pack["damage"]
 	var critical: bool = pack["critical"]
 	var efficacy: float = pack["efficacy"]
+	var recoil: int = pack["recoil"]
 
 	target.current_hitpoints = maxi(0, from_hp - dmg)
 
@@ -46,6 +47,7 @@ func _trigger_impl(ctx: ActionContext) -> Flow:
 		"efficacy": efficacy,
 		"critical": critical,
 		"target_fainted": target_fainted,
+		"recoil": recoil,
 	}
 
 	return Flow.NEXT
