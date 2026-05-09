@@ -177,11 +177,11 @@ func test_burn_only_affects_physical_damage() -> void:
 
 	var physical := DamageAction.new()
 	physical.base_power = 40
-	physical.category = DamageAction.DamageCategory.PHYSICAL
+	physical.damage_category = DamageCalculator.DamageCategory.PHYSICAL
 
 	var special := DamageAction.new()
 	special.base_power = 40
-	special.category = DamageAction.DamageCategory.SPECIAL
+	special.damage_category = DamageCalculator.DamageCategory.SPECIAL
 
 	var ctx_phys := ActionContext.new(null, _make_choice(attacker, target, ActionList.new()), BattlePresenter.new())
 	target.current_hitpoints = target.max_hitpoints
