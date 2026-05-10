@@ -3,18 +3,18 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dfo5gyemql214"
-path="res://.godot/imported/CliffEdge.gltf-62ef787fa54854205e6b6aaa9747335b.scn"
+uid="uid://dfx4q4jfhj117"
+path="res://.godot/imported/LargeTree.gltf-ab8467e7684f84289694a131e578e488.scn"
 
 [deps]
 
-source_file="res://gameplay/field/grid_map/gltfs/CliffEdge.gltf"
-dest_files=["res://.godot/imported/CliffEdge.gltf-62ef787fa54854205e6b6aaa9747335b.scn"]
+source_file="res://gameplay/field/grid_map/gltfs/LargeTree.gltf"
+dest_files=["res://.godot/imported/LargeTree.gltf-ab8467e7684f84289694a131e578e488.scn"]
 
 [params]
 
-nodes/root_type=""
-nodes/root_name=""
+nodes/root_type="Node3D"
+nodes/root_name="ImportedScene"
 nodes/root_script=null
 nodes/apply_root_scale=true
 nodes/root_scale=1.0

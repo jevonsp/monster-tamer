@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://j5f60uq4u4ou"]
+
+[ext_resource type="PackedScene" uid="uid://dfx4q4jfhj117" path="res://gameplay/field/grid_map/gltfs/LargeTree.gltf" id="1_7mvkh"]
+
+[node name="LargeTree" unique_id=1789975210 instance=ExtResource("1_7mvkh")]
