@@ -82,6 +82,11 @@ func is_shoreline_transition(from_cell: Vector3i, to_cell: Vector3i) -> bool:
 	or (is_water_cell(from_cell) and is_land_cell(to_cell))
 
 
+func cell_blocks_los(cell: Vector3i) -> bool:
+	var tile_flags: TileFlags = cell_flags.get(cell)
+	return tile_flags != null and tile_flags.is_transparent == false
+
+
 func _is_water_tile_id(tile_id: int) -> bool:
 	return tile_id in WATER_DICT.values()
 

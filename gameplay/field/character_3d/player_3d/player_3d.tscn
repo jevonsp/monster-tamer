@@ -32,7 +32,7 @@ texture = null
 transform = Transform3D(5, 0, 0, 0, 3.535534, 3.535534, 0, -3.535534, 3.535534, 0.5, 0.19999999, 0.5)
 
 [node name="Shadow" parent="BottomSprite3D" parent_id_path=PackedInt32Array(199606803) index="0" unique_id=207606514]
-visible = false
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.15938392, 0.014025047)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." index="7" unique_id=1074753232]
 
