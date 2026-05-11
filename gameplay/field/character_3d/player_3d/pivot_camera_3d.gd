@@ -13,8 +13,8 @@ var pivot: Node3D
 var _rotating := false
 
 
-func _process(_delta: float) -> void:
-	print(_player_is_occluded())
+func is_player_occluded() -> bool:
+	return _player_is_occluded()
 
 
 func is_pivot_orbiting() -> bool:
@@ -73,12 +73,14 @@ func _player_is_occluded() -> bool:
 	var target_cell: Vector3i = movement_helper.get_cell_at_world(player_sample_global_position, grid_map)
 	var last_cell := Vector3i(2147483647, 2147483647, 2147483647)
 	var traveled: float = step_len * 0.5
+	var grid_blocked := false
 	while traveled < dist - los_ray_end_inset:
 		var sample: Vector3 = camera_global_position + dir * traveled
 		var cell: Vector3i = movement_helper.get_cell_at_world(sample, grid_map)
 		if cell != cam_cell and cell != target_cell and cell != last_cell:
 			last_cell = cell
 			if grid_map.cell_blocks_los(cell):
-				return true
+				grid_blocked = true
+				break
 		traveled += step_len
-	return false
+	return grid_blocked
