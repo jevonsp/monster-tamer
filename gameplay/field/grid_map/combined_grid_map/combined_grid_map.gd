@@ -19,6 +19,7 @@ const WATER_DICT: Dictionary = {
 }
 const _LEDGE_MAX_HORIZONTAL_SCAN := 4
 const _LEDGE_MAX_VERTICAL_SCAN := 4
+const INVALID_WORLD_CELL := Vector3i(2147483647, 2147483647, 2147483647)
 
 @export var mesh_flags: Dictionary[int, TileFlags]
 @export_subgroup("Animation Values")
@@ -45,16 +46,21 @@ var _terrain_chunks: Array[GridMap] = []
 
 
 func _ready() -> void:
+	set_process(false)
 	_terrain_chunks.clear()
 	for child in get_children():
 		if child is GridMap:
 			_terrain_chunks.append(child)
+	if _terrain_chunks.is_empty():
+		push_error("CombinedGridMap: no GridMap children; world queries are invalid.")
 	gm_translator = GridMapTranslator.new(_terrain_chunks)
 	_rebuild_world_cell_index()
 	stairs = get_used_cells_by_item(TILE_DICT.STAIRS)
 	_collect_water_cells()
 	_build_cell_flags()
 	_build_graph_edges()
+	if not water.is_empty():
+		set_process(true)
 	for child in get_children():
 		if child is Player3D:
 			player_3d = child
@@ -75,6 +81,8 @@ func _process(delta: float) -> void:
 
 
 func world_cell_at_global_position(world_position: Vector3) -> Vector3i:
+	if _terrain_chunks.is_empty():
+		return INVALID_WORLD_CELL
 	for gm: GridMap in _terrain_chunks:
 		var lc := gm.local_to_map(gm.to_local(world_position))
 		if gm.get_cell_item(lc) != GridMap.INVALID_CELL_ITEM:
@@ -159,12 +167,18 @@ func _rebuild_world_cell_index() -> void:
 	_world_owner_gm.clear()
 	_world_owner_local.clear()
 	used_cells.clear()
+	var seen_world: Dictionary = {}
 	for gm: GridMap in _terrain_chunks:
 		for local_cell: Vector3i in gm.get_used_cells():
 			var wc: Vector3i = gm_translator.local_to_world(local_cell, gm)
+			var prev: GridMap = _world_owner_gm.get(wc, null)
+			if prev != null and prev != gm:
+				push_warning("CombinedGridMap: world cell %s claimed by multiple GridMaps" % wc)
 			_world_owner_gm[wc] = gm
 			_world_owner_local[wc] = local_cell
-			used_cells.append(wc)
+			if not seen_world.has(wc):
+				seen_world[wc] = true
+				used_cells.append(wc)
 
 
 func _is_water_tile_id(tile_id: int) -> bool:
@@ -209,10 +223,11 @@ func _mark_cell_tile_flags(cell: Vector3i) -> void:
 				var landing_cells := _get_ledge_landing_candidates(cell, orientation)
 				if not landing_cells.is_empty():
 					tile_flags.ledge_landing_cell = landing_cells[0]
-			TILE_DICT.WATER:
-				tile_flags.tile_type = TileFlags.TileType.WATER
 			TILE_DICT.ICE:
 				tile_flags.tile_type = TileFlags.TileType.ICE
+			_:
+				if _is_water_tile_id(tile_id):
+					tile_flags.tile_type = TileFlags.TileType.WATER
 
 
 func _build_graph_edges() -> void:
@@ -360,14 +375,15 @@ func _is_walkable(cell: Vector3i) -> bool:
 
 
 func _animate_water_cells() -> void:
+	var max_frame: int = WATER_DICT.size() - 1
 	water_frame += water_direction
-	if water_frame >= WATER_DICT.size():
-		water_frame = WATER_DICT.size()
+	if water_frame > max_frame:
+		water_frame = max_frame
 		water_direction = -1
-	elif water_frame <= 0:
+	elif water_frame < 0:
 		water_frame = 0
 		water_direction = 1
-	var tile_id := WATER_DICT.WATER_0 + water_frame
+	var tile_id: int = TILE_DICT.WATER + water_frame
 	for cell in water:
 		set_cell_item(cell, tile_id, get_cell_item_orientation(cell))
 

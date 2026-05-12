@@ -4,7 +4,7 @@ extends Resource
 const CHUNK_SIZE := 64
 
 var _grid_maps: Array[GridMap] = []
-var gm_dict: Dictionary = {}
+var gm_dict: Dictionary[GridMap, Vector3i] = {}
 
 
 func _init(grid_maps: Array[GridMap]) -> void:
