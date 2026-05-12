@@ -20,6 +20,7 @@ var turn_queue: Array[Choice] = []
 var turn_index: int = 0
 var turn_phase: Phase = Phase.NONE
 var current_actor: Monster
+var is_trainer_battle: bool = false
 var current_weather: Weather = null
 var trainer: Trainer3D
 var _processing_turn: bool = false
@@ -127,6 +128,14 @@ func is_processing_turn():
 	return _processing_turn
 
 
+func reset_turn_state() -> void:
+	turn_queue.clear()
+	turn_index = 0
+	current_weather = null
+	current_actor = null
+	_processing_turn = false
+
+
 func _sort_turn_queue() -> void:
 	turn_queue.sort_custom(func(a: Choice, b: Choice) -> bool: return _choice_before(a, b))
 
@@ -199,6 +208,8 @@ func _clean_up_turn() -> void:
 		var em: Monster = enemy_actors[idx]
 		if em != null and em.is_fainted:
 			enemy_actors.erase(idx)
+		if em != null and em.is_captured:
+			enemy_actors.erase(idx)
 
 	var next_enemy: Monster = _get_next_enemy_actor()
 	if next_enemy != null:
@@ -223,7 +234,7 @@ func _clean_up_turn() -> void:
 
 func _get_next_enemy_actor() -> Monster:
 	for monster: Monster in enemy_team:
-		if monster != null and not monster.is_fainted:
+		if monster != null and not monster.is_captured and not monster.is_fainted:
 			return monster
 	return null
 

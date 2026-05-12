@@ -110,6 +110,9 @@ func play_fx(fx_id: StringName, payload: Dictionary = { }) -> void:
 		&"faint":
 			@warning_ignore("redundant_await")
 			await fx_player.play_faint(payload.get("target"), _player_actor_0, _enemy_actor_0)
+		&"wiggle":
+			@warning_ignore("redundant_await")
+			await fx_player.play_throw_item(payload.get("times"))
 
 
 func play_fx_scene(scene: PackedScene, target: Monster) -> void:

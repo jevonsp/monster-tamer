@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvat1pigkcbv7"]
+
+[ext_resource type="Script" path="res://tools/battle_test_scene.gd" id="1_btest"]
+[ext_resource type="PackedScene" uid="uid://c0gf3olxnha8c" path="res://gameplay/battle/battle_3d/battle_scene_3d.tscn" id="2_battle"]
+
+[node name="BattleTestScene" type="Node3D"]
+script = ExtResource("1_btest")
+
+[node name="BattleScene3D" parent="." instance=ExtResource("2_battle")]
+
+[node name="DevUiLayer" type="CanvasLayer" parent="."]
+layer = 100

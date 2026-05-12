@@ -1,6 +1,8 @@
 class_name PartyHandler3D
 extends Node
 
+signal monster_caught(monster: Monster)
+
 const MAX_PARTY_SIZE := 6
 const STORAGE_SIZE := 300
 
@@ -32,6 +34,7 @@ func add(monster: Monster):
 		_add_to_storage(monster)
 
 	send_player_party_and_storage()
+	monster_caught.emit(monster)
 
 
 func fully_heal_and_revive_party() -> void:
@@ -112,6 +115,9 @@ func _connect_signals() -> void:
 	Party.request_move_party_to_storage.connect(_move_party_to_storage)
 	Party.request_move_storage_to_party.connect(_move_storage_to_party)
 	Party.request_switch_moves.connect(on_switch_moves)
+	var dt: DexTracker = player.player_info_handler.dex_tracker
+	if dt != null and not monster_caught.is_connected(dt._on_monster_caught):
+		monster_caught.connect(dt._on_monster_caught)
 
 
 func _add_to_party(monster: Monster) -> bool:

@@ -16,7 +16,7 @@ func play_hit(target: Monster, player_actor: Monster, enemy_actor: Monster) -> v
 
 
 func play_throw_item(item: Item) -> void:
-	if item.texture:
+	if item and item.texture:
 		item_sprite.texture = item.texture
 	play("throw_item")
 	await animation_finished
