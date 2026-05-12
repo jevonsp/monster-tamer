@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var grid_map: CustomGridMap = $GridMap
+@onready var grid_map: CombinedGridMap = $CombinedGridMap
 @onready var player: Player3D = $Player3D
 @onready var interfaces: CanvasLayer = $Interfaces
 

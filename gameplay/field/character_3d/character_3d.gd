@@ -26,7 +26,7 @@ const SIDE_SCROLLING_HEIGHT_ADJUSTMENT := HEIGHT_ADJUSTMENT + Vector3(0, 0, -0.3
 var walk_speed_modifiers := 1.0
 var anim_helper := AnimationHelper.new()
 var movement_helper := MovementHelper.new()
-var grid_map: CustomGridMap
+var grid_map: CombinedGridMap
 var _current_state: MoveState = MoveState.IDLE
 var _turn_timer: float = 0.0
 var _moving := false

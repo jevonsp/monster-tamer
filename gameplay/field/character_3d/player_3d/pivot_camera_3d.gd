@@ -55,7 +55,7 @@ func _player_is_occluded() -> bool:
 	var player = PlayerContext3D.player
 	if player == null:
 		return false
-	var grid_map: CustomGridMap = player.grid_map
+	var grid_map: CombinedGridMap = player.grid_map
 	if grid_map == null:
 		return false
 	var movement_helper = player.movement_helper
