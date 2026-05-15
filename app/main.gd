@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var session: GameSession
 @onready var grid_map: CombinedGridMap = $CombinedGridMap
 @onready var player: Player3D = $Player3D
 @onready var interfaces: CanvasLayer = $Interfaces
@@ -12,6 +13,10 @@ func _ready() -> void:
 	get_window().size = Vector2i(Global.GAME_WIDTH, Global.GAME_HEIGHT)
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+	session = GameSession.new(self, grid_map)
+	PlayerContext3D.player
+
 	var options: Resource = PlayerContext3D.player_info_handler.game_options
 	if options != null:
 		PlayerContext3D.player_info_handler.input_layout = int(options.control_scheme)

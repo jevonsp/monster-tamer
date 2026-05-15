@@ -9,6 +9,7 @@ const CLIMB_BLEND_UP := Vector2(0.0, -1.0)
 @export var camera_3d: Camera3D
 @export var occlusion_outline_color := Color(0, 0, 0, 1)
 
+var field_ctx: FieldContext
 var processing: bool = true
 var held_keys: Array[String] = []
 var key_hold_times: Dictionary = { }
@@ -88,49 +89,14 @@ func setup() -> void:
 	_setup_handlers_3d()
 
 
-func _setup_occlusion_outlines() -> void:
-	_top_occlusion_outline.texture = top_sprite_3d.texture
-	_bottom_occlusion_outline.texture = bottom_sprite_3d.texture
-	_top_occlusion_outline.material_override = null
-	_bottom_occlusion_outline.material_override = null
-	_top_occlusion_outline.modulate = occlusion_outline_color
-	_bottom_occlusion_outline.modulate = occlusion_outline_color
-	_top_occlusion_outline.transform = top_sprite_3d.transform
-	_bottom_occlusion_outline.transform = bottom_sprite_3d.transform
-	_top_occlusion_outline.no_depth_test = true
-	_bottom_occlusion_outline.no_depth_test = true
-	top_sprite_3d.render_priority = 1
-	bottom_sprite_3d.render_priority = 1
-	_top_occlusion_outline.render_priority = -1
-	_bottom_occlusion_outline.render_priority = -1
-	_top_occlusion_outline.sorting_offset = -1.0
-	_bottom_occlusion_outline.sorting_offset = -1.0
-	_top_occlusion_outline.alpha_cut = SpriteBase3D.ALPHA_CUT_DISABLED
-	_bottom_occlusion_outline.alpha_cut = SpriteBase3D.ALPHA_CUT_DISABLED
+func setup_field_context(ctx: FieldContext) -> void:
+	field_ctx = ctx
 
 
 func set_sprite_model(top_sprite_texture: Texture2D, bottom_sprite_texture: Texture2D) -> void:
 	super.set_sprite_model(top_sprite_texture, bottom_sprite_texture)
 	_top_occlusion_outline.texture = top_sprite_texture
 	_bottom_occlusion_outline.texture = bottom_sprite_texture
-
-
-func _update_occlusion_outlines() -> void:
-	var has_cam_method := camera_3d != null and camera_3d.has_method("is_player_occluded")
-	var occluded: bool = has_cam_method and camera_3d.is_player_occluded()
-	var show_outline: bool = not in_battle \
-		and processing \
-		and grid_map != null \
-		and has_cam_method \
-		and occluded
-	_top_occlusion_outline.visible = show_outline
-	_bottom_occlusion_outline.visible = show_outline
-	if not show_outline:
-		return
-	_top_occlusion_outline.frame_coords = top_sprite_3d.frame_coords
-	_top_occlusion_outline.flip_h = top_sprite_3d.flip_h
-	_bottom_occlusion_outline.frame_coords = bottom_sprite_3d.frame_coords
-	_bottom_occlusion_outline.flip_h = bottom_sprite_3d.flip_h
 
 
 func setup_helpers() -> void:
@@ -209,6 +175,45 @@ func set_state(new_state: MoveState) -> void:
 	if new_state == _current_state:
 		return
 	_current_state = new_state
+
+
+func _setup_occlusion_outlines() -> void:
+	_top_occlusion_outline.texture = top_sprite_3d.texture
+	_bottom_occlusion_outline.texture = bottom_sprite_3d.texture
+	_top_occlusion_outline.material_override = null
+	_bottom_occlusion_outline.material_override = null
+	_top_occlusion_outline.modulate = occlusion_outline_color
+	_bottom_occlusion_outline.modulate = occlusion_outline_color
+	_top_occlusion_outline.transform = top_sprite_3d.transform
+	_bottom_occlusion_outline.transform = bottom_sprite_3d.transform
+	_top_occlusion_outline.no_depth_test = true
+	_bottom_occlusion_outline.no_depth_test = true
+	top_sprite_3d.render_priority = 1
+	bottom_sprite_3d.render_priority = 1
+	_top_occlusion_outline.render_priority = -1
+	_bottom_occlusion_outline.render_priority = -1
+	_top_occlusion_outline.sorting_offset = -1.0
+	_bottom_occlusion_outline.sorting_offset = -1.0
+	_top_occlusion_outline.alpha_cut = SpriteBase3D.ALPHA_CUT_DISABLED
+	_bottom_occlusion_outline.alpha_cut = SpriteBase3D.ALPHA_CUT_DISABLED
+
+
+func _update_occlusion_outlines() -> void:
+	var has_cam_method := camera_3d != null and camera_3d.has_method("is_player_occluded")
+	var occluded: bool = has_cam_method and camera_3d.is_player_occluded()
+	var show_outline: bool = not in_battle \
+	and processing \
+	and grid_map != null \
+	and has_cam_method \
+	and occluded
+	_top_occlusion_outline.visible = show_outline
+	_bottom_occlusion_outline.visible = show_outline
+	if not show_outline:
+		return
+	_top_occlusion_outline.frame_coords = top_sprite_3d.frame_coords
+	_top_occlusion_outline.flip_h = top_sprite_3d.flip_h
+	_bottom_occlusion_outline.frame_coords = bottom_sprite_3d.frame_coords
+	_bottom_occlusion_outline.flip_h = bottom_sprite_3d.flip_h
 
 
 func _text_entry_is_using_menu() -> bool:
